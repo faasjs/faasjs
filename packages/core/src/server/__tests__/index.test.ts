@@ -7,7 +7,7 @@ import { getAll, Server } from '../../server'
 
 describe.sequential('server', () => {
   let server: Server
-  const funcsRoot = join(__dirname, '..', 'funcs')
+  const apisRoot = join(__dirname, '..', 'apis')
   const poolId = Number(process.env.VITEST_POOL_ID || 0)
   const port = 31201 + poolId
 
@@ -42,7 +42,7 @@ describe.sequential('server', () => {
   }
 
   beforeAll(() => {
-    server = new Server(funcsRoot, {
+    server = new Server(apisRoot, {
       port,
     })
     server.listen()
@@ -54,14 +54,14 @@ describe.sequential('server', () => {
 
   it('check config', async () => {
     expect(getAll()).toHaveLength(1)
-    expect(getAll()[0].root).toEqual(join(funcsRoot, sep))
+    expect(getAll()[0].root).toEqual(join(apisRoot, sep))
     expect(getAll()[0].options).toEqual({
       port,
     })
   })
 
   it('should untrack closed servers', async () => {
-    const extraServer = new Server(funcsRoot)
+    const extraServer = new Server(apisRoot)
 
     expect(getAll()).toContain(extraServer)
 
@@ -147,7 +147,7 @@ describe.sequential('server', () => {
     expect(await response.json()).toEqual({ data: { key: 'value' } })
   })
 
-  it('merges yaml config with inline func config', async () => {
+  it('merges yaml config with inline API config', async () => {
     const response = await fetch(`http://127.0.0.1:${port}/configured/merge`)
     const body = await response.json()
 

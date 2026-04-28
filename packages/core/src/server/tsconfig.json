@@ -3,7 +3,7 @@
   "compilerOptions": {
     "paths": {
       "@faasjs/*": ["../../../../packages/*/src"],
-      "@fixtures/*": ["./funcs/shared/*"]
+      "@fixtures/*": ["./apis/shared/*"]
     }
   }
 }

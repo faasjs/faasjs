@@ -5,11 +5,11 @@ import { describe, expect, it } from 'vitest'
 import { Server } from '../../server'
 import { createMockReq, createMockRes, triggerReqEvents } from '../mocks'
 
-const funcsRoot = join(__dirname, '..', 'funcs')
+const apisRoot = join(__dirname, '..', 'apis')
 
 describe('middleware', () => {
   it('should work', async () => {
-    const server = new Server(funcsRoot)
+    const server = new Server(apisRoot)
 
     let responseData: any = null
     let nextCalled = false
@@ -38,7 +38,7 @@ describe('middleware', () => {
   })
 
   it('should not work if the API file is not found', async () => {
-    const server = new Server(funcsRoot)
+    const server = new Server(apisRoot)
 
     let responseData: any = null
     let nextCalled = false
@@ -67,7 +67,7 @@ describe('middleware', () => {
   })
 
   it('should block traversal attempts outside the server root', async () => {
-    const server = new Server(funcsRoot)
+    const server = new Server(apisRoot)
 
     let responseData: any = null
     let nextCalled = false
@@ -96,7 +96,7 @@ describe('middleware', () => {
   })
 
   it('should handle option method', async () => {
-    const server = new Server(funcsRoot)
+    const server = new Server(apisRoot)
     let nextCalled = false
 
     const req = createMockReq({
@@ -126,7 +126,7 @@ describe('middleware', () => {
   })
 
   it('should respond 400 if url is missing', async () => {
-    const server = new Server(funcsRoot)
+    const server = new Server(apisRoot)
 
     let responseData: any = null
     let nextCalled = false

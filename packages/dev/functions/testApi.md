@@ -2,7 +2,7 @@
 
 # Function: testApi()
 
-> **testApi**\<`TFunc`\>(`initBy`): `TestApiHandler`\<`TFunc`\>
+> **testApi**\<`TApi`\>(`api`): `TestApiHandler`\<`TApi`\>
 
 Create a callable JSON test handler around a FaasJS API.
 
@@ -12,23 +12,23 @@ methods for advanced cases.
 
 ## Type Parameters
 
-### TFunc
+### TApi
 
-`TFunc` _extends_ [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
+`TApi` _extends_ [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
 
 Wrapped FaasJS API type.
 
 ## Parameters
 
-### initBy
+### api
 
-`TestApiInput`\<`TFunc`\>
+`TApi`
 
-API instance or module object to wrap.
+API instance to wrap.
 
 ## Returns
 
-`TestApiHandler`\<`TFunc`\>
+`TestApiHandler`\<`TApi`\>
 
 Callable JSON test helper with bound tester methods attached.
 

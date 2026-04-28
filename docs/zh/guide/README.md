@@ -1,6 +1,6 @@
 # 最佳实践
 
-这里收录 FaasJS 当前公开维护的最佳实践与规范中文版，用来替换旧版教程内容。
+这里收录 FaasJS 当前公开维护的最佳实践与规范中文版。
 
 FaasJS 是一个受 Rails 启发的精选式全栈 TypeScript 框架，面向数据库驱动的 React 业务应用。主路径包括 React、Ant Design、类型化 API、PostgreSQL、校验、测试、plugin 和稳定项目约定。
 

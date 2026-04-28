@@ -4,11 +4,11 @@ export default {
       extra: {
         type: 'inline-extra',
       },
-      func: {
+      api: {
         config: {
           source: 'code',
         },
-        type: 'inline-func',
+        type: 'inline-api',
       },
     },
   },

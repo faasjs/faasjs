@@ -1,6 +1,6 @@
 [@faasjs/dev](../README.md) / ApiTester
 
-# Class: ApiTester\<TFunc\>
+# Class: ApiTester\<TApi\>
 
 Wrap a FaasJS API with helpers for mounting and assertion-friendly invocations.
 
@@ -24,9 +24,9 @@ const response = await wrapped.JSONhandler({ name: 'FaasJS' })
 
 ## Type Parameters
 
-### TFunc
+### TApi
 
-`TFunc` _extends_ [`Func`](Func.md)\<`any`, `any`, `any`\> = [`Func`](Func.md)\<`any`, `any`, `any`\>
+`TApi` _extends_ [`Func`](Func.md)\<`any`, `any`, `any`\> = [`Func`](Func.md)\<`any`, `any`, `any`\>
 
 Wrapped FaasJS API type.
 
@@ -34,24 +34,21 @@ Wrapped FaasJS API type.
 
 ### Constructor
 
-> **new ApiTester**\<`TFunc`\>(`initBy`): `ApiTester`\<`TFunc`\>
+> **new ApiTester**\<`TApi`\>(`api`): `ApiTester`\<`TApi`\>
 
 Create a tester around a FaasJS API instance for repeated test calls.
 
-If a module object with a `default` export is passed at runtime, the
-default export is used.
-
 #### Parameters
 
-##### initBy
+##### api
 
-`TestApiInput`\<`TFunc`\>
+`TApi`
 
-API instance or module object to wrap.
+API instance to wrap.
 
 #### Returns
 
-`ApiTester`\<`TFunc`\>
+`ApiTester`\<`TApi`\>
 
 #### Example
 
@@ -119,7 +116,7 @@ Expected JSON `data` payload returned by the API.
 
 ##### body?
 
-`JsonHandlerBody`\<`TFunc`\>
+`JsonHandlerBody`\<`TApi`\>
 
 Request body object or raw JSON string.
 
@@ -173,6 +170,12 @@ Resolves after the API has been mounted and the callback has finished.
 
 ## Properties
 
+### api
+
+> `readonly` **api**: `TApi`
+
+Wrapped API instance.
+
 ### config
 
 > `readonly` **config**: [`Config`](../type-aliases/Config.md)
@@ -184,12 +187,6 @@ Resolved config attached to the wrapped API.
 > `readonly` **file**: `string`
 
 Source file path inferred from the wrapped API.
-
-### func
-
-> `readonly` **func**: `TFunc`
-
-Wrapped API instance.
 
 ### logger
 

@@ -1,15 +1,15 @@
 [@faasjs/types](../README.md) / InferFaasAction
 
-# Type Alias: InferFaasAction\<TFunc\>
+# Type Alias: InferFaasAction\<TApi\>
 
-> **InferFaasAction**\<`TFunc`\> = `TFunc` _extends_ `object` ? `object` : `never`
+> **InferFaasAction**\<`TApi`\> = `TApi` _extends_ `object` ? `object` : `never`
 
 Infer the FaasAction type from a Func.
 
 ## Type Parameters
 
-### TFunc
+### TApi
 
-`TFunc` _extends_ `FaasFuncLike`
+`TApi`
 
-Func-like export used to infer params and data.
+API instance used to infer params and data.

@@ -29,7 +29,7 @@ describe('encoding', () => {
   }
 
   it('should decompress br compressed stream', async () => {
-    const func = new ApiTester(
+    const api = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -45,7 +45,7 @@ describe('encoding', () => {
       }),
     )
 
-    const res = await func.JSONhandler()
+    const res = await api.JSONhandler()
     expect(res.headers).toMatchObject({
       'content-type': 'application/json',
       'content-encoding': 'br',
@@ -55,7 +55,7 @@ describe('encoding', () => {
   })
 
   it('should decompress gzip compressed stream', async () => {
-    const func = new ApiTester(
+    const api = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -71,7 +71,7 @@ describe('encoding', () => {
       }),
     )
 
-    const res = await func.JSONhandler()
+    const res = await api.JSONhandler()
     expect(res.headers).toMatchObject({
       'content-type': 'application/json',
       'content-encoding': 'gzip',
@@ -81,7 +81,7 @@ describe('encoding', () => {
   })
 
   it('should decompress deflate compressed stream', async () => {
-    const func = new ApiTester(
+    const api = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -97,7 +97,7 @@ describe('encoding', () => {
       }),
     )
 
-    const res = await func.JSONhandler()
+    const res = await api.JSONhandler()
     expect(res.headers).toMatchObject({
       'content-type': 'application/json',
       'content-encoding': 'deflate',
@@ -107,7 +107,7 @@ describe('encoding', () => {
   })
 
   it('should handle uncompressed stream', async () => {
-    const func = new ApiTester(
+    const api = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -127,13 +127,13 @@ describe('encoding', () => {
       }),
     )
 
-    const res = await func.JSONhandler()
+    const res = await api.JSONhandler()
     expect(res.headers['content-encoding']).toBeUndefined()
     expect(res.data).toEqual('hello')
   })
 
   it('should handle decompression error with corrupted br data', async () => {
-    const func = new ApiTester(
+    const api = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -154,14 +154,14 @@ describe('encoding', () => {
       }),
     )
 
-    const res = await func.JSONhandler()
+    const res = await api.JSONhandler()
     expect(res.statusCode).toEqual(500)
     expect(res.error).toBeDefined()
     expect(typeof res.error?.message).toBe('string')
   })
 
   it('should handle decompression error with corrupted gzip data', async () => {
-    const func = new ApiTester(
+    const api = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -182,14 +182,14 @@ describe('encoding', () => {
       }),
     )
 
-    const res = await func.JSONhandler()
+    const res = await api.JSONhandler()
     expect(res.statusCode).toEqual(500)
     expect(res.error).toBeDefined()
     expect(typeof res.error?.message).toBe('string')
   })
 
   it('should handle decompression error with corrupted deflate data', async () => {
-    const func = new ApiTester(
+    const api = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -210,14 +210,14 @@ describe('encoding', () => {
       }),
     )
 
-    const res = await func.JSONhandler()
+    const res = await api.JSONhandler()
     expect(res.statusCode).toEqual(500)
     expect(res.error).toBeDefined()
     expect(typeof res.error?.message).toBe('string')
   })
 
   it('should handle unsupported encoding', async () => {
-    const func = new ApiTester(
+    const api = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -238,14 +238,14 @@ describe('encoding', () => {
       }),
     )
 
-    const res = await func.JSONhandler()
+    const res = await api.JSONhandler()
     expect(res.statusCode).toEqual(500)
     expect(res.error).toBeDefined()
     expect(res.error?.message).toContain('Unsupported encoding')
   })
 
   it('should handle stream read error', async () => {
-    const func = new ApiTester(
+    const api = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -266,7 +266,7 @@ describe('encoding', () => {
       }),
     )
 
-    const res = await func.JSONhandler()
+    const res = await api.JSONhandler()
     expect(res.statusCode).toEqual(500)
     expect(res.error).toBeDefined()
     expect(res.error?.message).toBe('Stream read error')

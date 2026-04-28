@@ -2,7 +2,7 @@ import { resolve } from 'node:path'
 
 import { describe, expect, it } from 'vitest'
 
-import { loadApiHandler } from '../load_func'
+import { loadApiHandler } from '../load_api_handler'
 
 const fixtureRoot = resolve(__dirname, '..')
 
@@ -17,25 +17,25 @@ describe('loadApiHandler', () => {
 
   it('should reject modules without a default export', async () => {
     await expect(
-      loadApiHandler(fixtureRoot, `${fixtureRoot}/named-export.api.ts`, 'local'),
-    ).rejects.toThrow('must export a FaasJS API instance as default')
+      loadApiHandler(fixtureRoot, `${fixtureRoot}/invalid-export.api.ts`, 'local'),
+    ).rejects.toThrow('must export "default"')
   })
 
-  it('should merge yaml config with inline func config', async () => {
+  it('should merge yaml config with inline API config', async () => {
     const handler = await loadApiHandler(fixtureRoot, `${fixtureRoot}/merge.api.ts`, 'local')
 
     const result = await handler()
 
     expect(result).toMatchObject({
       plugins: {
-        func: {
+        api: {
           config: {
             env: 'defaults',
             source: 'code',
           },
           local: 'local',
-          name: 'func',
-          type: 'inline-func',
+          name: 'api',
+          type: 'inline-api',
         },
         test: {
           name: 'test',

@@ -1,7 +1,7 @@
 import { brotliDecompressSync, gunzipSync, inflateSync } from 'node:zlib'
 
-import { Cookie, Func, Http } from '@faasjs/core'
-import type { Config, ExportedHandler, FuncEventType } from '@faasjs/core'
+import { Cookie, Http } from '@faasjs/core'
+import type { Config, ExportedHandler, FuncEventType, Func } from '@faasjs/core'
 import { loadPlugins, Logger } from '@faasjs/node-utils'
 import { streamToString } from '@faasjs/utils'
 
@@ -11,16 +11,6 @@ function normalizeInferredPath(path: string): string {
   if (!normalized.length || normalized === '/') return '/'
 
   return normalized.endsWith('/') ? normalized.slice(0, -1) : normalized
-}
-
-type TestApiInput<TFunc extends Func<any, any, any>> = TFunc | { default?: TFunc }
-
-function resolveTestApi<TFunc extends Func<any, any, any>>(input: TestApiInput<TFunc>): TFunc {
-  if (typeof input === 'object' && input !== null) {
-    if ('default' in input && input.default instanceof Func) return input.default as TFunc
-  }
-
-  return input as TFunc
 }
 
 function inferPathFromFilename(filename: string): string | undefined {
@@ -52,8 +42,8 @@ function inferPathFromFilename(filename: string): string | undefined {
   return undefined
 }
 
-type JsonHandlerBody<TFunc extends Func<any, any, any>> =
-  FuncEventType<TFunc> extends {
+type JsonHandlerBody<TApi extends Func<any, any, any>> =
+  FuncEventType<TApi> extends {
     params?: infer TParams
   }
     ? 0 extends 1 & TParams
@@ -82,20 +72,18 @@ type JsonHandlerResult<TData = any> = {
   }
 }
 
-type TestApiHandler<TFunc extends Func<any, any, any>> = Pick<
-  ApiTester<TFunc>,
-  'config' | 'file' | 'func' | 'handler' | 'JSONhandler' | 'logger' | 'mount' | 'staging'
+type TestApiHandler<TApi extends Func<any, any, any>> = Pick<
+  ApiTester<TApi>,
+  'api' | 'config' | 'file' | 'handler' | 'JSONhandler' | 'logger' | 'mount' | 'staging'
 > & {
   <TData = any>(
-    body?: JsonHandlerBody<TFunc>,
+    body?: JsonHandlerBody<TApi>,
     options?: JsonHandlerOptions,
   ): Promise<JsonHandlerResult<TData>>
 }
 
-function createTester<TFunc extends Func<any, any, any>>(
-  initBy: TestApiInput<TFunc>,
-): ApiTester<TFunc> {
-  const tester = new ApiTester(initBy)
+function createTester<TApi extends Func<any, any, any>>(api: TApi): ApiTester<TApi> {
+  const tester = new ApiTester(api)
 
   tester.mount = tester.mount.bind(tester)
   tester.handler = tester.handler.bind(tester)
@@ -110,7 +98,7 @@ function createTester<TFunc extends Func<any, any, any>>(
  * The tester resolves config for the current `FaasEnv`, mounts lazily, and
  * exposes helpers for raw handler calls and HTTP-style JSON assertions.
  *
- * @template TFunc - Wrapped FaasJS API type.
+ * @template TApi - Wrapped FaasJS API type.
  * @see {@link testApi}
  * @example
  * ```ts
@@ -122,7 +110,7 @@ function createTester<TFunc extends Func<any, any, any>>(
  * const response = await wrapped.JSONhandler({ name: 'FaasJS' })
  * ```
  */
-export class ApiTester<TFunc extends Func<any, any, any> = Func<any, any, any>> {
+export class ApiTester<TApi extends Func<any, any, any> = Func<any, any, any>> {
   /**
    * Source file path inferred from the wrapped API.
    */
@@ -138,7 +126,7 @@ export class ApiTester<TFunc extends Func<any, any, any> = Func<any, any, any>> 
   /**
    * Wrapped API instance.
    */
-  public readonly func: TFunc
+  public readonly api: TApi
   /**
    * Resolved config attached to the wrapped API.
    */
@@ -150,10 +138,7 @@ export class ApiTester<TFunc extends Func<any, any, any> = Func<any, any, any>> 
   /**
    * Create a tester around a FaasJS API instance for repeated test calls.
    *
-   * If a module object with a `default` export is passed at runtime, the
-   * default export is used.
-   *
-   * @param {TestApiInput<TFunc>} initBy - API instance or module object to wrap.
+   * @param {TApi} api - API instance to wrap.
    * @example
    * ```ts
    * import { ApiTester } from '@faasjs/dev'
@@ -162,37 +147,37 @@ export class ApiTester<TFunc extends Func<any, any, any> = Func<any, any, any>> 
    * const wrapped = new ApiTester(api)
    * ```
    */
-  constructor(initBy: TestApiInput<TFunc>) {
+  constructor(api: TApi) {
     this.staging = process.env.FaasEnv ?? 'default'
     this.logger = new Logger('TestCase')
 
-    this.func = resolveTestApi(initBy)
-    if (this.func.filename)
-      this.loadPluginsTask = loadPlugins(this.func, {
+    this.api = api
+    if (this.api.filename)
+      this.loadPluginsTask = loadPlugins(this.api, {
         root: process.cwd(),
-        filename: this.func.filename,
+        filename: this.api.filename,
         staging: this.staging,
         logger: this.logger,
       }).then(() => undefined)
 
-    this.file = this.func.filename || ''
-    this.config = this.func.config
+    this.file = this.api.filename || ''
+    this.config = this.api.config
     this.inferredPath = inferPathFromFilename(this.file)
 
-    this._handler = this.func.export().handler
+    this._handler = this.api.export().handler
   }
 
   /**
    * Mount the wrapped API once before running assertions.
    *
-   * @param {(api: ApiTester<TFunc>) => Promise<void> | void} [handler] - Optional callback invoked after mount.
+   * @param {(api: ApiTester<TApi>) => Promise<void> | void} [handler] - Optional callback invoked after mount.
    * @returns Resolves after the API has been mounted and the callback has finished.
    */
-  public async mount(handler?: (api: ApiTester<TFunc>) => Promise<void> | void): Promise<void> {
+  public async mount(handler?: (api: ApiTester<TApi>) => Promise<void> | void): Promise<void> {
     if (this.loadPluginsTask) await this.loadPluginsTask
 
-    if (!this.func.mounted) {
-      await this.func.mount()
+    if (!this.api.mounted) {
+      await this.api.mount()
     }
 
     if (handler) await handler(this)
@@ -225,7 +210,7 @@ export class ApiTester<TFunc extends Func<any, any, any> = Func<any, any, any>> 
    * decoded into the returned `cookie` and `session` objects.
    *
    * @template TData - Expected JSON `data` payload returned by the API.
-   * @param {JsonHandlerBody<TFunc>} [body] - Request body object or raw JSON string.
+   * @param {JsonHandlerBody<TApi>} [body] - Request body object or raw JSON string.
    * @param {object} [options] - Extra headers, request cookies, and session seed values.
    * @param {Record<string, any>} [options.headers] - Extra request headers merged into the JSON test request.
    * @param {string} [options.path] - Request path attached to `event.path` during invocation. This path is the URL pathname without the query string. Defaults to the inferred path from the wrapped API filename when available.
@@ -245,7 +230,7 @@ export class ApiTester<TFunc extends Func<any, any, any> = Func<any, any, any>> 
    * ```
    */
   public async JSONhandler<TData = any>(
-    body?: JsonHandlerBody<TFunc>,
+    body?: JsonHandlerBody<TApi>,
     options: JsonHandlerOptions = Object.create(null),
   ): Promise<JsonHandlerResult<TData>> {
     await this.mount()
@@ -253,7 +238,7 @@ export class ApiTester<TFunc extends Func<any, any, any> = Func<any, any, any>> 
     const headers = options.headers || Object.create(null)
     let requestCookieHeader = headers.cookie
 
-    const http = this.func.plugins.find((plugin) => plugin instanceof Http)
+    const http = this.api.plugins.find((plugin) => plugin instanceof Http)
 
     if (!http) throw new Error('No Http plugin found in the API')
 
@@ -407,8 +392,8 @@ export class ApiTester<TFunc extends Func<any, any, any> = Func<any, any, any>> 
  * the same `(body, options?)` calling style while still exposing bound tester
  * methods for advanced cases.
  *
- * @template TFunc - Wrapped FaasJS API type.
- * @param {TestApiInput<TFunc>} initBy - API instance or module object to wrap.
+ * @template TApi - Wrapped FaasJS API type.
+ * @param {TApi} api - API instance to wrap.
  * @returns Callable JSON test helper with bound tester methods attached.
  * @see {@link ApiTester}
  * @example
@@ -422,25 +407,23 @@ export class ApiTester<TFunc extends Func<any, any, any> = Func<any, any, any>> 
  * expect(response.data).toEqual({ message: 'Hello, FaasJS' })
  * ```
  */
-export function testApi<TFunc extends Func<any, any, any>>(
-  initBy: TestApiInput<TFunc>,
-): TestApiHandler<TFunc> {
-  const tester = createTester(initBy)
+export function testApi<TApi extends Func<any, any, any>>(api: TApi): TestApiHandler<TApi> {
+  const tester = createTester(api)
 
   return Object.assign(
     async <TData = any>(
-      body?: JsonHandlerBody<TFunc>,
+      body?: JsonHandlerBody<TApi>,
       options: JsonHandlerOptions = Object.create(null),
     ) => tester.JSONhandler<TData>(body, options),
     {
       config: tester.config,
       file: tester.file,
-      func: tester.func,
+      api: tester.api,
       handler: tester.handler,
       JSONhandler: tester.JSONhandler,
       logger: tester.logger,
       mount: tester.mount,
       staging: tester.staging,
     },
-  ) as TestApiHandler<TFunc>
+  ) as TestApiHandler<TApi>
 }

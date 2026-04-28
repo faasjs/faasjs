@@ -1,8 +1,8 @@
 import { testApi } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
 
-import jsonApi from '../funcs/json.api'
-import sessionApi from '../funcs/session.api'
+import jsonApi from '../apis/json.api'
+import sessionApi from '../apis/session.api'
 
 describe('JSONhandler', () => {
   it('testApi should keep JSONhandler argument order', async () => {

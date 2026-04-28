@@ -10,7 +10,7 @@ test('testApi should infer body from defineApi schema', () => {
     age: z.number().optional(),
   })
 
-  const func = defineApi({
+  const api = defineApi({
     schema,
     async handler({ params }) {
       return {
@@ -21,24 +21,24 @@ test('testApi should infer body from defineApi schema', () => {
     },
   })
 
-  const testedFunc = testApi(func)
+  const testedApi = testApi(api)
 
-  expect(testedFunc).toBeDefined()
+  expect(testedApi).toBeDefined()
 
-  assertType<Parameters<typeof testedFunc>[0]>({ name: 'FaasJS' })
-  assertType<Parameters<typeof testedFunc>[0]>({ name: 'FaasJS', age: 1 })
-  assertType<Parameters<typeof testedFunc>[1]>({ path: '/hello' })
-  assertType<Parameters<typeof testedFunc>[1]>({ session: { userId: '1' } })
+  assertType<Parameters<typeof testedApi>[0]>({ name: 'FaasJS' })
+  assertType<Parameters<typeof testedApi>[0]>({ name: 'FaasJS', age: 1 })
+  assertType<Parameters<typeof testedApi>[1]>({ path: '/hello' })
+  assertType<Parameters<typeof testedApi>[1]>({ session: { userId: '1' } })
 
   // @ts-expect-error name should be string
-  void testedFunc({ name: 1 })
+  void testedApi({ name: 1 })
 
   // @ts-expect-error name is required by schema
-  void testedFunc({})
+  void testedApi({})
 })
 
 test('testApi should keep wide body type without schema', () => {
-  const func = defineApi({
+  const api = defineApi({
     async handler() {
       return {
         ok: true,
@@ -46,16 +46,16 @@ test('testApi should keep wide body type without schema', () => {
     },
   })
 
-  const testedFunc = testApi(func)
-  expect(testedFunc).toBeDefined()
+  const testedApi = testApi(api)
+  expect(testedApi).toBeDefined()
 
-  void testedFunc({ anything: 1 })
-  void testedFunc('raw')
-  void testedFunc(null)
+  void testedApi({ anything: 1 })
+  void testedApi('raw')
+  void testedApi(null)
 })
 
 test('testApi should expose bound ApiTester helpers', () => {
-  const func = defineApi({
+  const api = defineApi({
     async handler() {
       return {
         ok: true,
@@ -63,9 +63,10 @@ test('testApi should expose bound ApiTester helpers', () => {
     },
   })
 
-  const testedFunc = testApi(func)
-  expect(testedFunc).toBeDefined()
+  const testedApi = testApi(api)
+  expect(testedApi).toBeDefined()
 
-  assertType<Parameters<typeof testedFunc.JSONhandler>[0]>({ anything: 1 })
-  void testedFunc.JSONhandler({ anything: 1 })
+  assertType<typeof api>(testedApi.api)
+  assertType<Parameters<typeof testedApi.JSONhandler>[0]>({ anything: 1 })
+  void testedApi.JSONhandler({ anything: 1 })
 })

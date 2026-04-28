@@ -124,19 +124,22 @@ describe('loadPackage', () => {
     expect(result).toBe(path.sep)
   })
 
-  it('should fallback to module object when default export key is missing', async () => {
-    const result = await loadPackage(createDataModuleURL(`export const key = 'value'`), 'default')
-
-    expect(result).toMatchObject({ key: 'value' })
+  it('should reject missing default export key', async () => {
+    await expect(
+      loadPackage(createDataModuleURL(`export const key = 'value'`), 'default'),
+    ).rejects.toThrow('must export "default"')
   })
 
-  it('should fallback to module object when default names are all missing', async () => {
-    const result = await loadPackage(createDataModuleURL(`export const key = 'value'`), [
-      'default',
-      'test',
-    ])
+  it('should reject missing default name list', async () => {
+    await expect(
+      loadPackage(createDataModuleURL(`export const key = 'value'`), ['default', 'test']),
+    ).rejects.toThrow('must export one of: default, test')
+  })
 
-    expect(result).toMatchObject({ key: 'value' })
+  it('should reject empty default name list', async () => {
+    await expect(
+      loadPackage(createDataModuleURL(`export const key = 'value'`), []),
+    ).rejects.toThrow('At least one export name is required')
   })
 
   it('should reuse cached runtime', () => {

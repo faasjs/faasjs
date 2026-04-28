@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest'
 import { Server } from '../../server'
 import { createMockReq, createMockRes, triggerReqEvents } from '../mocks'
 
-const funcsRoot = join(__dirname, '..', 'funcs')
+const apisRoot = join(__dirname, '..', 'apis')
 
 describe('server/hooks', () => {
   const poolId = Number(process.env.VITEST_POOL_ID || 0)
@@ -13,21 +13,21 @@ describe('server/hooks', () => {
   it('should reject sync lifecycle hooks in constructor', () => {
     expect(
       () =>
-        new Server(funcsRoot, {
+        new Server(apisRoot, {
           onStart: (() => {}) as any,
         }),
     ).toThrow('onStart must be async function')
 
     expect(
       () =>
-        new Server(funcsRoot, {
+        new Server(apisRoot, {
           onError: (() => {}) as any,
         }),
     ).toThrow('onError must be async function')
 
     expect(
       () =>
-        new Server(funcsRoot, {
+        new Server(apisRoot, {
           onClose: (() => {}) as any,
         }),
     ).toThrow('onClose must be async function')
@@ -39,7 +39,7 @@ describe('server/hooks', () => {
     const onStart = async () => {
       times++
     }
-    const server = new Server(funcsRoot, { port, onStart })
+    const server = new Server(apisRoot, { port, onStart })
     server.listen()
 
     await new Promise((resolve) => setTimeout(resolve, 100))
@@ -55,7 +55,7 @@ describe('server/hooks', () => {
     const onError = async () => {
       times++
     }
-    const server = new Server(funcsRoot, {
+    const server = new Server(apisRoot, {
       port,
       onError,
       onStart: async () => {
@@ -77,7 +77,7 @@ describe('server/hooks', () => {
     const onClose = async () => {
       times++
     }
-    const serverA = new Server(funcsRoot, { port, onClose })
+    const serverA = new Server(apisRoot, { port, onClose })
     serverA.listen()
 
     const sigtermHandler = process.listeners('SIGTERM').at(-1) as (() => Promise<void>) | undefined
@@ -98,7 +98,7 @@ describe('server/hooks', () => {
 
     expect(times).toBe(1)
 
-    const serverB = new Server(funcsRoot, { port, onClose })
+    const serverB = new Server(apisRoot, { port, onClose })
     serverB.listen()
 
     const sigintHandler = process.listeners('SIGINT').at(-1) as (() => Promise<void>) | undefined
@@ -125,7 +125,7 @@ describe('server/hooks', () => {
     const port = 31701 + poolId
     const errors: string[] = []
 
-    const server = new Server(funcsRoot, {
+    const server = new Server(apisRoot, {
       port,
       onError: async (error) => {
         errors.push(error.message)
@@ -156,7 +156,7 @@ describe('server/hooks', () => {
     const port = 31801 + poolId
     const errors: string[] = []
 
-    const server = new Server(funcsRoot, {
+    const server = new Server(apisRoot, {
       port,
       onError: async (error) => {
         errors.push(error.message)
@@ -185,7 +185,7 @@ describe('server/hooks', () => {
     let times = 0
     let receivedRoot = ''
     let receivedLogger = false
-    const serverRoot = funcsRoot
+    const serverRoot = apisRoot
     const beforeHandle = async (
       _: unknown,
       __: unknown,
@@ -217,7 +217,7 @@ describe('server/hooks', () => {
   })
 
   it('should respond 500 when beforeHandle throws', async () => {
-    const server = new Server(funcsRoot, {
+    const server = new Server(apisRoot, {
       beforeHandle: async () => {
         throw Error('before-handle failed')
       },
@@ -251,7 +251,7 @@ describe('server/hooks', () => {
   })
 
   it('should stop handler execution when beforeHandle already ends response', async () => {
-    const server = new Server(funcsRoot, {
+    const server = new Server(apisRoot, {
       beforeHandle: async (_, res) => {
         res.statusCode = 202
         res.end('before-handle')

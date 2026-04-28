@@ -1,7 +1,7 @@
 defaults:
   plugins:
-    func:
-      type: function
+    api:
+      type: api
       config:
         env: defaults
     test:
@@ -16,7 +16,7 @@ defaults:
       type: mysql
 local:
   plugins:
-    func:
+    api:
       local: local
     test:
       type: local

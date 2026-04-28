@@ -28,12 +28,6 @@
  * }
  * ```
  */
-type FaasFuncLike = {
-  export: () => {
-    handler: (...args: any[]) => any
-  }
-}
-
 /**
  * Interface for defining FaasJS actions.
  */
@@ -95,9 +89,9 @@ export type FaasData<T = any> = T extends FaasActionPaths
 /**
  * Infer the FaasAction type from a Func.
  *
- * @template TFunc - Func-like export used to infer params and data.
+ * @template TApi - API instance used to infer params and data.
  */
-export type InferFaasAction<TFunc extends FaasFuncLike> = TFunc extends {
+export type InferFaasAction<TApi> = TApi extends {
   export: () => {
     handler: (event?: infer TEvent, ...args: any[]) => Promise<infer TData>
   }
@@ -115,8 +109,12 @@ export type InferFaasAction<TFunc extends FaasFuncLike> = TFunc extends {
  *
  * @template TModule - Module shape that may expose a FaasJS API.
  */
-export type InferFaasApi<TModule> = TModule extends { default: infer TFunc }
-  ? TFunc extends FaasFuncLike
-    ? TFunc
+export type InferFaasApi<TModule> = TModule extends { default: infer TApi }
+  ? TApi extends {
+      export: () => {
+        handler: (...args: any[]) => any
+      }
+    }
+    ? TApi
     : never
   : never

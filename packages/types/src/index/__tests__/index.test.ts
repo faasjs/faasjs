@@ -127,5 +127,5 @@ test('InferFaasApi should reject modules without a default export', () => {
     },
   })
 
-  expectTypeOf<InferFaasApi<{ func: typeof api }>>().toEqualTypeOf<never>()
+  expectTypeOf<InferFaasApi<{ api: typeof api }>>().toEqualTypeOf<never>()
 })

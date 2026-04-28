@@ -244,7 +244,7 @@ export class Server {
   protected closed = false
 
   private activeRequests = 0
-  private cachedFuncs: {
+  private cachedApis: {
     [path: string]: Cache
   } = {}
 
@@ -484,7 +484,7 @@ export class Server {
     filepath: string | undefined,
     logger: Logger,
   ): Promise<Cache> {
-    const cached = this.cachedFuncs[path]
+    const cached = this.cachedApis[path]
     if (cached?.handler) {
       logger.debug('response with cached %s', cached.file)
       return cached
@@ -513,22 +513,22 @@ export class Server {
 
     if (process.env.FAASJS_MODULE_VERSION) loadOptions.version = process.env.FAASJS_MODULE_VERSION
 
-    const func = await loadPackage<Func>(file, 'default', loadOptions)
+    const api = await loadPackage<Func>(file, 'default', loadOptions)
 
-    if (!func || typeof func.export !== 'function')
+    if (!api || typeof api.export !== 'function')
       throw Error(`API module "${file}" must export a FaasJS API instance as default`)
 
-    await loadPlugins(func, {
+    await loadPlugins(api, {
       root: this.root,
       filename: path,
       staging: process.env.FaasEnv || 'development',
       logger,
     })
-    if (!func.config) throw Error('No config file found')
+    if (!api.config) throw Error('No config file found')
 
-    cache.handler = func.export().handler
+    cache.handler = api.export().handler
 
-    this.cachedFuncs[path] = cache
+    this.cachedApis[path] = cache
 
     return cache
   }

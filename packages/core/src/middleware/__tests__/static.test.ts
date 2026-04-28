@@ -8,12 +8,12 @@ import { Server } from '../../server'
 
 describe('staticHandler', () => {
   let server: Server
-  const funcsRoot = join(__dirname, '..', 'funcs')
+  const apisRoot = join(__dirname, '..', 'apis')
   const poolId = Number(process.env.VITEST_POOL_ID || 0)
   const port = 31101 + poolId
 
   beforeAll(() => {
-    server = new Server(funcsRoot, { port })
+    server = new Server(apisRoot, { port })
     server.listen()
   })
 
@@ -22,8 +22,8 @@ describe('staticHandler', () => {
   })
 
   it('should work', async () => {
-    const useMiddlewareBody = readFileSync(join(funcsRoot, 'useMiddleware.api.ts'), 'utf-8')
-    const defaultBody = readFileSync(join(funcsRoot, 'default.api.ts'), 'utf-8')
+    const useMiddlewareBody = readFileSync(join(apisRoot, 'useMiddleware.api.ts'), 'utf-8')
+    const defaultBody = readFileSync(join(apisRoot, 'default.api.ts'), 'utf-8')
 
     const response1 = await fetch(`http://127.0.0.1:${port}/useMiddleware.api.ts`)
     expect(response1.status).toBe(200)
@@ -52,7 +52,7 @@ describe('staticHandler', () => {
     const response = await fetch(`http://127.0.0.1:${port}/fallback404`)
     expect(response.status).toBe(200)
     expect(await response.text()).toBe(
-      readFileSync(join(funcsRoot, 'useMiddleware.api.ts'), 'utf-8'),
+      readFileSync(join(apisRoot, 'useMiddleware.api.ts'), 'utf-8'),
     )
   })
 
@@ -113,7 +113,7 @@ describe('staticHandler', () => {
     }
 
     await staticHandler({
-      root: funcsRoot,
+      root: apisRoot,
       notFound: true,
       stripPrefix: '/public/',
     })(
@@ -126,7 +126,7 @@ describe('staticHandler', () => {
         logger: {
           debug() {},
         },
-        root: funcsRoot,
+        root: apisRoot,
       } as any,
     )
 

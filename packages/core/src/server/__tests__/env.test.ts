@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { Server } from '../../server'
 
-const funcsRoot = join(__dirname, '..', 'funcs')
+const apisRoot = join(__dirname, '..', 'apis')
 
 describe('server env loading', () => {
   const servers: Server[] = []
@@ -39,7 +39,7 @@ describe('server env loading', () => {
 
     vi.spyOn(process, 'cwd').mockReturnValue(root)
 
-    servers.push(new Server(funcsRoot))
+    servers.push(new Server(apisRoot))
 
     expect(process.env[key]).toBeUndefined()
   })

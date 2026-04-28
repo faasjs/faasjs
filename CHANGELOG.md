@@ -6,6 +6,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `faasjs`
   - [Feature] Document colocated test layout as the recommended convention and keep scaffolded tests next to the code or slice they cover instead of under catch-all `__tests__` folders.
+  - [Break] Remove the stale Jobs design memo from published docs; use the Jobs guide as the supported source of truth.
 
 - `@faasjs/core`
   - [Break] Remove the in-process `CronJob` APIs and stop mounting background work from `Server.listen()` / `Server.close()`.
@@ -18,6 +19,10 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `@faasjs/node-utils`
   - [Feature] Add reusable Zod schema parsing helpers for FaasJS boundary validation.
+  - [Break] Make `loadPackage()` fail when requested exports are missing instead of falling back to the full module namespace.
+
+- `@faasjs/dev`
+  - [Break] Require `ApiTester` and `testApi()` to receive a FaasJS API instance directly, and expose that wrapped instance as `api`.
 
 [`v8.0.0-beta.26 (2026-04-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.25...v8.0.0-beta.26)
 

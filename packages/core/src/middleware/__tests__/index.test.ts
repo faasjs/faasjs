@@ -6,12 +6,12 @@ import { Server } from '../../server'
 
 describe('middleware', () => {
   let server: Server
-  const funcsRoot = join(__dirname, '..', 'funcs')
+  const apisRoot = join(__dirname, '..', 'apis')
   const poolId = Number(process.env.VITEST_POOL_ID || 0)
   const port = 31001 + poolId
 
   beforeAll(() => {
-    server = new Server(funcsRoot, { port })
+    server = new Server(apisRoot, { port })
     server.listen()
   })
 

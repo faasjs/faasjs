@@ -651,10 +651,10 @@ export function detectNodeRuntime(): NodeRuntime {
  *
  * @template T - The type of module to be loaded.
  * @param {string} name - Package name, file path, or module specifier to load.
- * @param {string | string[]} defaultNames - Preferred export key or keys to resolve before falling back to the full module object. @default 'default'
+ * @param {string | string[]} defaultNames - Export key or keys to resolve. @default 'default'
  * @param {LoadPackageOptions} options - Optional loader overrides such as project root, tsconfig path, or cache-busting version. @default {}
- * @returns {Promise<T>} Loaded export value or the full module namespace when no preferred key exists.
- * @throws {Error} If the runtime cannot be detected or the requested module fails to load.
+ * @returns {Promise<T>} Loaded export value.
+ * @throws {Error} If the runtime cannot be detected, the requested module fails to load, or none of the requested exports exist.
  *
  * @example
  * ```ts
@@ -678,10 +678,15 @@ export async function loadPackage<T = unknown>(
 
   module = await import(name)
 
-  if (typeof defaultNames === 'string')
-    return defaultNames in module ? module[defaultNames] : module
+  if (typeof defaultNames === 'string') {
+    if (defaultNames in module) return module[defaultNames]
+
+    throw Error(`[loadPackage] Module "${name}" must export "${defaultNames}".`)
+  }
+
+  if (!defaultNames.length) throw Error('[loadPackage] At least one export name is required.')
 
   for (const key of defaultNames) if (key in module) return module[key]
 
-  return module
+  throw Error(`[loadPackage] Module "${name}" must export one of: ${defaultNames.join(', ')}.`)
 }

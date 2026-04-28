@@ -15,24 +15,24 @@ describe('loadConfig', () => {
     const config = loadConfig(fixtureRoot, `${fixtureRoot}/fake.api.ts`, 'defaults')
 
     expect(config.plugins?.test?.type).toEqual('defaults')
-    expect(config.plugins?.func?.name).toEqual('func')
+    expect(config.plugins?.api?.name).toEqual('api')
   })
 
   it('local', () => {
     const config = loadConfig(fixtureRoot, `${fixtureRoot}/fake.api.ts`, 'local')
 
-    expect(config.plugins?.func?.type).toEqual('function')
-    expect(config.plugins?.func?.name).toEqual('func')
+    expect(config.plugins?.api?.type).toEqual('api')
+    expect(config.plugins?.api?.name).toEqual('api')
 
     expect(config.plugins?.test?.type).toEqual('local')
-    expect(config.plugins?.func?.config?.env).toEqual('defaults')
+    expect(config.plugins?.api?.config?.env).toEqual('defaults')
   })
 
   it('sub local', () => {
     const config = loadConfig(fixtureRoot, `${fixtureRoot}/sub/fake.api.ts`, 'local')
 
-    expect(config.plugins?.func?.type).toEqual('function')
-    expect(config.plugins?.func?.name).toEqual('func')
+    expect(config.plugins?.api?.type).toEqual('api')
+    expect(config.plugins?.api?.name).toEqual('api')
 
     expect(config.plugins?.test?.type).toEqual('sublocal')
   })

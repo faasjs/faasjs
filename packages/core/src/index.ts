@@ -151,11 +151,11 @@ export function defineApi<
   type Event = DefineApiEvent<TSchema, TEvent>
   type Result = Awaited<ReturnType<THandler>>
 
-  let func: Func<Event, TContext, Result>
+  let api: Func<Event, TContext, Result>
   type Params = DefineApiData<TSchema, TEvent, TContext, Result>['params']
 
   const invokeHandler: Handler<Event, TContext, Result> = async (data) => {
-    if (!func.plugins.some((plugin) => plugin.type === 'http'))
+    if (!api.plugins.some((plugin) => plugin.type === 'http'))
       throw Error(
         '[defineApi] Missing required "http" plugin. Please configure it in faas.yaml or inject it in code.',
       )
@@ -179,10 +179,10 @@ export function defineApi<
     return options.handler(invokeData)
   }
 
-  func = new Func<Event, TContext, Result>({
+  api = new Func<Event, TContext, Result>({
     plugins: [],
     handler: invokeHandler,
   })
 
-  return func
+  return api
 }

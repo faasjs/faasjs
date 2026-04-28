@@ -2,7 +2,7 @@
 
 # Type Alias: InferFaasApi\<TModule\>
 
-> **InferFaasApi**\<`TModule`\> = `TModule` _extends_ `object` ? `TFunc` _extends_ `FaasFuncLike` ? `TFunc` : `never` : `never`
+> **InferFaasApi**\<`TModule`\> = `TModule` _extends_ `object` ? `TApi` _extends_ `object` ? `TApi` : `never` : `never`
 
 Infer the API type from a module.
 

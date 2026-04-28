@@ -1,8 +1,8 @@
-export const func = {
+export const api = {
   config: Object.create(null),
   export() {
     return {
-      handler: async () => 'named-export',
+      handler: async () => 'invalid-export',
     }
   },
 }

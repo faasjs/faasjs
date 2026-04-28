@@ -29,7 +29,7 @@ Package name, file path, or module specifier to load.
 
 `string` \| `string`[]
 
-Preferred export key or keys to resolve before falling back to the full module object.
+Export key or keys to resolve.
 
 ### options?
 
@@ -41,7 +41,7 @@ Optional loader overrides such as project root, tsconfig path, or cache-busting 
 
 `Promise`\<`T`\>
 
-Loaded export value or the full module namespace when no preferred key exists.
+Loaded export value.
 
 ## Default
 
@@ -58,7 +58,7 @@ Loaded export value or the full module namespace when no preferred key exists.
 
 ## Throws
 
-If the runtime cannot be detected or the requested module fails to load.
+If the runtime cannot be detected, the requested module fails to load, or none of the requested exports exist.
 
 ## Example
 
