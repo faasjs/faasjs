@@ -85,10 +85,9 @@ FaasJS 在两个互补层次上支持 plugins：
 1. Plugin type `http` 必须解析到模块 `@faasjs/core`。
 2. 不带 scope 的裸 plugin types（如 `mysql`）必须解析到 `@faasjs/<type>`。
 3. Scoped package names、相对路径、绝对路径和 `file://` 本地文件 URL，在去掉可选的 `npm:` 前缀后，必须按原样解析。
-4. 从模块中解析 class export 时，loader 必须优先尝试由 plugin type 或末尾路径片段规范化得到的 PascalCase 类名。
-5. 如果找不到对应的具名 class export，loader 必须回退到模块默认导出。
-6. 如果具名导出与默认导出都不是有效的生命周期 plugin constructor，loader 必须抛错。
-7. 如果构造函数执行时报错，或返回的不是对象形态 plugin 实例，loader 必须抛错。
+4. 从模块中解析 class export 时，loader 必须使用由 plugin type 或末尾路径片段规范化得到的 PascalCase 类名。
+5. 如果没有匹配的具名 export 是有效的生命周期 plugin constructor，loader 必须抛错。
+6. 如果构造函数执行时报错，或返回的不是对象形态 plugin 实例，loader 必须抛错。
 
 ### 7. `defineApi()` 要求
 

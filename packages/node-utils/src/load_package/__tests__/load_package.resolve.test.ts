@@ -168,7 +168,7 @@ describe('loadPackage resolver internals', () => {
       recursive: true,
     })
     await writeFile(join(root, 'server.ts'), `export const server = 'server'\n`, 'utf8')
-    await writeFile(join(root, 'src', 'message.json.ts'), `export const message = 'ok'\n`, 'utf8')
+    await writeFile(join(root, 'src', 'message.ts'), `export const message = 'ok'\n`, 'utf8')
 
     process.argv = ['node', join(root, 'server.ts')]
 
@@ -179,14 +179,14 @@ describe('loadPackage resolver internals', () => {
     expect(capturedResolve).toBeTypeOf('function')
 
     const result = capturedResolve!(
-      './src/message.json',
+      './src/message',
       {
         parentURL: pathToFileURL(join(root, 'server.ts')).href,
       },
       vi.fn(),
     )
 
-    expectResolvedToFile(result, join(root, 'src', 'message.json.ts'))
+    expectResolvedToFile(result, join(root, 'src', 'message.ts'))
   })
 
   it('should ignore an invalid file URL entry and keep the runtime entry fallback', async () => {

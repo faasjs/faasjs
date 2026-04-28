@@ -85,10 +85,9 @@ Related references:
 1. Plugin type `http` MUST resolve to module `@faasjs/core`.
 2. Unscoped bare plugin types such as `mysql` MUST resolve to `@faasjs/<type>`.
 3. Scoped package names, relative paths, absolute paths, and `file://` local file URLs MUST resolve as authored after stripping an optional `npm:` prefix.
-4. When resolving a class export from a module, the loader MUST first try normalized PascalCase class names derived from the plugin type or trailing path segments.
-5. If the named class export is not available, the loader MUST fall back to the module's default export.
-6. If neither export is a valid lifecycle plugin constructor, the loader MUST throw an error.
-7. If constructor execution throws or returns a non-object plugin instance, the loader MUST throw an error.
+4. When resolving a class export from a module, the loader MUST use normalized PascalCase class names derived from the plugin type or trailing path segments.
+5. If no matching named export is a valid lifecycle plugin constructor, the loader MUST throw an error.
+6. If constructor execution throws or returns a non-object plugin instance, the loader MUST throw an error.
 
 ### 7. `defineApi()` Requirements
 

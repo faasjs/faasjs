@@ -121,11 +121,7 @@ function getPluginExportCandidates(pluginType: string): string[] {
 function resolvePluginConstructor(mod: any, pluginType: string): PluginConstructor | undefined {
   for (const candidate of getPluginExportCandidates(pluginType)) {
     if (isPluginConstructor(mod?.[candidate])) return mod[candidate]
-
-    if (isPluginConstructor(mod?.default?.[candidate])) return mod.default[candidate]
   }
-
-  if (isPluginConstructor(mod?.default)) return mod.default
 
   return
 }
@@ -171,8 +167,8 @@ async function applyPluginConfig(plugin: Plugin, pluginConfig: FuncPluginConfig)
  * instantiate any plugins declared in YAML that are not already injected in code.
  *
  * Only `http` is treated as a built-in plugin. Other config-driven plugins must
- * declare an explicit module `type` whose default export is a lifecycle plugin
- * constructor.
+ * declare an explicit module `type` that exports a matching lifecycle plugin
+ * class name.
  *
  * @template TFunc - Function instance type enriched with config-driven plugins.
  * @param {TFunc} func - Function instance whose config and plugin list should be updated.
@@ -266,7 +262,7 @@ export async function loadPlugins<TFunc extends Func>(
 
       if (!PluginClass)
         throw Error(
-          `[loadPlugins] Plugin "${pluginId}" from "${pluginType}" must export a lifecycle plugin class.`,
+          `[loadPlugins] Plugin "${pluginId}" from "${pluginType}" must export a matching named lifecycle plugin class.`,
         )
 
       let plugin: Plugin

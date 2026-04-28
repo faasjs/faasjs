@@ -17,19 +17,15 @@ Options:
 `
 
 function resolveRegisterHooksSpecifier(): string {
-  const candidates = [join(process.cwd(), 'packages', 'node-utils', 'dist', 'register_hooks.mjs')]
+  if (!process.argv[1]) throw Error('[faas run] Cannot resolve @faasjs/node-utils/register-hooks')
 
-  if (process.argv[1]) {
-    try {
-      candidates.unshift(
-        join(dirname(realpathSync(process.argv[1])), '../node-utils/dist/register_hooks.mjs'),
-      )
-    } catch {}
-  }
+  const resolved = join(
+    dirname(realpathSync(process.argv[1])),
+    '../node-utils/dist/register_hooks.mjs',
+  )
 
-  const resolved = candidates.find((candidate) => existsSync(candidate))
-
-  if (!resolved) throw Error('[faas run] Cannot resolve @faasjs/node-utils/register-hooks')
+  if (!existsSync(resolved))
+    throw Error('[faas run] Cannot resolve @faasjs/node-utils/register-hooks')
 
   return pathToFileURL(resolved).href
 }

@@ -10,6 +10,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `@faasjs/core`
   - [Break] Remove the in-process `CronJob` APIs and stop mounting background work from `Server.listen()` / `Server.close()`.
+  - [Break] Stop falling back to the original HTTP params object when `structuredClone()` fails.
   - [Break] Stop re-exporting `z` from `@faasjs/core`; import Zod directly from `zod` in APIs and templates.
 
 - `@faasjs/jobs`
@@ -18,12 +19,18 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Feature] Add PostgreSQL-backed `.job.ts` background jobs with `defineJob`, `enqueueJob`, schema-inferred `params`, `startJobWorker`, `startJobScheduler`, retries, leases, idempotency keys, and cron enqueue dedupe.
 
 - `@faasjs/node-utils`
+  - [Break] Require config-driven plugins to export a matching named lifecycle class, and remove default-export plugin constructor fallback.
   - [Feature] Add reusable Zod schema parsing helpers for FaasJS boundary validation.
   - [Break] Make `loadPackage()` fail when requested exports are missing instead of falling back to the full module namespace.
+  - [Break] Stop resolving imports such as `./config.json` to shadow files such as `./config.json.ts`; use extensionless imports or the exact source filename.
   - [Break] Stop resolving the removed `@faasjs/http` plugin package alias to `@faasjs/core`; use plugin type `http` instead.
 
 - `@faasjs/dev`
+  - [Break] Remove the `faas run` cwd fallback for resolving `@faasjs/node-utils/register-hooks`; the command now requires the CLI package path to resolve cleanly.
   - [Break] Require `ApiTester` and `testApi()` to receive a FaasJS API instance directly, and expose that wrapped instance as `api`.
+
+- `@faasjs/pg-dev`
+  - [Break] Stop reusing the first TypedPgVitest database URL when the current worker id is missing; missing worker mappings now fail explicitly.
 
 [`v8.0.0-beta.26 (2026-04-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.25...v8.0.0-beta.26)
 

@@ -46,7 +46,7 @@ export function resolveTypedPgVitestDatabaseUrl(
 ) {
   if (!databaseUrls) return undefined
 
-  return databaseUrls[workerId] ?? databaseUrls['1'] ?? Object.values(databaseUrls)[0]
+  return databaseUrls[workerId]
 }
 
 /**

@@ -1,9 +1,0 @@
-defaults:
-  plugins:
-    fileUrlFixture:
-      type: file://./file-url-plugin.ts
-    http:
-      config:
-        cookie:
-          session:
-            secret: test-secret

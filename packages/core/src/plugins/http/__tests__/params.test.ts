@@ -1,12 +1,8 @@
 import { Http, Func } from '@faasjs/core'
 import { streamToString } from '@faasjs/utils'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 describe('params', () => {
-  afterEach(() => {
-    vi.restoreAllMocks()
-  })
-
   it('blank', async () => {
     const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const handler = new Func({
@@ -125,34 +121,5 @@ describe('params', () => {
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
     expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":{"key":"value"}}')
-  })
-
-  it('should fallback to original params when structuredClone throws', async () => {
-    const cloneMock = vi.spyOn(globalThis, 'structuredClone').mockImplementation(() => {
-      throw Error('clone not supported')
-    })
-
-    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
-    const handler = new Func({
-      plugins: [http],
-      async handler(data) {
-        return {
-          sameReference: data.params === data.event.params,
-          params: data.params,
-        }
-      },
-    }).export().handler
-
-    const res = await handler({
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ key: 'value' }),
-    })
-
-    expect(res.statusCode).toEqual(200)
-    expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body as ReadableStream)).toEqual(
-      '{"data":{"sameReference":true,"params":{"key":"value"}}}',
-    )
-    expect(cloneMock).toHaveBeenCalled()
   })
 })

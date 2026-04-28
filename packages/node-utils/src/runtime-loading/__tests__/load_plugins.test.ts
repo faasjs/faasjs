@@ -57,7 +57,7 @@ describe('loadPlugins', () => {
           session:
             secret: test-secret
 `,
-      'src/auth-plugin.ts': `export default class AuthPlugin {
+      'src/auth-plugin.ts': `export class AuthPlugin {
   constructor(config) {
     this.name = config.name
     this.type = config.type
@@ -153,7 +153,7 @@ describe('loadPlugins', () => {
           session:
             secret: test-secret
 `,
-      'src/auth-plugin.ts': `export default class AuthPlugin {
+      'src/auth-plugin.ts': `export class AuthPlugin {
   constructor(config) {
     this.name = config.name
     this.type = config.type
@@ -571,6 +571,6 @@ describe('loadPlugins', () => {
         filename: func.filename,
         staging: 'defaults',
       }),
-    ).rejects.toThrow(/must export a lifecycle plugin class/)
+    ).rejects.toThrow(/must export a matching named lifecycle plugin class/)
   })
 })

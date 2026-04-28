@@ -174,14 +174,8 @@ function resolveScriptFile(candidate: string): string | undefined {
 
   if (directType === 'file') return resolved
 
-  const tsFallbackPath = `${resolved}.ts`
-
-  if (getPathType(tsFallbackPath) === 'file') return tsFallbackPath
-
   if (!extname(resolved)) {
     for (const extension of SCRIPT_EXTENSIONS) {
-      if (extension === '.ts') continue
-
       const filePath = `${resolved}${extension}`
 
       if (getPathType(filePath) === 'file') return filePath

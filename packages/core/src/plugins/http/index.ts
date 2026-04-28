@@ -442,13 +442,9 @@ export class Http<
     if (state.params && typeof state.params === 'object' && state.params._)
       delete (state.params as Record<string, any>)._
 
-    if (state.params && typeof state.params === 'object') {
-      try {
-        data.event.params = structuredClone(state.params)
-      } catch {
-        data.event.params = state.params
-      }
-    } else data.event.params = state.params
+    if (state.params && typeof state.params === 'object')
+      data.event.params = structuredClone(state.params)
+    else data.event.params = state.params
 
     data.logger.debug('Params: %j', state.params)
   }

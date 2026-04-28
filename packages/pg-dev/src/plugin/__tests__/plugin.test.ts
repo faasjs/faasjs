@@ -128,7 +128,7 @@ describe('TypedPgVitestPlugin', () => {
     ).toBe('2')
   })
 
-  it('falls back to the first worker database when the current worker id is missing', () => {
+  it('returns undefined when the current worker id is missing', () => {
     expect(
       resolveTypedPgVitestDatabaseUrl(
         {
@@ -137,10 +137,13 @@ describe('TypedPgVitestPlugin', () => {
         },
         '999',
       ),
-    ).toBe('postgresql://worker-1')
+    ).toBeUndefined()
   })
 
   it('throws a helpful error when no worker database url is available', () => {
     expect(() => requireTypedPgVitestDatabaseUrl(undefined, '3')).toThrow(/worker 3/)
+    expect(() => requireTypedPgVitestDatabaseUrl({ '1': 'postgresql://worker-1' }, '3')).toThrow(
+      /worker 3/,
+    )
   })
 })

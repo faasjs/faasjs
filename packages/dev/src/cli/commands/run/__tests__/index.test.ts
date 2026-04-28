@@ -1,5 +1,5 @@
 import { EventEmitter } from 'node:events'
-import { join, resolve } from 'node:path'
+import { join } from 'node:path'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -67,32 +67,13 @@ describe('faas run command coverage', () => {
     await expect(run([])).rejects.toThrow('[faas run] Missing file name')
   })
 
-  it('should fall back to the cwd register hooks file when argv[1] cannot be resolved', async () => {
-    const cwdCandidate = join(process.cwd(), 'packages', 'node-utils', 'dist', 'register_hooks.mjs')
-
+  it('should fail when argv[1] cannot be resolved', async () => {
     realpathSyncMock.mockImplementation(() => {
       throw Error('bad symlink')
     })
-    existsSyncMock.mockImplementation((path: string) => path === cwdCandidate)
-    queueChildClose(0)
 
-    const code = await run(['runner.ts', '--flag'])
-
-    expect(code).toBe(0)
-    expect(spawnMock).toHaveBeenCalledWith(
-      process.execPath,
-      [
-        '--import',
-        expect.stringMatching(/^file:.*register_hooks\.mjs$/),
-        resolve(process.cwd(), 'runner.ts'),
-        '--flag',
-      ],
-      {
-        cwd: process.cwd(),
-        env: process.env,
-        stdio: 'inherit',
-      },
-    )
+    await expect(run(['runner.ts', '--flag'])).rejects.toThrow('bad symlink')
+    expect(spawnMock).not.toHaveBeenCalled()
   })
 
   it('should return code 1 when the child closes with a signal', async () => {
@@ -117,19 +98,17 @@ describe('faas run command coverage', () => {
   })
 
   it('should return code 0 when the child closes without code or signal', async () => {
-    const cwdCandidate = join(process.cwd(), 'packages', 'node-utils', 'dist', 'register_hooks.mjs')
+    const argvCandidate = join('/mock/bin', '../node-utils/dist/register_hooks.mjs')
 
-    process.argv[1] = undefined as unknown as string
-    existsSyncMock.mockImplementation((path: string) => path === cwdCandidate)
+    realpathSyncMock.mockReturnValue('/mock/bin/faas.mjs')
+    existsSyncMock.mockImplementation((path: string) => path === argvCandidate)
     queueChildClose(null, null)
 
     await expect(run(['runner.ts'])).resolves.toBe(0)
   })
 
   it('should fail when no register hooks file can be resolved', async () => {
-    realpathSyncMock.mockImplementation(() => {
-      throw Error('missing binary')
-    })
+    realpathSyncMock.mockReturnValue('/mock/bin/faas.mjs')
     existsSyncMock.mockReturnValue(false)
 
     await expect(run(['runner.ts'])).rejects.toThrow(
