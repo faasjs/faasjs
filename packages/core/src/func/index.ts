@@ -296,7 +296,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   } = Object.create(null)
 
   /**
-   * Create a cloud function.
+   * Create a FaasJS function.
    *
    * @param {FuncConfig<TEvent, TContext, TResult>} config - Plugins and optional business handler used to configure the function.
    * @param {Plugin[]} [config.plugins] - Ordered plugin list attached before the built-in run handler.
@@ -462,7 +462,6 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
         Object.create(null)) as TContext & {
         request_id?: string
         request_at?: string
-        callbackWaitsForEmptyEventLoop?: boolean
         [key: string]: any
       }
 
@@ -471,8 +470,6 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
           (event as any)?.headers?.['x-faasjs-request-id'] || randomBytes(16).toString('hex')
 
       if (!runtimeContext.request_at) runtimeContext.request_at = randomBytes(16).toString('hex')
-
-      runtimeContext.callbackWaitsForEmptyEventLoop = false
 
       const logger = new Logger(runtimeContext.request_id)
 

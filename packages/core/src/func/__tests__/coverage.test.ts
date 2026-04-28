@@ -59,7 +59,6 @@ describe('Func coverage', () => {
         return {
           request_id: context.request_id,
           request_at: context.request_at,
-          callbackWaitsForEmptyEventLoop: context.callbackWaitsForEmptyEventLoop,
         }
       },
     }).export().handler
@@ -76,7 +75,6 @@ describe('Func coverage', () => {
     ).resolves.toEqual({
       request_id: 'req-1',
       request_at: expect.any(String),
-      callbackWaitsForEmptyEventLoop: false,
     })
   })
 })

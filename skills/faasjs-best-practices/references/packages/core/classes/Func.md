@@ -52,7 +52,7 @@ Async result type produced by the handler.
 
 > **new Func**\<`TEvent`, `TContext`, `TResult`\>(`config`): `Func`\<`TEvent`, `TContext`, `TResult`\>
 
-Create a cloud function.
+Create a FaasJS function.
 
 #### Parameters
 
