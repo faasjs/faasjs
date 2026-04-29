@@ -26,7 +26,7 @@
     }
   },
   "devDependencies": {
-    "@ant-design/icons": "*",
+    "@ant-design/icons": "^6.2.2",
     "@faasjs/react": ">=8.0.0-beta.26",
     "@types/lodash-es": "*",
     "@types/react": "^19.0.0",
