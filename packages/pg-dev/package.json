@@ -36,7 +36,7 @@
     }
   },
   "devDependencies": {
-    "@electric-sql/pglite": "*",
+    "@electric-sql/pglite": "^0.4.5",
     "@electric-sql/pglite-socket": "*",
     "@faasjs/pg": ">=8.0.0-beta.26",
     "postgres": "*"
