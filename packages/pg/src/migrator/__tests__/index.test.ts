@@ -1,6 +1,6 @@
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join, resolve } from 'node:path'
+import { join } from 'node:path'
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
@@ -8,8 +8,6 @@ import { Migrator } from '../..'
 import type { Client } from '../../client'
 import { createClient } from '../../client'
 import { requireTestingDatabaseUrl } from '../../testing-support/utils'
-
-const migrationFolder = resolve(__dirname, '../migrations')
 
 function createTempFolder(tempFolders: string[]) {
   const folder = mkdtempSync(join(tmpdir(), 'typed-pg-migrator-'))
@@ -21,9 +19,10 @@ function writeMigration(folder: string, filename: string, content: string) {
   writeFileSync(join(folder, filename), content)
 }
 
-function createSimpleMigrationContent(label: string) {
-  const tableName = `migration_${label}_${Math.random().toString(16).slice(2)}`
-
+function createSimpleMigrationContent(
+  label: string,
+  tableName = `migration_${label}_${Math.random().toString(16).slice(2)}`,
+) {
   return `export function up(builder) {
   builder.createTable('${tableName}', table => {
     table.string('id').primary()
@@ -78,7 +77,6 @@ describe('Migrator', () => {
     tempFolders = []
 
     await client.raw`DROP TABLE IF EXISTS typed_pg_migrations`
-    await client.raw`DROP TABLE IF EXISTS migrations`
   })
 
   afterEach(async () => {
@@ -88,24 +86,37 @@ describe('Migrator', () => {
   })
 
   it('should create migration table', async () => {
-    const migrator = new Migrator({ client, folder: migrationFolder })
+    const folder = createTempFolder(tempFolders)
+    const migrator = new Migrator({ client, folder })
 
     expect(await migrator.status()).toEqual([])
   })
 
   it('should run migration', async () => {
-    const migrator = new Migrator({ client, folder: migrationFolder })
+    const folder = createTempFolder(tempFolders)
+    const tableName = `migration_run_${Math.random().toString(16).slice(2)}`
+    writeMigration(
+      folder,
+      '20250101000000_create_table.ts',
+      createSimpleMigrationContent('run', tableName),
+    )
+
+    const migrator = new Migrator({ client, folder })
 
     await migrator.migrate()
 
     expect(await migrator.status()).toEqual([
       {
-        name: '20250101000000_create_migrations',
+        name: '20250101000000_create_table',
         migration_time: expect.any(Date),
       },
     ])
 
-    expect(await client.raw`SELECT * FROM migrations`).toEqual([])
+    expect(
+      await client.raw<{ regclass: string | null }>(
+        `SELECT to_regclass('${tableName}') AS regclass`,
+      ),
+    ).toEqual([{ regclass: tableName }])
 
     await migrator.down()
 
