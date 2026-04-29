@@ -107,7 +107,7 @@ const pack: PackUserConfig[] = [
 export default defineConfig({
   plugins: react(),
   staged: {
-    '*': 'vp check --fix *',
+    '*': 'vp check --fix',
   },
   resolve: {
     tsconfigPaths: true,

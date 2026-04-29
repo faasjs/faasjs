@@ -12,7 +12,7 @@ Use this guide when writing or reviewing tests in FaasJS projects.
 6. Cover the success path plus the failure or state-transition paths callers actually rely on.
 7. Reset shared global state, timers, env, and mocks between cases.
 8. Place each test file near the feature, API, hook, component, helper, or job it protects.
-9. Before handoff, run `vp check` and `vp test` as acceptance gates; if either command cannot run in the current environment, record the blocker and the narrower validation that still ran.
+9. Before handoff, run `vp check --fix` and `vp test` as acceptance gates; if either command cannot run in the current environment, record the blocker and the narrower validation that still ran.
 
 ## Rules
 

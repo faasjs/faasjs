@@ -8,6 +8,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Feature] Document colocated test layout as the recommended convention and keep scaffolded tests next to the code or slice they cover instead of under catch-all `__tests__` folders.
   - [Break] Remove the stale Jobs design memo from published docs; use the Jobs guide as the supported source of truth.
   - [Fix] Remove stale code-comment guidance around workaround, TODO/FIXME, and deprecated annotations.
+  - [Fix] Use `vp check --fix` instead of `vp check --fix *` in staged config, doc sync, and validation guidance.
 
 - `@faasjs/core`
   - [Break] Remove the in-process `CronJob` APIs and stop mounting background work from `Server.listen()` / `Server.close()`.

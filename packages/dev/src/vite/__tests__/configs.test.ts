@@ -56,6 +56,9 @@ describe('configs exports', () => {
   })
 
   it('should export the shared vite config', () => {
+    expect(viteConfig.staged).toEqual({
+      '*': 'vp check --fix',
+    })
     expect(viteConfig.server).toEqual({
       host: '0.0.0.0',
       strictPort: false,

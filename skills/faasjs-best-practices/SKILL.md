@@ -30,7 +30,7 @@ Before changing code, inspect nearby examples and read only the guides needed fo
 - Document package public exports with JSDoc. Add JSDoc for shared app exports when the caller contract is not obvious. Do not add comments, docstrings, or type annotations to untouched code.
 - Delete confirmed-dead code directly instead of leaving temporary tricks such as `_unused` renames, type re-exports, or `// removed` markers.
 - Keep files under about 500 lines by splitting along real boundaries before they grow too large.
-- Treat `vp check` and `vp test` as the default acceptance gates before handoff; if either cannot run, record the reason and the narrower validation that was completed.
+- Treat `vp check --fix` and `vp test` as the default acceptance gates before handoff; if either cannot run, record the reason and the narrower validation that was completed.
 
 ## Security And Boundary Checklist
 
@@ -54,7 +54,7 @@ Before handoff, verify the smallest meaningful set for the change:
 - UI create/update/delete flows provide user feedback and refresh, close, or invalidate the affected surface intentionally.
 - Tests mock only narrow external boundaries and keep FaasJS validation, plugins, and database behavior real when practical.
 - Test files live in the `__tests__` folder inside the code, feature, or slice folder they protect. Do not centralize tests under a package-level `src/__tests__`, including feature-named subfolders inside that centralized directory. If a business unit would otherwise be a single file, convert it to a folder with `index.ts` or `index.tsx` and put its tests under that folder's `__tests__`.
-- Run targeted tests first when available, then `vp check` and `vp test` when practical; record any blocked commands and the validation that did run.
+- Run targeted tests first when available, then `vp check --fix` and `vp test` when practical; record any blocked commands and the validation that did run.
 
 ## Avoid By Default
 

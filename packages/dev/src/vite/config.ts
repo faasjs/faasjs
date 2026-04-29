@@ -45,7 +45,7 @@ export const viteConfig: {
   lint: NonNullable<UserConfig['lint']>
 } = {
   staged: {
-    '*': 'vp check --fix *',
+    '*': 'vp check --fix',
   },
   plugins: [react(), viteFaasJsServer()],
   server: {

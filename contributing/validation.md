@@ -34,7 +34,7 @@ CI currently runs the equivalent of:
 ```bash
 vp install
 vp pack
-vp check
+vp check --fix
 vp run ci
 ```
 
