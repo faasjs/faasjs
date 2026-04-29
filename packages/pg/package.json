@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/pg",
-  "version": "8.0.0-beta.26",
+  "version": "8.0.0-beta.27",
   "description": "A type-safe PostgreSQL query builder for TypeScript with a fluent API.",
   "keywords": [
     "api",
@@ -39,11 +39,11 @@
     }
   },
   "devDependencies": {
-    "@faasjs/node-utils": ">=8.0.0-beta.26",
+    "@faasjs/node-utils": ">=8.0.0-beta.27",
     "postgres": "*"
   },
   "peerDependencies": {
-    "@faasjs/node-utils": ">=8.0.0-beta.26",
+    "@faasjs/node-utils": ">=8.0.0-beta.27",
     "postgres": "*"
   },
   "engines": {

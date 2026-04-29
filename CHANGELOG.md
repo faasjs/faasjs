@@ -2,7 +2,7 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+[`v8.0.0-beta.27 (2026-04-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.26...v8.0.0-beta.27)
 
 - `faasjs`
   - [Feature] Document colocated test layout as the recommended convention and keep scaffolded tests next to the code or slice they cover instead of under catch-all `__tests__` folders.
