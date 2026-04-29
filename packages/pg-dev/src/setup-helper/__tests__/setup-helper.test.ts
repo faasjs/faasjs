@@ -22,7 +22,7 @@ type TestingServer = {
   stop: ReturnType<typeof vi.fn>
 }
 
-describe('typed-pg-vitest setup helper', () => {
+describe('faasjs-pg-vitest setup helper', () => {
   const originalDatabaseUrl = process.env.DATABASE_URL
   let registeredAfterAll: (() => Awaitable<void>) | undefined
   let registeredBeforeEach: (() => Awaitable<void>) | undefined
@@ -130,7 +130,7 @@ describe('typed-pg-vitest setup helper', () => {
 
     const module = await import('..')
 
-    module.setupTypedPgVitest({
+    module.setupPgVitest({
       afterAll,
       beforeEach,
       projectRoot: options.projectRoot ?? createProjectRoot(),
@@ -196,7 +196,7 @@ describe('typed-pg-vitest setup helper', () => {
     expect(firstClient.quit).toHaveBeenCalledTimes(1)
     expect(secondClient.quit).toHaveBeenCalledTimes(1)
     expect(mocks.createTestingPostgres).toHaveBeenCalledWith('postgresql://worker-1')
-    expect(mocks.resetTestingDatabase).toHaveBeenCalledWith(sql, ['typed_pg_migrations'])
+    expect(mocks.resetTestingDatabase).toHaveBeenCalledWith(sql, ['faasjs_pg_migrations'])
     expect(mocks.end).toHaveBeenCalledTimes(1)
 
     await registeredAfterAll?.()

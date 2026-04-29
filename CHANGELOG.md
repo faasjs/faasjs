@@ -36,10 +36,14 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Break] Make `ApiTester` use `development` as its default staging when `FaasEnv` is not set.
 
 - `@faasjs/pg-dev`
-  - [Break] Require `VITEST_POOL_ID` for TypedPgVitest worker database lookup and remove `VITEST_WORKER_ID` / worker `1` fallbacks.
+  - [Break] Require `VITEST_POOL_ID` for PgVitest worker database lookup and remove `VITEST_WORKER_ID` / worker `1` fallbacks.
   - [Break] Drop old Node worker-count and package shim fallbacks from the Vitest plugin runtime.
-  - [Break] Remove the legacy `./typed-pg-vitest-setup` and `./typed-pg-vitest-global-setup` subpath exports; use `TypedPgVitestPlugin()` instead.
-  - [Break] Stop reusing the first TypedPgVitest database URL when the current worker id is missing; missing worker mappings now fail explicitly.
+  - [Break] Remove the legacy `./typed-pg-vitest-setup` and `./typed-pg-vitest-global-setup` subpath exports; use `PgVitestPlugin()` instead.
+  - [Break] Stop reusing the first PgVitest database URL when the current worker id is missing; missing worker mappings now fail explicitly.
+  - [Break] Rename the Vitest integration from `TypedPgVitestPlugin()` / `setupTypedPgVitest()` / `TypedPgVitestSetupRuntime` to `PgVitestPlugin()` / `setupPgVitest()` / `PgVitestSetupRuntime`, and remove the old typed-pg virtual module and context names.
+
+- `@faasjs/pg`
+  - [Break] Rename the migration history table from `typed_pg_migrations` to `faasjs_pg_migrations`.
 
 - `@faasjs/types`
   - [Break] Remove the `faasjsActionsPlaceholder` member from `FaasActions`; route declarations now come only from module augmentation.

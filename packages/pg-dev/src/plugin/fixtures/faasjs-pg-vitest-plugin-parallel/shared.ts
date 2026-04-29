@@ -5,20 +5,20 @@ import { setTimeout as delay } from 'node:timers/promises'
 
 import { expect, it } from 'vitest'
 
-import { resolveTypedPgVitestWorkerId } from '../../../plugin-context'
+import { resolvePgVitestWorkerId } from '../../../plugin-context'
 import { createFixturePostgres, requireFixtureDatabaseUrl } from '../shared'
 
 const PARALLEL_WORKER_COUNT = 2
 const PARALLEL_READY_TIMEOUT_MS = 10_000
-const PARALLEL_STATE_DIR_ENV_NAME = 'TYPED_PG_VITEST_PARALLEL_STATE_DIR'
+const PARALLEL_STATE_DIR_ENV_NAME = 'PG_VITEST_PARALLEL_STATE_DIR'
 
 function resolveWorkerId() {
-  return resolveTypedPgVitestWorkerId()
+  return resolvePgVitestWorkerId()
 }
 
 function resolveStateDir() {
   return (
-    process.env[PARALLEL_STATE_DIR_ENV_NAME] ?? join(tmpdir(), 'typed-pg-vitest-plugin-parallel')
+    process.env[PARALLEL_STATE_DIR_ENV_NAME] ?? join(tmpdir(), 'faasjs-pg-vitest-plugin-parallel')
   )
 }
 

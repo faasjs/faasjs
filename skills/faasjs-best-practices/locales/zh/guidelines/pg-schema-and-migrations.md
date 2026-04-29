@@ -15,7 +15,7 @@
 2. 先用 `SchemaBuilder` 与 `TableBuilder` helpers 实现 `up(builder)`。
 3. 在可行时实现 `down(builder)` 用于回滚。
 4. 在项目根目录运行 `faasjs-pg status` 查看 migration history，再按需使用 `faasjs-pg migrate`、`faasjs-pg up` 或 `faasjs-pg down`。
-5. 除非你明确配置了别的位置，否则把 migration files 放在 `./migrations`，因为 CLI 和 `TypedPgVitestPlugin()` 默认都从这里读取。
+5. 除非你明确配置了别的位置，否则把 migration files 放在 `./migrations`，因为 CLI 和 `PgVitestPlugin()` 默认都从这里读取。
 6. 把相关 DDL 保持在同一次 builder run 里，以维持事务性。
 7. 只有在现有 helpers 不支持时，才回退到 `raw()`。
 
@@ -68,7 +68,7 @@ export function down(builder: SchemaBuilder) {
 
 ### 5. 保持 migration history 语义稳定
 
-- `typed_pg_migrations` 是 migration history 的来源。
+- `faasjs_pg_migrations` 是 migration history 的来源。
 - `migrate()` 会执行所有 pending files，`up()` 执行下一个 pending file，`down()` 回滚最近一次已记录的 file。
 - 对 app code、tooling 与问题排查来说，都把这套行为当作默认心智模型。
 

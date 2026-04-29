@@ -1,6 +1,6 @@
-[@faasjs/pg-dev](../README.md) / TypedPgVitestSetupRuntime
+[@faasjs/pg-dev](../README.md) / PgVitestSetupRuntime
 
-# Interface: TypedPgVitestSetupRuntime
+# Interface: PgVitestSetupRuntime
 
 ## Properties
 

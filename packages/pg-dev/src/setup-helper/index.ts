@@ -3,23 +3,20 @@ import { resolve } from 'node:path'
 import { createClient, getClients, registerDatabaseBootstrap } from '@faasjs/pg'
 
 import type { StartedPGliteServer } from '../pglite'
-import {
-  TYPED_PG_VITEST_DATABASE_URL_ENV_NAME,
-  TYPED_PG_VITEST_RESET_EXCLUDE_TABLES,
-} from '../plugin-context'
+import { PG_VITEST_DATABASE_URL_ENV_NAME, PG_VITEST_RESET_EXCLUDE_TABLES } from '../plugin-context'
 import { createTestingPostgres } from '../postgres'
 import { resetTestingDatabase } from '../testing'
 import { startTestingServer } from '../testing-server'
 
 type Awaitable<T> = T | Promise<T>
 
-export interface TypedPgVitestSetupRuntime {
+export interface PgVitestSetupRuntime {
   afterAll: (callback: () => Awaitable<void>) => void
   beforeEach: (callback: () => Awaitable<void>) => void
   projectRoot?: string
 }
 
-async function closeCachedTypedPgClients() {
+async function closeCachedPgClients() {
   await Promise.allSettled(getClients().map((client) => client.quit()))
 }
 
@@ -27,7 +24,7 @@ async function resetCurrentTestingDatabase(databaseUrl: string) {
   const sql = createTestingPostgres(databaseUrl)
 
   try {
-    await resetTestingDatabase(sql, TYPED_PG_VITEST_RESET_EXCLUDE_TABLES)
+    await resetTestingDatabase(sql, PG_VITEST_RESET_EXCLUDE_TABLES)
   } finally {
     await sql.end()
   }
@@ -41,9 +38,9 @@ async function resetCurrentTestingDatabase(databaseUrl: string) {
  * lookup starts PGlite, runs `./migrations`, and backfills `process.env.DATABASE_URL`. Later tests
  * reuse that database within the current Vitest file while `beforeEach` resets table contents.
  *
- * @param {TypedPgVitestSetupRuntime} runtime - Runtime hooks from the active Vitest project.
+ * @param {PgVitestSetupRuntime} runtime - Runtime hooks from the active Vitest project.
  */
-export function setupTypedPgVitest(runtime: TypedPgVitestSetupRuntime) {
+export function setupPgVitest(runtime: PgVitestSetupRuntime) {
   const projectRoot = resolve(runtime.projectRoot ?? process.cwd())
   let testingServerPromise: Promise<StartedPGliteServer> | undefined
 
@@ -61,7 +58,7 @@ export function setupTypedPgVitest(runtime: TypedPgVitestSetupRuntime) {
   const ensureTestingDatabaseUrl = async () => {
     const { databaseUrl } = await ensureTestingServer()
 
-    process.env[TYPED_PG_VITEST_DATABASE_URL_ENV_NAME] = databaseUrl
+    process.env[PG_VITEST_DATABASE_URL_ENV_NAME] = databaseUrl
 
     return databaseUrl
   }
@@ -73,12 +70,12 @@ export function setupTypedPgVitest(runtime: TypedPgVitestSetupRuntime) {
   runtime.beforeEach(async () => {
     if (!testingServerPromise) return
 
-    await closeCachedTypedPgClients()
+    await closeCachedPgClients()
     await resetCurrentTestingDatabase(await ensureTestingDatabaseUrl())
   })
 
   runtime.afterAll(async () => {
-    await closeCachedTypedPgClients()
+    await closeCachedPgClients()
 
     const activeTestingServer = testingServerPromise
 

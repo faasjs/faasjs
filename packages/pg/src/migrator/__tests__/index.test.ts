@@ -10,7 +10,7 @@ import { createClient } from '../../client'
 import { requireTestingDatabaseUrl } from '../../testing-support/utils'
 
 function createTempFolder(tempFolders: string[]) {
-  const folder = mkdtempSync(join(tmpdir(), 'typed-pg-migrator-'))
+  const folder = mkdtempSync(join(tmpdir(), 'faasjs-pg-migrator-'))
   tempFolders.push(folder)
   return folder
 }
@@ -76,7 +76,7 @@ describe('Migrator', () => {
     client = createClient(requireTestingDatabaseUrl())
     tempFolders = []
 
-    await client.raw`DROP TABLE IF EXISTS typed_pg_migrations`
+    await client.raw`DROP TABLE IF EXISTS faasjs_pg_migrations`
   })
 
   afterEach(async () => {
@@ -124,7 +124,7 @@ describe('Migrator', () => {
   })
 
   it('should throw when migration folder does not exist', () => {
-    const folder = join(tmpdir(), `typed-pg-missing-${Date.now()}-${Math.random()}`)
+    const folder = join(tmpdir(), `faasjs-pg-missing-${Date.now()}-${Math.random()}`)
 
     expect(() => new Migrator({ client, folder })).toThrowError('Migration folder not found')
   })
@@ -209,7 +209,7 @@ export function down() {}
     const migrator = new Migrator({ client, folder })
 
     await migrator.createMigrationTable()
-    await client.raw`INSERT INTO typed_pg_migrations (name, migration_time) VALUES (${'20250101000000_first'}, NOW())`
+    await client.raw`INSERT INTO faasjs_pg_migrations (name, migration_time) VALUES (${'20250101000000_first'}, NOW())`
 
     await migrator.up()
 
@@ -226,7 +226,7 @@ export function down() {}
     const migrator = new Migrator({ client, folder })
 
     await migrator.createMigrationTable()
-    await client.raw`INSERT INTO typed_pg_migrations (name, migration_time) VALUES (${'20250101000000_first'}, NOW())`
+    await client.raw`INSERT INTO faasjs_pg_migrations (name, migration_time) VALUES (${'20250101000000_first'}, NOW())`
 
     await migrator.up()
 
@@ -250,7 +250,7 @@ export function down() {}
     const migrator = new Migrator({ client, folder })
 
     await migrator.createMigrationTable()
-    await client.raw`INSERT INTO typed_pg_migrations (name, migration_time) VALUES (${'20250101000000_first'}, NOW())`
+    await client.raw`INSERT INTO faasjs_pg_migrations (name, migration_time) VALUES (${'20250101000000_first'}, NOW())`
 
     await expect(migrator.up()).rejects.toThrowError('up failed')
     expect(await getMigrationNames(migrator)).toEqual(['20250101000000_first'])
@@ -283,7 +283,7 @@ export function down() {}
     const migrator = new Migrator({ client, folder })
 
     await migrator.createMigrationTable()
-    await client.raw`INSERT INTO typed_pg_migrations (name, migration_time) VALUES (${'20250109000000_missing'}, NOW())`
+    await client.raw`INSERT INTO faasjs_pg_migrations (name, migration_time) VALUES (${'20250109000000_missing'}, NOW())`
 
     await migrator.down()
 
@@ -310,7 +310,7 @@ export function down() {
     const migrator = new Migrator({ client, folder })
 
     await migrator.createMigrationTable()
-    await client.raw`INSERT INTO typed_pg_migrations (name, migration_time) VALUES (${'20250101000000_fail_down'}, NOW())`
+    await client.raw`INSERT INTO faasjs_pg_migrations (name, migration_time) VALUES (${'20250101000000_fail_down'}, NOW())`
 
     await expect(migrator.down()).rejects.toThrowError('down failed')
     expect(await getMigrationNames(migrator)).toEqual(['20250101000000_fail_down'])

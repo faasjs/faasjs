@@ -68,7 +68,7 @@ await client.transaction(async (trx) => {
 - 默认应用 client 优先使用 `await getClient()`，让共享引导路径始终走注册过的异步 bootstrap。默认情况下，这条 bootstrap 读取 `process.env.DATABASE_URL`。
 - 只有当你真的需要自定义 `postgres.js` options 或多连接时，才使用 `createClient(process.env.DATABASE_URL, options)`。
 - 如果 `await getClient()` 抛错，应把它视为共享引导路径没有正确配置的信号。
-- 在测试里，让 `TypedPgVitestPlugin()` 负责注册懒加载的测试 bootstrap，不要再额外维护一条仅供测试使用的连接初始化路径。如果 suite 还要直接读取 `process.env.DATABASE_URL`，先调用一次 `await getClient()`。
+- 在测试里，让 `PgVitestPlugin()` 负责注册懒加载的测试 bootstrap，不要再额外维护一条仅供测试使用的连接初始化路径。如果 suite 还要直接读取 `process.env.DATABASE_URL`，先调用一次 `await getClient()`。
 
 ### 5. 让写查询和事务边界保持保护条件
 

@@ -3,10 +3,10 @@ import { fileURLToPath } from 'node:url'
 
 import { defineConfig } from 'vitest/config'
 
-import { TypedPgVitestPlugin } from '../index'
+import { PgVitestPlugin } from '../index'
 
 const fixturesDir = dirname(fileURLToPath(import.meta.url))
-const typedPgEntry = resolve(fixturesDir, '..', '..', '..', '..', 'pg', 'src', 'index.ts')
+const pgEntry = resolve(fixturesDir, '..', '..', '..', '..', 'pg', 'src', 'index.ts')
 const nodeUtilsLoggerEntry = resolve(
   fixturesDir,
   '..',
@@ -23,11 +23,11 @@ export function createFixtureVitestConfig(test: Record<string, unknown>) {
   return defineConfig({
     resolve: {
       alias: {
-        '@faasjs/pg': typedPgEntry,
+        '@faasjs/pg': pgEntry,
         '@faasjs/node-utils': nodeUtilsLoggerEntry,
       },
     },
-    plugins: [TypedPgVitestPlugin()],
+    plugins: [PgVitestPlugin()],
     test,
   })
 }

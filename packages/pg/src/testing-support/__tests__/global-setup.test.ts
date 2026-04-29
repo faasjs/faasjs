@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { TYPED_PG_VITEST_DATABASE_URLS_KEY } from '../../../../pg-dev/src/plugin-context'
+import { PG_VITEST_DATABASE_URLS_KEY } from '../../../../pg-dev/src/plugin-context'
 
 const mocks = vi.hoisted(() => ({
   resolveVitestWorkerCount: vi.fn<() => number>(),
@@ -46,7 +46,7 @@ function createProject() {
   }
 }
 
-describe('typed-pg test global setup', () => {
+describe('faasjs-pg test global setup', () => {
   beforeEach(() => {
     mocks.resolveVitestWorkerCount.mockReset()
     mocks.startPGliteServer.mockReset()
@@ -69,7 +69,7 @@ describe('typed-pg test global setup', () => {
 
     expect(provided).toEqual([
       [
-        TYPED_PG_VITEST_DATABASE_URLS_KEY,
+        PG_VITEST_DATABASE_URLS_KEY,
         {
           '1': workerOneServer.databaseUrl,
           '2': workerTwoServer.databaseUrl,

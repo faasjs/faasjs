@@ -56,12 +56,12 @@ async function listMigrationNames() {
   return withTestingClient(async (client) => {
     const [{ regclass }] = await client.raw<{
       regclass: string | null
-    }>`SELECT to_regclass('typed_pg_migrations') AS regclass`
+    }>`SELECT to_regclass('faasjs_pg_migrations') AS regclass`
 
     if (!regclass) return []
 
     return (
-      await client.raw<{ name: string }>`SELECT name FROM typed_pg_migrations ORDER BY name`
+      await client.raw<{ name: string }>`SELECT name FROM faasjs_pg_migrations ORDER BY name`
     ).map((migration) => migration.name)
   })
 }
@@ -100,7 +100,7 @@ describe('cli/main', () => {
     process.env.DATABASE_URL = testingDatabaseUrl
 
     await withTestingClient(async (client) => {
-      await dropTableIfExists(client, 'typed_pg_migrations')
+      await dropTableIfExists(client, 'faasjs_pg_migrations')
     })
   })
 
@@ -110,7 +110,7 @@ describe('cli/main', () => {
         await dropTableIfExists(client, tableName)
       }
 
-      await dropTableIfExists(client, 'typed_pg_migrations')
+      await dropTableIfExists(client, 'faasjs_pg_migrations')
     })
 
     process.chdir(originalCwd)

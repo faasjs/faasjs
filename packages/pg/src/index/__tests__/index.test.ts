@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
-import * as TypedPg from '../../index'
+import * as Pg from '../../index'
 
-describe('TypedPg', () => {
+describe('Pg', () => {
   it('should be defined', () => {
-    expect(Object.keys(TypedPg)).toEqual([
+    expect(Object.keys(Pg)).toEqual([
       'Migrator',
       'registerDatabaseBootstrap',
       'resolveDatabaseBootstrap',

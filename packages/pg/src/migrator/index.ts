@@ -30,7 +30,7 @@ export class Migrator {
 
   async status() {
     await this.createMigrationTable()
-    return this.client.raw`SELECT * FROM typed_pg_migrations`
+    return this.client.raw`SELECT * FROM faasjs_pg_migrations`
   }
 
   async migrate() {
@@ -42,7 +42,7 @@ export class Migrator {
     }
 
     await this.createMigrationTable()
-    const migrations = await this.client.raw`SELECT * FROM typed_pg_migrations`
+    const migrations = await this.client.raw`SELECT * FROM faasjs_pg_migrations`
 
     const builder = new SchemaBuilder(this.client)
 
@@ -62,7 +62,7 @@ export class Migrator {
         await builder.run()
 
         await this.client
-          .raw`INSERT INTO typed_pg_migrations (name, migration_time) VALUES (${name}, NOW())`
+          .raw`INSERT INTO faasjs_pg_migrations (name, migration_time) VALUES (${name}, NOW())`
       } catch (error) {
         this.logger.error('Migrate failed:', name, error)
         return Promise.reject(error)
@@ -81,7 +81,7 @@ export class Migrator {
     await this.createMigrationTable()
 
     const migrations = await this.client
-      .raw`SELECT * FROM typed_pg_migrations ORDER BY migration_time DESC LIMIT 1`
+      .raw`SELECT * FROM faasjs_pg_migrations ORDER BY migration_time DESC LIMIT 1`
 
     const lastMigration = migrations[0]
 
@@ -104,7 +104,7 @@ export class Migrator {
       await builder.run()
 
       await this.client
-        .raw`INSERT INTO typed_pg_migrations (name, migration_time) VALUES (${name}, NOW())`
+        .raw`INSERT INTO faasjs_pg_migrations (name, migration_time) VALUES (${name}, NOW())`
     } catch (error) {
       this.logger.error('Migrate failed:', name, error)
       return Promise.reject(error)
@@ -121,7 +121,7 @@ export class Migrator {
 
     await this.createMigrationTable()
     const migrations = await this.client
-      .raw`SELECT * FROM typed_pg_migrations ORDER BY migration_time DESC LIMIT 1`
+      .raw`SELECT * FROM faasjs_pg_migrations ORDER BY migration_time DESC LIMIT 1`
 
     const lastMigration = migrations[0]
 
@@ -146,7 +146,7 @@ export class Migrator {
       down(builder)
       await builder.run()
 
-      await this.client.raw`DELETE FROM typed_pg_migrations WHERE name = ${lastMigration.name}`
+      await this.client.raw`DELETE FROM faasjs_pg_migrations WHERE name = ${lastMigration.name}`
     } catch (error) {
       this.logger.error('Rollback failed:', lastMigration.name, error)
       return Promise.reject(error)
@@ -154,10 +154,10 @@ export class Migrator {
   }
 
   async createMigrationTable() {
-    return this.client.raw`CREATE TABLE IF NOT EXISTS typed_pg_migrations (
+    return this.client.raw`CREATE TABLE IF NOT EXISTS faasjs_pg_migrations (
       "name" varchar(255) NULL,
       migration_time timestamptz NULL,
-      CONSTRAINT typed_pg_migrations_pkey PRIMARY KEY (name)
+      CONSTRAINT faasjs_pg_migrations_pkey PRIMARY KEY (name)
     )`
   }
 }

@@ -1,31 +1,31 @@
 import { describe, expect, expectTypeOf, it } from 'vitest'
 
-import { TypedPgVitestPlugin } from '../../plugin'
+import { PgVitestPlugin } from '../../plugin'
 import {
-  requireTypedPgVitestDatabaseUrl,
-  resolveTypedPgVitestDatabaseUrl,
-  resolveTypedPgVitestWorkerId,
+  requirePgVitestDatabaseUrl,
+  resolvePgVitestDatabaseUrl,
+  resolvePgVitestWorkerId,
 } from '../../plugin-context'
 
-function resolvePluginId(plugin: ReturnType<typeof TypedPgVitestPlugin>, id: string) {
+function resolvePluginId(plugin: ReturnType<typeof PgVitestPlugin>, id: string) {
   const resolveId = plugin.resolveId as ((id: string) => string | undefined) | undefined
 
   return resolveId?.(id)
 }
 
-function loadPluginModule(plugin: ReturnType<typeof TypedPgVitestPlugin>, id: string) {
+function loadPluginModule(plugin: ReturnType<typeof PgVitestPlugin>, id: string) {
   const load = plugin.load as ((id: string) => string | undefined) | undefined
 
   return load?.(id)
 }
 
-describe('TypedPgVitestPlugin', () => {
+describe('PgVitestPlugin', () => {
   it('does not accept options', () => {
-    expectTypeOf(TypedPgVitestPlugin).parameters.toEqualTypeOf<[]>()
+    expectTypeOf(PgVitestPlugin).parameters.toEqualTypeOf<[]>()
   })
 
   it('injects generated Vitest setup modules for node projects', () => {
-    const plugin = TypedPgVitestPlugin()
+    const plugin = PgVitestPlugin()
     const project = {
       config: {
         environment: 'node',
@@ -42,12 +42,12 @@ describe('TypedPgVitestPlugin', () => {
     })
 
     expect(project.config.fileParallelism).toBe(true)
-    expect(project.config.setupFiles[0]).toMatch(/^virtual:typed-pg-dev\/vitest-setup:/)
+    expect(project.config.setupFiles[0]).toMatch(/^virtual:faasjs-pg-dev\/vitest-setup:/)
     expect(project.config.setupFiles[1]).toBe('custom-setup.ts')
   })
 
   it('deduplicates setup entries when configureVitest runs more than once', () => {
-    const plugin = TypedPgVitestPlugin()
+    const plugin = PgVitestPlugin()
     const project = {
       config: {
         environment: 'node',
@@ -69,12 +69,12 @@ describe('TypedPgVitestPlugin', () => {
     })
 
     expect(project.config.setupFiles).toHaveLength(2)
-    expect(project.config.setupFiles[0]).toMatch(/^virtual:typed-pg-dev\/vitest-setup:/)
+    expect(project.config.setupFiles[0]).toMatch(/^virtual:faasjs-pg-dev\/vitest-setup:/)
     expect(project.config.setupFiles[1]).toBe('custom-setup.ts')
   })
 
   it('skips browser-like projects by default', () => {
-    const plugin = TypedPgVitestPlugin()
+    const plugin = PgVitestPlugin()
     const project = {
       config: {
         environment: 'jsdom',
@@ -93,7 +93,7 @@ describe('TypedPgVitestPlugin', () => {
   })
 
   it('can generate a setup module that wires the shared setup helper', () => {
-    const plugin = TypedPgVitestPlugin()
+    const plugin = PgVitestPlugin()
     const project = {
       config: {
         environment: 'node',
@@ -115,25 +115,25 @@ describe('TypedPgVitestPlugin', () => {
 
     expect(resolvedSetupId).toBe(`\0${generatedSetupId}`)
     expect(generatedSource).toContain("import { afterAll, beforeEach } from 'vitest'")
-    expect(generatedSource).toContain('import { setupTypedPgVitest } from')
+    expect(generatedSource).toContain('import { setupPgVitest } from')
     expect(generatedSource).toContain('  { afterAll, beforeEach, projectRoot: "/repo/project" },')
   })
 
   it('uses the Vitest pool id when resolving a worker id', () => {
     expect(
-      resolveTypedPgVitestWorkerId({
+      resolvePgVitestWorkerId({
         VITEST_POOL_ID: '2',
       }),
     ).toBe('2')
   })
 
   it('throws when the Vitest pool id is missing', () => {
-    expect(() => resolveTypedPgVitestWorkerId({})).toThrow(/VITEST_POOL_ID/)
+    expect(() => resolvePgVitestWorkerId({})).toThrow(/VITEST_POOL_ID/)
   })
 
   it('returns undefined when the current worker id is missing', () => {
     expect(
-      resolveTypedPgVitestDatabaseUrl(
+      resolvePgVitestDatabaseUrl(
         {
           '1': 'postgresql://worker-1',
           '2': 'postgresql://worker-2',
@@ -144,8 +144,8 @@ describe('TypedPgVitestPlugin', () => {
   })
 
   it('throws a helpful error when no worker database url is available', () => {
-    expect(() => requireTypedPgVitestDatabaseUrl(undefined, '3')).toThrow(/worker 3/)
-    expect(() => requireTypedPgVitestDatabaseUrl({ '1': 'postgresql://worker-1' }, '3')).toThrow(
+    expect(() => requirePgVitestDatabaseUrl(undefined, '3')).toThrow(/worker 3/)
+    expect(() => requirePgVitestDatabaseUrl({ '1': 'postgresql://worker-1' }, '3')).toThrow(
       /worker 3/,
     )
   })

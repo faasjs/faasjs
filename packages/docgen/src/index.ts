@@ -96,7 +96,7 @@ const zhPageSummaries: Record<string, string> = {
   'pg-schema-and-migrations':
     '如何使用时间戳 migrations、`SchemaBuilder`、`TableBuilder` 与事务性 schema 变更。',
   'pg-testing':
-    '如何使用 `TypedPgVitestPlugin()`、共享 `DATABASE_URL` 引导路径，并让运行时断言与 `expectTypeOf(...)` 配套。',
+    '如何使用 `PgVitestPlugin()`、共享 `DATABASE_URL` 引导路径，并让运行时断言与 `expectTypeOf(...)` 配套。',
   'faas-yaml': '`faas.yaml` 的发现顺序、合并规则、`server` 节点约定与支持的 YAML 子集。',
   'http-protocol': 'FaasJS 请求与响应的默认 HTTP 约定，以及错误返回格式。',
   plugin: '插件的标识、生命周期、配置合并与 `defineApi` 自动装载规则。',

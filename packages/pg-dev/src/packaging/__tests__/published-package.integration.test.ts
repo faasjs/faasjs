@@ -42,10 +42,10 @@ function writeConsumerFixture(consumerDir: string, options: { multiProject?: boo
   const configLines = options.multiProject
     ? [
         "import { defineConfig } from 'vitest/config'",
-        "import { TypedPgVitestPlugin } from '@faasjs/pg-dev'",
+        "import { PgVitestPlugin } from '@faasjs/pg-dev'",
         '',
         'export default defineConfig({',
-        '  plugins: [TypedPgVitestPlugin()],',
+        '  plugins: [PgVitestPlugin()],',
         '  test: {',
         '    projects: [',
         '      {',
@@ -63,10 +63,10 @@ function writeConsumerFixture(consumerDir: string, options: { multiProject?: boo
       ]
     : [
         "import { defineConfig } from 'vitest/config'",
-        "import { TypedPgVitestPlugin } from '@faasjs/pg-dev'",
+        "import { PgVitestPlugin } from '@faasjs/pg-dev'",
         '',
         'export default defineConfig({',
-        '  plugins: [TypedPgVitestPlugin()],',
+        '  plugins: [PgVitestPlugin()],',
         '  test: {',
         "    include: ['test/**/*.test.ts'],",
         '  },',
@@ -78,7 +78,7 @@ function writeConsumerFixture(consumerDir: string, options: { multiProject?: boo
     join(consumerDir, 'package.json'),
     JSON.stringify(
       {
-        name: 'typed-pg-dev-consumer-fixture',
+        name: 'faasjs-pg-dev-consumer-fixture',
         private: true,
         type: 'module',
       },
@@ -124,23 +124,23 @@ function writeConsumerFixture(consumerDir: string, options: { multiProject?: boo
   )
 }
 
-describe('typed-pg-dev published package', () => {
+describe('faasjs-pg-dev published package', () => {
   it('works when installed as packed tarballs in a consumer project', () => {
     mkdirSync(tmpRoot, { recursive: true })
 
-    const consumerDir = mkdtempSync(join(tmpRoot, 'typed-pg-dev-consumer-'))
-    const typedPgDir = join(workspaceRoot, 'packages', 'pg')
-    const typedPgDevDir = join(workspaceRoot, 'packages', 'pg-dev')
+    const consumerDir = mkdtempSync(join(tmpRoot, 'faasjs-pg-dev-consumer-'))
+    const pgDir = join(workspaceRoot, 'packages', 'pg')
+    const pgDevDir = join(workspaceRoot, 'packages', 'pg-dev')
 
     writeConsumerFixture(consumerDir)
 
     buildWorkspacePackages()
 
-    const typedPgTarball = packPackage(typedPgDir)
-    const typedPgDevTarball = packPackage(typedPgDevDir)
+    const pgTarball = packPackage(pgDir)
+    const pgDevTarball = packPackage(pgDevDir)
 
     try {
-      run('npm', ['install', '--ignore-scripts', typedPgTarball, typedPgDevTarball], consumerDir)
+      run('npm', ['install', '--ignore-scripts', pgTarball, pgDevTarball], consumerDir)
 
       const output = run(
         process.execPath,
@@ -153,8 +153,8 @@ describe('typed-pg-dev published package', () => {
         existsSync(join(consumerDir, 'node_modules', '@faasjs/pg-dev', 'dist', 'index.mjs')),
       ).toBe(true)
     } finally {
-      rmSync(typedPgTarball, { force: true })
-      rmSync(typedPgDevTarball, { force: true })
+      rmSync(pgTarball, { force: true })
+      rmSync(pgDevTarball, { force: true })
       rmSync(consumerDir, { force: true, recursive: true })
     }
   }, 60_000)
@@ -162,19 +162,19 @@ describe('typed-pg-dev published package', () => {
   it('works from the published package in a multi-project Vitest config', () => {
     mkdirSync(tmpRoot, { recursive: true })
 
-    const consumerDir = mkdtempSync(join(tmpRoot, 'typed-pg-dev-consumer-projects-'))
-    const typedPgDir = join(workspaceRoot, 'packages', 'pg')
-    const typedPgDevDir = join(workspaceRoot, 'packages', 'pg-dev')
+    const consumerDir = mkdtempSync(join(tmpRoot, 'faasjs-pg-dev-consumer-projects-'))
+    const pgDir = join(workspaceRoot, 'packages', 'pg')
+    const pgDevDir = join(workspaceRoot, 'packages', 'pg-dev')
 
     writeConsumerFixture(consumerDir, { multiProject: true })
 
     buildWorkspacePackages()
 
-    const typedPgTarball = packPackage(typedPgDir)
-    const typedPgDevTarball = packPackage(typedPgDevDir)
+    const pgTarball = packPackage(pgDir)
+    const pgDevTarball = packPackage(pgDevDir)
 
     try {
-      run('npm', ['install', '--ignore-scripts', typedPgTarball, typedPgDevTarball], consumerDir)
+      run('npm', ['install', '--ignore-scripts', pgTarball, pgDevTarball], consumerDir)
 
       const output = run(
         process.execPath,
@@ -184,8 +184,8 @@ describe('typed-pg-dev published package', () => {
 
       expect(output).toContain('1 passed')
     } finally {
-      rmSync(typedPgTarball, { force: true })
-      rmSync(typedPgDevTarball, { force: true })
+      rmSync(pgTarball, { force: true })
+      rmSync(pgDevTarball, { force: true })
       rmSync(consumerDir, { force: true, recursive: true })
     }
   }, 60_000)

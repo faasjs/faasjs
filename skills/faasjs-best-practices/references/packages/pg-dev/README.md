@@ -2,9 +2,9 @@
 
 ## Functions
 
-- [setupTypedPgVitest](functions/setupTypedPgVitest.md)
-- [TypedPgVitestPlugin](functions/TypedPgVitestPlugin.md)
+- [PgVitestPlugin](functions/PgVitestPlugin.md)
+- [setupPgVitest](functions/setupPgVitest.md)
 
 ## Interfaces
 
-- [TypedPgVitestSetupRuntime](interfaces/TypedPgVitestSetupRuntime.md)
+- [PgVitestSetupRuntime](interfaces/PgVitestSetupRuntime.md)

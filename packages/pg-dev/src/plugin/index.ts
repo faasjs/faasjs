@@ -13,7 +13,7 @@ const indexPath = join(
 )
 
 const DEFAULT_SKIPPED_ENVIRONMENTS = new Set(['happy-dom', 'jsdom'])
-const SETUP_MODULE_PREFIX = 'virtual:typed-pg-dev/vitest-setup:'
+const SETUP_MODULE_PREFIX = 'virtual:faasjs-pg-dev/vitest-setup:'
 
 function prependUniqueValue(value: string | string[] | undefined, nextValue: string) {
   const values = typeof value === 'undefined' ? [] : Array.isArray(value) ? value : [value]
@@ -24,9 +24,9 @@ function prependUniqueValue(value: string | string[] | undefined, nextValue: str
 function createSetupModuleSource(projectRoot: string) {
   return [
     "import { afterAll, beforeEach } from 'vitest'",
-    `import { setupTypedPgVitest } from ${JSON.stringify(indexPath)}`,
+    `import { setupPgVitest } from ${JSON.stringify(indexPath)}`,
     '',
-    'setupTypedPgVitest(',
+    'setupPgVitest(',
     `  { afterAll, beforeEach, projectRoot: ${JSON.stringify(projectRoot)} },`,
     ')',
     '',
@@ -65,9 +65,9 @@ function shouldEnableForProject(project: {
  *
  * @returns Vitest/Vite plugin instance.
  */
-export function TypedPgVitestPlugin(): Plugin {
+export function PgVitestPlugin(): Plugin {
   return {
-    name: 'typed-pg-vitest-plugin',
+    name: 'faasjs-pg-vitest-plugin',
     resolveId(id) {
       if (resolveSetupModuleProjectRoot(id)) return `\0${id}`
     },

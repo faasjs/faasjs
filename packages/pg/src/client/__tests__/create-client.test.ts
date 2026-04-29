@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 type PostgresFactory = (...args: any[]) => unknown
 
 const postgresMock = vi.hoisted(() => vi.fn<PostgresFactory>())
-const exampleUrl = 'postgres://typed-pg.test/example'
+const exampleUrl = 'postgres://faasjs-pg.test/example'
 
 vi.mock('postgres', () => ({
   default: postgresMock,
@@ -185,13 +185,13 @@ describe('createClient', () => {
   })
 
   it('throws without a url when multiple cached clients exist', async () => {
-    const firstClient = clientModule.createClient('postgres://typed-pg.test/first')
-    const secondClient = clientModule.createClient('postgres://typed-pg.test/second')
+    const firstClient = clientModule.createClient('postgres://faasjs-pg.test/first')
+    const secondClient = clientModule.createClient('postgres://faasjs-pg.test/second')
 
-    await expect(clientModule.getClient('postgres://typed-pg.test/first')).resolves.toBe(
+    await expect(clientModule.getClient('postgres://faasjs-pg.test/first')).resolves.toBe(
       firstClient,
     )
-    await expect(clientModule.getClient('postgres://typed-pg.test/second')).resolves.toBe(
+    await expect(clientModule.getClient('postgres://faasjs-pg.test/second')).resolves.toBe(
       secondClient,
     )
     await expect(clientModule.getClient()).rejects.toThrowError(
@@ -292,8 +292,8 @@ describe('createClient', () => {
   })
 
   it('returns all cached clients without requiring a url', () => {
-    const firstClient = clientModule.createClient('postgres://typed-pg.test/first')
-    const secondClient = clientModule.createClient('postgres://typed-pg.test/second')
+    const firstClient = clientModule.createClient('postgres://faasjs-pg.test/first')
+    const secondClient = clientModule.createClient('postgres://faasjs-pg.test/second')
 
     expect(clientModule.getClients()).toEqual([firstClient, secondClient])
   })

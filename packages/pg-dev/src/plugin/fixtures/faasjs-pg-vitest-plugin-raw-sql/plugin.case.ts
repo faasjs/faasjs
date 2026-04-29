@@ -8,7 +8,7 @@ it('runs raw SQL migrations through SchemaBuilder.run', async () => {
     expect(await sql`SELECT to_regclass('public.widget_logs') AS name`).toEqual([
       { name: 'widget_logs' },
     ])
-    expect(await sql`SELECT COUNT(*)::integer AS count FROM typed_pg_migrations`).toEqual([
+    expect(await sql`SELECT COUNT(*)::integer AS count FROM faasjs_pg_migrations`).toEqual([
       { count: 1 },
     ])
   })

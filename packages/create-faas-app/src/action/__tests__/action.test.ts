@@ -155,7 +155,7 @@ describe('action', () => {
     expect(read(rootPath, 'src/types/faasjs-pg.d.ts')).toContain("import '@faasjs/pg'")
     expect(read(rootPath, 'src/types/faasjs-pg.d.ts')).toContain('interface Tables')
     expect(read(rootPath, 'vite.config.ts')).toContain(
-      "import { TypedPgVitestPlugin } from '@faasjs/pg-dev'",
+      "import { PgVitestPlugin } from '@faasjs/pg-dev'",
     )
     expect(read(rootPath, 'src/main.tsx')).toContain("import { App } from '@faasjs/ant-design'")
     expect(read(rootPath, 'src/pages/home/index.tsx')).toContain(

@@ -6,7 +6,7 @@ import type { PackUserConfig } from 'vite-plus/pack'
 
 import { oxfmtConfig } from './packages/dev/src/vite/oxfmt.ts'
 import { oxlintConfig } from './packages/dev/src/vite/oxlint.ts'
-import { TypedPgVitestPlugin } from './packages/pg-dev/src/plugin/index.ts'
+import { PgVitestPlugin } from './packages/pg-dev/src/plugin/index.ts'
 
 const tests = ['packages/**/*.test.ts']
 
@@ -147,7 +147,7 @@ export default defineConfig({
       {
         extends: true as const,
         root: adminTemplateRoot,
-        plugins: [TypedPgVitestPlugin()],
+        plugins: [PgVitestPlugin()],
         resolve: {
           alias: workspacePackageAliases,
           dedupe: ['@faasjs/pg'],

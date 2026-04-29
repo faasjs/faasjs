@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { TYPED_PG_VITEST_DATABASE_URLS_KEY } from '../../../../pg-dev/src/plugin-context'
+import { PG_VITEST_DATABASE_URLS_KEY } from '../../../../pg-dev/src/plugin-context'
 
-describe('typed-pg test setup', () => {
+describe('faasjs-pg test setup', () => {
   const originalDatabaseUrl = process.env.DATABASE_URL
   const originalPoolId = process.env.VITEST_POOL_ID
 
@@ -41,7 +41,7 @@ describe('typed-pg test setup', () => {
 
     await import('../setup')
 
-    expect(injectCalls).toEqual([TYPED_PG_VITEST_DATABASE_URLS_KEY])
+    expect(injectCalls).toEqual([PG_VITEST_DATABASE_URLS_KEY])
     expect(process.env.DATABASE_URL).toBe('postgresql://worker-2')
   })
 })

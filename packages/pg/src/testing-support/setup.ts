@@ -1,11 +1,11 @@
 import { inject } from 'vitest'
 
 import {
-  TYPED_PG_VITEST_DATABASE_URL_ENV_NAME,
-  TYPED_PG_VITEST_DATABASE_URLS_KEY,
-  requireTypedPgVitestDatabaseUrl,
+  PG_VITEST_DATABASE_URL_ENV_NAME,
+  PG_VITEST_DATABASE_URLS_KEY,
+  requirePgVitestDatabaseUrl,
 } from '../../../pg-dev/src/plugin-context'
 
-const databaseUrls = inject(TYPED_PG_VITEST_DATABASE_URLS_KEY)
+const databaseUrls = inject(PG_VITEST_DATABASE_URLS_KEY)
 
-process.env[TYPED_PG_VITEST_DATABASE_URL_ENV_NAME] = requireTypedPgVitestDatabaseUrl(databaseUrls)
+process.env[PG_VITEST_DATABASE_URL_ENV_NAME] = requirePgVitestDatabaseUrl(databaseUrls)

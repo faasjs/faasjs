@@ -4,7 +4,7 @@ When changing `@faasjs/pg`-backed code, every behavior change should come with r
 
 ## Default Workflow
 
-1. Prefer `TypedPgVitestPlugin()` so Vitest registers a lazy temporary database bootstrap, starts PGlite on the first `await getClient()`, runs migrations, backfills `DATABASE_URL`, and clears table contents before later tests in the same file. In mixed workspaces, keep PG-backed tests in a Node project because the plugin skips `jsdom` and `happy-dom` projects.
+1. Prefer `PgVitestPlugin()` so Vitest registers a lazy temporary database bootstrap, starts PGlite on the first `await getClient()`, runs migrations, backfills `DATABASE_URL`, and clears table contents before later tests in the same file. In mixed workspaces, keep PG-backed tests in a Node project because the plugin skips `jsdom` and `happy-dom` projects.
 2. Use `await getClient()` to seed data and run assertions so app code and tests share the same async bootstrap path.
 3. Add only the suite-specific setup or fixtures that the plugin does not already provide.
 4. Pair runtime assertions with `expectTypeOf(...)` when query inference, declaration merging, or shared wrappers affect types.
@@ -13,11 +13,11 @@ When changing `@faasjs/pg`-backed code, every behavior change should come with r
 Mixed-workspace example:
 
 ```ts
-import { TypedPgVitestPlugin } from '@faasjs/pg-dev'
+import { PgVitestPlugin } from '@faasjs/pg-dev'
 import { defineConfig } from 'vite-plus'
 
 export default defineConfig({
-  plugins: [TypedPgVitestPlugin()],
+  plugins: [PgVitestPlugin()],
   test: {
     projects: [
       {
@@ -47,10 +47,10 @@ export default defineConfig({
 ```ts
 // vitest.config.ts
 import { defineConfig } from 'vitest/config'
-import { TypedPgVitestPlugin } from '@faasjs/pg-dev'
+import { PgVitestPlugin } from '@faasjs/pg-dev'
 
 export default defineConfig({
-  plugins: [TypedPgVitestPlugin()],
+  plugins: [PgVitestPlugin()],
 })
 ```
 
@@ -102,13 +102,13 @@ describe('users query', () => {
 
 ### 4. Keep tests isolated even when the plugin resets data
 
-- Prefer `TypedPgVitestPlugin()` to reset rows automatically before each test.
+- Prefer `PgVitestPlugin()` to reset rows automatically before each test.
 - Create extra tables, seed data, or temp folders explicitly when a suite goes beyond the default migrations.
 - Do not rely on hidden state from another test file or case.
 
 ### 5. Use `@faasjs/pg-dev` through the Vitest plugin
 
-- Prefer `TypedPgVitestPlugin()` for workspace test runs.
+- Prefer `PgVitestPlugin()` for workspace test runs.
 - PG-backed runtime tests are still Node runtime tests. Prefer the regular `node` project, but if only that subset needs project-level setup, use a node-scoped project name such as `node-pg` instead of a standalone runtime bucket like `pg`.
 - In tests, let the plugin lazy-bootstrap the default client through `await getClient()`. If a suite also reads `process.env.DATABASE_URL` directly, trigger the bootstrap with `await getClient()` first.
 - Reach for `createClient(process.env.DATABASE_URL, options)` only when a suite genuinely needs custom `postgres.js` options or an extra connection after the bootstrap URL exists.

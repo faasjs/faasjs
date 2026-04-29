@@ -1,8 +1,8 @@
-[@faasjs/pg-dev](../README.md) / TypedPgVitestPlugin
+[@faasjs/pg-dev](../README.md) / PgVitestPlugin
 
-# Function: TypedPgVitestPlugin()
+# Function: PgVitestPlugin()
 
-> **TypedPgVitestPlugin**(): `Plugin`
+> **PgVitestPlugin**(): `Plugin`
 
 Creates the Vitest plugin that wires `@faasjs/pg-dev` into the test runner.
 

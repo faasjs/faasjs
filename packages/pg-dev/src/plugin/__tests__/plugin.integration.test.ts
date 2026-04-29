@@ -8,9 +8,9 @@ import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 
 const fixturesDir = join(dirname(fileURLToPath(import.meta.url)), '..', 'fixtures')
-const basicFixtureDir = join(fixturesDir, 'typed-pg-vitest-plugin')
-const parallelFixtureDir = join(fixturesDir, 'typed-pg-vitest-plugin-parallel')
-const rawSqlFixtureDir = join(fixturesDir, 'typed-pg-vitest-plugin-raw-sql')
+const basicFixtureDir = join(fixturesDir, 'faasjs-pg-vitest-plugin')
+const parallelFixtureDir = join(fixturesDir, 'faasjs-pg-vitest-plugin-parallel')
+const rawSqlFixtureDir = join(fixturesDir, 'faasjs-pg-vitest-plugin-raw-sql')
 const moduleRequire = createRequire(import.meta.url)
 const vitestBin = join(dirname(moduleRequire.resolve('vitest/package.json')), 'vitest.mjs')
 
@@ -41,7 +41,7 @@ function readParallelFixtureResults(parallelStateDir: string) {
     )
 }
 
-describe('TypedPgVitestPlugin integration', () => {
+describe('PgVitestPlugin integration', () => {
   it('creates a temporary database, runs migrations, and clears data before each test', () => {
     const output = runFixture(basicFixtureDir, 'vitest.config.ts')
 
@@ -49,11 +49,11 @@ describe('TypedPgVitestPlugin integration', () => {
   }, 20_000)
 
   it('creates separate temporary databases per Vitest worker', () => {
-    const parallelStateDir = mkdtempSync(join(tmpdir(), 'typed-pg-vitest-plugin-parallel-'))
+    const parallelStateDir = mkdtempSync(join(tmpdir(), 'faasjs-pg-vitest-plugin-parallel-'))
 
     try {
       const output = runFixture(parallelFixtureDir, 'vitest.config.ts', {
-        TYPED_PG_VITEST_PARALLEL_STATE_DIR: parallelStateDir,
+        PG_VITEST_PARALLEL_STATE_DIR: parallelStateDir,
       })
       const results = readParallelFixtureResults(parallelStateDir)
 

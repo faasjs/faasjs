@@ -61,7 +61,7 @@ await client.transaction(async (trx) => {
 - Prefer `await getClient()` for the default application client so the shared bootstrap path always goes through the registered async bootstrap. By default that bootstrap reads `process.env.DATABASE_URL`.
 - Reach for `createClient(process.env.DATABASE_URL, options)` only when custom `postgres.js` options or multiple database connections are required.
 - Treat `await getClient()` throwing as a signal that the shared bootstrap path was not configured.
-- In tests, let `TypedPgVitestPlugin()` register the lazy test bootstrap instead of building a separate testing-only connection path. If a suite also reads `process.env.DATABASE_URL` directly, call `await getClient()` first.
+- In tests, let `PgVitestPlugin()` register the lazy test bootstrap instead of building a separate testing-only connection path. If a suite also reads `process.env.DATABASE_URL` directly, call `await getClient()` first.
 
 ### 5. Keep write queries and transactions guarded
 

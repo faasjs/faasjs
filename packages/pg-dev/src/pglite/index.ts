@@ -4,7 +4,7 @@ import { PGlite } from '@electric-sql/pglite'
 import { PGLiteSocketServer } from '@electric-sql/pglite-socket'
 
 /**
- * Started PGlite server handle used by `TypedPgVitestPlugin`.
+ * Started PGlite server handle used by `PgVitestPlugin`.
  */
 export interface StartedPGliteServer {
   databaseUrl: string

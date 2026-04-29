@@ -1,8 +1,8 @@
-[@faasjs/pg-dev](../README.md) / setupTypedPgVitest
+[@faasjs/pg-dev](../README.md) / setupPgVitest
 
-# Function: setupTypedPgVitest()
+# Function: setupPgVitest()
 
-> **setupTypedPgVitest**(`runtime`): `void`
+> **setupPgVitest**(`runtime`): `void`
 
 Wires `@faasjs/pg-dev` into a Vitest setup module without forcing consumers to import package
 setup files directly from `node_modules`.
@@ -15,7 +15,7 @@ reuse that database within the current Vitest file while `beforeEach` resets tab
 
 ### runtime
 
-[`TypedPgVitestSetupRuntime`](../interfaces/TypedPgVitestSetupRuntime.md)
+[`PgVitestSetupRuntime`](../interfaces/PgVitestSetupRuntime.md)
 
 Runtime hooks from the active Vitest project.
 
