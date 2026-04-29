@@ -52,12 +52,7 @@ function collectJobFiles(root: string): string[] {
 function getModuleHooksOptions(root: string): RegisterNodeModuleHooksOptions {
   const srcRoot = resolve(root)
   const projectTsconfig = join(resolve(srcRoot, '..'), 'tsconfig.json')
-  const srcTsconfig = join(srcRoot, 'tsconfig.json')
-  const tsconfigPath = existsSync(projectTsconfig)
-    ? projectTsconfig
-    : existsSync(srcTsconfig)
-      ? srcTsconfig
-      : undefined
+  const tsconfigPath = existsSync(projectTsconfig) ? projectTsconfig : undefined
   const options: RegisterNodeModuleHooksOptions = {
     root: tsconfigPath ? dirname(tsconfigPath) : resolve(srcRoot, '..'),
   }

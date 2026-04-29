@@ -146,7 +146,6 @@ describe('logger', () => {
       FORCE_COLOR: process.env.FORCE_COLOR,
       NO_COLOR: process.env.NO_COLOR,
       TERM: process.env.TERM,
-      npm_config_argv: process.env.npm_config_argv,
     }
     const originalStdoutIsTTY = process.stdout.isTTY
 
@@ -194,11 +193,6 @@ describe('logger', () => {
       expect(configured.level).toBe('warn')
       expect(configured.size).toBe(12)
       expect(configured.disableTransport).toBe(false)
-
-      delete process.env.FaasLog
-      process.env.npm_config_argv = JSON.stringify({ original: ['--silent'] })
-      const silent = new Logger()
-      expect(silent.silent).toBe(true)
     } finally {
       if (typeof originalStdoutIsTTY === 'undefined') {
         delete (process.stdout as any).isTTY

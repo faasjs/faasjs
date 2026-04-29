@@ -496,12 +496,7 @@ export class Server {
 
     const srcRoot = resolve(this.root)
     const projectTsconfig = join(resolve(srcRoot, '..'), 'tsconfig.json')
-    const srcTsconfig = join(srcRoot, 'tsconfig.json')
-    const tsconfigPath = existsSync(projectTsconfig)
-      ? projectTsconfig
-      : existsSync(srcTsconfig)
-        ? srcTsconfig
-        : undefined
+    const tsconfigPath = existsSync(projectTsconfig) ? projectTsconfig : undefined
 
     const hookOptions: RegisterNodeModuleHooksOptions = {
       root: tsconfigPath ? dirname(tsconfigPath) : resolve(srcRoot, '..'),

@@ -15,11 +15,13 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Break] Stop reading the generic `x-request-id` request header; use `x-faasjs-request-id` for request id propagation.
   - [Break] Stop re-exporting `z` from `@faasjs/core`; import Zod directly from `zod` in APIs and templates.
   - [Break] Stop copying `NODE_ENV` into `FaasEnv` during `Server` construction; set `FaasEnv` explicitly when selecting a stage.
+  - [Break] Stop probing `src/tsconfig.json` next to the server root; keep runtime path aliases in the project `tsconfig.json`.
 
 - `@faasjs/jobs`
   - [Break] Remove the `autoStart` option from job worker and scheduler startup helpers; use `JobWorker` or `JobScheduler` directly for manual polling/ticking.
   - [Break] Remove the injected `client` from job events and handler data; call `getClient()` inside job handlers when database access is needed.
   - [Break] Stop using `NODE_ENV` as the job registry staging fallback; pass `staging` or set `FaasEnv` explicitly.
+  - [Break] Stop probing `src/tsconfig.json` when loading job modules; keep runtime path aliases in the project `tsconfig.json`.
   - [Feature] Add PostgreSQL-backed `.job.ts` background jobs with `defineJob`, `enqueueJob`, schema-inferred `params`, `startJobWorker`, `startJobScheduler`, retries, leases, idempotency keys, and cron enqueue dedupe.
 
 - `@faasjs/node-utils`
@@ -29,6 +31,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Break] Make `loadPackage()` return only the default export and remove its `defaultName` and `options` parameters; use `registerNodeModuleHooks()` for explicit root, tsconfig, or version overrides.
   - [Break] Stop resolving imports such as `./config.json` to shadow files such as `./config.json.ts`; use extensionless imports or the exact source filename.
   - [Break] Stop resolving the removed `@faasjs/http` plugin package alias to `@faasjs/core`; use plugin type `http` instead.
+  - [Break] Stop inferring logger silence from `npm_config_argv --silent`; control logging explicitly with logger options and FaasJS log env vars.
 
 - `@faasjs/dev`
   - [Break] Remove the `faas run` cwd fallback for resolving `@faasjs/node-utils/register-hooks`; the command now requires the CLI package path to resolve cleanly.

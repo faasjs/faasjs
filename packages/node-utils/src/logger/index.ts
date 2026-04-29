@@ -129,13 +129,6 @@ export class Logger {
     if (typeof process === 'undefined') return
 
     if (
-      !process.env.FaasLog &&
-      process.env.npm_config_argv &&
-      JSON.parse(process.env.npm_config_argv).original.includes('--silent')
-    )
-      this.silent = true
-
-    if (
       process.env.FaasLogTransport !== 'true' &&
       (process.env.VITEST || process.env.FaasLogTransport === 'false')
     )
