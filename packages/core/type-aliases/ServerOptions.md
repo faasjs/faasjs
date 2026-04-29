@@ -19,7 +19,8 @@ Write to the response to short-circuit normal request handling.
 #### Example
 
 ```ts
-const server = new Server(process.cwd(), {
+import { join } from 'node:path'
+const server = new Server(join(process.cwd(), 'src'), {
   beforeHandle: async (req, res) => {
     console.log(`Processing ${req.method} request to ${req.url}`)
 
@@ -57,7 +58,8 @@ Promise returned by the close hook.
 #### Example
 
 ```ts
-const server = new Server(process.cwd(), {
+import { join } from 'node:path'
+const server = new Server(join(process.cwd(), 'src'), {
   onClose: async ({ logger }) => {
     logger.info('Server closed')
   },
@@ -99,7 +101,8 @@ Promise returned by the error hook.
 #### Example
 
 ```ts
-const server = new Server(process.cwd(), {
+import { join } from 'node:path'
+const server = new Server(join(process.cwd(), 'src'), {
   onError: async (error, { logger }) => {
     logger.error(error)
   },
@@ -135,7 +138,8 @@ Promise returned by the start hook.
 #### Example
 
 ```ts
-const server = new Server(process.cwd(), {
+import { join } from 'node:path'
+const server = new Server(join(process.cwd(), 'src'), {
   onStart: async ({ logger }) => {
     logger.info('Server started')
   },

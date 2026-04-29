@@ -18,4 +18,4 @@ Middleware-scoped logger instance.
 
 > **root**: `string`
 
-Normalized project root provided by the server runtime.
+Normalized app source root provided by the server runtime.

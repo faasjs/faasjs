@@ -15,9 +15,10 @@ Server instances tracked by the current process.
 ## Example
 
 ```ts
+import { join } from 'node:path'
 import { Server, getAll } from '@faasjs/core'
 
-const server = new Server(process.cwd())
+const server = new Server(join(process.cwd(), 'src'))
 
 getAll().includes(server)
 ```

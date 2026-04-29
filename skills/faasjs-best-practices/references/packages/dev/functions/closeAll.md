@@ -15,9 +15,10 @@ Promise that resolves after all servers close.
 ## Example
 
 ```ts
+import { join } from 'node:path'
 import { Server, closeAll } from '@faasjs/core'
 
-const server = new Server(process.cwd())
+const server = new Server(join(process.cwd(), 'src'))
 server.listen()
 
 await closeAll()

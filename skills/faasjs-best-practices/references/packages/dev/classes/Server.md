@@ -2,7 +2,7 @@
 
 # Class: Server
 
-HTTP server that loads and runs FaasJS API files from a project root.
+HTTP server that loads and runs FaasJS API files from an app source root.
 
 A Server resolves API route files on demand, caches loaded handlers, and
 dispatches each request through the matching function lifecycle.
@@ -10,9 +10,10 @@ dispatches each request through the matching function lifecycle.
 ## Example
 
 ```ts
+import { join } from 'node:path'
 import { Server } from '@faasjs/core'
 
-const server = new Server(process.cwd(), {
+const server = new Server(join(process.cwd(), 'src'), {
   port: 8080,
 })
 
@@ -25,7 +26,7 @@ server.listen()
 
 > **new Server**(`root`, `opts?`): `Server`
 
-Create a server rooted at a FaasJS project directory.
+Create a server rooted at a FaasJS app source directory.
 
 #### Parameters
 
@@ -33,7 +34,7 @@ Create a server rooted at a FaasJS project directory.
 
 `string`
 
-Root directory used to resolve configuration and route files.
+App source root used to resolve configuration and route files.
 
 ##### opts?
 
@@ -165,4 +166,4 @@ Effective server options with defaults applied.
 
 > `readonly` **root**: `string`
 
-Normalized project root used to resolve route files.
+Normalized app source root used to resolve route files.

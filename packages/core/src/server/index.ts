@@ -68,7 +68,6 @@ function resolveEnvFilePath(root: string): string {
   const parentRoot = dirname(normalizedRoot)
 
   if (existsSync(join(normalizedRoot, 'faas.yaml'))) return join(parentRoot, '.env')
-  if (existsSync(join(parentRoot, 'src', 'faas.yaml'))) return join(parentRoot, '.env')
 
   return join(normalizedRoot, '.env')
 }
@@ -91,9 +90,10 @@ function loadServerEnvFile(root: string): void {
  *
  * @example
  * ```ts
+ * import { join } from 'node:path'
  * import { Server, getAll } from '@faasjs/core'
  *
- * const server = new Server(process.cwd())
+ * const server = new Server(join(process.cwd(), 'src'))
  *
  * getAll().includes(server)
  * ```
@@ -109,9 +109,10 @@ export function getAll(): Server[] {
  *
  * @example
  * ```ts
+ * import { join } from 'node:path'
  * import { Server, closeAll } from '@faasjs/core'
  *
- * const server = new Server(process.cwd())
+ * const server = new Server(join(process.cwd(), 'src'))
  * server.listen()
  *
  * await closeAll()
@@ -143,7 +144,8 @@ export type ServerOptions = {
    *
    * @example
    * ```ts
-   * const server = new Server(process.cwd(), {
+   * import { join } from 'node:path'
+   * const server = new Server(join(process.cwd(), 'src'), {
    *   onStart: async ({ logger }) => {
    *     logger.info('Server started')
    *   },
@@ -164,7 +166,8 @@ export type ServerOptions = {
    *
    * @example
    * ```ts
-   * const server = new Server(process.cwd(), {
+   * import { join } from 'node:path'
+   * const server = new Server(join(process.cwd(), 'src'), {
    *   onError: async (error, { logger }) => {
    *     logger.error(error)
    *   },
@@ -184,7 +187,8 @@ export type ServerOptions = {
    *
    * @example
    * ```ts
-   * const server = new Server(process.cwd(), {
+   * import { join } from 'node:path'
+   * const server = new Server(join(process.cwd(), 'src'), {
    *   onClose: async ({ logger }) => {
    *     logger.info('Server closed')
    *   },
@@ -200,7 +204,8 @@ export type ServerOptions = {
    *
    * @example
    * ```ts
-   * const server = new Server(process.cwd(), {
+   * import { join } from 'node:path'
+   * const server = new Server(join(process.cwd(), 'src'), {
    *   beforeHandle: async (req, res) => {
    *     console.log(`Processing ${req.method} request to ${req.url}`)
    *
@@ -213,16 +218,17 @@ export type ServerOptions = {
 }
 
 /**
- * HTTP server that loads and runs FaasJS API files from a project root.
+ * HTTP server that loads and runs FaasJS API files from an app source root.
  *
  * A {@link Server} resolves API route files on demand, caches loaded handlers, and
  * dispatches each request through the matching function lifecycle.
  *
  * @example
  * ```ts
+ * import { join } from 'node:path'
  * import { Server } from '@faasjs/core'
  *
- * const server = new Server(process.cwd(), {
+ * const server = new Server(join(process.cwd(), 'src'), {
  *   port: 8080,
  * })
  *
@@ -231,7 +237,7 @@ export type ServerOptions = {
  */
 export class Server {
   /**
-   * Normalized project root used to resolve route files.
+   * Normalized app source root used to resolve route files.
    */
   public readonly root: string
   /**
@@ -256,9 +262,9 @@ export class Server {
   private sockets: Set<Socket> = new Set()
 
   /**
-   * Create a server rooted at a FaasJS project directory.
+   * Create a server rooted at a FaasJS app source directory.
    *
-   * @param {string} root - Root directory used to resolve configuration and route files.
+   * @param {string} root - App source root used to resolve configuration and route files.
    * @param {ServerOptions} [opts] - Server configuration overrides.
    * @param {number} [opts.port] - Port used by `listen()`. Defaults to `3000`.
    * @param {ServerOptions['onStart']} [opts.onStart] - Async hook invoked after the server starts listening.

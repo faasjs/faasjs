@@ -31,7 +31,7 @@ export type MiddlewareEvent = {
  * Context shared with middleware handlers.
  *
  * @property {Logger} logger - Middleware-scoped logger instance.
- * @property {string} root - Normalized project root provided by the server runtime.
+ * @property {string} root - Normalized app source root provided by the server runtime.
  */
 export type MiddlewareContext = {
   logger: Logger
