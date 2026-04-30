@@ -41,7 +41,7 @@
     "@types/react-dom": "*",
     "@vitejs/plugin-react": "*",
     "@vitest/coverage-v8": "4.1.4",
-    "jsdom": "*",
+    "jsdom": "^29.1.1",
     "typescript": "*",
     "vite-plus": "*"
   },
