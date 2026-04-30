@@ -38,13 +38,13 @@
     "@faasjs/core": ">=8.0.0-beta.27",
     "@faasjs/node-utils": ">=8.0.0-beta.27",
     "@faasjs/pg": ">=8.0.0-beta.27",
-    "zod": ">=4.3.0"
+    "zod": ">=4.4.1"
   },
   "peerDependencies": {
     "@faasjs/core": ">=8.0.0-beta.27",
     "@faasjs/node-utils": ">=8.0.0-beta.27",
     "@faasjs/pg": ">=8.0.0-beta.27",
-    "zod": ">=4.3.0"
+    "zod": ">=4.4.1"
   },
   "engines": {
     "node": ">=24.0.0",

@@ -12,7 +12,7 @@
     "@faasjs/core": "file:../../packages/core",
     "@faasjs/node-utils": "file:../../packages/node-utils",
     "@faasjs/types": "file:../../packages/types",
-    "zod": ">=4.3.0"
+    "zod": ">=4.4.1"
   },
   "devDependencies": {
     "@faasjs/dev": "file:../../packages/dev",
