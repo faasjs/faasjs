@@ -59,14 +59,7 @@ const guidelineOrder = [
   'pg-testing',
 ]
 
-const specOrder = ['faas-yaml', 'http-protocol', 'plugin', 'routing-mapping']
-
-const pageSummaries: Record<string, string> = {
-  plugin:
-    'Defines plugin identity, lifecycle execution, config layering, and config-driven loading.',
-  'routing-mapping':
-    'Standardizes backend route mapping so file paths and request paths stay predictable.',
-}
+const pageSummaries: Record<string, string> = {}
 
 const zhPageSummaries: Record<string, string> = {
   'curated-stack':
@@ -97,10 +90,6 @@ const zhPageSummaries: Record<string, string> = {
     '如何使用时间戳 migrations、`SchemaBuilder`、`TableBuilder` 与事务性 schema 变更。',
   'pg-testing':
     '如何使用 `PgVitestPlugin()`、共享 `DATABASE_URL` 引导路径，并让运行时断言与 `expectTypeOf(...)` 配套。',
-  'faas-yaml': '`faas.yaml` 的发现顺序、合并规则、`server` 节点约定与支持的 YAML 子集。',
-  'http-protocol': 'FaasJS 请求与响应的默认 HTTP 约定，以及错误返回格式。',
-  plugin: '插件的标识、生命周期、配置合并与 `defineApi` 自动装载规则。',
-  'routing-mapping': 'Zero-Mapping 路由规则、查找顺序与 `.api.ts` 文件约束。',
 }
 
 const packageOrder = [
@@ -249,14 +238,6 @@ export function buildManifest(options: DocgenOptions = {}): DocsManifest {
     'docs/guidelines',
     guidelineOrder,
   )
-  const enSpecs = createPages(
-    root,
-    'spec',
-    'en',
-    'skills/faasjs-best-practices/references/specs/*.md',
-    'docs/specs',
-    specOrder,
-  )
   const zhGuidelines = createPages(
     root,
     'guideline',
@@ -265,17 +246,9 @@ export function buildManifest(options: DocgenOptions = {}): DocsManifest {
     'docs/zh/guidelines',
     guidelineOrder,
   )
-  const zhSpecs = createPages(
-    root,
-    'spec',
-    'zh',
-    'skills/faasjs-best-practices/locales/zh/specs/*.md',
-    'docs/zh/specs',
-    specOrder,
-  )
 
   return {
-    pages: [...enGuidelines, ...enSpecs, ...zhGuidelines, ...zhSpecs],
+    pages: [...enGuidelines, ...zhGuidelines],
     packages: sortByOrder(
       globSync('packages/*/package.json', { cwd: root })
         .map(packagePathFromPackageJson)
@@ -287,8 +260,7 @@ export function buildManifest(options: DocgenOptions = {}): DocsManifest {
   }
 }
 
-function rewriteSkillLinksForDocs(content: string, locale: ManifestLocale) {
-  const specsPrefix = locale === 'zh' ? '/zh/specs' : '/specs'
+function rewriteSkillLinksForDocs(content: string) {
   return content
     .replaceAll(
       /\.\.\/references\/packages\/([^/)]+)\/README\.md/g,
@@ -298,10 +270,6 @@ function rewriteSkillLinksForDocs(content: string, locale: ManifestLocale) {
       /\.\.\/references\/packages\/([^/)]+)\/([^/)]+)\/([^/)]+)\.md/g,
       (_match, packageName, group, name) => `/doc/${packageName}/${group}/${name}.html`,
     )
-    .replaceAll(
-      /\.\.\/references\/specs\/([^/)]+)\.md/g,
-      (_match, name) => `${specsPrefix}/${name}.html`,
-    )
 }
 
 function writeGeneratedPage(root: string, page: ManifestPage) {
@@ -309,7 +277,7 @@ function writeGeneratedPage(root: string, page: ManifestPage) {
   mkdirSync(dirname(outputPath), { recursive: true })
   writeFileSync(
     outputPath,
-    rewriteSkillLinksForDocs(readFileSync(join(root, page.sourcePath), 'utf8'), page.locale),
+    rewriteSkillLinksForDocs(readFileSync(join(root, page.sourcePath), 'utf8')),
   )
 }
 
@@ -321,7 +289,6 @@ function renderGuideIndex(manifest: DocsManifest, locale: ManifestLocale) {
   const guidelines = manifest.pages.filter(
     (page) => page.kind === 'guideline' && page.locale === locale,
   )
-  const specs = manifest.pages.filter((page) => page.kind === 'spec' && page.locale === locale)
   const mainPathSlugs = [
     'curated-stack',
     'project-config',
@@ -332,11 +299,10 @@ function renderGuideIndex(manifest: DocsManifest, locale: ManifestLocale) {
     'pg-query-builder',
     'pg-schema-and-migrations',
     'pg-testing',
-    'plugin',
     'application-slices',
   ]
   const mainPath = mainPathSlugs
-    .map((slug) => [...guidelines, ...specs].find((page) => page.slug === slug))
+    .map((slug) => guidelines.find((page) => page.slug === slug))
     .filter((page): page is ManifestPage => Boolean(page))
   const numberedMainPath = mainPath
     .map((page, index) => `${index + 1}. [${page.title}](${page.routePath})`)
@@ -344,9 +310,6 @@ function renderGuideIndex(manifest: DocsManifest, locale: ManifestLocale) {
   const summary = (page: ManifestPage) =>
     locale === 'zh' ? (zhPageSummaries[page.slug] ?? page.summary) : page.summary
   const guidelineList = guidelines
-    .map((page) => `- [${page.title}](${page.routePath}): ${summary(page)}`)
-    .join('\n')
-  const specList = specs
     .map((page) => `- [${page.title}](${page.routePath}): ${summary(page)}`)
     .join('\n')
   const packageList = manifest.packages
@@ -372,10 +335,6 @@ FaasJS 更重视完整应用切片，而不是 generator-heavy 工作流。一�
 
 ${guidelineList}
 
-## 规范
-
-${specList}
-
 ## API 文档
 
 - [文档总览](/doc/)
@@ -400,10 +359,6 @@ FaasJS favors complete application slices over generator-heavy workflows. A slic
 ## Guidelines
 
 ${guidelineList}
-
-## Specifications
-
-${specList}
 
 ## API Docs
 
@@ -458,51 +413,13 @@ export function buildApiDocs(options: BuildApiOptions = {}) {
   }
 }
 
-export function syncSkillReferences(options: DocgenOptions = {}) {
-  const root = repoRoot(options)
-  const referencesRoot = join(root, 'skills/faasjs-best-practices/references')
-  const mirroredPackagesRoot = join(referencesRoot, 'packages')
-
-  const files = [
-    'packages/README.md',
-    'packages/*/README.md',
-    'packages/*/classes/**/*.md',
-    'packages/*/functions/**/*.md',
-    'packages/*/interfaces/**/*.md',
-    'packages/*/modules/**/*.md',
-    'packages/*/type-aliases/**/*.md',
-    'packages/*/variables/**/*.md',
-  ]
-    .flatMap((pattern) => globSync(pattern, { cwd: root }))
-    .filter((file) => !file.startsWith('packages/docgen/'))
-    .sort((a, b) => a.localeCompare(b))
-
-  if (!files.length) {
-    throw new Error('No generated API markdown files found. Run `npm run doc` first.')
-  }
-
-  rmSync(mirroredPackagesRoot, { recursive: true, force: true })
-
-  for (const file of files) {
-    const source = join(root, file)
-    const destination = join(referencesRoot, file)
-
-    mkdirSync(dirname(destination), { recursive: true })
-    copyFileSync(source, destination)
-  }
-
-  console.log(`Synced ${files.length} markdown files to ${mirroredPackagesRoot}`)
-}
-
 export function prepareDocsSite(options: DocgenOptions = {}) {
   const root = repoRoot(options)
   const docsRoot = join(root, 'docs')
   const manifest = buildManifest({ root })
 
   rmSync(join(docsRoot, 'guidelines'), { recursive: true, force: true })
-  rmSync(join(docsRoot, 'specs'), { recursive: true, force: true })
   rmSync(join(docsRoot, 'zh/guidelines'), { recursive: true, force: true })
-  rmSync(join(docsRoot, 'zh/specs'), { recursive: true, force: true })
 
   for (const page of manifest.pages) writeGeneratedPage(root, page)
   writeGeneratedGuideIndex(root, manifest)
@@ -579,7 +496,6 @@ export function buildAllDocs(options: DocgenOptions = {}) {
   const root = repoRoot(options)
 
   buildApiDocs({ root })
-  syncSkillReferences({ root })
   prepareDocsSite({ root })
   run('vp check --fix', root)
 }
