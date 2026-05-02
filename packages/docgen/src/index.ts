@@ -422,11 +422,7 @@ export function buildApiDocs(options: BuildApiOptions = {}) {
     ? [`${options.packagePath.replace(/\/$/, '')}/package.json`]
     : globSync('packages/*/package.json', { cwd: root }).filter(
         (path: string) =>
-          ![
-            'packages/cli/package.json',
-            'packages/create-faas-app/package.json',
-            'packages/docgen/package.json',
-          ].includes(path),
+          !['packages/create-faas-app/package.json', 'packages/docgen/package.json'].includes(path),
       )
 
   for (const path of packageJsons) {
