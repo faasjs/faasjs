@@ -9,12 +9,15 @@ Before changing code, inspect nearby examples and read only the guides needed fo
 
 ### Agent Task Routing
 
+- New to FaasJS or starting a new project: read [Getting Started Guide](./guidelines/getting-started.md) first for a complete onboarding and project setup walkthrough.
 - New business feature or vertical slice: read [Application Slices Guide](./guidelines/application-slices.md), [File Conventions](./guidelines/file-conventions.md), then the relevant API, UI, PG, and testing guides below.
+- Implementing a standard list/detail/create/update/delete feature: read [CRUD Patterns Guide](./guidelines/crud-patterns.md) for the complete vertical slice pattern, then the [Ant Design Guide](./guidelines/ant-design.md), [defineApi Guide](./guidelines/define-api.md), and [React Data Fetching Guide](./guidelines/react-data-fetching.md) for deeper rules.
 - New or changed `.api.ts` endpoint: read [defineApi Guide](./guidelines/define-api.md) and [Testing Guide](./guidelines/testing.md); also read PG guides if the endpoint touches data.
 - New or changed `.job.ts` background job: read [Jobs Guide](./guidelines/jobs.md), [PG Query Builder and Raw SQL Guide](./guidelines/pg-query-builder.md), and [PG Testing Guide](./guidelines/pg-testing.md).
 - React UI or request-flow change: read [React Guide](./guidelines/react.md), [React Data Fetching Guide](./guidelines/react-data-fetching.md), and [React Testing Guide](./guidelines/react-testing.md); read [Ant Design Guide](./guidelines/ant-design.md) for `@faasjs/ant-design` surfaces.
 - Database schema, query, or type change: read [PG Schema and Migrations Guide](./guidelines/pg-schema-and-migrations.md), [PG Table Types Guide](./guidelines/pg-table-types.md), [PG Query Builder and Raw SQL Guide](./guidelines/pg-query-builder.md), and [PG Testing Guide](./guidelines/pg-testing.md).
 - Project tooling or config change: read [Project Config Guide](./guidelines/project-config.md) before editing `tsconfig.json`, `vite.config.ts`, or shared tool config.
+- CLI command or tooling question: read [CLI and Tooling Guide](./guidelines/cli-and-tooling.md) for command reference, error recovery, and environment variable details.
 - Docs, generated references, translations, navigation, or changelog: follow the repo-level documentation sync guide before editing derived docs.
 
 ## Global Rules
@@ -66,6 +69,7 @@ Before handoff, verify the smallest meaningful set for the change:
 
 ## Guidelines
 
+- [Getting Started Guide](./guidelines/getting-started.md): Covers the full setup, first feature walkthrough, project structure, key concepts, and daily workflow for new developers and new projects.
 - [Curated Stack Guide](./guidelines/curated-stack.md): Covers the Rails-inspired default stack, official React/Ant Design/PostgreSQL path, plugin extension boundaries, auth/permission scope, and replacement rules.
 - [Application Slices Guide](./guidelines/application-slices.md): Covers vertical UI/API/database/test slices, recommended file layout, agent workflow, and why FaasJS avoids generator-heavy development.
 - [Ant Design Guide](./guidelines/ant-design.md): Covers `@faasjs/ant-design` page structure, routing, CRUD composition, feature-local APIs, and UI feedback patterns.
@@ -73,6 +77,7 @@ Before handoff, verify the smallest meaningful set for the change:
 - [Code Comments Guide](./guidelines/code-comments.md): Covers package public JSDoc expectations, caller contract conventions, when shared app exports need docs, and how to explain non-standard code without narrating it line by line.
 - [Node Utils Guide](./guidelines/node-utils.md): Covers Node-only helpers for env/config loading, function and plugin bootstrapping, module loading, and shared logging.
 - [Project Config Guide](./guidelines/project-config.md): Covers how to keep `tsconfig.json`, `vite.config.ts`, and shared tooling config aligned with FaasJS defaults.
+- [CLI and Tooling Guide](./guidelines/cli-and-tooling.md): Covers the FaasJS CLI, Vite Plus commands, project scaffolding, migrations, type generation, testing, common errors, and environment variables.
 - [Testing Guide](./guidelines/testing.md): Covers shared testing principles such as choosing test level, keeping mock boundaries narrow, and avoiding unnecessary mocks.
 - [React Guide](./guidelines/react.md): Covers React component and hook patterns in FaasJS, especially avoiding native `useEffect` and handling non-primitive dependencies safely.
 - [React Data Fetching Guide](./guidelines/react-data-fetching.md): Covers when to use `useFaas`, `useFaasStream`, `faas`, or wrapper components, and how to handle loading, error, and retry states.
@@ -80,6 +85,7 @@ Before handoff, verify the smallest meaningful set for the change:
 - [defineApi Guide](./guidelines/define-api.md): Covers building `.api.ts` endpoints with `defineApi`, inline schemas, typed `params`, error handling, and validation expectations.
 - [Jobs Guide](./guidelines/jobs.md): Covers `.job.ts` files, `defineJob`, `enqueueJob`, workers, scheduler cron enqueueing, retries, idempotency, and testing.
 - [Logger Guide](./guidelines/logger.md): Covers when to reuse injected loggers versus creating `Logger` instances, how to choose log levels, and how to time slow operations.
+- [CRUD Patterns Guide](./guidelines/crud-patterns.md): Covers the complete CRUD vertical slice — shared items metadata, list/detail/create/update/delete patterns, testing, and agent efficiency tips for faster page generation.
 - [Utils Guide](./guidelines/utils.md): Covers portable helpers from `@faasjs/utils` for deep merging and converting text or JSON to and from streams.
 - [PG Query Builder and Raw SQL Guide](./guidelines/pg-query-builder.md): Covers preferring `QueryBuilder` clauses, choosing raw SQL fallbacks deliberately, keeping client bootstrap consistent, and narrowing row shapes intentionally.
 - [PG Table Types Guide](./guidelines/pg-table-types.md): Covers declaration merging on `Tables`, concrete row shapes, and keeping query inference aligned with table definitions.
