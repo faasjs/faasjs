@@ -29,7 +29,6 @@ test('testApi should infer body from defineApi schema', () => {
   assertType<Parameters<typeof testedApi>[0]>({ name: 'FaasJS', age: 1 })
   assertType<Parameters<typeof testedApi>[1]>({ path: '/hello' })
   assertType<Parameters<typeof testedApi>[1]>({ session: { userId: '1' } })
-
 })
 
 test('testApi should keep wide body type without schema', () => {

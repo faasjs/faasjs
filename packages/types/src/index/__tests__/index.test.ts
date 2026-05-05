@@ -90,7 +90,6 @@ test('InferFaasAction should infer schema params from defineApi', () => {
   assertType<InferredAction['Params']>({ key: 'key' })
   assertType<InferredAction['Params']>({ key: 'key', count: 1 })
 
-
   assertType<InferredAction['Data']>({ value: '' })
 })
 
