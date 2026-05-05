@@ -11,6 +11,7 @@
   ],
   "type": "module",
   "scripts": {
+    "lint": "vp check --fix *",
     "test": "vp test run",
     "ci": "vp test run --silent --coverage",
     "pub": "vp pack && vp run doc && node publish.ts",

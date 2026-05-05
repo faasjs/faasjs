@@ -25,8 +25,8 @@ jobs:
       - run: |
           vp install
           vp pack
-          vp check
-          vp run ci
+          npm run lint
+          npm run ci
       - uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
