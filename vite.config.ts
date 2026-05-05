@@ -199,4 +199,4 @@ export default defineConfig({
       },
     ],
   },
-} as UserConfig)
+} satisfies UserConfig)
