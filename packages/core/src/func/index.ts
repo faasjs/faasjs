@@ -20,7 +20,7 @@ import { RunHandler } from '../plugins/run_handler'
  * @param {Config} data.config - Resolved function configuration loaded during mount.
  * @returns {Promise<TResult>} Handler result that becomes the function response.
  */
-export type Handler<TEvent = any, TContext = any, TResult = any> = (
+export type Handler<TEvent = unknown, TContext = unknown, TResult = unknown> = (
   data: InvokeData<TEvent, TContext>,
 ) => Promise<TResult>
 
@@ -105,8 +105,8 @@ export type MountData = {
 type MutableMountData = {
   [key: string]: any
   config?: Config
-  event?: any
-  context?: any
+  event?: unknown
+  context?: unknown
   logger?: Logger
 }
 
@@ -165,7 +165,7 @@ type CachedFunction = {
  * @template T - Func instance whose event type should be extracted.
  */
 export type FuncEventType<T extends Func<any, any, any>> =
-  T extends Func<infer P, any, any> ? P : any
+  T extends Func<infer P, any, any> ? P : unknown
 
 /**
  * Get the return type of a func.
@@ -173,7 +173,7 @@ export type FuncEventType<T extends Func<any, any, any>> =
  * @template T - Func instance whose return type should be extracted.
  */
 export type FuncReturnType<T extends Func<any, any, any>> =
-  T extends Func<any, any, infer R> ? R : any
+  T extends Func<any, any, infer R> ? R : unknown
 
 /**
  * Extract a `.api.ts` file path from a captured stack trace.
@@ -438,7 +438,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 
     try {
       await this.compose('onInvoke')(data)
-    } catch (error: any) {
+    } catch (error: unknown) {
       data.logger.error(error)
       data.response = error
     }

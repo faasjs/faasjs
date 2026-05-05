@@ -39,7 +39,7 @@ export type FaasActionPaths = Extract<keyof FaasActions, string>
 /**
  * Union type accepted by action helpers when callers pass either an action path or inferred data shape.
  */
-export type FaasActionUnionType = Record<string, any> | string
+export type FaasActionUnionType = Record<string, unknown> | string
 
 /**
  * Infer the action path type.
@@ -49,16 +49,16 @@ export type FaasActionUnionType = Record<string, any> | string
  *
  * @template T - Candidate action path type.
  */
-export type FaasAction<T = any> = T extends FaasActionPaths ? T : string
+export type FaasAction<T = unknown> = T extends FaasActionPaths ? T : string
 
 /**
  * Infer params type by action path.
  *
  * @template T - Candidate action path type.
  */
-export type FaasParams<T = any> = T extends FaasActionPaths
+export type FaasParams<T = unknown> = T extends FaasActionPaths
   ? FaasActions[T]['Params']
-  : Record<string, any>
+  : Record<string, unknown>
 
 /**
  * Infer response data type by action path.
@@ -67,11 +67,11 @@ export type FaasParams<T = any> = T extends FaasActionPaths
  *
  * @template T - Candidate action path or response data type.
  */
-export type FaasData<T = any> = T extends FaasActionPaths
+export type FaasData<T = unknown> = T extends FaasActionPaths
   ? FaasActions[T]['Data']
-  : T extends Record<string, any>
+  : T extends Record<string, unknown>
     ? T
-    : Record<string, any>
+    : Record<string, unknown>
 
 /**
  * Infer the FaasAction type from a Func.
@@ -86,7 +86,7 @@ export type InferFaasAction<TApi> = TApi extends {
   ? {
       Params: NonNullable<TEvent> extends { params?: infer TParams }
         ? NonNullable<TParams>
-        : Record<string, any>
+        : Record<string, unknown>
       Data: TData
     }
   : never

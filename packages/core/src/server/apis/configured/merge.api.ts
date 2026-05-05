@@ -15,7 +15,7 @@ const api = defineApi({
     return {
       http: config.plugins?.http,
       shared: config.plugins?.shared,
-      sharedLoaded: context.sharedLoaded,
+      sharedLoaded: (context as Record<string, unknown>).sharedLoaded,
     }
   },
 })

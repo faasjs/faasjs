@@ -112,7 +112,7 @@ describe('FaasDataWrapper', () => {
         polling={20}
         render={({ data, loading, refreshing }) => (
           <>
-            <div>data:{data?.value}</div>
+            <div>data:{String(data?.value)}</div>
             <div>loading:{String(loading)}</div>
             <div>refreshing:{String(refreshing)}</div>
           </>
