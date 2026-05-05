@@ -40,7 +40,9 @@
     "@types/react": "*",
     "@types/react-dom": "*",
     "@vitejs/plugin-react": "*",
-    "@vitest/coverage-v8": "4.1.4",
+    "@vitest/coverage-v8": "4.1.5",
+    "@voidzero-dev/vite-plus-core": "*",
+    "@voidzero-dev/vite-plus-test": "*",
     "jsdom": "*",
     "typescript": "*",
     "vite-plus": "*"
@@ -56,7 +58,9 @@
     "@types/react": "*",
     "@types/react-dom": "*",
     "@vitejs/plugin-react": "*",
-    "@vitest/coverage-v8": "4.1.4",
+    "@vitest/coverage-v8": "4.1.5",
+    "@voidzero-dev/vite-plus-core": "*",
+    "@voidzero-dev/vite-plus-test": "*",
     "jsdom": "*",
     "typescript": "*",
     "vite-plus": "*"

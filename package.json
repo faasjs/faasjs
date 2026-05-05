@@ -18,9 +18,6 @@
     "clean": "rimraf packages/*/node_modules packages/*/dist coverage packages/*/*.log tmp *.log",
     "prepare": "vp config"
   },
-  "devDependencies": {
-    "vite-plus": "*"
-  },
   "overrides": {
     "vite": "npm:@voidzero-dev/vite-plus-core",
     "vitest": "npm:@voidzero-dev/vite-plus-test"
