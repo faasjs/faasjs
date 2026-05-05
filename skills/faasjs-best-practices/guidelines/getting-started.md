@@ -8,7 +8,7 @@ FaasJS is a Rails-inspired, curated full-stack TypeScript framework for database
 
 Before starting, make sure your environment meets these requirements:
 
-- **Node.js** >= 20.x — FaasJS relies on modern Node features including native TypeScript module loading.
+- **Node.js** >= 24.x — FaasJS relies on modern Node features including native TypeScript module loading.
 - **npm** >= 9.x — used for dependency management and scaffolding.
 - **PostgreSQL** >= 14.x — FaasJS uses PostgreSQL as its relational data store (via `@faasjs/pg`). A running local instance or Docker container is required for database features and integration tests.
 - **Basic TypeScript knowledge** — FaasJS is TypeScript-first. You should be comfortable with types, interfaces, and module imports.
@@ -16,7 +16,7 @@ Before starting, make sure your environment meets these requirements:
 Verify your environment:
 
 ```bash
-node --version   # >= 20.x
+node --version   # >= 24.x
 npm --version    # >= 9.x
 psql --version   # >= 14.x
 ```
