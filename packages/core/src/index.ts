@@ -27,11 +27,11 @@ export * from './utils'
 type IsAny<T> = 0 extends 1 & T ? true : false
 type DefineApiEventParams<TSchema extends ZodType | undefined = undefined> = SchemaOutput<
   TSchema,
-  Record<string, any>
+  Record<string, unknown>
 >
-type DefineApiEvent<TSchema extends ZodType | undefined = undefined, TEvent = any> =
+type DefineApiEvent<TSchema extends ZodType | undefined = undefined, TEvent = Record<string, unknown>> =
   IsAny<TEvent> extends true
-    ? Record<string, any> & {
+    ? Record<string, unknown> & {
         params?: DefineApiEventParams<TSchema>
       }
     : TEvent
@@ -49,9 +49,9 @@ type DefineApiEvent<TSchema extends ZodType | undefined = undefined, TEvent = an
  */
 export type DefineApiData<
   TSchema extends ZodType | undefined = undefined,
-  TEvent = any,
-  TContext = any,
-  TResult = any,
+  TEvent = unknown,
+  TContext = unknown,
+  TResult = unknown,
 > = InvokeData<TEvent, TContext, TResult> & {
   /**
    * Params validated by the optional Zod schema.
@@ -85,9 +85,9 @@ export interface DefineApiInject extends Record<never, never> {}
  */
 export type DefineApiOptions<
   TSchema extends ZodType | undefined = undefined,
-  TEvent = any,
-  TContext = any,
-  TResult = any,
+  TEvent = unknown,
+  TContext = unknown,
+  TResult = unknown,
 > = {
   /**
    * Optional Zod schema used to validate `event.params`.
@@ -135,8 +135,8 @@ export type DefineApiOptions<
  */
 export function defineApi<
   TSchema extends ZodType | undefined = undefined,
-  TEvent = any,
-  TContext = any,
+  TEvent = unknown,
+  TContext = unknown,
   THandler extends (data: DefineApiData<TSchema, TEvent, TContext, any>) => Promise<any> = (
     data: DefineApiData<TSchema, TEvent, TContext, any>,
   ) => Promise<any>,
@@ -162,7 +162,7 @@ export function defineApi<
 
     const params = (await parseSchemaValue<TSchema>({
       schema: options.schema,
-      value: (data.event as any)?.params,
+      value: (data.event as Record<string, unknown>)?.params,
       errorMessage: 'Invalid params',
       createError: (message) =>
         new HttpError({

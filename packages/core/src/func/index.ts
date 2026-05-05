@@ -20,7 +20,7 @@ import { RunHandler } from '../plugins/run_handler'
  * @param {Config} data.config - Resolved function configuration loaded during mount.
  * @returns {Promise<TResult>} Handler result that becomes the function response.
  */
-export type Handler<TEvent = any, TContext = any, TResult = any> = (
+export type Handler<TEvent = unknown, TContext = unknown, TResult = unknown> = (
   data: InvokeData<TEvent, TContext>,
 ) => Promise<TResult>
 
@@ -40,7 +40,7 @@ export type Next = () => Promise<void>
  * @param {TContext} [context] - Runtime context object.
  * @returns {Promise<TResult>} Final function response.
  */
-export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
+export type ExportedHandler<TEvent = unknown, TContext = unknown, TResult = unknown> = (
   event?: TEvent,
   context?: TContext,
 ) => Promise<TResult>
@@ -105,8 +105,8 @@ export type MountData = {
 type MutableMountData = {
   [key: string]: any
   config?: Config
-  event?: any
-  context?: any
+  event?: unknown
+  context?: unknown
   logger?: Logger
 }
 
@@ -124,7 +124,7 @@ type MutableMountData = {
  * @property {Handler<TEvent, TContext, TResult>} [handler] - Final business handler when one exists.
  * @property {Config} config - Resolved function configuration.
  */
-export type InvokeData<TEvent = any, TContext = any, TResult = any> = {
+export type InvokeData<TEvent = unknown, TContext = unknown, TResult = unknown> = {
   [key: string]: any
   event: TEvent
   context: TContext
@@ -149,14 +149,14 @@ export type LifeCycleKey = 'onMount' | 'onInvoke'
  * @property {Plugin[]} [plugins] - Ordered plugin list to attach before the run handler.
  * @property {Handler<TEvent, TContext, TResult>} [handler] - Final business handler invoked after plugins complete.
  */
-export type FuncConfig<TEvent = any, TContext = any, TResult = any> = {
+export type FuncConfig<TEvent = unknown, TContext = unknown, TResult = unknown> = {
   plugins?: Plugin[]
   handler?: Handler<TEvent, TContext, TResult>
 }
 
 type CachedFunction = {
   key: string
-  handler: (...args: any) => void
+  handler: (...args: unknown) => void
 }
 
 /**
@@ -165,7 +165,7 @@ type CachedFunction = {
  * @template T - Func instance whose event type should be extracted.
  */
 export type FuncEventType<T extends Func<any, any, any>> =
-  T extends Func<infer P, any, any> ? P : any
+  T extends Func<infer P, any, any> ? P : unknown
 
 /**
  * Get the return type of a func.
@@ -173,7 +173,7 @@ export type FuncEventType<T extends Func<any, any, any>> =
  * @template T - Func instance whose return type should be extracted.
  */
 export type FuncReturnType<T extends Func<any, any, any>> =
-  T extends Func<any, any, infer R> ? R : any
+  T extends Func<any, any, infer R> ? R : unknown
 
 /**
  * Extract a `.api.ts` file path from a captured stack trace.
@@ -269,7 +269,7 @@ function normalizeMountData(
  * const result = await func.export().handler({ name: 'FaasJS' })
  * ```
  */
-export class Func<TEvent = any, TContext = any, TResult = any> {
+export class Func<TEvent = unknown, TContext = unknown, TResult = unknown> {
   [key: string]: any
   /**
    * Ordered plugin instances attached to this function.
@@ -438,7 +438,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 
     try {
       await this.compose('onInvoke')(data)
-    } catch (error: any) {
+    } catch (error: unknown) {
       data.logger.error(error)
       data.response = error
     }

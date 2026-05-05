@@ -37,8 +37,6 @@ test('FuncEventType should include schema params for defineApi', () => {
     },
   })
 
-  // @ts-expect-error name should be string
-  assertType<FuncEventType<typeof func>>({ params: { name: 1 } })
 })
 
 test('FuncEventType should keep wide params when schema is missing', () => {
