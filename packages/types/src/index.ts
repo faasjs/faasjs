@@ -80,7 +80,7 @@ export type FaasData<T = unknown> = T extends FaasActionPaths
  */
 export type InferFaasAction<TApi> = TApi extends {
   export: () => {
-    handler: (event?: infer TEvent, ...args: unknown[]) => Promise<infer TData>
+    handler: (event?: infer TEvent, ...args: any[]) => Promise<infer TData>
   }
 }
   ? {
@@ -99,7 +99,7 @@ export type InferFaasAction<TApi> = TApi extends {
 export type InferFaasApi<TModule> = TModule extends { default: infer TApi }
   ? TApi extends {
       export: () => {
-        handler: (...args: unknown[]) => unknown
+        handler: (...args: any[]) => any
       }
     }
     ? TApi

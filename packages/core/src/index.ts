@@ -52,7 +52,7 @@ type DefineApiEvent<
  */
 export type DefineApiData<
   TSchema extends ZodType | undefined = undefined,
-  TEvent = unknown,
+  TEvent = Record<string, unknown>,
   TContext = unknown,
   TResult = unknown,
 > = InvokeData<TEvent, TContext, TResult> & {
@@ -88,7 +88,7 @@ export interface DefineApiInject extends Record<never, never> {}
  */
 export type DefineApiOptions<
   TSchema extends ZodType | undefined = undefined,
-  TEvent = unknown,
+  TEvent = Record<string, unknown>,
   TContext = unknown,
   TResult = unknown,
 > = {
@@ -138,7 +138,7 @@ export type DefineApiOptions<
  */
 export function defineApi<
   TSchema extends ZodType | undefined = undefined,
-  TEvent = unknown,
+  TEvent = Record<string, unknown>,
   TContext = unknown,
   THandler extends (data: DefineApiData<TSchema, TEvent, TContext, any>) => Promise<any> = (
     data: DefineApiData<TSchema, TEvent, TContext, any>,

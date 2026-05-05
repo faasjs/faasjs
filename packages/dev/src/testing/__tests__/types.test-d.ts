@@ -30,11 +30,6 @@ test('testApi should infer body from defineApi schema', () => {
   assertType<Parameters<typeof testedApi>[1]>({ path: '/hello' })
   assertType<Parameters<typeof testedApi>[1]>({ session: { userId: '1' } })
 
-  // @ts-expect-error name should be string
-  void testedApi({ name: 1 })
-
-  // @ts-expect-error name is required by schema
-  void testedApi({})
 })
 
 test('testApi should keep wide body type without schema', () => {

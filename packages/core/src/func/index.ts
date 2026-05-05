@@ -40,7 +40,7 @@ export type Next = () => Promise<void>
  * @param {TContext} [context] - Runtime context object.
  * @returns {Promise<TResult>} Final function response.
  */
-export type ExportedHandler<TEvent = unknown, TContext = unknown, TResult = unknown> = (
+export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
   event?: TEvent,
   context?: TContext,
 ) => Promise<TResult>
@@ -124,7 +124,7 @@ type MutableMountData = {
  * @property {Handler<TEvent, TContext, TResult>} [handler] - Final business handler when one exists.
  * @property {Config} config - Resolved function configuration.
  */
-export type InvokeData<TEvent = unknown, TContext = unknown, TResult = unknown> = {
+export type InvokeData<TEvent = any, TContext = any, TResult = any> = {
   [key: string]: any
   event: TEvent
   context: TContext
@@ -149,14 +149,14 @@ export type LifeCycleKey = 'onMount' | 'onInvoke'
  * @property {Plugin[]} [plugins] - Ordered plugin list to attach before the run handler.
  * @property {Handler<TEvent, TContext, TResult>} [handler] - Final business handler invoked after plugins complete.
  */
-export type FuncConfig<TEvent = unknown, TContext = unknown, TResult = unknown> = {
+export type FuncConfig<TEvent = any, TContext = any, TResult = any> = {
   plugins?: Plugin[]
   handler?: Handler<TEvent, TContext, TResult>
 }
 
 type CachedFunction = {
   key: string
-  handler: (...args: unknown) => void
+  handler: (...args: any) => void
 }
 
 /**
@@ -269,7 +269,7 @@ function normalizeMountData(
  * const result = await func.export().handler({ name: 'FaasJS' })
  * ```
  */
-export class Func<TEvent = unknown, TContext = unknown, TResult = unknown> {
+export class Func<TEvent = any, TContext = any, TResult = any> {
   [key: string]: any
   /**
    * Ordered plugin instances attached to this function.
