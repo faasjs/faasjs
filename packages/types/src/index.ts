@@ -1,4 +1,6 @@
 /**
+ * # @faasjs/types
+ *
  * Action Type definitions for FaasJS and cross backend and frontend.
  *
  * [![License: MIT](https://img.shields.io/npm/l/@faasjs/types.svg)](https://github.com/faasjs/faasjs/blob/main/packages/types/LICENSE)

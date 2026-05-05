@@ -1,4 +1,6 @@
 /**
+ * # @faasjs/core
+ *
  * FaasJS core package.
  *
  * [![License: MIT](https://img.shields.io/npm/l/@faasjs/core.svg)](https://github.com/faasjs/faasjs/blob/main/packages/core/LICENSE)

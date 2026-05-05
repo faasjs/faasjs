@@ -4,6 +4,8 @@
 
 > **JobRegistry** = `Map`\<`string`, [`Job`](../classes/Job.md)\<`any`, `any`, `any`\>\>
 
+# @faasjs/jobs
+
 PostgreSQL-backed background jobs for FaasJS.
 
 ## Install

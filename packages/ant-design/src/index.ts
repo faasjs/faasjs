@@ -1,4 +1,6 @@
 /**
+ * # @faasjs/ant-design
+ *
  * React UI primitives and data-aware helpers for building FaasJS applications with Ant Design.
  *
  * `@faasjs/ant-design` combines FaasJS request helpers, Ant Design components, and optional

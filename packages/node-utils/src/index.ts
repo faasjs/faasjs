@@ -1,4 +1,6 @@
 /**
+ * # @faasjs/node-utils
+ *
  * FaasJS utilities for Node.js runtimes and local development workflows.
  *
  * The package bundles logging helpers, transport primitives, `faas.yaml`

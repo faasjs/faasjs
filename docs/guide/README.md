@@ -17,8 +17,7 @@ Read these guides in order when starting a new feature or asking an AI coding ag
 7. [PG Query Builder and Raw SQL Guide](/guidelines/pg-query-builder.html)
 8. [PG Schema and Migrations Guide](/guidelines/pg-schema-and-migrations.html)
 9. [PG Testing Guide](/guidelines/pg-testing.html)
-10. [Plugin Specification](/specs/plugin.html)
-11. [Application Slices Guide](/guidelines/application-slices.html)
+10. [Application Slices Guide](/guidelines/application-slices.html)
 
 FaasJS favors complete application slices over generator-heavy workflows. A slice should keep UI, API, validation, database changes, and tests easy to find, review, and modify together.
 
@@ -43,13 +42,9 @@ FaasJS favors complete application slices over generator-heavy workflows. A slic
 - [PG Table Types Guide](/guidelines/pg-table-types.html): When implementing or reviewing `@faasjs/pg` table typing, default to declaration merging on `Tables`.
 - [PG Schema and Migrations Guide](/guidelines/pg-schema-and-migrations.html): When implementing or reviewing DDL with `@faasjs/pg`, default to `SchemaBuilder`, `TableBuilder`, and timestamped migration files.
 - [PG Testing Guide](/guidelines/pg-testing.html): When changing `@faasjs/pg`-backed code, every behavior change should come with runtime tests, and type-sensitive surface changes should come with `expectTypeOf(...)` coverage.
-
-## Specifications
-
-- [faas.yaml Configuration Specification](/specs/faas-yaml.html): `faas.yaml` is the runtime configuration entry used by FaasJS config loading, local dev server resolution, and type generation.
-- [HTTP Protocol Specification](/specs/http-protocol.html): FaasJS request/response guidance is spread across multiple locations. This spec defines a single internal baseline for transport behavior.
-- [Plugin Specification](/specs/plugin.html): Defines plugin identity, lifecycle execution, config layering, and config-driven loading.
-- [Routing Mapping Specification](/specs/routing-mapping.html): Standardizes backend route mapping so file paths and request paths stay predictable.
+- [CLI and Tooling Guide](/guidelines/cli-and-tooling.html): Use this guide when running CLI commands, troubleshooting command errors, or choosing the right tool for the task. It is a quick-reference for the FaasJS toolchain to reduce command-execution mistakes.
+- [CRUD Patterns Guide](/guidelines/crud-patterns.html): Use this guide when implementing or reviewing a standard CRUD feature — list, detail, create, update, delete — in a FaasJS application. It covers the full vertical slice from API endpoints to React pages.
+- [Getting Started Guide](/guidelines/getting-started.html): Use this guide when starting a new FaasJS project or onboarding a new developer to an existing FaasJS codebase. It walks through the full setup, first feature, and daily workflow so both humans and AI coding agents can get productive quickly.
 
 ## API Docs
 

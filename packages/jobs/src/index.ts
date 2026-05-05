@@ -1,4 +1,6 @@
 /**
+ * # @faasjs/jobs
+ *
  * PostgreSQL-backed background jobs for FaasJS.
  *
  * ## Install

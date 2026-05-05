@@ -1,5 +1,5 @@
 /**
- * @faasjs/pg package.
+ * # @faasjs/pg
  *
  * A TypeScript-first PostgreSQL query builder and migration toolkit built on top of `postgres.js`.
  *

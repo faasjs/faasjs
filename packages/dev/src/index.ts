@@ -1,4 +1,6 @@
 /**
+ * # @faasjs/dev
+ *
  * FaasJS development toolkit for local servers, generated route types, and test helpers.
  *
  * [![License: MIT](https://img.shields.io/npm/l/@faasjs/dev.svg)](https://github.com/faasjs/faasjs/blob/main/packages/dev/LICENSE)

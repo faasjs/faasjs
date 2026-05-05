@@ -13,6 +13,6 @@ otherwise falls back to `string`.
 
 ### T
 
-`T` = `any`
+`T` = `unknown`
 
 Candidate action path type.

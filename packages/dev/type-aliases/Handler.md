@@ -10,19 +10,19 @@ User-defined handler executed after plugins have prepared invoke data.
 
 ### TEvent
 
-`TEvent` = `any`
+`TEvent` = `unknown`
 
 Runtime event type.
 
 ### TContext
 
-`TContext` = `any`
+`TContext` = `unknown`
 
 Runtime context type.
 
 ### TResult
 
-`TResult` = `any`
+`TResult` = `unknown`
 
 Async result type returned by the handler.
 

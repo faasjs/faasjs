@@ -16,19 +16,19 @@ Zod schema used to validate `event.params`.
 
 ### TEvent
 
-`TEvent` = `any`
+`TEvent` = `Record`\<`string`, `unknown`\>
 
 Raw event type passed to the function.
 
 ### TContext
 
-`TContext` = `any`
+`TContext` = `unknown`
 
 Runtime context type.
 
 ### TResult
 
-`TResult` = `any`
+`TResult` = `unknown`
 
 Handler return type.
 

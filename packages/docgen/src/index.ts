@@ -1,3 +1,9 @@
+/**
+ * # @faasjs/docgen
+ *
+ * Documentation generation utilities for FaasJS, including API docs from TypeScript types and best practice guidelines.
+ */
+
 import { execSync } from 'node:child_process'
 import {
   copyFileSync,
