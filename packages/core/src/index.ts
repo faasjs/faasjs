@@ -11,30 +11,33 @@
  * ```
  */
 
-import { parseSchemaValue, type SchemaOutput } from '@faasjs/node-utils'
-import type { ZodType } from 'zod'
+import { parseSchemaValue, type SchemaOutput } from "@faasjs/node-utils";
+import type { ZodType } from "zod";
 
-import type { Handler, InvokeData } from './func'
-import { Func } from './func'
-import { HttpError, type Cookie, type Session } from './plugins/http'
+import type { Handler, InvokeData } from "./func";
+import { Func } from "./func";
+import { HttpError, type Cookie, type Session } from "./plugins/http";
 
-export * from './func'
-export * from './plugins/http'
-export * from './middleware'
-export * from './server'
-export * from './utils'
+export * from "./func";
+export * from "./plugins/http";
+export * from "./middleware";
+export * from "./server";
+export * from "./utils";
 
-type IsAny<T> = 0 extends 1 & T ? true : false
+type IsAny<T> = 0 extends 1 & T ? true : false;
 type DefineApiEventParams<TSchema extends ZodType | undefined = undefined> = SchemaOutput<
   TSchema,
   Record<string, unknown>
->
-type DefineApiEvent<TSchema extends ZodType | undefined = undefined, TEvent = Record<string, unknown>> =
+>;
+type DefineApiEvent<
+  TSchema extends ZodType | undefined = undefined,
+  TEvent = Record<string, unknown>,
+> =
   IsAny<TEvent> extends true
     ? Record<string, unknown> & {
-        params?: DefineApiEventParams<TSchema>
+        params?: DefineApiEventParams<TSchema>;
       }
-    : TEvent
+    : TEvent;
 
 /**
  * Handler data passed to {@link defineApi}.
@@ -56,16 +59,16 @@ export type DefineApiData<
   /**
    * Params validated by the optional Zod schema.
    */
-  params: SchemaOutput<TSchema, Record<string, never>>
+  params: SchemaOutput<TSchema, Record<string, never>>;
   /**
    * Cookie helper injected by the HTTP plugin.
    */
-  cookie: Cookie
+  cookie: Cookie;
   /**
    * Session helper injected by the HTTP plugin.
    */
-  session: Session
-} & DefineApiInject
+  session: Session;
+} & DefineApiInject;
 
 /**
  * API data augmentation map.
@@ -92,12 +95,12 @@ export type DefineApiOptions<
   /**
    * Optional Zod schema used to validate `event.params`.
    */
-  schema?: TSchema
+  schema?: TSchema;
   /**
    * Async business handler executed after plugin and schema setup.
    */
-  handler: (data: DefineApiData<TSchema, TEvent, TContext, TResult>) => Promise<TResult>
-}
+  handler: (data: DefineApiData<TSchema, TEvent, TContext, TResult>) => Promise<TResult>;
+};
 
 /**
  * Create an HTTP API function with optional Zod validation.
@@ -143,46 +146,46 @@ export function defineApi<
 >(
   options: Omit<
     DefineApiOptions<TSchema, TEvent, TContext, Awaited<ReturnType<THandler>>>,
-    'handler'
+    "handler"
   > & {
-    handler: THandler
+    handler: THandler;
   },
 ): Func<DefineApiEvent<TSchema, TEvent>, TContext, Awaited<ReturnType<THandler>>> {
-  type Event = DefineApiEvent<TSchema, TEvent>
-  type Result = Awaited<ReturnType<THandler>>
+  type Event = DefineApiEvent<TSchema, TEvent>;
+  type Result = Awaited<ReturnType<THandler>>;
 
-  let api: Func<Event, TContext, Result>
-  type Params = DefineApiData<TSchema, TEvent, TContext, Result>['params']
+  let api: Func<Event, TContext, Result>;
+  type Params = DefineApiData<TSchema, TEvent, TContext, Result>["params"];
 
   const invokeHandler: Handler<Event, TContext, Result> = async (data) => {
-    if (!api.plugins.some((plugin) => plugin.type === 'http'))
+    if (!api.plugins.some((plugin) => plugin.type === "http"))
       throw Error(
         '[defineApi] Missing required "http" plugin. Please configure it in faas.yaml or inject it in code.',
-      )
+      );
 
     const params = (await parseSchemaValue<TSchema>({
       schema: options.schema,
       value: (data.event as Record<string, unknown>)?.params,
-      errorMessage: 'Invalid params',
+      errorMessage: "Invalid params",
       createError: (message) =>
         new HttpError({
           statusCode: 400,
           message,
         }),
-    })) as Params
+    })) as Params;
 
     const invokeData = {
       ...data,
       params,
-    } as DefineApiData<TSchema, TEvent, TContext, Result>
+    } as DefineApiData<TSchema, TEvent, TContext, Result>;
 
-    return options.handler(invokeData)
-  }
+    return options.handler(invokeData);
+  };
 
   api = new Func<Event, TContext, Result>({
     plugins: [],
     handler: invokeHandler,
-  })
+  });
 
-  return api
+  return api;
 }
