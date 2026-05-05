@@ -53,12 +53,12 @@ If no candidate file is found, the request is considered not found.
 
 ## Examples
 
-| File                              | Route                                |
-| --------------------------------- | ------------------------------------ |
-| `src/pages/todo/api/list.api.ts`  | `POST /pages/todo/api/list`          |
-| `src/pages/todo/api/index.api.ts` | `POST /pages/todo/api`               |
-| `src/pages/todo/default.api.ts`   | fallback for `/pages/todo/*`         |
-| `src/pages/default.api.ts`        | fallback for unmatched `/pages/*`    |
+| File                              | Route                             |
+| --------------------------------- | --------------------------------- |
+| `src/pages/todo/api/list.api.ts`  | `POST /pages/todo/api/list`       |
+| `src/pages/todo/api/index.api.ts` | `POST /pages/todo/api`            |
+| `src/pages/todo/default.api.ts`   | fallback for `/pages/todo/*`      |
+| `src/pages/default.api.ts`        | fallback for unmatched `/pages/*` |
 
 API fallback example:
 

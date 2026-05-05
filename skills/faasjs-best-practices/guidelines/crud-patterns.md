@@ -20,23 +20,23 @@ Apply the [Application Slices Guide](./application-slices.md), [Ant Design Guide
 
 ### API Endpoint Mapping
 
-| Action   | API File                          | Route                                        | Method | Params                                    |
-|----------|-----------------------------------|----------------------------------------------|--------|-------------------------------------------|
-| List     | `api/list.api.ts`                 | `POST /pages/<feature>/api/list`             | post   | Filters, pagination                       |
-| Detail   | `api/detail.api.ts`               | `POST /pages/<feature>/api/detail`           | post   | `{ id }`                                  |
-| Create   | `api/create.api.ts`               | `POST /pages/<feature>/api/create`           | post   | Business fields                           |
-| Update   | `api/update.api.ts`               | `POST /pages/<feature>/api/update`           | post   | `{ id, ...fields }`                       |
-| Remove   | `api/remove.api.ts`               | `POST /pages/<feature>/api/remove`           | post   | `{ id }`                                  |
+| Action | API File            | Route                              | Method | Params              |
+| ------ | ------------------- | ---------------------------------- | ------ | ------------------- |
+| List   | `api/list.api.ts`   | `POST /pages/<feature>/api/list`   | post   | Filters, pagination |
+| Detail | `api/detail.api.ts` | `POST /pages/<feature>/api/detail` | post   | `{ id }`            |
+| Create | `api/create.api.ts` | `POST /pages/<feature>/api/create` | post   | Business fields     |
+| Update | `api/update.api.ts` | `POST /pages/<feature>/api/update` | post   | `{ id, ...fields }` |
+| Remove | `api/remove.api.ts` | `POST /pages/<feature>/api/remove` | post   | `{ id }`            |
 
 ### File Naming Convention
 
-| Layer       | Convention                          | Example                               |
-|-------------|-------------------------------------|---------------------------------------|
-| Page entry  | `pages/<feature>/index.tsx`         | `pages/users/index.tsx`               |
-| Components  | `pages/<feature>/components/*.tsx`  | `pages/users/components/UserTable.tsx` |
-| Hooks       | `pages/<feature>/hooks/*.ts`        | `pages/users/hooks/useUserItems.ts`    |
-| APIs        | `pages/<feature>/api/*.api.ts`      | `pages/users/api/list.api.ts`         |
-| API tests   | `pages/<feature>/api/__tests__/*.test.ts` | `pages/users/api/__tests__/list.test.ts` |
+| Layer      | Convention                                | Example                                  |
+| ---------- | ----------------------------------------- | ---------------------------------------- |
+| Page entry | `pages/<feature>/index.tsx`               | `pages/users/index.tsx`                  |
+| Components | `pages/<feature>/components/*.tsx`        | `pages/users/components/UserTable.tsx`   |
+| Hooks      | `pages/<feature>/hooks/*.ts`              | `pages/users/hooks/useUserItems.ts`      |
+| APIs       | `pages/<feature>/api/*.api.ts`            | `pages/users/api/list.api.ts`            |
+| API tests  | `pages/<feature>/api/__tests__/*.test.ts` | `pages/users/api/__tests__/list.test.ts` |
 
 ## Shared Items Pattern
 
@@ -128,14 +128,17 @@ export default function UsersPage() {
           onChange={(e) => setKeyword(e.target.value)}
           onSearch={() => setSearchParams({ keyword: keyword || undefined })}
         />
-        <Button type="primary" onClick={() =>
-          setDrawerProps({
-            open: true,
-            title: 'Create User',
-            width: 720,
-            children: <UserForm onSuccess={() => reload()} />,
-          })
-        }>
+        <Button
+          type="primary"
+          onClick={() =>
+            setDrawerProps({
+              open: true,
+              title: 'Create User',
+              width: 720,
+              children: <UserForm onSuccess={() => reload()} />,
+            })
+          }
+        >
           Create User
         </Button>
       </Space>
@@ -147,9 +150,7 @@ export default function UsersPage() {
           {
             id: 'actions',
             title: 'Actions',
-            tableRender: (_, row) => (
-              <UserActions row={row} onSuccess={() => reload()} />
-            ),
+            tableRender: (_, row) => <UserActions row={row} onSuccess={() => reload()} />,
           },
         ]}
         faasData={{
@@ -178,7 +179,13 @@ export default defineApi({
     // Query database with params.keyword, params.page, params.pageSize
     return {
       rows: [
-        { id: 1, name: 'Alice', email: 'alice@example.com', role: 'admin', created_at: '2025-01-01' },
+        {
+          id: 1,
+          name: 'Alice',
+          email: 'alice@example.com',
+          role: 'admin',
+          created_at: '2025-01-01',
+        },
       ],
       total: 1,
     }
@@ -228,7 +235,13 @@ export default defineApi({
   }),
   async handler({ params }) {
     // Fetch from database by params.id
-    const user = { id: 1, name: 'Alice', email: 'alice@example.com', role: 'admin', created_at: '2025-01-01' }
+    const user = {
+      id: 1,
+      name: 'Alice',
+      email: 'alice@example.com',
+      role: 'admin',
+      created_at: '2025-01-01',
+    }
 
     if (!user) {
       throw new HttpError({ statusCode: 404, message: 'User not found' })
@@ -431,9 +444,15 @@ export function UserActions(props: { row: { id: number }; onSuccess?: () => void
 
   return (
     <Space>
-      <Button type="link" onClick={handleDetail}>Detail</Button>
-      <Button type="link" onClick={handleEdit}>Edit</Button>
-      <Button type="link" danger onClick={handleDelete}>Delete</Button>
+      <Button type="link" onClick={handleDetail}>
+        Detail
+      </Button>
+      <Button type="link" onClick={handleEdit}>
+        Edit
+      </Button>
+      <Button type="link" danger onClick={handleDelete}>
+        Delete
+      </Button>
     </Space>
   )
 }
@@ -499,16 +518,16 @@ src/pages/users/
 
 ### File Count & Responsibility
 
-| File                        | Lines (approx) | Responsibility                              |
-|-----------------------------|----------------|---------------------------------------------|
-| `index.tsx`                 | 30-60          | Page entry, layout, compose components      |
-| `UserTable.tsx`             | 40-80          | Table, search, filter, action column        |
-| `UserForm.tsx`              | 30-60          | Form items, faas config, feedback           |
-| `UserDetail.tsx`            | 15-30          | Description with faasData                   |
-| `UserActions.tsx`           | 40-70          | Detail/Edit/Delete buttons, modal confirm   |
-| `useUserItems.ts`           | 30-60          | Shared items metadata                       |
-| Each `.api.ts`              | 15-40          | Schema, handler, DB query                   |
-| Each API test               | 20-50          | testApi, success/error paths                |
+| File              | Lines (approx) | Responsibility                            |
+| ----------------- | -------------- | ----------------------------------------- |
+| `index.tsx`       | 30-60          | Page entry, layout, compose components    |
+| `UserTable.tsx`   | 40-80          | Table, search, filter, action column      |
+| `UserForm.tsx`    | 30-60          | Form items, faas config, feedback         |
+| `UserDetail.tsx`  | 15-30          | Description with faasData                 |
+| `UserActions.tsx` | 40-70          | Detail/Edit/Delete buttons, modal confirm |
+| `useUserItems.ts` | 30-60          | Shared items metadata                     |
+| Each `.api.ts`    | 15-40          | Schema, handler, DB query                 |
+| Each API test     | 20-50          | testApi, success/error paths              |
 
 ## Testing CRUD Endpoints
 

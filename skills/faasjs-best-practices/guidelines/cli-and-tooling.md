@@ -15,14 +15,15 @@ Use this guide when running CLI commands, troubleshooting command errors, or cho
 
 Provided by `@faasjs/dev` as the `faas` binary (`faas.mjs`). It has two subcommands: `run` and `types`.
 
-| Command | Description |
-|---|---|
-| `faas run <file>` | Run a TypeScript file with FaasJS Node module hooks preloaded |
+| Command                         | Description                                                         |
+| ------------------------------- | ------------------------------------------------------------------- |
+| `faas run <file>`               | Run a TypeScript file with FaasJS Node module hooks preloaded       |
 | `faas run <file> --root <path>` | Specify project root to resolve `<file>` (default: `process.cwd()`) |
-| `faas types` | Generate API type declarations to `src/.faasjs/types.d.ts` |
-| `faas types --root <path>` | Specify project root for type generation |
+| `faas types`                    | Generate API type declarations to `src/.faasjs/types.d.ts`          |
+| `faas types --root <path>`      | Specify project root for type generation                            |
 
 Global options:
+
 - `-h, --help` — Show help text.
 - `-v, --version` — Print the `@faasjs/dev` version.
 
@@ -34,15 +35,16 @@ Global options:
 
 Provided by the `vite-plus` package. It is the development and build tooling layer on top of Vite and Vitest.
 
-| Command | Description |
-|---|---|
-| `vp check --fix` | Run code checking (linting) and formatting fixes via oxlint and oxfmt |
-| `vp test` | Run all tests with Vitest |
-| `vp test <pattern>` | Run tests matching a file-name pattern |
-| `vp test --watch` | Run tests in watch mode |
-| `vp dev` | Start the development server |
+| Command             | Description                                                           |
+| ------------------- | --------------------------------------------------------------------- |
+| `vp check --fix`    | Run code checking (linting) and formatting fixes via oxlint and oxfmt |
+| `vp test`           | Run all tests with Vitest                                             |
+| `vp test <pattern>` | Run tests matching a file-name pattern                                |
+| `vp test --watch`   | Run tests in watch mode                                               |
+| `vp dev`            | Start the development server                                          |
 
 Common combinations:
+
 ```bash
 # Run checks and tests before handoff
 vp check --fix && vp test
@@ -69,18 +71,22 @@ npx create-faas-app --name <project-name>
 ```
 
 Options:
+
 - `--name <name>` — Project folder name.
 - `--template <template>` — Template name (default: `admin`).
 
 Available templates:
+
 - `admin` (default) — Recommended React + Ant Design + PostgreSQL starter.
 - `minimal` — Lighter React starter.
 
 After scaffolding, the script automatically runs:
+
 1. `npm install` — Installs dependencies.
 2. `npm run test` — Runs the initial test suite to verify the setup.
 
 To run these steps manually after creation:
+
 ```bash
 cd <project-name>
 npm install
@@ -91,21 +97,23 @@ npx faas types
 
 Provided by `@faasjs/pg` as the `faasjs-pg` binary.
 
-| Command | Description |
-|---|---|
+| Command                | Description                                              |
+| ---------------------- | -------------------------------------------------------- |
 | `faasjs-pg new <name>` | Create a new timestamped migration file in `migrations/` |
-| `faasjs-pg status` | Show the status of all migrations |
-| `faasjs-pg migrate` | Run all pending migrations |
-| `faasjs-pg up` | Run the next pending migration |
-| `faasjs-pg down` | Roll back the latest applied migration |
+| `faasjs-pg status`     | Show the status of all migrations                        |
+| `faasjs-pg migrate`    | Run all pending migrations                               |
+| `faasjs-pg up`         | Run the next pending migration                           |
+| `faasjs-pg down`       | Roll back the latest applied migration                   |
 
 Requirements:
+
 - `DATABASE_URL` environment variable must be set for `status`, `migrate`, `up`, and `down`.
 - Migration files live in `./migrations` by default.
 - Migration file naming convention: `<timestamp>-<name>.ts` (generated automatically by `faasjs-pg new`).
 - See [PG Schema and Migrations Guide](./pg-schema-and-migrations.md) for migration authoring rules.
 
 Example:
+
 ```bash
 DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg migrate
 DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg new add_users_table
@@ -138,40 +146,45 @@ Keep type declarations in sync with your API routes:
 
 ## Testing Commands
 
-| Command | Description |
-|---|---|
-| `vp test` | Run the full test suite |
-| `vp test <pattern>` | Run tests matching a file-name pattern (e.g., `vp test list` runs `*list*`) |
-| `vp test --watch` | Re-run tests on file changes |
-| `FaasLog=info vp test` | Run tests with a specific log verbosity |
+| Command                | Description                                                                 |
+| ---------------------- | --------------------------------------------------------------------------- |
+| `vp test`              | Run the full test suite                                                     |
+| `vp test <pattern>`    | Run tests matching a file-name pattern (e.g., `vp test list` runs `*list*`) |
+| `vp test --watch`      | Re-run tests on file changes                                                |
+| `FaasLog=info vp test` | Run tests with a specific log verbosity                                     |
 
 See [Testing Guide](./testing.md) for testing principles and [Project Config Guide](./project-config.md) for Vitest project configuration.
 
 ## Common Command Errors and Recovery
 
 ### `faas: command not found`
+
 - **Check**: `npx faas --version` or `npx @faasjs/dev --version`
 - **Recovery**: Ensure `@faasjs/dev` is installed: `npm install @faasjs/dev`
 - **Root cause**: The `faas` binary is defined in `@faasjs/dev`, not as a global command.
 
 ### `vp: command not found`
+
 - **Check**: `npx vp --version`
 - **Recovery**: Ensure `vite-plus` is installed: `npm install vite-plus`
 - **Root cause**: The `vp` binary is provided by `vite-plus`.
 
 ### `faas types` fails
+
 - **Check**: Does `src/faas.yaml` exist? Is the YAML valid?
 - **Check**: Does `src/` contain at least one `.api.ts` file?
 - **Recovery**: Run `npx faas types --root .` if outside the project root.
 - **See**: [faas.yaml Specification](../locales/en/specs/faas-yaml.md)
 
 ### `faasjs-pg` commands fail
+
 - **Check**: Is `DATABASE_URL` set? `echo $DATABASE_URL`
 - **Check**: Is the database reachable? `psql $DATABASE_URL -c 'SELECT 1'`
 - **Recovery**: Prepend `DATABASE_URL=postgres://...` or set it in `.env`.
 - **Root cause**: All `faasjs-pg` commands except `new` require a live database connection.
 
 ### Tests fail
+
 - **Check**: Are dependencies installed? `npm ls @faasjs/dev vite-plus vitest`
 - **Check**: Does the project have a valid `vitest.config.ts` or `vite.config.ts`?
 - **Check**: Are environment variables (e.g., `DATABASE_URL`) available for integration tests?
@@ -181,20 +194,23 @@ See [Testing Guide](./testing.md) for testing principles and [Project Config Gui
 ## Environment Variables and Configuration
 
 ### FaasJS runtime
-| Variable | Description | Default |
-|---|---|---|
-| `FaasEnv` | Active staging name used by `faas.yaml` config loading | `development` |
-| `FaasLog` | Minimum log level (`debug`, `info`, `warn`, `error`) | `info` |
-| `FaasLogMode` | Log output style (`plain`, `pretty`) | auto-detected |
-| `FaasLogSize` | Truncation threshold for long non-error logs (bytes) | platform-dependent |
-| `FaasLogTransport` | Enable or disable shared log transport forwarding | `true` |
+
+| Variable           | Description                                            | Default            |
+| ------------------ | ------------------------------------------------------ | ------------------ |
+| `FaasEnv`          | Active staging name used by `faas.yaml` config loading | `development`      |
+| `FaasLog`          | Minimum log level (`debug`, `info`, `warn`, `error`)   | `info`             |
+| `FaasLogMode`      | Log output style (`plain`, `pretty`)                   | auto-detected      |
+| `FaasLogSize`      | Truncation threshold for long non-error logs (bytes)   | platform-dependent |
+| `FaasLogTransport` | Enable or disable shared log transport forwarding      | `true`             |
 
 ### Database
-| Variable | Description | Required By |
-|---|---|---|
+
+| Variable       | Description                  | Required By                                                                  |
+| -------------- | ---------------------------- | ---------------------------------------------------------------------------- |
 | `DATABASE_URL` | PostgreSQL connection string | `faasjs-pg` CLI, `@faasjs/pg` client bootstrap, `@faasjs/pg-dev` test plugin |
 
 ### Example usage
+
 ```bash
 # Run tests with debug logging
 FaasLog=debug vp test
@@ -208,12 +224,12 @@ npx faas types --root /path/to/project
 
 ## Key Configuration Files
 
-| File | Purpose |
-|---|---|
-| `faas.yaml` | Runtime configuration: server root, base path, staging overrides, plugins |
-| `tsconfig.json` | TypeScript configuration, extends `@faasjs/types/tsconfig/*` presets |
-| `vite.config.ts` | Vite/Vitest configuration, uses `viteConfig` from `@faasjs/dev` |
-| `.env` | Environment variable overrides for local development |
+| File             | Purpose                                                                   |
+| ---------------- | ------------------------------------------------------------------------- |
+| `faas.yaml`      | Runtime configuration: server root, base path, staging overrides, plugins |
+| `tsconfig.json`  | TypeScript configuration, extends `@faasjs/types/tsconfig/*` presets      |
+| `vite.config.ts` | Vite/Vitest configuration, uses `viteConfig` from `@faasjs/dev`           |
+| `.env`           | Environment variable overrides for local development                      |
 
 ## Rules
 

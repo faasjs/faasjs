@@ -20,23 +20,23 @@
 
 ### API Endpoint 映射
 
-| 操作   | API 文件                          | 路由                                         | 方法 | 参数                                       |
-|--------|-----------------------------------|----------------------------------------------|------|--------------------------------------------|
-| 列表   | `api/list.api.ts`                 | `POST /pages/<feature>/api/list`             | post | 筛选条件、分页                             |
-| 详情   | `api/detail.api.ts`               | `POST /pages/<feature>/api/detail`           | post | `{ id }`                                   |
-| 创建   | `api/create.api.ts`               | `POST /pages/<feature>/api/create`           | post | 业务字段                                   |
-| 更新   | `api/update.api.ts`               | `POST /pages/<feature>/api/update`           | post | `{ id, ...fields }`                        |
-| 删除   | `api/remove.api.ts`               | `POST /pages/<feature>/api/remove`           | post | `{ id }`                                   |
+| 操作 | API 文件            | 路由                               | 方法 | 参数                |
+| ---- | ------------------- | ---------------------------------- | ---- | ------------------- |
+| 列表 | `api/list.api.ts`   | `POST /pages/<feature>/api/list`   | post | 筛选条件、分页      |
+| 详情 | `api/detail.api.ts` | `POST /pages/<feature>/api/detail` | post | `{ id }`            |
+| 创建 | `api/create.api.ts` | `POST /pages/<feature>/api/create` | post | 业务字段            |
+| 更新 | `api/update.api.ts` | `POST /pages/<feature>/api/update` | post | `{ id, ...fields }` |
+| 删除 | `api/remove.api.ts` | `POST /pages/<feature>/api/remove` | post | `{ id }`            |
 
 ### 文件命名约定
 
-| 层        | 约定                                 | 示例                                    |
-|-----------|--------------------------------------|-----------------------------------------|
-| 页面入口  | `pages/<feature>/index.tsx`          | `pages/users/index.tsx`                 |
-| 组件      | `pages/<feature>/components/*.tsx`   | `pages/users/components/UserTable.tsx`  |
-| Hooks     | `pages/<feature>/hooks/*.ts`         | `pages/users/hooks/useUserItems.ts`     |
-| APIs      | `pages/<feature>/api/*.api.ts`       | `pages/users/api/list.api.ts`           |
-| API 测试  | `pages/<feature>/api/__tests__/*.test.ts` | `pages/users/api/__tests__/list.test.ts` |
+| 层       | 约定                                      | 示例                                     |
+| -------- | ----------------------------------------- | ---------------------------------------- |
+| 页面入口 | `pages/<feature>/index.tsx`               | `pages/users/index.tsx`                  |
+| 组件     | `pages/<feature>/components/*.tsx`        | `pages/users/components/UserTable.tsx`   |
+| Hooks    | `pages/<feature>/hooks/*.ts`              | `pages/users/hooks/useUserItems.ts`      |
+| APIs     | `pages/<feature>/api/*.api.ts`            | `pages/users/api/list.api.ts`            |
+| API 测试 | `pages/<feature>/api/__tests__/*.test.ts` | `pages/users/api/__tests__/list.test.ts` |
 
 ## 共享 Items 模式
 
@@ -128,14 +128,17 @@ export default function UsersPage() {
           onChange={(e) => setKeyword(e.target.value)}
           onSearch={() => setSearchParams({ keyword: keyword || undefined })}
         />
-        <Button type="primary" onClick={() =>
-          setDrawerProps({
-            open: true,
-            title: 'Create User',
-            width: 720,
-            children: <UserForm onSuccess={() => reload()} />,
-          })
-        }>
+        <Button
+          type="primary"
+          onClick={() =>
+            setDrawerProps({
+              open: true,
+              title: 'Create User',
+              width: 720,
+              children: <UserForm onSuccess={() => reload()} />,
+            })
+          }
+        >
           Create User
         </Button>
       </Space>
@@ -147,9 +150,7 @@ export default function UsersPage() {
           {
             id: 'actions',
             title: 'Actions',
-            tableRender: (_, row) => (
-              <UserActions row={row} onSuccess={() => reload()} />
-            ),
+            tableRender: (_, row) => <UserActions row={row} onSuccess={() => reload()} />,
           },
         ]}
         faasData={{
@@ -178,7 +179,13 @@ export default defineApi({
     // Query database with params.keyword, params.page, params.pageSize
     return {
       rows: [
-        { id: 1, name: 'Alice', email: 'alice@example.com', role: 'admin', created_at: '2025-01-01' },
+        {
+          id: 1,
+          name: 'Alice',
+          email: 'alice@example.com',
+          role: 'admin',
+          created_at: '2025-01-01',
+        },
       ],
       total: 1,
     }
@@ -228,7 +235,13 @@ export default defineApi({
   }),
   async handler({ params }) {
     // Fetch from database by params.id
-    const user = { id: 1, name: 'Alice', email: 'alice@example.com', role: 'admin', created_at: '2025-01-01' }
+    const user = {
+      id: 1,
+      name: 'Alice',
+      email: 'alice@example.com',
+      role: 'admin',
+      created_at: '2025-01-01',
+    }
 
     if (!user) {
       throw new HttpError({ statusCode: 404, message: 'User not found' })
@@ -431,9 +444,15 @@ export function UserActions(props: { row: { id: number }; onSuccess?: () => void
 
   return (
     <Space>
-      <Button type="link" onClick={handleDetail}>Detail</Button>
-      <Button type="link" onClick={handleEdit}>Edit</Button>
-      <Button type="link" danger onClick={handleDelete}>Delete</Button>
+      <Button type="link" onClick={handleDetail}>
+        Detail
+      </Button>
+      <Button type="link" onClick={handleEdit}>
+        Edit
+      </Button>
+      <Button type="link" danger onClick={handleDelete}>
+        Delete
+      </Button>
     </Space>
   )
 }
@@ -499,16 +518,16 @@ src/pages/users/
 
 ### 文件数量与职责
 
-| 文件                        | 行数（约） | 职责                                      |
-|-----------------------------|------------|-------------------------------------------|
-| `index.tsx`                 | 30-60      | 页面入口、布局、组合组件                   |
-| `UserTable.tsx`             | 40-80      | 表格、搜索、筛选、操作列                   |
-| `UserForm.tsx`              | 30-60      | 表单项、faas 配置、反馈                    |
-| `UserDetail.tsx`            | 15-30      | 带 faasData 的 Description                 |
-| `UserActions.tsx`           | 40-70      | 详情/编辑/删除按钮、模态确认               |
-| `useUserItems.ts`           | 30-60      | 共享 items metadata                        |
-| 每个 `.api.ts`              | 15-40      | Schema、handler、DB 查询                   |
-| 每个 API 测试               | 20-50      | testApi、成功/错误路径                     |
+| 文件              | 行数（约） | 职责                         |
+| ----------------- | ---------- | ---------------------------- |
+| `index.tsx`       | 30-60      | 页面入口、布局、组合组件     |
+| `UserTable.tsx`   | 40-80      | 表格、搜索、筛选、操作列     |
+| `UserForm.tsx`    | 30-60      | 表单项、faas 配置、反馈      |
+| `UserDetail.tsx`  | 15-30      | 带 faasData 的 Description   |
+| `UserActions.tsx` | 40-70      | 详情/编辑/删除按钮、模态确认 |
+| `useUserItems.ts` | 30-60      | 共享 items metadata          |
+| 每个 `.api.ts`    | 15-40      | Schema、handler、DB 查询     |
+| 每个 API 测试     | 20-50      | testApi、成功/错误路径       |
 
 ## 测试 CRUD Endpoint
 

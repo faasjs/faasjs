@@ -32,6 +32,7 @@ npx create-faas-app --name my-app
 ```
 
 This command:
+
 1. Creates a `my-app/` directory
 2. Installs all dependencies (`npm install`)
 3. Runs the initial test suite to verify the setup
@@ -40,10 +41,10 @@ This command:
 
 `create-faas-app` offers two templates:
 
-| Template | Description | When to use |
-|----------|-------------|-------------|
+| Template          | Description                                                                                                         | When to use                                                        |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
 | `admin` (default) | Full admin panel starter with React, Ant Design pages, PostgreSQL integration, and a ready-to-copy users CRUD slice | Back-office systems, internal tools, SaaS dashboards, admin panels |
-| `minimal` | Lighter starter with React and minimal configuration | Simple APIs, BFF layers, or when you want to build UI from scratch |
+| `minimal`         | Lighter starter with React and minimal configuration                                                                | Simple APIs, BFF layers, or when you want to build UI from scratch |
 
 To use a specific template:
 
@@ -98,28 +99,28 @@ my-app/
 
 ### Key directories
 
-| Directory | Purpose |
-|-----------|---------|
-| `src/pages/` | Frontend pages as React components and backend API routes as `.api.ts` files. Each feature gets its own subdirectory with `components/`, `hooks/`, and `api/` sub-folders. |
-| `src/types/` | Type declaration files, including `@faasjs/pg` table type augmentations. |
-| `migrations/` | Timestamped database migration files. Created and managed with the `faasjs-pg` CLI. |
+| Directory     | Purpose                                                                                                                                                                    |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/pages/`  | Frontend pages as React components and backend API routes as `.api.ts` files. Each feature gets its own subdirectory with `components/`, `hooks/`, and `api/` sub-folders. |
+| `src/types/`  | Type declaration files, including `@faasjs/pg` table type augmentations.                                                                                                   |
+| `migrations/` | Timestamped database migration files. Created and managed with the `faasjs-pg` CLI.                                                                                        |
 
 ### Key configuration files
 
-| File | Purpose | See |
-|------|---------|-----|
-| `src/faas.yaml` | Runtime configuration: server root, base path, staging overrides, plugins | [faas.yaml Specification](../locales/en/specs/faas-yaml.md) |
-| `tsconfig.json` | TypeScript config, extends `@faasjs/types/tsconfig/*` presets | [Project Config Guide](./project-config.md) |
-| `vite.config.ts` | Vite/Vitest config, uses `viteConfig` from `@faasjs/dev` | [Project Config Guide](./project-config.md) |
+| File             | Purpose                                                                   | See                                                         |
+| ---------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `src/faas.yaml`  | Runtime configuration: server root, base path, staging overrides, plugins | [faas.yaml Specification](../locales/en/specs/faas-yaml.md) |
+| `tsconfig.json`  | TypeScript config, extends `@faasjs/types/tsconfig/*` presets             | [Project Config Guide](./project-config.md)                 |
+| `vite.config.ts` | Vite/Vitest config, uses `viteConfig` from `@faasjs/dev`                  | [Project Config Guide](./project-config.md)                 |
 
 ### Zero-Mapping routing
 
 API routes map directly to file paths under `src/`. No routing registry needed.
 
-| File | Route |
-|------|-------|
-| `src/pages/todo/api/list.api.ts` | `POST /pages/todo/api/list` |
-| `src/pages/todo/api/index.api.ts` | `POST /pages/todo/api` |
+| File                                | Route                        |
+| ----------------------------------- | ---------------------------- |
+| `src/pages/todo/api/list.api.ts`    | `POST /pages/todo/api/list`  |
+| `src/pages/todo/api/index.api.ts`   | `POST /pages/todo/api`       |
 | `src/pages/todo/api/default.api.ts` | Fallback for `/pages/todo/*` |
 
 See the [Routing Mapping Specification](../locales/en/specs/routing-mapping.md) for the full route resolution order.
@@ -208,7 +209,14 @@ export default defineApi({
     // TODO: query database with params.keyword, params.page, params.pageSize
     return {
       rows: [
-        { id: 1, title: 'Learn FaasJS', description: 'Build a Todo app', completed: false, created_at: '2025-01-01T00:00:00Z', updated_at: '2025-01-01T00:00:00Z' },
+        {
+          id: 1,
+          title: 'Learn FaasJS',
+          description: 'Build a Todo app',
+          completed: false,
+          created_at: '2025-01-01T00:00:00Z',
+          updated_at: '2025-01-01T00:00:00Z',
+        },
       ],
       total: 1,
     }
@@ -253,7 +261,14 @@ export default defineApi({
   }),
   async handler({ params }) {
     // TODO: fetch from database by params.id
-    const todo = { id: 1, title: 'Learn FaasJS', description: 'Build a Todo app', completed: false, created_at: '2025-01-01T00:00:00Z', updated_at: '2025-01-01T00:00:00Z' }
+    const todo = {
+      id: 1,
+      title: 'Learn FaasJS',
+      description: 'Build a Todo app',
+      completed: false,
+      created_at: '2025-01-01T00:00:00Z',
+      updated_at: '2025-01-01T00:00:00Z',
+    }
 
     if (!todo) {
       throw new HttpError({ statusCode: 404, message: 'Todo not found' })
@@ -395,28 +410,31 @@ export default function TodosPage() {
           onChange={(e) => setKeyword(e.target.value)}
           onSearch={() => setSearchParams({ keyword: keyword || undefined })}
         />
-        <Button type="primary" onClick={() =>
-          setDrawerProps({
-            open: true,
-            title: 'Create Todo',
-            width: 480,
-            children: (
-              <Form
-                items={items}
-                faas={{
-                  action: '/pages/todos/api/create',
-                  onSuccess: () => {
-                    message.success('Todo created')
-                    setDrawerProps({ open: false })
-                    reload()
-                  },
-                  onError: (error) =>
-                    notification.error({ message: 'Create failed', description: error?.message }),
-                }}
-              />
-            ),
-          })
-        }>
+        <Button
+          type="primary"
+          onClick={() =>
+            setDrawerProps({
+              open: true,
+              title: 'Create Todo',
+              width: 480,
+              children: (
+                <Form
+                  items={items}
+                  faas={{
+                    action: '/pages/todos/api/create',
+                    onSuccess: () => {
+                      message.success('Todo created')
+                      setDrawerProps({ open: false })
+                      reload()
+                    },
+                    onError: (error) =>
+                      notification.error({ message: 'Create failed', description: error?.message }),
+                  }}
+                />
+              ),
+            })
+          }
+        >
           Create Todo
         </Button>
       </Space>
@@ -430,40 +448,54 @@ export default function TodosPage() {
             title: 'Actions',
             tableRender: (_, row) => (
               <Space>
-                <Button type="link" onClick={() =>
-                  setDrawerProps({
-                    open: true,
-                    title: 'Todo Detail',
-                    width: 480,
-                    children: <Description<TodoField> items={items} faasData={{ action: '/pages/todos/api/detail', params: { id: row.id } }} />,
-                  })
-                }>
+                <Button
+                  type="link"
+                  onClick={() =>
+                    setDrawerProps({
+                      open: true,
+                      title: 'Todo Detail',
+                      width: 480,
+                      children: (
+                        <Description<TodoField>
+                          items={items}
+                          faasData={{ action: '/pages/todos/api/detail', params: { id: row.id } }}
+                        />
+                      ),
+                    })
+                  }
+                >
                   Detail
                 </Button>
-                <Button type="link" onClick={() =>
-                  setDrawerProps({
-                    open: true,
-                    title: 'Edit Todo',
-                    width: 480,
-                    children: (
-                      <Form
-                        initialValues={row}
-                        items={items}
-                        faas={{
-                          action: '/pages/todos/api/update',
-                          params: (values) => ({ ...values, id: row.id }),
-                          onSuccess: () => {
-                            message.success('Todo updated')
-                            setDrawerProps({ open: false })
-                            reload()
-                          },
-                          onError: (error) =>
-                            notification.error({ message: 'Update failed', description: error?.message }),
-                        }}
-                      />
-                    ),
-                  })
-                }>
+                <Button
+                  type="link"
+                  onClick={() =>
+                    setDrawerProps({
+                      open: true,
+                      title: 'Edit Todo',
+                      width: 480,
+                      children: (
+                        <Form
+                          initialValues={row}
+                          items={items}
+                          faas={{
+                            action: '/pages/todos/api/update',
+                            params: (values) => ({ ...values, id: row.id }),
+                            onSuccess: () => {
+                              message.success('Todo updated')
+                              setDrawerProps({ open: false })
+                              reload()
+                            },
+                            onError: (error) =>
+                              notification.error({
+                                message: 'Update failed',
+                                description: error?.message,
+                              }),
+                          }}
+                        />
+                      ),
+                    })
+                  }
+                >
                   Edit
                 </Button>
                 <Button type="link" danger onClick={() => handleDelete(row.id, reload)}>
@@ -610,22 +642,22 @@ See the [faas.yaml Specification](../locales/en/specs/faas-yaml.md) for the full
 
 The `@faasjs/ant-design` package provides business UI wrappers that handle loading, error, and data-fetching state:
 
-| Component | Purpose |
-|-----------|---------|
-| `Table.faasData` | Server-driven list with automatic re-fetch on params change |
-| `Form.faas` | Form submission with built-in loading, validation, and feedback |
-| `Description.faasData` | Detail view with loading and error states |
-| `useApp()` | Access to `message`, `notification`, `setDrawerProps`, `setModalProps` |
+| Component              | Purpose                                                                |
+| ---------------------- | ---------------------------------------------------------------------- |
+| `Table.faasData`       | Server-driven list with automatic re-fetch on params change            |
+| `Form.faas`            | Form submission with built-in loading, validation, and feedback        |
+| `Description.faasData` | Detail view with loading and error states                              |
+| `useApp()`             | Access to `message`, `notification`, `setDrawerProps`, `setModalProps` |
 
 See the [Ant Design Guide](./ant-design.md) for component patterns.
 
 ### `useFaas` / `faas` data fetching
 
-| API | When to use |
-|-----|-------------|
+| API                                | When to use                                                                      |
+| ---------------------------------- | -------------------------------------------------------------------------------- |
 | `useFaas(action, params, options)` | Component-owned request state with loading, error, debounce, polling, and reload |
-| `faas(action, params)` | Imperative one-off requests (form submit, delete) |
-| `Form.faas` | Form submissions (preferred over raw `faas`) |
+| `faas(action, params)`             | Imperative one-off requests (form submit, delete)                                |
+| `Form.faas`                        | Form submissions (preferred over raw `faas`)                                     |
 
 See the [React Data Fetching Guide](./react-data-fetching.md) for lifecycle controls and patterns.
 
@@ -639,15 +671,15 @@ See the [Plugin Specification](../locales/en/specs/plugin.md) for plugin authori
 
 The FaasJS toolchain uses `vp` (Vite Plus) as the primary entry point for development tasks.
 
-| Command | Purpose |
-|---------|---------|
-| `vp dev` | Start the development server with hot reload |
-| `vp test` | Run all tests with Vitest |
-| `vp test <pattern>` | Run tests matching a file-name pattern |
-| `vp check --fix` | Run linting and formatting (oxlint + oxfmt) |
-| `npx faas types` | Regenerate API type declarations in `src/.faasjs/types.d.ts` |
-| `npx faasjs-pg migrate` | Run pending database migrations |
-| `npx faasjs-pg new <name>` | Create a new timestamped migration file |
+| Command                    | Purpose                                                      |
+| -------------------------- | ------------------------------------------------------------ |
+| `vp dev`                   | Start the development server with hot reload                 |
+| `vp test`                  | Run all tests with Vitest                                    |
+| `vp test <pattern>`        | Run tests matching a file-name pattern                       |
+| `vp check --fix`           | Run linting and formatting (oxlint + oxfmt)                  |
+| `npx faas types`           | Regenerate API type declarations in `src/.faasjs/types.d.ts` |
+| `npx faasjs-pg migrate`    | Run pending database migrations                              |
+| `npx faasjs-pg new <name>` | Create a new timestamped migration file                      |
 
 ### Daily iteration loop
 
@@ -676,26 +708,26 @@ See the [CLI and Tooling Guide](./cli-and-tooling.md) for all commands and troub
 
 Now that you have a working project, explore the detailed guides:
 
-| Guide | What it covers |
-|-------|----------------|
-| [Application Slices Guide](./application-slices.md) | Vertical feature structure and recommended layout |
-| [CRUD Patterns Guide](./crud-patterns.md) | Complete CRUD implementation from API to React page |
-| [defineApi Guide](./define-api.md) | API endpoint schema, validation, and error handling |
-| [Ant Design Guide](./ant-design.md) | Page structure, routes, CRUD composition, and UI feedback |
-| [React Data Fetching Guide](./react-data-fetching.md) | `useFaas`, `faas`, lifecycle controls, polling, and retry |
-| [PG Schema and Migrations Guide](./pg-schema-and-migrations.md) | Database migration authoring rules |
-| [PG Table Types Guide](./pg-table-types.md) | Declaration merging on `Tables` for type-safe queries |
-| [PG Query Builder and Raw SQL Guide](./pg-query-builder.md) | Query building with `@faasjs/pg` |
-| [Testing Guide](./testing.md) | Testing principles and practices |
-| [React Testing Guide](./react-testing.md) | React component and request-flow testing |
-| [PG Testing Guide](./pg-testing.md) | PostgreSQL integration testing |
-| [CLI and Tooling Guide](./cli-and-tooling.md) | All CLI commands, environment variables, and troubleshooting |
-| [Project Config Guide](./project-config.md) | TypeScript, Vite, and tooling configuration |
-| [File Conventions](./file-conventions.md) | File placement and naming conventions |
-| [Jobs Guide](./jobs.md) | Background jobs with `@faasjs/jobs` |
-| [Logger Guide](./logger.md) | Logging patterns and log levels |
-| [Code Comments Guide](./code-comments.md) | JSDoc and comment conventions |
-| [faas.yaml Specification](../locales/en/specs/faas-yaml.md) | Full faas.yaml configuration reference |
-| [Routing Mapping Specification](../locales/en/specs/routing-mapping.md) | Zero-Mapping route resolution |
-| [Plugin Specification](../locales/en/specs/plugin.md) | Plugin authoring and configuration |
-| [Http Protocol Specification](../locales/en/specs/http-protocol.md) | HTTP request/response protocol details |
+| Guide                                                                   | What it covers                                               |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------ |
+| [Application Slices Guide](./application-slices.md)                     | Vertical feature structure and recommended layout            |
+| [CRUD Patterns Guide](./crud-patterns.md)                               | Complete CRUD implementation from API to React page          |
+| [defineApi Guide](./define-api.md)                                      | API endpoint schema, validation, and error handling          |
+| [Ant Design Guide](./ant-design.md)                                     | Page structure, routes, CRUD composition, and UI feedback    |
+| [React Data Fetching Guide](./react-data-fetching.md)                   | `useFaas`, `faas`, lifecycle controls, polling, and retry    |
+| [PG Schema and Migrations Guide](./pg-schema-and-migrations.md)         | Database migration authoring rules                           |
+| [PG Table Types Guide](./pg-table-types.md)                             | Declaration merging on `Tables` for type-safe queries        |
+| [PG Query Builder and Raw SQL Guide](./pg-query-builder.md)             | Query building with `@faasjs/pg`                             |
+| [Testing Guide](./testing.md)                                           | Testing principles and practices                             |
+| [React Testing Guide](./react-testing.md)                               | React component and request-flow testing                     |
+| [PG Testing Guide](./pg-testing.md)                                     | PostgreSQL integration testing                               |
+| [CLI and Tooling Guide](./cli-and-tooling.md)                           | All CLI commands, environment variables, and troubleshooting |
+| [Project Config Guide](./project-config.md)                             | TypeScript, Vite, and tooling configuration                  |
+| [File Conventions](./file-conventions.md)                               | File placement and naming conventions                        |
+| [Jobs Guide](./jobs.md)                                                 | Background jobs with `@faasjs/jobs`                          |
+| [Logger Guide](./logger.md)                                             | Logging patterns and log levels                              |
+| [Code Comments Guide](./code-comments.md)                               | JSDoc and comment conventions                                |
+| [faas.yaml Specification](../locales/en/specs/faas-yaml.md)             | Full faas.yaml configuration reference                       |
+| [Routing Mapping Specification](../locales/en/specs/routing-mapping.md) | Zero-Mapping route resolution                                |
+| [Plugin Specification](../locales/en/specs/plugin.md)                   | Plugin authoring and configuration                           |
+| [Http Protocol Specification](../locales/en/specs/http-protocol.md)     | HTTP request/response protocol details                       |

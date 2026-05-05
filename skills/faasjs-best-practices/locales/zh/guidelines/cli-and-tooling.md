@@ -15,14 +15,15 @@
 
 由 `@faasjs/dev` 提供 `faas` 二进制命令 (`faas.mjs`)。它有两个子命令：`run` 和 `types`。
 
-| 命令 | 说明 |
-|---|---|
-| `faas run <file>` | 使用预加载的 FaasJS Node 模块 hooks 运行 TypeScript 文件 |
-| `faas run <file> --root <path>` | 指定项目根目录来解析 `<file>`（默认：`process.cwd()`） |
-| `faas types` | 生成 API 类型声明到 `src/.faasjs/types.d.ts` |
-| `faas types --root <path>` | 指定类型生成的项目根目录 |
+| 命令                            | 说明                                                     |
+| ------------------------------- | -------------------------------------------------------- |
+| `faas run <file>`               | 使用预加载的 FaasJS Node 模块 hooks 运行 TypeScript 文件 |
+| `faas run <file> --root <path>` | 指定项目根目录来解析 `<file>`（默认：`process.cwd()`）   |
+| `faas types`                    | 生成 API 类型声明到 `src/.faasjs/types.d.ts`             |
+| `faas types --root <path>`      | 指定类型生成的项目根目录                                 |
 
 全局选项：
+
 - `-h, --help` — 显示帮助文本。
 - `-v, --version` — 打印 `@faasjs/dev` 版本。
 
@@ -34,15 +35,16 @@
 
 由 `vite-plus` 包提供。它是在 Vite 和 Vitest 之上构建的开发与构建工具层。
 
-| 命令 | 说明 |
-|---|---|
-| `vp check --fix` | 通过 oxlint 和 oxfmt 运行代码检查（lint）和格式化修复 |
-| `vp test` | 使用 Vitest 运行所有测试 |
-| `vp test <pattern>` | 运行匹配文件名模式的测试 |
-| `vp test --watch` | 以 watch 模式运行测试 |
-| `vp dev` | 启动开发服务器 |
+| 命令                | 说明                                                  |
+| ------------------- | ----------------------------------------------------- |
+| `vp check --fix`    | 通过 oxlint 和 oxfmt 运行代码检查（lint）和格式化修复 |
+| `vp test`           | 使用 Vitest 运行所有测试                              |
+| `vp test <pattern>` | 运行匹配文件名模式的测试                              |
+| `vp test --watch`   | 以 watch 模式运行测试                                 |
+| `vp dev`            | 启动开发服务器                                        |
 
 常用组合：
+
 ```bash
 # 在交付前运行检查和测试
 vp check --fix && vp test
@@ -69,18 +71,22 @@ npx create-faas-app --name <project-name>
 ```
 
 选项：
+
 - `--name <name>` — 项目文件夹名称。
 - `--template <template>` — 模板名称（默认：`admin`）。
 
 可用模板：
+
 - `admin`（默认）— 推荐的 React + Ant Design + PostgreSQL 起步模板。
 - `minimal` — 更轻量的 React 起步模板。
 
 搭建完成后，脚本会自动执行：
+
 1. `npm install` — 安装依赖。
 2. `npm run test` — 运行初始测试套件以验证配置。
 
 创建后手动运行这些步骤：
+
 ```bash
 cd <project-name>
 npm install
@@ -91,21 +97,23 @@ npx faas types
 
 由 `@faasjs/pg` 提供 `faasjs-pg` 二进制命令。
 
-| 命令 | 说明 |
-|---|---|
+| 命令                   | 说明                                          |
+| ---------------------- | --------------------------------------------- |
 | `faasjs-pg new <name>` | 在 `migrations/` 中创建新的带时间戳的迁移文件 |
-| `faasjs-pg status` | 显示所有迁移的状态 |
-| `faasjs-pg migrate` | 运行所有待执行的迁移 |
-| `faasjs-pg up` | 运行下一个待执行的迁移 |
-| `faasjs-pg down` | 回滚最近一次已应用的迁移 |
+| `faasjs-pg status`     | 显示所有迁移的状态                            |
+| `faasjs-pg migrate`    | 运行所有待执行的迁移                          |
+| `faasjs-pg up`         | 运行下一个待执行的迁移                        |
+| `faasjs-pg down`       | 回滚最近一次已应用的迁移                      |
 
 要求：
+
 - `status`、`migrate`、`up` 和 `down` 命令需要设置 `DATABASE_URL` 环境变量。
 - 迁移文件默认存放在 `./migrations` 目录下。
 - 迁移文件命名规范：`<timestamp>-<name>.ts`（由 `faasjs-pg new` 自动生成）。
 - 迁移编写规则参见 [PG Schema and Migrations 指南](./pg-schema-and-migrations.md)。
 
 示例：
+
 ```bash
 DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg migrate
 DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg new add_users_table
@@ -138,40 +146,45 @@ DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg new add_users_table
 
 ## 测试命令
 
-| 命令 | 说明 |
-|---|---|
-| `vp test` | 运行完整的测试套件 |
-| `vp test <pattern>` | 运行匹配文件名模式的测试（例如 `vp test list` 会运行 `*list*`） |
-| `vp test --watch` | 文件变更时重新运行测试 |
-| `FaasLog=info vp test` | 以指定的日志详细级别运行测试 |
+| 命令                   | 说明                                                            |
+| ---------------------- | --------------------------------------------------------------- |
+| `vp test`              | 运行完整的测试套件                                              |
+| `vp test <pattern>`    | 运行匹配文件名模式的测试（例如 `vp test list` 会运行 `*list*`） |
+| `vp test --watch`      | 文件变更时重新运行测试                                          |
+| `FaasLog=info vp test` | 以指定的日志详细级别运行测试                                    |
 
 测试原则参见 [测试指南](./testing.md)，Vitest 项目配置参见 [项目配置指南](./project-config.md)。
 
 ## 常见命令错误及恢复
 
 ### `faas: command not found`
+
 - **检查**：`npx faas --version` 或 `npx @faasjs/dev --version`
 - **恢复**：确保已安装 `@faasjs/dev`：`npm install @faasjs/dev`
 - **根本原因**：`faas` 二进制命令定义在 `@faasjs/dev` 中，不是全局命令。
 
 ### `vp: command not found`
+
 - **检查**：`npx vp --version`
 - **恢复**：确保已安装 `vite-plus`：`npm install vite-plus`
 - **根本原因**：`vp` 二进制命令由 `vite-plus` 提供。
 
 ### `faas types` 失败
+
 - **检查**：`src/faas.yaml` 是否存在？YAML 是否有效？
 - **检查**：`src/` 目录下是否至少有一个 `.api.ts` 文件？
 - **恢复**：如果在项目根目录之外，运行 `npx faas types --root .`。
 - **参见**：[faas.yaml 规范](../locales/en/specs/faas-yaml.md)
 
 ### `faasjs-pg` 命令失败
+
 - **检查**：是否设置了 `DATABASE_URL`？`echo $DATABASE_URL`
 - **检查**：数据库是否可达？`psql $DATABASE_URL -c 'SELECT 1'`
 - **恢复**：在命令前添加 `DATABASE_URL=postgres://...` 或在 `.env` 中设置。
 - **根本原因**：除 `new` 之外的所有 `faasjs-pg` 命令都需要活动的数据库连接。
 
 ### 测试失败
+
 - **检查**：依赖是否已安装？`npm ls @faasjs/dev vite-plus vitest`
 - **检查**：项目是否有有效的 `vitest.config.ts` 或 `vite.config.ts`？
 - **检查**：集成测试所需的环境变量（例如 `DATABASE_URL`）是否可用？
@@ -181,20 +194,23 @@ DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg new add_users_table
 ## 环境变量与配置
 
 ### FaasJS 运行时
-| 变量 | 说明 | 默认值 |
-|---|---|---|
-| `FaasEnv` | `faas.yaml` 配置加载所使用的活动环境名称 | `development` |
-| `FaasLog` | 最低日志级别（`debug`、`info`、`warn`、`error`） | `info` |
-| `FaasLogMode` | 日志输出格式（`plain`、`pretty`） | 自动检测 |
-| `FaasLogSize` | 非错误长日志的截断阈值（字节） | 平台相关 |
-| `FaasLogTransport` | 启用或禁用共享日志传输转发 | `true` |
+
+| 变量               | 说明                                             | 默认值        |
+| ------------------ | ------------------------------------------------ | ------------- |
+| `FaasEnv`          | `faas.yaml` 配置加载所使用的活动环境名称         | `development` |
+| `FaasLog`          | 最低日志级别（`debug`、`info`、`warn`、`error`） | `info`        |
+| `FaasLogMode`      | 日志输出格式（`plain`、`pretty`）                | 自动检测      |
+| `FaasLogSize`      | 非错误长日志的截断阈值（字节）                   | 平台相关      |
+| `FaasLogTransport` | 启用或禁用共享日志传输转发                       | `true`        |
 
 ### 数据库
-| 变量 | 说明 | 使用者 |
-|---|---|---|
+
+| 变量           | 说明                  | 使用者                                                              |
+| -------------- | --------------------- | ------------------------------------------------------------------- |
 | `DATABASE_URL` | PostgreSQL 连接字符串 | `faasjs-pg` CLI、`@faasjs/pg` 客户端启动、`@faasjs/pg-dev` 测试插件 |
 
 ### 使用示例
+
 ```bash
 # 使用 debug 日志运行测试
 FaasLog=debug vp test
@@ -208,12 +224,12 @@ npx faas types --root /path/to/project
 
 ## 关键配置文件
 
-| 文件 | 用途 |
-|---|---|
-| `faas.yaml` | 运行时配置：server root、base path、环境覆盖、插件 |
-| `tsconfig.json` | TypeScript 配置，继承 `@faasjs/types/tsconfig/*` 预设 |
-| `vite.config.ts` | Vite/Vitest 配置，使用 `@faasjs/dev` 的 `viteConfig` |
-| `.env` | 本地开发的环境变量覆盖 |
+| 文件             | 用途                                                  |
+| ---------------- | ----------------------------------------------------- |
+| `faas.yaml`      | 运行时配置：server root、base path、环境覆盖、插件    |
+| `tsconfig.json`  | TypeScript 配置，继承 `@faasjs/types/tsconfig/*` 预设 |
+| `vite.config.ts` | Vite/Vitest 配置，使用 `@faasjs/dev` 的 `viteConfig`  |
+| `.env`           | 本地开发的环境变量覆盖                                |
 
 ## 规则
 
