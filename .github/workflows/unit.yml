@@ -18,11 +18,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: voidzero-dev/setup-vp@v1
+      - uses: actions/setup-node@v6
         with:
-          node-version: '24'
-          cache: true
+          cache: npm
+          node-version: 24
       - run: |
+          npm install -g vite-plus
           vp install
           vp pack
           npm run lint
