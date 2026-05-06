@@ -1,17 +1,13 @@
 import { getClient } from '@faasjs/pg'
 import postgres from 'postgres'
 
-import { PG_VITEST_DATABASE_URL_ENV_NAME } from '../../plugin-context'
-
 export async function requireFixtureDatabaseUrl() {
   await getClient()
 
-  const databaseUrl = process.env[PG_VITEST_DATABASE_URL_ENV_NAME]
+  const databaseUrl = process.env.DATABASE_URL
 
   if (!databaseUrl) {
-    throw Error(
-      `${PG_VITEST_DATABASE_URL_ENV_NAME} was not injected by PgVitestPlugin after await getClient()`,
-    )
+    throw Error(`'DATABASE_URL' was not injected by PgVitestPlugin after await getClient()`)
   }
 
   return databaseUrl

@@ -7,7 +7,6 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { Migrator } from '../..'
 import type { Client } from '../../client'
 import { createClient } from '../../client'
-import { requireTestingDatabaseUrl } from '../../testing-support/utils'
 
 function createTempFolder(tempFolders: string[]) {
   const folder = mkdtempSync(join(tmpdir(), 'faasjs-pg-migrator-'))
@@ -73,7 +72,7 @@ describe('Migrator', () => {
   let tempFolders: string[]
 
   beforeEach(async () => {
-    client = createClient(requireTestingDatabaseUrl())
+    client = createClient(process.env.DATABASE_URL!)
     tempFolders = []
 
     await client.raw`DROP TABLE IF EXISTS faasjs_pg_migrations`

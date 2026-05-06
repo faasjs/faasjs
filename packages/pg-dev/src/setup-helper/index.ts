@@ -3,7 +3,7 @@ import { resolve } from 'node:path'
 import { createClient, getClients, registerDatabaseBootstrap } from '@faasjs/pg'
 
 import type { StartedPGliteServer } from '../pglite'
-import { PG_VITEST_DATABASE_URL_ENV_NAME, PG_VITEST_RESET_EXCLUDE_TABLES } from '../plugin-context'
+import { PG_VITEST_RESET_EXCLUDE_TABLES } from '../plugin-context'
 import { createTestingPostgres } from '../postgres'
 import { resetTestingDatabase } from '../testing'
 import { startTestingServer } from '../testing-server'
@@ -58,7 +58,7 @@ export function setupPgVitest(runtime: PgVitestSetupRuntime) {
   const ensureTestingDatabaseUrl = async () => {
     const { databaseUrl } = await ensureTestingServer()
 
-    process.env[PG_VITEST_DATABASE_URL_ENV_NAME] = databaseUrl
+    process.env.DATABASE_URL = databaseUrl
 
     return databaseUrl
   }
