@@ -2,12 +2,12 @@ import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
+import { requireTestingDatabaseUrl } from '@faasjs/pg-dev'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import { Migrator } from '../..'
 import type { Client } from '../../client'
 import { createClient } from '../../client'
-import { requireTestingDatabaseUrl } from '../../testing-support/utils'
 
 function createTempFolder(tempFolders: string[]) {
   const folder = mkdtempSync(join(tmpdir(), 'faasjs-pg-migrator-'))

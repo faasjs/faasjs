@@ -2,7 +2,14 @@ import postgres, { type PostgresType } from 'postgres'
 
 import { PG_VITEST_DATABASE_URL_ENV_NAME } from '../plugin-context'
 
-function requireTestingDatabaseUrl(databaseUrl?: string) {
+/**
+ * Resolves the testing database URL from an explicit value or `process.env.DATABASE_URL`.
+ *
+ * @param {string} [databaseUrl] - Optional explicit testing database URL.
+ * @returns Resolved database URL.
+ * @throws {Error} When no URL can be resolved.
+ */
+export function requireTestingDatabaseUrl(databaseUrl?: string) {
   const resolvedDatabaseUrl = databaseUrl ?? process.env[PG_VITEST_DATABASE_URL_ENV_NAME]
 
   if (!resolvedDatabaseUrl) {

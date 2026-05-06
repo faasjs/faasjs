@@ -12,10 +12,10 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
 import { Logger } from '@faasjs/node-utils'
+import { requireTestingDatabaseUrl } from '@faasjs/pg-dev'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { createClient, type Client } from '../../client'
-import { requireTestingDatabaseUrl } from '../../testing-support/utils'
 import { main } from '../main'
 
 const testingDatabaseUrl = requireTestingDatabaseUrl()

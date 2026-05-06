@@ -1,8 +1,8 @@
+import { requireTestingDatabaseUrl } from '@faasjs/pg-dev'
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest'
 
 import { type Client, createClient } from '../../client'
 import { QueryBuilder } from '../../query-builder'
-import { requireTestingDatabaseUrl } from '../../testing-support/utils'
 
 describe('QueryBuilder/mutation', () => {
   let client: Client

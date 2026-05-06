@@ -7,3 +7,4 @@
 export { PgVitestPlugin } from './plugin'
 export type { PgVitestSetupRuntime } from './setup-helper'
 export { setupPgVitest } from './setup-helper'
+export { requireTestingDatabaseUrl } from './postgres'

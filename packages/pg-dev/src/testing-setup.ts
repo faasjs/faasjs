@@ -4,7 +4,7 @@ import {
   PG_VITEST_DATABASE_URL_ENV_NAME,
   PG_VITEST_DATABASE_URLS_KEY,
   requirePgVitestDatabaseUrl,
-} from '../../../pg-dev/src/plugin-context'
+} from './plugin-context'
 
 const databaseUrls = inject(PG_VITEST_DATABASE_URLS_KEY)
 

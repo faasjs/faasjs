@@ -1,11 +1,8 @@
 import type { TestProject } from 'vitest/node'
 
-import { startPGliteServer, type StartedPGliteServer } from '../../../pg-dev/src/pglite'
-import {
-  PG_VITEST_DATABASE_URLS_KEY,
-  type PgVitestDatabaseUrls,
-} from '../../../pg-dev/src/plugin-context'
-import { resolveVitestWorkerCount } from '../../../pg-dev/src/vitest-worker-count'
+import { startPGliteServer, type StartedPGliteServer } from './pglite'
+import { PG_VITEST_DATABASE_URLS_KEY, type PgVitestDatabaseUrls } from './plugin-context'
+import { resolveVitestWorkerCount } from './vitest-worker-count'
 
 async function stopTestingServers(testingServers: StartedPGliteServer[]) {
   await Promise.allSettled(testingServers.map((testingServer) => testingServer.stop()))

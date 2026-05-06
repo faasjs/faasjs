@@ -1,8 +1,8 @@
+import { requireTestingDatabaseUrl } from '@faasjs/pg-dev'
 import { afterAll, beforeEach, describe, expect, it } from 'vitest'
 
 import { SchemaBuilder } from '../..'
 import { type Client, createClient } from '../../client'
-import { requireTestingDatabaseUrl } from '../../testing-support/utils'
 
 describe('SchemaBuilder', () => {
   const client: Client = createClient(requireTestingDatabaseUrl())
