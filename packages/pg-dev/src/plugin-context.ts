@@ -4,11 +4,6 @@
 export const PG_VITEST_DATABASE_URLS_KEY = '__pgVitestDatabaseUrls'
 
 /**
- * Environment variable populated with the current worker's temporary database URL.
- */
-export const PG_VITEST_DATABASE_URL_ENV_NAME = 'DATABASE_URL'
-
-/**
  * Tables preserved by the Vitest plugin while clearing test data between cases.
  */
 export const PG_VITEST_RESET_EXCLUDE_TABLES = ['faasjs_pg_migrations']

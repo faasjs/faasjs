@@ -1,7 +1,5 @@
 import postgres, { type PostgresType } from 'postgres'
 
-import { PG_VITEST_DATABASE_URL_ENV_NAME } from '../plugin-context'
-
 /**
  * Creates a `postgres.js` client configured for `@faasjs/pg` tests.
  *
@@ -14,7 +12,7 @@ import { PG_VITEST_DATABASE_URL_ENV_NAME } from '../plugin-context'
 export function createTestingPostgres<
   T extends Record<string, PostgresType> = Record<string, never>,
 >(databaseUrl?: string) {
-  const resolvedDatabaseUrl = databaseUrl ?? process.env[PG_VITEST_DATABASE_URL_ENV_NAME]
+  const resolvedDatabaseUrl = databaseUrl ?? process.env.DATABASE_URL
 
   if (!resolvedDatabaseUrl) {
     throw Error('PgVitestPlugin requires process.env.DATABASE_URL to be set.')
