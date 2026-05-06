@@ -1,7 +1,11 @@
-import { inject } from 'vitest'
+import { afterAll } from 'vitest'
 
-import { PG_VITEST_DATABASE_URLS_KEY, requirePgVitestDatabaseUrl } from './plugin-context'
+import { startPGliteServer } from './pglite'
 
-const databaseUrls = inject(PG_VITEST_DATABASE_URLS_KEY)
+const server = await startPGliteServer()
 
-process.env.DATABASE_URL = requirePgVitestDatabaseUrl(databaseUrls)
+process.env.DATABASE_URL = server.databaseUrl
+
+afterAll(async () => {
+  await server.stop()
+})

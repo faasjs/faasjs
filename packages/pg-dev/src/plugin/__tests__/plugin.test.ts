@@ -1,11 +1,7 @@
 import { describe, expect, expectTypeOf, it } from 'vitest'
 
 import { PgVitestPlugin } from '../../plugin'
-import {
-  requirePgVitestDatabaseUrl,
-  resolvePgVitestDatabaseUrl,
-  resolvePgVitestWorkerId,
-} from '../../plugin-context'
+import { resolvePgVitestWorkerId } from '../../plugin-context'
 
 function resolvePluginId(plugin: ReturnType<typeof PgVitestPlugin>, id: string) {
   const resolveId = plugin.resolveId as ((id: string) => string | undefined) | undefined
@@ -129,24 +125,5 @@ describe('PgVitestPlugin', () => {
 
   it('throws when the Vitest pool id is missing', () => {
     expect(() => resolvePgVitestWorkerId({})).toThrow(/VITEST_POOL_ID/)
-  })
-
-  it('returns undefined when the current worker id is missing', () => {
-    expect(
-      resolvePgVitestDatabaseUrl(
-        {
-          '1': 'postgresql://worker-1',
-          '2': 'postgresql://worker-2',
-        },
-        '999',
-      ),
-    ).toBeUndefined()
-  })
-
-  it('throws a helpful error when no worker database url is available', () => {
-    expect(() => requirePgVitestDatabaseUrl(undefined, '3')).toThrow(/worker 3/)
-    expect(() => requirePgVitestDatabaseUrl({ '1': 'postgresql://worker-1' }, '3')).toThrow(
-      /worker 3/,
-    )
   })
 })

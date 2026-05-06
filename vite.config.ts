@@ -168,7 +168,6 @@ export default defineConfig({
           exclude: typeTests,
           environment: 'node',
           fileParallelism: false,
-          globalSetup: ['packages/pg-dev/src/testing-global-setup.ts'],
           setupFiles: ['packages/pg-dev/src/testing-setup.ts'],
           testTimeout: 30_000,
         },
