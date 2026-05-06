@@ -3,10 +3,8 @@ import { join } from 'node:path'
 import react from '@vitejs/plugin-react'
 import { defineConfig, type UserConfig } from 'vite-plus'
 import type { PackUserConfig } from 'vite-plus/pack'
-
-import { oxfmtConfig } from './packages/dev/src/vite/oxfmt.ts'
-import { oxlintConfig } from './packages/dev/src/vite/oxlint.ts'
-import { PgVitestPlugin } from './packages/pg-dev/src/plugin/index.ts'
+import { viteConfig } from '@faasjs/dev'
+import { PgVitestPlugin } from '@faasjs/pg-dev'
 
 const tests = ['packages/**/*.test.ts']
 
@@ -106,14 +104,10 @@ const pack: PackUserConfig[] = [
 
 export default defineConfig({
   plugins: react(),
-  staged: {
-    '*': 'vp check --fix',
-  },
-  resolve: {
-    tsconfigPaths: true,
-  },
-  fmt: oxfmtConfig,
-  lint: oxlintConfig,
+  staged: viteConfig.staged,
+  resolve: viteConfig.resolve,
+  fmt: viteConfig.fmt,
+  lint: viteConfig.lint,
   pack,
   test: {
     restoreMocks: true,
