@@ -1,4 +1,3 @@
-import { requireTestingDatabaseUrl } from '@faasjs/pg-dev'
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest'
 
 import { type Client, createClient } from '../../client'
@@ -8,7 +7,7 @@ describe('QueryBuilder/mutation', () => {
   let client: Client
 
   beforeAll(async () => {
-    client = createClient(requireTestingDatabaseUrl())
+    client = createClient(process.env.DATABASE_URL!)
 
     await client.raw`
       CREATE TABLE mutation (

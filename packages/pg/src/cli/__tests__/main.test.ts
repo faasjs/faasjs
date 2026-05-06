@@ -12,13 +12,12 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
 import { Logger } from '@faasjs/node-utils'
-import { requireTestingDatabaseUrl } from '@faasjs/pg-dev'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { createClient, type Client } from '../../client'
 import { main } from '../main'
 
-const testingDatabaseUrl = requireTestingDatabaseUrl()
+const testingDatabaseUrl = process.env.DATABASE_URL!
 const originalArgv = [...process.argv]
 const originalCwd = process.cwd()
 const originalDatabaseUrl = process.env.DATABASE_URL
@@ -42,7 +41,7 @@ function captureLogger() {
 }
 
 async function withTestingClient<T>(fn: (client: Client) => Promise<T>) {
-  const client = createClient(requireTestingDatabaseUrl(testingDatabaseUrl))
+  const client = createClient(testingDatabaseUrl)
   client.logger.level = 'info'
 
   try {

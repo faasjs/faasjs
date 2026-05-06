@@ -1,11 +1,10 @@
-import { requireTestingDatabaseUrl } from '@faasjs/pg-dev'
 import { afterAll, beforeEach, describe, expect, it } from 'vitest'
 
 import { SchemaBuilder } from '../..'
 import { type Client, createClient } from '../../client'
 
 describe('SchemaBuilder', () => {
-  const client: Client = createClient(requireTestingDatabaseUrl())
+  const client: Client = createClient(process.env.DATABASE_URL!)
 
   beforeEach(async () => {
     await client.raw('DROP TABLE IF EXISTS raws CASCADE')
