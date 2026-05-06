@@ -22,11 +22,10 @@ jobs:
           node-version: 24
       - name: Build
         run: |
-          npm install -g vite-plus
-          vp install
-          vp pack
+          npm install
+          npm run pack
           cd docs
-          vp run build
+          npm run build
           cp ../README.md ./dist/README.md
           mkdir -p ./dist/.github
           cp ../.github/FUNDING.yml ./dist/.github/FUNDING.yml

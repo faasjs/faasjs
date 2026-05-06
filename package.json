@@ -14,7 +14,8 @@
     "lint": "vp check --fix *",
     "test": "vp test run",
     "ci": "vp test run --silent --coverage",
-    "pub": "vp pack && vp run doc && node publish.ts",
+    "pack": "vp pack",
+    "pub": "vp pack && npm run doc && node publish.ts",
     "doc": "node packages/docgen/src/cli.ts all",
     "clean": "rimraf packages/*/node_modules packages/*/dist coverage packages/*/*.log tmp *.log",
     "prepare": "vp config"
@@ -27,5 +28,5 @@
     "node": ">=24.0.0",
     "npm": ">=11.0.0"
   },
-  "packageManager": "npm@11.12.1"
+  "packageManager": "npm@11.14.0"
 }
