@@ -2,6 +2,41 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+- `faasjs`
+  - [Feature] Add Getting Started, CRUD Patterns, and CLI and Tooling guides to faasjs-best-practices.
+  - [Feature] Add English specs for faas-yaml, http-protocol, plugin, and routing-mapping.
+  - [Fix] Improve guide documentation readability and consistency across multiple files.
+  - [Fix] Remove stale spec page references from docgen and clean up references directory.
+  - [Fix] Update Node.js minimum version requirement from >=20.x to >=24.x in getting-started guide.
+
+- `@faasjs/types`
+  - [Break] `FaasParams<T>` and `FaasData<T>` now return `never` for object-type arguments, enforcing strict typing via `FaasActions`. String literals not registered in `FaasActions` fall back to `Record<string, unknown>`.
+  - [Feature] Replace `any` with `unknown` in `FaasAction`, `FaasActionUnionType`, `InferFaasAction`, `InferFaasApi`, and related type definitions for improved type safety.
+
+- `@faasjs/core`
+  - [Feature] Replace `any` with `unknown` in `DefineApiData` default type parameters (`TEvent`, `TContext`, `TResult`) and related internals for improved type safety.
+
+- `@faasjs/node-utils`
+  - [Feature] Change default Logger level from `debug` to `info`, reducing default log noise from plugin lifecycle, SQL timing, Cookie/Session logs.
+  - [Fix] Lower Transport lifecycle logs (`register`/`unregister`/`stopping`) from `info` to `debug`.
+
+- `@faasjs/react`
+  - [Fix] Remove unnecessary `console.debug` for mock requests. Add `[FaasJS]` prefix to `console.warn` messages.
+
+- `@faasjs/ant-design`
+  - [Fix] Remove unnecessary `console.debug('location', location)` from App component.
+
+- `@faasjs/pg`
+  - [Break] Remove `testing-support` module (`requireTestingDatabaseUrl`, `PG_VITEST_DATABASE_URL_ENV_NAME`, `global-setup.ts`, `setup.ts`). Testing setup utilities are now in `@faasjs/pg-dev`.
+
+- `@faasjs/pg-dev`
+  - [Feature] Move testing setup from `@faasjs/pg/testing-support` into `@faasjs/pg-dev`. Use `testing-setup.ts` directly instead of `global-setup.ts` + `setup.ts`.
+
+- `@faasjs/create-faas-app`
+  - [Fix] Add `declare module '@faasjs/types'` block to scaffolded admin template for strict `FaasActions` type compatibility.
+
 [`v8.0.0-beta.27 (2026-04-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.26...v8.0.0-beta.27)
 
 - `faasjs`
