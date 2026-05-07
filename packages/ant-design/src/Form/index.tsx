@@ -199,7 +199,7 @@ export function Form<Values extends Record<string, any> = any>(props: FormProps<
             }
           }
 
-          const result = await faas(props.faas.action, submitValues)
+          const result = await faas(props.faas.action, submitValues as never)
 
           props.faas.onSuccess?.(result, submitValues)
 

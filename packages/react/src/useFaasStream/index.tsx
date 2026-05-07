@@ -87,7 +87,7 @@ export function useFaasStream(
       if (!silent) updateData('')
     },
     send: async ({ action, params, signal, client }) => {
-      const response = await client.browserClient.action(action, params, {
+      const response = await client.browserClient.action(action, params as any, {
         signal,
         stream: true,
       })

@@ -15,6 +15,7 @@ describe('faas', () => {
     FaasReactClient()
     setMock(() => Promise.resolve(new Response({ data: ++current })))
 
+    // @ts-expect-error undeclared action
     expect(await faas('t', {}, { baseUrl: '/' })).toMatchObject({ data: 1 })
   })
 
@@ -48,6 +49,7 @@ describe('faas', () => {
       },
     })
 
+    // @ts-expect-error undeclared actions
     const response = await faas(
       'Hello',
       { id: 1 },
@@ -87,6 +89,7 @@ describe('faas', () => {
       onError,
     })
 
+    // @ts-expect-error undeclared action
     await expect(faas('broken', { id: 1 }, { baseUrl: '/faas-error/' })).rejects.toThrow(
       'handled-error',
     )

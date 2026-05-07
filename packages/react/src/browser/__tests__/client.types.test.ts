@@ -16,10 +16,6 @@ declare module '@faasjs/types' {
 test('FaasBrowserClient.action should infer response data type', async () => {
   const client = new FaasBrowserClient('/')
 
-  assertType<FaasResponse<any>>(await client.action('/', {}))
-  assertType<FaasResponse<{ value: number }>>(
-    await client.action<{ value: number }>('/', { value: 1 }),
-  )
   assertType<FaasResponse<FaasActions['/type']['Data']>>(
     await client.action('/type', { key: 'key' }),
   )
