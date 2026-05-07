@@ -54,8 +54,6 @@ function RoutesApp(props: { children: React.ReactNode }) {
   const { drawerProps, setDrawerProps, modalProps, setModalProps } = useApp()
 
   useEqualEffect(() => {
-    console.debug('location', location)
-
     if (drawerProps.open) setDrawerProps({ open: false })
 
     if (modalProps.open) setModalProps({ open: false })

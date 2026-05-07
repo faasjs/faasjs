@@ -81,7 +81,7 @@ export class Logger {
    *
    * @default 'debug'
    */
-  public level: Level = 'debug'
+  public level: Level = 'info'
   /**
    * Whether terminal output should use ANSI colors.
    *

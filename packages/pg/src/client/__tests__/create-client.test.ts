@@ -151,6 +151,7 @@ describe('createClient', () => {
   it('records timing in debug mode', async () => {
     const client = new clientModule.Client(exampleUrl)
     const sql = sqlMockFor(client)
+    client.logger.level = 'debug'
 
     const timeSpy = vi.spyOn(client.logger, 'time')
     const timeEndSpy = vi.spyOn(client.logger, 'timeEnd')
@@ -164,6 +165,7 @@ describe('createClient', () => {
   it('logs and rethrows query errors in debug mode', async () => {
     const client = new clientModule.Client(exampleUrl)
     const sql = sqlMockFor(client)
+    client.logger.level = 'debug'
 
     sql.mockImplementation(async () => {
       throw new Error('raw failed')

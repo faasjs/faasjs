@@ -928,8 +928,6 @@ async function resolveMockResponse<PathOrData extends FaasActionUnionType>(
   params: Record<string, any>,
   options: ResolvedActionOptions,
 ): Promise<Response<FaasData<PathOrData>>> {
-  console.debug(`[FaasJS] Mock request: ${action} %j`, params)
-
   if (typeof mock === 'function') {
     const response = await mock(action, params, options)
 
@@ -1166,8 +1164,6 @@ export class FaasBrowserClient {
     this.id = `FBC-${generateId()}`
     this.baseUrl = baseUrl
     this.defaultOptions = options
-
-    console.debug(`[FaasJS] Initialize with baseUrl: ${this.baseUrl}`)
   }
 
   /**

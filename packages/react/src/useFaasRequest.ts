@@ -226,7 +226,7 @@ export function useFaasRequest<Params, Result, RequestPromise = Promise<Result>>
             e.message.includes('Failed to fetch')
           ) {
             failedOnceRef.current = true
-            console.warn(`FaasReactClient: ${e.message} retry...`)
+            console.warn(`[FaasJS] FaasReactClient: ${e.message} retry...`)
             run()
             return
           }

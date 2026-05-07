@@ -125,7 +125,7 @@ export class Transport {
    * @param {TransportHandler} handler - Async handler invoked for each flushed batch.
    */
   register(name: string, handler: TransportHandler) {
-    this.logger.info('register', name)
+    this.logger.debug('register', name)
 
     this.handlers.set(name, handler)
 
@@ -140,7 +140,7 @@ export class Transport {
    * @param {string} name - Transport handler name to remove.
    */
   unregister(name: string) {
-    this.logger.info('unregister', name)
+    this.logger.debug('unregister', name)
 
     this.handlers.delete(name)
 
@@ -211,7 +211,7 @@ export class Transport {
    * @returns {Promise<void>} Promise that resolves when the transport has fully stopped.
    */
   async stop() {
-    this.logger.info('stopping')
+    this.logger.debug('stopping')
 
     if (this.interval) {
       clearInterval(this.interval)

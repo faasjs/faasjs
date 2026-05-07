@@ -8,6 +8,7 @@ describe('logger', () => {
 
     vi.spyOn(console, 'log').mockImplementation((...args) => logs.push(args.join(' ')))
 
+    process.env.FaasLog = 'debug'
     const func = new Func({
       async handler({ logger }) {
         logger.info('test')

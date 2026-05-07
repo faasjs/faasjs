@@ -280,8 +280,6 @@ export function Form<Values extends Record<string, any> = any>(props: FormProps<
 
   const onValuesChange = useEqualCallback(
     (changedValues: Partial<Values>, allValues: Values) => {
-      console.debug('Form:onValuesChange', changedValues, allValues)
-
       if (props.onValuesChange) {
         props.onValuesChange(changedValues, allValues)
       }
@@ -299,8 +297,6 @@ export function Form<Values extends Record<string, any> = any>(props: FormProps<
 
   useEqualEffect(() => {
     if (!initialValues) return
-
-    console.debug('Form:initialValues', initialValues)
 
     form.setFieldsValue(initialValues as any)
     setInitialValues(null)
