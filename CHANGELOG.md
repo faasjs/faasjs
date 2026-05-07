@@ -2,6 +2,47 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[`v8.0.0-beta.28 (2026-05-07)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.27...HEAD)
+
+- `faasjs`
+  - [Feature] Add English translations of specs (http-protocol, plugin, routing-mapping) and update routing-mapping link in file-conventions.
+  - [Feature] Add Getting Started, CRUD Patterns, and CLI and Tooling guides to faasjs-best-practices skill.
+  - [Fix] Update Node.js requirement from >=20.x to >=24.x in getting-started guide.
+  - [Fix] Remove standalone type aliases guideline and references from faasjs-best-practices skill.
+  - [Fix] Remove cli package from buildApiDocs package.json filter.
+  - [Fix] Fix lint warnings (65 warnings down to 0).
+
+- `@faasjs/core`
+  - [Break] Remove Auth plugin exports from the core index; reorganize Auth plugin into a standalone define-api directory.
+  - [Fix] Replace `any` with `unknown` in core types for better type safety.
+
+- `@faasjs/types`
+  - [Break] Make `FaasParams` and `FaasData` strictly derived from `FaasActions`; remove support for free-form params/data.
+  - [Fix] Replace `any` with `unknown` in type definitions.
+
+- `@faasjs/react`
+  - [Fix] Adapt `FaasDataWrapper` and related hooks to strict `FaasParams`/`FaasData` types.
+  - [Fix] Replace `any` with `unknown` in React component types.
+
+- `@faasjs/dev`
+  - [Fix] Adapt `ApiTester` and test helpers to strict `FaasParams`/`FaasData` types.
+  - [Fix] Replace `any` with `unknown` in dev utility types.
+
+- `@faasjs/logger`
+  - [Break] Change default log level from `debug` to `info`; suppress verbose lifecycle, SQL timing, and Cookie/Session logs by default.
+  - [Fix] Unify frontend log format and demote Transport lifecycle logs from `info` to `debug`.
+
+- `@faasjs/pg`
+  - [Break] Remove the `testing-support` subpath export; testing utilities are now exclusively in `@faasjs/pg-dev`.
+
+- `@faasjs/pg-dev`
+  - [Break] Remove global setup file; `testing-setup.ts` now starts PGlite directly.
+  - [Break] Remove `PG_VITEST_DATABASE_URL_ENV_NAME` constant; use the literal `'DATABASE_URL'` instead.
+  - [Break] Remove `requireTestingDatabaseUrl` helper; tests read `process.env.DATABASE_URL` directly.
+
+- `create-faas-app`
+  - [Fix] Fix `FaasActions` type declaration in scaffolded templates.
+
 [`v8.0.0-beta.27 (2026-04-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.26...v8.0.0-beta.27)
 
 - `faasjs`
