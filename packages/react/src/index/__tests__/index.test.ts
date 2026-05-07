@@ -25,8 +25,7 @@ describe('FaasReactClient', () => {
       baseUrl: '/api/',
     })
 
-    // @ts-expect-error undeclared action
-    const { data } = await client.faas('hello', { v: 1 })
+    const { data } = await client.faas('hello' as any, { v: 1 } as any)
 
     expect(data).toEqual({ action: 'hello', params: { v: 1 } })
   })
