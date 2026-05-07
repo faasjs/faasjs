@@ -11,8 +11,8 @@ const listState: {
   errors: any[]
 } = {
   fields: [],
-  add: vi.fn(),
-  remove: vi.fn(),
+  add: vi.fn<() => void>(),
+  remove: vi.fn<() => void>(),
   errors: [],
 }
 
@@ -25,7 +25,7 @@ vi.mock('antd', async () => {
     return React.createElement('div', { 'data-testid': 'form-item' }, props.children)
   }
 
-  FormItemComponent.useStatus = vi.fn()
+  FormItemComponent.useStatus = vi.fn<() => void>()
 
   return {
     Button(props: any) {
@@ -172,7 +172,7 @@ describe('FormItem/coverage', () => {
   })
 
   it('should return null for null union children and render custom content', async () => {
-    const hidden = render(<FormItem id="skip" children={null} />)
+    const hidden = render(<FormItem id="skip">{null}</FormItem>)
 
     await waitFor(() => {
       expect(hidden.container.innerHTML).toBe('')
@@ -203,7 +203,7 @@ describe('FormItem/coverage', () => {
     booleanView.unmount()
     renderedFormItems = []
 
-    const originShouldUpdate = vi.fn(() => false)
+    const originShouldUpdate = vi.fn<() => boolean>(() => false)
 
     render(
       <FormItem id="secret" if={(values) => !!values.visible} shouldUpdate={originShouldUpdate} />,

@@ -452,12 +452,10 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   public export(): {
     handler: ExportedHandler<TEvent, TContext, TResult>
   } {
-    const func = this
-
-    const handler: ExportedHandler<TEvent, TContext, TResult> = async function (
+    const handler: ExportedHandler<TEvent, TContext, TResult> = async (
       event?: TEvent,
       context?: TContext,
-    ): Promise<TResult> {
+    ): Promise<TResult> => {
       const runtimeContext = ((typeof context === 'undefined' ? Object.create(null) : context) ||
         Object.create(null)) as TContext & {
         request_id?: string
@@ -478,11 +476,11 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
         context: runtimeContext as TContext,
         response: undefined,
         logger,
-        config: func.config,
-        ...(func.handler ? { handler: func.handler } : {}),
+        config: this.config,
+        ...(this.handler ? { handler: this.handler } : {}),
       }
 
-      await func.invoke(data)
+      await this.invoke(data)
 
       if (Object.prototype.toString.call(data.response) === '[object Error]') throw data.response
 

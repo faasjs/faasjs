@@ -126,7 +126,7 @@ describe('loadPackage resolver internals', () => {
     expect(relativeDirectory.searchParams.get('faasjsv')).toBe('42')
     expect(absoluteFile.searchParams.get('faasjsv')).toBe('42')
 
-    const nextInsideRoot = vi.fn(() => ({
+    const nextInsideRoot = vi.fn<() => any>(() => ({
       url: pathToFileURL(join(root, 'src', 'direct.ts')).href,
     }))
     const versionedFallback = resolve('node:path', { parentURL }, nextInsideRoot)
@@ -139,7 +139,7 @@ describe('loadPackage resolver internals', () => {
     expect(versionedFallbackUrl.searchParams.get('faasjsv')).toBe('42')
 
     const outsideRootPath = join(dirname(root), 'outside.js')
-    const nextOutsideRoot = vi.fn(() => ({
+    const nextOutsideRoot = vi.fn<() => any>(() => ({
       url: pathToFileURL(outsideRootPath).href,
     }))
     const outsideFallback = resolve(
@@ -153,7 +153,7 @@ describe('loadPackage resolver internals', () => {
     })
     expect(outsideFallback.url).toBe(pathToFileURL(outsideRootPath).href)
 
-    const nextWithoutState = vi.fn(() => ({ url: 'node:fs' }))
+    const nextWithoutState = vi.fn<() => any>(() => ({ url: 'node:fs' }))
     expect(resolve('file://%', {}, nextWithoutState)).toEqual({
       url: 'node:fs',
     })

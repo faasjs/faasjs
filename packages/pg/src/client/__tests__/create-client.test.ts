@@ -215,7 +215,7 @@ describe('createClient', () => {
 
   it('supports overriding the default database bootstrap', async () => {
     let bootstrapClient: ClientInstance | undefined
-    const databaseBootstrap = vi.fn(async () => {
+    const databaseBootstrap = vi.fn<() => Promise<void>>(async () => {
       bootstrapClient = clientModule.createClient(exampleUrl)
     })
 

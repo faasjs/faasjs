@@ -582,6 +582,7 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
     }
   }
 
+  // eslint-disable-next-line unicorn/no-thenable
   then<TResult1 = TResult, TResult2 = never>(
     onfulfilled?: ((value: TResult) => TResult1 | PromiseLike<TResult1>) | null,
     onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null,

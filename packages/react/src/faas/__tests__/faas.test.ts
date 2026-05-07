@@ -73,7 +73,7 @@ describe('faas', () => {
   })
 
   it('should call onError before rejecting failed requests', async () => {
-    const onError = vi.fn(() => async () => {
+    const onError = vi.fn<() => any>(() => async () => {
       throw new Error('handled-error')
     })
 

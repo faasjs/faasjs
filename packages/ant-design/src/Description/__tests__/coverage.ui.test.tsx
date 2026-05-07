@@ -61,8 +61,8 @@ describe('Description/coverage', () => {
   })
 
   it('should forward all faasData options and keep extended rendering', () => {
-    const onDataChange = vi.fn()
-    const setData = vi.fn()
+    const onDataChange = vi.fn<() => void>()
+    const setData = vi.fn<() => void>()
     const ref = createRef<any>()
     const fallback = <div>fallback</div>
 

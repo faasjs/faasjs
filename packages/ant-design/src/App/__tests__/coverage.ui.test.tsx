@@ -30,8 +30,8 @@ vi.mock('antd', async () => {
     message: {
       useMessage() {
         lastMessageApi = {
-          error: vi.fn(),
-          info: vi.fn(),
+          error: vi.fn<() => void>(),
+          info: vi.fn<() => void>(),
         }
 
         return [lastMessageApi, React.createElement('div', { key: 'message-holder' })]
@@ -41,7 +41,7 @@ vi.mock('antd', async () => {
       useNotification() {
         return [
           {
-            info: vi.fn(),
+            info: vi.fn<() => void>(),
           },
           React.createElement('div', { key: 'notification-holder' }),
         ]

@@ -21,15 +21,17 @@ describe('pglite max connections', () => {
     const close = vi.fn<() => Promise<void>>(async () => undefined)
     const start = vi.fn<() => Promise<void>>(async () => undefined)
     const stop = vi.fn<() => Promise<void>>(async () => undefined)
-    const getServerConn = vi.fn(() => '127.0.0.1:5432')
-    const create = vi.fn(async () => ({ close }))
-    const PGLiteSocketServer = vi.fn().mockImplementation(function MockPGLiteSocketServer() {
-      return {
-        getServerConn,
-        start,
-        stop,
-      }
-    })
+    const getServerConn = vi.fn<() => string>(() => '127.0.0.1:5432')
+    const create = vi.fn<() => Promise<any>>(async () => ({ close }))
+    const PGLiteSocketServer = vi
+      .fn<() => void>()
+      .mockImplementation(function MockPGLiteSocketServer() {
+        return {
+          getServerConn,
+          start,
+          stop,
+        }
+      })
 
     vi.doMock('@electric-sql/pglite', () => ({
       PGlite: {

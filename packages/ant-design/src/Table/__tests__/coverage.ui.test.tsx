@@ -141,8 +141,8 @@ describe('Table/coverage', () => {
 
     expect(childView.getByText('table:Alice:row:0')).toBeDefined()
 
-    const setSelectedKeys = vi.fn()
-    const confirm = vi.fn()
+    const setSelectedKeys = vi.fn<() => void>()
+    const confirm = vi.fn<() => void>()
     const dropdown = render(
       statusColumn.filterDropdown({
         setSelectedKeys,
@@ -201,9 +201,9 @@ describe('Table/coverage', () => {
     const scoresColumn = getColumn(columns, 'scores')
     const customColumn = getColumn(columns, 'custom')
 
-    const setSelectedKeys = vi.fn()
-    const clearFilters = vi.fn()
-    const confirm = vi.fn()
+    const setSelectedKeys = vi.fn<() => void>()
+    const clearFilters = vi.fn<() => void>()
+    const confirm = vi.fn<() => void>()
 
     render(
       nameColumn.filterDropdown({
@@ -250,8 +250,8 @@ describe('Table/coverage', () => {
     const createdAtColumn = getColumn(columns, 'createdAt')
     const start = dayjs('2024-01-01T00:00:00.000Z')
     const end = dayjs('2024-01-03T00:00:00.000Z')
-    const setSelectedKeys = vi.fn()
-    const confirm = vi.fn()
+    const setSelectedKeys = vi.fn<() => void>()
+    const confirm = vi.fn<() => void>()
 
     expect(
       createdAtColumn.sorter({ createdAt: null }, { createdAt: start.toISOString() }, 'ascend'),
@@ -322,9 +322,9 @@ describe('Table/coverage', () => {
   })
 
   it('should keep preset column settings and skip auto options for empty data', async () => {
-    const customRender = vi.fn(() => 'custom-render')
-    const customFilter = vi.fn(() => true)
-    const customSorter = vi.fn(() => 0)
+    const customRender = vi.fn<() => string>(() => 'custom-render')
+    const customFilter = vi.fn<() => boolean>(() => true)
+    const customSorter = vi.fn<() => number>(() => 0)
 
     render(
       <Table
@@ -506,9 +506,9 @@ describe('Table/coverage', () => {
 
     render(
       searchColumn.filterDropdown({
-        setSelectedKeys: vi.fn(),
-        confirm: vi.fn(),
-        clearFilters: vi.fn(),
+        setSelectedKeys: vi.fn<() => void>(),
+        confirm: vi.fn<() => void>(),
+        clearFilters: vi.fn<() => void>(),
       }),
     )
 
@@ -558,8 +558,8 @@ describe('Table/coverage', () => {
 
     const columns = await getColumns()
     const nameColumn = getColumn(columns, 'name')
-    const setSelectedKeys = vi.fn()
-    const confirm = vi.fn()
+    const setSelectedKeys = vi.fn<() => void>()
+    const confirm = vi.fn<() => void>()
 
     expect(getColumn(columns, 'tags').render(['missing'])).toBe('missing')
     expect(getColumn(columns, 'count').render(2)).toBe(2)
@@ -570,7 +570,7 @@ describe('Table/coverage', () => {
       nameColumn.filterDropdown({
         setSelectedKeys,
         confirm,
-        clearFilters: vi.fn(),
+        clearFilters: vi.fn<() => void>(),
       }),
     )
 
@@ -610,7 +610,7 @@ describe('Table/coverage', () => {
 
     expect(lastTableProps.loading).toBe(false)
 
-    const reload = vi.fn()
+    const reload = vi.fn<() => void>()
 
     mockedFaasDataInjection = {
       data: {
@@ -673,10 +673,10 @@ describe('Table/coverage', () => {
         },
       },
       loading: false,
-      reload: vi.fn(),
+      reload: vi.fn<() => void>(),
     }
 
-    const customOnChange = vi.fn((pagination, filters, sorter, extra) => ({
+    const customOnChange = vi.fn<(...args: any[]) => any>((pagination, filters, sorter, extra) => ({
       pagination,
       filters,
       sorter,
@@ -803,7 +803,7 @@ describe('Table/coverage', () => {
   })
 
   it('should cover numeric, time, object, and array edge branches', async () => {
-    const customSorter = vi.fn(() => 0)
+    const customSorter = vi.fn<() => number>(() => 0)
 
     render(
       <Table
@@ -857,7 +857,7 @@ describe('Table/coverage', () => {
   })
 
   it('should reload paginated faas data without params and use default row keys', async () => {
-    const reload = vi.fn()
+    const reload = vi.fn<() => void>()
 
     mockedFaasDataInjection = {
       data: {

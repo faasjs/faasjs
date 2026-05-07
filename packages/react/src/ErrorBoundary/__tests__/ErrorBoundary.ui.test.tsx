@@ -5,7 +5,7 @@ import { ErrorBoundary } from '../../ErrorBoundary'
 describe('react ErrorBoundary coverage', () => {
   it('should clone custom error children and call onError', () => {
     const error = Error('boom')
-    const onError = vi.fn()
+    const onError = vi.fn<() => void>()
     const boundary = new ErrorBoundary({
       onError,
       errorChildren: <div />,
