@@ -58,7 +58,11 @@ export type FaasAction<T = unknown> = T extends FaasActionPaths ? T : string
  *
  * @template T - Candidate action path type.
  */
-export type FaasParams<T = unknown> = T extends FaasActionPaths ? FaasActions[T]['Params'] : never
+export type FaasParams<T = unknown> = T extends FaasActionPaths
+  ? FaasActions[T]['Params']
+  : T extends string
+    ? Record<string, unknown>
+    : never
 
 /**
  * Infer response data type by action path.
@@ -67,7 +71,11 @@ export type FaasParams<T = unknown> = T extends FaasActionPaths ? FaasActions[T]
  *
  * @template T - Candidate action path or response data type.
  */
-export type FaasData<T = unknown> = T extends FaasActionPaths ? FaasActions[T]['Data'] : never
+export type FaasData<T = unknown> = T extends FaasActionPaths
+  ? FaasActions[T]['Data']
+  : T extends string
+    ? Record<string, unknown>
+    : never
 
 /**
  * Infer the FaasAction type from a Func.

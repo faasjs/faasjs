@@ -25,7 +25,7 @@ describe('FaasReactClient', () => {
       baseUrl: '/api/',
     })
 
-    const { data } = await client.faas('hello' as any, { v: 1 } as any)
+    const { data } = await client.faas('hello', { v: 1 })
 
     expect(data).toEqual({ action: 'hello', params: { v: 1 } })
   })

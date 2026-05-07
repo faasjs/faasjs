@@ -23,8 +23,8 @@ declare module '@faasjs/types' {
 test('FaasActionUnionType should support plain string', () => {
   assertType<FaasActionUnionType>('')
   expectTypeOf<FaasAction<string>>().toEqualTypeOf('')
-  expectTypeOf<FaasParams<string>>().toEqualTypeOf<never>()
-  expectTypeOf<FaasData<string>>().toEqualTypeOf<never>()
+  expectTypeOf<FaasParams<string>>().toEqualTypeOf<Record<string, unknown>>()
+  expectTypeOf<FaasData<string>>().toEqualTypeOf<Record<string, unknown>>()
 })
 
 test('FaasActionUnionType should support action keys', () => {

@@ -15,7 +15,7 @@ describe('faas', () => {
     FaasReactClient()
     setMock(() => Promise.resolve(new Response({ data: ++current })))
 
-    expect(await faas('t', {} as any, { baseUrl: '/' })).toMatchObject({ data: 1 })
+    expect(await faas('t', {}, { baseUrl: '/' })).toMatchObject({ data: 1 })
   })
 
   it('should route requests through the client selected by baseUrl', async () => {
@@ -49,7 +49,7 @@ describe('faas', () => {
     })
 
     const response = await faas(
-      'Hello' as any,
+      'Hello',
       { id: 1 },
       {
         baseUrl: '/faas-base/',
@@ -87,7 +87,7 @@ describe('faas', () => {
       onError,
     })
 
-    await expect(faas('broken' as any, { id: 1 }, { baseUrl: '/faas-error/' })).rejects.toThrow(
+    await expect(faas('broken', { id: 1 }, { baseUrl: '/faas-error/' })).rejects.toThrow(
       'handled-error',
     )
 
