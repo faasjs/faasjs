@@ -8,7 +8,7 @@ import type {
   InferFaasApi,
   InferFaasAction,
 } from '@faasjs/types'
-import { assertType, expectTypeOf, test } from 'vitest'
+import { assertType, expectTypeOf, it } from 'vitest'
 import * as z from 'zod'
 
 declare module '@faasjs/types' {
@@ -20,21 +20,21 @@ declare module '@faasjs/types' {
   }
 }
 
-test('FaasActionUnionType should support plain string', () => {
+it('FaasActionUnionType should support plain string', () => {
   assertType<FaasActionUnionType>('')
   expectTypeOf<FaasAction<string>>().toEqualTypeOf('')
   expectTypeOf<FaasParams<string>>().toEqualTypeOf<Record<string, unknown>>()
   expectTypeOf<FaasData<string>>().toEqualTypeOf<Record<string, unknown>>()
 })
 
-test('FaasActionUnionType should support action keys', () => {
+it('FaasActionUnionType should support action keys', () => {
   assertType<FaasActionUnionType>('/test')
   expectTypeOf<FaasAction<'test'>>().toEqualTypeOf('test' as const)
   expectTypeOf<FaasParams<'test'>>().toEqualTypeOf({ key: '' })
   expectTypeOf<FaasData<'test'>>().toEqualTypeOf({ value: '' })
 })
 
-test('FaasActionUnionType should support plain object', () => {
+it('FaasActionUnionType should support plain object', () => {
   type Test = {
     a: string
   }
@@ -44,12 +44,12 @@ test('FaasActionUnionType should support plain object', () => {
   expectTypeOf<FaasData<Test>>().toEqualTypeOf<never>()
 })
 
-test('FaasActions should expose Params and Data', () => {
+it('FaasActions should expose Params and Data', () => {
   assertType<FaasActions['test']['Params']>({ key: 'key' })
   assertType<FaasActions['test']['Data']>({ value: 'value' })
 })
 
-test('InferFaasAction should infer from Func', () => {
+it('InferFaasAction should infer from Func', () => {
   const func = new Func<
     {
       params: { key: string }
@@ -70,7 +70,7 @@ test('InferFaasAction should infer from Func', () => {
   expectTypeOf({ value: true }).not.toEqualTypeOf({ value: 'value' })
 })
 
-test('InferFaasAction should infer schema params from defineApi', () => {
+it('InferFaasAction should infer schema params from defineApi', () => {
   const schema = z.object({
     key: z.string(),
     count: z.number().optional(),
@@ -93,7 +93,7 @@ test('InferFaasAction should infer schema params from defineApi', () => {
   assertType<InferredAction['Data']>({ value: '' })
 })
 
-test('InferFaasApi should infer the default export', () => {
+it('InferFaasApi should infer the default export', () => {
   const api = defineApi({
     schema: z.object({
       slug: z.string(),
@@ -112,7 +112,7 @@ test('InferFaasApi should infer the default export', () => {
   assertType<InferFaasAction<InferredApi>['Params']>({ slug: 'post' })
 })
 
-test('InferFaasApi should reject modules without a default export', () => {
+it('InferFaasApi should reject modules without a default export', () => {
   const api = defineApi({
     schema: z.object({
       id: z.string(),

@@ -5,7 +5,7 @@ import type {
   HttpSetStatusCode,
 } from '@faasjs/core'
 import { defineApi } from '@faasjs/core'
-import { assertType, expect, test } from 'vitest'
+import { assertType, expect, it } from 'vitest'
 import * as z from 'zod'
 
 type CurrentUser = {
@@ -19,7 +19,7 @@ declare module '@faasjs/core' {
   }
 }
 
-test('defineApi should infer injected fields from DefineApiInject', () => {
+it('defineApi should infer injected fields from DefineApiInject', () => {
   const func = defineApi({
     schema: z.object({
       name: z.string(),
@@ -35,7 +35,7 @@ test('defineApi should infer injected fields from DefineApiInject', () => {
   expect(func).toBeDefined()
 })
 
-test('defineApi should expose http injections through DefineApiInject', () => {
+it('defineApi should expose http injections through DefineApiInject', () => {
   const func = defineApi({
     async handler({ body, headers, setBody, setContentType, setHeader, setStatusCode }) {
       assertType<any>(body)

@@ -1,6 +1,6 @@
 declare module '@faasjs/types' {
   interface FaasActions {
-    test: {
+    baseUiTest: {
       Params: Record<string, unknown>
       Data: { test: string }
     }
@@ -31,14 +31,19 @@ describe('FaasDataWrapper', () => {
   })
 
   it('using FaasDataWrapper', async () => {
-    render(<FaasDataWrapper<'test'> action="test" render={({ data }) => <div>{data.test}</div>} />)
+    render(
+      <FaasDataWrapper<'baseUiTest'>
+        action="baseUiTest"
+        render={({ data }) => <div>{data.test}</div>}
+      />,
+    )
 
     expect(await screen.findByText('value')).toBeDefined()
   })
 
   it('using withFaasData', async () => {
-    const App = withFaasData<'test'>((props) => <div>{props.data.test}</div>, {
-      action: 'test',
+    const App = withFaasData<'baseUiTest'>((props) => <div>{props.data.test}</div>, {
+      action: 'baseUiTest',
     })
 
     render(<App />)
