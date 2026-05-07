@@ -275,7 +275,7 @@ Optional label prefix included in log lines.
 
 ### level
 
-> **level**: [`Level`](../type-aliases/Level.md) = `'debug'`
+> **level**: [`Level`](../type-aliases/Level.md) = `'info'`
 
 Minimum level that will be emitted.
 
