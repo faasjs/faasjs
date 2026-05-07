@@ -6,7 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const { execs, promptMock } = vi.hoisted(() => ({
   execs: [] as string[],
-  promptMock: vi.fn<() => void>(),
+  promptMock: vi.fn<() => Promise<any>>(),
 }))
 
 vi.mock('node:child_process', () => ({

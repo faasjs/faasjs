@@ -108,7 +108,7 @@ describe('faasjs-pg-vitest setup helper', () => {
         ? async () => options.resetImplementation?.()
         : async () => undefined,
     )
-    const startPGliteServer = vi.fn<() => Promise<TestingServer | undefined>>(
+    const startPGliteServer = vi.fn<() => Promise<TestingServer> | undefined>(
       options.startServerImplementation
         ? () => options.startServerImplementation?.()
         : async () => createTestingServer(),
