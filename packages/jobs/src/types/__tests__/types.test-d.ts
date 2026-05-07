@@ -1,11 +1,11 @@
 import type { FuncEventType } from '@faasjs/core'
-import { assertType, expectTypeOf, test } from 'vitest'
+import { assertType, expectTypeOf, it } from 'vitest'
 import * as z from 'zod'
 
 import { defineJob } from '../../define_job'
 import type { DefineJobParams } from '../../types'
 
-test('defineJob should infer params from schema', () => {
+it('defineJob should infer params from schema', () => {
   const schema = z.object({
     name: z.string(),
     count: z.coerce.number(),
@@ -35,7 +35,7 @@ test('defineJob should infer params from schema', () => {
   })
 })
 
-test('defineJob should use empty params without schema', () => {
+it('defineJob should use empty params without schema', () => {
   const job = defineJob({
     async handler({ params }) {
       expectTypeOf(params).toEqualTypeOf<Record<string, never>>()
@@ -51,7 +51,7 @@ test('defineJob should use empty params without schema', () => {
   })
 })
 
-test('defineJob cron params should follow schema', () => {
+it('defineJob cron params should follow schema', () => {
   defineJob({
     schema: z.object({
       name: z.string(),

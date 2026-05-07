@@ -1,3 +1,12 @@
+declare module '@faasjs/types' {
+  interface FaasActions {
+    baseUiTest: {
+      Params: Record<string, unknown>
+      Data: { test: string }
+    }
+  }
+}
+
 import { render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -23,8 +32,8 @@ describe('FaasDataWrapper', () => {
 
   it('using FaasDataWrapper', async () => {
     render(
-      <FaasDataWrapper<{ test: string }>
-        action="test"
+      <FaasDataWrapper<'baseUiTest'>
+        action="baseUiTest"
         render={({ data }) => <div>{data.test}</div>}
       />,
     )
@@ -33,8 +42,8 @@ describe('FaasDataWrapper', () => {
   })
 
   it('using withFaasData', async () => {
-    const App = withFaasData<{ test: string }>((props) => <div>{props.data.test}</div>, {
-      action: 'test',
+    const App = withFaasData<'baseUiTest'>((props) => <div>{props.data.test}</div>, {
+      action: 'baseUiTest',
     })
 
     render(<App />)

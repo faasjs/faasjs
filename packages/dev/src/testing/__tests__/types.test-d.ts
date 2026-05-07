@@ -1,10 +1,10 @@
 import { defineApi } from '@faasjs/core'
-import { assertType, expect, test } from 'vitest'
+import { assertType, expect, it } from 'vitest'
 import * as z from 'zod'
 
 import { testApi } from '../..'
 
-test('testApi should infer body from defineApi schema', () => {
+it('testApi should infer body from defineApi schema', () => {
   const schema = z.object({
     name: z.string(),
     age: z.number().optional(),
@@ -31,7 +31,7 @@ test('testApi should infer body from defineApi schema', () => {
   assertType<Parameters<typeof testedApi>[1]>({ session: { userId: '1' } })
 })
 
-test('testApi should keep wide body type without schema', () => {
+it('testApi should keep wide body type without schema', () => {
   const api = defineApi({
     async handler() {
       return {
@@ -48,7 +48,7 @@ test('testApi should keep wide body type without schema', () => {
   void testedApi(null)
 })
 
-test('testApi should expose bound ApiTester helpers', () => {
+it('testApi should expose bound ApiTester helpers', () => {
   const api = defineApi({
     async handler() {
       return {

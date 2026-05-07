@@ -1,3 +1,12 @@
+declare module '@faasjs/types' {
+  interface FaasActions {
+    '/pages/home/api/hello': {
+      Params: { name?: string | undefined }
+      Data: { message?: string }
+    }
+  }
+}
+
 import { useState } from 'react'
 
 import { faas } from '../../react-client'

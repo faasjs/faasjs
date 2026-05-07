@@ -1,3 +1,20 @@
+declare module '@faasjs/types' {
+  interface FaasActions {
+    '/pages/home/api/users/list': {
+      Params: { limit: number }
+      Data: { total?: number; users?: { id: number; name: string }[] }
+    }
+    '/pages/home/api/users/create': {
+      Params: { name?: string | undefined }
+      Data: { message?: string; total?: number; user?: { id: number; name: string } }
+    }
+    '/pages/home/api/auth/me': {
+      Params: Record<string, never>
+      Data: { current_user?: { id: number; name: string; role: string } }
+    }
+  }
+}
+
 import { faas, useApp } from '@faasjs/ant-design'
 import { Button, Card, Input, Space, Table, Typography } from 'antd'
 import { useState } from 'react'
