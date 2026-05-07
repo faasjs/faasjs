@@ -1,5 +1,3 @@
-import type { FaasActions } from '@faasjs/types'
-
 declare module '@faasjs/types' {
   interface FaasActions {
     test: {
@@ -33,18 +31,13 @@ describe('FaasDataWrapper', () => {
   })
 
   it('using FaasDataWrapper', async () => {
-    render(
-      <FaasDataWrapper<"test">
-        action="test"
-        render={({ data }) => <div>{data.test}</div>}
-      />,
-    )
+    render(<FaasDataWrapper<'test'> action="test" render={({ data }) => <div>{data.test}</div>} />)
 
     expect(await screen.findByText('value')).toBeDefined()
   })
 
   it('using withFaasData', async () => {
-    const App = withFaasData<"test">((props) => <div>{props.data.test}</div>, {
+    const App = withFaasData<'test'>((props) => <div>{props.data.test}</div>, {
       action: 'test',
     })
 
