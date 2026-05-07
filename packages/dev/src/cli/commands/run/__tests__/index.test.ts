@@ -4,9 +4,9 @@ import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const { existsSyncMock, realpathSyncMock, spawnMock } = vi.hoisted(() => ({
-  existsSyncMock: vi.fn(),
-  realpathSyncMock: vi.fn(),
-  spawnMock: vi.fn(),
+  existsSyncMock: vi.fn<(path: string) => boolean>(),
+  realpathSyncMock: vi.fn<(path: string) => string>(),
+  spawnMock: vi.fn<(...args: any[]) => any>(),
 }))
 
 vi.mock('node:child_process', () => ({

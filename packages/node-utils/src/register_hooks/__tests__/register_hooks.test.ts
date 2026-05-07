@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-const registerNodeModuleHooks = vi.fn()
+const registerNodeModuleHooks = vi.fn<() => void>()
 
 vi.mock('../../load_package', () => ({
   registerNodeModuleHooks,

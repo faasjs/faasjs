@@ -28,9 +28,9 @@ describe('server mocks coverage', () => {
 
   it('should capture writes and optional end payloads', async () => {
     vi.useFakeTimers()
-    const onDataCapture = vi.fn()
+    const onDataCapture = vi.fn<() => void>()
     const res = createMockRes({ onDataCapture })
-    const finish = vi.fn()
+    const finish = vi.fn<() => void>()
 
     res.once('finish', finish)
     res.write('chunk')
@@ -54,8 +54,8 @@ describe('server mocks coverage', () => {
   it('should emit readable and end events for request helpers', async () => {
     vi.useFakeTimers()
     const req = createMockReq({ body: 'payload' })
-    const readable = vi.fn()
-    const end = vi.fn()
+    const readable = vi.fn<() => void>()
+    const end = vi.fn<() => void>()
 
     req.on('readable', readable)
     req.on('end', end)

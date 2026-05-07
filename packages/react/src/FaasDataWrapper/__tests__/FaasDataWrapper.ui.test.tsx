@@ -209,8 +209,8 @@ describe('FaasDataWrapper', () => {
   })
 
   it('should support render fallback, onDataChange, and controlled data options', async () => {
-    const setData = vi.fn()
-    const onDataChange = vi.fn()
+    const setData = vi.fn<() => void>()
+    const onDataChange = vi.fn<() => void>()
 
     render(
       <FaasDataWrapper

@@ -52,6 +52,7 @@ it('defineJob should use empty params without schema', () => {
 })
 
 it('defineJob cron params should follow schema', () => {
+  assertType(defineJob)
   defineJob({
     schema: z.object({
       name: z.string(),

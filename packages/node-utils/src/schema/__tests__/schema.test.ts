@@ -75,25 +75,29 @@ describe('schema helpers', () => {
       count: z.number().min(2),
     })
 
-    try {
-      await parseSchemaValue({
+    await expect(
+      parseSchemaValue({
         schema,
         value: {
           count: 1,
         },
         errorMessage: 'Invalid params',
         createError: (message) => Object.assign(Error(message), { statusCode: 400 }),
-      })
+      }),
+    ).rejects.toMatchObject({
+      statusCode: 400,
+    })
 
-      throw Error('expected parse failure')
-    } catch (error) {
-      expect(error).toMatchObject({
-        statusCode: 400,
-      })
-      expect((error as Error).message).toEqual(
-        'Invalid params\ncount: Too small, expected number to be >=2',
-      )
-    }
+    await expect(
+      parseSchemaValue({
+        schema,
+        value: {
+          count: 1,
+        },
+        errorMessage: 'Invalid params',
+        createError: (message) => Object.assign(Error(message), { statusCode: 400 }),
+      }),
+    ).rejects.toThrow('Invalid params\ncount: Too small, expected number to be >=2')
   })
 
   it('formats root errors', () => {

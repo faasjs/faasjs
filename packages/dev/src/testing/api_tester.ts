@@ -419,9 +419,12 @@ export function testApi<TApi extends Func<any, any, any>>(api: TApi): TestApiHan
       config: tester.config,
       file: tester.file,
       api: tester.api,
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       handler: tester.handler,
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       JSONhandler: tester.JSONhandler,
       logger: tester.logger,
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       mount: tester.mount,
       staging: tester.staging,
     },

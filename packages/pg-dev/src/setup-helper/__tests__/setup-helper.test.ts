@@ -83,19 +83,21 @@ describe('faasjs-pg-vitest setup helper', () => {
       registeredAfterAll = callback
     })
     const getClients = vi.fn<() => ClientLike[]>(() => options.cachedClients ?? [])
-    const registerDatabaseBootstrap = vi.fn((bootstrap: DatabaseBootstrapMock) => {
-      registeredDatabaseBootstrap = bootstrap
-    })
+    const registerDatabaseBootstrap = vi.fn<(bootstrap: DatabaseBootstrapMock) => void>(
+      (bootstrap: DatabaseBootstrapMock) => {
+        registeredDatabaseBootstrap = bootstrap
+      },
+    )
     const migrationClient = {
       quit: vi.fn<AsyncVoidMock>(async () => undefined),
     }
-    const createClient = vi.fn(() => migrationClient)
-    const migrate = vi.fn(
+    const createClient = vi.fn<() => ClientLike>(() => migrationClient)
+    const migrate = vi.fn<() => Promise<void> | undefined>(
       options.migrateImplementation
         ? () => options.migrateImplementation?.()
         : async () => undefined,
     )
-    const Migrator = vi.fn(
+    const Migrator = vi.fn<new () => { migrate: typeof migrate }>(
       class {
         migrate = migrate
       },
@@ -106,7 +108,7 @@ describe('faasjs-pg-vitest setup helper', () => {
         ? async () => options.resetImplementation?.()
         : async () => undefined,
     )
-    const startPGliteServer = vi.fn(
+    const startPGliteServer = vi.fn<() => Promise<TestingServer> | undefined>(
       options.startServerImplementation
         ? () => options.startServerImplementation?.()
         : async () => createTestingServer(),
@@ -243,10 +245,12 @@ describe('faasjs-pg-vitest setup helper', () => {
 
     const { mocks } = await loadSetupModule({
       projectRoot: createProjectRoot(),
+      // eslint-disable-next-line vitest/require-mock-type-parameters
       migrateImplementation: vi
         .fn<() => Promise<void>>()
         .mockRejectedValueOnce(migrateError)
         .mockResolvedValueOnce(undefined),
+      // eslint-disable-next-line vitest/require-mock-type-parameters
       startServerImplementation: vi
         .fn<() => Promise<TestingServer>>()
         .mockResolvedValueOnce(firstServer)
