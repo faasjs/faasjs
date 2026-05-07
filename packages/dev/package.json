@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/dev",
-  "version": "8.0.0-beta.27",
+  "version": "8.0.0-beta.28",
   "homepage": "https://faasjs.com/doc/dev",
   "bugs": {
     "url": "https://github.com/faasjs/faasjs/issues"
@@ -30,9 +30,9 @@
     }
   },
   "devDependencies": {
-    "@faasjs/core": ">=8.0.0-beta.27",
-    "@faasjs/node-utils": ">=8.0.0-beta.27",
-    "@faasjs/utils": ">=8.0.0-beta.27",
+    "@faasjs/core": ">=8.0.0-beta.28",
+    "@faasjs/node-utils": ">=8.0.0-beta.28",
+    "@faasjs/utils": ">=8.0.0-beta.28",
     "@testing-library/jest-dom": "*",
     "@testing-library/react": "*",
     "@testing-library/user-event": "*",
@@ -48,9 +48,9 @@
     "vite-plus": "*"
   },
   "peerDependencies": {
-    "@faasjs/core": ">=8.0.0-beta.27",
-    "@faasjs/node-utils": ">=8.0.0-beta.27",
-    "@faasjs/utils": ">=8.0.0-beta.27",
+    "@faasjs/core": ">=8.0.0-beta.28",
+    "@faasjs/node-utils": ">=8.0.0-beta.28",
+    "@faasjs/utils": ">=8.0.0-beta.28",
     "@testing-library/jest-dom": "*",
     "@testing-library/react": "*",
     "@testing-library/user-event": "*",
