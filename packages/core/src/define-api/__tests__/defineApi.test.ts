@@ -2,7 +2,7 @@ import { Http, defineApi } from '@faasjs/core'
 import { describe, expect, it } from 'vitest'
 import * as z from 'zod'
 
-import { TestsAuthPlugin } from '../auth-plugin'
+import { TestsAuthPlugin } from './auth-plugin'
 
 async function streamToString(stream: ReadableStream<Uint8Array>): Promise<string> {
   return await new Response(stream).text()

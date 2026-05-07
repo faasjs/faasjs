@@ -1,4 +1,4 @@
-import type { InvokeData, Next, Plugin } from '../index'
+import type { InvokeData, Next, Plugin } from '../..'
 
 type PluginConfig = {
   name: string
