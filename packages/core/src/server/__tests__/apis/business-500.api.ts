@@ -1,5 +1,4 @@
-import { Func } from '@faasjs/core'
-import { HttpError } from '@faasjs/core'
+import { Func, HttpError } from '@faasjs/core'
 
 export default new Func({
   async handler() {

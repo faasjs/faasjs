@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest'
 import { Server } from '../../server'
 import { createMockReq, createMockRes, triggerReqEvents } from '../mocks'
 
-const apisRoot = join(__dirname, '..', 'apis')
+const apisRoot = join(__dirname, 'apis')
 
 describe('server/hooks', () => {
   const poolId = Number(process.env.VITEST_POOL_ID || 0)
@@ -167,7 +167,6 @@ describe('server/hooks', () => {
     })
 
     server.listen()
-
     ;(server as any).sockets.add({
       destroy() {
         throw Error('socket-destroy failed')

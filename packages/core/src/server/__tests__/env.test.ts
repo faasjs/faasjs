@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { Server } from '../../server'
 
-const apisRoot = join(__dirname, '..', 'apis')
+const apisRoot = join(__dirname, 'apis')
 
 describe('server env loading', () => {
   const servers: Server[] = []

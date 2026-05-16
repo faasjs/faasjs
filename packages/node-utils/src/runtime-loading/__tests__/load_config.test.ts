@@ -8,7 +8,7 @@ import { describe, expect, it } from 'vitest'
 import { Logger } from '../../logger'
 import { loadConfig } from '../load_config'
 
-const fixtureRoot = resolve(__dirname, '..')
+const fixtureRoot = resolve(__dirname, 'fixtures')
 
 describe('loadConfig', () => {
   it('defaults', () => {

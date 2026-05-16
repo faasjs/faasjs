@@ -1,9 +1,11 @@
-import { Func } from '@faasjs/core'
-import { Http } from '@faasjs/core'
+import { Func, Http } from '@faasjs/core'
 
 const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
 
 export default new Func({
   plugins: [http],
-  async handler() {},
+  async handler({ setHeader }) {
+    setHeader('x-headers', 'x-x')
+    return 'hello'
+  },
 })

@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 
 import { loadApiHandler } from '../load_api_handler'
 
-const fixtureRoot = resolve(__dirname, '..')
+const fixtureRoot = resolve(__dirname, 'fixtures')
 
 describe('loadApiHandler', () => {
   it('should load an API file and return its handler', async () => {

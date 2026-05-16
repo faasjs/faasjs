@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest'
 import { Server } from '../../server'
 import { createMockReq, createMockRes, triggerReqEvents } from '../mocks'
 
-const apisRoot = join(__dirname, '..', 'apis')
+const apisRoot = join(__dirname, 'apis')
 
 describe('middleware', () => {
   it('should work', async () => {

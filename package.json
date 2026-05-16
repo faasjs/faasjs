@@ -28,5 +28,5 @@
     "node": ">=24.0.0",
     "npm": ">=11.0.0"
   },
-  "packageManager": "npm@11.14.0"
+  "packageManager": "npm@11.14.1"
 }

@@ -7,7 +7,7 @@ import { getAll, Server } from '../../server'
 
 describe.sequential('server', () => {
   let server: Server
-  const apisRoot = join(__dirname, '..', 'apis')
+  const apisRoot = join(__dirname, 'apis')
   const poolId = Number(process.env.VITEST_POOL_ID || 0)
   const port = 31201 + poolId
 
