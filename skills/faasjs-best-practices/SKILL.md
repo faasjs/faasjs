@@ -28,6 +28,7 @@ Before changing code, inspect nearby examples and read only the guides needed fo
 - Keep short relative imports for nearby files in the same feature or directory.
 - Do not invent a new alias in code unless the corresponding `tsconfig.json` and runtime resolver are configured in the same change.
 - Keep changes minimal and task-scoped: no extra features, drive-by refactors, opportunistic cleanup, feature flags, transition shims, or speculative future-proofing.
+- Use zod for data validation instead of handwritten validation functions. Zod provides type-safe schemas that generate TypeScript types automatically, reducing boilerplate and ensuring validation logic stays in sync with type definitions.
 - Keep code direct: validate at system boundaries such as user input and external APIs, fail fast on invalid internal data, and do not add silent fallbacks or impossible-case handling.
 - Avoid unnecessary intermediate variables: return or pass values directly instead of assigning to a single-use variable. An intermediate variable is justified when it documents a non-trivial condition, is referenced more than once, or breaks a long chain for readability.
 - Do not create standalone type aliases or interfaces when TypeScript can infer the type from the expression, schema, or return statement; rely on inference first and add explicit types only at API boundaries, shared contracts, or where inference is ambiguous.
