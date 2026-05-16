@@ -197,7 +197,7 @@ declare module '@faasjs/pg' {
 
 ```ts
 import { defineApi } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({
@@ -228,7 +228,7 @@ export default defineApi({
 
 ```ts
 import { defineApi, HttpError } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({
@@ -253,7 +253,7 @@ export default defineApi({
 
 ```ts
 import { defineApi, HttpError } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({
@@ -283,7 +283,7 @@ export default defineApi({
 
 ```ts
 import { defineApi, HttpError } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({
@@ -303,7 +303,7 @@ export default defineApi({
 
 ```ts
 import { defineApi, HttpError } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({
@@ -600,7 +600,7 @@ vp test
 
 ```ts
 import { defineApi, HttpError } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({

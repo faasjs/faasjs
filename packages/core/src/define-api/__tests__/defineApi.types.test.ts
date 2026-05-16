@@ -5,8 +5,8 @@ import type {
   HttpSetStatusCode,
 } from '@faasjs/core'
 import { defineApi } from '@faasjs/core'
+import { z } from '@faasjs/utils'
 import { assertType, expect, it } from 'vitest'
-import * as z from 'zod'
 
 type CurrentUser = {
   id: number

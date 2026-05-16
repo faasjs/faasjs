@@ -11,6 +11,7 @@ import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { parseYaml } from '@faasjs/node-utils'
+import { z } from '@faasjs/utils'
 import hljs from 'highlight.js'
 import MarkdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
@@ -91,13 +92,14 @@ function parseMarkdownFrontmatter(source: string): {
   const rawData = source.slice(3 + lineBreak.length, endIndex)
   const parsed = parseYaml(rawData)
 
-  if (parsed !== undefined && (typeof parsed !== 'object' || Array.isArray(parsed))) {
+  const FrontmatterSchema = z.record(z.string(), z.unknown()).optional()
+  const frontmatterResult = FrontmatterSchema.safeParse(parsed)
+  if (!frontmatterResult.success)
     throw Error('[build-site] Markdown frontmatter must be a YAML object.')
-  }
 
   return {
     content: source.slice(endIndex + endMarker.length),
-    data: (parsed ?? {}) as Record<string, unknown>,
+    data: (frontmatterResult.data ?? {}) as Record<string, unknown>,
   }
 }
 

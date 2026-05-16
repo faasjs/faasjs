@@ -10,14 +10,9 @@
   },
   "dependencies": {
     "@faasjs/core": "file:../../packages/core",
-    "@faasjs/node-utils": "file:../../packages/node-utils",
-    "@faasjs/types": "file:../../packages/types",
-    "zod": ">=4.3.0"
+    "@faasjs/types": "file:../../packages/types"
   },
   "devDependencies": {
-    "@faasjs/dev": "file:../../packages/dev",
-    "@types/node": "*",
-    "typescript": "*",
-    "vitest": "*"
+    "@faasjs/dev": "file:../../packages/dev"
   }
 }

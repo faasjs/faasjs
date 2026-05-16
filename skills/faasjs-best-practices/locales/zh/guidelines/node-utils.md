@@ -141,7 +141,7 @@ await import('./scripts/sync-users')
 
 ```ts
 import { parseSchemaValue } from '@faasjs/node-utils'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 const params = await parseSchemaValue({
   schema: z.object({

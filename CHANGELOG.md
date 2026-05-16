@@ -2,6 +2,11 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[Unreleased]
+
+- `@faasjs/utils`
+  - [Feature] Add `z` export with Zod helper extensions for FaasJS boundary validation.
+
 [`v8.0.0-beta.28 (2026-05-08)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.27...v8.0.0-beta.28)
 
 - `faasjs`

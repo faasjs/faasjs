@@ -1,6 +1,6 @@
 import { Func, type Handler } from '@faasjs/core'
 import { parseSchemaValue } from '@faasjs/node-utils'
-import type { ZodType } from 'zod'
+import type { ZodType } from '@faasjs/utils'
 
 import { resolveMaxAttempts, resolveQueue } from '../options'
 import {

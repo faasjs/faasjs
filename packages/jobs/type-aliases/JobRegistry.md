@@ -18,7 +18,7 @@ npm install @faasjs/jobs @faasjs/pg
 
 ```ts
 import { defineJob, enqueueJob } from '@faasjs/jobs'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineJob({
   schema: z.object({

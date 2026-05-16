@@ -1,5 +1,5 @@
 import { parseSchemaValue, type SchemaOutput } from '@faasjs/node-utils'
-import type { ZodType } from 'zod'
+import type { ZodType } from '@faasjs/utils'
 
 import type { Handler, InvokeData } from '../func'
 import { Func } from '../func'
@@ -101,7 +101,7 @@ export type DefineApiOptions<
  * @example
  * ```ts
  * import { defineApi } from '@faasjs/core'
- * import * as z from 'zod'
+ * import { z } from '@faasjs/utils'
  *
  * const schema = z.object({
  *   name: z.string().min(1),

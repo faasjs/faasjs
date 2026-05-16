@@ -1,6 +1,6 @@
 import type { InvokeData } from '@faasjs/core'
 import type { SchemaOutput } from '@faasjs/node-utils'
-import type { input, ZodType } from 'zod'
+import type { input, ZodType } from '@faasjs/utils'
 
 export const DEFAULT_JOB_QUEUE = 'default'
 export const DEFAULT_JOB_MAX_ATTEMPTS = 3

@@ -29,7 +29,7 @@ src/jobs/reports/index.job.ts -> jobs/reports
 
 ```ts
 import { defineJob } from '@faasjs/jobs'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 import { sendWelcomeEmail } from '../emails/send-welcome-email'
 
@@ -75,7 +75,7 @@ Cron 规则只负责投递 job：
 
 ```ts
 import { defineJob } from '@faasjs/jobs'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineJob({
   schema: z.object({

@@ -58,7 +58,7 @@ When `event.params` fails schema validation.
 
 ```ts
 import { defineApi } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 const schema = z.object({
   name: z.string().min(1),

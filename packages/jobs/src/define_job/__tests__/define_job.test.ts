@@ -1,5 +1,5 @@
+import { z } from '@faasjs/utils'
 import { describe, expect, it } from 'vitest'
-import * as z from 'zod'
 
 import { defineJob } from '../../define_job'
 

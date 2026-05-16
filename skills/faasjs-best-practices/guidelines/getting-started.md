@@ -197,7 +197,7 @@ Create five API files under `src/pages/todos/api/`. These follow the [CRUD Patte
 
 ```ts
 import { defineApi } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({
@@ -228,7 +228,7 @@ export default defineApi({
 
 ```ts
 import { defineApi, HttpError } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({
@@ -253,7 +253,7 @@ export default defineApi({
 
 ```ts
 import { defineApi, HttpError } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({
@@ -283,7 +283,7 @@ export default defineApi({
 
 ```ts
 import { defineApi, HttpError } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({
@@ -303,7 +303,7 @@ export default defineApi({
 
 ```ts
 import { defineApi, HttpError } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({
@@ -600,7 +600,7 @@ Every API endpoint is a file that default-exports `defineApi(...)`. The `schema`
 
 ```ts
 import { defineApi, HttpError } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({

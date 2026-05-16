@@ -1,4 +1,4 @@
-import type { output, ZodError, ZodType } from 'zod'
+import type { output, ZodError, ZodType } from '@faasjs/utils'
 
 /**
  * Parsed value type for an optional Zod schema.

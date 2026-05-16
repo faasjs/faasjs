@@ -29,7 +29,7 @@ Do not duplicate the job name inside the file. Moving or renaming a job file cha
 
 ```ts
 import { defineJob } from '@faasjs/jobs'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 import { sendWelcomeEmail } from '../emails/send-welcome-email'
 
@@ -75,7 +75,7 @@ Cron rules only enqueue jobs:
 
 ```ts
 import { defineJob } from '@faasjs/jobs'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineJob({
   schema: z.object({

@@ -167,7 +167,7 @@ export default function UsersPage() {
 
 ```ts
 import { defineApi } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({
@@ -227,7 +227,7 @@ export function UserDetail(props: { id: number }) {
 
 ```ts
 import { defineApi, HttpError } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({
@@ -296,7 +296,7 @@ export function UserForm(props: { onSuccess?: () => void }) {
 
 ```ts
 import { defineApi, HttpError } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({
@@ -373,7 +373,7 @@ export function UserForm(props: {
 
 ```ts
 import { defineApi, HttpError } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({
@@ -462,7 +462,7 @@ export function UserActions(props: { row: { id: number }; onSuccess?: () => void
 
 ```ts
 import { defineApi, HttpError } from '@faasjs/core'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({

@@ -37,14 +37,12 @@
   "devDependencies": {
     "@faasjs/core": ">=8.0.0-beta.28",
     "@faasjs/node-utils": ">=8.0.0-beta.28",
-    "@faasjs/pg": ">=8.0.0-beta.28",
-    "zod": ">=4.3.0"
+    "@faasjs/pg": ">=8.0.0-beta.28"
   },
   "peerDependencies": {
     "@faasjs/core": ">=8.0.0-beta.28",
     "@faasjs/node-utils": ">=8.0.0-beta.28",
-    "@faasjs/pg": ">=8.0.0-beta.28",
-    "zod": ">=4.3.0"
+    "@faasjs/pg": ">=8.0.0-beta.28"
   },
   "engines": {
     "node": ">=24.0.0",

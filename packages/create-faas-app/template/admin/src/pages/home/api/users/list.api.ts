@@ -1,10 +1,10 @@
 import { defineApi } from '@faasjs/core'
 import { getClient } from '@faasjs/pg'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({
-    limit: z.number().int().positive().max(50).default(20),
+    limit: z.positiveint().max(50).default(20),
   }),
   async handler({ params }) {
     const client = await getClient()

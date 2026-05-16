@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest'
 
-import * as utils from '../../index'
+import * as utils from '..'
 
 it('should export helpers', () => {
   expect(utils).toHaveProperty('deepMerge')
@@ -8,4 +8,5 @@ it('should export helpers', () => {
   expect(utils).toHaveProperty('streamToObject')
   expect(utils).toHaveProperty('stringToStream')
   expect(utils).toHaveProperty('objectToStream')
+  expect(utils).toHaveProperty('z')
 })

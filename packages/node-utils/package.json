@@ -30,12 +30,10 @@
     }
   },
   "devDependencies": {
-    "@faasjs/utils": ">=8.0.0-beta.28",
-    "zod": ">=4.3.0"
+    "@faasjs/utils": ">=8.0.0-beta.28"
   },
   "peerDependencies": {
-    "@faasjs/utils": ">=8.0.0-beta.28",
-    "zod": ">=4.3.0"
+    "@faasjs/utils": ">=8.0.0-beta.28"
   },
   "engines": {
     "node": ">=24.0.0",

@@ -25,6 +25,12 @@
       "default": "./dist/index.mjs"
     }
   },
+  "devDependencies": {
+    "zod": "^4.0.0"
+  },
+  "peerDependencies": {
+    "zod": "^4.0.0"
+  },
   "engines": {
     "node": ">=24.0.0",
     "npm": ">=11.0.0"

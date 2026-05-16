@@ -1,11 +1,11 @@
 import { defineApi, HttpError } from '@faasjs/core'
 import { getClient } from '@faasjs/pg'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineApi({
   schema: z.object({
-    id: z.number().int().positive(),
-    name: z.string().min(1),
+    id: z.positiveint(),
+    name: z.nonemptystring(),
   }),
   async handler({ params }) {
     const client = await getClient()

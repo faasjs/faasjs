@@ -3,7 +3,7 @@ import { brotliDecompressSync, gunzipSync, inflateSync } from 'node:zlib'
 import { Cookie, Http } from '@faasjs/core'
 import type { Config, ExportedHandler, FuncEventType, Func } from '@faasjs/core'
 import { loadPlugins, Logger } from '@faasjs/node-utils'
-import { streamToString } from '@faasjs/utils'
+import { streamToString, z } from '@faasjs/utils'
 
 function normalizeInferredPath(path: string): string {
   const normalized = path.replace(/\\/g, '/').replace(/\/+/g, '/')
@@ -353,11 +353,13 @@ export class ApiTester<TApi extends Func<any, any, any> = Func<any, any, any>> {
     }
 
     const setCookieHeaders = response?.headers?.['Set-Cookie'] || response?.headers?.['set-cookie']
-    const cookies = Array.isArray(setCookieHeaders)
-      ? setCookieHeaders
-      : typeof setCookieHeaders === 'string'
-        ? [setCookieHeaders]
-        : []
+    const SetCookieSchema = z.union([z.array(z.string()), z.string()])
+    const setCookieResult = SetCookieSchema.safeParse(setCookieHeaders)
+    const cookies = setCookieResult.success
+      ? Array.isArray(setCookieResult.data)
+        ? setCookieResult.data
+        : [setCookieResult.data]
+      : []
 
     for (const setCookie of cookies) {
       const matched = /^([^=]+)=([^;]*)/.exec(setCookie)

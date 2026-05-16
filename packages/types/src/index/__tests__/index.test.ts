@@ -8,8 +8,8 @@ import type {
   InferFaasApi,
   InferFaasAction,
 } from '@faasjs/types'
+import { z } from '@faasjs/utils'
 import { assertType, expectTypeOf, it } from 'vitest'
-import * as z from 'zod'
 
 declare module '@faasjs/types' {
   interface FaasActions {

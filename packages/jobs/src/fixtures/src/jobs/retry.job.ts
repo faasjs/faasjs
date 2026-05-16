@@ -1,5 +1,5 @@
 import { defineJob } from '@faasjs/jobs'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 export default defineJob({
   schema: z.object({

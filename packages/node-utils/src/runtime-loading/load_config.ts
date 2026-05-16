@@ -3,7 +3,7 @@ import { dirname, join, resolve, sep } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
 import { deepMerge } from '@faasjs/utils'
-import * as z from 'zod'
+import { z } from '@faasjs/utils'
 
 import { Logger } from '../logger'
 import { parseYaml } from '../parse_yaml'
