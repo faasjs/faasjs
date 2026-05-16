@@ -1,4 +1,4 @@
-import { staticHandler, useMiddleware } from '../../middleware'
+import { staticHandler, useMiddleware } from '@faasjs/core'
 
 export default useMiddleware(
   staticHandler({

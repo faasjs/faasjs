@@ -6,7 +6,7 @@ import { Server } from '../../server'
 
 describe('middleware', () => {
   let server: Server
-  const apisRoot = join(__dirname, '..', 'apis')
+  const apisRoot = join(__dirname, 'apis')
   const poolId = Number(process.env.VITEST_POOL_ID || 0)
   const port = 31001 + poolId
 
