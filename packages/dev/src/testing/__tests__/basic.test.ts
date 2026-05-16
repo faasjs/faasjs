@@ -2,7 +2,7 @@ import { ApiTester, testApi } from '@faasjs/dev'
 import { streamToObject } from '@faasjs/utils'
 import { expect, it } from 'vitest'
 
-import basicApi from '../apis/basic.api'
+import basicApi from './apis/basic.api'
 
 it('basic', async () => {
   const testedApi = new ApiTester(basicApi)
