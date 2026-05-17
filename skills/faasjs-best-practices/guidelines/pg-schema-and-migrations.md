@@ -1,6 +1,13 @@
 # PG Schema and Migrations Guide
 
-When implementing or reviewing DDL with `@faasjs/pg`, default to `SchemaBuilder`, `TableBuilder`, and timestamped migration files.
+Use this guide when creating or reviewing database schema changes, migrations, or table structures with `@faasjs/pg`.
+
+## Applicable Scenarios
+
+- Creating or modifying a migration
+- Changing tables, columns, indexes, or constraints
+- Deciding whether a schema change should use builder helpers or raw SQL
+- Reviewing rollback expectations
 
 ## Default Workflow
 
@@ -80,3 +87,12 @@ export function down(builder: SchemaBuilder) {
 - raw DDL does not hide drift with `IF EXISTS` or `IF NOT EXISTS`
 - schema changes expect `SchemaBuilder.run()` to be atomic
 - risky schema changes are covered by focused migration or integration tests
+
+## Further Reading
+
+- [PG Testing Guide](./pg-testing.md)
+- [@faasjs/pg Package Reference](/doc/pg/)
+- [SchemaBuilder](/doc/pg/classes/SchemaBuilder.html)
+- [TableBuilder](/doc/pg/classes/TableBuilder.html)
+- [Migrator](/doc/pg/classes/Migrator.html)
+- [Client](/doc/pg/classes/Client.html)

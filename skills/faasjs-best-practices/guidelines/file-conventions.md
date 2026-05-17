@@ -2,6 +2,15 @@
 
 Use this guide when creating or reviewing frontend pages, React components, hooks, FaasJS backend route files, or background job files.
 
+## Applicable Scenarios
+
+- Creating new pages, components, or hooks
+- Refactoring frontend directory structure
+- Adding a new page or feature directory under `pages/`
+- Creating or moving `.api.ts` backend files
+- Creating or moving `.job.ts` background job files
+- Reviewing naming and placement decisions
+
 ## Default Workflow
 
 1. Put frontend pages under `pages/`.
@@ -107,7 +116,7 @@ Frontend page organization under `src/pages` is a project convention, not an imp
 
 ### 4. Follow routing-mapping for backend files
 
-- Backend route files MUST follow the [routing-mapping specification](../locales/en/specs/routing-mapping.md).
+- Backend route files MUST follow the [routing-mapping specification](../../../docs/specs/routing-mapping.md).
 - API entry files MUST end with `.api.ts`.
 - API files SHOULD be placed under the page or feature's `api/` directory.
 - Route paths and file paths MUST keep direct Zero-Mapping alignment.
@@ -214,3 +223,9 @@ src/feature/
 - shared utility code uses `utils/` instead of `shared/`, `helpers/`, `common/`, or `lib/`
 - constant definitions use `constants/` instead of the singular `constant/`
 - all test-related files (fixtures, mocks, stubs) live inside `__tests__/` rather than as sibling directories
+
+## Further Reading
+
+- [Routing Mapping Specification](../../../docs/specs/routing-mapping.md)
+- [defineApi Guide](./define-api.md)
+- [Jobs Guide](./jobs.md)

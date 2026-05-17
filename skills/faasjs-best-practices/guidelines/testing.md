@@ -2,6 +2,13 @@
 
 Use this guide when writing or reviewing tests in FaasJS projects.
 
+## Applicable Scenarios
+
+- Writing or reviewing tests for APIs, utility functions, hooks, or components
+- Deciding whether to mock a dependency
+- Choosing the right test level (unit, integration, or type)
+- Checking that tests cover behavior rather than implementation details
+
 ## Default Workflow
 
 1. Start from the public behavior or regression the test should catch.
@@ -66,3 +73,9 @@ Use this guide when writing or reviewing tests in FaasJS projects.
 - success and meaningful failure paths are covered
 - shared state, timers, env, and globals are reset between cases
 - test files live in the feature-local `__tests__` folder under the code or slice they protect instead of a centralized package-level `src/__tests__` tree
+
+## Further Reading
+
+- [defineApi Guide](./define-api.md)
+- [React Testing Guide](./react-testing.md)
+- [Node Utils Guide](./node-utils.md)

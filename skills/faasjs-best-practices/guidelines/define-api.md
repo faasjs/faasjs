@@ -2,6 +2,12 @@
 
 When implementing or reviewing a FaasJS HTTP endpoint, default to `defineApi`.
 
+## Applicable Scenarios
+
+- Creating a new `.api.ts` module
+- Reviewing request validation, error handling, or injected helpers
+- Updating routes and regenerating types after file changes
+
 ## Default Workflow
 
 1. Export `default defineApi(...)`.
@@ -232,3 +238,13 @@ describe('orders/api/create', () => {
   })
 })
 ```
+
+## Further Reading
+
+- [Testing Guide](./testing.md)
+- [defineApi](/doc/node-utils/functions/defineApi.html)
+- [DefineApiOptions](/doc/node-utils/interfaces/DefineApiOptions.html)
+- [HttpError](/doc/node-utils/classes/HttpError.html)
+- [testApi](/doc/node-utils/functions/testApi.html)
+- [ApiTester](/doc/node-utils/interfaces/ApiTester.html)
+- [generateFaasTypes](/doc/dev/functions/generateFaasTypes.html)

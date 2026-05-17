@@ -2,6 +2,12 @@
 
 Use this guide when you need lightweight helper functions from `@faasjs/utils` in app code, tests, or runtime adapters.
 
+## Applicable Scenarios
+
+- Merging config objects recursively
+- Converting text or JSON to and from streams
+- Writing portable helper code that works across Node.js, browsers, and edge runtimes
+
 ## What `@faasjs/utils` Gives You
 
 - `deepMerge`: merge nested objects and arrays without mutating the inputs
@@ -92,3 +98,12 @@ console.log(result.ok) // true
 - text payloads use the text stream helpers
 - JSON payloads use the object stream helpers
 - examples and tests choose the smallest helper that keeps intent obvious
+
+## Further Reading
+
+- [@faasjs/utils Package Reference](/doc/utils/)
+- [deepMerge](/doc/utils/functions/deepMerge.html)
+- [objectToStream](/doc/utils/functions/objectToStream.html)
+- [streamToObject](/doc/utils/functions/streamToObject.html)
+- [streamToString](/doc/utils/functions/streamToString.html)
+- [stringToStream](/doc/utils/functions/stringToStream.html)

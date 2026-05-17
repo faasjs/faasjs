@@ -1,6 +1,14 @@
 # Logger Guide
 
-Use this guide when you need readable runtime logs in FaasJS handlers, middleware, background jobs, server hooks, or standalone Node.js scripts.
+Use this guide when working with `Logger` instances, log levels, timing, and transport configuration in FaasJS apps.
+
+## Applicable Scenarios
+
+- Logging in middleware, plugins, or background jobs
+- Adding request, lifecycle, or failure logging to a FaasJS server
+- Creating standalone scripts that need a shared logger
+- Timing slow operations
+- Adjusting log verbosity for debugging
 
 ## Default Workflow
 
@@ -157,3 +165,10 @@ process.on('SIGINT', async () => {
 - environment variables are used to change verbosity
 - secrets and sensitive payloads are not logged
 - transport handlers call `stop()` during shutdown when transport is enabled
+
+## Further Reading
+
+- [@faasjs/logger Package Reference](/doc/logger/)
+- [Logger](/doc/logger/classes/Logger.html)
+- [getTransport](/doc/logger/functions/getTransport.html)
+- [formatLogger](/doc/logger/functions/formatLogger.html)

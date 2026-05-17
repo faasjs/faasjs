@@ -1,6 +1,13 @@
 # PG Table Types Guide
 
-When implementing or reviewing `@faasjs/pg` table typing, default to declaration merging on `Tables`.
+Use this guide when defining or updating table types with `@faasjs/pg` declaration merging.
+
+## Applicable Scenarios
+
+- Defining application table shapes for `@faasjs/pg`
+- Adding columns or JSONB type shapes
+- Checking that query inference flows naturally from table definitions
+- Extracting helpers that depend on `TableType`, `ColumnName`, or `ColumnValue`
 
 ## Default Workflow
 
@@ -82,3 +89,12 @@ declare module '@faasjs/pg' {
 - declaration merging still works from consumer code
 - helper types stay aligned with the merged table definition
 - public or shared type changes include `expectTypeOf(...)` coverage
+
+## Further Reading
+
+- [PG Query Builder and Raw SQL Guide](./pg-query-builder.md)
+- [PG Testing Guide](./pg-testing.md)
+- [Tables](/doc/pg/variables/Tables.html)
+- [TableType](/doc/pg/type-aliases/TableType.html)
+- [ColumnName](/doc/pg/type-aliases/ColumnName.html)
+- [ColumnValue](/doc/pg/type-aliases/ColumnValue.html)

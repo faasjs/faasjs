@@ -20,9 +20,9 @@ If the user is building with FaasJS instead of modifying the framework, read [`s
 
 ## Documentation Flow
 
-- Edit source-of-truth content first: JSDoc in `packages/*/src`, English guides in `skills/faasjs-best-practices/guidelines/**`, specs in `skills/*/references/specs/**`, and Chinese translations in `skills/faasjs-best-practices/locales/zh/**`.
-- Run `vp run doc` to invoke `@faasjs/docgen`, which refreshes API Markdown, skill references, generated published docs, and generated guide indexes.
-- Do not hand-edit generated docs under `packages/*/{classes,functions,interfaces,type-aliases,variables}`, `docs/guidelines/**`, `docs/specs/**`, `docs/zh/guidelines/**`, `docs/zh/specs/**`, `docs/guide/README.md`, or `docs/zh/guide/README.md`.
+- Edit source-of-truth content first: JSDoc in `packages/*/src`, English guides in `skills/faasjs-best-practices/guidelines/**`, specs in `skills/*/references/specs/**`, and Chinese translations in `docs/zh/**`.
+- Run `vp run doc` to invoke `@faasjs/docgen`, which refreshes API Markdown, skill references, generated English published docs, and generated guide indexes.
+- Do not hand-edit generated docs under `packages/*/{classes,functions,interfaces,type-aliases,variables}`, `docs/guidelines/**`, `docs/specs/**`, `docs/guide/README.md`, or `docs/zh/guide/README.md`.
 
 ## Standard Flow
 

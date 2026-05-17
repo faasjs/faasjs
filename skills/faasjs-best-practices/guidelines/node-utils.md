@@ -2,6 +2,16 @@
 
 Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrapping, local tooling, config resolution, or logging.
 
+## Applicable Scenarios
+
+- Running a handler, CLI, or test directly in Node.js
+- Reading staged `faas.yaml` configuration
+- Parsing the YAML subset supported by FaasJS
+- Loading plugins, API handler modules, or packages dynamically
+- Registering runtime module hooks for lifecycle or instrumentation
+- Validating boundary inputs with Zod schema-based parsing
+- Setting up a custom Node-side logger
+
 ## What `@faasjs/node-utils` Gives You
 
 - config loading: `loadConfig`, `parseYaml`
@@ -172,3 +182,15 @@ if (!isPathInsideRoot(candidate, root)) {
 - root-scoped file access validates resolved paths with `isPathInsideRoot()`
 - tests that depend on fresh loader state use `resetRuntime()`
 - logging uses `Logger` or the shared transport instead of raw `console` wrappers
+
+## Further Reading
+
+- [Logger Guide](./logger.md)
+- [@faasjs/node-utils Package Reference](/doc/node-utils/)
+- [loadConfig](/doc/node-utils/functions/loadConfig.html)
+- [parseYaml](/doc/node-utils/functions/parseYaml.html)
+- [loadApiHandler](/doc/node-utils/functions/loadApiHandler.html)
+- [loadPlugins](/doc/node-utils/functions/loadPlugins.html)
+- [loadPackage](/doc/node-utils/functions/loadPackage.html)
+- [parseSchemaValue](/doc/node-utils/functions/parseSchemaValue.html)
+- [Logger](/doc/node-utils/classes/Logger.html)

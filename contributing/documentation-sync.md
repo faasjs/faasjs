@@ -2,7 +2,7 @@
 
 Use this guide after any FaasJS change that may require documentation updates or validation.
 
-It covers syncing best-practices content under `skills/faasjs-best-practices/**`, specs under `skills/*/references/specs/**`, generated English docs under `docs/guidelines/**` and `docs/specs/**`, Chinese docs sourced from `skills/faasjs-best-practices/locales/zh/**` and generated under `docs/zh/guidelines/**` and `docs/zh/specs/**`, generated API docs from `packages/*/src`, generated guide indexes such as `docs/guide/README.md` and `docs/zh/guide/README.md`, and docs navigation files such as `docs/site/site.config.ts`.
+It covers syncing best-practices content under `skills/faasjs-best-practices/**`, specs under `skills/*/references/specs/**`, generated English docs under `docs/guidelines/**` and `docs/specs/**`, Chinese docs under `docs/zh/guidelines/**` and `docs/zh/specs/**`, generated API docs from `packages/*/src`, generated guide indexes such as `docs/guide/README.md` and `docs/zh/guide/README.md`, and docs navigation files such as `docs/site/site.config.ts`.
 
 ## Overview
 
@@ -41,7 +41,7 @@ If you are unsure, assume docs are affected and follow the workflow below before
    - API Markdown: generated from JSDoc in `packages/*/src`
    - skill package references: mirrored into `skills/faasjs-best-practices/references/packages/**`
    - English published docs: generated from `skills/faasjs-best-practices/guidelines/**` and `skills/*/references/specs/**` into `docs/guidelines/**` and `docs/specs/**`
-   - Chinese published docs: generated from `skills/faasjs-best-practices/locales/zh/**` into `docs/zh/guidelines/**` and `docs/zh/specs/**`
+   - Chinese published docs: maintained directly at `docs/zh/guidelines/**` and `docs/zh/specs/**` (no longer generated from skill locales)
    - guide indexes: generated into `docs/guide/README.md` and `docs/zh/guide/README.md`
    - navigation page lists: read from the `@faasjs/docgen` manifest in `docs/site/site.config.ts`
 4. Update release notes when needed.

@@ -248,7 +248,7 @@ export function buildManifest(options: DocgenOptions = {}): DocsManifest {
     root,
     'guideline',
     'zh',
-    'skills/faasjs-best-practices/locales/zh/guidelines/*.md',
+    'docs/zh/guidelines/*.md',
     'docs/zh/guidelines',
     guidelineOrder,
   )

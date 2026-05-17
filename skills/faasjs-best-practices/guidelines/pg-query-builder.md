@@ -1,6 +1,13 @@
 # PG Query Builder and Raw SQL Guide
 
-When implementing or reviewing `@faasjs/pg` query code, default to the fluent `QueryBuilder` surface, and fall back to `client.raw(...)` only when the builder cannot express the SQL cleanly.
+Use this guide when building SQL queries with `@faasjs/pg` in FaasJS apps.
+
+## Applicable Scenarios
+
+- Creating or modifying SELECT, INSERT, UPDATE, DELETE, or UPSERT queries
+- Adding joins, ordering, pagination, aggregation, or JSONB field selection
+- Deciding whether the typed fluent API is sufficient or raw SQL is needed
+- Choosing between `getClient` and `createClient`
 
 ## Default Workflow
 
@@ -97,3 +104,13 @@ await client.transaction(async (trx) => {
 - `select`, `first`, `pluck`, or explicit `returning` narrow rows when appropriate
 - `update` and `delete` stay guarded by `where`, and multi-step writes use `transaction(...)` when atomicity matters
 - shared query helpers or package changes keep runtime and type coverage aligned
+
+## Further Reading
+
+- [PG Testing Guide](./pg-testing.md)
+- [PG Table Types Guide](./pg-table-types.md)
+- [@faasjs/pg Package Reference](/doc/pg/)
+- [QueryBuilder](/doc/pg/classes/QueryBuilder.html)
+- [Client](/doc/pg/classes/Client.html)
+- [getClient](/doc/pg/functions/getClient.html)
+- [createClient](/doc/pg/functions/createClient.html)

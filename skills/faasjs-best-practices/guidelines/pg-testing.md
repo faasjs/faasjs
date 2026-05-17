@@ -1,6 +1,13 @@
 # PG Testing Guide
 
-When changing `@faasjs/pg`-backed code, every behavior change should come with runtime tests, and type-sensitive surface changes should come with `expectTypeOf(...)` coverage.
+Use this guide when writing or reviewing tests that use `@faasjs/pg` or `@faasjs/pg-dev` in FaasJS projects.
+
+## Applicable Scenarios
+
+- Adding or modifying query-builder usage in application code
+- Modifying shared query helpers, repository wrappers, or table types
+- Updating schema or migration helpers
+- Writing integration tests for `@faasjs/pg` or `@faasjs/pg-dev`
 
 ## Default Workflow
 
@@ -123,3 +130,13 @@ describe('users query', () => {
 - pg-backed runtime tests stay in a node-scoped project (`node` or `node-pg`) in mixed workspaces
 - suites either rely on the plugin reset or clean up their own extra setup
 - validation commands match the change surface
+
+## Further Reading
+
+- [PG Query Builder and Raw SQL Guide](./pg-query-builder.md)
+- [PG Schema and Migrations Guide](./pg-schema-and-migrations.md)
+- [@faasjs/pg Package Reference](/doc/pg/)
+- [@faasjs/pg-dev Package Reference](/doc/pg-dev/)
+- [PgVitestPlugin](/doc/pg-dev/functions/PgVitestPlugin.html)
+- [setupPgVitest](/doc/pg-dev/functions/setupPgVitest.html)
+- [getClient](/doc/pg/functions/getClient.html)

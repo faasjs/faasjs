@@ -11,7 +11,7 @@ Use this guide when developing or maintaining the FaasJS framework in this monor
 - Framework contribution guides and maintainer workflows: `contributing/**`
 - Docker image definitions and related assets: `images/**`
 - Framework specifications: `skills/*/references/specs/**`
-- Chinese best-practices and specs translations: `skills/faasjs-best-practices/locales/zh/**`
+- Chinese best-practices and specs translations: `docs/zh/**`
 
 ## Guide Boundaries
 
