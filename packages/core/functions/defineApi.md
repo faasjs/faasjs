@@ -61,7 +61,7 @@ import { defineApi } from '@faasjs/core'
 import { z } from '@faasjs/utils'
 
 const schema = z.object({
-  name: z.nonemptystring(),
+  name: z.string().min(1),
 })
 
 export default defineApi({

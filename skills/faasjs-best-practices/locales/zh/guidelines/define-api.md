@@ -37,10 +37,11 @@ export default defineApi({
 
 ## 规则
 
-### 1. 使用 zod 进行数据验证
+### 1. zod 仅用于输入验证，不做内部类型检查
 
-- 使用 zod 作为数据验证工具，避免手写验证函数。
-- zod 提供类型安全的 schema，可以自动生成 TypeScript 类型，减少样板代码并确保验证逻辑与类型定义保持同步。
+- 使用 zod 验证系统边界上的外部输入（用户参数、配置文件、API 载荷），这是 `defineApi` 的 `schema` 的职责。
+- 不要在内部控制流中用 zod 替代 `typeof`/`instanceof`/`=== null` 检查。这些谓词简洁、零开销且语义正确——用 zod 只会增加代码量和开销。
+- zod schema 可自动生成 TypeScript 类型，减少样板代码并确保验证逻辑与类型定义保持同步。
 - 优先直接在 `defineApi` 内定义 `schema`。
 - 只有在 schema 会复用、跨文件共享，或明显提升可读性时，才抽成单独常量。
 - 把 `schema` 视为外部输入的单一事实来源。

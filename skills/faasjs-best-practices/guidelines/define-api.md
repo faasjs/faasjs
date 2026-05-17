@@ -31,10 +31,11 @@ export default defineApi({
 
 ## Rules
 
-### 1. Use zod for data validation
+### 1. Use zod for input validation, not for internal type checks
 
-- Use zod for data validation instead of handwritten validation functions.
-- Zod provides type-safe schemas that generate TypeScript types automatically, reducing boilerplate and ensuring validation logic stays in sync with type definitions.
+- Use zod for validating external input (user params, config files, API payloads) at system boundaries. This is what `defineApi`'s `schema` is for.
+- Do not use zod to replace `typeof`/`instanceof`/`=== null` checks used for internal control flow. Those predicates are concise, zero-overhead, and semantically correct—zod would add code and cost with no benefit.
+- Zod schemas generate TypeScript types automatically, reducing boilerplate and keeping validation logic in sync with type definitions.
 - Prefer defining `schema` directly inside `defineApi`.
 - Extract schema into a separate constant only when it is reused, shared across files, or meaningfully improves readability.
 - Treat `schema` as the source of truth for external input.

@@ -7,6 +7,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/utils`
   - [Feature] Add `z` export with Zod helper extensions for FaasJS boundary validation.
 
+- `faasjs`
+  - [Docs] Clarify the boundary between zod input validation and internal `typeof`/`instanceof` type checks in best-practices guides.
+
 [`v8.0.0-beta.28 (2026-05-08)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.27...v8.0.0-beta.28)
 
 - `faasjs`
