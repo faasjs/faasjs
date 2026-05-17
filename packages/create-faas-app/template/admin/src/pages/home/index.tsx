@@ -2,11 +2,19 @@ declare module '@faasjs/types' {
   interface FaasActions {
     '/pages/home/api/users/list': {
       Params: { limit: number }
-      Data: { total?: number; users?: { id: number; name: string }[] }
+      Data: { total?: number; rows?: { id: number; name: string }[] }
     }
     '/pages/home/api/users/create': {
       Params: { name?: string | undefined }
       Data: { message?: string; total?: number; user?: { id: number; name: string } }
+    }
+    '/pages/home/api/users/update': {
+      Params: { id: number; name: string }
+      Data: { message?: string; user?: { id: number; name: string } }
+    }
+    '/pages/home/api/users/detail': {
+      Params: { id: number }
+      Data: { user?: { id: number; name: string } }
     }
     '/pages/home/api/auth/me': {
       Params: Record<string, never>
@@ -16,99 +24,67 @@ declare module '@faasjs/types' {
 }
 
 import { faas, useApp } from '@faasjs/ant-design'
+import { useFaas } from '@faasjs/react'
 import { Button, Card, Input, Space, Table, Typography } from 'antd'
 import { useState } from 'react'
-
-type CurrentUserResponse = {
-  current_user?: {
-    id: number
-    name: string
-    role: string
-  }
-}
-
-type UserRecord = {
-  id: number
-  name: string
-}
-
-type ListUsersResponse = {
-  total?: number
-  users?: UserRecord[]
-}
-
-type CreateUserResponse = {
-  message?: string
-  total?: number
-  user?: UserRecord
-}
 
 export default function HomePage() {
   const app = useApp()
   const [name, setName] = useState('FaasJS')
   const [messageText, setMessageText] = useState('Create your first user through the FaasJS API')
-  const [loading, setLoading] = useState(false)
-  const [authLoading, setAuthLoading] = useState(false)
-  const [users, setUsers] = useState<UserRecord[]>([])
 
-  const refreshUsers = async () => {
-    const response = await faas('/pages/home/api/users/list', {
-      limit: 10,
-    })
-    const data = (response.data as ListUsersResponse | undefined) || undefined
+  const {
+    data: listData,
+    loading: listLoading,
+    reload,
+  } = useFaas('/pages/home/api/users/list', { limit: 10 })
 
-    setUsers(data?.users || [])
-  }
+  const rows = listData?.rows || []
 
+  const [creating, setCreating] = useState(false)
   const callApi = async () => {
-    setLoading(true)
-
+    setCreating(true)
     try {
       const response = await faas('/pages/home/api/users/create', {
         name: name.trim() || undefined,
       })
-      const data = (response.data as CreateUserResponse | undefined) || undefined
+      const result = response.data
       const nextMessage =
-        data?.user && typeof data.total === 'number'
-          ? `Created ${data.user.name} (#${data.user.id}). Total users: ${data.total}`
-          : data?.message || 'Empty response'
+        result?.user && typeof result.total === 'number'
+          ? `Created ${result.user.name} (#${result.user.id}). Total users: ${result.total}`
+          : result?.message || 'Empty response'
 
       setMessageText(nextMessage)
-      setUsers((current) => (data?.user ? [data.user, ...current].slice(0, 10) : current))
       app.message.success('User saved to PostgreSQL')
+      reload()
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Request failed'
-
       setMessageText(errorMessage)
       app.notification.error({
         message: 'API call failed',
         description: errorMessage,
       })
     } finally {
-      setLoading(false)
+      setCreating(false)
     }
   }
 
+  const [authLoading, setAuthLoading] = useState(false)
   const callAuthDemo = async () => {
     setAuthLoading(true)
-
     try {
       const response = await faas(
         '/pages/home/api/auth/me',
         {},
         {
-          headers: {
-            authorization: 'Bearer demo-admin',
-          },
+          headers: { authorization: 'Bearer demo-admin' },
         },
       )
-      const data = (response.data as CurrentUserResponse | undefined) || undefined
-
-      setMessageText(`Auth plugin injected current user: ${data?.current_user?.name || 'unknown'}`)
+      const currentUser = response.data?.current_user
+      setMessageText(`Auth plugin injected current user: ${currentUser?.name || 'unknown'}`)
       app.message.success('Auth plugin demo loaded current_user')
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Auth demo failed'
-
       setMessageText(errorMessage)
       app.notification.error({
         message: 'Auth demo failed',
@@ -156,8 +132,10 @@ export default function HomePage() {
           />
 
           <Space wrap>
-            <Button onClick={refreshUsers}>Load users slice</Button>
-            <Button type="primary" loading={loading} onClick={callApi}>
+            <Button onClick={reload} loading={listLoading}>
+              Load users slice
+            </Button>
+            <Button type="primary" loading={creating} onClick={callApi}>
               Create /pages/home/api/users/create
             </Button>
             <Button loading={authLoading} onClick={callAuthDemo}>
@@ -165,20 +143,15 @@ export default function HomePage() {
             </Button>
           </Space>
 
-          <Table<UserRecord>
+          <Table
             rowKey="id"
             size="small"
             pagination={false}
-            dataSource={users}
+            loading={listLoading}
+            dataSource={rows}
             columns={[
-              {
-                title: 'ID',
-                dataIndex: 'id',
-              },
-              {
-                title: 'Name',
-                dataIndex: 'name',
-              },
+              { title: 'ID', dataIndex: 'id' },
+              { title: 'Name', dataIndex: 'name' },
             ]}
           />
 

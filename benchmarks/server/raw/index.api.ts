@@ -1,10 +1,7 @@
-import { Func } from '@faasjs/core'
+import { defineApi } from '@faasjs/core'
 
-export default new Func({
+export default defineApi({
   async handler() {
-    return {
-      statusCode: 200,
-      body: 'Hello',
-    }
+    return 'Hello'
   },
 })

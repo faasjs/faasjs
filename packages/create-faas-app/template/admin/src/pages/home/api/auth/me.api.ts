@@ -1,8 +1,10 @@
 import { defineApi, HttpError } from '@faasjs/core'
+import { z } from '@faasjs/utils'
 
 import { AuthPlugin } from '../../../../plugins/auth'
 
 const api = defineApi({
+  schema: z.object({}).strict(),
   async handler({ current_user }) {
     if (!current_user)
       throw new HttpError({

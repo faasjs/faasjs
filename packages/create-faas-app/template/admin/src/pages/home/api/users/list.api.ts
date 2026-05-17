@@ -16,7 +16,7 @@ export default defineApi({
 
     return {
       total: await client.query('users').count(),
-      users,
+      rows: users,
     }
   },
 })

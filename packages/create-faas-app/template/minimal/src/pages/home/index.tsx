@@ -9,39 +9,21 @@ declare module '@faasjs/types' {
 
 import { useState } from 'react'
 
-import { faas } from '../../react-client'
-
-type HelloResponse = {
-  message?: string
-}
+import { useFaas } from '../../react-client'
 
 export default function HomePage() {
   const [name, setName] = useState('FaasJS')
-  const [message, setMessage] = useState('Click button to call API')
-  const [loading, setLoading] = useState(false)
 
-  const callApi = async () => {
-    setLoading(true)
-
-    try {
-      const response = await faas('/pages/home/api/hello', {
-        name: name.trim() || undefined,
-      })
-
-      const data = response.data as HelloResponse | undefined
-
-      setMessage(data?.message || 'Empty response')
-    } catch (error: unknown) {
-      setMessage(error instanceof Error ? error.message : 'Request failed')
-    } finally {
-      setLoading(false)
-    }
-  }
+  const { data, loading, reload } = useFaas(
+    '/pages/home/api/hello',
+    { name: name.trim() || undefined },
+    { skip: true },
+  )
 
   return (
     <main style={{ margin: '5rem auto', maxWidth: 420, padding: 24 }}>
       <h1>FaasJS Minimal App</h1>
-      <p>{message}</p>
+      <p>{data?.message || 'Click button to call API'}</p>
 
       <label style={{ display: 'block', marginBottom: 12 }}>
         Name:
@@ -52,7 +34,11 @@ export default function HomePage() {
         />
       </label>
 
-      <button type="button" onClick={callApi} disabled={loading}>
+      <button
+        type="button"
+        onClick={() => reload({ name: name.trim() || undefined })}
+        disabled={loading}
+      >
         {loading ? 'Loading...' : 'Call /pages/home/api/hello'}
       </button>
     </main>
