@@ -3,7 +3,7 @@ import { existsSync, realpathSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import { createMain, parseCommonCliArgs, printVersion } from '../../shared/index.ts'
+import { createMain, parseCommonCliArgs, printVersion } from '../../utils/index.ts'
 
 const HelpText = `Run a TypeScript file with FaasJS Node module hooks.
 

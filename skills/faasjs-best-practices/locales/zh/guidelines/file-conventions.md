@@ -165,6 +165,43 @@ src/jobs/reports/index.job.ts
 - 对相邻兄弟模块，优先使用短相对导入，例如 `./UserCard` 或 `../hooks/useUser`。
 - 不要引入一种新的 alias 风格，除非项目已经配置好它，或者你会在同一改动里把项目配置一起补齐。
 
+### 7. 遵循共享代码目录的命名规范
+
+- **`utils/`** 用于通用工具函数。不要使用 `shared/`、`helpers/`、`common/` 或 `lib/`。当 `utils/` 增长较大时，按功能拆分子目录，如 `utils/date/`、`utils/format/`。
+- **`constants/`** 用于常量定义。不要使用单数 `constant/`。
+
+优先这样组织：
+
+```text
+src/utils/date.ts
+src/utils/format.ts
+src/constants/index.ts
+```
+
+### 8. 所有测试相关文件必须放在 `__tests__/` 下
+
+- 测试文件、fixtures、mocks、stubs 以及其他测试辅助文件，都必须放在 `__tests__/` 内。
+- 不要将 `fixtures/`、`mocks/` 或其他测试辅助目录作为 `__tests__/` 的平级目录。
+
+优先这样组织：
+
+```text
+src/feature/__tests__/
+  feature.test.ts
+  fixtures/
+    data.ts
+```
+
+避免这样组织：
+
+```text
+src/feature/
+  __tests__/
+    feature.test.ts
+  fixtures/           # ← 与 __tests__ 平级
+    data.ts
+```
+
 ## 评审清单
 
 - 一次性的 UI 或状态逻辑没有在缺乏可读性 / 复用理由时被提前抽离
@@ -183,6 +220,9 @@ src/jobs/reports/index.job.ts
 - 后端 `.api.ts` 文件遵循 routing-mapping
 - 导入路径在适用时遵循 `tsconfig.json` 已定义的 alias
 - 相邻模块保持相对导入，不强行把所有导入都改成 alias
+- 通用工具代码使用 `utils/`，而非 `shared/`、`helpers/`、`common/` 或 `lib/`
+- 常量定义使用 `constants/`，而非单数 `constant/`
+- 所有测试相关文件（fixtures、mocks、stubs）都放在 `__tests__/` 内，而非作为平级目录
 
 ## 延伸阅读
 

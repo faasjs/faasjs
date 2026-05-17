@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { Func, Http } from '@faasjs/core'
 
-import { fromAlias } from './shared/message'
-import { fromRelative } from './shared/relative'
+import { fromAlias } from './utils/message'
+import { fromRelative } from './utils/relative'
 
 const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
 

@@ -156,6 +156,43 @@ This maps directly to:
 - Prefer short relative imports for nearby siblings such as `./UserCard` or `../hooks/useUser`.
 - Do not introduce a new alias style unless the project already configures it, or you are updating project config in the same change.
 
+### 7. Follow naming conventions for shared code directories
+
+- **`utils/`** for shared utility functions. Do not use `shared/`, `helpers/`, `common/`, or `lib/`. When `utils/` grows large, split by domain such as `utils/date/`, `utils/format/`.
+- **`constants/`** for constant definitions. Do not use the singular `constant/`.
+
+Prefer this:
+
+```text
+src/utils/date.ts
+src/utils/format.ts
+src/constants/index.ts
+```
+
+### 8. Keep all test-related files under `__tests__/`
+
+- Test files, fixtures, mocks, stubs, and any other test support files MUST live inside `__tests__/`.
+- Do not place `fixtures/`, `mocks/`, or other test support directories as siblings of `__tests__/`.
+
+Prefer this:
+
+```text
+src/feature/__tests__/
+  feature.test.ts
+  fixtures/
+    data.ts
+```
+
+Avoid this:
+
+```text
+src/feature/
+  __tests__/
+    feature.test.ts
+  fixtures/           # ← sibling of __tests__
+    data.ts
+```
+
 ## Review Checklist
 
 - one-off UI or state logic is not extracted without a readability or reuse reason
@@ -174,3 +211,6 @@ This maps directly to:
 - backend `.api.ts` files follow routing-mapping
 - imports follow aliases already defined in `tsconfig.json` when available
 - nearby imports stay relative instead of forcing alias usage everywhere
+- shared utility code uses `utils/` instead of `shared/`, `helpers/`, `common/`, or `lib/`
+- constant definitions use `constants/` instead of the singular `constant/`
+- all test-related files (fixtures, mocks, stubs) live inside `__tests__/` rather than as sibling directories

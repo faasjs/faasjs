@@ -5,7 +5,7 @@ import { setTimeout as delay } from 'node:timers/promises'
 
 import { expect, it } from 'vitest'
 
-import { resolvePgVitestWorkerId } from '../../../plugin-context'
+import { resolvePgVitestWorkerId } from '../../../../plugin-context'
 import { createFixturePostgres, requireFixtureDatabaseUrl } from '../shared'
 
 const PARALLEL_WORKER_COUNT = 2

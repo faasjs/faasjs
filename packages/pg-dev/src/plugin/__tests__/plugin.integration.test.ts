@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url'
 
 import { describe, expect, it } from 'vitest'
 
-const fixturesDir = join(dirname(fileURLToPath(import.meta.url)), '..', 'fixtures')
+const fixturesDir = join(dirname(fileURLToPath(import.meta.url)), 'fixtures')
 const basicFixtureDir = join(fixturesDir, 'faasjs-pg-vitest-plugin')
 const parallelFixtureDir = join(fixturesDir, 'faasjs-pg-vitest-plugin-parallel')
 const rawSqlFixtureDir = join(fixturesDir, 'faasjs-pg-vitest-plugin-raw-sql')

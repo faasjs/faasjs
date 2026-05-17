@@ -1,6 +1,6 @@
 import { run as runFileCli } from './commands/run'
 import { run as runTypesCli } from './commands/types'
-import { createMain, printVersion } from './shared'
+import { createMain, printVersion } from './utils'
 
 const HelpText = `FaasJS CLI.
 

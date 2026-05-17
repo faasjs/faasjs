@@ -43,7 +43,7 @@
 export type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
 export * from './browser'
 export * from './client'
-export * from './constant'
+export * from './constants'
 export * from './ErrorBoundary'
 export * from './equal'
 export * from './FaasDataWrapper'

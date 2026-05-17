@@ -11,7 +11,7 @@ import { getJobPathFromFile, loadJobRegistry } from '../../discovery'
 import { enqueueJob, JobScheduler, JobWorker, type JobRecord } from '../../index'
 import { ensureJobsSchema } from '../../queue'
 
-const root = resolve(__dirname, '../../fixtures/src')
+const root = resolve(__dirname, 'fixtures/src')
 const tempDirs: string[] = []
 
 describe('jobs', () => {

@@ -1,5 +1,5 @@
 import { generateFaasTypes } from '../../../typegen/index.ts'
-import { createMain, parseCommonCliArgs, printVersion } from '../../shared/index.ts'
+import { createMain, parseCommonCliArgs, printVersion } from '../../utils/index.ts'
 
 const HelpText = `Generate FaasJS API type declarations.
 

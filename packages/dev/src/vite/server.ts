@@ -4,8 +4,8 @@ import { Server } from '@faasjs/core'
 import { Logger } from '@faasjs/node-utils'
 import type { Plugin } from 'vite'
 
-import { resolveServerConfig } from '../shared/server_config.ts'
 import { generateFaasTypes, isTypegenInputFile } from '../typegen/index.ts'
+import { resolveServerConfig } from '../utils/server_config.ts'
 
 const TYPEGEN_DEBOUNCE = 120
 

@@ -1,6 +1,6 @@
 import { type Context, createContext, type ReactNode, useContext } from 'react'
 
-import { useConstant } from '../constant'
+import { useConstant } from '../constants'
 import { useEqualMemo } from '../equal'
 import { useSplittingState } from '../splittingState'
 

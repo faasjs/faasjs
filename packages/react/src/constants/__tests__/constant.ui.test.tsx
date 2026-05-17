@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 
-import { useConstant } from '../../constant'
+import { useConstant } from '../../constants'
 
 describe('useConstant', () => {
   it('should work', async () => {

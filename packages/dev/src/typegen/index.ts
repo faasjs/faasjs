@@ -4,7 +4,7 @@ import { dirname, join, relative } from 'node:path'
 
 import { Logger } from '@faasjs/node-utils'
 
-import { resolveServerConfig } from '../shared/server_config.ts'
+import { resolveServerConfig } from '../utils/server_config.ts'
 
 type RouteTypeItem = {
   route: string
