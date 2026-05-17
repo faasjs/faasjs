@@ -1,8 +1,7 @@
 import { Input, Select } from 'antd'
-import type dayjs from 'dayjs'
 
 import { Blank } from '../Blank'
-import { transferOptions, transferValue } from '../data'
+import { renderDisplayValue, transferOptions, transferValue } from '../data'
 import type { TableItemProps } from './types'
 
 export type NormalizedTableOption = {
@@ -14,42 +13,7 @@ export function processValue(item: TableItemProps, value: any) {
   const itemType = item.type ?? 'string'
   const transferred = transferValue(itemType, value)
 
-  if (transferred === null || (Array.isArray(transferred) && transferred.length === 0))
-    return <Blank />
-
-  if (item.options) {
-    if (itemType.endsWith('[]'))
-      return (transferred as any[])
-        .map(
-          (v: any) =>
-            (
-              item.options as {
-                label: string
-                value: any
-              }[]
-            ).find((option) => option.value === v)?.label || v,
-        )
-        .join(', ')
-
-    if (['string', 'number', 'boolean'].includes(itemType))
-      return (
-        (
-          item.options as {
-            label: string
-            value: any
-          }[]
-        ).find((option) => option.value === transferred)?.label || transferred
-      )
-  }
-
-  if (itemType.endsWith('[]')) return (transferred as any[]).join(', ')
-
-  if (['date', 'time'].includes(itemType))
-    return (transferred as dayjs.Dayjs).format(
-      itemType === 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss',
-    )
-
-  return transferred
+  return renderDisplayValue(itemType, transferred, item.options as any)
 }
 
 export function toTableFilters(

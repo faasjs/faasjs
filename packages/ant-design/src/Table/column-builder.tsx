@@ -3,9 +3,8 @@ import { DatePicker, Radio } from 'antd'
 import dayjs from 'dayjs'
 import { cloneDeep, isNil, uniqBy } from 'lodash-es'
 
-import { Blank } from '../Blank'
 import type { ResolvedTheme } from '../Config'
-import { cloneUnionFaasItemElement, idToTitle, transferOptions } from '../data'
+import { cloneUnionFaasItemElement, idToTitle, renderDisplayValue, transferOptions } from '../data'
 import { Description } from '../Description'
 import type { FaasDataWrapperProps } from '../FaasDataWrapper'
 import type { ExtendTableTypeProps, TableItemProps } from './types'
@@ -188,25 +187,7 @@ export function createTableColumns(
         }
         break
       case 'boolean':
-        if (!item.render)
-          item.render = (value) =>
-            isNil(value) ? (
-              <Blank />
-            ) : value ? (
-              <CheckOutlined
-                style={{
-                  marginTop: '4px',
-                  color: '#52c41a',
-                }}
-              />
-            ) : (
-              <CloseOutlined
-                style={{
-                  marginTop: '4px',
-                  color: '#ff4d4f',
-                }}
-              />
-            )
+        if (!item.render) item.render = (value) => renderDisplayValue('boolean', value)
 
         if (item.filterDropdown !== false) {
           if (typeof item.filterDropdown === 'undefined')

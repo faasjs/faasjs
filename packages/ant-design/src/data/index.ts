@@ -291,3 +291,5 @@ export interface UnionFaasItemProps<Value = any, Values = any>
 export function cloneUnionFaasItemElement(element: UnionFaasItemElement, props: any) {
   return cloneElement(isValidElement(element) ? element : createElement(element), props)
 }
+
+export { renderDisplayValue } from './render'

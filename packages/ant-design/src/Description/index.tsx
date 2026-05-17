@@ -1,8 +1,5 @@
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
-import { useEqualEffect } from '@faasjs/react'
 import { Descriptions, type DescriptionsProps, Space } from 'antd'
-import type { Dayjs } from 'dayjs'
-import { type JSX, type ReactNode, useState } from 'react'
+import { type JSX, type ReactNode } from 'react'
 
 import { Blank } from '../Blank'
 import {
@@ -10,6 +7,7 @@ import {
   cloneUnionFaasItemElement,
   type FaasItemProps,
   idToTitle,
+  renderDisplayValue,
   transferOptions,
   transferValue,
   type UnionFaasItemElement,
@@ -99,141 +97,61 @@ export interface DescriptionItemContentProps<T = any> {
 function DescriptionItemContent<T = any>(
   props: DescriptionItemContentProps<T>,
 ): JSX.Element | null {
-  const [computedProps, setComputedProps] = useState<DescriptionItemContentProps<T>>()
-
-  useEqualEffect(() => {
-    const propsCopy = { ...props }
-
-    propsCopy.item.title = propsCopy.item.title ?? idToTitle(propsCopy.item.id)
-    if (!propsCopy.item.type) propsCopy.item.type = 'string'
-    if (propsCopy.item.options?.length) {
-      propsCopy.item.options = transferOptions(propsCopy.item.options)
-    }
-
-    propsCopy.value = transferValue(propsCopy.item.type, propsCopy.value)
-
-    if (propsCopy.item.options && propsCopy.value !== null) {
-      if (propsCopy.item.type.endsWith('[]'))
-        propsCopy.value = (propsCopy.value as unknown as any[]).map(
-          (v: any) =>
-            (
-              propsCopy.item.options as {
-                label: string
-                value: any
-              }[]
-            ).find((option) => option.value === v)?.label || v,
-        ) as unknown as T
-      else if (['string', 'number', 'boolean'].includes(propsCopy.item.type))
-        propsCopy.value =
-          ((
-            props.item.options as {
-              label: string
-              value: any
-            }[]
-          ).find((option) => option.value === props.value)?.label as unknown as T) || props.value
-    }
-
-    setComputedProps(propsCopy)
-  }, [props])
-
-  if (!computedProps) return null
-
-  const itemType = computedProps.item.type ?? 'string'
+  const { item, value: rawValue, values, extendTypes } = props
+  const type = item.type ?? 'string'
+  const options = item.options?.length ? transferOptions(item.options) : undefined
+  const value = transferValue(type, rawValue)
 
   if (
-    computedProps.item.descriptionChildren === null ||
-    computedProps.item.children === null ||
-    computedProps.item.descriptionRender === null ||
-    computedProps.item.render === null
+    item.descriptionChildren === null ||
+    item.children === null ||
+    item.descriptionRender === null ||
+    item.render === null
   )
     return null
 
-  const children = computedProps.item.descriptionChildren || computedProps.item.children
+  const children = item.descriptionChildren || item.children
   if (children)
     return cloneUnionFaasItemElement(children, {
       scene: 'description',
-      value: computedProps.value,
-      values: computedProps.values,
+      value,
+      values,
       index: 0,
     })
 
-  const render = computedProps.item.descriptionRender || computedProps.item.render
+  const render = item.descriptionRender || item.render
+  if (render) return <>{render(value, values, 0, 'description')}</>
 
-  if (render) return <>{render(computedProps.value, computedProps.values, 0, 'description')}</>
-
-  if (computedProps.extendTypes?.[itemType]) {
-    const extendType = computedProps.extendTypes[itemType]
-
+  if (extendTypes?.[type]) {
+    const extendType = extendTypes[type]
     if (extendType.children)
       return cloneUnionFaasItemElement(extendType.children, {
         scene: 'description',
-        value: computedProps.value,
-        values: computedProps.values,
+        value,
+        values,
       })
-    if (extendType.render)
-      return <>{extendType.render(computedProps.value, computedProps.values, 0, 'description')}</>
-    throw Error(`${itemType} requires children or render`)
+    if (extendType.render) return <>{extendType.render(value, values, 0, 'description')}</>
+    throw Error(`${type} requires children or render`)
   }
 
-  if (
-    computedProps.value === null ||
-    (Array.isArray(computedProps.value) && !computedProps.value.length)
-  )
-    return <Blank />
-
-  switch (itemType) {
-    case 'string[]':
-      return <>{(computedProps.value as string[]).join(', ')}</>
-    case 'number':
-      return (computedProps.value as any) || null
-    case 'number[]':
-      return <>{(computedProps.value as number[]).join(', ')}</>
-    case 'boolean':
-      return computedProps.value ? (
-        <CheckOutlined
-          style={{
-            marginTop: '4px',
-            color: '#52c41a',
-          }}
-        />
-      ) : (
-        <CloseOutlined
-          style={{
-            marginTop: '4px',
-            color: '#ff4d4f',
-          }}
-        />
-      )
-    case 'time':
-      return <>{(computedProps.value as Dayjs).format('YYYY-MM-DD HH:mm:ss')}</>
-    case 'date':
-      return <>{(computedProps.value as Dayjs).format('YYYY-MM-DD')}</>
-    case 'object': {
-      if (!computedProps.value) return <Blank />
-
-      const objectItems = computedProps.item.object || []
-
-      return <Description items={objectItems} dataSource={computedProps.value} column={1} />
-    }
-    case 'object[]':
-      if (!(computedProps.value as Record<string, any>[])?.length) return <Blank />
-
-      return (
-        <Space direction="vertical">
-          {(computedProps.value as Record<string, any>[]).map((value, index) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: Nested description items do not carry stable ids, but their order is preserved.
-            <Description
-              key={index}
-              items={computedProps.item.object || []}
-              dataSource={value}
-              column={1}
-            />
-          ))}
-        </Space>
-      )
-    default:
-      return (computedProps.value as any) || null
+  if (type === 'object') {
+    if (!value) return <Blank />
+    return <Description items={item.object || []} dataSource={value as any} column={1} />
   }
+
+  if (type === 'object[]') {
+    if (!(value as Record<string, any>[])?.length) return <Blank />
+    return (
+      <Space direction="vertical">
+        {(value as Record<string, any>[]).map((v, index) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: Nested description items do not carry stable ids, but their order is preserved.
+          <Description key={index} items={item.object || []} dataSource={v} column={1} />
+        ))}
+      </Space>
+    )
+  }
+
+  return <>{renderDisplayValue(type, value, options)}</>
 }
 
 DescriptionItemContent.displayName = 'DescriptionItemContent'
