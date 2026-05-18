@@ -8,14 +8,14 @@ const ignorePatterns = ['**/dist/**', 'node_modules/**']
  * @example
  * ```ts
  * import { defineConfig } from 'vite-plus'
- * import { oxfmtConfig } from '@faasjs/dev'
+ * import { OxfmtConfig } from '@faasjs/dev'
  *
  * export default defineConfig({
- *   fmt: oxfmtConfig,
+ *   fmt: OxfmtConfig,
  * })
  * ```
  */
-export const oxfmtConfig: NonNullable<UserConfig['fmt']> = {
+export const OxfmtConfig: NonNullable<UserConfig['fmt']> = {
   ignorePatterns: [...ignorePatterns],
   semi: false,
   singleQuote: true,

@@ -8,9 +8,9 @@ import * as vite from '../../vite/index'
 describe('index exports', () => {
   it('should export vite helpers', () => {
     expect(dev.viteFaasJsServer).toBe(vite.viteFaasJsServer)
-    expect(dev.viteConfig).toBe(vite.viteConfig)
-    expect(dev.oxfmtConfig).toBe(vite.oxfmtConfig)
-    expect(dev.oxlintConfig).toBe(vite.oxlintConfig)
+    expect(dev.ViteConfig).toBe(vite.ViteConfig)
+    expect(dev.OxfmtConfig).toBe(vite.OxfmtConfig)
+    expect(dev.OxlintConfig).toBe(vite.OxlintConfig)
   })
 
   it('should export test helpers', () => {

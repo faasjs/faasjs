@@ -8,7 +8,7 @@ import {
   FaasDataWrapper,
   type FaasDataWrapperProps,
 } from './FaasDataWrapper'
-import { useFaas, type useFaasOptions } from './useFaas'
+import { useFaas, type UseFaasOptions } from './useFaas'
 
 const clients: {
   [key: string]: FaasReactClientInstance
@@ -132,12 +132,12 @@ export function FaasReactClient(
     useFaas: <PathOrData extends FaasActionUnionType>(
       action: FaasAction<PathOrData>,
       defaultParams: FaasParams<PathOrData>,
-      requestOptions?: useFaasOptions<PathOrData>,
+      requestOptions?: UseFaasOptions<PathOrData>,
     ): FaasDataInjection<PathOrData> =>
       useFaas<PathOrData>(
         action,
         defaultParams,
-        withBaseUrl<useFaasOptions<PathOrData>>(requestOptions),
+        withBaseUrl<UseFaasOptions<PathOrData>>(requestOptions),
       ),
     FaasDataWrapper: <PathOrData extends FaasActionUnionType>(
       props: FaasDataWrapperProps<PathOrData>,

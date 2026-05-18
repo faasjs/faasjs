@@ -56,7 +56,7 @@
 - [ResponseProps](type-aliases/ResponseProps.md)
 - [StateSetters](type-aliases/StateSetters.md)
 - [StatesWithSetters](type-aliases/StatesWithSetters.md)
-- [useFaasOptions](type-aliases/useFaasOptions.md)
+- [UseFaasOptions](type-aliases/UseFaasOptions.md)
 - [UseFaasStreamOptions](type-aliases/UseFaasStreamOptions.md)
 - [UseFaasStreamResult](type-aliases/UseFaasStreamResult.md)
 

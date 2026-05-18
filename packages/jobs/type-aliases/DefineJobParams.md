@@ -10,4 +10,4 @@ Params validated by the optional Zod schema.
 
 ### TSchema
 
-`TSchema` _extends_ `ZodType` \| `undefined` = `undefined`
+`TSchema` *extends* `ZodType` \| `undefined` = `undefined`

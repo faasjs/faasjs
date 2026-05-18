@@ -1,8 +1,8 @@
-[@faasjs/dev](../README.md) / viteConfig
+[@faasjs/dev](../README.md) / ViteConfig
 
-# Variable: viteConfig
+# Variable: ViteConfig
 
-> `const` **viteConfig**: `object`
+> `const` **ViteConfig**: `object`
 
 Shared Vite Plus configuration for standard FaasJS React apps.
 
@@ -41,19 +41,19 @@ stack matches your app, then override only the fields that differ.
 
 ```ts
 import { defineConfig } from 'vite-plus'
-import { viteConfig } from '@faasjs/dev'
+import { ViteConfig } from '@faasjs/dev'
 
 export default defineConfig({
-  ...viteConfig,
+  ...ViteConfig,
 })
 ```
 
 ```ts
 import { defineConfig } from 'vite-plus'
-import { viteConfig } from '@faasjs/dev'
+import { ViteConfig } from '@faasjs/dev'
 
 export default defineConfig({
-  ...viteConfig,
+  ...ViteConfig,
   test: {
     environment: 'jsdom',
   },

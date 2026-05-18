@@ -49,7 +49,7 @@
 - [HttpSetHeader](type-aliases/HttpSetHeader.md)
 - [HttpSetStatusCode](type-aliases/HttpSetStatusCode.md)
 - [InvokeData](type-aliases/InvokeData.md)
-- [LifeCycleKey](type-aliases/LifeCycleKey.md)
+- [LifecycleKey](type-aliases/LifecycleKey.md)
 - [Middleware](type-aliases/Middleware.md)
 - [MiddlewareContext](type-aliases/MiddlewareContext.md)
 - [MiddlewareEvent](type-aliases/MiddlewareEvent.md)
@@ -66,6 +66,6 @@
 ## Variables
 
 - [ContentType](variables/ContentType.md)
-- [oxfmtConfig](variables/oxfmtConfig.md)
-- [oxlintConfig](variables/oxlintConfig.md)
-- [viteConfig](variables/viteConfig.md)
+- [OxfmtConfig](variables/OxfmtConfig.md)
+- [OxlintConfig](variables/OxlintConfig.md)
+- [ViteConfig](variables/ViteConfig.md)

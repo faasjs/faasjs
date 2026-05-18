@@ -10,7 +10,7 @@ Props for the [OptionalWrapper](../functions/OptionalWrapper.md) helper componen
 
 ### TWrapper
 
-`TWrapper` _extends_ `ComponentType`\<\{ `children`: `ReactNode`; \}\> = `any`
+`TWrapper` *extends* `ComponentType`\<\{ `children`: `ReactNode`; \}\> = `any`
 
 Wrapper component type used when `condition` is true.
 

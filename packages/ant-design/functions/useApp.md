@@ -10,7 +10,7 @@ Read app-level services exposed by the root `App` component.
 
 ### NewT
 
-`NewT` _extends_ [`useAppProps`](../interfaces/useAppProps.md) = [`useAppProps`](../interfaces/useAppProps.md)
+`NewT` *extends* [`useAppProps`](../interfaces/useAppProps.md) = [`useAppProps`](../interfaces/useAppProps.md)
 
 Narrowed app context shape to read from `AppContext`.
 

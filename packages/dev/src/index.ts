@@ -15,33 +15,33 @@
  * ## Features
  *
  * - `viteFaasJsServer()` runs a FaasJS server inside Vite during local development.
- * - `viteConfig` bundles the standard FaasJS React and Vite Plus defaults.
- * - `oxfmtConfig` and `oxlintConfig` expose the shared FaasJS formatting and lint rules.
+ * - `ViteConfig` bundles the standard FaasJS React and Vite Plus defaults.
+ * - `OxfmtConfig` and `OxlintConfig` expose the shared FaasJS formatting and lint rules.
  * - `generateFaasTypes()` emits route declarations for `@faasjs/types`.
  * - `testApi()` and {@link ApiTester} help invoke and assert FaasJS APIs in tests.
  *
  * ## Usage: Shared Vite Preset
  *
  * ```ts
- * import { viteConfig } from '@faasjs/dev'
+ * import { ViteConfig } from '@faasjs/dev'
  * import { defineConfig } from 'vite-plus'
  *
  * export default defineConfig({
- *   ...viteConfig,
+ *   ...ViteConfig,
  * })
  * ```
  *
  * ## Usage: Manual Vite Integration
  *
  * ```ts
- * import { viteFaasJsServer, oxfmtConfig, oxlintConfig } from '@faasjs/dev'
+ * import { viteFaasJsServer, OxfmtConfig, OxlintConfig } from '@faasjs/dev'
  * import react from '@vitejs/plugin-react'
  * import { defineConfig } from 'vite-plus'
  *
  * export default defineConfig({
  *   plugins: [react(), viteFaasJsServer()],
- *   fmt: oxfmtConfig,
- *   lint: oxlintConfig,
+ *   fmt: OxfmtConfig,
+ *   lint: OxlintConfig,
  * })
  * ```
  *
@@ -69,7 +69,7 @@
  * ## API
  *
  * - Vite: {@link viteFaasJsServer}
- * - Config: {@link viteConfig}, {@link oxfmtConfig}, {@link oxlintConfig}
+ * - Config: {@link ViteConfig}, {@link OxfmtConfig}, {@link OxlintConfig}
  * - Typegen: {@link generateFaasTypes}, {@link isTypegenInputFile}
  * - Test: {@link testApi}, {@link ApiTester}
  */

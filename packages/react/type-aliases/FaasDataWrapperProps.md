@@ -10,7 +10,7 @@ Props for the [FaasDataWrapper](../variables/FaasDataWrapper.md) render-prop com
 
 ### PathOrData
 
-`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md)
+`PathOrData` *extends* [`FaasActionUnionType`](FaasActionUnionType.md)
 
 Action path or response data type used for inference.
 

@@ -46,11 +46,7 @@ function Example() {
 
   return (
     <>
-      <Button
-        onClick={() =>
-          setDrawerProps({ open: true, title: 'Details', children: <div>Content</div> })
-        }
-      >
+      <Button onClick={() => setDrawerProps({ open: true, title: 'Details', children: <div>Content</div> })}>
         Open
       </Button>
       {drawer}

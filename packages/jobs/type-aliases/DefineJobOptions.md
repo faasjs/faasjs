@@ -8,7 +8,7 @@
 
 ### TSchema
 
-`TSchema` _extends_ `ZodType` \| `undefined` = `undefined`
+`TSchema` *extends* `ZodType` \| `undefined` = `undefined`
 
 ### TContext
 

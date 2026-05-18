@@ -17,7 +17,7 @@ function Fallback({ errorMessage }: { errorMessage?: string }) {
   return <div>{errorMessage}</div>
 }
 
-;<ErrorBoundary errorChildren={<Fallback />}>
+<ErrorBoundary errorChildren={<Fallback />}>
   <DangerousWidget />
 </ErrorBoundary>
 ```

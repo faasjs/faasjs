@@ -14,7 +14,7 @@ the corresponding Ant Design column props.
 
 ### T
 
-`T` _extends_ `Record`\<`string`, `any`\>
+`T` *extends* `Record`\<`string`, `any`\>
 
 Row record type rendered by the table.
 

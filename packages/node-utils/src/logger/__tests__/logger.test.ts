@@ -21,7 +21,7 @@ describe('logger', () => {
     logger.stderr = fake
     logger.silent = false
     logger.level = 'debug'
-    logger.colorfyOutput = true
+    logger.colorizeOutput = true
     logger[level as Level]('message')
 
     expect(lastOutput).toContain(`\u001b[0${color}m${level.toUpperCase()} message\u001b[39m`)
@@ -75,7 +75,7 @@ describe('logger', () => {
     logger.stderr = fake
     logger.silent = false
     logger.level = 'debug'
-    logger.colorfyOutput = true
+    logger.colorizeOutput = true
     logger.timeEnd('key', 'message')
 
     expect(lastOutput).toContain('\u001b[090mDEBUG [error] message\u001b[39m')
@@ -98,7 +98,7 @@ describe('logger', () => {
     logger.stderr = fake
     logger.silent = false
     logger.level = 'info'
-    logger.colorfyOutput = true
+    logger.colorizeOutput = true
     logger.debug('debug')
 
     expect(lastOutput).not.toContain('debug')
@@ -152,11 +152,11 @@ describe('logger', () => {
     try {
       process.env.FaasLogMode = 'plain'
       const plain = new Logger()
-      expect(plain.colorfyOutput).toBe(false)
+      expect(plain.colorizeOutput).toBe(false)
 
       process.env.FaasLogMode = 'pretty'
       const pretty = new Logger()
-      expect(pretty.colorfyOutput).toBe(true)
+      expect(pretty.colorizeOutput).toBe(true)
 
       delete process.env.FaasLogMode
       delete process.env.NO_COLOR
@@ -164,25 +164,25 @@ describe('logger', () => {
       delete process.env.TERM
       Object.defineProperty(process.stdout, 'isTTY', { configurable: true, value: true })
       const tty = new Logger()
-      expect(tty.colorfyOutput).toBe(true)
+      expect(tty.colorizeOutput).toBe(true)
 
       Object.defineProperty(process.stdout, 'isTTY', { configurable: true, value: false })
       const noTty = new Logger()
-      expect(noTty.colorfyOutput).toBe(false)
+      expect(noTty.colorizeOutput).toBe(false)
 
       process.env.FORCE_COLOR = '1'
       const forced = new Logger()
-      expect(forced.colorfyOutput).toBe(true)
+      expect(forced.colorizeOutput).toBe(true)
 
       process.env.FORCE_COLOR = '0'
       const forceDisabled = new Logger()
-      expect(forceDisabled.colorfyOutput).toBe(false)
+      expect(forceDisabled.colorizeOutput).toBe(false)
 
       delete process.env.FORCE_COLOR
       process.env.NO_COLOR = ''
       Object.defineProperty(process.stdout, 'isTTY', { configurable: true, value: true })
       const noColor = new Logger()
-      expect(noColor.colorfyOutput).toBe(false)
+      expect(noColor.colorizeOutput).toBe(false)
 
       delete process.env.NO_COLOR
       Object.defineProperty(process.stdout, 'isTTY', { configurable: true, value: true })
@@ -221,7 +221,7 @@ describe('logger', () => {
       const logger = new Logger('no-process')
 
       expect(logger.label).toBe('no-process')
-      expect(logger.colorfyOutput).toBe(false)
+      expect(logger.colorizeOutput).toBe(false)
       expect(logger.silent).toBe(false)
     } finally {
       globalThis.process = originalProcess
@@ -241,7 +241,7 @@ describe('logger', () => {
     logger.info('')
     expect(stdout).not.toHaveBeenCalled()
 
-    logger.colorfyOutput = false
+    logger.colorizeOutput = false
     logger.info('line1\nline2')
     expect(stdout).toHaveBeenLastCalledWith('INFO line1line2')
 

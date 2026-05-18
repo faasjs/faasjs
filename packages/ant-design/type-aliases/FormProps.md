@@ -40,7 +40,7 @@ Initial values applied to the underlying Ant Design form.
 
 ### items?
 
-> `optional` **items?**: (`ExtendItemProps` _extends_ [`ExtendFormItemProps`](../interfaces/ExtendFormItemProps.md) ? `ExtendItemProps` \| [`FormItemProps`](../interfaces/FormItemProps.md) : [`FormItemProps`](../interfaces/FormItemProps.md) \| `JSX.Element`)[]
+> `optional` **items?**: (`ExtendItemProps` *extends* [`ExtendFormItemProps`](../interfaces/ExtendFormItemProps.md) ? `ExtendItemProps` \| [`FormItemProps`](../interfaces/FormItemProps.md) : [`FormItemProps`](../interfaces/FormItemProps.md) \| `JSX.Element`)[]
 
 Form item definitions or custom JSX blocks rendered inside the form.
 
@@ -54,12 +54,12 @@ Built-in submit button config, or `false` to disable the generated submit button
 
 ### Values
 
-`Values` _extends_ `Record`\<`string`, `any`\> = `any`
+`Values` *extends* `Record`\<`string`, `any`\> = `any`
 
 Form values shape.
 
 ### ExtendItemProps
 
-`ExtendItemProps` _extends_ [`ExtendFormItemProps`](../interfaces/ExtendFormItemProps.md) = [`ExtendFormItemProps`](../interfaces/ExtendFormItemProps.md)
+`ExtendItemProps` *extends* [`ExtendFormItemProps`](../interfaces/ExtendFormItemProps.md) = [`ExtendFormItemProps`](../interfaces/ExtendFormItemProps.md)
 
 Additional item prop shape accepted by `items`.

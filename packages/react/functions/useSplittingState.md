@@ -10,7 +10,7 @@ Create local state entries and matching setters for each key in an object.
 
 ### T
 
-`T` _extends_ `Record`\<`string`, `unknown`\>
+`T` *extends* `Record`\<`string`, `unknown`\>
 
 A generic type that extends a record with string keys and any values.
 
@@ -34,10 +34,6 @@ Object containing the original keys plus generated setter functions.
 function Counter() {
   const { count, setCount, name, setName } = useSplittingState({ count: 0, name: 'John' })
 
-  return (
-    <>
-      {name}: {count}
-    </>
-  )
+  return <>{name}: {count}</>
 }
 ```

@@ -63,7 +63,11 @@ If the API module or its `faas.yaml` configuration cannot be loaded.
 ```ts
 import { loadApiHandler } from '@faasjs/node-utils'
 
-const handler = await loadApiHandler(process.cwd(), __dirname + '/example.api.ts', 'development')
+const handler = await loadApiHandler(
+  process.cwd(),
+  __dirname + '/example.api.ts',
+  'development'
+)
 
 const result = await handler(event, context)
 console.log(result)

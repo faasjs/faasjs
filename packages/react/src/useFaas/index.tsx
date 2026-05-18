@@ -10,7 +10,7 @@ import { useFaasRequest, type SharedUseFaasOptions } from '../useFaasRequest'
  *
  * @template PathOrData - Action path or response data type used for inference.
  */
-export type useFaasOptions<PathOrData extends FaasActionUnionType> = SharedUseFaasOptions<
+export type UseFaasOptions<PathOrData extends FaasActionUnionType> = SharedUseFaasOptions<
   FaasParams<PathOrData>,
   FaasData<PathOrData>
 >
@@ -26,8 +26,8 @@ export type useFaasOptions<PathOrData extends FaasActionUnionType> = SharedUseFa
  *
  * @param {FaasAction<PathOrData>} action - Action path to invoke.
  * @param {FaasParams<PathOrData>} defaultParams - Params used for the initial request and future reloads.
- * @param {useFaasOptions<PathOrData>} [options] - Optional hook configuration such as controlled data, skip logic, debounce timing, polling, and base URL overrides.
- * See the `useFaasOptions` type for `params`, `data`, `setData`, `skip`, `debounce`, `polling`, and `baseUrl`.
+ * @param {UseFaasOptions<PathOrData>} [options] - Optional hook configuration such as controlled data, skip logic, debounce timing, polling, and base URL overrides.
+ * See the `UseFaasOptions` type for `params`, `data`, `setData`, `skip`, `debounce`, `polling`, and `baseUrl`.
  * @returns {FaasDataInjection<PathOrData>} Request state and helper methods described by {@link FaasDataInjection}.
  *
  * @example
@@ -64,7 +64,7 @@ export type useFaasOptions<PathOrData extends FaasActionUnionType> = SharedUseFa
 export function useFaas<PathOrData extends FaasActionUnionType>(
   action: FaasAction<PathOrData>,
   defaultParams: FaasParams<PathOrData>,
-  options: useFaasOptions<PathOrData> = {},
+  options: UseFaasOptions<PathOrData> = {},
 ): FaasDataInjection<PathOrData> {
   const [data, setData] = useState<FaasData<PathOrData>>()
   const localSetData = setData as React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>

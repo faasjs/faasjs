@@ -2,7 +2,7 @@ import { statSync, realpathSync } from 'node:fs'
 import { dirname, extname, isAbsolute, join, resolve, sep } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
-import { isPathInsideRoot } from '../is_path_inside_root/index.ts'
+import { isPathInsideRoot } from '../isPathInsideRoot/index.ts'
 import type { LoaderState } from './types'
 import { VERSION_QUERY_KEY, SCRIPT_EXTENSIONS } from './types'
 

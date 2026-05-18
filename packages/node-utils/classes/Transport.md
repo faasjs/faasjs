@@ -18,7 +18,8 @@ import { getTransport } from '@faasjs/node-utils'
 const transport = getTransport()
 
 transport.register('test', async (messages) => {
-  for (const { level, message } of messages) console.log(level, message)
+  for (const { level, message } of messages)
+    console.log(level, message)
 })
 
 transport.config({ label: 'test', debug: true })

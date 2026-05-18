@@ -10,6 +10,6 @@ Partial data injection exposed to wrapped Ant Design components.
 
 ### T
 
-`T` _extends_ `FaasActionUnionType` = `any`
+`T` *extends* `FaasActionUnionType` = `any`
 
 Action path or response data type used for inference.

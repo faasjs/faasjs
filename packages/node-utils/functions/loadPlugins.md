@@ -15,7 +15,7 @@ class name.
 
 ### TFunc
 
-`TFunc` _extends_ `Func`\<`any`, `any`, `any`\>
+`TFunc` *extends* `Func`\<`any`, `any`, `any`\>
 
 Function instance type enriched with config-driven plugins.
 

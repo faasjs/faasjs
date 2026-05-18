@@ -14,7 +14,7 @@ If `schema` is omitted, `defaultValue` is returned. If `value` is `null` or
 
 ### TSchema
 
-`TSchema` _extends_ `ZodType`\<`unknown`, `unknown`, `$ZodTypeInternals`\<`unknown`, `unknown`\>\> \| `undefined` = `undefined`
+`TSchema` *extends* `ZodType`\<`unknown`, `unknown`, `$ZodTypeInternals`\<`unknown`, `unknown`\>\> \| `undefined` = `undefined`
 
 ### TFallback
 

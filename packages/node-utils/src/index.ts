@@ -24,13 +24,13 @@
  * ```
  */
 
-export { colorfy, Color, LevelColor } from './color'
+export { colorize, Color, LevelColor } from './color'
 export type { Level } from './logger'
 export { formatLogger, Logger } from './logger'
-export { isPathInsideRoot } from './is_path_inside_root'
+export { isPathInsideRoot } from './isPathInsideRoot'
 export type { RegisterNodeModuleHooksOptions } from './load_package'
 export { loadPackage, registerNodeModuleHooks, resetRuntime } from './load_package'
-export { parseYaml } from './parse_yaml'
+export { parseYaml } from './parseYaml'
 export type { FuncConfig, FuncPluginConfig } from './runtime-loading/load_config'
 export { loadConfig } from './runtime-loading/load_config'
 export type { ExportedHandler } from './runtime-loading/load_api_handler'

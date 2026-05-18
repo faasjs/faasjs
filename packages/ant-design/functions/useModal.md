@@ -46,9 +46,7 @@ function Example() {
 
   return (
     <>
-      <Button
-        onClick={() => setModalProps({ open: true, title: 'Delete', children: 'Are you sure?' })}
-      >
+      <Button onClick={() => setModalProps({ open: true, title: 'Delete', children: 'Are you sure?' })}>
         Open Modal
       </Button>
       {modal}

@@ -14,7 +14,7 @@ the built-in FaasJS request flow configured by `faas`.
 
 ### Values
 
-`Values` _extends_ `Record`\<`string`, `any`\> = `any`
+`Values` *extends* `Record`\<`string`, `any`\> = `any`
 
 Form values shape.
 

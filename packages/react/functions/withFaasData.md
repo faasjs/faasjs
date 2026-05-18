@@ -14,13 +14,13 @@ preserve an existing component boundary. For new code, prefer `useFaas` or
 
 ### PathOrData
 
-`PathOrData` _extends_ [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md)
+`PathOrData` *extends* [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md)
 
 Action path or response data type used for inference.
 
 ### TComponentProps
 
-`TComponentProps` _extends_ `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\> = `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\>
+`TComponentProps` *extends* `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\> = `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\>
 
 Component props including injected Faas data fields.
 

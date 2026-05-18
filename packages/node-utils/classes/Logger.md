@@ -247,9 +247,9 @@ The current logger for chaining.
 
 ## Properties
 
-### colorfyOutput
+### colorizeOutput
 
-> **colorfyOutput**: `boolean` = `false`
+> **colorizeOutput**: `boolean` = `false`
 
 Whether terminal output should use ANSI colors.
 

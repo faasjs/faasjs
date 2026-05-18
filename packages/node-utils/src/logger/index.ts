@@ -1,4 +1,4 @@
-import { colorfy, supportsColorfyOutput } from '../color'
+import { colorize, supportsColorizeOutput } from '../color'
 import { format } from '../format'
 import { getTransport } from '../transport'
 
@@ -87,7 +87,7 @@ export class Logger {
    *
    * Auto-detected from the current environment and can be overridden with `FaasLogMode`.
    */
-  public colorfyOutput = false
+  public colorizeOutput = false
   /**
    * Optional label prefix included in log lines.
    */
@@ -136,13 +136,13 @@ export class Logger {
 
     switch (process.env.FaasLogMode) {
       case 'plain':
-        this.colorfyOutput = false
+        this.colorizeOutput = false
         break
       case 'pretty':
-        this.colorfyOutput = true
+        this.colorizeOutput = true
         break
       default:
-        this.colorfyOutput = supportsColorfyOutput(process.stdout, process.env)
+        this.colorizeOutput = supportsColorizeOutput(process.stdout, process.env)
         break
     }
 
@@ -287,8 +287,8 @@ export class Logger {
 
     let output = `${level.toUpperCase()} ${this.label ? `[${this.label}] ` : ''}${formattedMessage}`
 
-    if (this.colorfyOutput) output = colorfy(level, output)
-    else if (!this.colorfyOutput) output = output.replace(/\n/g, '')
+    if (this.colorizeOutput) output = colorize(level, output)
+    else if (!this.colorizeOutput) output = output.replace(/\n/g, '')
 
     if (!output) return this
 

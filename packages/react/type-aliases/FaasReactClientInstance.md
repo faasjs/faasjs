@@ -16,13 +16,13 @@ Underlying browser client used for the actual HTTP requests.
 
 ### faas
 
-> **faas**: _typeof_ [`faas`](../functions/faas.md)
+> **faas**: *typeof* [`faas`](../functions/faas.md)
 
 Promise-based request helper bound to the registered base URL.
 
 ### FaasDataWrapper
 
-> **FaasDataWrapper**: _typeof_ [`FaasDataWrapper`](../variables/FaasDataWrapper.md)
+> **FaasDataWrapper**: *typeof* [`FaasDataWrapper`](../variables/FaasDataWrapper.md)
 
 Wrapper component bound to the registered base URL.
 
@@ -40,6 +40,6 @@ Optional error hook shared by `faas` and `useFaas`.
 
 ### useFaas
 
-> **useFaas**: _typeof_ [`useFaas`](../functions/useFaas.md)
+> **useFaas**: *typeof* [`useFaas`](../functions/useFaas.md)
 
 Hook bound to the registered base URL.

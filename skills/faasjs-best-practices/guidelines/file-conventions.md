@@ -2,6 +2,8 @@
 
 Use this guide when creating or reviewing frontend pages, React components, hooks, FaasJS backend route files, or background job files.
 
+> **See also**: [Naming Convention Guide](./naming-convention.md) for identifier and file naming rules (camelCase, PascalCase, kebab-case, abbreviations, etc.). This guide covers *where* files go; naming covers *what* they are called.
+
 ## Applicable Scenarios
 
 - Creating new pages, components, or hooks
@@ -9,7 +11,7 @@ Use this guide when creating or reviewing frontend pages, React components, hook
 - Adding a new page or feature directory under `pages/`
 - Creating or moving `.api.ts` backend files
 - Creating or moving `.job.ts` background job files
-- Reviewing naming and placement decisions
+- Reviewing naming and placement decisions (see also [Naming Convention Guide](./naming-convention.md))
 
 ## Default Workflow
 
@@ -227,5 +229,6 @@ src/feature/
 ## Further Reading
 
 - [Routing Mapping Specification](../../../docs/specs/routing-mapping.md)
+- [Naming Convention Guide](./naming-convention.md)
 - [defineApi Guide](./define-api.md)
 - [Jobs Guide](./jobs.md)

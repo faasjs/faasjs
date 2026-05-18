@@ -13,7 +13,7 @@ it applies the same item type normalization helpers used by the form and table c
 
 ### T
 
-`T` _extends_ `Record`\<`string`, `any`\> = `any`
+`T` *extends* `Record`\<`string`, `any`\> = `any`
 
 Data record shape rendered by the component.
 

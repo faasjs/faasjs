@@ -3,7 +3,7 @@ import { registerHooks } from 'node:module'
 import { dirname, isAbsolute, join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
-import { isPathInsideRoot } from '../is_path_inside_root/index.ts'
+import { isPathInsideRoot } from '../isPathInsideRoot/index.ts'
 import { inferLoaderOptionsFromFile } from './finder'
 import {
   normalizeRoot,

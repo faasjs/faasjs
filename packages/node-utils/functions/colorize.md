@@ -1,8 +1,8 @@
-[@faasjs/node-utils](../README.md) / colorfy
+[@faasjs/node-utils](../README.md) / colorize
 
-# Function: colorfy()
+# Function: colorize()
 
-> **colorfy**(`level`, `message`): `string`
+> **colorize**(`level`, `message`): `string`
 
 Wrap a log message with the ANSI foreground color for a log level.
 
@@ -29,7 +29,7 @@ Message wrapped in ANSI color escape sequences.
 ## Example
 
 ```ts
-import { colorfy } from '@faasjs/node-utils'
+import { colorize } from '@faasjs/node-utils'
 
-console.log(colorfy('warn', 'Low disk space'))
+console.log(colorize('warn', 'Low disk space'))
 ```

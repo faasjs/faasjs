@@ -10,6 +10,7 @@ Before changing code, inspect nearby examples and read only the guides needed fo
 ### Agent Task Routing
 
 - New to FaasJS or starting a new project: read [Getting Started Guide](./guidelines/getting-started.md) first for a complete onboarding and project setup walkthrough.
+- Choosing names for identifiers, files, or directories: read [Naming Convention Guide](./guidelines/naming-convention.md) first, then the relevant file or code guide below.
 - New business feature or vertical slice: read [Application Slices Guide](./guidelines/application-slices.md), [File Conventions](./guidelines/file-conventions.md), then the relevant API, UI, PG, and testing guides below.
 - Implementing a standard list/detail/create/update/delete feature: read [CRUD Patterns Guide](./guidelines/crud-patterns.md) for the complete vertical slice pattern, then the [Ant Design Guide](./guidelines/ant-design.md), [defineApi Guide](./guidelines/define-api.md), and [React Data Fetching Guide](./guidelines/react-data-fetching.md) for deeper rules.
 - New or changed `.api.ts` endpoint: read [defineApi Guide](./guidelines/define-api.md) and [Testing Guide](./guidelines/testing.md); also read PG guides if the endpoint touches data.
@@ -88,6 +89,7 @@ Before handoff, verify the smallest meaningful set for the change:
 - [defineApi Guide](./guidelines/define-api.md): Covers building `.api.ts` endpoints with `defineApi`, inline schemas, typed `params`, error handling, and validation expectations.
 - [Jobs Guide](./guidelines/jobs.md): Covers `.job.ts` files, `defineJob`, `enqueueJob`, workers, scheduler cron enqueueing, retries, idempotency, and testing.
 - [Logger Guide](./guidelines/logger.md): Covers when to reuse injected loggers versus creating `Logger` instances, how to choose log levels, and how to time slow operations.
+- [Naming Convention Guide](./guidelines/naming-convention.md): Covers identifier naming (camelCase/PascalCase), file/directory naming, abbreviation rules, and cross-package naming consistency.
 - [CRUD Patterns Guide](./guidelines/crud-patterns.md): Covers the complete CRUD vertical slice — shared items metadata, list/detail/create/update/delete patterns, testing, and agent efficiency tips for faster page generation.
 - [Utils Guide](./guidelines/utils.md): Covers portable helpers from `@faasjs/utils` for deep merging and converting text or JSON to and from streams.
 - [PG Query Builder and Raw SQL Guide](./guidelines/pg-query-builder.md): Covers preferring `QueryBuilder` clauses, choosing raw SQL fallbacks deliberately, keeping client bootstrap consistent, and narrowing row shapes intentionally.

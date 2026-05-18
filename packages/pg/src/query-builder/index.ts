@@ -12,8 +12,7 @@ export type {
   PatternOperators,
   JsonOperators,
   Operators,
-  isOperator,
-  isNormalOperator,
   QueryOrderDirections,
   JsonSelectField,
 } from './types'
+export { isOperator, isNormalOperator } from './types'

@@ -25,13 +25,13 @@ cookie.headers()
 
 ### S
 
-`S` _extends_ `Record`\<`string`, `string`\> = `any`
+`S` *extends* `Record`\<`string`, `string`\> = `any`
 
 Session value map exposed by `read()` and `content`.
 
 ### C
 
-`C` _extends_ `Record`\<`string`, `string`\> = `any`
+`C` *extends* `Record`\<`string`, `string`\> = `any`
 
 Cookie value map exposed by the parent cookie store.
 

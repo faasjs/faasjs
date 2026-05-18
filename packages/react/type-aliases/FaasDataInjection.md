@@ -10,7 +10,7 @@ Request state injected by [useFaas](../functions/useFaas.md), [FaasDataWrapper](
 
 ### PathOrData
 
-`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md) = `any`
+`PathOrData` *extends* [`FaasActionUnionType`](FaasActionUnionType.md) = `any`
 
 Action path or response data type used for inference.
 

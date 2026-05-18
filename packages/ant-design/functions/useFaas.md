@@ -14,7 +14,7 @@ plus helpers for reloading, background refreshing, updating data, and handling e
 
 ### PathOrData
 
-`PathOrData` _extends_ `FaasActionUnionType`
+`PathOrData` *extends* `FaasActionUnionType`
 
 Action path or response data type used for inference.
 
@@ -34,10 +34,10 @@ Params used for the initial request and future reloads.
 
 ### options?
 
-`useFaasOptions`\<`PathOrData`\> = `{}`
+`UseFaasOptions`\<`PathOrData`\> = `{}`
 
 Optional hook configuration such as controlled data, skip logic, debounce timing, polling, and base URL overrides.
-See the `useFaasOptions` type for `params`, `data`, `setData`, `skip`, `debounce`, `polling`, and `baseUrl`.
+See the `UseFaasOptions` type for `params`, `data`, `setData`, `skip`, `debounce`, `polling`, and `baseUrl`.
 
 ## Returns
 

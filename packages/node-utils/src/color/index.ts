@@ -1,8 +1,8 @@
 import type { Level } from '../logger'
 
-type ColorfyEnv = Record<string, string | undefined>
+type ColorizeEnv = Record<string, string | undefined>
 
-type ColorfyStream = {
+type ColorizeStream = {
   isTTY?: boolean
 }
 
@@ -47,16 +47,16 @@ export const LevelColor = {
  * `FORCE_COLOR` forces colors on or off, `NO_COLOR` disables them, and regular
  * local output only enables colors when the target is a TTY.
  *
- * @param {ColorfyStream} [stream] - Output target used by the logger.
- * @param {ColorfyEnv} [env] - Environment variables used to override detection.
+ * @param {ColorizeStream} [stream] - Output target used by the logger.
+ * @param {ColorizeEnv} [env] - Environment variables used to override detection.
  * @returns {boolean} `true` when ANSI colors should be emitted.
  *
  * @example
  * ```ts
- * const enabled = supportsColorfyOutput({ isTTY: true }, process.env)
+ * const enabled = supportsColorizeOutput({ isTTY: true }, process.env)
  * ```
  */
-export function supportsColorfyOutput(stream?: ColorfyStream, env?: ColorfyEnv): boolean {
+export function supportsColorizeOutput(stream?: ColorizeStream, env?: ColorizeEnv): boolean {
   if (!env) return false
 
   const forceColor = env.FORCE_COLOR?.toLowerCase()
@@ -79,11 +79,11 @@ export function supportsColorfyOutput(stream?: ColorfyStream, env?: ColorfyEnv):
  *
  * @example
  * ```ts
- * import { colorfy } from '@faasjs/node-utils'
+ * import { colorize } from '@faasjs/node-utils'
  *
- * console.log(colorfy('warn', 'Low disk space'))
+ * console.log(colorize('warn', 'Low disk space'))
  * ```
  */
-export function colorfy(level: Level, message: string): string {
+export function colorize(level: Level, message: string): string {
   return `\u001b[0${LevelColor[level]}m${message}\u001b[39m`
 }

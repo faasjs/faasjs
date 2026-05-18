@@ -18,7 +18,7 @@ Hook used to read values from the splitting context.
 
 ##### NewT
 
-`NewT` _extends_ [`useAppProps`](../interfaces/useAppProps.md) = [`useAppProps`](../interfaces/useAppProps.md)
+`NewT` *extends* [`useAppProps`](../interfaces/useAppProps.md) = [`useAppProps`](../interfaces/useAppProps.md)
 
 #### Parameters
 
@@ -40,12 +40,7 @@ Hook used to read values from the splitting context.
 function ChildComponent() {
   const { value, setValue } = use()
 
-  return (
-    <div>
-      {value}
-      <button onClick={() => setValue(1)}>change value</button>
-    </div>
-  )
+  return <div>{value}<button onClick={() => setValue(1)}>change value</button></div>
 }
 ```
 
@@ -59,7 +54,7 @@ The provider component of the splitting context.
 
 ##### NewT
 
-`NewT` _extends_ [`useAppProps`](../interfaces/useAppProps.md) = [`useAppProps`](../interfaces/useAppProps.md)
+`NewT` *extends* [`useAppProps`](../interfaces/useAppProps.md) = [`useAppProps`](../interfaces/useAppProps.md)
 
 #### Parameters
 

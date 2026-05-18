@@ -31,6 +31,6 @@
  * ```
  */
 
-export * from './deep_merge'
+export * from './deepMerge'
 export * from './stream'
 export * from './zod'

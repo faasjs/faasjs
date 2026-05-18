@@ -8,14 +8,14 @@ const ignorePatterns = ['**/dist/**', 'node_modules/**']
  * @example
  * ```ts
  * import { defineConfig } from 'vite-plus'
- * import { oxlintConfig } from '@faasjs/dev'
+ * import { OxlintConfig } from '@faasjs/dev'
  *
  * export default defineConfig({
- *   lint: oxlintConfig,
+ *   lint: OxlintConfig,
  * })
  * ```
  */
-export const oxlintConfig: NonNullable<UserConfig['lint']> = {
+export const OxlintConfig: NonNullable<UserConfig['lint']> = {
   ignorePatterns: [...ignorePatterns],
   plugins: [
     'typescript',

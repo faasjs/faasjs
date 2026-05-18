@@ -33,7 +33,7 @@ Session helper injected by the HTTP plugin.
 
 ### TSchema
 
-`TSchema` _extends_ `ZodType` \| `undefined` = `undefined`
+`TSchema` *extends* `ZodType` \| `undefined` = `undefined`
 
 Zod schema used to validate `event.params`.
 

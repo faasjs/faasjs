@@ -1,8 +1,8 @@
-[@faasjs/dev](../README.md) / oxlintConfig
+[@faasjs/dev](../README.md) / OxlintConfig
 
-# Variable: oxlintConfig
+# Variable: OxlintConfig
 
-> `const` **oxlintConfig**: `NonNullable`\<`UserConfig`\[`"lint"`\]\>
+> `const` **OxlintConfig**: `NonNullable`\<`UserConfig`\[`"lint"`\]\>
 
 Shared Oxlint configuration used by FaasJS projects.
 
@@ -10,9 +10,9 @@ Shared Oxlint configuration used by FaasJS projects.
 
 ```ts
 import { defineConfig } from 'vite-plus'
-import { oxlintConfig } from '@faasjs/dev'
+import { OxlintConfig } from '@faasjs/dev'
 
 export default defineConfig({
-  lint: oxlintConfig,
+  lint: OxlintConfig,
 })
 ```

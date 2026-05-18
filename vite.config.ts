@@ -4,8 +4,8 @@ import react from '@vitejs/plugin-react'
 import { defineConfig, type UserConfig } from 'vite-plus'
 import type { PackUserConfig } from 'vite-plus/pack'
 
-import { oxfmtConfig } from './packages/dev/src/vite/oxfmt.ts'
-import { oxlintConfig } from './packages/dev/src/vite/oxlint.ts'
+import { OxfmtConfig } from './packages/dev/src/vite/oxfmt.ts'
+import { OxlintConfig } from './packages/dev/src/vite/oxlint.ts'
 import { PgVitestPlugin } from './packages/pg-dev/src/plugin/index.ts'
 
 const tests = ['packages/**/*.test.ts']
@@ -112,8 +112,8 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
   },
-  fmt: oxfmtConfig,
-  lint: oxlintConfig,
+  fmt: OxfmtConfig,
+  lint: OxlintConfig,
   pack,
   test: {
     restoreMocks: true,

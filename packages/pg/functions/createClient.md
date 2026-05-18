@@ -10,7 +10,7 @@ Creates a new instance of the `Client` class from a PostgreSQL connection string
 
 ### T
 
-`T` _extends_ `Record`\<`string`, `PostgresType`\<`any`\>\> = `Record`\<`string`, `never`\>
+`T` *extends* `Record`\<`string`, `PostgresType`\<`any`\>\> = `Record`\<`string`, `never`\>
 
 ## Parameters
 

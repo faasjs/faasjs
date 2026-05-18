@@ -5,7 +5,7 @@ import * as nodeUtils from '../../index'
 it('should export helpers', () => {
   expect(nodeUtils).toHaveProperty('Color')
   expect(nodeUtils).toHaveProperty('LevelColor')
-  expect(nodeUtils).toHaveProperty('colorfy')
+  expect(nodeUtils).toHaveProperty('colorize')
   expect(nodeUtils).toHaveProperty('loadConfig')
   expect(nodeUtils).toHaveProperty('loadApiHandler')
   expect(nodeUtils).toHaveProperty('loadPackage')

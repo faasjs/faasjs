@@ -1,8 +1,8 @@
 import react from '@vitejs/plugin-react'
 import type { UserConfig } from 'vite-plus'
 
-import { oxfmtConfig } from './oxfmt.ts'
-import { oxlintConfig } from './oxlint.ts'
+import { OxfmtConfig } from './oxfmt.ts'
+import { OxlintConfig } from './oxlint.ts'
 import { viteFaasJsServer } from './server.ts'
 
 /**
@@ -16,27 +16,27 @@ import { viteFaasJsServer } from './server.ts'
  * @example
  * ```ts
  * import { defineConfig } from 'vite-plus'
- * import { viteConfig } from '@faasjs/dev'
+ * import { ViteConfig } from '@faasjs/dev'
  *
  * export default defineConfig({
- *   ...viteConfig,
+ *   ...ViteConfig,
  * })
  * ```
  *
  * @example
  * ```ts
  * import { defineConfig } from 'vite-plus'
- * import { viteConfig } from '@faasjs/dev'
+ * import { ViteConfig } from '@faasjs/dev'
  *
  * export default defineConfig({
- *   ...viteConfig,
+ *   ...ViteConfig,
  *   test: {
  *     environment: 'jsdom',
  *   },
  * })
  * ```
  */
-export const viteConfig: {
+export const ViteConfig: {
   staged: NonNullable<UserConfig['staged']>
   plugins: NonNullable<UserConfig['plugins']>
   server: NonNullable<UserConfig['server']>
@@ -58,6 +58,6 @@ export const viteConfig: {
   resolve: {
     tsconfigPaths: true,
   },
-  fmt: oxfmtConfig,
-  lint: oxlintConfig,
+  fmt: OxfmtConfig,
+  lint: OxlintConfig,
 }

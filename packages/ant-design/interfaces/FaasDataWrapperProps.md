@@ -12,7 +12,7 @@ Ant Design wrapper props for the underlying `@faasjs/react` data wrapper.
 
 ### T
 
-`T` _extends_ `FaasActionUnionType` = `any`
+`T` *extends* `FaasActionUnionType` = `any`
 
 Action path or response data type used for inference.
 

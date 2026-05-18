@@ -2,7 +2,7 @@
 
 # Type Alias: Z
 
-> **Z** = _typeof_ `zod` & `object`
+> **Z** = *typeof* `zod` & `object`
 
 Extended Zod with custom helpers.
 

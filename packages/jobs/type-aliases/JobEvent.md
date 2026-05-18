@@ -10,7 +10,7 @@ Runtime event passed to the underlying job function.
 
 ### TSchema
 
-`TSchema` _extends_ `ZodType` \| `undefined` = `undefined`
+`TSchema` *extends* `ZodType` \| `undefined` = `undefined`
 
 ## Properties
 
@@ -28,4 +28,4 @@ Job metadata. Defaults are filled when omitted, which keeps direct job tests sma
 
 ### params?
 
-> `optional` **params?**: `TSchema` _extends_ `ZodType` ? `input`\<`TSchema`\> : `Record`\<`string`, `any`\>
+> `optional` **params?**: `TSchema` *extends* `ZodType` ? `input`\<`TSchema`\> : `Record`\<`string`, `any`\>

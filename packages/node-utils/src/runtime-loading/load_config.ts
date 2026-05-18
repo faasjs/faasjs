@@ -6,7 +6,7 @@ import { deepMerge } from '@faasjs/utils'
 import { z } from '@faasjs/utils'
 
 import { Logger } from '../logger'
-import { parseYaml } from '../parse_yaml'
+import { parseYaml } from '../parseYaml'
 
 type YamlConfig = Record<string, FuncConfig>
 

@@ -2,7 +2,7 @@
 
 ## Functions
 
-- [colorfy](functions/colorfy.md)
+- [colorize](functions/colorize.md)
 - [formatLogger](functions/formatLogger.md)
 - [formatSchemaError](functions/formatSchemaError.md)
 - [getTransport](functions/getTransport.md)

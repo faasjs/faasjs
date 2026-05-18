@@ -1,8 +1,8 @@
-[@faasjs/dev](../README.md) / oxfmtConfig
+[@faasjs/dev](../README.md) / OxfmtConfig
 
-# Variable: oxfmtConfig
+# Variable: OxfmtConfig
 
-> `const` **oxfmtConfig**: `NonNullable`\<`UserConfig`\[`"fmt"`\]\>
+> `const` **OxfmtConfig**: `NonNullable`\<`UserConfig`\[`"fmt"`\]\>
 
 Shared Oxfmt configuration used by FaasJS projects.
 
@@ -10,9 +10,9 @@ Shared Oxfmt configuration used by FaasJS projects.
 
 ```ts
 import { defineConfig } from 'vite-plus'
-import { oxfmtConfig } from '@faasjs/dev'
+import { OxfmtConfig } from '@faasjs/dev'
 
 export default defineConfig({
-  fmt: oxfmtConfig,
+  fmt: OxfmtConfig,
 })
 ```

@@ -13,7 +13,7 @@ completes, then keeps passing the latest request state to the rendered output.
 
 ### PathOrData
 
-`PathOrData` _extends_ [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md) = `any`
+`PathOrData` *extends* [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md) = `any`
 
 ## Parameters
 
@@ -36,7 +36,11 @@ type User = {
   name: string
 }
 
-function UserView(props: { data?: User; error?: Error; reload?: () => void }) {
+function UserView(props: {
+  data?: User
+  error?: Error
+  reload?: () => void
+}) {
   if (props.error) {
     return (
       <div>

@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
-import { oxfmtConfig, oxlintConfig, viteConfig } from '../..'
+import { OxfmtConfig, OxlintConfig, ViteConfig } from '../..'
 
 describe('configs exports', () => {
   it('should export the shared oxfmt config', () => {
-    expect(oxfmtConfig).toEqual({
+    expect(OxfmtConfig).toEqual({
       ignorePatterns: ['**/dist/**', 'node_modules/**'],
       semi: false,
       singleQuote: true,
@@ -13,7 +13,7 @@ describe('configs exports', () => {
   })
 
   it('should export the shared oxlint config', () => {
-    expect(oxlintConfig).toEqual({
+    expect(OxlintConfig).toEqual({
       ignorePatterns: ['**/dist/**', 'node_modules/**'],
       plugins: [
         'typescript',
@@ -56,21 +56,21 @@ describe('configs exports', () => {
   })
 
   it('should export the shared vite config', () => {
-    expect(viteConfig.staged).toEqual({
+    expect(ViteConfig.staged).toEqual({
       '*': 'vp check --fix',
     })
-    expect(viteConfig.server).toEqual({
+    expect(ViteConfig.server).toEqual({
       host: '0.0.0.0',
       strictPort: false,
       fs: {
         strict: false,
       },
     })
-    expect(viteConfig.resolve).toEqual({
+    expect(ViteConfig.resolve).toEqual({
       tsconfigPaths: true,
     })
-    expect(viteConfig.fmt).toBe(oxfmtConfig)
-    expect(viteConfig.lint).toBe(oxlintConfig)
-    expect(viteConfig.plugins).toHaveLength(2)
+    expect(ViteConfig.fmt).toBe(OxfmtConfig)
+    expect(ViteConfig.lint).toBe(OxlintConfig)
+    expect(ViteConfig.plugins).toHaveLength(2)
   })
 })

@@ -24,8 +24,7 @@ Hook registration options such as entry file, root, tsconfig path, and cache-bus
 ## Default
 
 ```ts
-{
-}
+{}
 ```
 
 ## Example

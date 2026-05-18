@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { parseYaml } from '../../parse_yaml'
+import { parseYaml } from '../../parseYaml'
 
 describe('parseYaml', () => {
   it('should parse mapping, scalars and comments', () => {

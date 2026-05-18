@@ -12,7 +12,7 @@ Executable job definition returned by [defineJob](../functions/defineJob.md).
 
 ### TSchema
 
-`TSchema` _extends_ `ZodType` \| `undefined` = `undefined`
+`TSchema` *extends* `ZodType` \| `undefined` = `undefined`
 
 ### TContext
 

@@ -137,7 +137,7 @@ export type InvokeData<TEvent = any, TContext = any, TResult = any> = {
 /**
  * Supported plugin lifecycle keys used by {@link Func}.
  */
-export type LifeCycleKey = 'onMount' | 'onInvoke'
+export type LifecycleKey = 'onMount' | 'onInvoke'
 
 /**
  * Constructor options for {@link Func}.
@@ -292,7 +292,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
    */
   public filename?: string
   private cachedFunctions: {
-    [cycleKey in LifeCycleKey]: CachedFunction[]
+    [cycleKey in LifecycleKey]: CachedFunction[]
   } = Object.create(null)
 
   /**
@@ -317,7 +317,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     } catch {}
   }
 
-  private getCachedFunctions(key: LifeCycleKey): CachedFunction[] {
+  private getCachedFunctions(key: LifecycleKey): CachedFunction[] {
     const cached = this.cachedFunctions[key]
     if (cached) return cached
 
@@ -339,7 +339,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     return list
   }
 
-  private compose(key: LifeCycleKey): (data: any, next?: () => void) => any {
+  private compose(key: LifecycleKey): (data: any, next?: () => void) => any {
     const list = this.getCachedFunctions(key)
 
     return async (data: any, next?: () => void): Promise<any> => {
