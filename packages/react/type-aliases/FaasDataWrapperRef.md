@@ -10,6 +10,6 @@ Imperative ref shape exposed by [FaasDataWrapper](../variables/FaasDataWrapper.m
 
 ### PathOrData
 
-`PathOrData` *extends* [`FaasActionUnionType`](FaasActionUnionType.md) = `any`
+`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md) = `any`
 
 Action path or response data type used for inference.

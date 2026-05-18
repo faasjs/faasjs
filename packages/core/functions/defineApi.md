@@ -12,7 +12,7 @@ The `http` plugin must come from `faas.yaml` or explicit code injection.
 
 ### TSchema
 
-`TSchema` *extends* `ZodType`\<`unknown`, `unknown`, `$ZodTypeInternals`\<`unknown`, `unknown`\>\> \| `undefined` = `undefined`
+`TSchema` _extends_ `ZodType`\<`unknown`, `unknown`, `$ZodTypeInternals`\<`unknown`, `unknown`\>\> \| `undefined` = `undefined`
 
 Zod schema used to validate `event.params`.
 
@@ -30,7 +30,7 @@ Runtime context type.
 
 ### THandler
 
-`THandler` *extends* (`data`) => `Promise`\<`any`\> = (`data`) => `Promise`\<`any`\>
+`THandler` _extends_ (`data`) => `Promise`\<`any`\> = (`data`) => `Promise`\<`any`\>
 
 Handler signature used to infer the response type.
 

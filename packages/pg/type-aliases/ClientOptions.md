@@ -8,4 +8,4 @@
 
 ### T
 
-`T` *extends* `Record`\<`string`, `PostgresType`\> = `Record`\<`string`, `never`\>
+`T` _extends_ `Record`\<`string`, `PostgresType`\> = `Record`\<`string`, `never`\>

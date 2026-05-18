@@ -2,4 +2,4 @@
 
 # Type Alias: Operator
 
-> **Operator** = *typeof* [`Operators`](Operators.md)\[`number`\]
+> **Operator** = _typeof_ [`Operators`](Operators.md)\[`number`\]

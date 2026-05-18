@@ -10,7 +10,7 @@ Options for creating a typed API function with [defineApi](../functions/defineAp
 
 ### TSchema
 
-`TSchema` *extends* `ZodType` \| `undefined` = `undefined`
+`TSchema` _extends_ `ZodType` \| `undefined` = `undefined`
 
 Zod schema used to validate `event.params`.
 

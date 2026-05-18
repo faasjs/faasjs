@@ -38,7 +38,7 @@ Makes a request to a FaasJS function.
 
 ##### PathOrData
 
-`PathOrData` *extends* [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md)
+`PathOrData` _extends_ [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md)
 
 #### Parameters
 

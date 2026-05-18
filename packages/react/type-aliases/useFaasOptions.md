@@ -10,6 +10,6 @@ Options that customize the [useFaas](../functions/useFaas.md) request lifecycle.
 
 ### PathOrData
 
-`PathOrData` *extends* [`FaasActionUnionType`](FaasActionUnionType.md)
+`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md)
 
 Action path or response data type used for inference.

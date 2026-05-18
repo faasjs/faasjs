@@ -10,7 +10,7 @@ Assign a stable name to a function for logs and stack traces.
 
 ### T
 
-`T` *extends* (...`args`) => `any`
+`T` _extends_ (...`args`) => `any`
 
 Function type to rename.
 

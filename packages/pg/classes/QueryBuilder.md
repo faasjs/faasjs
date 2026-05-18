@@ -6,7 +6,7 @@
 
 ### T
 
-`T` *extends* `string` = `string`
+`T` _extends_ `string` = `string`
 
 ### TResult
 
@@ -76,15 +76,15 @@ await db('users').where('id', 1).delete() // DELETE FROM users WHERE id = 1
 
 ### first()
 
-> **first**(): `Promise`\<`TResult` *extends* `U`[] ? `U` : `TResult` \| `null`\>
+> **first**(): `Promise`\<`TResult` _extends_ `U`[] ? `U` : `TResult` \| `null`\>
 
 #### Returns
 
-`Promise`\<`TResult` *extends* `U`[] ? `U` : `TResult` \| `null`\>
+`Promise`\<`TResult` _extends_ `U`[] ? `U` : `TResult` \| `null`\>
 
 ### insert()
 
-> **insert**\<`FirstValue`, `Returning`\>(`values`, `options?`): `Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+> **insert**\<`FirstValue`, `Returning`\>(`values`, `options?`): `Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 Inserts one or more rows into the table.
 
@@ -92,13 +92,13 @@ Inserts one or more rows into the table.
 
 ##### FirstValue
 
-`FirstValue` *extends* `Partial`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>\>
+`FirstValue` _extends_ `Partial`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>\>
 
 The type of the first value to insert, which must be a partial of the table type.
 
 ##### Returning
 
-`Returning` *extends* \[`"*"`\] \| keyof [`TableType`](../type-aliases/TableType.md)\<`T`\>[]
+`Returning` _extends_ \[`"*"`\] \| keyof [`TableType`](../type-aliases/TableType.md)\<`T`\>[]
 
 The type of the columns to return, which can be an array of keys of the table type or ['*'].
 
@@ -122,7 +122,7 @@ An array of columns to return, or ['*'] to return all columns.
 
 #### Returns
 
-`Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+`Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 #### Example
 
@@ -131,7 +131,10 @@ await db('users').insert({ id: 3, name: 'Charlie' }) // => []
 
 await db('users').insert({ id: 3, name: 'Charlie' }, { returning: ['name'] }) // => [{ name: 'Charlie' }]
 
-await db('users').insert([{ id: 4, name: 'David' }, { id: 5, name: 'Eve' }]) // => []
+await db('users').insert([
+  { id: 4, name: 'David' },
+  { id: 5, name: 'Eve' },
+]) // => []
 ```
 
 ### join()
@@ -300,7 +303,7 @@ Sets the order by column and direction for the query.
 
 ##### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 #### Parameters
 
@@ -358,7 +361,7 @@ Applies an OR WHERE condition to the query builder.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -400,7 +403,7 @@ Applies an OR WHERE condition to the query builder.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -442,7 +445,7 @@ Applies an OR WHERE condition to the query builder.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -478,7 +481,7 @@ Applies an OR WHERE condition to the query builder.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -520,7 +523,7 @@ Applies an OR WHERE condition to the query builder.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -562,7 +565,7 @@ Applies an OR WHERE condition to the query builder.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -618,7 +621,7 @@ Asynchronously retrieves the values of a specified column from the database.
 
 ##### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 The type of the column name.
 
@@ -652,7 +655,7 @@ Selects specific columns for the query.
 
 ##### ColumnNames
 
-`ColumnNames` *extends* ([`JsonSelectField`](../type-aliases/JsonSelectField.md)\<`T`\> \| [`ColumnName`](../type-aliases/ColumnName.md)\<`T`\>)[]
+`ColumnNames` _extends_ ([`JsonSelectField`](../type-aliases/JsonSelectField.md)\<`T`\> \| [`ColumnName`](../type-aliases/ColumnName.md)\<`T`\>)[]
 
 #### Parameters
 
@@ -720,7 +723,7 @@ const users = await db('users').select('id', { column: 'data', fields: ['email']
 
 ### update()
 
-> **update**\<`Returning`\>(`values`, `options?`): `Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+> **update**\<`Returning`\>(`values`, `options?`): `Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 Updates records in the table with the specified values and returns the updated records.
 
@@ -728,7 +731,7 @@ Updates records in the table with the specified values and returns the updated r
 
 ##### Returning
 
-`Returning` *extends* \[`"*"`\] \| keyof [`TableType`](../type-aliases/TableType.md)\<`T`\>[]
+`Returning` _extends_ \[`"*"`\] \| keyof [`TableType`](../type-aliases/TableType.md)\<`T`\>[]
 
 An array of keys of the table type or ['*'] to return all columns.
 
@@ -752,19 +755,21 @@ An array of columns to return after the update.
 
 #### Returns
 
-`Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+`Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 #### Example
 
 ```ts
 await db('users').where('id', 1).update({ name: 'Alice' }) // => []
 
-await db('users').where('id', 1).update({ name: 'Alice' }, { returning: ['name'] }) // => [{ name: 'Alice' }]
+await db('users')
+  .where('id', 1)
+  .update({ name: 'Alice' }, { returning: ['name'] }) // => [{ name: 'Alice' }]
 ```
 
 ### upsert()
 
-> **upsert**\<`FirstValue`, `Returning`\>(`values`, `options`): `Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+> **upsert**\<`FirstValue`, `Returning`\>(`values`, `options`): `Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 Inserts or updates records in the database table.
 
@@ -772,13 +777,13 @@ Inserts or updates records in the database table.
 
 ##### FirstValue
 
-`FirstValue` *extends* `Partial`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>\>
+`FirstValue` _extends_ `Partial`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>\>
 
 A partial type of the table's row type.
 
 ##### Returning
 
-`Returning` *extends* \[`"*"`\] \| keyof `FirstValue`[]
+`Returning` _extends_ \[`"*"`\] \| keyof `FirstValue`[]
 
 #### Parameters
 
@@ -812,7 +817,7 @@ The columns to update if a conflict occurs.
 
 #### Returns
 
-`Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+`Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 - A promise that resolves to the result of the upsert operation.
 
@@ -834,7 +839,7 @@ Applies a WHERE condition to the query builder.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -882,7 +887,7 @@ Applies a WHERE condition to the query builder.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -930,7 +935,7 @@ Applies a WHERE condition to the query builder.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -972,7 +977,7 @@ Applies a WHERE condition to the query builder.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -1020,7 +1025,7 @@ Applies a WHERE condition to the query builder.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -1068,7 +1073,7 @@ Applies a WHERE condition to the query builder.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 

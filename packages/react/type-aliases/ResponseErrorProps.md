@@ -17,7 +17,11 @@ Raw error body or structured error payload.
 #### Default
 
 ```ts
-{ error: { message } }
+{
+  error: {
+    message
+  }
+}
 ```
 
 ### headers?
@@ -29,7 +33,8 @@ Response headers returned with the error.
 #### Default
 
 ```ts
-{}
+{
+}
 ```
 
 ### message

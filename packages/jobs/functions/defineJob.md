@@ -15,7 +15,7 @@ typed as `Record<string, never>`.
 
 ### TSchema
 
-`TSchema` *extends* `ZodType`\<`unknown`, `unknown`, `$ZodTypeInternals`\<`unknown`, `unknown`\>\> \| `undefined` = `undefined`
+`TSchema` _extends_ `ZodType`\<`unknown`, `unknown`, `$ZodTypeInternals`\<`unknown`, `unknown`\>\> \| `undefined` = `undefined`
 
 ### TContext
 
@@ -23,7 +23,7 @@ typed as `Record<string, never>`.
 
 ### THandler
 
-`THandler` *extends* (`data`) => `any` = (`data`) => `any`
+`THandler` _extends_ (`data`) => `any` = (`data`) => `any`
 
 ## Parameters
 

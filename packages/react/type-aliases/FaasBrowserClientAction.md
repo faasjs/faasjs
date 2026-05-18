@@ -10,7 +10,7 @@ Type definition for the FaasBrowserClient.action method.
 
 ### PathOrData
 
-`PathOrData` *extends* [`FaasActionUnionType`](FaasActionUnionType.md)
+`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md)
 
 ## Parameters
 

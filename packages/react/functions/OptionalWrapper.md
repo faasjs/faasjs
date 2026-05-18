@@ -26,7 +26,7 @@ Wrapped children or the original children when `condition` is false.
 import { OptionalWrapper } from '@faasjs/react'
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => (
-  <div className='wrapper'>{children}</div>
+  <div className="wrapper">{children}</div>
 )
 
 const App = () => (

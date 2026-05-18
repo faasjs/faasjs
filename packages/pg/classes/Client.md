@@ -34,7 +34,7 @@ Initiates a query builder for the specified table.
 
 ##### T
 
-`T` *extends* [`TableName`](../type-aliases/TableName.md)
+`T` _extends_ [`TableName`](../type-aliases/TableName.md)
 
 The type of the table name.
 
@@ -76,7 +76,7 @@ Executes a raw SQL query and returns the result as an array of objects.
 
 ##### T
 
-`T` *extends* `Record`\<`string`, `any`\> = `any`
+`T` _extends_ `Record`\<`string`, `any`\> = `any`
 
 The type of the result objects. Defaults to `Record<string, any>`.
 

@@ -8,7 +8,7 @@
 
 ### T
 
-`T` *extends* `string`
+`T` _extends_ `string`
 
 ## Properties
 

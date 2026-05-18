@@ -10,13 +10,13 @@ Wrap a component with [FaasDataWrapper](FaasDataWrapper.md) and its Ant Design l
 
 ### PathOrData
 
-`PathOrData` *extends* `FaasActionUnionType`
+`PathOrData` _extends_ `FaasActionUnionType`
 
 Action path or response data type used for inference.
 
 ### TComponentProps
 
-`TComponentProps` *extends* `Required`\<`Partial`\<`FaasDataInjection`\<`PathOrData`\>\>\> = `Required`\<`Partial`\<`FaasDataInjection`\<`PathOrData`\>\>\>
+`TComponentProps` _extends_ `Required`\<`Partial`\<`FaasDataInjection`\<`PathOrData`\>\>\> = `Required`\<`Partial`\<`FaasDataInjection`\<`PathOrData`\>\>\>
 
 Component props including injected Faas data fields.
 
@@ -47,11 +47,7 @@ import { withFaasData } from '@faasjs/ant-design'
 
 const UserCard = withFaasData(
   ({ data, error, reload }) =>
-    error ? (
-      <a onClick={() => reload()}>Retry</a>
-    ) : (
-      <div>{data.name}</div>
-    ),
+    error ? <a onClick={() => reload()}>Retry</a> : <div>{data.name}</div>,
   { action: 'user/get', params: { id: 1 } },
 )
 ```

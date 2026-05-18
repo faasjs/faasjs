@@ -2,14 +2,14 @@
 
 # Type Alias: InferTResult\<TName, ColumnNames\>
 
-> **InferTResult**\<`TName`, `ColumnNames`\> = `ColumnNames` *extends* \[`"*"`\] ? [`TableType`](TableType.md)\<`TName`\> : `MergeTypes`\<`{ [K in keyof ColumnNames]: InferColumnType<TName, ColumnNames[K]> }`\>
+> **InferTResult**\<`TName`, `ColumnNames`\> = `ColumnNames` _extends_ \[`"*"`\] ? [`TableType`](TableType.md)\<`TName`\> : `MergeTypes`\<`{ [K in keyof ColumnNames]: InferColumnType<TName, ColumnNames[K]> }`\>
 
 ## Type Parameters
 
 ### TName
 
-`TName` *extends* `string`
+`TName` _extends_ `string`
 
 ### ColumnNames
 
-`ColumnNames` *extends* ([`ColumnName`](ColumnName.md)\<`TName`\> \| [`JsonSelectField`](JsonSelectField.md)\<`TName`\>)[] = [`ColumnName`](ColumnName.md)\<`TName`\>[]
+`ColumnNames` _extends_ ([`ColumnName`](ColumnName.md)\<`TName`\> \| [`JsonSelectField`](JsonSelectField.md)\<`TName`\>)[] = [`ColumnName`](ColumnName.md)\<`TName`\>[]

@@ -13,7 +13,7 @@ the wrapped FaasJS request is pending.
 
 ### T
 
-`T` *extends* `FaasActionUnionType` = `any`
+`T` _extends_ `FaasActionUnionType` = `any`
 
 Action path or response data type used for inference.
 
@@ -39,11 +39,7 @@ type User = {
   name: string
 }
 
-function UserView(props: {
-  data?: User
-  error?: Error
-  reload?: () => void
-}) {
+function UserView(props: { data?: User; error?: Error; reload?: () => void }) {
   if (props.error) {
     return (
       <Alert

@@ -13,7 +13,7 @@ client defines `onError`, the hook is invoked before the promise rejects.
 
 ### PathOrData
 
-`PathOrData` *extends* `FaasActionUnionType`
+`PathOrData` _extends_ `FaasActionUnionType`
 
 Action path or response data type used for inference.
 

@@ -12,7 +12,7 @@
 
 ### operator
 
-> **operator**: *typeof* [`NormalOperators`](NormalOperators.md)\[`number`\]
+> **operator**: _typeof_ [`NormalOperators`](NormalOperators.md)\[`number`\]
 
 ### right
 

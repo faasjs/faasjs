@@ -10,7 +10,7 @@ Built-in FaasJS submit handler configuration for [Form](../functions/Form.md).
 
 ### Values
 
-`Values` *extends* `Record`\<`string`, `any`\> = `any`
+`Values` _extends_ `Record`\<`string`, `any`\> = `any`
 
 Form values shape used by submit handlers.
 

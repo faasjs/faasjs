@@ -16,11 +16,6 @@ Default 404 route element that uses the configured localized title.
 import { PageNotFound, Routes } from '@faasjs/ant-design'
 
 export function AppRoutes() {
-  return (
-    <Routes
-      routes={[{ path: '/', element: <div>Home</div> }]}
-      notFound={<PageNotFound />}
-    />
-  )
+  return <Routes routes={[{ path: '/', element: <div>Home</div> }]} notFound={<PageNotFound />} />
 }
 ```

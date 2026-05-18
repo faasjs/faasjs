@@ -2,7 +2,7 @@
 
 # Type Alias: FaasData\<T\>
 
-> **FaasData**\<`T`\> = `T` *extends* `FaasActionPaths` ? `FaasActions`\[`T`\]\[`"Data"`\] : `T` *extends* `string` ? `Record`\<`string`, `unknown`\> : `never`
+> **FaasData**\<`T`\> = `T` _extends_ `FaasActionPaths` ? `FaasActions`\[`T`\]\[`"Data"`\] : `T` _extends_ `string` ? `Record`\<`string`, `unknown`\> : `never`
 
 Infer response data type by action path.
 

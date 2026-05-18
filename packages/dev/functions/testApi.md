@@ -14,7 +14,7 @@ methods for advanced cases.
 
 ### TApi
 
-`TApi` *extends* [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
+`TApi` _extends_ [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
 
 Wrapped FaasJS API type.
 

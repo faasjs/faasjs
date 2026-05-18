@@ -50,9 +50,5 @@ If a discovered `faas.yaml` cannot be parsed or fails schema validation.
 ```ts
 import { loadConfig } from '@faasjs/node-utils'
 
-const config = loadConfig(
-  process.cwd(),
-  '/project/src/orders/create.api.ts',
-  'development',
-)
+const config = loadConfig(process.cwd(), '/project/src/orders/create.api.ts', 'development')
 ```

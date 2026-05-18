@@ -2,7 +2,7 @@
 
 # Type Alias: InferFaasAction\<TApi\>
 
-> **InferFaasAction**\<`TApi`\> = `TApi` *extends* `object` ? `object` : `never`
+> **InferFaasAction**\<`TApi`\> = `TApi` _extends_ `object` ? `object` : `never`
 
 Infer the FaasAction type from a Func.
 

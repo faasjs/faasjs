@@ -20,22 +20,26 @@ Base URL override for the current request.
 ### beforeRequest?
 
 > `optional` **beforeRequest?**: (`{
+
     action,
     params,
     options,
     headers,
-  }`) => `Promise`\<`void`\>
+
+}`) => `Promise`\<`void`\>
 
 Async hook called after request options are merged but before the request is sent.
 
 #### Parameters
 
 ##### \{
+
     action,
     params,
     options,
     headers,
-  \}
+
+\}
 
 ###### action
 
@@ -71,7 +75,7 @@ Custom request implementation used instead of the native `fetch`.
 
 ##### PathOrData
 
-`PathOrData` *extends* [`FaasActionUnionType`](FaasActionUnionType.md)
+`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md)
 
 #### Parameters
 

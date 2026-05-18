@@ -14,7 +14,7 @@ plus helpers for reloading, background refreshing, updating data, and handling e
 
 ### PathOrData
 
-`PathOrData` *extends* `FaasActionUnionType`
+`PathOrData` _extends_ `FaasActionUnionType`
 
 Action path or response data type used for inference.
 

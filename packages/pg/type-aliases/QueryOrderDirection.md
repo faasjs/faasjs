@@ -2,4 +2,4 @@
 
 # Type Alias: QueryOrderDirection
 
-> **QueryOrderDirection** = *typeof* [`QueryOrderDirections`](QueryOrderDirections.md)\[`number`\]
+> **QueryOrderDirection** = _typeof_ [`QueryOrderDirections`](QueryOrderDirections.md)\[`number`\]

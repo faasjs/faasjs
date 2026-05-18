@@ -2,7 +2,7 @@
 
 # Type Alias: ColumnValue\<T, C\>
 
-> **ColumnValue**\<`T`, `C`\> = `T` *extends* [`TableName`](TableName.md) ? `C` *extends* keyof [`Tables`](../interfaces/Tables.md)\[`T`\] ? [`Tables`](../interfaces/Tables.md)\[`T`\]\[`C`\] : `any` : `any`
+> **ColumnValue**\<`T`, `C`\> = `T` _extends_ [`TableName`](TableName.md) ? `C` _extends_ keyof [`Tables`](../interfaces/Tables.md)\[`T`\] ? [`Tables`](../interfaces/Tables.md)\[`T`\]\[`C`\] : `any` : `any`
 
 Value type for a known table column, or `any` when the table or column is unknown.
 
@@ -10,8 +10,8 @@ Value type for a known table column, or `any` when the table or column is unknow
 
 ### T
 
-`T` *extends* `string` = `string`
+`T` _extends_ `string` = `string`
 
 ### C
 
-`C` *extends* `string` = `string`
+`C` _extends_ `string` = `string`

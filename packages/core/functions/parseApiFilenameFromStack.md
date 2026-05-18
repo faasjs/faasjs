@@ -25,7 +25,5 @@ Absolute or file URL converted source path when found.
 ```ts
 import { parseApiFilenameFromStack } from '@faasjs/core'
 
-const filename = parseApiFilenameFromStack(
-  'Error\\n    at file:///project/src/demo.api.ts:3:1',
-)
+const filename = parseApiFilenameFromStack('Error\\n    at file:///project/src/demo.api.ts:3:1')
 ```

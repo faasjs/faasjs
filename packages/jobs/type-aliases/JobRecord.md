@@ -12,53 +12,53 @@ Persisted row from the `faasjs_jobs` table.
 
 > **attempts**: `number`
 
-### completed\_at
+### completed_at
 
-> **completed\_at**: `Date` \| `string` \| `null`
+> **completed_at**: `Date` \| `string` \| `null`
 
-### created\_at
+### created_at
 
-> **created\_at**: `Date` \| `string`
+> **created_at**: `Date` \| `string`
 
-### cron\_key
+### cron_key
 
-> **cron\_key**: `string` \| `null`
+> **cron_key**: `string` \| `null`
 
-### failed\_at
+### failed_at
 
-> **failed\_at**: `Date` \| `string` \| `null`
+> **failed_at**: `Date` \| `string` \| `null`
 
 ### id
 
 > **id**: `string`
 
-### idempotency\_key
+### idempotency_key
 
-> **idempotency\_key**: `string` \| `null`
+> **idempotency_key**: `string` \| `null`
 
-### job\_path
+### job_path
 
-> **job\_path**: `string`
+> **job_path**: `string`
 
-### last\_error
+### last_error
 
-> **last\_error**: `string` \| `null`
+> **last_error**: `string` \| `null`
 
-### lease\_id
+### lease_id
 
-> **lease\_id**: `string` \| `null`
+> **lease_id**: `string` \| `null`
 
-### locked\_by
+### locked_by
 
-> **locked\_by**: `string` \| `null`
+> **locked_by**: `string` \| `null`
 
-### locked\_until
+### locked_until
 
-> **locked\_until**: `Date` \| `string` \| `null`
+> **locked_until**: `Date` \| `string` \| `null`
 
-### max\_attempts
+### max_attempts
 
-> **max\_attempts**: `number`
+> **max_attempts**: `number`
 
 ### params
 
@@ -72,18 +72,18 @@ Persisted row from the `faasjs_jobs` table.
 
 > **queue**: `string`
 
-### run\_at
+### run_at
 
-> **run\_at**: `Date` \| `string`
+> **run_at**: `Date` \| `string`
 
-### scheduled\_at
+### scheduled_at
 
-> **scheduled\_at**: `Date` \| `string` \| `null`
+> **scheduled_at**: `Date` \| `string` \| `null`
 
 ### status
 
 > **status**: [`JobStatus`](JobStatus.md)
 
-### updated\_at
+### updated_at
 
-> **updated\_at**: `Date` \| `string`
+> **updated_at**: `Date` \| `string`

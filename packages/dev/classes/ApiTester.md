@@ -26,7 +26,7 @@ const response = await wrapped.JSONhandler({ name: 'FaasJS' })
 
 ### TApi
 
-`TApi` *extends* [`Func`](Func.md)\<`any`, `any`, `any`\> = [`Func`](Func.md)\<`any`, `any`, `any`\>
+`TApi` _extends_ [`Func`](Func.md)\<`any`, `any`, `any`\> = [`Func`](Func.md)\<`any`, `any`, `any`\>
 
 Wrapped FaasJS API type.
 

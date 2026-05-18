@@ -32,6 +32,7 @@ export type ManifestPage = {
   sourcePath: string
   outputPath: string
   routePath: string
+  sourceContent: string
 }
 
 export type DocsManifest = {
@@ -163,18 +164,6 @@ function humanizeSlug(slug: string) {
     .replace('API', 'API')
 }
 
-function extractTitleAndSummary(root: string, sourcePath: string, fallbackTitle: string) {
-  const content = readFileSync(join(root, sourcePath), 'utf8')
-  const title = content.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? fallbackTitle
-  const paragraphs = content.split(/\n{2,}/).map((paragraph) => paragraph.trim())
-  const summary =
-    paragraphs.find(
-      (paragraph) => paragraph && !paragraph.startsWith('#') && !paragraph.includes('\n'),
-    ) ?? ''
-
-  return { title, summary }
-}
-
 function createPage(
   root: string,
   kind: ManifestPageKind,
@@ -183,18 +172,25 @@ function createPage(
   outputPath: string,
 ): ManifestPage {
   const slug = slugFromPath(sourcePath)
-  const metadata = extractTitleAndSummary(root, sourcePath, humanizeSlug(slug))
-  const summary = pageSummaries[slug] ?? metadata.summary
+  const content = readFileSync(join(root, sourcePath), 'utf8')
+  const title = content.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? humanizeSlug(slug)
+  const paragraphs = content.split(/\n{2,}/).map((paragraph) => paragraph.trim())
+  const summary =
+    paragraphs.find(
+      (paragraph) => paragraph && !paragraph.startsWith('#') && !paragraph.includes('\n'),
+    ) ?? ''
+  const pageSummary = pageSummaries[slug] ?? summary
 
   return {
     kind,
     locale,
     slug,
-    title: metadata.title,
-    summary,
+    title,
+    summary: pageSummary,
     sourcePath,
     outputPath,
     routePath: routeFromOutputPath(outputPath),
+    sourceContent: content,
   }
 }
 
@@ -248,10 +244,21 @@ export function buildManifest(options: DocgenOptions = {}): DocsManifest {
     root,
     'guideline',
     'zh',
-    'docs/zh/guidelines/*.md',
+    'skills/faasjs-best-practices/guidelines/*.md',
     'docs/zh/guidelines',
     guidelineOrder,
   )
+  // Prefer zh translation if exists
+  for (const page of zhGuidelines) {
+    const zhSource = `docs/zh/guidelines/${page.slug}.md`
+    const zhPath = join(root, zhSource)
+    if (existsSync(zhPath)) {
+      page.sourcePath = zhSource
+      page.sourceContent = readFileSync(zhPath, 'utf8')
+      const title = page.sourceContent.match(/^#\s+(.+)$/m)?.[1]?.trim()
+      if (title) page.title = title
+    }
+  }
 
   return {
     pages: [...enGuidelines, ...zhGuidelines],
@@ -281,10 +288,7 @@ function rewriteSkillLinksForDocs(content: string) {
 function writeGeneratedPage(root: string, page: ManifestPage) {
   const outputPath = join(root, page.outputPath)
   mkdirSync(dirname(outputPath), { recursive: true })
-  writeFileSync(
-    outputPath,
-    rewriteSkillLinksForDocs(readFileSync(join(root, page.sourcePath), 'utf8')),
-  )
+  writeFileSync(outputPath, rewriteSkillLinksForDocs(page.sourceContent))
 }
 
 function renderPackageName(name: string) {

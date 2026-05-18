@@ -14,7 +14,7 @@ subscribe to the values they access.
 
 ### T
 
-`T` *extends* `Record`\<`string`, `any`\>
+`T` _extends_ `Record`\<`string`, `any`\>
 
 Context value shape exposed by the provider and hook.
 
@@ -40,7 +40,7 @@ Hook used to read values from the splitting context.
 
 ##### NewT
 
-`NewT` *extends* `Record`\<`string`, `any`\> = `T`
+`NewT` _extends_ `Record`\<`string`, `any`\> = `T`
 
 #### Parameters
 
@@ -62,7 +62,12 @@ Hook used to read values from the splitting context.
 function ChildComponent() {
   const { value, setValue } = use()
 
-  return <div>{value}<button onClick={() => setValue(1)}>change value</button></div>
+  return (
+    <div>
+      {value}
+      <button onClick={() => setValue(1)}>change value</button>
+    </div>
+  )
 }
 ```
 
@@ -76,7 +81,7 @@ The provider component of the splitting context.
 
 ##### NewT
 
-`NewT` *extends* `Record`\<`string`, `any`\> = `T`
+`NewT` _extends_ `Record`\<`string`, `any`\> = `T`
 
 #### Parameters
 
@@ -174,7 +179,7 @@ function WriterComponent() {
   const { setValue } = use()
 
   return (
-    <button type='button' onClick={() => setValue((p: number) => p + 1)}>
+    <button type="button" onClick={() => setValue((p: number) => p + 1)}>
       Change
     </button>
   )

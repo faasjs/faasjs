@@ -25,19 +25,19 @@ const http = new Http({
 
 ### TParams
 
-`TParams` *extends* `Record`\<`string`, `any`\> = `any`
+`TParams` _extends_ `Record`\<`string`, `any`\> = `any`
 
 Parsed HTTP params type injected into invoke data.
 
 ### TCookie
 
-`TCookie` *extends* `Record`\<`string`, `string`\> = `any`
+`TCookie` _extends_ `Record`\<`string`, `string`\> = `any`
 
 Cookie map exposed by the cookie helper.
 
 ### TSession
 
-`TSession` *extends* `Record`\<`string`, `string`\> = `any`
+`TSession` _extends_ `Record`\<`string`, `string`\> = `any`
 
 Session map exposed by the session helper.
 

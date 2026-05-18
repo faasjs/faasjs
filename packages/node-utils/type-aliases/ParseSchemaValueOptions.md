@@ -10,7 +10,7 @@ Options for parsing an unknown value with an optional Zod schema.
 
 ### TSchema
 
-`TSchema` *extends* `ZodType` \| `undefined` = `undefined`
+`TSchema` _extends_ `ZodType` \| `undefined` = `undefined`
 
 Zod schema used when present.
 

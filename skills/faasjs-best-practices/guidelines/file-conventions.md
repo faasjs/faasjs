@@ -2,7 +2,7 @@
 
 Use this guide when creating or reviewing frontend pages, React components, hooks, FaasJS backend route files, or background job files.
 
-> **See also**: [Naming Convention Guide](./naming-convention.md) for identifier and file naming rules (camelCase, PascalCase, kebab-case, abbreviations, etc.). This guide covers *where* files go; naming covers *what* they are called.
+> **See also**: [Naming Convention Guide](./naming-convention.md) for identifier and file naming rules (camelCase, PascalCase, kebab-case, abbreviations, etc.). This guide covers _where_ files go; naming covers _what_ they are called.
 
 ## Applicable Scenarios
 
