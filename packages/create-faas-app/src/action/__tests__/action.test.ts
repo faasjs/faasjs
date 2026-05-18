@@ -194,7 +194,7 @@ describe('action', () => {
       "import { FaasReactClient } from '@faasjs/react'",
     )
     expect(read(rootPath, 'src/pages/home/index.tsx')).toContain(
-      "import { faas } from '../../react-client'",
+      "import { useFaas } from '../../react-client'",
     )
     expect(read(rootPath, 'src/pages/home/index.tsx')).toContain('FaasJS Minimal App')
   })

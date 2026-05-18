@@ -71,7 +71,7 @@
  * - Vite: {@link viteFaasJsServer}
  * - Config: {@link viteConfig}, {@link oxfmtConfig}, {@link oxlintConfig}
  * - Typegen: {@link generateFaasTypes}, {@link isTypegenInputFile}
- * - Test: {@link testApi}, {@link ApiTester}, {@link streamToString}, {@link streamToObject}, {@link stringToStream}, {@link objectToStream}
+ * - Test: {@link testApi}, {@link ApiTester}
  */
 
 export * from './testing'

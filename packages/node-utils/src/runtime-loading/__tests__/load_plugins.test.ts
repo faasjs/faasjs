@@ -4,18 +4,10 @@ import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
 import { defineApi, type InvokeData, type Next, type Plugin } from '@faasjs/core'
-import { z } from '@faasjs/utils'
+import { streamToObject, z } from '@faasjs/utils'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import { loadPlugins } from '../load_plugins'
-
-async function streamToString(stream: ReadableStream<Uint8Array>): Promise<string> {
-  return await new Response(stream).text()
-}
-
-async function streamToObject(stream: ReadableStream<Uint8Array>): Promise<Record<string, any>> {
-  return JSON.parse(await streamToString(stream))
-}
 
 const roots: string[] = []
 

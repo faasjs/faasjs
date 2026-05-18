@@ -11,18 +11,23 @@ import { loadPackage, resetRuntime } from '../../load_package'
 
 const execFileAsync = promisify(execFile)
 const loadPackageModuleURL = new URL('../index.ts', import.meta.url).href
+const registerHooksIndexHref = new URL('../../register_hooks/index.ts', import.meta.url).href
 function createDataModuleURL(source: string): string {
   return `data:text/javascript,${encodeURIComponent(source)}`
 }
 
 async function runNativeLoadPackage(root: string, script: string): Promise<string> {
-  const { stdout } = await execFileAsync(process.execPath, ['--input-type=module', '-e', script], {
-    env: {
-      ...process.env,
-      FAAS_TEST_ROOT: root,
-      FAAS_LOAD_PACKAGE_MODULE_URL: loadPackageModuleURL,
+  const { stdout } = await execFileAsync(
+    process.execPath,
+    ['--import', registerHooksIndexHref, '--input-type=module', '-e', script],
+    {
+      env: {
+        ...process.env,
+        FAAS_TEST_ROOT: root,
+        FAAS_LOAD_PACKAGE_MODULE_URL: loadPackageModuleURL,
+      },
     },
-  })
+  )
 
   return stdout.trim()
 }
@@ -36,12 +41,16 @@ async function runNodeWithPreload(
 
   await writeFile(preloadPath, preloadSource, 'utf8')
 
-  const { stdout } = await execFileAsync(process.execPath, ['--import', preloadPath, entry], {
-    cwd: root,
-    env: {
-      ...process.env,
+  const { stdout } = await execFileAsync(
+    process.execPath,
+    ['--import', registerHooksIndexHref, '--import', preloadPath, entry],
+    {
+      cwd: root,
+      env: {
+        ...process.env,
+      },
     },
-  })
+  )
 
   return stdout.trim()
 }

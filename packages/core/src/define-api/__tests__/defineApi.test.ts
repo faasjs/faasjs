@@ -1,16 +1,8 @@
 import { Http, defineApi } from '@faasjs/core'
-import { z } from '@faasjs/utils'
+import { streamToObject, z } from '@faasjs/utils'
 import { describe, expect, it } from 'vitest'
 
 import { TestsAuthPlugin } from './auth-plugin'
-
-async function streamToString(stream: ReadableStream<Uint8Array>): Promise<string> {
-  return await new Response(stream).text()
-}
-
-async function streamToObject(stream: ReadableStream<Uint8Array>): Promise<Record<string, any>> {
-  return JSON.parse(await streamToString(stream))
-}
 
 function useHttpPlugin(func: { plugins: any[] }): void {
   func.plugins.unshift(new Http({ config: { cookie: { session: { secret: 'test-secret' } } } }))
