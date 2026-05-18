@@ -1,76 +1,12 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useNavigate } from 'react-router-dom'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
-let capturedFaasClientOptions: any
-let lastMessageApi: any
-
-vi.mock('antd', async () => {
-  const React = await import('react')
-
-  return {
-    Alert(props: any) {
-      return React.createElement(
-        'div',
-        { 'data-testid': 'alert' },
-        props.message,
-        props.description,
-      )
-    },
-    ConfigProvider(props: any) {
-      return React.createElement('div', { 'data-testid': 'antd-config' }, props.children)
-    },
-    Drawer(props: any) {
-      return props.open ? React.createElement('div', null, props.title) : null
-    },
-    Modal(props: any) {
-      return props.open ? React.createElement('div', null, props.title) : null
-    },
-    message: {
-      useMessage() {
-        lastMessageApi = {
-          error: vi.fn<() => void>(),
-          info: vi.fn<() => void>(),
-        }
-
-        return [lastMessageApi, React.createElement('div', { key: 'message-holder' })]
-      },
-    },
-    notification: {
-      useNotification() {
-        return [
-          {
-            info: vi.fn<() => void>(),
-          },
-          React.createElement('div', { key: 'notification-holder' }),
-        ]
-      },
-    },
-  }
-})
-
-vi.mock('../../Config', async () => {
-  const React = await import('react')
-
-  return {
-    ConfigProvider(props: any) {
-      capturedFaasClientOptions = props.faasClientOptions
-
-      return React.createElement(React.Fragment, null, props.children)
-    },
-  }
-})
-
-import { App } from '../../App'
+import { App, createOnErrorHandler } from '../../App'
 import { useApp } from '../../useApp'
 
 describe('App/coverage', () => {
-  beforeEach(() => {
-    capturedFaasClientOptions = undefined
-    lastMessageApi = undefined
-  })
-
   afterEach(() => {
     vi.restoreAllMocks()
   })
@@ -78,23 +14,17 @@ describe('App/coverage', () => {
   it('should close open drawers and modals after navigation', async () => {
     const user = userEvent.setup()
 
-    function Component() {
+    function TestComponent() {
       const navigate = useNavigate()
-      const { setDrawerProps, setModalProps } = useApp()
+      const { drawerProps, modalProps, setDrawerProps, setModalProps } = useApp()
 
       return (
         <>
           <button
             type="button"
             onClick={() => {
-              setDrawerProps({
-                open: true,
-                title: 'Route Drawer',
-              })
-              setModalProps({
-                open: true,
-                title: 'Route Modal',
-              })
+              setDrawerProps({ open: true, title: 'Route Drawer' })
+              setModalProps({ open: true, title: 'Route Modal' })
             }}
           >
             Open
@@ -102,53 +32,54 @@ describe('App/coverage', () => {
           <button type="button" onClick={() => navigate('/next')}>
             Navigate
           </button>
+          <span data-testid="drawer-open">{String(drawerProps.open)}</span>
+          <span data-testid="modal-open">{String(modalProps.open)}</span>
         </>
       )
     }
 
     render(
       <App>
-        <Component />
+        <TestComponent />
       </App>,
     )
 
+    expect(screen.getByTestId('drawer-open').textContent).toBe('false')
+    expect(screen.getByTestId('modal-open').textContent).toBe('false')
+
     await user.click(screen.getByText('Open'))
 
-    expect(screen.getByText('Route Drawer')).toBeDefined()
-    expect(screen.getByText('Route Modal')).toBeDefined()
+    expect(screen.getByTestId('drawer-open').textContent).toBe('true')
+    expect(screen.getByTestId('modal-open').textContent).toBe('true')
 
     await user.click(screen.getByText('Navigate'))
 
     await waitFor(() => {
-      expect(screen.queryByText('Route Drawer')).toBeNull()
-      expect(screen.queryByText('Route Modal')).toBeNull()
+      expect(screen.getByTestId('drawer-open').textContent).toBe('false')
+      expect(screen.getByTestId('modal-open').textContent).toBe('false')
     })
   })
 
-  it('should ignore abort errors and surface unknown errors', async () => {
-    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
+  describe('createOnErrorHandler', () => {
+    it('should ignore abort errors and surface unknown errors', async () => {
+      const messageApi = { error: vi.fn<() => void>() }
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
+      const onError = createOnErrorHandler(messageApi)
 
-    render(
-      <App
-        faasConfigProviderProps={{ faasClientOptions: { options: { headers: { test: 'ok' } } } }}
-      >
-        <div>Ready</div>
-      </App>,
-    )
+      await onError('load/test')(new Error('AbortError'))
 
-    expect(screen.getByText('Ready')).toBeDefined()
-    expect(capturedFaasClientOptions.options.headers).toEqual({ test: 'ok' })
+      expect(messageApi.error).not.toHaveBeenCalled()
 
-    await capturedFaasClientOptions.onError('load/test')(new Error('AbortError'))
-    expect(lastMessageApi.error).not.toHaveBeenCalled()
+      await onError('load/test')({
+        toString: () => 'plain object failure',
+      })
 
-    await capturedFaasClientOptions.onError('load/test')({
-      toString: () => 'plain object failure',
+      expect(messageApi.error).toHaveBeenCalledWith('Unknown error')
+
+      await onError('load/test')(new Error('known failure'))
+
+      expect(messageApi.error).toHaveBeenCalledWith('known failure')
+      expect(consoleError).toHaveBeenCalled()
     })
-    expect(lastMessageApi.error).toHaveBeenCalledWith('Unknown error')
-
-    await capturedFaasClientOptions.onError('load/test')(new Error('known failure'))
-    expect(lastMessageApi.error).toHaveBeenCalledWith('known failure')
-    expect(consoleError).toHaveBeenCalled()
   })
 })

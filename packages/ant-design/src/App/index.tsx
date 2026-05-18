@@ -49,6 +49,16 @@ export interface AppProps {
   faasConfigProviderProps?: Omit<FaasConfigProviderProps, 'children'> | false
 }
 
+export function createOnErrorHandler(messageApi: { error: (message: string) => void }) {
+  return (action: string) => async (res: any) => {
+    if ('message' in res && res.toString().includes('AbortError')) return
+
+    console.error(`[FaasJS][${action}]`, res)
+
+    messageApi.error('message' in res ? res.message : 'Unknown error')
+  }
+}
+
 function RoutesApp(props: { children: React.ReactNode }) {
   const location = useLocation()
   const { drawerProps, setDrawerProps, modalProps, setModalProps } = useApp()
@@ -118,13 +128,7 @@ export function App(props: AppProps) {
         <FaasConfigProvider
           {...props.faasConfigProviderProps}
           faasClientOptions={{
-            onError: (action) => async (res) => {
-              if ('message' in res && res.toString().includes('AbortError')) return
-
-              console.error(`[FaasJS][${action}]`, res)
-
-              messageApi.error('message' in res ? res.message : 'Unknown error')
-            },
+            onError: createOnErrorHandler(messageApi),
             ...(props.faasConfigProviderProps
               ? props.faasConfigProviderProps.faasClientOptions
               : {}),

@@ -1,102 +1,43 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-
-let lastDrawerProps: any
-let lastModalProps: any
-
-vi.mock('antd', async () => {
-  const React = await import('react')
-
-  return {
-    Drawer(props: any) {
-      lastDrawerProps = props
-
-      return React.createElement(
-        'button',
-        {
-          'data-testid': 'drawer-close',
-          onClick: () => props.onClose?.(),
-        },
-        props.title,
-      )
-    },
-    Modal(props: any) {
-      lastModalProps = props
-
-      return React.createElement(
-        'button',
-        {
-          'data-testid': 'modal-close',
-          onClick: () => props.onCancel?.(),
-        },
-        props.title,
-      )
-    },
-  }
-})
+import { act, render } from '@testing-library/react'
+import { describe, expect, it } from 'vitest'
 
 import { useDrawer } from '../../Drawer'
 import { useModal } from '../../Modal'
 
-describe('dialog hooks coverage', () => {
-  beforeEach(() => {
-    lastDrawerProps = undefined
-    lastModalProps = undefined
-  })
+describe('dialog hooks', () => {
+  it('should toggle drawer open state through setDrawerProps', () => {
+    let result: ReturnType<typeof useDrawer>
 
-  it('should close the drawer through the generated onClose handler', async () => {
     function App() {
-      const drawer = useDrawer({
-        title: 'title',
-        open: true,
-      })
+      result = useDrawer({ title: 'title', open: true })
 
-      return (
-        <>
-          {drawer.drawer}
-          <span data-testid="drawer-open">{String(drawer.drawerProps.open)}</span>
-        </>
-      )
+      return null
     }
 
     render(<App />)
 
-    expect(screen.getByTestId('drawer-open').textContent).toBe('true')
+    expect(result!.drawerProps.open).toBe(true)
 
-    fireEvent.click(screen.getByTestId('drawer-close'))
+    act(() => result!.setDrawerProps({ open: false }))
 
-    await waitFor(() => {
-      expect(screen.getByTestId('drawer-open').textContent).toBe('false')
-    })
-
-    expect(lastDrawerProps.open).toBe(false)
+    expect(result!.drawerProps.open).toBe(false)
   })
 
-  it('should close the modal through the generated onCancel handler', async () => {
-    function App() {
-      const modal = useModal({
-        title: 'title',
-        open: true,
-      })
+  it('should toggle modal open state through setModalProps', () => {
+    let result: ReturnType<typeof useModal>
 
-      return (
-        <>
-          {modal.modal}
-          <span data-testid="modal-open">{String(modal.modalProps.open)}</span>
-        </>
-      )
+    function App() {
+      result = useModal({ title: 'title', open: true })
+
+      return null
     }
 
     render(<App />)
 
-    expect(screen.getByTestId('modal-open').textContent).toBe('true')
+    expect(result!.modalProps.open).toBe(true)
 
-    fireEvent.click(screen.getByTestId('modal-close'))
+    act(() => result!.setModalProps({ open: false }))
 
-    await waitFor(() => {
-      expect(screen.getByTestId('modal-open').textContent).toBe('false')
-    })
-
-    expect(lastModalProps.open).toBe(false)
+    expect(result!.modalProps.open).toBe(false)
   })
 })

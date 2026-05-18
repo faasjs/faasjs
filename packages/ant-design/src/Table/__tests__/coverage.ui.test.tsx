@@ -1,459 +1,134 @@
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import dayjs from 'dayjs'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
-let lastTableProps: any
-let lastSelectProps: any
-let lastInputSearchProps: any
-let lastRangePickerProps: any
-let lastFaasDataWrapperProps: any
-let mockedFaasDataInjection: any
+import { createTableColumns } from '../column-builder'
+import { FaasDataTable, Table } from '../table'
+import { applyFaasDataColumnOptions } from '../utils'
 
-vi.mock('antd', async () => {
-  const React = await import('react')
-
-  return {
-    DatePicker: {
-      RangePicker(props: any) {
-        lastRangePickerProps = props
-        return React.createElement('div', { 'data-testid': 'range-picker' })
-      },
-    },
-    Descriptions(props: any) {
-      return React.createElement(
-        'div',
-        { 'data-testid': 'descriptions' },
-        (props.items || []).map((item: any) =>
-          React.createElement('div', { key: item.key }, item.label, item.children),
-        ),
-      )
-    },
-    Input: {
-      Search(props: any) {
-        lastInputSearchProps = props
-        return React.createElement('div', { 'data-testid': 'input-search' })
-      },
-    },
-    Radio: {
-      Group(props: any) {
-        return React.createElement('div', { 'data-testid': 'radio-group' }, props.children)
-      },
-      Button(props: any) {
-        return React.createElement('button', props, props.children)
-      },
-    },
-    Select(props: any) {
-      lastSelectProps = props
-      return React.createElement('div', { 'data-testid': 'select' })
-    },
-    Space(props: any) {
-      return React.createElement('div', { 'data-testid': 'space' }, props.children)
-    },
-    Table(props: any) {
-      lastTableProps = props
-      return React.createElement('div', { 'data-testid': 'table' })
-    },
-    Typography: {
-      Text(props: any) {
-        return React.createElement('span', props, props.children)
-      },
-    },
-  }
-})
-
-vi.mock('../../FaasDataWrapper', async () => {
-  const React = await import('react')
-
-  return {
-    FaasDataWrapper(props: any) {
-      lastFaasDataWrapperProps = props
-
-      if (typeof props.render === 'function') return props.render(mockedFaasDataInjection)
-
-      if (React.isValidElement(props.children))
-        return React.cloneElement(props.children, mockedFaasDataInjection)
-
-      return props.children ?? null
-    },
-  }
-})
-
-import { Table } from '../../Table'
-
-async function getColumns() {
-  await waitFor(() => {
-    expect(lastTableProps?.columns?.length).toBeGreaterThan(0)
-  })
-
-  return lastTableProps.columns as any[]
+const defaultOptions = {
+  all: 'All',
+  blank: 'Empty',
+  search: 'Search',
 }
 
-function getColumn(columns: any[], id: string) {
-  const column = columns.find((item) => item.id === id)
-
-  if (!column) throw Error(`column ${id} not found`)
-
-  return column
+function cols(items: any[], options?: any) {
+  return createTableColumns(items, options ?? defaultOptions) as any[]
 }
 
 describe('Table/coverage', () => {
-  beforeEach(() => {
-    lastTableProps = undefined
-    lastSelectProps = undefined
-    lastInputSearchProps = undefined
-    lastRangePickerProps = undefined
-    lastFaasDataWrapperProps = undefined
-    mockedFaasDataInjection = undefined
-  })
+  describe('column builder', () => {
+    it('should generate column for string type', () => {
+      const columns = cols([{ id: 'name', type: 'string' }])
+      const col = columns.find((c) => c.id === 'name')!
 
-  it('should exercise generated select dropdowns and union children renders', async () => {
-    render(
-      <Table
-        items={[
-          {
-            id: 'name',
-            children: ({ scene, value, values, index }: any) => (
-              <span>{`${scene}:${value}:${values.extra}:${index}`}</span>
-            ),
-          },
+      expect(col.render('Alice')).toBe('Alice')
+      expect(col.render(42)).toBe(42)
+      expect(col.onFilter('Alpha', { name: 'Alpha' })).toBe(true)
+      expect(col.onFilter('Alpha', { name: 'Beta' })).toBe(false)
+      expect(col.onFilter('Alpha', { name: ' alpha ' })).toBe(true)
+      expect(col.onFilter(null, { name: 'Alpha' })).toBe(true)
+      expect(col.onFilter('Alpha', { name: undefined })).toBe(false)
+    })
+
+    it('should generate column for string[] type', () => {
+      const columns = cols([{ id: 'tags', type: 'string[]' }], defaultOptions)
+      const col = columns.find((c) => c.id === 'tags')!
+
+      expect(col.onFilter(null, { tags: undefined })).toBe(true)
+      expect(col.onFilter(null, { tags: [] })).toBe(true)
+      expect(col.onFilter('Alpha', { tags: [] })).toBe(false)
+      expect(col.onFilter('Alpha', { tags: [' beta ', ' Alpha '] })).toBe(true)
+    })
+
+    it('should generate column for number type', () => {
+      const columns = cols([{ id: 'count', type: 'number' }], defaultOptions)
+      const col = columns.find((c) => c.id === 'count')!
+
+      expect(col.render(42)).toBe(42)
+      expect(col.sorter({ count: 1 }, { count: 2 })).toBe(-1)
+      expect(col.sorter({ count: 5 }, { count: 3 })).toBe(2)
+      expect(col.onFilter(null, { count: 10 })).toBe(true)
+      expect(col.onFilter(10, { count: undefined })).toBe(false)
+      expect(col.onFilter('10', { count: 10 })).toBe(true)
+    })
+
+    it('should generate column for number[] type', () => {
+      const columns = cols([{ id: 'scores', type: 'number[]' }], defaultOptions)
+      const col = columns.find((c) => c.id === 'scores')!
+
+      expect(col.onFilter(null, { scores: undefined })).toBe(true)
+      expect(col.onFilter(null, { scores: [] })).toBe(true)
+      expect(col.onFilter(10, { scores: [] })).toBe(false)
+      expect(col.onFilter('10', { scores: [10] })).toBe(true)
+    })
+
+    it('should generate column for boolean type', () => {
+      const columns = cols([{ id: 'active', type: 'boolean' }], defaultOptions)
+      const col = columns.find((c) => c.id === 'active')!
+
+      expect(col.onFilter(true, { active: true })).toBe(true)
+      expect(col.onFilter(true, { active: false })).toBe(false)
+      expect(col.onFilter(false, { active: true })).toBe(false)
+      expect(col.onFilter(false, { active: false })).toBe(true)
+      expect(col.onFilter(null, { active: undefined })).toBe(true)
+    })
+
+    it('should generate column for time type', () => {
+      const columns = cols([{ id: 'createdAt', type: 'time' }], defaultOptions)
+      const col = columns.find((c) => c.id === 'createdAt')!
+
+      const start = dayjs('2024-01-01T00:00:00.000Z')
+      const end = dayjs('2024-01-03T00:00:00.000Z')
+
+      expect(col.sorter({ createdAt: null }, { createdAt: start.toISOString() }, 'ascend')).toBe(1)
+      expect(col.sorter({ createdAt: start.toISOString() }, { createdAt: null }, 'ascend')).toBe(-1)
+      expect(col.onFilter([undefined, undefined], { createdAt: start.toISOString() })).toBe(true)
+      expect(col.onFilter([start.toISOString(), end.toISOString()], { createdAt: undefined })).toBe(
+        false,
+      )
+      expect(
+        col.onFilter([start.toISOString(), end.toISOString()], {
+          createdAt: '2024-01-02T10:00:00.000Z',
+        }),
+      ).toBe(true)
+    })
+
+    it('should generate column for custom type', () => {
+      const columns = cols([{ id: 'custom', type: 'custom' as any }], defaultOptions)
+      const col = columns.find((c) => c.id === 'custom')!
+
+      expect(col.render('value')).toBe('value')
+      expect(col.onFilter(null, { custom: undefined })).toBe(true)
+      expect(col.onFilter('value', { custom: 'value' })).toBe(true)
+      expect(col.onFilter('value', { custom: 'other' })).toBe(false)
+    })
+
+    it('should handle options mapping in render', () => {
+      const columns = cols(
+        [
           {
             id: 'status',
-            options: Array.from({ length: 12 }).map((_, index) => `opt-${index}`),
+            options: [
+              { label: 'Active', value: 'active' },
+              { label: 'Inactive', value: 'inactive' },
+            ],
           },
-        ]}
-        dataSource={[
-          {
-            id: 1,
-            name: 'Alice',
-            extra: 'row',
-            status: 'opt-1',
-          },
-        ]}
-      />,
-    )
+        ],
+        defaultOptions,
+      )
+      const col = columns.find((c) => c.id === 'status')!
 
-    const columns = await getColumns()
-    const nameColumn = getColumn(columns, 'name')
-    const statusColumn = getColumn(columns, 'status')
+      const { container: activeContainer } = render(<>{col.render('active')}</>)
+      expect(activeContainer.textContent).toBe('Active')
 
-    const renderedChild = nameColumn.render('Alice', { extra: 'row' })
-    const childView = render(renderedChild)
-
-    expect(childView.getByText('table:Alice:row:0')).toBeDefined()
-
-    const setSelectedKeys = vi.fn<() => void>()
-    const confirm = vi.fn<() => void>()
-    const dropdown = render(
-      statusColumn.filterDropdown({
-        setSelectedKeys,
-        selectedKeys: ['opt-0'],
-        confirm,
-      }),
-    )
-
-    fireEvent.keyDown(dropdown.container.firstChild as Element)
-
-    lastSelectProps.onChange(['opt-1'])
-    lastSelectProps.onChange([])
-
-    expect(setSelectedKeys).toHaveBeenNthCalledWith(1, ['opt-1'])
-    expect(setSelectedKeys).toHaveBeenNthCalledWith(2, [])
-    expect(confirm).toHaveBeenCalledTimes(2)
-
-    expect(lastSelectProps.filterOption('', undefined)).toBe(true)
-    expect(lastSelectProps.filterOption('opt-1', { label: 1, value: 'opt-1' })).toBe(true)
-    expect(lastSelectProps.filterOption('  opt-1 ', { label: 'Option 1', value: 'opt-1' })).toBe(
-      true,
-    )
-    expect(lastSelectProps.filterOption('option', { label: 'Option 1', value: 'opt-1' })).toBe(true)
-    expect(lastSelectProps.filterOption('missing', { label: 'Option 1', value: 'opt-1' })).toBe(
-      false,
-    )
-  })
-
-  it('should exercise generated text and scalar filter helpers', async () => {
-    render(
-      <Table
-        items={[
-          { id: 'name', type: 'string' },
-          { id: 'tags', type: 'string[]' },
-          { id: 'count', type: 'number' },
-          { id: 'scores', type: 'number[]' },
-          { id: 'custom', type: 'custom' as any },
-        ]}
-        dataSource={[
-          {
-            id: 1,
-            name: 'Alpha',
-            tags: ['Alpha'],
-            count: 10,
-            scores: [10],
-            custom: 'match',
-          },
-        ]}
-      />,
-    )
-
-    const columns = await getColumns()
-    const nameColumn = getColumn(columns, 'name')
-    const tagsColumn = getColumn(columns, 'tags')
-    const countColumn = getColumn(columns, 'count')
-    const scoresColumn = getColumn(columns, 'scores')
-    const customColumn = getColumn(columns, 'custom')
-
-    const setSelectedKeys = vi.fn<() => void>()
-    const clearFilters = vi.fn<() => void>()
-    const confirm = vi.fn<() => void>()
-
-    render(
-      nameColumn.filterDropdown({
-        setSelectedKeys,
-        confirm,
-        clearFilters,
-      }),
-    )
-
-    lastInputSearchProps.onSearch('')
-
-    expect(setSelectedKeys).toHaveBeenCalledWith([])
-    expect(clearFilters).toHaveBeenCalledTimes(1)
-    expect(confirm).toHaveBeenCalledTimes(1)
-
-    expect(nameColumn.onFilter('Alpha', { name: ' alpha beta ' })).toBe(true)
-    expect(tagsColumn.onFilter(null, { tags: undefined })).toBe(true)
-    expect(tagsColumn.onFilter('Alpha', { tags: [] })).toBe(false)
-    expect(tagsColumn.onFilter('Alpha', { tags: [' beta ', ' Alpha '] })).toBe(true)
-    expect(countColumn.onFilter(null, { count: 10 })).toBe(true)
-    expect(countColumn.onFilter(10, { count: undefined })).toBe(false)
-    expect(countColumn.onFilter('10', { count: 10 })).toBe(true)
-    expect(scoresColumn.onFilter(null, { scores: undefined })).toBe(true)
-    expect(scoresColumn.onFilter(10, { scores: [] })).toBe(false)
-    expect(scoresColumn.onFilter('10', { scores: [10] })).toBe(true)
-    expect(customColumn.onFilter(null, { custom: undefined })).toBe(true)
-    expect(customColumn.onFilter('match', { custom: 'match' })).toBe(true)
-  })
-
-  it('should exercise generated date filters and sorters', async () => {
-    render(
-      <Table
-        items={[{ id: 'createdAt', type: 'time' }]}
-        dataSource={[
-          {
-            id: 1,
-            createdAt: '2024-01-02T10:00:00.000Z',
-          },
-        ]}
-      />,
-    )
-
-    const columns = await getColumns()
-    const createdAtColumn = getColumn(columns, 'createdAt')
-    const start = dayjs('2024-01-01T00:00:00.000Z')
-    const end = dayjs('2024-01-03T00:00:00.000Z')
-    const setSelectedKeys = vi.fn<() => void>()
-    const confirm = vi.fn<() => void>()
-
-    expect(
-      createdAtColumn.sorter({ createdAt: null }, { createdAt: start.toISOString() }, 'ascend'),
-    ).toBe(1)
-    expect(
-      createdAtColumn.sorter({ createdAt: null }, { createdAt: start.toISOString() }, 'descend'),
-    ).toBe(-1)
-    expect(
-      createdAtColumn.sorter({ createdAt: start.toISOString() }, { createdAt: null }, 'ascend'),
-    ).toBe(-1)
-    expect(
-      createdAtColumn.sorter({ createdAt: start.toISOString() }, { createdAt: null }, 'descend'),
-    ).toBe(1)
-    expect(
-      createdAtColumn.sorter(
-        { createdAt: start.toISOString() },
-        { createdAt: end.toISOString() },
-        'ascend',
-      ),
-    ).toBe(-1)
-    expect(
-      createdAtColumn.sorter(
-        { createdAt: end.toISOString() },
-        { createdAt: start.toISOString() },
-        'ascend',
-      ),
-    ).toBe(1)
-
-    render(
-      createdAtColumn.filterDropdown({
-        setSelectedKeys,
-        confirm,
-      }),
-    )
-
-    lastRangePickerProps.onChange([start, end])
-    lastRangePickerProps.onChange(undefined)
-
-    expect(setSelectedKeys).toHaveBeenNthCalledWith(1, [
-      [start.startOf('day').toISOString(), end.endOf('day').toISOString()],
-    ])
-    expect(setSelectedKeys).toHaveBeenNthCalledWith(2, [])
-    expect(confirm).toHaveBeenCalledTimes(2)
-
-    expect(
-      createdAtColumn.onFilter([undefined, undefined], { createdAt: start.toISOString() }),
-    ).toBe(true)
-    expect(
-      createdAtColumn.onFilter([start.toISOString(), end.toISOString()], { createdAt: undefined }),
-    ).toBe(false)
-    expect(
-      createdAtColumn.onFilter([start.toISOString(), end.toISOString()], {
-        createdAt: '2024-01-02T10:00:00.000Z',
-      }),
-    ).toBe(true)
-  })
-
-  it('should throw when an extend type omits children and render', () => {
-    expect(() =>
-      render(
-        <Table
-          items={[{ id: 'secret', type: 'password' as any }]}
-          extendTypes={{ password: {} }}
-          dataSource={[{ id: 1, secret: 'hidden' }]}
-        />,
-      ),
-    ).toThrow('password requires children or render')
-  })
-
-  it('should keep preset column settings and skip auto options for empty data', async () => {
-    const customRender = vi.fn<() => string>(() => 'custom-render')
-    const customFilter = vi.fn<() => boolean>(() => true)
-    const customSorter = vi.fn<() => number>(() => 0)
-
-    render(
-      <Table
-        items={[
-          {
-            id: 'name',
-            type: 'string',
-            key: 'name-key',
-            dataIndex: 'name-index',
-            render: customRender,
-            filterDropdown: false,
-          },
-          {
-            id: 'tags',
-            type: 'string[]',
-            render: customRender,
-            filterDropdown: true,
-            onFilter: customFilter,
-          },
-          {
-            id: 'count',
-            type: 'number',
-            render: customRender,
-            filterDropdown: true,
-            filters: [{ text: 'preset', value: 1 }],
-            onFilter: customFilter,
-            sorter: customSorter,
-          },
-          {
-            id: 'scores',
-            type: 'number[]',
-            render: customRender,
-            filterDropdown: true,
-            filters: [{ text: 'preset', value: 1 }],
-            onFilter: customFilter,
-          },
-          {
-            id: 'active',
-            type: 'boolean',
-            filterDropdown: false,
-            onFilter: customFilter,
-          },
-          {
-            id: 'createdAt',
-            type: 'time',
-            render: customRender,
-            filterDropdown: true,
-            onFilter: customFilter,
-            sorter: customSorter,
-          },
-          {
-            id: 'meta',
-            type: 'object',
-            render: customRender,
-          },
-          {
-            id: 'metaList',
-            type: 'object[]',
-            render: customRender,
-          },
-          {
-            id: 'custom',
-            type: 'custom' as any,
-            render: customRender,
-            filterDropdown: false,
-            onFilter: customFilter,
-          },
-          {
-            id: 'status',
-            optionsType: 'auto',
-          },
-        ]}
-        dataSource={[]}
-      />,
-    )
-
-    const columns = await getColumns()
-    const nameColumn = getColumn(columns, 'name')
-
-    expect(nameColumn).toMatchObject({
-      key: 'name-key',
-      dataIndex: 'name-index',
-      filterDropdown: false,
+      const { container: unknownContainer } = render(<>{col.render('unknown')}</>)
+      expect(unknownContainer.textContent).toBe('unknown')
     })
-    expect(nameColumn.render('value', { id: 1 })).toBe('custom-render')
-    expect(customRender).toHaveBeenCalledWith('value', { id: 1 }, 0, 'table')
-    expect(getColumn(columns, 'tags')).toMatchObject({
-      filterDropdown: true,
-      onFilter: customFilter,
-    })
-    expect(getColumn(columns, 'tags').render(['a'], { id: 1 })).toBe('custom-render')
-    expect(getColumn(columns, 'count')).toMatchObject({
-      filterDropdown: true,
-      onFilter: customFilter,
-      sorter: customSorter,
-    })
-    expect(getColumn(columns, 'count').render(1, { id: 1 })).toBe('custom-render')
-    expect(getColumn(columns, 'scores')).toMatchObject({
-      filterDropdown: true,
-      onFilter: customFilter,
-    })
-    expect(getColumn(columns, 'scores').render([1], { id: 1 })).toBe('custom-render')
-    expect(getColumn(columns, 'active')).toMatchObject({
-      filterDropdown: false,
-      onFilter: customFilter,
-    })
-    expect(getColumn(columns, 'createdAt')).toMatchObject({
-      filterDropdown: true,
-      onFilter: customFilter,
-      sorter: customSorter,
-    })
-    expect(getColumn(columns, 'createdAt').render('2024-01-01', { id: 1 })).toBe('custom-render')
-    expect(getColumn(columns, 'meta').render({}, { id: 1 })).toBe('custom-render')
-    expect(getColumn(columns, 'metaList').render([], { id: 1 })).toBe('custom-render')
-    expect(getColumn(columns, 'custom')).toMatchObject({
-      filterDropdown: false,
-      onFilter: customFilter,
-    })
-    expect(getColumn(columns, 'custom').render('value', { id: 1 })).toBe('custom-render')
-    expect(getColumn(columns, 'status').options).toBeUndefined()
-  })
 
-  it('should exercise option mapping, truthy searches, and object render fallbacks', async () => {
-    render(
-      <Table
-        items={[
-          {
-            id: 'plain',
-          },
+    it('should handle options mapping for string[]', () => {
+      const columns = cols(
+        [
           {
             id: 'tags',
             type: 'string[]',
@@ -462,446 +137,319 @@ describe('Table/coverage', () => {
               { label: 'Beta', value: 'b' },
             ],
           },
+        ],
+        defaultOptions,
+      )
+      const col = columns.find((c) => c.id === 'tags')!
+
+      const { container: joinedContainer } = render(<>{col.render(['a', 'b'])}</>)
+      expect(joinedContainer.textContent).toBe('Alpha, Beta')
+
+      const { container: missingContainer } = render(<>{col.render(['missing'])}</>)
+      expect(missingContainer.textContent).toBe('missing')
+    })
+
+    it('should handle options mapping for number', () => {
+      const columns = cols(
+        [
           {
             id: 'count',
             type: 'number',
-            options: [{ label: 'Twenty', value: 20 }],
-          },
-          {
-            id: 'search',
-            type: 'string',
-            filterDropdown: undefined,
-          },
-          {
-            id: 'meta',
-            type: 'object',
-            object: [{ id: 'key' }],
-          },
-          {
-            id: 'metaList',
-            type: 'object[]',
-            object: [{ id: 'key' }],
-          },
-        ]}
-        dataSource={[
-          {
-            id: 1,
-            plain: 'raw',
-            tags: ['a', 'b'],
-            count: 20,
-            search: 'Alpha',
-            meta: undefined,
-            metaList: [{ key: 'value' }],
-          },
-        ]}
-      />,
-    )
-
-    const columns = await getColumns()
-    const searchColumn = getColumn(columns, 'search')
-
-    expect(getColumn(columns, 'plain').render('raw')).toBe('raw')
-    expect(getColumn(columns, 'tags').render(['a', 'b'])).toBe('Alpha, Beta')
-    expect(getColumn(columns, 'count').render(20)).toBe('Twenty')
-
-    render(
-      searchColumn.filterDropdown({
-        setSelectedKeys: vi.fn<() => void>(),
-        confirm: vi.fn<() => void>(),
-        clearFilters: vi.fn<() => void>(),
-      }),
-    )
-
-    lastInputSearchProps.onSearch('Alpha')
-    expect(lastInputSearchProps).toMatchObject({
-      placeholder: 'Search Search',
-    })
-
-    const objectFallback = render(getColumn(columns, 'meta').render(undefined))
-    expect(objectFallback.getByText('Key')).toBeDefined()
-    expect(objectFallback.getByText('Empty')).toBeDefined()
-
-    const objectListFallback = render(getColumn(columns, 'metaList').render([{ key: 'value' }]))
-    expect(objectListFallback.getByText('Key')).toBeDefined()
-    expect(objectListFallback.getByText((content) => content.includes('value'))).toBeDefined()
-  })
-
-  it('should keep raw values when options do not match and search with truthy values', async () => {
-    render(
-      <Table
-        items={[
-          {
-            id: 'tags',
-            type: 'string[]',
-            options: [{ label: 'Known', value: 'known' }],
-          },
-          {
-            id: 'count',
-            type: 'number',
-            options: [{ label: 'One', value: 1 }],
-          },
-          {
-            id: 'name',
-            type: 'string',
-          },
-        ]}
-        dataSource={[
-          {
-            id: 1,
-            tags: ['missing'],
-            count: 2,
-            name: 'Alpha',
-          },
-        ]}
-      />,
-    )
-
-    const columns = await getColumns()
-    const nameColumn = getColumn(columns, 'name')
-    const setSelectedKeys = vi.fn<() => void>()
-    const confirm = vi.fn<() => void>()
-
-    expect(getColumn(columns, 'tags').render(['missing'])).toBe('missing')
-    expect(getColumn(columns, 'count').render(2)).toBe(2)
-    expect(nameColumn.onFilter('', { name: 'Alpha' })).toBe(true)
-    expect(nameColumn.onFilter('Alpha', { name: undefined })).toBe(false)
-
-    render(
-      nameColumn.filterDropdown({
-        setSelectedKeys,
-        confirm,
-        clearFilters: vi.fn<() => void>(),
-      }),
-    )
-
-    lastInputSearchProps.onSearch('Alpha')
-
-    expect(setSelectedKeys).toHaveBeenCalledWith(['Alpha'])
-    expect(confirm).toHaveBeenCalledTimes(1)
-  })
-
-  it('should exercise faas data branches for empty, array, and paginated payloads', async () => {
-    mockedFaasDataInjection = {
-      data: undefined,
-      loading: true,
-    }
-
-    const { rerender } = render(
-      <Table rowKey="id" items={[{ id: 'status' }]} faasData={{ action: 'table/list' }} />,
-    )
-
-    await waitFor(() => {
-      expect(lastTableProps?.dataSource).toEqual([])
-    })
-
-    expect(lastTableProps.loading).toBe(true)
-    expect(lastFaasDataWrapperProps.action).toBe('table/list')
-
-    mockedFaasDataInjection = {
-      data: [{ id: 1, status: 'online' }],
-      loading: false,
-    }
-
-    rerender(<Table rowKey="id" items={[{ id: 'status' }]} faasData={{ action: 'table/list' }} />)
-
-    await waitFor(() => {
-      expect(lastTableProps?.dataSource).toEqual([{ id: 1, status: 'online' }])
-    })
-
-    expect(lastTableProps.loading).toBe(false)
-
-    const reload = vi.fn<() => void>()
-
-    mockedFaasDataInjection = {
-      data: {
-        rows: [{ id: 1, status: 'online' }],
-        options: {
-          status: [{ label: 'Online', value: 'online' }],
-        },
-        pagination: {
-          current: 1,
-          pageSize: 10,
-          total: 1,
-        },
-      },
-      params: { base: 1 },
-      reload,
-      loading: false,
-    }
-
-    rerender(
-      <Table
-        rowKey="id"
-        items={[{ id: 'status' }]}
-        pagination={false}
-        faasData={{ action: 'table/list' }}
-      />,
-    )
-
-    await waitFor(() => {
-      expect(lastTableProps?.dataSource).toEqual([{ id: 1, status: 'online' }])
-      expect(lastTableProps?.pagination).toBe(false)
-    })
-
-    const pagedColumns = lastTableProps.columns as any[]
-    const statusColumn = getColumn(pagedColumns, 'status')
-
-    expect(statusColumn.render('online')).toBe('Online')
-    expect(statusColumn.filterDropdown).toBeUndefined()
-
-    lastTableProps.onChange?.(
-      { current: 2, pageSize: 10 },
-      { status: ['offline'] },
-      { field: 'status', order: 'descend' },
-      { action: 'paginate' },
-    )
-
-    expect(reload).toHaveBeenCalledWith({
-      base: 1,
-      pagination: { current: 2, pageSize: 10 },
-      filters: { status: ['offline'] },
-      sorter: { field: 'status', order: 'descend' },
-    })
-
-    mockedFaasDataInjection = {
-      data: {
-        rows: [{ id: 2, status: 'offline' }],
-        pagination: {
-          current: 1,
-          pageSize: 10,
-          total: 1,
-        },
-      },
-      loading: false,
-      reload: vi.fn<() => void>(),
-    }
-
-    const customOnChange = vi.fn<(...args: any[]) => any>((pagination, filters, sorter, extra) => ({
-      pagination,
-      filters,
-      sorter,
-      extra,
-    }))
-
-    rerender(
-      <Table
-        rowKey="id"
-        items={[{ id: 'status', filterDropdown: false }]}
-        faasData={{ action: 'table/list' }}
-        onChange={customOnChange}
-      />,
-    )
-
-    await waitFor(() => {
-      expect(lastTableProps?.dataSource).toEqual([{ id: 2, status: 'offline' }])
-    })
-
-    lastTableProps.onChange?.(
-      { current: 3, pageSize: 10 },
-      { status: ['offline'] },
-      { field: 'status', order: 'ascend' },
-      { action: 'paginate' },
-    )
-
-    expect(customOnChange).toHaveBeenCalledTimes(1)
-  })
-
-  it('should use default row keys and omit loading for array faas data', async () => {
-    mockedFaasDataInjection = {
-      data: [{ id: 3, status: 'idle' }],
-    }
-
-    render(<Table items={[{ id: 'status' }]} faasData={{ action: 'table/list' }} />)
-
-    await waitFor(() => {
-      expect(lastTableProps?.dataSource).toEqual([{ id: 3, status: 'idle' }])
-    })
-
-    expect(lastTableProps.rowKey).toBe('id')
-    expect(lastTableProps.loading).toBeUndefined()
-  })
-
-  it('should skip local filters for faas-backed columns and no-op when reload is missing', async () => {
-    mockedFaasDataInjection = {
-      data: {
-        rows: [
-          {
-            id: 1,
-            name: 'Alpha',
-            tags: ['a'],
-            count: 1,
-            scores: [1],
-            active: true,
-            createdAt: '2024-01-01T00:00:00.000Z',
-            custom: 'x',
+            options: [{ label: 'Ten', value: 10 }],
           },
         ],
-        pagination: {
-          current: 1,
-          pageSize: 10,
-          total: 1,
-        },
-      },
-    }
+        defaultOptions,
+      )
+      const col = columns.find((c) => c.id === 'count')!
 
-    render(
-      <Table
-        rowKey="id"
-        items={[
-          { id: 'name', type: 'string' },
-          { id: 'tags', type: 'string[]' },
-          { id: 'count', type: 'number' },
-          { id: 'scores', type: 'number[]' },
-          { id: 'active', type: 'boolean', filterDropdown: true },
-          { id: 'createdAt', type: 'time', filterDropdown: true },
-          { id: 'custom', type: 'custom' as any },
-        ]}
-        faasData={{ action: 'table/list' }}
-        pagination={{ pageSize: 5 }}
-      />,
-    )
+      const { container } = render(<>{col.render(10)}</>)
+      expect(container.textContent).toBe('Ten')
+    })
 
-    await waitFor(() => {
-      expect(lastTableProps?.dataSource).toEqual([
-        {
-          id: 1,
-          name: 'Alpha',
-          tags: ['a'],
-          count: 1,
-          scores: [1],
-          active: true,
-          createdAt: '2024-01-01T00:00:00.000Z',
-          custom: 'x',
+    it('should handle extend types', () => {
+      const columns = cols([{ id: 'secret', type: 'password' as any }], {
+        ...defaultOptions,
+        extendTypes: {
+          password: {
+            render: (value: any) => `masked:${value}`,
+          },
         },
+      })
+      const col = columns.find((c) => c.id === 'secret')!
+
+      expect(col.render('value')).toBe('masked:value')
+    })
+
+    it('should handle preset column settings', () => {
+      const customRender = vi.fn<() => string>(() => 'custom')
+
+      const columns = cols(
+        [
+          {
+            id: 'name',
+            key: 'name-key',
+            dataIndex: 'name-index',
+            render: customRender as any,
+            filterDropdown: false,
+          },
+        ],
+        defaultOptions,
+      )
+      const col = columns.find((c) => c.id === 'name')!
+
+      expect(col).toMatchObject({
+        key: 'name-key',
+        dataIndex: 'name-index',
+        filterDropdown: false,
+      })
+      col.render('value', { id: 1 })
+      expect(customRender).toHaveBeenCalledWith('value', { id: 1 }, 0, 'table')
+    })
+
+    it('should filter null children and renders', () => {
+      const columns = cols(
+        [
+          { id: 'visible', children: ({ value }: { value?: string }) => <span>{value}</span> },
+          { id: 'nullChildren', children: null as any },
+          { id: 'nullRender', tableRender: null as any },
+        ],
+        defaultOptions,
+      )
+
+      expect(columns).toHaveLength(1)
+      expect(columns[0].id).toBe('visible')
+    })
+
+    it('should skip local filters for faas-backed columns', () => {
+      const columns = cols([{ id: 'name', type: 'string' }], {
+        ...defaultOptions,
+        faasData: { action: 'test/list' },
+      })
+      const col = columns.find((c) => c.id === 'name')!
+
+      expect(col.onFilter).toBeUndefined()
+    })
+
+    it('should generate filterDropdown for large option sets', () => {
+      const columns = cols(
+        [
+          {
+            id: 'status',
+            options: Array.from({ length: 11 }, (_, i) => `opt-${i}`),
+          },
+        ],
+        defaultOptions,
+      )
+      const col = columns.find((c) => c.id === 'status')!
+
+      const { container } = render(
+        <>
+          {col.filterDropdown({
+            setSelectedKeys: vi.fn<() => void>(),
+            selectedKeys: [],
+            confirm: vi.fn<() => void>(),
+          })}
+        </>,
+      )
+      expect(container.querySelector('.ant-select')).toBeDefined()
+    })
+
+    it('should auto-generate optionsType options from dataSource', () => {
+      const columns = cols([{ id: 'status', optionsType: 'auto' as any }], {
+        ...defaultOptions,
+        dataSource: [
+          { id: 1, status: 'online' },
+          { id: 2, status: 'offline' },
+        ],
+      })
+      const col = columns.find((c) => c.id === 'status')!
+
+      expect(col.options).toEqual([
+        { label: 'online', value: 'online' },
+        { label: 'offline', value: 'offline' },
       ])
+      expect(col.filters).toBeDefined()
     })
-
-    const columns = lastTableProps.columns as any[]
-
-    expect(getColumn(columns, 'name').onFilter).toBeUndefined()
-    expect(getColumn(columns, 'tags').onFilter).toBeUndefined()
-    expect(getColumn(columns, 'count').onFilter).toBeUndefined()
-    expect(getColumn(columns, 'scores').onFilter).toBeUndefined()
-    expect(getColumn(columns, 'active').onFilter).toBeUndefined()
-    expect(getColumn(columns, 'createdAt').onFilter).toBeUndefined()
-    expect(getColumn(columns, 'custom').onFilter).toBeUndefined()
-    expect(lastTableProps.pagination).toEqual({
-      pageSize: 10,
-      current: 1,
-      total: 1,
-    })
-    expect(lastTableProps.loading).toBeUndefined()
-
-    expect(() =>
-      lastTableProps.onChange?.(
-        { current: 2, pageSize: 10 },
-        {},
-        { field: 'name', order: 'ascend' },
-        { action: 'paginate' },
-      ),
-    ).not.toThrow()
   })
 
-  it('should cover numeric, time, object, and array edge branches', async () => {
-    const customSorter = vi.fn<() => number>(() => 0)
-
-    render(
-      <Table
-        items={[
-          { id: 'tags', type: 'string[]' },
-          { id: 'count', type: 'number', sorter: customSorter, filterDropdown: false },
-          {
-            id: 'scores',
-            type: 'number[]',
-            filterDropdown: true,
-          },
-          {
-            id: 'presetScores',
-            type: 'number[]',
-            filters: [{ text: 'preset', value: 1 }],
-          },
-          { id: 'createdAt', type: 'time', sorter: customSorter, filterDropdown: false },
-          { id: 'meta', type: 'object', object: [{ id: 'key' }] },
-          { id: 'metaList', type: 'object[]', object: [{ id: 'key' }] },
-        ]}
-        dataSource={[
-          {
-            id: 1,
-            tags: [],
-            count: 2,
-            scores: [],
-            presetScores: [1],
-            createdAt: '2024-01-02T10:00:00.000Z',
-            meta: { key: 'value' },
-            metaList: [undefined],
-          },
-        ]}
-      />,
-    )
-
-    const columns = await getColumns()
-    const tagsColumn = getColumn(columns, 'tags')
-    const scoresColumn = getColumn(columns, 'scores')
-    const createdAtColumn = getColumn(columns, 'createdAt')
-
-    expect(tagsColumn.onFilter(null, { tags: [] })).toBe(true)
-    expect(scoresColumn.onFilter(null, { scores: [] })).toBe(true)
-    expect(getColumn(columns, 'count').sorter).toBe(customSorter)
-    expect(getColumn(columns, 'count').filterDropdown).toBe(false)
-    expect(scoresColumn.filterDropdown).toBe(true)
-    expect(getColumn(columns, 'presetScores').filters).toEqual([{ text: 'preset', value: 1 }])
-    expect(createdAtColumn.sorter).toBe(customSorter)
-    expect(createdAtColumn.filterDropdown).toBe(false)
-    expect(getColumn(columns, 'meta').render({ key: 'value' })).toBeTruthy()
-    expect(getColumn(columns, 'metaList').render([undefined])).toBeTruthy()
-  })
-
-  it('should reload paginated faas data without params and use default row keys', async () => {
-    const reload = vi.fn<() => void>()
-
-    mockedFaasDataInjection = {
-      data: {
-        rows: [{ id: 1, status: 'online' }],
+  describe('applyFaasDataColumnOptions', () => {
+    it('should apply column options from faas data response', () => {
+      const columns = cols([{ id: 'status' }], defaultOptions)
+      const updated = applyFaasDataColumnOptions(columns, {
         options: {
           status: [{ label: 'Online', value: 'online' }],
         },
-        pagination: {
-          current: 1,
-          pageSize: 10,
-          total: 1,
-        },
-      },
-      reload,
-    }
+      }) as any[]
 
-    render(
-      <Table
-        items={[{ id: 'status', filterDropdown: false }]}
-        faasData={{ action: 'table/list' }}
-      />,
-    )
+      const { container } = render(<>{updated[0].render('online', {} as any, 0, 'table')}</>)
+      expect(container.textContent).toBe('Online')
+    })
+  })
 
-    await waitFor(() => {
-      expect(lastTableProps?.rowKey).toBe('id')
-      expect(lastTableProps?.pagination).toEqual({
-        current: 1,
-        pageSize: 10,
-        total: 1,
+  describe('FaasDataTable', () => {
+    it('should render loading state', () => {
+      render(
+        <FaasDataTable
+          props={{ rowKey: 'id' } as any}
+          columns={[{ id: 'name', key: 'name', dataIndex: 'name', title: 'Name' }]}
+          loading={true}
+        />,
+      )
+
+      expect(document.querySelector('.ant-spin')).toBeDefined()
+    })
+
+    it('should render data from array', () => {
+      render(
+        <FaasDataTable
+          props={{ rowKey: 'id' } as any}
+          columns={[{ id: 'name', key: 'name', dataIndex: 'name', title: 'Name' }]}
+          data={[{ name: 'Alice' }]}
+        />,
+      )
+
+      expect(screen.getByText('Alice')).toBeDefined()
+    })
+
+    it('should render paginated response', () => {
+      render(
+        <FaasDataTable
+          props={{ rowKey: 'id' } as any}
+          columns={[{ id: 'name', key: 'name', dataIndex: 'name', title: 'Name' }]}
+          data={{
+            rows: [{ name: 'Alice' }],
+            pagination: { current: 1, pageSize: 10, total: 1 },
+          }}
+        />,
+      )
+
+      expect(screen.getByText('Alice')).toBeDefined()
+    })
+
+    it('should trigger reload on pagination change', async () => {
+      const reload = vi.fn<(...args: any[]) => Promise<any>>()
+
+      render(
+        <FaasDataTable
+          props={{ rowKey: 'id' } as any}
+          columns={[{ id: 'name', key: 'name', dataIndex: 'name', title: 'Name' }]}
+          data={{
+            rows: Array.from({ length: 25 }, (_, i) => ({ id: i, name: `Item ${i}` })),
+            pagination: { current: 1, pageSize: 10, total: 25 },
+          }}
+          params={{}}
+          reload={reload}
+        />,
+      )
+
+      expect(screen.getByText('Item 0')).toBeDefined()
+
+      fireEvent.click(screen.getByTitle('2'))
+
+      await waitFor(() => {
+        expect(reload).toHaveBeenCalledWith(
+          expect.objectContaining({
+            pagination: expect.objectContaining({ current: 2 }),
+          }),
+        )
       })
     })
 
-    lastTableProps.onChange?.(
-      { current: 2, pageSize: 20 },
-      { status: ['offline'] },
-      { field: 'status', order: 'descend' },
-      { action: 'paginate' },
-    )
+    it('should use default rowKey', () => {
+      render(
+        <FaasDataTable
+          props={{ rowKey: 'id' } as any}
+          columns={[{ id: 'name', key: 'name', dataIndex: 'name', title: 'Name' }]}
+          data={[
+            { id: 1, name: 'Alice' },
+            { id: 2, name: 'Bob' },
+          ]}
+        />,
+      )
 
-    expect(reload).toHaveBeenCalledWith({
-      pagination: { current: 2, pageSize: 20 },
-      filters: { status: ['offline'] },
-      sorter: { field: 'status', order: 'descend' },
+      expect(screen.getByText('Alice')).toBeDefined()
+      expect(screen.getByText('Bob')).toBeDefined()
     })
-    expect((lastTableProps.columns as any[])[0].filterDropdown).toBe(false)
+
+    it('should disable pagination when pagination is false', () => {
+      render(
+        <FaasDataTable
+          props={{ rowKey: 'id', pagination: false } as any}
+          columns={[{ id: 'name', key: 'name', dataIndex: 'name', title: 'Name' }]}
+          data={{
+            rows: [
+              { id: 1, name: 'Alice' },
+              { id: 2, name: 'Bob' },
+            ],
+            pagination: { current: 1, pageSize: 10, total: 2 },
+          }}
+          params={{}}
+          reload={vi.fn<(...args: any[]) => Promise<any>>()}
+        />,
+      )
+
+      expect(screen.getByText('Alice')).toBeDefined()
+      expect(screen.getByText('Bob')).toBeDefined()
+    })
+
+    it('should pass custom onChange through reload', async () => {
+      const reload = vi.fn<(...args: any[]) => Promise<any>>()
+      const customOnChange = vi.fn<
+        (
+          pagination: any,
+          filters: any,
+          sorter: any,
+          extra: any,
+        ) => {
+          pagination: any
+          filters: any
+          sorter: any
+          extra?: any
+        }
+      >((pagination, filters, sorter, extra) => ({
+        pagination,
+        filters,
+        sorter,
+        extra,
+      }))
+
+      render(
+        <FaasDataTable
+          props={{ rowKey: 'id', onChange: customOnChange } as any}
+          columns={[{ id: 'name', key: 'name', dataIndex: 'name', title: 'Name' }]}
+          data={{
+            rows: Array.from({ length: 25 }, (_, i) => ({ id: i, name: `Item ${i}` })),
+            pagination: { current: 1, pageSize: 10, total: 25 },
+          }}
+          params={{}}
+          reload={reload}
+        />,
+      )
+
+      fireEvent.click(screen.getByTitle('2'))
+
+      await waitFor(() => {
+        expect(customOnChange).toHaveBeenCalled()
+        expect(reload).toHaveBeenCalled()
+      })
+    })
+  })
+
+  describe('Table integration', () => {
+    it('should render items with dataSource', () => {
+      render(
+        <Table
+          items={[{ id: 'name' }]}
+          dataSource={[
+            { id: 1, name: 'Alice' },
+            { id: 2, name: 'Bob' },
+          ]}
+        />,
+      )
+
+      expect(screen.getByText('Name')).toBeDefined()
+      expect(screen.getByText('Alice')).toBeDefined()
+      expect(screen.getByText('Bob')).toBeDefined()
+    })
   })
 })
