@@ -272,10 +272,10 @@ describe('Description/items', () => {
     )
 
     expect(screen.getByText('2')).toBeDefined()
+    expect(screen.getByText('0')).toBeDefined()
     expect(screen.getByText('1, 2')).toBeDefined()
     expect(container.querySelector('.anticon-check')).not.toBeNull()
     expect(container.querySelector('.anticon-close')).not.toBeNull()
-    expect(screen.queryByText('0')).toBeNull()
   })
 
   it('should render object and object[] item types', () => {
@@ -359,7 +359,7 @@ describe('Description/items', () => {
     expect(screen.getByText('Known')).toBeDefined()
     expect(screen.getByText('other')).toBeDefined()
     expect(screen.getByText('raw')).toBeDefined()
-    expect(screen.queryByText('0')).toBeNull()
+    expect(screen.getByText('0')).toBeDefined()
   })
 
   it('should respect item.if and render blanks without dataSource', () => {

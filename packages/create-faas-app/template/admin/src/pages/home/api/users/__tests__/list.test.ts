@@ -16,7 +16,7 @@ describe('pages/home/api/users/list', () => {
     expect(statusCode).toEqual(200)
     expect(data).toEqual({
       total: 2,
-      users: [
+      rows: [
         {
           id: 2,
           name: 'Grace',
