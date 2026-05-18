@@ -13,6 +13,8 @@ describe('Pg', () => {
       'getClient',
       'getClients',
       'QueryBuilder',
+      'isOperator',
+      'isNormalOperator',
       'TableBuilder',
       'SchemaBuilder',
       'escapeIdentifier',

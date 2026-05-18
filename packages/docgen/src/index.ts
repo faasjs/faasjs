@@ -377,8 +377,8 @@ ${packageList}
 }
 
 function writeGeneratedGuideIndex(root: string, manifest: DocsManifest) {
-  writeFileSync(join(root, 'docs/guide/README.md'), renderGuideIndex(manifest, 'en'))
-  writeFileSync(join(root, 'docs/zh/guide/README.md'), renderGuideIndex(manifest, 'zh'))
+  writeFileSync(join(root, 'docs/guidelines/README.md'), renderGuideIndex(manifest, 'en'))
+  writeFileSync(join(root, 'docs/zh/guidelines/README.md'), renderGuideIndex(manifest, 'zh'))
 }
 
 export function buildApiDocs(options: BuildApiOptions = {}) {
