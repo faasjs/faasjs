@@ -70,7 +70,7 @@ export const siteConfig: SiteConfig = {
           children: [
             {
               text: 'Guide',
-              link: '/guide/',
+              link: '/guidelines/',
             },
             {
               text: 'Documents',
@@ -118,21 +118,8 @@ export const siteConfig: SiteConfig = {
         },
       ],
       sidebar: {
-        '/guide/': [
-          '/guide/',
-          {
-            title: 'Guidelines',
-            collapsable: false,
-            children: enGuidelines,
-          },
-          {
-            title: 'Specifications',
-            collapsable: false,
-            children: enSpecs,
-          },
-        ],
-        '/guidelines/': [['/guide/', 'Guide'], ...enGuidelines],
-        '/specs/': [['/guide/', 'Guide'], ...enSpecs],
+        '/guidelines/': enGuidelines,
+        '/specs/': enSpecs,
       },
     },
     '/zh/': {
@@ -151,8 +138,8 @@ export const siteConfig: SiteConfig = {
           text: '学习',
           children: [
             {
-              text: '教程',
-              link: '/zh/guide/',
+              text: '最佳实践',
+              link: '/zh/guidelines/',
             },
             {
               text: '文档',
@@ -205,21 +192,8 @@ export const siteConfig: SiteConfig = {
         },
       ],
       sidebar: {
-        '/zh/guide/': [
-          '/zh/guide/',
-          {
-            title: '指南索引',
-            collapsable: false,
-            children: zhGuidelines,
-          },
-          {
-            title: '规范索引',
-            collapsable: false,
-            children: zhSpecs,
-          },
-        ],
-        '/zh/guidelines/': [['/zh/guide/', '最佳实践'], ...zhGuidelines],
-        '/zh/specs/': [['/zh/guide/', '最佳实践'], ...zhSpecs],
+        '/zh/guidelines/': zhGuidelines,
+        '/zh/specs/': zhSpecs,
       },
     },
   },

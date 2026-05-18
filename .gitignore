@@ -17,6 +17,7 @@ dist
 docs/doc
 docs/*.md
 !docs/README.md
+!docs/zh/*
 output.txt
 *.tmp
 bun.lockb
@@ -24,9 +25,3 @@ junit.xml
 *.sqlite3
 *.junit.xml
 .npmrc
-
-# Generated docs content
-docs/guidelines
-docs/specs
-docs/zh/guidelines
-docs/zh/specs
