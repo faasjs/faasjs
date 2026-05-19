@@ -1,7 +1,7 @@
 import { basename, dirname, extname, isAbsolute, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
-import type { Func, Plugin } from '@faasjs/core'
+import type { TFunc } from '@faasjs/types'
 import { deepMerge } from '@faasjs/utils'
 
 import type { Logger } from '../logger'
@@ -12,9 +12,15 @@ import {
   loadConfig,
 } from './load_config'
 
-type PluginConstructor = new (config?: any) => Plugin
+type PluginInstance = {
+  [key: string]: any
+  readonly type: string
+  readonly name: string
+}
 
-type ConfigurablePlugin = Plugin & {
+type PluginConstructor = new (config?: any) => PluginInstance
+
+type ConfigurablePlugin = PluginInstance & {
   config?: Record<string, any>
   applyConfig?: (config: FuncPluginConfig) => void | Promise<void>
 }
@@ -143,7 +149,10 @@ function normalizeMergedPluginConfig(
   return normalizedConfig
 }
 
-async function applyPluginConfig(plugin: Plugin, pluginConfig: FuncPluginConfig): Promise<void> {
+async function applyPluginConfig(
+  plugin: PluginInstance,
+  pluginConfig: FuncPluginConfig,
+): Promise<void> {
   const configurablePlugin = plugin as ConfigurablePlugin
 
   if (typeof configurablePlugin.applyConfig === 'function') {
@@ -170,10 +179,9 @@ async function applyPluginConfig(plugin: Plugin, pluginConfig: FuncPluginConfig)
  * declare an explicit module `type` that exports a matching lifecycle plugin
  * class name.
  *
- * @template TFunc - Function instance type enriched with config-driven plugins.
- * @param {TFunc} func - Function instance whose config and plugin list should be updated.
- * @param {LoadPluginsOptions} options - Project and staging metadata used to resolve plugin config.
- * @returns {Promise<TFunc>} The same function instance after plugin config and instances are applied.
+ * @template T - Function instance type enriched with config-driven plugins.
+ * @param {T} func - Function instance whose config and plugin list should be updated.
+ * @returns {Promise<T>} The same function instance after plugin config and instances are applied.
  * @throws {Error} If plugin config is invalid, a plugin module cannot be loaded, or the plugin cannot be instantiated.
  * @example
  * ```ts
@@ -194,10 +202,10 @@ async function applyPluginConfig(plugin: Plugin, pluginConfig: FuncPluginConfig)
  * )
  * ```
  */
-export async function loadPlugins<TFunc extends Func>(
-  func: TFunc,
+export async function loadPlugins<T extends TFunc>(
+  func: T,
   options: LoadPluginsOptions,
-): Promise<TFunc> {
+): Promise<T> {
   if (!func.config || typeof func.config !== 'object') func.config = Object.create(null)
 
   const loadedConfig = loadConfig(options.root, options.filename, options.staging, options.logger)
@@ -265,7 +273,7 @@ export async function loadPlugins<TFunc extends Func>(
           `[loadPlugins] Plugin "${pluginId}" from "${pluginType}" must export a matching named lifecycle plugin class.`,
         )
 
-      let plugin: Plugin
+      let plugin: PluginInstance
 
       try {
         plugin = new PluginClass({

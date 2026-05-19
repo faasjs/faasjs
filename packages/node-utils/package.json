@@ -30,9 +30,11 @@
     }
   },
   "devDependencies": {
+    "@faasjs/types": ">=8.0.0-beta.28",
     "@faasjs/utils": ">=8.0.0-beta.28"
   },
   "peerDependencies": {
+    "@faasjs/types": ">=8.0.0-beta.28",
     "@faasjs/utils": ">=8.0.0-beta.28"
   },
   "engines": {

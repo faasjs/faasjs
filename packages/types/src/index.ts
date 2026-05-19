@@ -100,6 +100,8 @@ export type InferFaasAction<TApi> = TApi extends {
  *
  * @template TModule - Module shape that may expose a FaasJS API.
  */
+export type { TFunc } from './func'
+
 export type InferFaasApi<TModule> = TModule extends { default: infer TApi }
   ? TApi extends {
       export: () => {

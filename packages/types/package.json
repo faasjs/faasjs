@@ -14,6 +14,7 @@
   "funding": "https://github.com/sponsors/faasjs",
   "files": [
     "src/index.ts",
+    "src/func.ts",
     "tsconfig/base.json",
     "tsconfig/build.json",
     "tsconfig/react.json"

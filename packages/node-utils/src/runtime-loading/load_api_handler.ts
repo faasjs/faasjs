@@ -1,4 +1,4 @@
-import type { Func } from '@faasjs/core'
+import type { TFunc } from '@faasjs/types'
 
 import { loadPackage } from '../load_package'
 import { loadPlugins } from './load_plugins'
@@ -51,7 +51,7 @@ export async function loadApiHandler<TEvent = any, TContext = any, TResult = any
   filename: string,
   staging: string,
 ): Promise<ExportedHandler<TEvent, TContext, TResult>> {
-  const api = await loadPackage<Func<TEvent, TContext, TResult>>(filename)
+  const api = await loadPackage<TFunc>(filename)
 
   if (!api || typeof api.export !== 'function')
     throw Error(`API module "${filename}" must export a FaasJS API instance as default`)
