@@ -2,8 +2,6 @@
 
 This file is the entry point for contributors and agents developing the FaasJS framework in this monorepo.
 
-If the user is building with FaasJS instead of modifying the framework, read [`skills/faasjs-best-practices/SKILL.md`](./skills/faasjs-best-practices/SKILL.md) instead.
-
 ## Read In Order
 
 1. [`contributing/target-users.md`](./contributing/target-users.md) for product boundaries, target users, supported stacks, and core framework trade-offs
