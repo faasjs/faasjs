@@ -16,6 +16,7 @@
 export * from './define-api'
 export * from './func'
 export * from './plugins/http'
+export { default } from './plugins/http'
 export * from './middleware'
 export * from './server'
 export * from './utils'

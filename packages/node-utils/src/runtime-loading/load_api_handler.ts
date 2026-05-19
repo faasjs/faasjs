@@ -1,6 +1,7 @@
 import type { TFunc } from '@faasjs/types'
 
 import { loadPackage } from '../load_package'
+import type { Logger } from '../logger'
 import { loadPlugins } from './load_plugins'
 
 /**
@@ -29,6 +30,7 @@ export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
  * @param {string} root - Project root directory used to resolve configuration.
  * @param {string} filename - Path to the packaged FaasJS API file to load.
  * @param {string} staging - Staging name used when locating config.
+ * @param {Logger} [logger] - Optional logger used for debug output during loading.
  * @returns {Promise<ExportedHandler<TEvent, TContext, TResult>>} Promise that resolves to the API handler.
  * @throws {Error} If the API module or its `faas.yaml` configuration cannot be loaded.
  *
@@ -50,6 +52,7 @@ export async function loadApiHandler<TEvent = any, TContext = any, TResult = any
   root: string,
   filename: string,
   staging: string,
+  logger?: Logger,
 ): Promise<ExportedHandler<TEvent, TContext, TResult>> {
   const api = await loadPackage<TFunc>(filename)
 
@@ -60,6 +63,7 @@ export async function loadApiHandler<TEvent = any, TContext = any, TResult = any
     root,
     filename,
     staging,
+    ...(logger ? { logger } : {}),
   })
 
   return api.export().handler

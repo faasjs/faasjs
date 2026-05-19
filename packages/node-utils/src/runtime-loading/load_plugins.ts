@@ -1,5 +1,5 @@
-import { basename, dirname, extname, isAbsolute, resolve } from 'node:path'
-import { fileURLToPath, pathToFileURL } from 'node:url'
+import { dirname, isAbsolute, resolve } from 'node:path'
+import { pathToFileURL } from 'node:url'
 
 import type { TFunc } from '@faasjs/types'
 import { deepMerge } from '@faasjs/utils'
@@ -40,16 +40,6 @@ export type LoadPluginsOptions = {
   logger?: Logger
 }
 
-function isPluginConstructor(value: unknown): value is PluginConstructor {
-  if (typeof value !== 'function') return false
-
-  const prototype = (value as any).prototype
-
-  if (!prototype || typeof prototype !== 'object') return false
-
-  return typeof prototype.onMount === 'function' || typeof prototype.onInvoke === 'function'
-}
-
 function stripNpmPrefix(specifier: string): string {
   return specifier.startsWith('npm:') ? specifier.slice(4) : specifier
 }
@@ -87,49 +77,13 @@ function resolvePluginModuleSpecifier(pluginType: string): string {
   return pluginType
 }
 
-function toPascalCase(value: string): string {
-  return value
-    .split(/[^a-zA-Z0-9]+/)
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join('')
-}
+function resolvePluginConstructor(mod: any): PluginConstructor | undefined {
+  const candidate = mod?.default
+  if (typeof candidate !== 'function') return
 
-function getPluginExportCandidates(pluginType: string): string[] {
-  const candidates = new Set<string>()
-  const normalizedType = stripNpmPrefix(pluginType)
-  let source = normalizedType
-
-  if (normalizedType.startsWith('file://')) {
-    try {
-      const filePath = fileURLToPath(normalizedType)
-      source = basename(filePath, extname(filePath))
-    } catch {}
-  } else if (isAbsolute(normalizedType)) source = basename(normalizedType, extname(normalizedType))
-  else {
-    const trimmed = normalizedType.replace(/\/+$/, '')
-    const parts = trimmed.split('/')
-    source = parts[parts.length - 1] || trimmed
-
-    if (source === 'index' && parts.length > 1) source = parts[parts.length - 2] || source
-  }
-
-  const pascal = toPascalCase(source.replace(/^@/, ''))
-
-  if (pascal) {
-    candidates.add(pascal)
-    if (!pascal.endsWith('Plugin')) candidates.add(`${pascal}Plugin`)
-  }
-
-  return [...candidates]
-}
-
-function resolvePluginConstructor(mod: any, pluginType: string): PluginConstructor | undefined {
-  for (const candidate of getPluginExportCandidates(pluginType)) {
-    if (isPluginConstructor(mod?.[candidate])) return mod[candidate]
-  }
-
-  return
+  const proto = (candidate as any).prototype
+  if (proto && (typeof proto.onMount === 'function' || typeof proto.onInvoke === 'function'))
+    return candidate as PluginConstructor
 }
 
 function normalizeMergedPluginConfig(
@@ -176,8 +130,8 @@ async function applyPluginConfig(
  * instantiate any plugins declared in YAML that are not already injected in code.
  *
  * Only `http` is treated as a built-in plugin. Other config-driven plugins must
- * declare an explicit module `type` that exports a matching lifecycle plugin
- * class name.
+ * declare an explicit module `type` whose module exports a class as
+ * `export default` with `onMount` or `onInvoke` on its prototype.
  *
  * @template T - Function instance type enriched with config-driven plugins.
  * @param {T} func - Function instance whose config and plugin list should be updated.
@@ -266,11 +220,11 @@ export async function loadPlugins<T extends TFunc>(
         )
       }
 
-      const PluginClass = resolvePluginConstructor(mod, pluginType)
+      const PluginClass = resolvePluginConstructor(mod)
 
       if (!PluginClass)
         throw Error(
-          `[loadPlugins] Plugin "${pluginId}" from "${pluginType}" must export a matching named lifecycle plugin class.`,
+          `[loadPlugins] Plugin "${pluginId}" from "${pluginType}" must export a plugin class as \`export default\` (a class with onMount or onInvoke on its prototype).`,
         )
 
       let plugin: PluginInstance

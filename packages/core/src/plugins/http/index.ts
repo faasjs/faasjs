@@ -15,7 +15,7 @@ export type {
 
 export { HttpError } from './http-error'
 
-export { Http } from './http'
+export { Http, Http as default } from './http'
 
 import type { HttpSetHeader, HttpSetContentType, HttpSetStatusCode, HttpSetBody } from './types'
 

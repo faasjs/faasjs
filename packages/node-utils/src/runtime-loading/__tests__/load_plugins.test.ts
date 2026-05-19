@@ -49,7 +49,7 @@ describe('loadPlugins', () => {
           session:
             secret: test-secret
 `,
-      'src/auth-plugin.ts': `export class AuthPlugin {
+      'src/auth-plugin.ts': `export default class {
   constructor(config) {
     this.name = config.name
     this.type = config.type
@@ -118,7 +118,7 @@ describe('loadPlugins', () => {
           session:
             secret: test-secret
 `,
-      'src/auth-plugin.ts': `export class AuthPlugin {
+      'src/auth-plugin.ts': `export default class {
   constructor(config) {
     this.name = config.name
     this.type = config.type
@@ -195,7 +195,7 @@ describe('loadPlugins', () => {
         region: apac
         secret: from-admin
 `,
-      'src/plugins/auth-plugin.ts': `export class AuthPlugin {
+      'src/plugins/auth-plugin.ts': `export default class {
   async onInvoke(_data, next) {
     await next()
   }
@@ -293,7 +293,7 @@ describe('loadPlugins', () => {
         region: apac
         secret: from-admin
 `,
-      'src/plugins/auth-plugin.ts': `export class AuthPlugin {
+      'src/plugins/auth-plugin.ts': `export default class {
   constructor(config) {
     this.name = config.name
     this.type = config.type
@@ -365,7 +365,7 @@ describe('loadPlugins', () => {
 
   it('loads plugins declared only in code config', async () => {
     const { src } = createProject({
-      'src/code-plugin.ts': `export class CodePlugin {
+      'src/code-plugin.ts': `export default class {
   constructor(config) {
     this.name = config.name
     this.type = config.type
@@ -453,7 +453,7 @@ describe('loadPlugins', () => {
     ).rejects.toThrow(/requires an explicit "type"/)
   })
 
-  it('resolves relative plugin paths from faas.yaml and loads named exports', async () => {
+  it('resolves relative plugin paths from faas.yaml and loads default export', async () => {
     const { src } = createProject({
       'src/faas.yaml': `defaults:
   plugins:
@@ -465,7 +465,7 @@ describe('loadPlugins', () => {
           session:
             secret: test-secret
 `,
-      'src/plugins/auth-plugin.ts': `export class AuthPlugin {
+      'src/plugins/auth-plugin.ts': `export default class {
   constructor(config) {
     this.name = config.name
     this.type = config.type
@@ -509,14 +509,14 @@ describe('loadPlugins', () => {
     })
   })
 
-  it('requires config-driven plugins to export a lifecycle plugin class', async () => {
+  it('requires config-driven plugins to export a plugin class as `export default`', async () => {
     const { src } = createProject({
       'src/faas.yaml': `defaults:
   plugins:
     auth:
       type: file://./auth-plugin.ts
 `,
-      'src/auth-plugin.ts': `export const AuthPlugin = {
+      'src/auth-plugin.ts': `export default {
   onInvoke() {},
 }
 `,
@@ -536,6 +536,6 @@ describe('loadPlugins', () => {
         filename: func.filename,
         staging: 'defaults',
       }),
-    ).rejects.toThrow(/must export a matching named lifecycle plugin class/)
+    ).rejects.toThrow(/must export a plugin class as/)
   })
 })

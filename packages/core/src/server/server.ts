@@ -14,15 +14,13 @@ import { types } from 'node:util'
 import {
   getTransport,
   isPathInsideRoot,
-  loadPackage,
-  loadPlugins,
+  loadApiHandler,
   Logger,
   registerNodeModuleHooks,
   type RegisterNodeModuleHooksOptions,
 } from '@faasjs/node-utils'
 import { deepMerge } from '@faasjs/utils'
 
-import type { Func } from '../func'
 import { HttpError } from '../plugins/http'
 import { ensureRequestUrl } from '../request-url'
 import { getErrorMessage, getErrorStatusCode, respondWithJsonError } from '../response-error'
@@ -274,20 +272,12 @@ export class Server {
 
     registerNodeModuleHooks(hookOptions)
 
-    const api = await loadPackage<Func>(file)
-
-    if (!api || typeof api.export !== 'function')
-      throw Error(`API module "${file}" must export a FaasJS API instance as default`)
-
-    await loadPlugins(api, {
-      root: this.root,
-      filename: path,
-      staging: process.env.FaasEnv || 'development',
+    cache.handler = await loadApiHandler(
+      this.root,
+      file,
+      process.env.FaasEnv || 'development',
       logger,
-    })
-    if (!api.config) throw Error('No config file found')
-
-    cache.handler = api.export().handler
+    )
 
     this.cachedApis[path] = cache
 
