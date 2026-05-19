@@ -8,7 +8,7 @@ FaasJS 是一个受 Rails 启发、精心策划的全栈 TypeScript 框架，用
 
 开始之前，请确保你的环境满足以下要求：
 
-- **Node.js** >= 24.x — FaasJS 依赖现代 Node 特性，包括原生 TypeScript 模块加载。
+- **Node.js** >= 26.x — FaasJS 依赖现代 Node 特性，包括原生 TypeScript 模块加载。
 - **npm** >= 9.x — 用于依赖管理和项目脚手架。
 - **PostgreSQL** >= 14.x — FaasJS 使用 PostgreSQL 作为关系数据存储（通过 `@faasjs/pg`）。需要一个运行中的本地实例或 Docker 容器来使用数据库功能和集成测试。
 - **基本的 TypeScript 知识** — FaasJS 以 TypeScript 为先。你应该熟悉类型、接口和模块导入。
@@ -16,7 +16,7 @@ FaasJS 是一个受 Rails 启发、精心策划的全栈 TypeScript 框架，用
 验证你的环境：
 
 ```bash
-node --version   # >= 24.x
+node --version   # >= 26.x
 npm --version    # >= 9.x
 psql --version   # >= 14.x
 ```

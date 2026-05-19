@@ -4,7 +4,7 @@ Use this guide when developing or maintaining the FaasJS framework in this monor
 
 ## Environment
 
-- Node `>=24.0.0`
+- Node `>=26.0.0`
 - npm `>=11.0.0`
 - `package-lock.json` is the canonical lockfile
 - Use `vp` from `vite-plus`; if it is not on PATH locally, use `npx vp ...`

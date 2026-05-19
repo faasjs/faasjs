@@ -25,7 +25,7 @@
     "vitest": "npm:@voidzero-dev/vite-plus-test"
   },
   "engines": {
-    "node": ">=24.0.0",
+    "node": ">=26.0.0",
     "npm": ">=11.0.0"
   },
   "packageManager": "npm@11.14.1"
