@@ -203,9 +203,11 @@ export class Config {
       base = currentRoot
     }
 
-    this.origin = deepMerge(...configs)
+    let origin: Record<string, FuncConfig> = {}
+    for (const config of configs) origin = deepMerge(origin, config)
+    this.origin = origin as { [key: string]: FuncConfig; defaults: FuncConfig }
 
-    this.defaults = deepMerge(this.origin.defaults || {})
+    this.defaults = deepMerge((this.origin as Record<string, any>).defaults || {})
 
     for (const key in this.origin) {
       const data = key === 'defaults' ? this.defaults : deepMerge(this.defaults, this.origin[key])

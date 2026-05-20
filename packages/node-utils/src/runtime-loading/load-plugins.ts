@@ -122,7 +122,7 @@ async function applyPluginConfig(
 
   if (typeof nextConfig === 'undefined' && typeof currentConfig === 'undefined') return
 
-  configurablePlugin.config = deepMerge(currentConfig || Object.create(null), nextConfig)
+  configurablePlugin.config = deepMerge(currentConfig || Object.create(null), nextConfig ?? {})
 }
 
 /**

@@ -163,7 +163,7 @@ export class Http<
     if (data.config.plugins?.[this.name || this.type])
       this.config = deepMerge(
         this.config,
-        data.config.plugins[this.name || (this.type as string)].config,
+        data.config.plugins[this.name || (this.type as string)].config ?? {},
       )
 
     data.logger.debug('prepare cookie & session')
