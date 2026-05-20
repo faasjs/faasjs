@@ -117,6 +117,25 @@ export function buildUpdateSql<T extends string>(
   }
 }
 
+export function buildUpdateJsonSql<T extends string>(
+  table: T,
+  column: string,
+  value: any,
+  whereSql: string,
+  whereParams: any[],
+): { sql: string; params: any[] } {
+  return {
+    sql: [
+      'UPDATE',
+      escapeIdentifier(table),
+      'SET',
+      `${escapeIdentifier(column)} = ${escapeIdentifier(column)} || ?`,
+      whereSql,
+    ].join(' '),
+    params: [value, ...whereParams],
+  }
+}
+
 export function buildDeleteSql<T extends string>(
   table: T,
   whereSql: string,

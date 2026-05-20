@@ -6,6 +6,7 @@ Use this guide when building SQL queries with `@faasjs/pg` in FaasJS apps.
 
 - Creating or modifying SELECT, INSERT, UPDATE, DELETE, or UPSERT queries
 - Adding joins, ordering, pagination, aggregation, or JSONB field selection
+- Performing atomic JSONB updates with `updateJson`
 - Deciding whether the typed fluent API is sufficient or raw SQL is needed
 - Choosing between `getClient` and `createClient`
 
@@ -42,6 +43,35 @@ await client.transaction(async (trx) => {
 })
 ```
 
+## JSONB Atomic Read and Update
+
+### Reading JSONB sub-fields
+
+Use the `{ column, fields }` object syntax in `.select()` to extract specific keys from a JSONB column:
+
+```ts
+const rows = await client
+  .query('users')
+  .select('id', { column: 'metadata', fields: ['age', 'timezone'] })
+  .where('metadata', '@>', { age: 30 })
+```
+
+This generates `jsonb_build_object('age', "metadata"->'age', 'timezone', "metadata"->'timezone') AS "metadata"`, returning only the requested sub-fields instead of the full JSONB blob.
+
+### Atomic JSONB updates
+
+Prefer `updateJson` for partial updates to a JSONB column. It uses PostgreSQL's `||` merge operator, avoiding a read-modify-write race:
+
+```ts
+await client.query('users').where('id', 1).updateJson('metadata', { age: 30 })
+```
+
+This generates `UPDATE "users" SET "metadata" = "metadata" || '{"age":30}' WHERE "id" = 1`, merging the given fields into the existing JSONB value without overwriting other keys.
+
+- `updateJson` requires a `where` condition, matching the guard on `update()` and `delete()`.
+- If you need to merge multiple fields at once, pass them together: `.updateJson('metadata', { age: 30, timezone: 'UTC' })`.
+- For a full column replacement, use `update()` instead.
+
 ## Rules
 
 ### 1. Keep query shape and result shape aligned
@@ -53,7 +83,7 @@ await client.transaction(async (trx) => {
 ### 2. Prefer typed clauses before raw SQL
 
 - Use `where`, `orWhere`, `join`, `leftJoin`, `orderBy`, `count`, `first`, and `pluck` first.
-- Prefer built-in operators for equality, ranges, arrays, pattern matching, and JSONB containment.
+- Prefer built-in operators for equality, ranges, arrays, pattern matching, JSONB containment, and JSONB merge (`updateJson`).
 - Use raw clauses only for expressions such as `CASE`, SQL functions, predicates, or statements that do not map cleanly to the built-in surface.
 
 ### 3. Keep raw values parameterized and trusted boundaries explicit
@@ -72,7 +102,7 @@ await client.transaction(async (trx) => {
 
 ### 5. Keep write queries and transactions guarded
 
-- `update()` and `delete()` should keep explicit `where` conditions.
+- `update()`, `updateJson()`, and `delete()` should keep explicit `where` conditions.
 - Treat an unbounded mutation as a bug unless it is a deliberate migration or maintenance action.
 - Do not remove or bypass the package's missing-where protection.
 - Use `client.transaction(...)` for multi-step DML or mixed read-write flows that must succeed or fail together.
@@ -102,7 +132,7 @@ await client.transaction(async (trx) => {
 - values stay parameterized and trusted SQL boundaries are explicit
 - the default client bootstrap goes through `await getClient()` and the registered async bootstrap (`process.env.DATABASE_URL` by default)
 - `select`, `first`, `pluck`, or explicit `returning` narrow rows when appropriate
-- `update` and `delete` stay guarded by `where`, and multi-step writes use `transaction(...)` when atomicity matters
+- `update`, `updateJson`, and `delete` stay guarded by `where`, and multi-step writes use `transaction(...)` when atomicity matters
 - shared query helpers or package changes keep runtime and type coverage aligned
 
 ## Further Reading

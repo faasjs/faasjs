@@ -211,4 +211,42 @@ describe('QueryBuilder/mutation', () => {
       expect(result?.metadata).toEqual({ age: 50 })
     })
   })
+
+  describe('updateJson', () => {
+    it('merges fields into a jsonb column', async () => {
+      await new QueryBuilder(client, 'mutation')
+        .where('name', 'Alice')
+        .updateJson('metadata', { age: 50 })
+
+      const result = await new QueryBuilder(client, 'mutation').where('name', 'Alice').first()
+
+      expect(result?.metadata).toEqual({ age: 50 })
+    })
+
+    it('adds new fields while keeping existing ones', async () => {
+      await new QueryBuilder(client, 'mutation')
+        .where('name', 'Alice')
+        .updateJson('metadata', { gender: 'female' })
+
+      const result = await new QueryBuilder(client, 'mutation').where('name', 'Alice').first()
+
+      expect(result?.metadata).toEqual({ age: 100, gender: 'female' })
+    })
+
+    it('merges into empty jsonb', async () => {
+      await new QueryBuilder(client, 'mutation')
+        .where('name', 'Bob')
+        .updateJson('metadata', { age: 25 })
+
+      const result = await new QueryBuilder(client, 'mutation').where('name', 'Bob').first()
+
+      expect(result?.metadata).toEqual({ age: 25 })
+    })
+
+    it('throws without where conditions', async () => {
+      await expect(
+        new QueryBuilder(client, 'mutation').updateJson('metadata', { age: 1 }),
+      ).rejects.toThrow('Missing where conditions')
+    })
+  })
 })

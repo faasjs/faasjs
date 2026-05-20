@@ -6,6 +6,7 @@
 
 - 创建或修改 SELECT、INSERT、UPDATE、DELETE 或 UPSERT 查询
 - 添加连接、排序、分页、聚合或 JSONB 字段选择
+- 使用 `updateJson` 执行 JSONB 原子化更新
 - 判断类型化的流式 API 是否足够，还是需要使用原生 SQL
 - 在 `getClient` 和 `createClient` 之间选择
 
@@ -42,6 +43,35 @@ await client.transaction(async (trx) => {
 })
 ```
 
+## JSONB 原子化读取与更新
+
+### 读取 JSONB 子字段
+
+使用 `.select()` 中的 `{ column, fields }` 对象语法从 JSONB 列中提取特定键：
+
+```ts
+const rows = await client
+  .query('users')
+  .select('id', { column: 'metadata', fields: ['age', 'timezone'] })
+  .where('metadata', '@>', { age: 30 })
+```
+
+这会生成 `jsonb_build_object('age', "metadata"->'age', 'timezone', "metadata"->'timezone') AS "metadata"`，只返回请求的子字段，而非完整的 JSONB 数据。
+
+### JSONB 原子化更新
+
+优先使用 `updateJson` 对 JSONB 列进行部分更新。它使用 PostgreSQL 的 `||` 合并操作符，避免了读-改-写竞态条件：
+
+```ts
+await client.query('users').where('id', 1).updateJson('metadata', { age: 30 })
+```
+
+这会生成 `UPDATE "users" SET "metadata" = "metadata" || '{"age":30}' WHERE "id" = 1`，将指定字段合并到已有的 JSONB 值中，不会覆盖其他键。
+
+- `updateJson` 需要 `where` 条件，与 `update()` 和 `delete()` 的保护机制一致。
+- 如需同时合并多个字段，可一次性传入：`.updateJson('metadata', { age: 30, timezone: 'UTC' })`。
+- 如需整列替换，请使用 `update()`。
+
 ## 规则
 
 ### 1. 保持查询形状与结果形状对齐
@@ -53,7 +83,7 @@ await client.transaction(async (trx) => {
 ### 2. 优先使用类型化子句，再考虑原生 SQL
 
 - 优先使用 `where`、`orWhere`、`join`、`leftJoin`、`orderBy`、`count`、`first` 和 `pluck`。
-- 优先使用内置操作符进行相等性、范围、数组、模式匹配和 JSONB 包含性检查。
+- 优先使用内置操作符进行相等性、范围、数组、模式匹配、JSONB 包含性检查和 JSONB 合并（`updateJson`）。
 - 仅当表达式（如 `CASE`、SQL 函数、谓词或语句）无法清晰映射到内置接口时，才使用原生子句。
 
 ### 3. 保持原生值参数化，并明确可信边界
@@ -72,7 +102,7 @@ await client.transaction(async (trx) => {
 
 ### 5. 保持写入查询和事务受保护
 
-- `update()` 和 `delete()` 应保留显式的 `where` 条件。
+- `update()`、`updateJson()` 和 `delete()` 应保留显式的 `where` 条件。
 - 除非是有意的迁移或维护操作，否则将无界限的修改视为错误。
 - 不要移除或绕过包中的缺少 `where` 保护机制。
 - 对于多步骤 DML 或必须同时成功或失败的混合读写流程，使用 `client.transaction(...)`。
@@ -102,7 +132,7 @@ await client.transaction(async (trx) => {
 - 值保持参数化，可信 SQL 边界明确
 - 默认客户端引导程序使用 `await getClient()` 和已注册的异步引导程序（默认为 `process.env.DATABASE_URL`）
 - 在适当的情况下使用 `select`、`first`、`pluck` 或显式的 `returning` 来缩小行数据
-- `update` 和 `delete` 由 `where` 保护，当原子性至关重要时，多步骤写入使用 `transaction(...)`
+- `update`、`updateJson` 和 `delete` 由 `where` 保护，当原子性至关重要时，多步骤写入使用 `transaction(...)`
 - 共享查询辅助函数或包变更保持运行时覆盖和类型覆盖一致
 
 ## 延伸阅读

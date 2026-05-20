@@ -5,6 +5,7 @@ import { escapeIdentifier } from '../utils'
 import {
   buildInsertSql,
   buildUpdateSql,
+  buildUpdateJsonSql,
   buildDeleteSql,
   buildUpsertSql,
   buildWhereSql,
@@ -587,6 +588,35 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
     )
 
     return this.client.raw(sql, ...params) as any
+  }
+
+  /**
+   * Atomically updates a JSON/JSONB column using the `||` merge operator,
+   * avoiding read-modify-write race conditions.
+   *
+   * @param column - The JSON/JSONB column to update.
+   * @param value - The object to merge into the column.
+   *
+   * @example
+   * ```ts
+   * await db('users').where('id', 1).updateJson('metadata', { age: 30 })
+   * // UPDATE "users" SET "metadata" = "metadata" || '{"age":30}' WHERE "id" = 1
+   * ```
+   */
+  async updateJson<C extends ColumnName<T>>(column: C, value: Partial<ColumnValue<T, C>>) {
+    const { sql: whereSql, params: whereParams } = buildWhereSql(this.whereConditions, 'update')
+
+    if (!whereSql) throw new Error('Missing where conditions')
+
+    const { sql, params } = buildUpdateJsonSql(
+      this.table,
+      column as string,
+      value,
+      whereSql,
+      whereParams,
+    )
+
+    return this.client.raw(sql, ...params)
   }
 
   /**
