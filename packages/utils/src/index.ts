@@ -31,6 +31,7 @@
  * ```
  */
 
-export * from './deep-merge'
-export * from './stream'
-export * from './zod'
+export { deepMerge } from './deep-merge'
+export { streamToString, stringToStream, objectToStream, streamToObject } from './stream'
+export { z } from './zod'
+export type { Z, ZodType, ZodError, input, output } from './zod'

@@ -1,15 +1,15 @@
-import { z as zod } from 'zod'
+import { z as _z } from 'zod'
 export type { ZodType, ZodError, input, output } from 'zod'
 
 /**
  * Extended Zod with custom helpers.
  */
-export type Z = typeof zod & {
-  positiveint: () => zod.ZodNumber
-  nonemptystring: () => zod.ZodString
+export type Z = typeof _z & {
+  positiveint: () => _z.ZodNumber
+  nonemptystring: () => _z.ZodString
 }
 
-const extendedZod = Object.assign(Object.create(Object.getPrototypeOf(zod)), zod)
+const extendedZod = Object.assign(Object.create(Object.getPrototypeOf(_z)), _z)
 
 /**
  * Extended Zod instance with custom helpers.
