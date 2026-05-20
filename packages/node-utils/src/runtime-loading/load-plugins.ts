@@ -1,0 +1,281 @@
+import { dirname, isAbsolute, resolve } from 'node:path'
+import { pathToFileURL } from 'node:url'
+
+import type { TFunc } from '@faasjs/types'
+import { deepMerge } from '@faasjs/utils'
+
+import type { Logger } from '../logger'
+import {
+  assignPluginNames,
+  type FuncConfig,
+  type FuncPluginConfig,
+  loadConfig,
+} from './load-config'
+
+type PluginInstance = {
+  [key: string]: any
+  readonly type: string
+  readonly name: string
+}
+
+type PluginConstructor = new (config?: any) => PluginInstance
+
+type ConfigurablePlugin = PluginInstance & {
+  config?: Record<string, any>
+  applyConfig?: (config: FuncPluginConfig) => void | Promise<void>
+}
+
+/**
+ * Options used by {@link loadPlugins} while resolving staged plugin config.
+ *
+ * @property {string} root - Project root used to discover `faas.yaml`.
+ * @property {string} filename - API filename whose directory scopes nested config lookup.
+ * @property {string} staging - Staging name such as `development` or `production`.
+ * @property {Logger} [logger] - Optional logger used for debug output during config and plugin loading.
+ */
+export type LoadPluginsOptions = {
+  root: string
+  filename: string
+  staging: string
+  logger?: Logger
+}
+
+function stripNpmPrefix(specifier: string): string {
+  return specifier.startsWith('npm:') ? specifier.slice(4) : specifier
+}
+
+function hasUrlScheme(specifier: string): boolean {
+  return /^[a-zA-Z][a-zA-Z\d+.-]*:/.test(specifier)
+}
+
+function normalizePluginType(pluginType: string, filename: string): string {
+  const normalizedType = stripNpmPrefix(pluginType)
+
+  if (normalizedType.startsWith('file://./') || normalizedType.startsWith('file://../'))
+    return pathToFileURL(resolve(dirname(filename), normalizedType.slice('file://'.length))).href
+
+  if (normalizedType.startsWith('./') || normalizedType.startsWith('../'))
+    return pathToFileURL(resolve(dirname(filename), normalizedType)).href
+
+  if (isAbsolute(normalizedType)) return pathToFileURL(resolve(normalizedType)).href
+
+  return normalizedType
+}
+
+function resolvePluginModuleSpecifier(pluginType: string): string {
+  if (pluginType === 'http') return '@faasjs/core'
+
+  if (
+    !pluginType.startsWith('.') &&
+    !pluginType.startsWith('/') &&
+    !pluginType.startsWith('@') &&
+    !pluginType.startsWith('file://') &&
+    !hasUrlScheme(pluginType)
+  )
+    return `@faasjs/${pluginType}`
+
+  return pluginType
+}
+
+function resolvePluginConstructor(mod: any): PluginConstructor | undefined {
+  const candidate = mod?.default
+  if (typeof candidate !== 'function') return
+
+  const proto = (candidate as any).prototype
+  if (proto && (typeof proto.onMount === 'function' || typeof proto.onInvoke === 'function'))
+    return candidate as PluginConstructor
+}
+
+function normalizeMergedPluginConfig(
+  pluginId: string,
+  pluginConfig: FuncPluginConfig,
+  filename: string,
+): FuncPluginConfig {
+  const normalizedConfig = deepMerge(pluginConfig) as FuncPluginConfig
+
+  if (!normalizedConfig || typeof normalizedConfig !== 'object') return normalizedConfig
+
+  normalizedConfig.name = pluginId
+
+  if (typeof normalizedConfig.type === 'string' && normalizedConfig.type.length)
+    normalizedConfig.type = normalizePluginType(normalizedConfig.type, filename)
+
+  return normalizedConfig
+}
+
+async function applyPluginConfig(
+  plugin: PluginInstance,
+  pluginConfig: FuncPluginConfig,
+): Promise<void> {
+  const configurablePlugin = plugin as ConfigurablePlugin
+
+  if (typeof configurablePlugin.applyConfig === 'function') {
+    await configurablePlugin.applyConfig(pluginConfig)
+    return
+  }
+
+  const nextConfig = pluginConfig.config
+  const currentConfig =
+    configurablePlugin.config && typeof configurablePlugin.config === 'object'
+      ? configurablePlugin.config
+      : undefined
+
+  if (typeof nextConfig === 'undefined' && typeof currentConfig === 'undefined') return
+
+  configurablePlugin.config = deepMerge(currentConfig || Object.create(null), nextConfig)
+}
+
+/**
+ * Load staged `faas.yaml`, attach the merged config to a function, and
+ * instantiate any plugins declared in YAML that are not already injected in code.
+ *
+ * Only `http` is treated as a built-in plugin. Other config-driven plugins must
+ * declare an explicit module `type` whose module exports a class as
+ * `export default` with `onMount` or `onInvoke` on its prototype.
+ *
+ * @template T - Function instance type enriched with config-driven plugins.
+ * @param {T} func - Function instance whose config and plugin list should be updated.
+ * @returns {Promise<T>} The same function instance after plugin config and instances are applied.
+ * @throws {Error} If plugin config is invalid, a plugin module cannot be loaded, or the plugin cannot be instantiated.
+ * @example
+ * ```ts
+ * import { Func } from '@faasjs/core'
+ * import { loadPlugins } from '@faasjs/node-utils'
+ *
+ * const func = await loadPlugins(
+ *   new Func({
+ *     async handler() {
+ *       return 'ok'
+ *     },
+ *   }),
+ *   {
+ *     root: process.cwd(),
+ *     filename: '/project/src/hello.api.ts',
+ *     staging: 'development',
+ *   },
+ * )
+ * ```
+ */
+export async function loadPlugins<T extends TFunc>(
+  func: T,
+  options: LoadPluginsOptions,
+): Promise<T> {
+  if (!func.config || typeof func.config !== 'object') func.config = Object.create(null)
+
+  const loadedConfig = loadConfig(options.root, options.filename, options.staging, options.logger)
+  const pluginConfigs: Record<string, FuncPluginConfig> =
+    loadedConfig && typeof loadedConfig.plugins === 'object'
+      ? loadedConfig.plugins
+      : Object.create(null)
+  const inlinePluginConfigs: Record<string, FuncPluginConfig> =
+    typeof func.config.plugins === 'object'
+      ? (func.config.plugins as Record<string, FuncPluginConfig>)
+      : Object.create(null)
+  const resolvedPluginIds = new Set([
+    ...Object.keys(pluginConfigs),
+    ...Object.keys(inlinePluginConfigs),
+  ])
+
+  if (Array.isArray(func.plugins)) {
+    const plugins = func.plugins
+
+    for (const pluginId of resolvedPluginIds) {
+      const pluginConfig = normalizeMergedPluginConfig(
+        pluginId,
+        deepMerge(pluginConfigs[pluginId], inlinePluginConfigs[pluginId]) as FuncPluginConfig,
+        options.filename,
+      )
+
+      if (!pluginConfig || typeof pluginConfig !== 'object')
+        throw Error(
+          `[loadPlugins] Invalid config for plugin "${pluginId}". Use an object entry in faas.yaml.`,
+        )
+
+      const pluginType =
+        typeof pluginConfig.type === 'string' && pluginConfig.type.length
+          ? pluginConfig.type
+          : pluginId === 'http'
+            ? 'http'
+            : undefined
+
+      if (!pluginType)
+        throw Error(`[loadPlugins] Plugin "${pluginId}" requires an explicit "type" in faas.yaml.`)
+
+      const existingPlugin = plugins.find((plugin) => plugin.name === pluginId)
+
+      if (existingPlugin) {
+        await applyPluginConfig(existingPlugin, pluginConfig)
+        continue
+      }
+
+      const moduleSpecifier = resolvePluginModuleSpecifier(pluginType)
+
+      let mod: any
+
+      try {
+        mod = await import(moduleSpecifier)
+      } catch (error: any) {
+        throw Error(
+          `[loadPlugins] Failed to load plugin "${pluginId}" from "${pluginType}": ${error.message}`,
+        )
+      }
+
+      const PluginClass = resolvePluginConstructor(mod)
+
+      if (!PluginClass)
+        throw Error(
+          `[loadPlugins] Plugin "${pluginId}" from "${pluginType}" must export a plugin class as \`export default\` (a class with onMount or onInvoke on its prototype).`,
+        )
+
+      let plugin: PluginInstance
+
+      try {
+        plugin = new PluginClass({
+          ...pluginConfig,
+          name: pluginId,
+          type: pluginType,
+        })
+      } catch (error: any) {
+        throw Error(
+          `[loadPlugins] Failed to initialize plugin "${pluginId}" from "${pluginType}": ${error.message}`,
+        )
+      }
+
+      if (!plugin || typeof plugin !== 'object')
+        throw Error(`[loadPlugins] Invalid plugin instance for "${pluginId}".`)
+
+      const runHandlerIndex = plugins.findIndex(
+        (item) => item.type === 'handler' && item.name === 'handler',
+      )
+
+      if (runHandlerIndex === -1) plugins.push(plugin)
+      else plugins.splice(runHandlerIndex, 0, plugin)
+    }
+  }
+
+  const mergedConfig = deepMerge(loadedConfig, func.config) as FuncConfig
+  if (mergedConfig.plugins && typeof mergedConfig.plugins === 'object') {
+    for (const pluginId in mergedConfig.plugins) {
+      if (!Object.hasOwn(mergedConfig.plugins, pluginId)) continue
+
+      const pluginConfig = mergedConfig.plugins[pluginId]
+      if (!pluginConfig || typeof pluginConfig !== 'object') continue
+
+      mergedConfig.plugins[pluginId] = normalizeMergedPluginConfig(
+        pluginId,
+        pluginConfig,
+        options.filename,
+      )
+    }
+
+    assignPluginNames(mergedConfig)
+  }
+
+  if (func.config && typeof func.config === 'object') {
+    for (const key of Object.keys(func.config)) delete func.config[key]
+
+    Object.assign(func.config, mergedConfig)
+  } else func.config = mergedConfig
+
+  return func
+}
