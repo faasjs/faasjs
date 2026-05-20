@@ -54,7 +54,7 @@ const packEntries: Record<string, Record<string, string>> = {
   },
   'node-utils': {
     index: './src/index.ts',
-    register_hooks: './src/register_hooks/index.ts',
+    'register-hooks': './src/register-hooks/index.ts',
   },
   pg: {
     index: './src/index.ts',

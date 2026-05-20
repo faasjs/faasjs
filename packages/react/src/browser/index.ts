@@ -1,4 +1,4 @@
-export { generateId } from '../generateId'
+export { generateId } from '../generate-id'
 
 export type {
   BaseUrl,

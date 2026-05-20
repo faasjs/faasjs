@@ -5,4 +5,4 @@
  * tests can load, mount, and invoke APIs without booting a full server.
  */
 export * from '@faasjs/core'
-export * from './api_tester.ts'
+export * from './api-tester.ts'

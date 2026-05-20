@@ -25,8 +25,8 @@
       "default": "./dist/index.mjs"
     },
     "./register-hooks": {
-      "types": "./dist/register_hooks.d.ts",
-      "default": "./dist/register_hooks.mjs"
+      "types": "./dist/register-hooks.d.ts",
+      "default": "./dist/register-hooks.mjs"
     }
   },
   "devDependencies": {

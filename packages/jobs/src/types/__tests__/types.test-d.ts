@@ -2,7 +2,7 @@ import type { FuncEventType } from '@faasjs/core'
 import { z } from '@faasjs/utils'
 import { assertType, expectTypeOf, it } from 'vitest'
 
-import { defineJob } from '../../define_job'
+import { defineJob } from '../../define-job'
 import type { DefineJobParams } from '../../types'
 
 it('defineJob should infer params from schema', () => {

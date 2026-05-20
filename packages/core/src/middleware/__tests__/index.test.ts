@@ -20,44 +20,44 @@ describe('middleware', () => {
   })
 
   it('useMiddleware', async () => {
-    const response = await fetch(`http://127.0.0.1:${port}/useMiddleware`)
+    const response = await fetch(`http://127.0.0.1:${port}/use-middleware`)
     expect(response.status).toBe(200)
     expect(await response.text()).toBe('useMiddleware')
   })
 
   it('anonymous useMiddleware', async () => {
-    const response = await fetch(`http://127.0.0.1:${port}/anonymousUseMiddleware`)
+    const response = await fetch(`http://127.0.0.1:${port}/anonymous-use-middleware`)
     expect(response.status).toBe(200)
     expect(await response.text()).toBe('anonymousUseMiddleware')
   })
 
   it('injects root into middleware context', async () => {
-    const response = await fetch(`http://127.0.0.1:${port}/contextRoot`)
+    const response = await fetch(`http://127.0.0.1:${port}/context-root`)
 
     expect(response.status).toBe(200)
     expect(await response.text()).toBe(server.root)
   })
 
   it('emptyMiddleware', async () => {
-    const response = await fetch(`http://127.0.0.1:${port}/emptyUseMiddleware`)
+    const response = await fetch(`http://127.0.0.1:${port}/empty-use-middleware`)
     expect(response.status).toBe(404)
     expect(await response.text()).toBe('Not Found')
   })
 
   it('useMiddlewares', async () => {
-    const response = await fetch(`http://127.0.0.1:${port}/useMiddlewares`)
+    const response = await fetch(`http://127.0.0.1:${port}/use-middlewares`)
     expect(response.status).toBe(200)
     expect(await response.text()).toBe('useMiddlewares')
   })
 
   it('emptyMiddlewares', async () => {
-    const response = await fetch(`http://127.0.0.1:${port}/emptyUseMiddlewares`)
+    const response = await fetch(`http://127.0.0.1:${port}/empty-use-middlewares`)
     expect(response.status).toBe(404)
     expect(await response.text()).toBe('Not Found')
   })
 
   it('should stop later middlewares when response already ended', async () => {
-    const response = await fetch(`http://127.0.0.1:${port}/breakUseMiddlewares`)
+    const response = await fetch(`http://127.0.0.1:${port}/break-use-middlewares`)
 
     expect(response.status).toBe(200)
     expect(await response.text()).toBe('breakUseMiddlewares')

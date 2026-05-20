@@ -77,7 +77,7 @@ describe('faas run command coverage', () => {
   })
 
   it('should return code 1 when the child closes with a signal', async () => {
-    const argvCandidate = join('/mock/bin', '../node-utils/dist/register_hooks.mjs')
+    const argvCandidate = join('/mock/bin', '../node-utils/dist/register-hooks.mjs')
 
     realpathSyncMock.mockReturnValue('/mock/bin/faas.mjs')
     existsSyncMock.mockImplementation((path: string) => path === argvCandidate)
@@ -88,7 +88,7 @@ describe('faas run command coverage', () => {
     expect(code).toBe(1)
     expect(spawnMock).toHaveBeenCalledWith(
       process.execPath,
-      ['--import', expect.stringMatching(/^file:.*register_hooks\.mjs$/), '/tmp/project/runner.ts'],
+      ['--import', expect.stringMatching(/^file:.*register-hooks\.mjs$/), '/tmp/project/runner.ts'],
       {
         cwd: '/tmp/project',
         env: process.env,
@@ -98,7 +98,7 @@ describe('faas run command coverage', () => {
   })
 
   it('should return code 0 when the child closes without code or signal', async () => {
-    const argvCandidate = join('/mock/bin', '../node-utils/dist/register_hooks.mjs')
+    const argvCandidate = join('/mock/bin', '../node-utils/dist/register-hooks.mjs')
 
     realpathSyncMock.mockReturnValue('/mock/bin/faas.mjs')
     existsSyncMock.mockImplementation((path: string) => path === argvCandidate)

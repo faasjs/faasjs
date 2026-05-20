@@ -21,7 +21,7 @@ function resolveRegisterHooksSpecifier(): string {
 
   const resolved = join(
     dirname(realpathSync(process.argv[1])),
-    '../node-utils/dist/register_hooks.mjs',
+    '../node-utils/dist/register-hooks.mjs',
   )
 
   if (!existsSync(resolved))

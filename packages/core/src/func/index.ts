@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url'
 
 import { Logger } from '@faasjs/node-utils'
 
-import { RunHandler } from '../plugins/run_handler'
+import { RunHandler } from '../plugins/run-handler'
 
 /**
  * User-defined handler executed after plugins have prepared invoke data.

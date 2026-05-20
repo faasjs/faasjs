@@ -29,7 +29,7 @@
  */
 
 export type { JobRegistry, LoadJobRegistryOptions } from './discovery'
-export { defineJob, Job } from './define_job'
+export { defineJob, Job } from './define-job'
 export { enqueueJob } from './queue'
 export { JobScheduler, startJobScheduler } from './scheduler'
 export type { JobSchedulerOptions } from './scheduler'

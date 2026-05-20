@@ -3,7 +3,7 @@ import { randomUUID } from 'node:crypto'
 import { Logger } from '@faasjs/node-utils'
 import { getClient, type Client } from '@faasjs/pg'
 
-import { type Job } from './define_job'
+import { type Job } from './define-job'
 import { loadJobRegistry, type JobRegistry, type LoadJobRegistryOptions } from './discovery'
 import { resolvePositiveInteger, resolveQueue } from './options'
 import { ensureJobsSchema } from './queue'

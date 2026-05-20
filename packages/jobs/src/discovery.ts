@@ -9,7 +9,7 @@ import {
   type RegisterNodeModuleHooksOptions,
 } from '@faasjs/node-utils'
 
-import { isJob, type Job } from './define_job'
+import { isJob, type Job } from './define-job'
 
 export type JobRegistry = Map<string, Job<any, any, any>>
 

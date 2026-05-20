@@ -1,6 +1,6 @@
 import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
 
-import { generateId } from '../generateId'
+import { generateId } from '../generate-id'
 import { buildActionUrl, buildActionOptions, runBeforeRequest, parseFetchResponse } from './helpers'
 import { mock, resolveMockResponse } from './mock'
 import type { Response } from './response'
