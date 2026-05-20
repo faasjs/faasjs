@@ -45,7 +45,7 @@
     "@voidzero-dev/vite-plus-test": "*",
     "jsdom": "*",
     "typescript": "*",
-    "vite-plus": "*"
+    "vite-plus": "^0.1.22"
   },
   "peerDependencies": {
     "@faasjs/core": ">=8.0.0-beta.28",
