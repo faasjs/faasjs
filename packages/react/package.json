@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@faasjs/types": ">=8.0.0-beta.28",
-    "@types/react": "^19.0.0",
+    "@types/react": "^19.2.15",
     "react": "^19.0.0"
   },
   "peerDependencies": {
