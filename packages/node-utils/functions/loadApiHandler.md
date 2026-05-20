@@ -2,7 +2,7 @@
 
 # Function: loadApiHandler()
 
-> **loadApiHandler**\<`TEvent`, `TContext`, `TResult`\>(`root`, `filename`, `staging`): `Promise`\<[`ExportedHandler`](../type-aliases/ExportedHandler.md)\<`TEvent`, `TContext`, `TResult`\>\>
+> **loadApiHandler**\<`TEvent`, `TContext`, `TResult`\>(`root`, `filename`, `staging`, `logger?`): `Promise`\<[`ExportedHandler`](../type-aliases/ExportedHandler.md)\<`TEvent`, `TContext`, `TResult`\>\>
 
 Load a packaged FaasJS API file, attach its resolved config, and return the exported handler.
 
@@ -47,6 +47,12 @@ Path to the packaged FaasJS API file to load.
 `string`
 
 Staging name used when locating config.
+
+### logger?
+
+[`Logger`](../classes/Logger.md)
+
+Optional logger used for debug output during loading.
 
 ## Returns
 

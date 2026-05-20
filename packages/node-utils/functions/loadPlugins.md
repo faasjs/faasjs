@@ -2,20 +2,20 @@
 
 # Function: loadPlugins()
 
-> **loadPlugins**\<`TFunc`\>(`func`, `options`): `Promise`\<`TFunc`\>
+> **loadPlugins**\<`T`\>(`func`, `options`): `Promise`\<`T`\>
 
 Load staged `faas.yaml`, attach the merged config to a function, and
 instantiate any plugins declared in YAML that are not already injected in code.
 
 Only `http` is treated as a built-in plugin. Other config-driven plugins must
-declare an explicit module `type` that exports a matching lifecycle plugin
-class name.
+declare an explicit module `type` whose module exports a class as
+`export default` with `onMount` or `onInvoke` on its prototype.
 
 ## Type Parameters
 
-### TFunc
+### T
 
-`TFunc` _extends_ `Func`\<`any`, `any`, `any`\>
+`T` _extends_ `TFunc`
 
 Function instance type enriched with config-driven plugins.
 
@@ -23,7 +23,7 @@ Function instance type enriched with config-driven plugins.
 
 ### func
 
-`TFunc`
+`T`
 
 Function instance whose config and plugin list should be updated.
 
@@ -31,11 +31,9 @@ Function instance whose config and plugin list should be updated.
 
 [`LoadPluginsOptions`](../type-aliases/LoadPluginsOptions.md)
 
-Project and staging metadata used to resolve plugin config.
-
 ## Returns
 
-`Promise`\<`TFunc`\>
+`Promise`\<`T`\>
 
 The same function instance after plugin config and instances are applied.
 

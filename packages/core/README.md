@@ -20,6 +20,12 @@
 - [Server](classes/Server.md)
 - [Session](classes/Session.md)
 
+## References
+
+### default
+
+Renames and re-exports [Http](classes/Http.md)
+
 ## Type Aliases
 
 - [Config](type-aliases/Config.md)

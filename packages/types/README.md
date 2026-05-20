@@ -1,5 +1,9 @@
 # @faasjs/types
 
+## Interfaces
+
+- [TFunc](interfaces/TFunc.md)
+
 ## Type Aliases
 
 - [FaasAction](type-aliases/FaasAction.md)

@@ -19,6 +19,7 @@ Before changing code, inspect nearby examples and read only the guides needed fo
 - Database schema, query, or type change: read [PG Schema and Migrations Guide](./guidelines/pg-schema-and-migrations.md), [PG Table Types Guide](./guidelines/pg-table-types.md), [PG Query Builder and Raw SQL Guide](./guidelines/pg-query-builder.md), and [PG Testing Guide](./guidelines/pg-testing.md).
 - Project tooling or config change: read [Project Config Guide](./guidelines/project-config.md) before editing `tsconfig.json`, `vite.config.ts`, or shared tool config.
 - CLI command or tooling question: read [CLI and Tooling Guide](./guidelines/cli-and-tooling.md) for command reference, error recovery, and environment variable details.
+- New or changed cross-cutting plugin (auth, tenant, logging, rate limiting, etc.): read [Plugins Guide](./guidelines/plugins.md) and [Testing Guide](./guidelines/testing.md).
 - Docs, generated references, translations, navigation, or changelog: follow the repo-level documentation sync guide before editing derived docs.
 
 ## Global Rules
@@ -90,6 +91,7 @@ Before handoff, verify the smallest meaningful set for the change:
 - [Jobs Guide](./guidelines/jobs.md): Covers `.job.ts` files, `defineJob`, `enqueueJob`, workers, scheduler cron enqueueing, retries, idempotency, and testing.
 - [Logger Guide](./guidelines/logger.md): Covers when to reuse injected loggers versus creating `Logger` instances, how to choose log levels, and how to time slow operations.
 - [Naming Convention Guide](./guidelines/naming-convention.md): Covers identifier naming (camelCase/PascalCase), file/directory naming, abbreviation rules, and cross-package naming consistency.
+- [Plugins Guide](./guidelines/plugins.md): Covers the `Plugin` interface, lifecycle methods (`onMount`/`onInvoke`), injecting fields via `DefineApiInject`, config-driven loading through `faas.yaml`, manual registration in code, config merging precedence, and plugin testing.
 - [CRUD Patterns Guide](./guidelines/crud-patterns.md): Covers the complete CRUD vertical slice — shared items metadata, list/detail/create/update/delete patterns, testing, and agent efficiency tips for faster page generation.
 - [Utils Guide](./guidelines/utils.md): Covers portable helpers from `@faasjs/utils` for deep merging and converting text or JSON to and from streams.
 - [PG Query Builder and Raw SQL Guide](./guidelines/pg-query-builder.md): Covers preferring `QueryBuilder` clauses, choosing raw SQL fallbacks deliberately, keeping client bootstrap consistent, and narrowing row shapes intentionally.
