@@ -47,14 +47,23 @@
 
 ## 2. 文件和目录命名
 
-| 类别         | 规范                       | 示例                                          |
-| ------------ | -------------------------- | --------------------------------------------- |
-| 源目录       | `camelCase`                | `loadPackage/`，`parseYaml/`                  |
-| 源文件       | `kebab-case`               | `query-builder.ts`，`http-error.ts`           |
-| 测试文件     | `kebab-case` + `.test.ts`  | `query-builder.test.ts`                       |
-| 组件文件     | PascalCase，与组件名称匹配 | `UserCard.tsx` → `export function UserCard()` |
-| 钩子文件     | camelCase，与钩子名称匹配  | `useUser.ts` → `export function useUser()`    |
-| 类型定义文件 | `kebab-case`               | `types.ts`，`server-types.ts`                 |
+目录和文件默认统一使用 `kebab-case`，仅两种例外：
+
+| 例外       | 规范                       | 示例                                          |
+| ---------- | -------------------------- | --------------------------------------------- |
+| React 组件 | PascalCase，与组件名称匹配 | `UserCard.tsx` → `export function UserCard()` |
+| React 钩子 | camelCase，与钩子名称匹配  | `useUser.ts` → `export function useUser()`    |
+
+其他所有目录和文件均使用 `kebab-case`：
+
+| 类别         | 规范                      | 示例                                |
+| ------------ | ------------------------- | ----------------------------------- |
+| 目录         | `kebab-case`              | `load-package/`，`parse-yaml/`      |
+| 源文件       | `kebab-case`              | `query-builder.ts`，`http-error.ts` |
+| 测试文件     | `kebab-case` + `.test.ts` | `query-builder.test.ts`             |
+| 类型定义文件 | `kebab-case`              | `types.ts`，`server-types.ts`       |
+
+> 包含 React 组件的目录使用 PascalCase（例如 `ErrorBoundary/`），包含 React 钩子的目录使用 camelCase（例如 `useFaas/`）。其余所有内容——工具、API、任务、服务——均使用 `kebab-case`。
 
 ---
 
@@ -62,8 +71,7 @@
 
 - [ ] 函数以动词开头（camelCase）
 - [ ] 类型 / 接口 / 常量为 PascalCase
-- [ ] 目录使用 camelCase
-- [ ] 文件使用 kebab-case（组件/钩子文件使用自己的名称）
+- [ ] 目录和文件使用 kebab-case（React 组件/钩子使用各自约定）
 - [ ] 缩写遵循单词规则：`Http`、`Json`、`Url`、`Id`
 - [ ] `lifecycle` 是一个单词，全部小写
 

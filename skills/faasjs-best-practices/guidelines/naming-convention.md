@@ -47,14 +47,23 @@ See [File Conventions](./file-conventions.md) for file placement rules (where to
 
 ## 2. File and Directory Naming
 
-| Category              | Convention                         | Examples                                      |
-| --------------------- | ---------------------------------- | --------------------------------------------- |
-| Source directories    | `camelCase`                        | `loadPackage/`, `parseYaml/`                  |
-| Source files          | `kebab-case`                       | `query-builder.ts`, `http-error.ts`           |
-| Test files            | `kebab-case` + `.test.ts`          | `query-builder.test.ts`                       |
-| Component files       | PascalCase, matches component name | `UserCard.tsx` → `export function UserCard()` |
-| Hook files            | camelCase, matches hook name       | `useUser.ts` → `export function useUser()`    |
-| Type definition files | `kebab-case`                       | `types.ts`, `server-types.ts`                 |
+Both directories and files use `kebab-case` by default, with two exceptions:
+
+| Exception       | Convention                         | Examples                                      |
+| --------------- | ---------------------------------- | --------------------------------------------- |
+| React component | PascalCase, matches component name | `UserCard.tsx` → `export function UserCard()` |
+| React hook      | camelCase, matches hook name       | `useUser.ts` → `export function useUser()`    |
+
+All other directories and files use `kebab-case`:
+
+| Category              | Convention                | Examples                            |
+| --------------------- | ------------------------- | ----------------------------------- |
+| Directories           | `kebab-case`              | `load-package/`, `parse-yaml/`      |
+| Source files          | `kebab-case`              | `query-builder.ts`, `http-error.ts` |
+| Test files            | `kebab-case` + `.test.ts` | `query-builder.test.ts`             |
+| Type definition files | `kebab-case`              | `types.ts`, `server-types.ts`       |
+
+> A directory containing a React component uses PascalCase (e.g. `ErrorBoundary/`), and a directory containing a React hook uses camelCase (e.g. `useFaas/`). Everything else — utilities, APIs, jobs, services — uses `kebab-case`.
 
 ---
 
@@ -62,8 +71,7 @@ See [File Conventions](./file-conventions.md) for file placement rules (where to
 
 - [ ] Functions start with a verb (camelCase)
 - [ ] Types / interfaces / constants are PascalCase
-- [ ] Directories use camelCase
-- [ ] Files use kebab-case (component/hook files use their own name)
+- [ ] Directories and files use kebab-case (React components/hooks use their own convention)
 - [ ] Abbreviations follow the word rule: `Http`, `Json`, `Url`, `Id`
 - [ ] `lifecycle` is one word, all lowercase
 
