@@ -3,7 +3,11 @@
 ## Functions
 
 - [deepMerge](functions/deepMerge.md)
+- [isObjectRecord](functions/isObjectRecord.md)
 - [objectToStream](functions/objectToStream.md)
+- [parseArrayFromJson](functions/parseArrayFromJson.md)
+- [parseJson](functions/parseJson.md)
+- [parseObjectFromJson](functions/parseObjectFromJson.md)
 - [streamToObject](functions/streamToObject.md)
 - [streamToString](functions/streamToString.md)
 - [stringToStream](functions/stringToStream.md)

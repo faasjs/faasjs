@@ -767,6 +767,44 @@ await db('users')
   .update({ name: 'Alice' }, { returning: ['name'] }) // => [{ name: 'Alice' }]
 ```
 
+### updateJson()
+
+> **updateJson**\<`C`\>(`column`, `value`): `Promise`\<`any`[]\>
+
+Atomically updates a JSON/JSONB column using the `||` merge operator,
+avoiding read-modify-write race conditions.
+
+#### Type Parameters
+
+##### C
+
+`C` _extends_ `string`
+
+#### Parameters
+
+##### column
+
+`C`
+
+The JSON/JSONB column to update.
+
+##### value
+
+`Partial`\<[`ColumnValue`](../type-aliases/ColumnValue.md)\<`T`, `C`\>\>
+
+The object to merge into the column.
+
+#### Returns
+
+`Promise`\<`any`[]\>
+
+#### Example
+
+```ts
+await db('users').where('id', 1).updateJson('metadata', { age: 30 })
+// UPDATE "users" SET "metadata" = "metadata" || '{"age":30}' WHERE "id" = 1
+```
+
 ### upsert()
 
 > **upsert**\<`FirstValue`, `Returning`\>(`values`, `options`): `Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>

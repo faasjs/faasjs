@@ -2,7 +2,7 @@
 
 # Type Alias: Z
 
-> **Z** = _typeof_ `zod` & `object`
+> **Z** = _typeof_ `_z` & `object`
 
 Extended Zod with custom helpers.
 
@@ -10,16 +10,16 @@ Extended Zod with custom helpers.
 
 ### nonemptystring
 
-> **nonemptystring**: () => `zod.ZodString`
+> **nonemptystring**: () => `_z.ZodString`
 
 #### Returns
 
-`zod.ZodString`
+`_z.ZodString`
 
 ### positiveint
 
-> **positiveint**: () => `zod.ZodNumber`
+> **positiveint**: () => `_z.ZodNumber`
 
 #### Returns
 
-`zod.ZodNumber`
+`_z.ZodNumber`
