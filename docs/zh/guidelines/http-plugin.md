@@ -243,8 +243,3 @@ This is resolved at plugin mount time and merged into the config object.
 - `cookie.session.secret` is configured in production via environment variable
 - `cookie.secure` is `true` in production, `false` in development
 - Sensitive data is not stored in cookies or sessions unnecessarily
-
-## Further Reading
-
-- [defineApi Guide](./define-api.md)
-- [Logger Guide](./logger.md)

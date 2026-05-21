@@ -63,8 +63,3 @@ Files in `public/` are served under the `/static` URL prefix. Requests for missi
 - `notFound` is configured when the app needs SPA-style fallback routing
 - `stripPrefix` matches the URL prefix used in the frontend build
 - Path traversal protection is active by default (no additional configuration needed)
-
-## Further Reading
-
-- [defineApi Guide](./define-api.md)
-- [Project Config Guide](./project-config.md)

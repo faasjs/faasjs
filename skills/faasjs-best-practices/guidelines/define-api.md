@@ -238,13 +238,3 @@ describe('orders/api/create', () => {
   })
 })
 ```
-
-## Further Reading
-
-- [Testing Guide](./testing.md)
-- [defineApi](/doc/node-utils/functions/defineApi.html)
-- [DefineApiOptions](/doc/node-utils/interfaces/DefineApiOptions.html)
-- [HttpError](/doc/node-utils/classes/HttpError.html)
-- [testApi](/doc/node-utils/functions/testApi.html)
-- [ApiTester](/doc/node-utils/interfaces/ApiTester.html)
-- [generateFaasTypes](/doc/dev/functions/generateFaasTypes.html)

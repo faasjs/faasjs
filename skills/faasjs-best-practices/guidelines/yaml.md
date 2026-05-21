@@ -38,8 +38,3 @@ console.log(config)
 
 - `parseYaml` is used for direct YAML text parsing
 - parsed YAML shape is validated after parsing (e.g. with Zod schemas from `@faasjs/utils`)
-
-## Further Reading
-
-- [@faasjs/utils Package Reference](/doc/utils/)
-- [parseYaml](/doc/utils/functions/parseYaml.html)

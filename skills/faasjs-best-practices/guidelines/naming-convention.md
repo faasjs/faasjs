@@ -76,8 +76,3 @@ All other directories and files use `kebab-case`:
 - [ ] `lifecycle` is one word, all lowercase
 
 ---
-
-## Further Reading
-
-- [File Conventions](./file-conventions.md) — file placement rules
-- [Code Comments Guide](./code-comments.md) — when to rename vs comment
