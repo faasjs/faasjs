@@ -109,7 +109,6 @@ describe.sequential('server', () => {
     expect(exposeHeaders).toContain('x-faasjs-timing-pending')
     expect(exposeHeaders).toContain('x-faasjs-timing-processing')
     expect(exposeHeaders).toContain('x-faasjs-timing-total')
-    expect(exposeHeaders).toContain('accept-encoding')
   })
 
   it('a', async () => {
@@ -217,52 +216,9 @@ describe.sequential('server', () => {
     expect(allowHeaders).toContain('x-faasjs-timing-processing')
     expect(allowHeaders).toContain('x-faasjs-timing-total')
     expect(allowHeaders).toContain('x-x')
-    expect(allowHeaders).toContain('accept-encoding')
     expect(allowHeaders).toContain('x-y')
     expect(response.headers.get('access-control-allow-methods')).toBe('OPTIONS, POST')
     expect(response.headers.get('access-control-allow-origin')).toBe('*')
-  })
-
-  describe('compress', () => {
-    it('br', async () => {
-      const response = await fetch(`http://127.0.0.1:${port}/compress`, {
-        headers: { 'Accept-Encoding': 'br' },
-      })
-
-      expect(response.status).toEqual(200)
-      expect(response.headers.get('content-encoding')).toEqual('br')
-      expect(await response.text()).toContain('hello')
-    })
-
-    it('gzip', async () => {
-      const response = await fetch(`http://127.0.0.1:${port}/compress`, {
-        headers: { 'Accept-Encoding': 'gzip' },
-      })
-
-      expect(response.status).toEqual(200)
-      expect(response.headers.get('content-encoding')).toEqual('gzip')
-      expect(await response.text()).toContain('hello')
-    })
-
-    it('deflate', async () => {
-      const response = await fetch(`http://127.0.0.1:${port}/compress`, {
-        headers: { 'Accept-Encoding': 'deflate' },
-      })
-
-      expect(response.status).toEqual(200)
-      expect(response.headers.get('content-encoding')).toEqual('deflate')
-      expect(await response.text()).toContain('hello')
-    })
-
-    it('unknown', async () => {
-      const response = await fetch(`http://127.0.0.1:${port}/compress`, {
-        headers: { 'Accept-Encoding': 'unknown' },
-      })
-
-      expect(response.status).toEqual(200)
-      expect(response.headers.get('content-encoding')).toBeNull()
-      expect(await response.text()).toContain('hello')
-    })
   })
 
   it('raw', async () => {

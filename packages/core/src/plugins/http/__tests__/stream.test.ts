@@ -17,15 +17,14 @@ describe('stream', () => {
     }).export().handler
 
     const res = await handler({
-      headers: { 'accept-encoding': 'gzip' },
+      headers: {},
       body: null,
     })
 
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(res.headers['content-encoding']).toBeUndefined()
   })
 
-  it('should not compress streams', async () => {
+  it('should handle stream response', async () => {
     const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const handler = new Func({
       plugins: [http],
@@ -40,11 +39,10 @@ describe('stream', () => {
     }).export().handler
 
     const res = await handler({
-      headers: { 'accept-encoding': 'gzip' },
+      headers: {},
       body: null,
     })
 
-    expect(res.headers['content-encoding']).toBeUndefined()
     expect(res.body).toBeInstanceOf(ReadableStream)
   })
 

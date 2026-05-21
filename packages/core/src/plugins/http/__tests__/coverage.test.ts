@@ -133,21 +133,13 @@ describe('http/coverage', () => {
     ).toBe(true)
   })
 
-  it('should fallback to the uncompressed body when compression setup throws', async () => {
-    globalThis.ReadableStream = class BrokenReadableStream {
-      constructor() {
-        throw Error('stream unavailable')
-      }
-    } as any
-
+  it('should handle large non-stream responses as ReadableStream', async () => {
     const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const logger = createLogger()
     const payload = '1'.repeat(2048)
     const data = createInvokeData({
       event: {
-        headers: {
-          'accept-encoding': 'gzip',
-        },
+        headers: {},
         body: null,
       },
       logger,
@@ -156,8 +148,6 @@ describe('http/coverage', () => {
 
     await http.onInvoke(data as any, async () => undefined)
 
-    expect(data.response.body).toBe(JSON.stringify({ data: payload }))
-    expect(data.response.headers['Content-Encoding']).toBeUndefined()
-    expect(logger.error).toHaveBeenCalledWith('Compression failed: %s', 'stream unavailable')
+    expect(data.response.body).toBeInstanceOf(ReadableStream)
   })
 })
