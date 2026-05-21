@@ -314,12 +314,16 @@ export async function respond(
     onError: (error: any) => void
   },
 ): Promise<void> {
-  const { requestId, requestedAt, startedAt, logger, onError } = options
-
-  const headers = buildResponseHeaders(req, requestId, requestedAt, startedAt, data)
+  const headers = buildResponseHeaders(
+    req,
+    options.requestId,
+    options.requestedAt,
+    options.startedAt,
+    data,
+  )
   for (const key in headers) res.setHeader(key, headers[key] as string)
 
-  if (await respondWithStreamData(data, res, logger, onError)) return
+  if (await respondWithStreamData(data, res, options.logger, options.onError)) return
 
   const statusCode = getErrorStatusCode(data)
 
@@ -328,5 +332,5 @@ export async function respond(
     return
   }
 
-  respondWithError(data, res, statusCode, logger)
+  respondWithError(data, res, statusCode, options.logger)
 }
