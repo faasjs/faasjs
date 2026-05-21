@@ -2,7 +2,7 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-[Unreleased]
+[`v8.0.0-beta.29 (2026-05-22)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.28...v8.0.0-beta.29)
 
 - `faasjs`
   - [Break] Upgrade Node.js minimum version from 24.x to 26.x.
