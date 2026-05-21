@@ -12,7 +12,6 @@
 - [loadPackage](functions/loadPackage.md)
 - [loadPlugins](functions/loadPlugins.md)
 - [parseSchemaValue](functions/parseSchemaValue.md)
-- [parseYaml](functions/parseYaml.md)
 - [registerNodeModuleHooks](functions/registerNodeModuleHooks.md)
 - [resetRuntime](functions/resetRuntime.md)
 

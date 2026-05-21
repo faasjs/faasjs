@@ -54,7 +54,10 @@ Use this checklist whenever code handles users, tenants, permissions, secrets, e
 - [Naming Convention Guide](./guidelines/naming-convention.md): Covers identifier naming (camelCase/PascalCase), file/directory naming, abbreviation rules, and cross-package naming consistency.
 - [Plugins Guide](./guidelines/plugins.md): Covers the `Plugin` interface, lifecycle methods (`onMount`/`onInvoke`), injecting fields via `DefineApiInject`, config-driven loading through `faas.yaml`, manual registration in code, config merging precedence, and plugin testing.
 - [CRUD Patterns Guide](./guidelines/crud-patterns.md): Covers the complete CRUD vertical slice — shared items metadata, list/detail/create/update/delete patterns, testing, and agent efficiency tips for faster page generation.
-- [Utils Guide](./guidelines/utils.md): Covers portable helpers from `@faasjs/utils` for deep merging and converting text or JSON to and from streams.
+- [Utils Guide](./guidelines/utils.md): Covers portable helpers from `@faasjs/utils` for deep merging and converting text to and from streams.
+- [JSON Guide](./guidelines/json.md): Covers JSON parsing and streaming helpers from `@faasjs/utils`.
+- [Validation Guide](./guidelines/valid.md): Covers data validation and type guard helpers from `@faasjs/utils` and `@faasjs/node-utils`.
+- [YAML Guide](./guidelines/yaml.md): Covers direct YAML parsing with `parseYaml` from `@faasjs/utils`.
 - [PG Query Builder and Raw SQL Guide](./guidelines/pg-query-builder.md): Covers preferring `QueryBuilder` clauses, choosing raw SQL fallbacks deliberately, keeping client bootstrap consistent, and narrowing row shapes intentionally.
 - [PG Table Types Guide](./guidelines/pg-table-types.md): Covers declaration merging on `Tables`, concrete row shapes, and keeping query inference aligned with table definitions.
 - [PG Schema and Migrations Guide](./guidelines/pg-schema-and-migrations.md): Covers timestamped migrations, `SchemaBuilder`, `TableBuilder`, and transactional schema changes.

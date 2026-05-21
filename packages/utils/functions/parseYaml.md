@@ -1,15 +1,19 @@
-[@faasjs/node-utils](../README.md) / parseYaml
+[@faasjs/utils](../README.md) / parseYaml
 
 # Function: parseYaml()
 
-> **parseYaml**(`content`): `unknown`
+> **parseYaml**\<`T`\>(`content`): `T`
 
 Parse the FaasJS-supported YAML subset into JavaScript values.
 
-Use this in custom Node.js tooling when you need the same YAML surface area as
-`faas.yaml` without staged discovery or schema validation. Prefer
-`loadConfig()` when you want FaasJS to resolve layered config files for a
-function.
+Prefer `loadConfig()` from `@faasjs/node-utils` when you want FaasJS to resolve
+layered config files for a function.
+
+## Type Parameters
+
+### T
+
+`T` = `unknown`
 
 ## Parameters
 
@@ -21,7 +25,7 @@ YAML source text.
 
 ## Returns
 
-`unknown`
+`T`
 
 Parsed value, or `undefined` when the input only contains blank lines or comments.
 
@@ -32,7 +36,7 @@ If the YAML uses unsupported syntax or cannot be parsed.
 ## Example
 
 ```ts
-import { parseYaml } from '@faasjs/node-utils'
+import { parseYaml } from '@faasjs/utils'
 
 const value = parseYaml(`defaults:
   plugins:
