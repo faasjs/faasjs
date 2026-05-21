@@ -34,7 +34,7 @@ Before changing code, inspect nearby examples and read only the guides needed fo
 - Keep internal runtime type checks (`typeof`, `instanceof`, `=== null/undefined`) as-is. Replacing these with zod would increase code volume and add parsing overhead with no benefit—they are control-flow predicates, not input validation. The rule is: zod for external input contracts, `typeof`/`instanceof` for internal type interrogation.
 - Keep code direct: validate at system boundaries, fail fast on invalid internal data, and do not add silent fallbacks or impossible-case handling.
 - Avoid unnecessary intermediate variables: return or pass values directly instead of assigning to a single-use variable. An intermediate variable is justified when it documents a non-trivial condition, is referenced more than once, or breaks a long chain for readability.
-- Do not destructure function parameters; access them through the parameter object (e.g., `input.xxx` or `props.xxx`) so the source of each value is immediately visible.
+- 不要解构函数入参；通过参数对象（例如 `input.xxx` 或 `props.xxx`）访问，使每个值的来源一目了然。
 - Do not create standalone type aliases or interfaces when TypeScript can infer the type from the expression, schema, or return statement; rely on inference first and add explicit types only at API boundaries, shared contracts, or where inference is ambiguous.
 - Extract helpers, hooks, components, or abstractions only when they are reused, create a real boundary, or simplify a large block; keep one-off code inline unless the body is over about 20 lines.
 - Document package public exports with JSDoc. Add JSDoc for shared app exports when the caller contract is not obvious. Do not add comments, docstrings, or type annotations to untouched code.
