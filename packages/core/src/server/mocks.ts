@@ -98,6 +98,10 @@ export function createMockRes(options?: {
     return EventEmitter.prototype.once.call(this, event, handler) as MutableMockResponse
   }
 
+  res.getHeaders = function () {
+    return { ...this.headers }
+  }
+
   res.removeListener = function (event: string, handler: (...args: any[]) => void) {
     return EventEmitter.prototype.removeListener.call(this, event, handler) as MutableMockResponse
   }

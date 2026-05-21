@@ -6,7 +6,7 @@ import { isPathInsideRoot } from '@faasjs/node-utils'
 import { lookup } from 'mime-types'
 
 import { ensureRequestUrl } from '../request-url'
-import { respondWithInternalServerError } from '../response-error'
+import { respondWithInternalServerError } from '../server/response'
 import { nameFunc } from '../utils'
 import type { Middleware, MiddlewareContext } from './middleware'
 
