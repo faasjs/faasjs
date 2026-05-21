@@ -23,16 +23,13 @@ import { deepMerge } from '@faasjs/utils'
 
 import { HttpError } from '../plugins/http'
 import { ensureRequestUrl } from '../request-url'
-import { getErrorMessage, getErrorStatusCode, respondWithJsonError } from '../response-error'
 import {
   readRequestBody,
   runBeforeHandle,
   invokeHandler,
-  buildResponseHeaders,
-  respondWithStreamData,
-  respondWithError,
   handleOptionRequest,
 } from './request-handler'
+import { respond } from './response'
 import { getRouteFiles } from './routes'
 import type { Cache, Mounted, ServerHandlerOptions, ServerOptions } from './types'
 import { loadServerEnvFile } from './utils'
@@ -226,19 +223,13 @@ export class Server {
 
     if (res.writableEnded) return
 
-    const headers = buildResponseHeaders(req, requestId, requestedAt, startedAt, data)
-    for (const key in headers) res.setHeader(key, headers[key] as string)
-
-    if (await respondWithStreamData(data, res, logger, this.onError)) return
-
-    const statusCode = getErrorStatusCode(data)
-
-    if (statusCode === 500) {
-      respondWithJsonError(res, 500, getErrorMessage(data))
-      return
-    }
-
-    respondWithError(data, res, statusCode, logger)
+    await respond(data, req, res, {
+      requestId,
+      requestedAt,
+      startedAt,
+      logger,
+      onError: this.onError,
+    })
   }
 
   private async getOrLoadHandler(

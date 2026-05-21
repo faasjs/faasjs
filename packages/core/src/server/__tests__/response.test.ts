@@ -1,15 +1,15 @@
 import { describe, expect, it } from 'vitest'
 
+import { createMockRes } from '../mocks'
 import {
   getErrorMessage,
   getErrorStatusCode,
   INTERNAL_SERVER_ERROR_MESSAGE,
   respondWithInternalServerError,
   respondWithJsonError,
-} from '..'
-import { createMockRes } from '../../server/mocks'
+} from '../response'
 
-describe('response-error', () => {
+describe('response', () => {
   it('should resolve status code and message with fallback rules', () => {
     expect(getErrorStatusCode(undefined)).toBeUndefined()
     expect(getErrorStatusCode({ statusCode: Number.NaN })).toBeUndefined()

@@ -9,7 +9,7 @@ import {
   getErrorStatusCode,
   respondWithInternalServerError,
   respondWithJsonError,
-} from '../response-error'
+} from '../server/response'
 
 /**
  * Event shape passed to middleware-backed functions.
