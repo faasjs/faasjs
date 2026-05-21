@@ -10,6 +10,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Feature] Add no-destructure-function-parameters and avoid-unnecessary-intermediate-variables rules to best-practices guidelines.
 
 - `@faasjs/utils`
+  - [Break] Add `parseYaml` from `@faasjs/node-utils`.
   - [Feature] Add `z` export with Zod helper extensions for FaasJS boundary validation.
   - [Feature] Add `parseJson`, `parseObjectFromJson`, `parseArrayFromJson`, and `isObjectRecord` for safe JSON parsing.
 
