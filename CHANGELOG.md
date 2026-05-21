@@ -6,10 +6,29 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `faasjs`
   - [Break] Upgrade Node.js minimum version from 24.x to 26.x.
-  - [Feature] Add HTTP Plugin and Middleware guides to faasjs-best-practices.
+  - [Feature] Add HTTP Plugin, Middleware, naming-convention, and plugins creation guides to faasjs-best-practices.
+  - [Feature] Add no-destructure-function-parameters and avoid-unnecessary-intermediate-variables rules to best-practices guidelines.
 
 - `@faasjs/utils`
   - [Feature] Add `z` export with Zod helper extensions for FaasJS boundary validation.
+  - [Feature] Add `parseJson`, `parseObjectFromJson`, `parseArrayFromJson`, and `isObjectRecord` for safe JSON parsing.
+
+- `@faasjs/pg`
+  - [Feature] Add SQL query builder fluent CRUD API with `select`, `where`, `insert`, `update`, `delete`, `upsert`, `join`, `count`, `pluck`, `first`, `orderBy`, `limit`, and `offset` methods.
+  - [Feature] Add `updateJson()` for atomic JSONB column updates.
+
+- `@faasjs/core`
+  - [Break] Remove response compression from dev server; use a reverse proxy for compression in production.
+  - [Refactor] Consolidate server response writing into a unified `respond()` entry point.
+
+- `@faasjs/types`
+  - [Feature] Add `TFunc` interface for plugin type annotations, breaking the circular dependency between `@faasjs/node-utils` and `@faasjs/core`.
+
+- `@faasjs/ant-design`
+  - [Feature] Export shared `renderDisplayValue` utility for custom Description and Table renderers.
+
+- `@faasjs/create-faas-app`
+  - [Feature] Update scaffold templates to use `@faasjs/utils` zod exports and QueryBuilder CRUD API.
 
 [`v8.0.0-beta.28 (2026-05-08)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.27...v8.0.0-beta.28)
 
