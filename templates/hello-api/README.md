@@ -19,9 +19,9 @@ Minimal FaasJS API example with one endpoint and one unit test.
 ## Run / 运行
 
 ```bash
-vp install
-vp test
-vp run dev
+npm install
+npm run test
+npm run dev
 ```
 
 Then call:

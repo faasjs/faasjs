@@ -6,6 +6,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `faasjs`
   - [Break] Upgrade Node.js minimum version from 24.x to 26.x.
+  - [Feature] Add HTTP Plugin and Middleware guides to faasjs-best-practices.
 
 - `@faasjs/utils`
   - [Feature] Add `z` export with Zod helper extensions for FaasJS boundary validation.

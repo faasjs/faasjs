@@ -37,11 +37,11 @@ FaasJS templates bootstrap complete.
 
 Try one template:
   cd templates/hello-api
-  vp test
-  vp run dev
+  npm run test
+  npm run dev
 
 React template:
   cd templates/react-client
-  vp run build
-  vp run start
+  npm run build
+  npm run start
 EOF

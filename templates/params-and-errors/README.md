@@ -19,9 +19,9 @@ Validate JSON input with Zod and handle API errors in a predictable way.
 ## Run / 运行
 
 ```bash
-vp install
-vp test
-vp run dev
+npm install
+npm run test
+npm run dev
 ```
 
 Try request:

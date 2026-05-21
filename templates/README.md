@@ -5,7 +5,7 @@
 All templates are independent projects.
 
 - Every template has its own `package.json`.
-- Every template provides an independent test command: `vp test`.
+- Every template provides an independent test command: `npm run test`.
 - These templates are **not** wired into repository CI by default.
 
 ## Learning Path 学习路径
@@ -20,9 +20,9 @@ All templates are independent projects.
 
 ```bash
 cd templates/hello-api
-vp install
-vp test
-vp run dev
+npm install
+npm run test
+npm run dev
 ```
 
 ## Run in Codespaces 在 Codespaces 中运行
@@ -39,8 +39,8 @@ Then run any template directly:
 
 ```bash
 cd templates/hello-api
-vp test
-vp run dev
+npm run test
+npm run dev
 ```
 
 ## Conventions 约定

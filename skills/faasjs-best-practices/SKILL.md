@@ -59,3 +59,5 @@ Use this checklist whenever code handles users, tenants, permissions, secrets, e
 - [PG Table Types Guide](./guidelines/pg-table-types.md): Covers declaration merging on `Tables`, concrete row shapes, and keeping query inference aligned with table definitions.
 - [PG Schema and Migrations Guide](./guidelines/pg-schema-and-migrations.md): Covers timestamped migrations, `SchemaBuilder`, `TableBuilder`, and transactional schema changes.
 - [PG Testing Guide](./guidelines/pg-testing.md): Covers `PgVitestPlugin()`, shared `DATABASE_URL` bootstrap, and pairing runtime assertions with `expectTypeOf(...)`.
+- [HTTP Plugin Guide](./guidelines/http-plugin.md): Covers Cookie, Session, ContentType, response helpers, and HTTP plugin configuration.
+- [Middleware Guide](./guidelines/middleware.md): Covers staticHandler and useMiddleware for static file hosting.

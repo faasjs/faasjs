@@ -11,20 +11,20 @@ Use this guide when developing or maintaining the FaasJS framework in this monor
 
 ## Common Commands
 
-- Install dependencies: `vp install`
-- Run tests: `vp test`
-- Run coverage suite: `vp run ci`
-- Run lint, format, and static checks: `vp check`
-- Build packages: `vp pack`
-- Regenerate and sync docs with `@faasjs/docgen`: `vp run doc`
-- Build docs site: `cd docs && vp install && vp run build`
+- Install dependencies: `npm run install`
+- Run tests: `npm run test`
+- Run coverage suite: `npm run ci`
+- Run lint, format, and static checks: `npm run lint`
+- Build packages: `npm run pack`
+- Regenerate and sync docs with `@faasjs/docgen`: `npm run doc`
+- Build docs site: `cd docs && npm run install && npm run build`
 
 ## How To Choose Validation
 
 - Prefer the smallest useful validation for the files you touched.
 - For significant or cross-package changes, run broader checks before handoff.
-- If exported APIs, JSDoc, best-practices guides, specs, translations, or generated guide indexes changed, run `vp run doc`.
-- If docs content or navigation changed, run `vp run doc` first, then build the docs site.
+- If exported APIs, JSDoc, best-practices guides, specs, translations, or generated guide indexes changed, run `npm run doc`.
+- If docs content or navigation changed, run `npm run doc` first, then build the docs site.
 - If you intentionally skip a check, explain why in the PR or handoff.
 
 ## CI Baseline
@@ -32,10 +32,10 @@ Use this guide when developing or maintaining the FaasJS framework in this monor
 CI currently runs the equivalent of:
 
 ```bash
-vp install
-vp pack
-vp check --fix
-vp run ci
+npm run install
+npm run pack
+npm run lint
+npm run ci
 ```
 
 ## Testing Notes
