@@ -10,8 +10,7 @@ import {
 import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { parseYaml } from '@faasjs/node-utils'
-import { z } from '@faasjs/utils'
+import { parseYaml, z } from '@faasjs/utils'
 import hljs from 'highlight.js'
 import MarkdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
