@@ -1,5 +1,3 @@
-import { brotliDecompressSync, gunzipSync, inflateSync } from 'node:zlib'
-
 import { Cookie, Http } from '@faasjs/core'
 import type { Config, ExportedHandler, FuncEventType, Func } from '@faasjs/core'
 import { loadPlugins, Logger } from '@faasjs/node-utils'
@@ -275,67 +273,8 @@ export class ApiTester<TApi extends Func<any, any, any> = Func<any, any, any>> {
     })
 
     if (response?.body instanceof ReadableStream) {
-      let stream: ReadableStream<Uint8Array> = response.body
-
-      const encoding =
-        response.headers?.['Content-Encoding'] || response.headers?.['content-encoding']
-
-      if (encoding) {
-        const chunks: Uint8Array[] = []
-        const reader = stream.getReader()
-
-        try {
-          while (true) {
-            const { done, value } = await reader.read()
-            if (done) break
-            if (value) chunks.push(value)
-          }
-        } catch (error) {
-          this.logger.error('Failed to read ReadableStream: %s', error)
-          response.body = JSON.stringify({
-            error: { message: (error as Error).message },
-          })
-          response.error = { message: (error as Error).message }
-          response.statusCode = 500
-          reader.releaseLock()
-          return response
-        }
-
-        reader.releaseLock()
-
-        const compressedBuffer = Buffer.concat(chunks)
-
-        try {
-          let decompressed: Buffer
-          if (encoding === 'br') {
-            decompressed = brotliDecompressSync(compressedBuffer)
-          } else if (encoding === 'gzip') {
-            decompressed = gunzipSync(compressedBuffer)
-          } else if (encoding === 'deflate') {
-            decompressed = inflateSync(compressedBuffer)
-          } else {
-            throw new Error(`Unsupported encoding: ${encoding}`)
-          }
-
-          stream = new ReadableStream<Uint8Array>({
-            start(controller) {
-              controller.enqueue(new Uint8Array(decompressed))
-              controller.close()
-            },
-          })
-        } catch (error) {
-          this.logger.error('Failed to decompress: %s', error)
-          response.body = JSON.stringify({
-            error: { message: (error as Error).message },
-          })
-          response.error = { message: (error as Error).message }
-          response.statusCode = 500
-          return response
-        }
-      }
-
       try {
-        response.body = await streamToString(stream)
+        response.body = await streamToString(response.body)
       } catch (error) {
         this.logger.error('Failed to decode ReadableStream: %s', error)
         response.body = JSON.stringify({

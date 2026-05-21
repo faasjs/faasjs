@@ -2,7 +2,6 @@ import type { Logger } from '@faasjs/node-utils'
 import { deepMerge } from '@faasjs/utils'
 
 import { type MountData, type InvokeData, type Next, type Plugin } from '../../func'
-import { createCompressedStream } from './compress'
 import { Cookie } from './cookie'
 import { HttpError } from './http-error'
 import { type HttpInvokeState, type HttpConfig, type Response, ContentType } from './types'
@@ -206,7 +205,7 @@ export class Http<
 
     state.session.update()
     this.buildResponse(data, state)
-    this.finalizeBody(data, state)
+    this.finalizeBody(data)
   }
 
   private parseEventParams(
@@ -297,7 +296,7 @@ export class Http<
     data.response = Object.assign({}, data.response, state.response)
   }
 
-  private finalizeBody(data: InvokeData, state: HttpInvokeState<TParams, TCookie, TSession>): void {
+  private finalizeBody(data: InvokeData): void {
     const originBody = data.response.body
     data.response.originBody = originBody
 
@@ -315,39 +314,15 @@ export class Http<
           ? originBody
           : JSON.stringify(originBody)
 
-    if (normalizedBody.length < 1024) {
-      data.response.body = new ReadableStream<Uint8Array>({
-        start(controller) {
-          try {
-            controller.enqueue(new TextEncoder().encode(normalizedBody))
-            controller.close()
-          } catch (error) {
-            controller.error(error)
-          }
-        },
-      })
-      return
-    }
-
-    data.response.body = normalizedBody
-
-    const acceptEncoding = state.headers['accept-encoding'] || state.headers['Accept-Encoding']
-    if (!acceptEncoding || !/(br|gzip|deflate)/.test(acceptEncoding)) return
-
-    const encoding: 'br' | 'gzip' | 'deflate' = acceptEncoding.includes('br')
-      ? 'br'
-      : acceptEncoding.includes('gzip')
-        ? 'gzip'
-        : 'deflate'
-
-    data.response.headers['Content-Encoding'] = encoding
-
-    try {
-      data.response.body = createCompressedStream(normalizedBody, encoding)
-    } catch (error) {
-      data.logger.error('Compression failed: %s', (error as Error).message)
-      data.response.body = normalizedBody
-      delete data.response.headers['Content-Encoding']
-    }
+    data.response.body = new ReadableStream<Uint8Array>({
+      start(controller) {
+        try {
+          controller.enqueue(new TextEncoder().encode(normalizedBody))
+          controller.close()
+        } catch (error) {
+          controller.error(error)
+        }
+      },
+    })
   }
 }
