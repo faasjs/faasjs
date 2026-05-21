@@ -3,25 +3,6 @@ name: faasjs-best-practices
 description: When working with FaasJS projects, must follow these best practices to ensure code quality, maintainability, and testability.
 ---
 
-## Start Here
-
-Before changing code, inspect nearby examples and read only the guides needed for the task. Prefer project conventions over generic TypeScript, React, Node, or SQL patterns.
-
-### Agent Task Routing
-
-- New to FaasJS or starting a new project: read [Getting Started Guide](./guidelines/getting-started.md) first for a complete onboarding and project setup walkthrough.
-- Choosing names for identifiers, files, or directories: read [Naming Convention Guide](./guidelines/naming-convention.md) first, then the relevant file or code guide below.
-- New business feature or vertical slice: read [Application Slices Guide](./guidelines/application-slices.md), [File Conventions](./guidelines/file-conventions.md), then the relevant API, UI, PG, and testing guides below.
-- Implementing a standard list/detail/create/update/delete feature: read [CRUD Patterns Guide](./guidelines/crud-patterns.md) for the complete vertical slice pattern, then the [Ant Design Guide](./guidelines/ant-design.md), [defineApi Guide](./guidelines/define-api.md), and [React Data Fetching Guide](./guidelines/react-data-fetching.md) for deeper rules.
-- New or changed `.api.ts` endpoint: read [defineApi Guide](./guidelines/define-api.md) and [Testing Guide](./guidelines/testing.md); also read PG guides if the endpoint touches data.
-- New or changed `.job.ts` background job: read [Jobs Guide](./guidelines/jobs.md), [PG Query Builder and Raw SQL Guide](./guidelines/pg-query-builder.md), and [PG Testing Guide](./guidelines/pg-testing.md).
-- React UI or request-flow change: read [React Guide](./guidelines/react.md), [React Data Fetching Guide](./guidelines/react-data-fetching.md), and [React Testing Guide](./guidelines/react-testing.md); read [Ant Design Guide](./guidelines/ant-design.md) for `@faasjs/ant-design` surfaces.
-- Database schema, query, or type change: read [PG Schema and Migrations Guide](./guidelines/pg-schema-and-migrations.md), [PG Table Types Guide](./guidelines/pg-table-types.md), [PG Query Builder and Raw SQL Guide](./guidelines/pg-query-builder.md), and [PG Testing Guide](./guidelines/pg-testing.md).
-- Project tooling or config change: read [Project Config Guide](./guidelines/project-config.md) before editing `tsconfig.json`, `vite.config.ts`, or shared tool config.
-- CLI command or tooling question: read [CLI and Tooling Guide](./guidelines/cli-and-tooling.md) for command reference, error recovery, and environment variable details.
-- New or changed cross-cutting plugin (auth, tenant, logging, rate limiting, etc.): read [Plugins Guide](./guidelines/plugins.md) and [Testing Guide](./guidelines/testing.md).
-- Docs, generated references, translations, navigation, or changelog: follow the repo-level documentation sync guide before editing derived docs.
-
 ## Global Rules
 
 - Read `tsconfig.json` and any extended TypeScript config before choosing import paths.
@@ -51,27 +32,6 @@ Use this checklist whenever code handles users, tenants, permissions, secrets, e
 - Prefer project plugins for auth, tenant, request metadata, and other cross-cutting business context.
 - Return expected client errors with explicit HTTP status codes; reserve unexpected `500` failures for internal failures.
 - Do not log secrets, tokens, passwords, cookies, full sensitive payloads, or unredacted third-party responses.
-
-## Definition Of Done
-
-Before handoff, verify the smallest meaningful set for the change:
-
-- Imports follow the local `tsconfig.json`, existing aliases, and extensionless local import rules.
-- API changes include schema validation, typed `params`, narrow response shapes, and tests for success plus meaningful failure paths.
-- Creating, renaming, or moving `.api.ts` files is followed by `faas types` or a recorded reason it could not run.
-- Creating, renaming, or moving `.job.ts` files keeps `enqueueJob()` paths and worker/scheduler roots aligned.
-- Database shape changes include a migration, table type updates, and PG tests or a recorded reason they are not needed.
-- UI create/update/delete flows provide user feedback and refresh, close, or invalidate the affected surface intentionally.
-- Tests mock only narrow external boundaries and keep FaasJS validation, plugins, and database behavior real when practical.
-- Test files and all test-related files (fixtures, mocks, stubs) live in the `__tests__` folder inside the code, feature, or slice folder they protect. Do not place `fixtures/`, `mocks/`, or other test support directories as siblings of `__tests__`. Do not centralize tests under a package-level `src/__tests__`, including feature-named subfolders inside that centralized directory. If a business unit would otherwise be a single file, convert it to a folder with `index.ts` or `index.tsx` and put its tests under that folder's `__tests__`.
-- Run targeted tests first when available, then `vp check --fix` and `vp test` when practical; record any blocked commands and the validation that did run.
-
-## Avoid By Default
-
-- Do not add Rails-style generators, generic CRUD layers, broad repository abstractions, or speculative framework shims for a single slice.
-- Do not bypass FaasJS wrappers with raw React, Ant Design, SQL, fetch, or test mocks when the curated helper fits.
-- Do not add catch-all fallback branches for impossible internal states; fix the upstream invariant or fail fast.
-- Do not introduce a second config, request, logging, or database bootstrap path unless the task explicitly requires it.
 
 ## Guidelines
 
