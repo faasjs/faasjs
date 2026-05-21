@@ -33,5 +33,6 @@
 
 export { deepMerge } from './deep-merge'
 export { streamToString, stringToStream, objectToStream, streamToObject } from './stream'
-export { z } from './zod'
+export { z, isObjectRecord } from './zod'
 export type { Z, ZodType, ZodError, input, output } from './zod'
+export { parseJson, parseObjectFromJson, parseArrayFromJson } from './json'

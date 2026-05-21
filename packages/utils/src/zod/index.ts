@@ -33,3 +33,7 @@ export const z: Z = Object.assign(extendedZod, {
   positiveint: () => extendedZod.int().gt(0),
   nonemptystring: () => extendedZod.string().min(1),
 })
+
+export function isObjectRecord(value: unknown): value is Record<string, unknown> {
+  return _z.object().safeParse(value).success
+}

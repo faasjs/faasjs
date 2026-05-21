@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { z as zod } from 'zod'
 
-import { z } from '..'
+import { isObjectRecord, z } from '..'
 
 describe('zod helpers', () => {
   it('should have the same properties as zod', () => {
@@ -18,5 +18,15 @@ describe('zod helpers', () => {
   it('should provide a non-empty string schema', () => {
     expect(z.nonemptystring().parse('hello')).toBe('hello')
     expect(() => z.nonemptystring().parse('')).toThrow()
+  })
+
+  it('should correctly identify object records', () => {
+    expect(isObjectRecord({})).toBe(true)
+    expect(isObjectRecord({ key: 'value' })).toBe(true)
+    expect(isObjectRecord([])).toBe(false)
+    expect(isObjectRecord('string')).toBe(false)
+    expect(isObjectRecord(123)).toBe(false)
+    expect(isObjectRecord(null)).toBe(false)
+    expect(isObjectRecord(undefined)).toBe(false)
   })
 })
