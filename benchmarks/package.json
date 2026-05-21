@@ -6,6 +6,6 @@
     "@faasjs/core": "file:../packages/core",
     "benchmark": "*",
     "express": "*",
-    "koa": "*"
+    "koa": "^3.2.1"
   }
 }
