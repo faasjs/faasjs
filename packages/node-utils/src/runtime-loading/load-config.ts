@@ -2,11 +2,9 @@ import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join, resolve, sep } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import { deepMerge } from '@faasjs/utils'
-import { z } from '@faasjs/utils'
+import { deepMerge, parseYaml, z } from '@faasjs/utils'
 
 import { Logger } from '../logger'
-import { parseYaml } from '../parse-yaml'
 
 type YamlConfig = Record<string, FuncConfig>
 

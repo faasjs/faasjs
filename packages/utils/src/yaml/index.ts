@@ -29,18 +29,16 @@ export { parseNode, parseMapping, parseSequence } from './nodes'
 /**
  * Parse the FaasJS-supported YAML subset into JavaScript values.
  *
- * Use this in custom Node.js tooling when you need the same YAML surface area as
- * `faas.yaml` without staged discovery or schema validation. Prefer
- * `loadConfig()` when you want FaasJS to resolve layered config files for a
- * function.
+ * Prefer `loadConfig()` from `@faasjs/node-utils` when you want FaasJS to resolve
+ * layered config files for a function.
  *
  * @param {string} content - YAML source text.
- * @returns {unknown} Parsed value, or `undefined` when the input only contains blank lines or comments.
+ * @returns Parsed value, or `undefined` when the input only contains blank lines or comments.
  * @throws {Error} If the YAML uses unsupported syntax or cannot be parsed.
  *
  * @example
  * ```ts
- * import { parseYaml } from '@faasjs/node-utils'
+ * import { parseYaml } from '@faasjs/utils'
  *
  * const value = parseYaml(`defaults:
  *   plugins:
@@ -53,10 +51,10 @@ export { parseNode, parseMapping, parseSequence } from './nodes'
  * `)
  * ```
  */
-export function parseYaml(content: string): unknown {
+export function parseYaml<T = unknown>(content: string): T {
   const lines = normalizeLines(content)
 
-  if (!lines.length) return undefined
+  if (!lines.length) return undefined as T
 
   const context: ParseContext = {
     anchors: new Map(),
@@ -66,5 +64,5 @@ export function parseYaml(content: string): unknown {
   if (parsed.nextIndex < lines.length)
     throw createParseError(lines[parsed.nextIndex].line, 'Unexpected trailing content')
 
-  return parsed.value
+  return parsed.value as T
 }
