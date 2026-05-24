@@ -14,10 +14,11 @@ import type { JSX } from 'react'
 import type { LoadingProps } from '../Loading'
 import { Loading } from '../Loading'
 
-export { faas, useFaas, FaasReactClient, type FaasReactClientOptions }
+export { FaasReactClient, type FaasReactClientOptions, faas, useFaas }
 
 /**
- * Partial data injection exposed to wrapped Ant Design components.
+ * Convenience alias for a partial {@link OriginFaasDataInjection | FaasDataInjection} from `@faasjs/react`,
+ * representing optional data fields injected into Ant Design wrapped components.
  *
  * @template T - Action path or response data type used for inference.
  */

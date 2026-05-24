@@ -3,7 +3,7 @@ import type { Dayjs } from 'dayjs'
 import type { JSX } from 'react'
 
 import { Blank } from '../Blank'
-import type { FaasItemType } from './index'
+import type { FaasItemType } from './types'
 
 function renderBooleanIcon(value: boolean): JSX.Element {
   return value ? (

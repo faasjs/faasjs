@@ -3,12 +3,10 @@ import { useEqualMemo } from '@faasjs/react'
 import type { ValidatorRule } from '@rc-component/form/lib/interface'
 import {
   Form as AntdForm,
-  type FormItemProps as AntdFormItemProps,
   Button,
   Col,
   DatePicker,
   type DatePickerProps,
-  type FormInstance,
   Input,
   InputNumber,
   type InputNumberProps,
@@ -26,99 +24,14 @@ import { cloneDeep } from 'lodash-es'
 import { useState } from 'react'
 
 import { type ResolvedTheme, useConfigContext } from '../Config'
-import type {
-  BaseItemProps,
-  FaasItemType,
-  UnionFaasItemElement,
-  UnionFaasItemRender,
-} from '../data'
-import { type BaseOption, cloneUnionFaasItemElement, idToTitle, transferOptions } from '../data'
+import { cloneUnionFaasItemElement, idToTitle, transferOptions } from '../data'
+import type { BaseOption } from '../data/types'
+import type { FormItemProps } from './types'
 
 type OptionsProps = {
   options: BaseOption[]
   type?: 'string' | 'string[]' | 'number' | 'number[]'
   input?: SelectProps<any>
-}
-
-/**
- * Custom renderer registration for a form item type.
- *
- * @template T - Value type rendered by the custom form item type.
- */
-export type ExtendFormTypeProps<T = any> = {
-  /** Custom element used to render the registered form item type. */
-  children?: UnionFaasItemElement<T>
-}
-
-/**
- * Map of custom form item type registrations.
- */
-export type ExtendTypes = {
-  [type: string]: ExtendFormTypeProps
-}
-
-type InputTypeMap<T> = {
-  string: InputProps | SelectProps<T> | RadioProps
-  'string[]': InputProps | SelectProps<T> | RadioProps
-  number: InputNumberProps | SelectProps<T> | RadioProps
-  'number[]': InputNumberProps | SelectProps<T> | RadioProps
-  boolean: SwitchProps
-  date: DatePickerProps
-  time: DatePickerProps
-  object: never
-  'object[]': never
-}
-
-/**
- * Item definition used by the `FormItem` and `Form` components.
- *
- * @template T - Value type rendered or edited by the form item.
- */
-export interface FormItemProps<T = any>
-  extends BaseItemProps, Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
-  /**
-   * Built-in FaasJS field type used to choose the default Ant Design input.
-   *
-   * @default 'string'
-   */
-  type?: FaasItemType
-  /** Input props forwarded to the generated Ant Design control. */
-  input?: InputTypeMap<T>[FaasItemType]
-  /** Maximum item count allowed for list-style field types. */
-  maxCount?: number
-  /** Nested field definitions used by `object` and `object[]` item types. */
-  object?: FormItemProps[]
-  /** Whether the generated field is disabled. */
-  disabled?: boolean
-  /** Whether the generated field adds a required validation rule. */
-  required?: boolean
-  /** Grid span used by surrounding object-list layouts. */
-  col?: number
-  /** Generic custom field renderer or element. */
-  children?: UnionFaasItemElement<T> | null
-  /** Form-specific custom field renderer or element. */
-  formChildren?: UnionFaasItemElement<T> | null
-  /** Generic custom render callback. */
-  render?: UnionFaasItemRender<T> | null
-  /** Form-specific custom render callback. */
-  formRender?: UnionFaasItemRender<T> | null
-  /** Validation rules forwarded to Ant Design `Form.Item`. */
-  rules?: RuleObject[]
-  /** Label override, or `false` to hide the label completely. */
-  label?: string | false
-  /** Custom form item type renderers keyed by type name. */
-  extendTypes?: ExtendTypes
-  /** Callback invoked when this field's value changes. */
-  onValueChange?: (value: T, values: any, form: FormInstance) => void
-  /** Predicate used to show or hide the item from the current form values. */
-  if?: (values: Record<string, any>) => boolean
-}
-
-/**
- * Item shape used to extend `Form` with custom type names.
- */
-export interface ExtendFormItemProps extends Omit<FormItemProps, 'type'> {
-  type?: string
 }
 
 function isOptionsProps(item: any): item is OptionsProps {
@@ -494,3 +407,5 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
 }
 
 FormItem.useStatus = AntdForm.Item.useStatus
+
+export type { ExtendFormItemProps, ExtendFormTypeProps, ExtendTypes, FormItemProps } from './types'

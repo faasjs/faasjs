@@ -1,176 +1,22 @@
 import type { FaasActionPaths } from '@faasjs/types'
-import { Descriptions, type DescriptionsProps, Space } from 'antd'
-import { type JSX, type ReactNode } from 'react'
+import { Descriptions, Space } from 'antd'
+import type { JSX } from 'react'
 
 import { Blank } from '../Blank'
 import {
-  type BaseItemProps,
   cloneUnionFaasItemElement,
-  type FaasItemProps,
   idToTitle,
   renderDisplayValue,
   transferOptions,
   transferValue,
-  type UnionFaasItemElement,
-  type UnionFaasItemRender,
 } from '../data'
 import { FaasDataWrapper, type FaasDataWrapperProps } from '../FaasDataWrapper'
-
-/**
- * Custom renderer registration for a description item type.
- *
- * @template T - Value type rendered by the custom description item type.
- */
-export interface ExtendDescriptionTypeProps<T = any> {
-  /** Custom element used to render the registered description item type. */
-  children?: UnionFaasItemElement<T>
-  /** Custom render callback used when `children` is not provided. */
-  render?: UnionFaasItemRender<T>
-}
-
-/**
- * Shared fields for extending description item unions.
- */
-export type ExtendDescriptionItemProps = BaseItemProps
-
-/**
- * Item definition used by {@link Description}.
- *
- * @template T - Value type rendered by the item.
- */
-export interface DescriptionItemProps<T = any> extends FaasItemProps {
-  /** Generic custom element rendered when no description-specific child overrides it. */
-  children?: UnionFaasItemElement<T> | null
-  /** Description-specific custom element. */
-  descriptionChildren?: UnionFaasItemElement<T> | null
-  /** Generic custom render callback. */
-  render?: UnionFaasItemRender<T> | null
-  /** Description-specific custom render callback. */
-  descriptionRender?: UnionFaasItemRender<T> | null
-  /** Predicate used to hide the item for the current record. */
-  if?: (values: Record<string, any>) => boolean
-  /** Nested item definitions used by `object` and `object[]` item types. */
-  object?: DescriptionItemProps<T>[]
-}
-
-/**
- * Common props shared between {@link DescriptionWithoutFaasProps} and {@link DescriptionWithFaasProps}.
- *
- * @template T - Data record shape rendered by the component.
- * @template ExtendItemProps - Additional item prop shape accepted by `items`.
- */
-interface DescriptionCommonProps<T = any, ExtendItemProps = any> extends Omit<
-  DescriptionsProps,
-  'items'
-> {
-  /** Callback used to derive the rendered title from the current record. */
-  renderTitle?(this: void, values: T): ReactNode
-  /** Description item definitions rendered by the component. */
-  items: (DescriptionItemProps | ExtendItemProps)[]
-  /** Custom type renderers keyed by item type. */
-  extendTypes?: {
-    [key: string]: ExtendDescriptionTypeProps
-  }
-}
-
-/**
- * Props for {@link Description} when used with a local `dataSource`.
- *
- * @template T - Data record shape rendered by the component.
- * @template ExtendItemProps - Additional item prop shape accepted by `items`.
- *
- * @example
- * ```tsx
- * import { Description } from '@faasjs/ant-design'
- *
- * export function Detail() {
- *   return (
- *     <Description
- *       title="Title"
- *       items={[
- *         { id: 'id', title: 'Title', type: 'string' },
- *       ]}
- *       dataSource={{ id: 'value' }}
- *     />
- *   )
- * }
- * ```
- */
-export interface DescriptionWithoutFaasProps<
-  T = any,
-  ExtendItemProps = any,
-> extends DescriptionCommonProps<T, ExtendItemProps> {
-  /** Local data record rendered directly by the component. */
-  dataSource?: T
-  faasData?: never
-}
-
-/**
- * Props for {@link Description} when used with a fetched `faasData`.
- *
- * @template Path - Action path type for strong typing of `faasData.action` and `params`.
- * @template T - Data record shape rendered by the component.
- * @template ExtendItemProps - Additional item prop shape accepted by `items`.
- *
- * @example
- * ```tsx
- * import { Description } from '@faasjs/ant-design'
- *
- * export function Detail() {
- *   return (
- *     <Description
- *       title="Title"
- *       items={[
- *         { id: 'id', title: 'Title', type: 'string' },
- *       ]}
- *       faasData={{
- *         action: 'user/get',
- *         params: { id: 1 },
- *       }}
- *     />
- *   )
- * }
- * ```
- */
-export interface DescriptionWithFaasProps<
-  Path extends FaasActionPaths = any,
-  T = any,
-  ExtendItemProps = any,
-> extends DescriptionCommonProps<T, ExtendItemProps> {
-  dataSource?: never
-  /** Request config used to fetch the record before rendering. */
-  faasData?: FaasDataWrapperProps<Path>
-}
-
-/**
- * Props for the {@link Description} component.
- *
- * Union of {@link DescriptionWithoutFaasProps} and {@link DescriptionWithFaasProps} for backward compatibility.
- *
- * @template T - Data record shape rendered by the component.
- * @template ExtendItemProps - Additional item prop shape accepted by `items`.
- */
-export type DescriptionProps<T = any, ExtendItemProps = any> =
-  | DescriptionWithoutFaasProps<T, ExtendItemProps>
-  | DescriptionWithFaasProps<any, T, ExtendItemProps>
-
-/**
- * Props passed to the exported `DescriptionItemContent` helper shape.
- *
- * @template T - Value type rendered by the item content.
- */
-export interface DescriptionItemContentProps<T = any> {
-  /** Item definition describing how the value should render. */
-  item: DescriptionItemProps
-  /** Current item value. */
-  value: T
-  /** Full record containing the current value. */
-  values?: any
-  /** Custom type renderers keyed by item type. */
-  extendTypes?: {
-    [key: string]: ExtendDescriptionTypeProps
-  }
-}
+import type {
+  DescriptionItemContentProps,
+  DescriptionProps,
+  DescriptionWithFaasProps,
+  DescriptionWithoutFaasProps,
+} from './types'
 
 function DescriptionItemContent<T = any>(
   props: DescriptionItemContentProps<T>,
@@ -376,3 +222,14 @@ export function Description<T extends Record<string, any> = any>(props: Descript
 }
 
 Description.displayName = 'Description'
+
+export type {
+  DescriptionCommonProps,
+  DescriptionItemContentProps,
+  DescriptionItemProps,
+  DescriptionProps,
+  DescriptionWithFaasProps,
+  DescriptionWithoutFaasProps,
+  ExtendDescriptionItemProps,
+  ExtendDescriptionTypeProps,
+} from './types'

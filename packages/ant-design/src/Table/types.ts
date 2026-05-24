@@ -6,11 +6,12 @@ import type {
 import type { FilterValue, SorterResult, TableCurrentDataSource } from 'antd/es/table/interface'
 
 import type {
+  BaseExtendTypeProps,
   BaseItemProps,
   FaasItemProps,
   UnionFaasItemElement,
   UnionFaasItemRender,
-} from '../data'
+} from '../data/types'
 import type { FaasDataWrapperProps } from '../FaasDataWrapper'
 
 /**
@@ -34,17 +35,7 @@ export interface TableItemProps<T = any>
   object?: TableItemProps<T>[]
 }
 
-/**
- * Custom renderer registration for a table item type.
- *
- * @template T - Row record type rendered by the custom table item type.
- */
-export type ExtendTableTypeProps<T = any> = {
-  /** Custom element used to render the registered table item type. */
-  children?: UnionFaasItemElement<T>
-  /** Custom render callback used when `children` is not provided. */
-  render?: UnionFaasItemRender<T>
-}
+export type ExtendTableTypeProps<T = any> = BaseExtendTypeProps<T>
 
 /**
  * Shared fields for extending table item unions.
