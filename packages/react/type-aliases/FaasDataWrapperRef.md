@@ -1,15 +1,15 @@
 [@faasjs/react](../README.md) / FaasDataWrapperRef
 
-# Type Alias: FaasDataWrapperRef\<PathOrData\>
+# Type Alias: FaasDataWrapperRef\<Path\>
 
-> **FaasDataWrapperRef**\<`PathOrData`\> = [`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
+> **FaasDataWrapperRef**\<`Path`\> = [`FaasDataInjection`](FaasDataInjection.md)\<`Path`\>
 
 Imperative ref shape exposed by [FaasDataWrapper](../variables/FaasDataWrapper.md).
 
 ## Type Parameters
 
-### PathOrData
+### Path
 
-`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md) = `any`
+`Path` _extends_ `FaasActionPaths`
 
 Action path or response data type used for inference.

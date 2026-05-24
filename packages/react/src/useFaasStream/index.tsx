@@ -1,3 +1,4 @@
+import type { FaasActionPaths, FaasData, FaasParams } from '@faasjs/types'
 import { useState } from 'react'
 
 import { useFaasRequest, type SharedUseFaasOptions } from '../useFaasRequest'
@@ -72,17 +73,17 @@ export type UseFaasStreamResult = {
  * }
  * ```
  */
-export function useFaasStream(
-  action: string,
-  defaultParams: Record<string, any>,
+export function useFaasStream<Path extends FaasActionPaths>(
+  action: Path,
+  defaultParams: FaasParams<Path>,
   options: UseFaasStreamOptions = {},
 ): UseFaasStreamResult {
   const [data, setData] = useState<string>(options.data ?? '')
   const updateData = options.setData ?? setData
-  const request = useFaasRequest<Record<string, any>, string>({
+  const request = useFaasRequest<Path>({
     action,
     defaultParams,
-    options,
+    options: options as never,
     beforeSend: ({ silent }) => {
       if (!silent) updateData('')
     },
@@ -121,7 +122,7 @@ export function useFaasStream(
 
         accumulatedText += decoder.decode()
 
-        return accumulatedText
+        return accumulatedText as unknown as FaasData<Path>
       } catch (error) {
         if (signal.aborted) throw new Error('Request aborted')
 
@@ -144,7 +145,7 @@ export function useFaasStream(
     reloadTimes: request.reloadTimes,
     data: options.data ?? data,
     error: request.error,
-    reload: request.reload,
+    reload: request.reload as unknown as UseFaasStreamResult['reload'],
     setData: updateData,
     setLoading: request.setLoading,
     setError: request.setError,

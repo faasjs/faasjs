@@ -1,4 +1,4 @@
-import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
+import type { FaasActionPaths, FaasData, FaasParams } from '@faasjs/types'
 import { cloneElement, forwardRef, type JSX, useImperativeHandle, useState } from 'react'
 
 import type { BaseUrl, Response } from '../browser'
@@ -8,13 +8,13 @@ import { useEqualEffect, useEqualMemo } from '../equal'
 /**
  * Request state injected by {@link useFaas}, {@link FaasDataWrapper}, and {@link withFaasData}.
  *
- * @template PathOrData - Action path or response data type used for inference.
+ * @template Path - Action path or response data type used for inference.
  */
-export type FaasDataInjection<PathOrData extends FaasActionUnionType = any> = {
+export type FaasDataInjection<Path extends FaasActionPaths> = {
   /** Action path associated with the current request state. */
-  action: FaasAction<PathOrData>
+  action: Path
   /** Params used for the most recent request attempt. */
-  params: FaasParams<PathOrData>
+  params: FaasParams<Path>
   /** Whether the request is currently in flight and should block the main UI. */
   loading: boolean
   /** Whether a background refresh request is currently in flight. */
@@ -22,27 +22,24 @@ export type FaasDataInjection<PathOrData extends FaasActionUnionType = any> = {
   /** Number of times `reload()` or polling has triggered a new request. */
   reloadTimes: number
   /** Current resolved data value. */
-  data: FaasData<PathOrData>
+  data: FaasData<Path>
   /** Last request error, if one occurred. */
   error: any
   /** Promise representing the latest request. */
-  promise: Promise<Response<FaasData<PathOrData>>>
+  promise: Promise<Response<FaasData<Path>>>
   /**
    * Reloads data with new or existing parameters.
    *
    * When the source hook is currently skipped, calling `reload` clears the skip
    * flag before starting the next request.
    */
-  reload(
-    params?: Record<string, any>,
-    options?: { silent?: boolean },
-  ): Promise<FaasData<PathOrData>>
+  reload(params?: FaasParams<Path>, options?: { silent?: boolean }): Promise<FaasData<Path>>
   /** Controlled or internal setter for the resolved data value. */
-  setData: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
+  setData: React.Dispatch<React.SetStateAction<FaasData<Path>>>
   /** Setter for the loading flag. */
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
   /** Setter for the latest request promise. */
-  setPromise: React.Dispatch<React.SetStateAction<Promise<Response<FaasData<PathOrData>>>>>
+  setPromise: React.Dispatch<React.SetStateAction<Promise<Response<FaasData<Path>>>>>
   /** Setter for the last request error. */
   setError: React.Dispatch<React.SetStateAction<any>>
 }
@@ -50,40 +47,39 @@ export type FaasDataInjection<PathOrData extends FaasActionUnionType = any> = {
 /**
  * Props for the {@link FaasDataWrapper} render-prop component.
  *
- * @template PathOrData - Action path or response data type used for inference.
+ * @template Path - Action path or response data type used for inference.
  */
-export type FaasDataWrapperProps<PathOrData extends FaasActionUnionType> = {
+export type FaasDataWrapperProps<Path extends FaasActionPaths> = {
   /** Render prop invoked with the resolved request state after the first load completes. */
-  render?(args: FaasDataInjection<PathOrData>): JSX.Element | JSX.Element[]
+  render?(args: FaasDataInjection<Path>): JSX.Element | JSX.Element[]
   /** Child element cloned with injected request state after the first load completes. */
-  children?: React.ReactElement<Partial<FaasDataInjection<PathOrData>>>
+  children?: React.ReactElement<Partial<FaasDataInjection<Path>>>
   /** Element rendered before the first successful load. */
   fallback?: JSX.Element | false
   /** Action path to request. */
-  action: FaasAction<PathOrData>
+  action: Path
   /** Params sent to the action. */
-  params?: FaasParams<PathOrData>
+  params?: FaasParams<Path>
   /** Milliseconds to wait after each completed request before refreshing data in the background. */
   polling?: number | false
   /** Callback invoked whenever the resolved data value changes. */
-  onDataChange?(args: FaasDataInjection<PathOrData>): void
+  onDataChange?(args: FaasDataInjection<Path>): void
   /** Controlled data value used instead of internal state. */
-  data?: FaasData<PathOrData>
+  data?: FaasData<Path>
   /** Controlled setter used instead of internal state. */
-  setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
+  setData?: React.Dispatch<React.SetStateAction<FaasData<Path>>>
   /** Base URL override used for this wrapper instance. */
   baseUrl?: BaseUrl
   /** Imperative ref exposing the current injected request state. */
-  ref?: React.Ref<FaasDataWrapperRef<PathOrData>>
+  ref?: React.Ref<FaasDataWrapperRef<Path>>
 }
 
 /**
  * Imperative ref shape exposed by {@link FaasDataWrapper}.
  *
- * @template PathOrData - Action path or response data type used for inference.
+ * @template Path - Action path or response data type used for inference.
  */
-export type FaasDataWrapperRef<PathOrData extends FaasActionUnionType = any> =
-  FaasDataInjection<PathOrData>
+export type FaasDataWrapperRef<Path extends FaasActionPaths> = FaasDataInjection<Path>
 
 type FixedForwardRef = <T, P = Record<string, unknown>>(
   render: (props: P, ref: React.Ref<T>) => React.ReactElement | null,
@@ -97,16 +93,16 @@ const fixedForwardRef = forwardRef as FixedForwardRef
  * The wrapper defers rendering `children` or `render` until the first request
  * completes, then keeps passing the latest request state to the rendered output.
  *
- * @param {FaasDataWrapperProps<PathOrData>} props - Wrapper props controlling the request and rendered fallback.
- * @param {(args: FaasDataInjection<PathOrData>) => JSX.Element | JSX.Element[]} [props.render] - Render prop that receives the resolved Faas request state.
- * @param {React.ReactElement<Partial<FaasDataInjection<PathOrData>>>} [props.children] - Child element cloned with injected Faas request state.
+ * @param {FaasDataWrapperProps<Path>} props - Wrapper props controlling the request and rendered fallback.
+ * @param {(args: FaasDataInjection<Path>) => JSX.Element | JSX.Element[]} [props.render] - Render prop that receives the resolved Faas request state.
+ * @param {React.ReactElement<Partial<FaasDataInjection<Path>>>} [props.children] - Child element cloned with injected Faas request state.
  * @param {JSX.Element | false} [props.fallback] - Element rendered before the first successful load.
- * @param {FaasAction<PathOrData>} props.action - Action path to request.
- * @param {FaasParams<PathOrData>} [props.params] - Params sent to the action.
+ * @param {Path} props.action - Action path to request.
+ * @param {FaasParams<Path>} [props.params] - Params sent to the action.
  * @param {number | false} [props.polling] - Milliseconds to wait after each completed request before refreshing data in the background.
- * @param {(args: FaasDataInjection<PathOrData>) => void} [props.onDataChange] - Callback invoked when the resolved data value changes.
- * @param {FaasData<PathOrData>} [props.data] - Controlled data value used instead of internal state.
- * @param {React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>} [props.setData] - Controlled setter used instead of internal state.
+ * @param {(args: FaasDataInjection<Path>) => void} [props.onDataChange] - Callback invoked when the resolved data value changes.
+ * @param {FaasData<Path>} [props.data] - Controlled data value used instead of internal state.
+ * @param {React.Dispatch<React.SetStateAction<FaasData<Path>>>} [props.setData] - Controlled setter used instead of internal state.
  * @param {BaseUrl} [props.baseUrl] - Base URL override used for this wrapper instance.
  *
  * @example
@@ -178,9 +174,9 @@ const fixedForwardRef = forwardRef as FixedForwardRef
  * When a ref is provided, it exposes the current Faas request state imperatively.
  */
 export const FaasDataWrapper = fixedForwardRef(
-  <PathOrData extends FaasActionUnionType = any>(
-    props: FaasDataWrapperProps<PathOrData>,
-    ref: React.ForwardedRef<FaasDataWrapperRef<PathOrData>>,
+  <Path extends FaasActionPaths>(
+    props: FaasDataWrapperProps<Path>,
+    ref: React.ForwardedRef<FaasDataWrapperRef<Path>>,
   ): JSX.Element | null => {
     const requestOptions = {
       ...(props.data !== undefined ? { data: props.data } : {}),
@@ -188,9 +184,9 @@ export const FaasDataWrapper = fixedForwardRef(
       ...(props.polling !== undefined ? { polling: props.polling } : {}),
     }
 
-    const request = getClient(props.baseUrl).useFaas<PathOrData>(
+    const request = getClient(props.baseUrl).useFaas<Path>(
       props.action,
-      props.params ?? ({} as FaasParams<PathOrData>),
+      props.params ?? ({} as FaasParams<Path>),
       requestOptions,
     )
     const [loaded, setLoaded] = useState<boolean>(false)
@@ -237,11 +233,11 @@ Object.assign(FaasDataWrapper, {
  * preserve an existing component boundary. For new code, prefer `useFaas` or
  * `FaasDataWrapper` when they express the request ownership more directly.
  *
- * @template PathOrData - Action path or response data type used for inference.
+ * @template Path - Action path or response data type used for inference.
  * @template TComponentProps - Component props including injected Faas data fields.
  * @param {React.FC<TComponentProps>} Component - Component that consumes injected Faas data props.
- * @param {FaasDataWrapperProps<PathOrData>} faasProps - Request configuration forwarded to `FaasDataWrapper`.
- * @returns {React.FC<Omit<TComponentProps, keyof FaasDataInjection<PathOrData>> & Record<string, any>>} Component that accepts the original props minus the injected Faas data fields.
+ * @param {FaasDataWrapperProps<Path>} faasProps - Request configuration forwarded to `FaasDataWrapper`.
+ * @returns {React.FC<Omit<TComponentProps, keyof FaasDataInjection<Path>> & Record<string, any>>} Component that accepts the original props minus the injected Faas data fields.
  *
  * @example
  * ```tsx
@@ -264,15 +260,13 @@ Object.assign(FaasDataWrapper, {
  * ```
  */
 export function withFaasData<
-  PathOrData extends FaasActionUnionType,
-  TComponentProps extends Required<FaasDataInjection<PathOrData>> = Required<
-    FaasDataInjection<PathOrData>
-  >,
+  Path extends FaasActionPaths,
+  TComponentProps extends Required<FaasDataInjection<Path>> = Required<FaasDataInjection<Path>>,
 >(
   Component: React.FC<TComponentProps>,
-  faasProps: FaasDataWrapperProps<PathOrData>,
-): React.FC<Omit<TComponentProps, keyof FaasDataInjection<PathOrData>> & Record<string, any>> {
-  return (props: Omit<TComponentProps, keyof FaasDataInjection<PathOrData>>) => (
+  faasProps: FaasDataWrapperProps<Path>,
+): React.FC<Omit<TComponentProps, keyof FaasDataInjection<Path>> & Record<string, any>> {
+  return (props: Omit<TComponentProps, keyof FaasDataInjection<Path>>) => (
     <FaasDataWrapper {...faasProps}>
       <Component {...(props as TComponentProps)} />
     </FaasDataWrapper>

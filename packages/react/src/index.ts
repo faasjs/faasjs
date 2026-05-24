@@ -40,7 +40,6 @@
  * ```
  */
 
-export type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
 export * from './browser'
 export * from './client'
 export * from './constants'

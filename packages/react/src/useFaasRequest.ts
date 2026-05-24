@@ -1,6 +1,7 @@
+import type { FaasActionPaths, FaasData, FaasParams } from '@faasjs/types'
 import { useRef, useState } from 'react'
 
-import type { BaseUrl } from './browser'
+import type { BaseUrl, Response } from './browser'
 import { getClient, type FaasReactClientInstance } from './client'
 import { equal, useEqualCallback, useEqualEffect } from './equal'
 
@@ -19,28 +20,28 @@ export type SharedUseFaasOptions<Params, Data> = {
   params?: Params
   data?: Data
   setData?: React.Dispatch<React.SetStateAction<Data>>
-  skip?: boolean | ((params: Params) => boolean)
+  skip?: boolean | ((params: Partial<Params>) => boolean)
   debounce?: number
   polling?: number | false
   baseUrl?: BaseUrl
 }
 
-type UseFaasRequestArgs<Params, Result, RequestPromise> = {
-  action: string
-  defaultParams: Params
+type UseFaasRequestArgs<Path extends FaasActionPaths> = {
+  action: Path
+  defaultParams: FaasParams<Path>
   options: Pick<
-    SharedUseFaasOptions<Params, Result>,
+    SharedUseFaasOptions<FaasParams<Path>, FaasData<Path>>,
     'params' | 'skip' | 'debounce' | 'polling' | 'baseUrl'
   >
   beforeSend?: (args: { silent: boolean }) => void
-  onSuccess?: (result: Result) => void
+  onSuccess?: (result: FaasData<Path>) => void
   send: (args: {
-    action: string
-    params: Params
+    action: Path
+    params: FaasParams<Path>
     signal: AbortSignal
     client: FaasReactClientInstance
-    setPromise: (promise: RequestPromise) => void
-  }) => Promise<Result>
+    setPromise: (promise: Promise<Response<FaasData<Path>>>) => void
+  }) => Promise<Response<FaasData<Path>>>
 }
 
 type PendingReload<Result> = {
@@ -89,26 +90,26 @@ type RequestTrigger = {
  * }
  * ```
  */
-export function useFaasRequest<Params, Result, RequestPromise = Promise<Result>>({
+export function useFaasRequest<Path extends FaasActionPaths>({
   action,
   defaultParams,
   options,
   beforeSend,
   onSuccess,
   send,
-}: UseFaasRequestArgs<Params, Result, RequestPromise>) {
+}: UseFaasRequestArgs<Path>) {
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState<any>()
-  const [params, setParams] = useState(defaultParams)
+  const [params, setParams] = useState<FaasParams<Path>>(defaultParams)
   const [requestTrigger, setRequestTrigger] = useState<RequestTrigger>({ times: 0, silent: false })
   const [skip, setSkip] = useState(
     typeof options.skip === 'function' ? options.skip(defaultParams) : options.skip,
   )
-  const promiseRef = useRef<RequestPromise | null>(null)
+  const promiseRef = useRef<Promise<Response<FaasData<Path>>> | null>(null)
   const controllerRef = useRef<AbortController | null>(null)
   const failedOnceRef = useRef(false)
-  const pendingReloadsRef = useRef<Map<number, PendingReload<Result>>>(new Map())
+  const pendingReloadsRef = useRef<Map<number, PendingReload<FaasData<Path>>>>(new Map())
   const reloadCounterRef = useRef(0)
   const requestVersionRef = useRef(0)
   const handledRequestTriggerTimesRef = useRef(-1)
@@ -179,7 +180,7 @@ export function useFaasRequest<Params, Result, RequestPromise = Promise<Result>>
       pendingReloadsRef.current.clear()
     }
 
-    const resolvePending = (value: Result) => {
+    const resolvePending = (value: FaasData<Path>) => {
       for (const { resolve } of pendingReloadsRef.current.values()) resolve(value)
 
       pendingReloadsRef.current.clear()
@@ -204,11 +205,11 @@ export function useFaasRequest<Params, Result, RequestPromise = Promise<Result>>
 
           failedOnceRef.current = false
           setError(null)
-          onSuccessRef.current?.(result)
+          onSuccessRef.current?.(result.body)
           hasLoadedRef.current = true
           setLoading(false)
           setRefreshing(false)
-          resolvePending(result)
+          resolvePending(result.body)
           schedulePolling()
         })
         .catch(async (e) => {
@@ -286,13 +287,13 @@ export function useFaasRequest<Params, Result, RequestPromise = Promise<Result>>
   ])
 
   const reload = useEqualCallback(
-    (nextParams?: Params, reloadOptions?: { silent?: boolean }) => {
+    (nextParams?: FaasParams<Path>, reloadOptions?: { silent?: boolean }) => {
       if (skip) setSkip(false)
       if (nextParams) setParams(nextParams)
 
       const reloadCounter = ++reloadCounterRef.current
 
-      return new Promise<Result>((resolve, reject) => {
+      return new Promise<FaasData<Path>>((resolve, reject) => {
         pendingReloadsRef.current.set(reloadCounter, { resolve, reject })
         setRequestTrigger((prev) => ({
           times: prev.times + 1,

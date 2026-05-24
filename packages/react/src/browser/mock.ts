@@ -1,4 +1,4 @@
-import type { FaasActionUnionType, FaasData } from '@faasjs/types'
+import type { FaasActionPaths, FaasData } from '@faasjs/types'
 
 import { Response, ResponseError } from './response'
 import type { MockHandler, ResponseProps, ResolvedActionOptions } from './types'
@@ -59,18 +59,18 @@ function normalizeMockResponse<T>(
   return new Response(response || {})
 }
 
-export async function resolveMockResponse<PathOrData extends FaasActionUnionType>(
+export async function resolveMockResponse<Path extends FaasActionPaths>(
   action: string,
   params: Record<string, any>,
   options: ResolvedActionOptions,
-): Promise<Response<FaasData<PathOrData>>> {
+): Promise<Response<FaasData<Path>>> {
   if (typeof mock === 'function') {
     const response = await mock(action, params, options)
 
-    return normalizeMockResponse(response as ResponseProps<FaasData<PathOrData>> | Error | void)
+    return normalizeMockResponse(response as ResponseProps<FaasData<Path>> | Error | void)
   }
 
-  return normalizeMockResponse(mock as ResponseProps<FaasData<PathOrData>> | Response)
+  return normalizeMockResponse(mock as ResponseProps<FaasData<Path>> | Response)
 }
 
 export { mock }

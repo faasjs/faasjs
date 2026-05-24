@@ -6,6 +6,15 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { type Response, setMock } from '../../index'
 import { useFaasStream } from '../../useFaasStream'
 
+declare module '@faasjs/types' {
+  interface FaasActions {
+    'useFaasStream/test': {
+      Params: { v?: number; id?: number; count?: number; hasValue?: boolean }
+      Data: any
+    }
+  }
+}
+
 function createAsyncMockStream(chunks: string[]): ReadableStream {
   return new ReadableStream({
     async start(controller) {
@@ -28,7 +37,7 @@ describe('useFaasStream', () => {
     })
 
     function Test() {
-      const { data } = useFaasStream('test', {})
+      const { data } = useFaasStream('useFaasStream/test', {})
 
       return <div>{data}</div>
     }
@@ -44,7 +53,7 @@ describe('useFaasStream', () => {
     })
 
     function Test() {
-      const { data } = useFaasStream('test', {})
+      const { data } = useFaasStream('useFaasStream/test', {})
 
       return <div>{data}</div>
     }
@@ -60,7 +69,7 @@ describe('useFaasStream', () => {
     })
 
     function Test() {
-      const { data, loading } = useFaasStream('test', {})
+      const { data, loading } = useFaasStream('useFaasStream/test', {})
 
       return (
         <div>
@@ -77,18 +86,18 @@ describe('useFaasStream', () => {
 
   it('should handle single chunk', async () => {
     setMock({
-      body: createAsyncMockStream(['test']),
+      body: createAsyncMockStream(['useFaasStream/test']),
     })
 
     function Test() {
-      const { data } = useFaasStream('test', {})
+      const { data } = useFaasStream('useFaasStream/test', {})
 
       return <div>{data}</div>
     }
 
     render(<Test />)
 
-    expect(screen.queryByText('test')).toBeDefined()
+    expect(screen.queryByText('useFaasStream/test')).toBeDefined()
   })
 
   it('should handle null response body', async () => {
@@ -97,7 +106,7 @@ describe('useFaasStream', () => {
     } as Response)
 
     function Test() {
-      const { error, loading } = useFaasStream('test', {})
+      const { error, loading } = useFaasStream('useFaasStream/test', {})
 
       return (
         <div>
@@ -127,7 +136,7 @@ describe('useFaasStream', () => {
     } as Response)
 
     function Test() {
-      const { data, loading, error } = useFaasStream('test', {})
+      const { data, loading, error } = useFaasStream('useFaasStream/test', {})
 
       return (
         <div>
@@ -154,7 +163,7 @@ describe('useFaasStream', () => {
 
   it('should reload with new data', async () => {
     function Test() {
-      const { data, reload } = useFaasStream('test', {})
+      const { data, reload } = useFaasStream('useFaasStream/test', {})
 
       return (
         <div>
@@ -185,7 +194,7 @@ describe('useFaasStream', () => {
 
   it('should reload without params', async () => {
     function Test() {
-      const { data, reload } = useFaasStream('test', {})
+      const { data, reload } = useFaasStream('useFaasStream/test', {})
 
       return (
         <div>
@@ -198,12 +207,12 @@ describe('useFaasStream', () => {
     }
 
     setMock({
-      body: createAsyncMockStream(['test']),
+      body: createAsyncMockStream(['useFaasStream/test']),
     })
 
     render(<Test />)
 
-    expect(screen.queryByText('test')).toBeDefined()
+    expect(screen.queryByText('useFaasStream/test')).toBeDefined()
 
     setMock({
       body: createAsyncMockStream(['reloaded']),
@@ -216,7 +225,7 @@ describe('useFaasStream', () => {
 
   it('should reload with skip true', async () => {
     function Test() {
-      const { data, reload } = useFaasStream('test', {}, { skip: true })
+      const { data, reload } = useFaasStream('useFaasStream/test', {}, { skip: true })
 
       return (
         <div>
@@ -233,7 +242,7 @@ describe('useFaasStream', () => {
     expect(screen.queryByText('data-value:')).toBeDefined()
 
     setMock({
-      body: createAsyncMockStream(['test']),
+      body: createAsyncMockStream(['useFaasStream/test']),
     })
 
     await userEvent.click(screen.getByRole('button'))
@@ -254,7 +263,7 @@ describe('useFaasStream', () => {
 
     function Test() {
       const [count, setCount] = useState(0)
-      const { data } = useFaasStream('test', { count }, { debounce: 200 })
+      const { data } = useFaasStream('useFaasStream/test', { count }, { debounce: 200 })
 
       return (
         <div>
@@ -310,7 +319,7 @@ describe('useFaasStream', () => {
     )
 
     function Test() {
-      const { data, loading, refreshing } = useFaasStream('test', {}, { polling: 20 })
+      const { data, loading, refreshing } = useFaasStream('useFaasStream/test', {}, { polling: 20 })
 
       return (
         <>
@@ -351,7 +360,7 @@ describe('useFaasStream', () => {
 
   it('should work with skip option', async () => {
     function Test() {
-      const { data, reload } = useFaasStream('test', {}, { skip: true })
+      const { data, reload } = useFaasStream('useFaasStream/test', {}, { skip: true })
 
       return (
         <div>
@@ -368,7 +377,7 @@ describe('useFaasStream', () => {
     expect(screen.queryByText('data-value:')).toBeDefined()
 
     setMock({
-      body: createAsyncMockStream(['test']),
+      body: createAsyncMockStream(['useFaasStream/test']),
     })
 
     await userEvent.click(screen.getByRole('button'))
@@ -380,7 +389,7 @@ describe('useFaasStream', () => {
     function Test() {
       const [hasValue, setHasValue] = useState(false)
       const { data } = useFaasStream(
-        'test',
+        'useFaasStream/test',
         { hasValue },
         {
           skip: (params) => !params.hasValue,
@@ -402,7 +411,7 @@ describe('useFaasStream', () => {
     expect(screen.queryByText('data-value:')).toBeDefined()
 
     setMock({
-      body: createAsyncMockStream(['test']),
+      body: createAsyncMockStream(['useFaasStream/test']),
     })
 
     await userEvent.click(screen.getByRole('button'))
@@ -417,7 +426,7 @@ describe('useFaasStream', () => {
 
     function Test() {
       const { data } = useFaasStream(
-        'test',
+        'useFaasStream/test',
         {},
         {
           data: 'initial',
@@ -435,7 +444,7 @@ describe('useFaasStream', () => {
 
   it('should work with controlled params', async () => {
     function App() {
-      const { data, reload } = useFaasStream('test', { v: 1 })
+      const { data, reload } = useFaasStream('useFaasStream/test', { v: 1 })
 
       return (
         <>
@@ -481,7 +490,7 @@ describe('useFaasStream', () => {
     })
 
     function Test() {
-      const { data } = useFaasStream('test', {})
+      const { data } = useFaasStream('useFaasStream/test', {})
 
       return <div>{data}</div>
     }
@@ -497,7 +506,7 @@ describe('useFaasStream', () => {
     })
 
     function Test() {
-      const { error } = useFaasStream('test', {})
+      const { error } = useFaasStream('useFaasStream/test', {})
 
       return (
         <div>
@@ -517,7 +526,7 @@ describe('useFaasStream', () => {
     let resolvedData: string | undefined
 
     function Test() {
-      const { reload } = useFaasStream('test', {})
+      const { reload } = useFaasStream('useFaasStream/test', {})
 
       async function handleClick() {
         resolvedData = await reload()
@@ -531,18 +540,18 @@ describe('useFaasStream', () => {
     }
 
     setMock({
-      body: createAsyncMockStream(['test']),
+      body: createAsyncMockStream(['useFaasStream/test']),
     })
 
     render(<Test />)
 
     setMock({
-      body: createAsyncMockStream(['test']),
+      body: createAsyncMockStream(['useFaasStream/test']),
     })
 
     await userEvent.click(screen.getByRole('button'))
 
-    await waitFor(() => expect(resolvedData).toBe('test'))
+    await waitFor(() => expect(resolvedData).toBe('useFaasStream/test'))
   })
 
   it('should reload reject on error', async () => {
@@ -553,7 +562,7 @@ describe('useFaasStream', () => {
     let rejectedError: any
 
     function Test() {
-      const { reload } = useFaasStream('test', {})
+      const { reload } = useFaasStream('useFaasStream/test', {})
 
       async function handleClick() {
         try {
@@ -579,7 +588,7 @@ describe('useFaasStream', () => {
 
   it('should reset state on reload', async () => {
     function Test() {
-      const { data, loading, reload } = useFaasStream('test', {})
+      const { data, loading, reload } = useFaasStream('useFaasStream/test', {})
 
       return (
         <div>

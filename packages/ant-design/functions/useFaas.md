@@ -2,7 +2,7 @@
 
 # Function: useFaas()
 
-> **useFaas**\<`PathOrData`\>(`action`, `defaultParams`, `options?`): `FaasDataInjection`\<`PathOrData`\>
+> **useFaas**\<`Path`\>(`action`, `defaultParams`, `options?`): `FaasDataInjection`\<`Path`\>
 
 Request FaasJS data and keep request state in React state.
 
@@ -12,9 +12,9 @@ plus helpers for reloading, background refreshing, updating data, and handling e
 
 ## Type Parameters
 
-### PathOrData
+### Path
 
-`PathOrData` _extends_ `FaasActionUnionType`
+`Path` _extends_ `FaasActionPaths`
 
 Action path or response data type used for inference.
 
@@ -22,26 +22,26 @@ Action path or response data type used for inference.
 
 ### action
 
-`FaasAction`\<`PathOrData`\>
+`Path`
 
 Action path to invoke.
 
 ### defaultParams
 
-`FaasParams`\<`PathOrData`\>
+`FaasParams`\<`Path`\>
 
 Params used for the initial request and future reloads.
 
 ### options?
 
-`UseFaasOptions`\<`PathOrData`\> = `{}`
+`UseFaasOptions`\<`Path`\> = `{}`
 
 Optional hook configuration such as controlled data, skip logic, debounce timing, polling, and base URL overrides.
 See the `UseFaasOptions` type for `params`, `data`, `setData`, `skip`, `debounce`, `polling`, and `baseUrl`.
 
 ## Returns
 
-`FaasDataInjection`\<`PathOrData`\>
+`FaasDataInjection`\<`Path`\>
 
 Request state and helper methods described by [FaasDataInjection](../type-aliases/FaasDataInjection.md).
 

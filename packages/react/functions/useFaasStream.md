@@ -2,7 +2,7 @@
 
 # Function: useFaasStream()
 
-> **useFaasStream**(`action`, `defaultParams`, `options?`): [`UseFaasStreamResult`](../type-aliases/UseFaasStreamResult.md)
+> **useFaasStream**\<`Path`\>(`action`, `defaultParams`, `options?`): [`UseFaasStreamResult`](../type-aliases/UseFaasStreamResult.md)
 
 Stream a FaasJS response into React state.
 
@@ -10,17 +10,23 @@ Stream a FaasJS response into React state.
 It sends a streaming request, appends decoded text chunks to `data`, and
 exposes reload helpers for retrying the same action.
 
+## Type Parameters
+
+### Path
+
+`Path` _extends_ `FaasActionPaths`
+
 ## Parameters
 
 ### action
 
-`string`
+`Path`
 
 Action path to invoke.
 
 ### defaultParams
 
-`Record`\<`string`, `any`\>
+`FaasParams`\<`Path`\>
 
 Params used for the initial request and future reloads.
 

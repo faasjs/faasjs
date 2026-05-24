@@ -1,16 +1,16 @@
 [@faasjs/react](../README.md) / FaasDataWrapperProps
 
-# Type Alias: FaasDataWrapperProps\<PathOrData\>
+# Type Alias: FaasDataWrapperProps\<Path\>
 
-> **FaasDataWrapperProps**\<`PathOrData`\> = `object`
+> **FaasDataWrapperProps**\<`Path`\> = `object`
 
 Props for the [FaasDataWrapper](../variables/FaasDataWrapper.md) render-prop component.
 
 ## Type Parameters
 
-### PathOrData
+### Path
 
-`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md)
+`Path` _extends_ `FaasActionPaths`
 
 Action path or response data type used for inference.
 
@@ -26,7 +26,7 @@ Callback invoked whenever the resolved data value changes.
 
 ##### args
 
-[`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
+[`FaasDataInjection`](FaasDataInjection.md)\<`Path`\>
 
 #### Returns
 
@@ -42,7 +42,7 @@ Render prop invoked with the resolved request state after the first load complet
 
 ##### args
 
-[`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
+[`FaasDataInjection`](FaasDataInjection.md)\<`Path`\>
 
 #### Returns
 
@@ -52,7 +52,7 @@ Render prop invoked with the resolved request state after the first load complet
 
 ### action
 
-> **action**: [`FaasAction`](FaasAction.md)\<`PathOrData`\>
+> **action**: `Path`
 
 Action path to request.
 
@@ -64,13 +64,13 @@ Base URL override used for this wrapper instance.
 
 ### children?
 
-> `optional` **children?**: `React.ReactElement`\<`Partial`\<[`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>\>\>
+> `optional` **children?**: `React.ReactElement`\<`Partial`\<[`FaasDataInjection`](FaasDataInjection.md)\<`Path`\>\>\>
 
 Child element cloned with injected request state after the first load completes.
 
 ### data?
 
-> `optional` **data?**: [`FaasData`](FaasData.md)\<`PathOrData`\>
+> `optional` **data?**: `FaasData`\<`Path`\>
 
 Controlled data value used instead of internal state.
 
@@ -82,7 +82,7 @@ Element rendered before the first successful load.
 
 ### params?
 
-> `optional` **params?**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
+> `optional` **params?**: `FaasParams`\<`Path`\>
 
 Params sent to the action.
 
@@ -94,12 +94,12 @@ Milliseconds to wait after each completed request before refreshing data in the 
 
 ### ref?
 
-> `optional` **ref?**: `React.Ref`\<[`FaasDataWrapperRef`](FaasDataWrapperRef.md)\<`PathOrData`\>\>
+> `optional` **ref?**: `React.Ref`\<[`FaasDataWrapperRef`](FaasDataWrapperRef.md)\<`Path`\>\>
 
 Imperative ref exposing the current injected request state.
 
 ### setData?
 
-> `optional` **setData?**: `React.Dispatch`\<`React.SetStateAction`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+> `optional` **setData?**: `React.Dispatch`\<`React.SetStateAction`\<`FaasData`\<`Path`\>\>\>
 
 Controlled setter used instead of internal state.

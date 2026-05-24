@@ -39,7 +39,7 @@ describe('Form/submit', () => {
         initialValues={{ id: 'initialValues' }}
         items={[{ id: 'id' }]}
         faas={{
-          action: 'test',
+          action: 'baseUiTest',
           params: { params: 'params' },
           onSuccess: (_, payload) => {
             successValues = payload
@@ -78,7 +78,7 @@ describe('Form/submit', () => {
         initialValues={{ id: 'initialValues' }}
         items={[{ id: 'id' }]}
         faas={{
-          action: 'test',
+          action: 'baseUiTest',
           transformValues: async (values) => ({
             ...values,
             extraProps: 'extra',

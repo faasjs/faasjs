@@ -39,21 +39,6 @@ export interface FaasActions {}
 export type FaasActionPaths = Extract<keyof FaasActions, string>
 
 /**
- * Union type accepted by action helpers when callers pass either an action path or inferred data shape.
- */
-export type FaasActionUnionType = Record<string, unknown> | string
-
-/**
- * Infer the action path type.
- *
- * Returns the original type when `T` is a known action path,
- * otherwise falls back to `string`.
- *
- * @template T - Candidate action path type.
- */
-export type FaasAction<T = unknown> = T extends FaasActionPaths ? T : string
-
-/**
  * Infer params type by action path.
  *
  * @template T - Candidate action path type.

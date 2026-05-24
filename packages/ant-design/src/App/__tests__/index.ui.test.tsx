@@ -9,6 +9,15 @@ import { App } from '../../App'
 import { useFaas } from '../../FaasDataWrapper'
 import { useApp } from '../../useApp'
 
+declare module '@faasjs/types' {
+  interface FaasActions {
+    'App/test': {
+      Params: { key: string }
+      Data: any
+    }
+  }
+}
+
 describe('App', () => {
   it('should render children', () => {
     render(
@@ -212,7 +221,7 @@ describe('App', () => {
     setMock(async () => Error('error message'))
 
     function Component() {
-      const { loading } = useFaas('test', { key: 'value' })
+      const { loading } = useFaas('App/test', { key: 'value' })
 
       if (loading) return null
 

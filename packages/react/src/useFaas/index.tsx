@@ -1,4 +1,4 @@
-import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
+import type { FaasData, FaasParams, FaasActionPaths } from '@faasjs/types'
 import { useState } from 'react'
 
 import type { Response } from '../browser'
@@ -8,11 +8,11 @@ import { useFaasRequest, type SharedUseFaasOptions } from '../useFaasRequest'
 /**
  * Options that customize the {@link useFaas} request lifecycle.
  *
- * @template PathOrData - Action path or response data type used for inference.
+ * @template Path - Action path or response data type used for inference.
  */
-export type UseFaasOptions<PathOrData extends FaasActionUnionType> = SharedUseFaasOptions<
-  FaasParams<PathOrData>,
-  FaasData<PathOrData>
+export type UseFaasOptions<Path extends FaasActionPaths> = SharedUseFaasOptions<
+  FaasParams<Path>,
+  FaasData<Path>
 >
 
 /**
@@ -22,13 +22,13 @@ export type UseFaasOptions<PathOrData extends FaasActionUnionType> = SharedUseFa
  * It sends an initial request unless `skip` is enabled, and returns request state
  * plus helpers for reloading, background refreshing, updating data, and handling errors.
  *
- * @template PathOrData - Action path or response data type used for inference.
+ * @template Path - Action path or response data type used for inference.
  *
- * @param {FaasAction<PathOrData>} action - Action path to invoke.
- * @param {FaasParams<PathOrData>} defaultParams - Params used for the initial request and future reloads.
- * @param {UseFaasOptions<PathOrData>} [options] - Optional hook configuration such as controlled data, skip logic, debounce timing, polling, and base URL overrides.
+ * @param {Path} action - Action path to invoke.
+ * @param {FaasParams<Path>} defaultParams - Params used for the initial request and future reloads.
+ * @param {UseFaasOptions<Path>} [options] - Optional hook configuration such as controlled data, skip logic, debounce timing, polling, and base URL overrides.
  * See the `UseFaasOptions` type for `params`, `data`, `setData`, `skip`, `debounce`, `polling`, and `baseUrl`.
- * @returns {FaasDataInjection<PathOrData>} Request state and helper methods described by {@link FaasDataInjection}.
+ * @returns {FaasDataInjection<Path>} Request state and helper methods described by {@link FaasDataInjection}.
  *
  * @example
  * ```tsx
@@ -61,18 +61,14 @@ export type UseFaasOptions<PathOrData extends FaasActionUnionType> = SharedUseFa
  * }
  * ```
  */
-export function useFaas<PathOrData extends FaasActionUnionType>(
-  action: FaasAction<PathOrData>,
-  defaultParams: FaasParams<PathOrData>,
-  options: UseFaasOptions<PathOrData> = {},
-): FaasDataInjection<PathOrData> {
-  const [data, setData] = useState<FaasData<PathOrData>>()
-  const localSetData = setData as React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
-  const request = useFaasRequest<
-    FaasParams<PathOrData>,
-    FaasData<PathOrData>,
-    Promise<Response<FaasData<PathOrData>>>
-  >({
+export function useFaas<Path extends FaasActionPaths>(
+  action: Path,
+  defaultParams: FaasParams<Path>,
+  options: UseFaasOptions<Path> = {},
+): FaasDataInjection<Path> {
+  const [data, setData] = useState<FaasData<Path>>()
+  const localSetData = setData as React.Dispatch<React.SetStateAction<FaasData<Path>>>
+  const request = useFaasRequest<Path>({
     action,
     defaultParams,
     options,
@@ -81,21 +77,21 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
       else localSetData(nextData)
     },
     send: ({ action, params, signal, client, setPromise }) => {
-      const promise = client.faas<PathOrData>(action as FaasAction<PathOrData>, params, {
+      const promise = client.faas<Path>(action, params, {
         signal,
       })
 
       setPromise(promise)
 
-      return promise.then((response) => response.data as FaasData<PathOrData>)
+      return promise
     },
   })
 
-  const currentData = (options.data ?? data) as FaasData<PathOrData>
+  const currentData = (options.data ?? data) as FaasData<Path>
   const currentPromise =
-    request.promiseRef.current ?? Promise.resolve({} as Response<FaasData<PathOrData>>)
+    request.promiseRef.current ?? Promise.resolve({} as Response<FaasData<Path>>)
   const updateData = (options.setData ?? localSetData) as React.Dispatch<
-    React.SetStateAction<FaasData<PathOrData>>
+    React.SetStateAction<FaasData<Path>>
   >
 
   return {

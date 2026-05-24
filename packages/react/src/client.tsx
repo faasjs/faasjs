@@ -1,4 +1,4 @@
-import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
+import type { FaasActionPaths, FaasData, FaasParams } from '@faasjs/types'
 
 import type { BaseUrl, Options, Response, ResponseError } from './browser'
 import { FaasBrowserClient } from './browser'
@@ -123,25 +123,20 @@ export function FaasReactClient(
 
   const reactClient: FaasReactClientInstance = {
     id: client.id,
-    faas: async <PathOrData extends FaasActionUnionType>(
-      action: FaasAction<PathOrData>,
-      params: FaasParams<PathOrData>,
+    faas: async <Path extends FaasActionPaths>(
+      action: Path,
+      params: FaasParams<Path>,
       requestOptions?: Options,
-    ): Promise<Response<FaasData<PathOrData>>> =>
-      faas<PathOrData>(action, params, withBaseUrl(requestOptions)),
-    useFaas: <PathOrData extends FaasActionUnionType>(
-      action: FaasAction<PathOrData>,
-      defaultParams: FaasParams<PathOrData>,
-      requestOptions?: UseFaasOptions<PathOrData>,
-    ): FaasDataInjection<PathOrData> =>
-      useFaas<PathOrData>(
-        action,
-        defaultParams,
-        withBaseUrl<UseFaasOptions<PathOrData>>(requestOptions),
-      ),
-    FaasDataWrapper: <PathOrData extends FaasActionUnionType>(
-      props: FaasDataWrapperProps<PathOrData>,
-    ) => <FaasDataWrapper<PathOrData> {...props} baseUrl={resolvedBaseUrl} />,
+    ): Promise<Response<FaasData<Path>>> => faas<Path>(action, params, withBaseUrl(requestOptions)),
+    useFaas: <Path extends FaasActionPaths>(
+      action: Path,
+      defaultParams: FaasParams<Path>,
+      requestOptions?: UseFaasOptions<Path>,
+    ): FaasDataInjection<Path> =>
+      useFaas<Path>(action, defaultParams, withBaseUrl<UseFaasOptions<Path>>(requestOptions)),
+    FaasDataWrapper: <Path extends FaasActionPaths>(props: FaasDataWrapperProps<Path>) => (
+      <FaasDataWrapper<Path> {...props} baseUrl={resolvedBaseUrl} />
+    ),
     ...(onError ? { onError } : {}),
     browserClient: client,
   }

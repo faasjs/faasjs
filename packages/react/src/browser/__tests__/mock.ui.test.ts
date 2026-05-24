@@ -2,6 +2,31 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { FaasBrowserClient, Response, ResponseError, setMock } from '../../browser'
 
+declare module '@faasjs/types' {
+  interface FaasActions {
+    test: {
+      Params: Record<string, unknown>
+      Data: Record<string, unknown>
+    }
+    user: {
+      Params: Record<string, unknown>
+      Data: { name: string }
+    }
+    product: {
+      Params: Record<string, unknown>
+      Data: { price: number }
+    }
+    other: {
+      Params: Record<string, unknown>
+      Data: { default: boolean }
+    }
+    features: {
+      Params: { type: string }
+      Data: { features: string[] }
+    }
+  }
+}
+
 describe('mock', () => {
   beforeEach(() => {
     window.fetch = vi.fn<(...args: any[]) => Promise<any>>(
@@ -24,7 +49,7 @@ describe('mock', () => {
       }))
 
       const client = new FaasBrowserClient('/')
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(response.status).toBe(201)
       expect(response.data).toEqual({ name: 'FaasJS' })
@@ -40,7 +65,7 @@ describe('mock', () => {
       setMock(async () => mockResponse)
 
       const client = new FaasBrowserClient('/')
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(response.status).toBe(200)
       expect(response.data).toEqual({ result: 'success' })
@@ -51,7 +76,7 @@ describe('mock', () => {
       setMock(async () => {})
 
       const client = new FaasBrowserClient('/')
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(response.status).toBe(204)
       expect(response.data).toBeUndefined()
@@ -63,7 +88,7 @@ describe('mock', () => {
 
       const client = new FaasBrowserClient('/')
 
-      await expect(client.action('test')).rejects.toThrow('mock error')
+      await expect(client.action('test', {})).rejects.toThrow('mock error')
     })
 
     it('should work with async MockHandler', async () => {
@@ -76,7 +101,7 @@ describe('mock', () => {
       })
 
       const client = new FaasBrowserClient('/')
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(response.data).toEqual({ async: true })
     })
@@ -89,7 +114,7 @@ describe('mock', () => {
       })
 
       const client = new FaasBrowserClient('/')
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(response.status).toBe(200)
       expect(response.data).toEqual({ name: 'test' })
@@ -103,7 +128,7 @@ describe('mock', () => {
       })
 
       const client = new FaasBrowserClient('/')
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(response.status).toBe(202)
       expect(response.data).toEqual({ id: 123 })
@@ -122,7 +147,7 @@ describe('mock', () => {
       setMock(response)
 
       const client = new FaasBrowserClient('/')
-      const mockResponse = await client.action('test')
+      const mockResponse = await client.action('test', {})
 
       expect(mockResponse.status).toBe(200)
       expect(mockResponse.data).toEqual({ value: 42 })
@@ -141,10 +166,10 @@ describe('mock', () => {
       setMock(handler)
 
       const client = new FaasBrowserClient('/')
-      await client.action('my-action')
+      await client.action('test', {})
 
       expect(handler).toHaveBeenCalledTimes(1)
-      expect(handler).toHaveBeenCalledWith('my-action', expect.any(Object), expect.any(Object))
+      expect(handler).toHaveBeenCalledWith('test', expect.any(Object), expect.any(Object))
     })
 
     it('should receive correct params parameter', async () => {
@@ -200,7 +225,7 @@ describe('mock', () => {
       setMock(handler)
 
       const client = new FaasBrowserClient('/')
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(handler).toHaveBeenCalledTimes(1)
       const optionsArg = handler.mock.calls[0][2]
@@ -218,13 +243,13 @@ describe('mock', () => {
       })
 
       const client = new FaasBrowserClient('/')
-      const mockResponse = await client.action('test')
+      const mockResponse = await client.action('test', {})
 
       expect(mockResponse.data).toEqual({ mocked: true })
 
       setMock(null)
 
-      const normalResponse = await client.action('test')
+      const normalResponse = await client.action('test', {})
 
       expect(normalResponse.data).toEqual({ default: 'fetch' })
     })
@@ -235,13 +260,13 @@ describe('mock', () => {
       })
 
       const client = new FaasBrowserClient('/')
-      const mockResponse = await client.action('test')
+      const mockResponse = await client.action('test', {})
 
       expect(mockResponse.data).toEqual({ mocked: true })
 
       setMock(undefined as any)
 
-      const normalResponse = await client.action('test')
+      const normalResponse = await client.action('test', {})
 
       expect(normalResponse.data).toEqual({ default: 'fetch' })
     })
@@ -260,13 +285,13 @@ describe('mock', () => {
 
       const client = new FaasBrowserClient('/')
 
-      const userResponse = await client.action('user')
+      const userResponse = await client.action('user', {})
       expect(userResponse.data).toEqual({ name: 'John' })
 
-      const productResponse = await client.action('product')
+      const productResponse = await client.action('product', {})
       expect(productResponse.data).toEqual({ price: 100 })
 
-      const defaultResponse = await client.action('other')
+      const defaultResponse = await client.action('other', {})
       expect(defaultResponse.data).toEqual({ default: true })
     })
 
@@ -296,21 +321,21 @@ describe('mock', () => {
       })
 
       const client = new FaasBrowserClient('/')
-      const response1 = await client.action('test')
+      const response1 = await client.action('test', {})
       expect(response1.data).toEqual({ version: 1 })
 
       setMock({
         data: { version: 2 },
       })
 
-      const response2 = await client.action('test')
+      const response2 = await client.action('test', {})
       expect(response2.data).toEqual({ version: 2 })
 
       setMock(async () => ({
         data: { version: 3 },
       }))
 
-      const response3 = await client.action('test')
+      const response3 = await client.action('test', {})
       expect(response3.data).toEqual({ version: 3 })
     })
 
@@ -331,7 +356,7 @@ describe('mock', () => {
         },
       })
 
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(handler).toHaveBeenCalled()
       const optionsArg = handler.mock.calls[0][2]
@@ -346,8 +371,8 @@ describe('mock', () => {
 
       const client = new FaasBrowserClient('/')
 
-      await expect(client.action('test')).rejects.toThrow('Not Found')
-      await expect(client.action('test')).rejects.toMatchObject({
+      await expect(client.action('test', {})).rejects.toThrow('Not Found')
+      await expect(client.action('test', {})).rejects.toMatchObject({
         status: 404,
       })
     })
@@ -359,14 +384,14 @@ describe('mock', () => {
 
       const client = new FaasBrowserClient('/')
 
-      await expect(client.action('test')).rejects.toThrow('Internal Server Error')
+      await expect(client.action('test', {})).rejects.toThrow('Internal Server Error')
     })
 
     it('should work with empty ResponseProps', async () => {
       setMock({})
 
       const client = new FaasBrowserClient('/')
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(response.status).toBe(204)
       expect(response.data).toBeUndefined()
@@ -378,7 +403,7 @@ describe('mock', () => {
       })
 
       const client = new FaasBrowserClient('/')
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(response.status).toBe(200)
       expect(response.body).toEqual({ key: 'value' })
@@ -392,7 +417,7 @@ describe('mock', () => {
       })
 
       const client = new FaasBrowserClient('/')
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(response.body).toBe('{"custom":"body"}')
       expect(response.data).toEqual({ custom: 'data' })
@@ -406,7 +431,7 @@ describe('mock', () => {
       })
 
       const client = new FaasBrowserClient('/')
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(response.status).toBe(204)
       expect(response.data).toBeUndefined()
@@ -435,7 +460,7 @@ describe('mock', () => {
       })
 
       const client = new FaasBrowserClient('/')
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(response.data).toEqual({
         user: {
@@ -465,7 +490,7 @@ describe('mock', () => {
         })
 
         const client = new FaasBrowserClient('/')
-        const response = await client.action('test')
+        const response = await client.action('test', {})
 
         expect(response.status).toBe(status)
         expect(response.data).toEqual({ status })
@@ -476,7 +501,7 @@ describe('mock', () => {
       setMock(async () => null as any)
 
       const client = new FaasBrowserClient('/')
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(response.status).toBe(204)
       expect(response.data).toBeUndefined()
@@ -486,7 +511,7 @@ describe('mock', () => {
       setMock(async () => undefined as any)
 
       const client = new FaasBrowserClient('/')
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(response.status).toBe(204)
       expect(response.data).toBeUndefined()
@@ -501,9 +526,9 @@ describe('mock', () => {
       const client2 = new FaasBrowserClient('http://api2.com/')
       const client3 = new FaasBrowserClient('http://api3.com/')
 
-      const response1 = await client1.action('test')
-      const response2 = await client2.action('test')
-      const response3 = await client3.action('test')
+      const response1 = await client1.action('test', {})
+      const response2 = await client2.action('test', {})
+      const response3 = await client3.action('test', {})
 
       expect(response1.data).toEqual({ global: 'mock' })
       expect(response2.data).toEqual({ global: 'mock' })
@@ -526,7 +551,7 @@ describe('mock', () => {
         data: { from: 'mock' },
       })
 
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(response.data).toEqual({ from: 'mock' })
       expect(customRequest).not.toHaveBeenCalled()
@@ -543,7 +568,7 @@ describe('mock', () => {
       })
 
       const client = new FaasBrowserClient('/')
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(response.headers['X-Special']).toBe('!@#$%^&*()_+-={}[]|\\:";\'<>?,./~`')
       expect(response.headers['X-Unicode']).toBe('你好世界🌍🎉')
@@ -573,7 +598,7 @@ describe('mock', () => {
       })
 
       const client = new FaasBrowserClient('/')
-      const error = await client.action('test').catch((error: any) => error)
+      const error = await client.action('test', {}).catch((error: any) => error)
 
       expect(error).toBeInstanceOf(ResponseError)
       expect(error.message).toBe('Custom error')
@@ -588,7 +613,7 @@ describe('mock', () => {
       })
 
       const client = new FaasBrowserClient('/')
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(response.data).toEqual([1, 2, 3, 4, 5])
     })
@@ -605,7 +630,7 @@ describe('mock', () => {
       })
 
       const client = new FaasBrowserClient('/')
-      const response = await client.action('test')
+      const response = await client.action('test', {})
 
       expect(response.data).toEqual({
         nullValue: null,

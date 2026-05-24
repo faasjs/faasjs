@@ -132,7 +132,7 @@ export default function HomePage() {
           />
 
           <Space wrap>
-            <Button onClick={reload} loading={listLoading}>
+            <Button onClick={() => reload()} loading={listLoading}>
               Load users slice
             </Button>
             <Button type="primary" loading={creating} onClick={callApi}>

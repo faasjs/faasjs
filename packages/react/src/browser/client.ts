@@ -1,4 +1,4 @@
-import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
+import type { FaasActionPaths, FaasData, FaasParams } from '@faasjs/types'
 
 import { generateId } from '../generate-id'
 import { buildActionUrl, buildActionOptions, runBeforeRequest, parseFetchResponse } from './helpers'
@@ -37,27 +37,27 @@ export class FaasBrowserClient {
   /**
    * Makes a request to a FaasJS function.
    */
-  public async action<PathOrData extends FaasActionUnionType>(
-    action: FaasAction<PathOrData>,
-    params?: FaasParams<PathOrData>,
+  public async action<Path extends FaasActionPaths>(
+    action: Path,
+    params: FaasParams<Path>,
     options?: Options,
-  ): Promise<Response<FaasData<PathOrData>>> {
+  ): Promise<Response<FaasData<Path>>> {
     if (!action) throw Error('[FaasJS] action required')
 
     if (!params) params = Object.create(null)
     const requestId = `F-${generateId()}`
-    const url = buildActionUrl(action as string, this.baseUrl, options, requestId)
-    const resolvedOptions = buildActionOptions(
+    const url = buildActionUrl(action, this.baseUrl, options, requestId)
+    const resolvedOptions = buildActionOptions<Path>(
       this.defaultOptions,
       options,
-      params as Record<string, any>,
+      params,
       requestId,
     )
 
-    await runBeforeRequest(action as string, params as Record<string, any>, resolvedOptions)
+    await runBeforeRequest<Path>(action, params, resolvedOptions)
 
     if (mock)
-      return resolveMockResponse<PathOrData>(
+      return resolveMockResponse<Path>(
         action as string,
         params as Record<string, any>,
         resolvedOptions,
@@ -66,10 +66,8 @@ export class FaasBrowserClient {
     if (resolvedOptions.request) return resolvedOptions.request(url, resolvedOptions)
 
     if (resolvedOptions.stream)
-      return fetch(url, resolvedOptions) as unknown as Promise<Response<FaasData<PathOrData>>>
+      return fetch(url, resolvedOptions) as unknown as Promise<Response<FaasData<Path>>>
 
-    return parseFetchResponse<PathOrData>(
-      (await fetch(url, resolvedOptions)) as ParsedFetchResponse,
-    )
+    return parseFetchResponse<Path>((await fetch(url, resolvedOptions)) as ParsedFetchResponse)
   }
 }

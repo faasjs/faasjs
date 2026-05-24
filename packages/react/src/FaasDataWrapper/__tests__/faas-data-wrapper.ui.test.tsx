@@ -11,6 +11,15 @@ import {
   withFaasData,
 } from '../../index'
 
+declare module '@faasjs/types' {
+  interface FaasActions {
+    'FaasDataWrapper/test': {
+      Params: { v?: number }
+      Data: number | { v: number }
+    }
+  }
+}
+
 describe('FaasDataWrapper', () => {
   let current = 0
 
@@ -33,11 +42,11 @@ describe('FaasDataWrapper', () => {
   it('should work', async () => {
     let renderTimes = 0
 
-    function Test(props: Partial<FaasDataInjection>) {
+    function Test(props: Partial<FaasDataInjection<'FaasDataWrapper/test'>>) {
       renderTimes++
       return (
         <div>
-          {props.data}
+          {props.data?.toString()}
           <button type="button" onClick={() => props.reload?.()}>
             Reload
           </button>
@@ -46,7 +55,7 @@ describe('FaasDataWrapper', () => {
     }
 
     render(
-      <FaasDataWrapper action="t">
+      <FaasDataWrapper action="FaasDataWrapper/test">
         <Test />
       </FaasDataWrapper>,
     )
@@ -71,14 +80,14 @@ describe('FaasDataWrapper', () => {
           <button type="button" onClick={() => setParams({ v: 10 })}>
             Reload
           </button>
-          <FaasDataWrapper action="t" params={params}>
+          <FaasDataWrapper action="FaasDataWrapper/test" params={params}>
             <Test />
           </FaasDataWrapper>
         </>
       )
     }
 
-    function Test(props: Partial<FaasDataInjection>) {
+    function Test(props: Partial<FaasDataInjection<'FaasDataWrapper/test'>>) {
       renderTimes++
 
       return <div>{JSON.stringify(props.data)}</div>
@@ -108,11 +117,11 @@ describe('FaasDataWrapper', () => {
 
     render(
       <FaasDataWrapper
-        action="t"
+        action="FaasDataWrapper/test"
         polling={20}
         render={({ data, loading, refreshing }) => (
           <>
-            <div>data:{String(data?.value)}</div>
+            <div>data:{data.toString()}</div>
             <div>loading:{String(loading)}</div>
             <div>refreshing:{String(refreshing)}</div>
           </>
@@ -121,7 +130,7 @@ describe('FaasDataWrapper', () => {
     )
 
     await waitFor(() => expect(requests.length).toBe(1))
-    requests[0]({ data: { value: 1 } })
+    requests[0]({ data: 1 })
 
     expect(await screen.findByText('data:1')).toBeDefined()
     expect(screen.getByText('loading:false')).toBeDefined()
@@ -132,7 +141,7 @@ describe('FaasDataWrapper', () => {
     expect(screen.getByText('loading:false')).toBeDefined()
     expect(screen.getByText('refreshing:true')).toBeDefined()
 
-    requests[1]({ data: { value: 2 } })
+    requests[1]({ data: 2 })
 
     expect(await screen.findByText('data:2')).toBeDefined()
     expect(screen.getByText('refreshing:false')).toBeDefined()
@@ -153,7 +162,7 @@ describe('FaasDataWrapper', () => {
           </div>
         )
       },
-      { action: 'test' },
+      { action: 'FaasDataWrapper/test' },
     )
 
     render(<Test a={1} />)
@@ -178,19 +187,19 @@ describe('FaasDataWrapper', () => {
       }
     })
 
-    function Test(props: Partial<FaasDataInjection>) {
-      return <div>{props.data}</div>
+    function Test(props: Partial<FaasDataInjection<'FaasDataWrapper/test'>>) {
+      return <div>{props.data?.toString()}</div>
     }
 
     function App() {
-      const ref = useRef<FaasDataWrapperRef>(null)
+      const ref = useRef<FaasDataWrapperRef<'FaasDataWrapper/test'>>(null)
 
       return (
         <>
           <button type="button" onClick={() => ref.current?.reload()}>
             Reload
           </button>
-          <FaasDataWrapper action="test" ref={ref}>
+          <FaasDataWrapper action="FaasDataWrapper/test" ref={ref}>
             <Test />
           </FaasDataWrapper>
         </>
@@ -214,7 +223,7 @@ describe('FaasDataWrapper', () => {
 
     render(
       <FaasDataWrapper
-        action="test"
+        action="FaasDataWrapper/test"
         data={{ seeded: true } as any}
         setData={setData}
         onDataChange={onDataChange}

@@ -3,6 +3,15 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { Response, setMock } from '../../index'
 import { FaasReactClient, getClient } from '../../index'
 
+declare module '@faasjs/types' {
+  interface FaasActions {
+    'react/test': {
+      Params: { v?: number; id?: number }
+      Data: number | { v: number }
+    }
+  }
+}
+
 describe('FaasReactClient', () => {
   afterEach(() => {
     setMock(null)
@@ -25,8 +34,8 @@ describe('FaasReactClient', () => {
       baseUrl: '/api/',
     })
 
-    const { data } = await client.faas('hello', { v: 1 })
+    const { data } = await client.faas('react/test', { v: 1 })
 
-    expect(data).toEqual({ action: 'hello', params: { v: 1 } })
+    expect(data).toEqual({ action: 'react/test', params: { v: 1 } })
   })
 })

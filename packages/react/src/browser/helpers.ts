@@ -1,4 +1,4 @@
-import type { FaasActionUnionType, FaasData } from '@faasjs/types'
+import type { FaasActionPaths, FaasData, FaasParams } from '@faasjs/types'
 
 import { Response, ResponseError } from './response'
 import type {
@@ -18,10 +18,10 @@ export function buildActionUrl(
   return `${(options?.baseUrl || baseUrl) + action.toLowerCase()}?_=${requestId}`
 }
 
-export function buildActionOptions(
+export function buildActionOptions<Path extends FaasActionPaths>(
   defaultOptions: Options,
   options: Options | undefined,
-  params: Record<string, any>,
+  params: FaasParams<Path>,
   requestId: string,
 ): ResolvedActionOptions {
   const resolvedOptions = {
@@ -43,9 +43,9 @@ export function buildActionOptions(
   return resolvedOptions
 }
 
-export async function runBeforeRequest(
-  action: string,
-  params: Record<string, any>,
+export async function runBeforeRequest<Path extends FaasActionPaths>(
+  action: Path,
+  params: FaasParams<Path>,
   options: ResolvedActionOptions,
 ): Promise<void> {
   if (!options.beforeRequest) return
@@ -66,11 +66,11 @@ export function toResponseHeaders(headers: Iterable<[string, string]>): Response
   return responseHeaders
 }
 
-export function parseSuccessfulResponse<PathOrData extends FaasActionUnionType>(
+export function parseSuccessfulResponse<Path extends FaasActionPaths>(
   status: number,
   headers: ResponseHeaders,
   text: string,
-): Response<FaasData<PathOrData>> {
+): Response<FaasData<Path>> {
   if (!text)
     return new Response({
       status,
@@ -125,14 +125,14 @@ export function parseFailedResponse(status: number, headers: ResponseHeaders, te
   }
 }
 
-export async function parseFetchResponse<PathOrData extends FaasActionUnionType>(
+export async function parseFetchResponse<Path extends FaasActionPaths>(
   response: ParsedFetchResponse,
-): Promise<Response<FaasData<PathOrData>>> {
+): Promise<Response<FaasData<Path>>> {
   const headers = toResponseHeaders(response.headers)
   const text = await response.text()
 
   if (response.status >= 200 && response.status < 300)
-    return parseSuccessfulResponse<PathOrData>(response.status, headers, text)
+    return parseSuccessfulResponse<Path>(response.status, headers, text)
 
   return parseFailedResponse(response.status, headers, text)
 }

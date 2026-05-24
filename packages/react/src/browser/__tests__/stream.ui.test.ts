@@ -2,6 +2,15 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { FaasBrowserClient, Response as FaasResponse, setMock } from '../../browser'
 
+declare module '@faasjs/types' {
+  interface FaasActions {
+    'stream/test': {
+      Params: { key: string }
+      Data: any
+    }
+  }
+}
+
 describe('stream', () => {
   beforeEach(() => {
     window.fetch = vi.fn<typeof window.fetch>()
@@ -25,7 +34,7 @@ describe('stream', () => {
     ) as any
 
     const client = new FaasBrowserClient('/')
-    const response = await client.action('test', { key: 'value' }, { stream: true })
+    const response = await client.action('stream/test', { key: 'value' }, { stream: true })
 
     expect(response).not.toBeInstanceOf(FaasResponse)
     expect(response.body).toBeInstanceOf(ReadableStream)
@@ -47,11 +56,11 @@ describe('stream', () => {
 
     const client = new FaasBrowserClient('/')
 
-    const response1 = await client.action('test', { key: 'value' })
+    const response1 = await client.action('stream/test', { key: 'value' })
     expect(response1).toBeInstanceOf(FaasResponse)
     expect(response1.data).toEqual({ value: 'test' })
 
-    const response2 = await client.action('test', { key: 'value' }, { stream: false })
+    const response2 = await client.action('stream/test', { key: 'value' }, { stream: false })
     expect(response2).toBeInstanceOf(FaasResponse)
     expect(response2.data).toEqual({ value: 'test' })
   })
@@ -78,7 +87,7 @@ describe('stream', () => {
     ) as any
 
     const client = new FaasBrowserClient('/')
-    const response = await client.action('test', { key: 'value' }, { stream: true })
+    const response = await client.action('stream/test', { key: 'value' }, { stream: true })
 
     const reader = response.body.getReader()
     const decoder = new TextDecoder()
@@ -116,7 +125,7 @@ describe('stream', () => {
     const controller = new AbortController()
     const client = new FaasBrowserClient('/')
     const response = await client.action(
-      'test',
+      'stream/test',
       { key: 'value' },
       {
         stream: true,
@@ -153,7 +162,7 @@ describe('stream', () => {
     ) as any
 
     const client = new FaasBrowserClient('/')
-    await client.action('test', { key: 'value' }, { stream: true })
+    await client.action('stream/test', { key: 'value' }, { stream: true })
   })
 
   it('supports custom request in stream mode', async () => {
@@ -176,7 +185,7 @@ describe('stream', () => {
       request: customRequest as any,
     })
 
-    const response = await client.action('test', { key: 'value' }, { stream: true })
+    const response = await client.action('stream/test', { key: 'value' }, { stream: true })
 
     expect(customRequest).toHaveBeenCalled()
     expect(response.body).toBeInstanceOf(ReadableStream)
@@ -203,7 +212,7 @@ describe('stream', () => {
     )
 
     const client = new FaasBrowserClient('/')
-    const response = await client.action('test', { key: 'value' }, { stream: true })
+    const response = await client.action('stream/test', { key: 'value' }, { stream: true })
 
     expect(response.body).toBeInstanceOf(ReadableStream)
   })
@@ -219,8 +228,8 @@ describe('stream', () => {
     })
 
     const client = new FaasBrowserClient('/')
-    const response1 = await client.action('test', { key: 'value' }, { stream: true })
-    const response2 = await client.action('test', { key: 'value' }, { stream: true })
+    const response1 = await client.action('stream/test', { key: 'value' }, { stream: true })
+    const response2 = await client.action('stream/test', { key: 'value' }, { stream: true })
 
     const readText = async (response: FaasResponse) => {
       const reader = response.body!.getReader()
@@ -259,7 +268,7 @@ describe('stream', () => {
     ) as any
 
     const client = new FaasBrowserClient('/')
-    const response = await client.action('test', { key: 'value' }, { stream: true })
+    const response = await client.action('stream/test', { key: 'value' }, { stream: true })
 
     expect(response.status).toBe(500)
     expect(response.body).toBeInstanceOf(ReadableStream)

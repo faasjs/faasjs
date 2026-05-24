@@ -2,7 +2,7 @@
 
 # Function: faas()
 
-> **faas**\<`PathOrData`\>(`action`, `params`, `options?`): `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](../type-aliases/FaasData.md)\<`PathOrData`\>\>\>
+> **faas**\<`Path`\>(`action`, `params`, `options?`): `Promise`\<[`Response`](../classes/Response.md)\<`FaasData`\<`Path`\>\>\>
 
 Call the currently configured FaasReactClient.
 
@@ -11,9 +11,9 @@ client defines `onError`, the hook is invoked before the promise rejects.
 
 ## Type Parameters
 
-### PathOrData
+### Path
 
-`PathOrData` _extends_ [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md)
+`Path` _extends_ `FaasActionPaths`
 
 Action path or response data type used for inference.
 
@@ -21,13 +21,13 @@ Action path or response data type used for inference.
 
 ### action
 
-[`FaasAction`](../type-aliases/FaasAction.md)\<`PathOrData`\>
+`Path`
 
 Action path to invoke.
 
 ### params
 
-[`FaasParams`](../type-aliases/FaasParams.md)\<`PathOrData`\>
+`FaasParams`\<`Path`\>
 
 Parameters sent to the action.
 
@@ -41,7 +41,7 @@ See the browser-client `Options` type for supported fields such as `headers`, `b
 
 ## Returns
 
-`Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](../type-aliases/FaasData.md)\<`PathOrData`\>\>\>
+`Promise`\<[`Response`](../classes/Response.md)\<`FaasData`\<`Path`\>\>\>
 
 Response returned by the active browser client.
 

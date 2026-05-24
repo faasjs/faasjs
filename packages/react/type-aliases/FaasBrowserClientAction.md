@@ -2,25 +2,25 @@
 
 # Type Alias: FaasBrowserClientAction
 
-> **FaasBrowserClientAction** = \<`PathOrData`\>(`action`, `params?`, `options?`) => `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\> \| [`Response`](../classes/Response.md)\>
+> **FaasBrowserClientAction** = \<`Path`\>(`action`, `params?`, `options?`) => `Promise`\<[`Response`](../classes/Response.md)\<`FaasData`\<`Path`\>\> \| [`Response`](../classes/Response.md)\>
 
 Type definition for the FaasBrowserClient.action method.
 
 ## Type Parameters
 
-### PathOrData
+### Path
 
-`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md)
+`Path` _extends_ `FaasActionPaths`
 
 ## Parameters
 
 ### action
 
-[`FaasAction`](FaasAction.md)\<`PathOrData`\>
+`Path`
 
 ### params?
 
-[`FaasParams`](FaasParams.md)\<`PathOrData`\>
+`FaasParams`\<`Path`\>
 
 ### options?
 
@@ -28,4 +28,4 @@ Type definition for the FaasBrowserClient.action method.
 
 ## Returns
 
-`Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\> \| [`Response`](../classes/Response.md)\>
+`Promise`\<[`Response`](../classes/Response.md)\<`FaasData`\<`Path`\>\> \| [`Response`](../classes/Response.md)\>

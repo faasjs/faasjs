@@ -1,4 +1,4 @@
-import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
+import type { FaasActionPaths, FaasData, FaasParams } from '@faasjs/types'
 
 import type { Response } from './response'
 
@@ -28,10 +28,7 @@ export type Options = RequestInit & {
     headers: Record<string, string>
   }) => Promise<void>
   /** Custom request implementation used instead of the native `fetch`. */
-  request?: <PathOrData extends FaasActionUnionType>(
-    url: string,
-    options: Options,
-  ) => Promise<Response<FaasData<PathOrData>>>
+  request?: (url: string, options: Options) => Promise<Response>
   /** Base URL override for the current request. */
   baseUrl?: BaseUrl
   /** When `true`, return the native fetch response so callers can consume the stream manually. */
@@ -48,11 +45,11 @@ export type ResponseHeaders = {
 /**
  * Type definition for the FaasBrowserClient.action method.
  */
-export type FaasBrowserClientAction = <PathOrData extends FaasActionUnionType>(
-  action: FaasAction<PathOrData>,
-  params?: FaasParams<PathOrData>,
+export type FaasBrowserClientAction = <Path extends FaasActionPaths>(
+  action: Path,
+  params?: FaasParams<Path>,
   options?: Options,
-) => Promise<Response<FaasData<PathOrData>> | Response>
+) => Promise<Response<FaasData<Path>> | Response>
 
 /**
  * Properties for creating a Response object.

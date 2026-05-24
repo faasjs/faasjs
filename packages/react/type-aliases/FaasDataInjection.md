@@ -1,16 +1,16 @@
 [@faasjs/react](../README.md) / FaasDataInjection
 
-# Type Alias: FaasDataInjection\<PathOrData\>
+# Type Alias: FaasDataInjection\<Path\>
 
-> **FaasDataInjection**\<`PathOrData`\> = `object`
+> **FaasDataInjection**\<`Path`\> = `object`
 
 Request state injected by [useFaas](../functions/useFaas.md), [FaasDataWrapper](../variables/FaasDataWrapper.md), and [withFaasData](../functions/withFaasData.md).
 
 ## Type Parameters
 
-### PathOrData
+### Path
 
-`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md) = `any`
+`Path` _extends_ `FaasActionPaths`
 
 Action path or response data type used for inference.
 
@@ -18,7 +18,7 @@ Action path or response data type used for inference.
 
 ### reload()
 
-> **reload**(`params?`, `options?`): `Promise`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>
+> **reload**(`params?`, `options?`): `Promise`\<`FaasData`\<`Path`\>\>
 
 Reloads data with new or existing parameters.
 
@@ -29,7 +29,7 @@ flag before starting the next request.
 
 ##### params?
 
-`Record`\<`string`, `any`\>
+`FaasParams`\<`Path`\>
 
 ##### options?
 
@@ -39,19 +39,19 @@ flag before starting the next request.
 
 #### Returns
 
-`Promise`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>
+`Promise`\<`FaasData`\<`Path`\>\>
 
 ## Properties
 
 ### action
 
-> **action**: [`FaasAction`](FaasAction.md)\<`PathOrData`\>
+> **action**: `Path`
 
 Action path associated with the current request state.
 
 ### data
 
-> **data**: [`FaasData`](FaasData.md)\<`PathOrData`\>
+> **data**: `FaasData`\<`Path`\>
 
 Current resolved data value.
 
@@ -69,13 +69,13 @@ Whether the request is currently in flight and should block the main UI.
 
 ### params
 
-> **params**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
+> **params**: `FaasParams`\<`Path`\>
 
 Params used for the most recent request attempt.
 
 ### promise
 
-> **promise**: `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+> **promise**: `Promise`\<[`Response`](../classes/Response.md)\<`FaasData`\<`Path`\>\>\>
 
 Promise representing the latest request.
 
@@ -93,7 +93,7 @@ Number of times `reload()` or polling has triggered a new request.
 
 ### setData
 
-> **setData**: `React.Dispatch`\<`React.SetStateAction`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+> **setData**: `React.Dispatch`\<`React.SetStateAction`\<`FaasData`\<`Path`\>\>\>
 
 Controlled or internal setter for the resolved data value.
 
@@ -111,6 +111,6 @@ Setter for the loading flag.
 
 ### setPromise
 
-> **setPromise**: `React.Dispatch`\<`React.SetStateAction`\<`Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>\>\>
+> **setPromise**: `React.Dispatch`\<`React.SetStateAction`\<`Promise`\<[`Response`](../classes/Response.md)\<`FaasData`\<`Path`\>\>\>\>\>
 
 Setter for the latest request promise.

@@ -1,12 +1,28 @@
-[@faasjs/ant-design](../README.md) / DescriptionProps
+[@faasjs/ant-design](../README.md) / DescriptionWithoutFaasProps
 
-# Interface: DescriptionProps\<T, ExtendItemProps\>
+# Interface: DescriptionWithoutFaasProps\<T, ExtendItemProps\>
 
-Props for the [Description](../functions/Description.md) component.
+Props for [Description](../functions/Description.md) when used with a local `dataSource`.
+
+## Example
+
+```tsx
+import { Description } from '@faasjs/ant-design'
+
+export function Detail() {
+  return (
+    <Description
+      title="Title"
+      items={[{ id: 'id', title: 'Title', type: 'string' }]}
+      dataSource={{ id: 'value' }}
+    />
+  )
+}
+```
 
 ## Extends
 
-- `Omit`\<`DescriptionsProps`, `"items"`\>
+- `DescriptionCommonProps`\<`T`, `ExtendItemProps`\>
 
 ## Type Parameters
 
@@ -44,6 +60,10 @@ Callback used to derive the rendered title from the current record.
 
 `ReactNode`
 
+#### Inherited from
+
+`DescriptionCommonProps.renderTitle`
+
 ## Properties
 
 ### dataSource?
@@ -62,14 +82,20 @@ Custom type renderers keyed by item type.
 
 \[`key`: `string`\]: [`ExtendDescriptionTypeProps`](ExtendDescriptionTypeProps.md)\<`any`\>
 
+#### Inherited from
+
+`DescriptionCommonProps.extendTypes`
+
 ### faasData?
 
-> `optional` **faasData?**: [`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`any`\>
-
-Request config used to fetch the record before rendering.
+> `optional` **faasData?**: `undefined`
 
 ### items
 
 > **items**: (`ExtendItemProps` \| [`DescriptionItemProps`](DescriptionItemProps.md)\<`any`\>)[]
 
 Description item definitions rendered by the component.
+
+#### Inherited from
+
+`DescriptionCommonProps.items`

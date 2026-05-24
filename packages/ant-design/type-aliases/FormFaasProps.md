@@ -1,8 +1,8 @@
 [@faasjs/ant-design](../README.md) / FormFaasProps
 
-# Type Alias: FormFaasProps\<Values\>
+# Type Alias: FormFaasProps\<Values, Path\>
 
-> **FormFaasProps**\<`Values`\> = `object`
+> **FormFaasProps**\<`Values`, `Path`\> = `object`
 
 Built-in FaasJS submit handler configuration for [Form](../functions/Form.md).
 
@@ -14,11 +14,17 @@ Built-in FaasJS submit handler configuration for [Form](../functions/Form.md).
 
 Form values shape used by submit handlers.
 
+### Path
+
+`Path` _extends_ `FaasActionPaths` = `any`
+
+Action path type.
+
 ## Properties
 
 ### action
 
-> **action**: `FaasAction`
+> **action**: `Path`
 
 Action name submitted through `faas()`.
 
@@ -74,7 +80,7 @@ Callback invoked when the request succeeds.
 
 ### params?
 
-> `optional` **params?**: `Record`\<`string`, `any`\> \| ((`values`) => `Record`\<`string`, `any`\>)
+> `optional` **params?**: `FaasParams`\<`Path`\> \| ((`values`) => `FaasParams`\<`Path`\>)
 
 Extra params merged into the submitted payload after `transformValues` runs.
 

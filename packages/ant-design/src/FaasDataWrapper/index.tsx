@@ -8,7 +8,7 @@ import {
   withFaasData as OriginWithFaasData,
   useFaas,
 } from '@faasjs/react'
-import type { FaasActionUnionType } from '@faasjs/types'
+import type { FaasActionPaths } from '@faasjs/types'
 import type { JSX } from 'react'
 
 import type { LoadingProps } from '../Loading'
@@ -21,16 +21,14 @@ export { faas, useFaas, FaasReactClient, type FaasReactClientOptions }
  *
  * @template T - Action path or response data type used for inference.
  */
-export type FaasDataInjection<T extends FaasActionUnionType = any> = Partial<
-  OriginFaasDataInjection<T>
->
+export type FaasDataInjection<T extends FaasActionPaths = any> = Partial<OriginFaasDataInjection<T>>
 
 /**
  * Ant Design wrapper props for the underlying `@faasjs/react` data wrapper.
  *
  * @template T - Action path or response data type used for inference.
  */
-export interface FaasDataWrapperProps<T extends FaasActionUnionType = any> extends OriginProps<T> {
+export interface FaasDataWrapperProps<T extends FaasActionPaths = any> extends OriginProps<T> {
   /** Props forwarded to the built-in {@link Loading} fallback. */
   loadingProps?: LoadingProps
   /** Explicit loading element that overrides the built-in {@link Loading} fallback. */
@@ -121,7 +119,7 @@ export type { FaasDataWrapperRef } from '@faasjs/react'
  * }
  * ```
  */
-export function FaasDataWrapper<T extends FaasActionUnionType = any>(
+export function FaasDataWrapper<T extends FaasActionPaths = any>(
   props: FaasDataWrapperProps<T>,
 ): JSX.Element {
   return <Origin<T> fallback={props.loading || <Loading {...props.loadingProps} />} {...props} />
@@ -130,10 +128,10 @@ export function FaasDataWrapper<T extends FaasActionUnionType = any>(
 /**
  * Wrap a component with {@link FaasDataWrapper} and its Ant Design loading fallback.
  *
- * @template PathOrData - Action path or response data type used for inference.
+ * @template Path - Action path or response data type used for inference.
  * @template TComponentProps - Component props including injected Faas data fields.
  * @param {React.FC<TComponentProps & Record<string, any>>} Component - Component that consumes injected Faas data props.
- * @param {FaasDataWrapperProps<PathOrData>} faasProps - Request configuration forwarded to {@link FaasDataWrapper}.
+ * @param {FaasDataWrapperProps<Path>} faasProps - Request configuration forwarded to {@link FaasDataWrapper}.
  * @returns Higher-order component that injects Faas data props.
  *
  * @example
@@ -152,15 +150,13 @@ export function FaasDataWrapper<T extends FaasActionUnionType = any>(
  * ```
  */
 export function withFaasData<
-  PathOrData extends FaasActionUnionType,
-  TComponentProps extends Required<FaasDataInjection<PathOrData>> = Required<
-    FaasDataInjection<PathOrData>
-  >,
+  Path extends FaasActionPaths,
+  TComponentProps extends Required<FaasDataInjection<Path>> = Required<FaasDataInjection<Path>>,
 >(
   Component: React.FC<TComponentProps & Record<string, any>>,
-  faasProps: FaasDataWrapperProps<PathOrData>,
-): React.FC<Omit<TComponentProps, keyof FaasDataInjection<PathOrData>>> {
-  return OriginWithFaasData<PathOrData, any>(Component, {
+  faasProps: FaasDataWrapperProps<Path>,
+): React.FC<Omit<TComponentProps, keyof FaasDataInjection<Path>>> {
+  return OriginWithFaasData<Path, any>(Component, {
     fallback: faasProps.loading || <Loading {...faasProps.loadingProps} />,
     ...faasProps,
   })

@@ -1,8 +1,16 @@
-import type { FaasActionUnionType, FaasData } from '@faasjs/types'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { faas } from '../../faas'
 import { FaasReactClient, Response, setMock } from '../../index'
+
+declare module '@faasjs/types' {
+  interface FaasActions {
+    'faas/test': {
+      Params: { v?: number; id?: number }
+      Data: number | { v: number }
+    }
+  }
+}
 
 describe('faas', () => {
   beforeEach(() => {
@@ -15,7 +23,7 @@ describe('faas', () => {
     FaasReactClient()
     setMock(() => Promise.resolve(new Response({ data: ++current })))
 
-    expect(await faas('t', {}, { baseUrl: '/' })).toMatchObject({ data: 1 })
+    expect(await faas('faas/test', {}, { baseUrl: '/' })).toMatchObject({ data: 1 })
   })
 
   it('should route requests through the client selected by baseUrl', async () => {
@@ -25,19 +33,19 @@ describe('faas', () => {
       url: string
     }[] = []
 
-    const request = async <PathOrData extends FaasActionUnionType>(url: string, options: any) => {
+    const request = async (url: string, options: any) => {
       requests.push({
         marker: options.headers['X-Test-Marker'],
         requestId: options.headers['X-FaasJS-Request-Id'],
         url,
       })
 
-      return new Response<FaasData<PathOrData>>({
+      return new Response({
         data: {
           url,
           requestId: options.headers['X-FaasJS-Request-Id'],
           marker: options.headers['X-Test-Marker'],
-        } as FaasData<PathOrData>,
+        },
       })
     }
 
@@ -49,7 +57,7 @@ describe('faas', () => {
     })
 
     const response = await faas(
-      'Hello',
+      'faas/test',
       { id: 1 },
       {
         baseUrl: '/faas-base/',
@@ -68,8 +76,8 @@ describe('faas', () => {
     expect(response.data).toMatchObject({
       marker: 'selected-client',
     })
-    expect(response.data.url).toContain('/faas-base/hello?_=')
-    expect(response.data.requestId).toMatch(/^F-/)
+    expect((response.data as unknown as { url: string }).url).toContain('/faas-base/faas/test?_=')
+    expect((response.data as unknown as { requestId: string }).requestId).toMatch(/^F-/)
   })
 
   it('should call onError before rejecting failed requests', async () => {
@@ -87,10 +95,10 @@ describe('faas', () => {
       onError,
     })
 
-    await expect(faas('broken', { id: 1 }, { baseUrl: '/faas-error/' })).rejects.toThrow(
+    await expect(faas('faas/test', { id: 1 }, { baseUrl: '/faas-error/' })).rejects.toThrow(
       'handled-error',
     )
 
-    expect(onError).toHaveBeenCalledWith('broken', { id: 1 })
+    expect(onError).toHaveBeenCalledWith('faas/test', { id: 1 })
   })
 })

@@ -67,15 +67,9 @@ Async hook called after request options are merged but before the request is sen
 
 ### request?
 
-> `optional` **request?**: \<`PathOrData`\>(`url`, `options`) => `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+> `optional` **request?**: (`url`, `options`) => `Promise`\<[`Response`](../classes/Response.md)\>
 
 Custom request implementation used instead of the native `fetch`.
-
-#### Type Parameters
-
-##### PathOrData
-
-`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md)
 
 #### Parameters
 
@@ -89,7 +83,7 @@ Custom request implementation used instead of the native `fetch`.
 
 #### Returns
 
-`Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+`Promise`\<[`Response`](../classes/Response.md)\>
 
 ### stream?
 

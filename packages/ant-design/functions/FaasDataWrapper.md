@@ -13,7 +13,7 @@ the wrapped FaasJS request is pending.
 
 ### T
 
-`T` _extends_ `FaasActionUnionType` = `any`
+`T` _extends_ `FaasActionPaths` = `any`
 
 Action path or response data type used for inference.
 

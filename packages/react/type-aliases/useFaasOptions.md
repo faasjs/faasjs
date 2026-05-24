@@ -1,15 +1,15 @@
 [@faasjs/react](../README.md) / UseFaasOptions
 
-# Type Alias: UseFaasOptions\<PathOrData\>
+# Type Alias: UseFaasOptions\<Path\>
 
-> **UseFaasOptions**\<`PathOrData`\> = `SharedUseFaasOptions`\<[`FaasParams`](FaasParams.md)\<`PathOrData`\>, [`FaasData`](FaasData.md)\<`PathOrData`\>\>
+> **UseFaasOptions**\<`Path`\> = `SharedUseFaasOptions`\<`FaasParams`\<`Path`\>, `FaasData`\<`Path`\>\>
 
 Options that customize the [useFaas](../functions/useFaas.md) request lifecycle.
 
 ## Type Parameters
 
-### PathOrData
+### Path
 
-`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md)
+`Path` _extends_ `FaasActionPaths`
 
 Action path or response data type used for inference.

@@ -41,7 +41,8 @@
 - [ConfigProviderProps](interfaces/ConfigProviderProps.md)
 - [DescriptionItemContentProps](interfaces/DescriptionItemContentProps.md)
 - [DescriptionItemProps](interfaces/DescriptionItemProps.md)
-- [DescriptionProps](interfaces/DescriptionProps.md)
+- [DescriptionWithFaasProps](interfaces/DescriptionWithFaasProps.md)
+- [DescriptionWithoutFaasProps](interfaces/DescriptionWithoutFaasProps.md)
 - [DrawerProps](interfaces/DrawerProps.md)
 - [ErrorBoundaryProps](interfaces/ErrorBoundaryProps.md)
 - [ExtendDescriptionTypeProps](interfaces/ExtendDescriptionTypeProps.md)
@@ -62,6 +63,7 @@
 ## Type Aliases
 
 - [BaseOption](type-aliases/BaseOption.md)
+- [DescriptionProps](type-aliases/DescriptionProps.md)
 - [ExtendDescriptionItemProps](type-aliases/ExtendDescriptionItemProps.md)
 - [ExtendFormTypeProps](type-aliases/ExtendFormTypeProps.md)
 - [ExtendTableItemProps](type-aliases/ExtendTableItemProps.md)
@@ -75,6 +77,8 @@
 - [FormFaasProps](type-aliases/FormFaasProps.md)
 - [FormProps](type-aliases/FormProps.md)
 - [FormSubmitProps](type-aliases/FormSubmitProps.md)
+- [FormWithFaasProps](type-aliases/FormWithFaasProps.md)
+- [FormWithoutFaasProps](type-aliases/FormWithoutFaasProps.md)
 - [LoadingProps](type-aliases/LoadingProps.md)
 - [ResolvedTheme](type-aliases/ResolvedTheme.md)
 - [setDrawerProps](type-aliases/setDrawerProps.md)

@@ -2,7 +2,7 @@
 
 # Function: withFaasData()
 
-> **withFaasData**\<`PathOrData`, `TComponentProps`\>(`Component`, `faasProps`): `FC`\<`Omit`\<`TComponentProps`, keyof [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\> & `Record`\<`string`, `any`\>\>
+> **withFaasData**\<`Path`, `TComponentProps`\>(`Component`, `faasProps`): `FC`\<`Omit`\<`TComponentProps`, keyof [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`Path`\>\> & `Record`\<`string`, `any`\>\>
 
 Wrap a component with [FaasDataWrapper](../variables/FaasDataWrapper.md) and inject Faas request state as props.
 
@@ -12,15 +12,15 @@ preserve an existing component boundary. For new code, prefer `useFaas` or
 
 ## Type Parameters
 
-### PathOrData
+### Path
 
-`PathOrData` _extends_ [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md)
+`Path` _extends_ `FaasActionPaths`
 
 Action path or response data type used for inference.
 
 ### TComponentProps
 
-`TComponentProps` _extends_ `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\> = `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\>
+`TComponentProps` _extends_ `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`Path`\>\> = `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`Path`\>\>
 
 Component props including injected Faas data fields.
 
@@ -34,13 +34,13 @@ Component that consumes injected Faas data props.
 
 ### faasProps
 
-[`FaasDataWrapperProps`](../type-aliases/FaasDataWrapperProps.md)\<`PathOrData`\>
+[`FaasDataWrapperProps`](../type-aliases/FaasDataWrapperProps.md)\<`Path`\>
 
 Request configuration forwarded to `FaasDataWrapper`.
 
 ## Returns
 
-`FC`\<`Omit`\<`TComponentProps`, keyof [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\> & `Record`\<`string`, `any`\>\>
+`FC`\<`Omit`\<`TComponentProps`, keyof [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`Path`\>\> & `Record`\<`string`, `any`\>\>
 
 Component that accepts the original props minus the injected Faas data fields.
 

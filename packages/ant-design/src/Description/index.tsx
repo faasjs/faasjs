@@ -1,3 +1,4 @@
+import type { FaasActionPaths } from '@faasjs/types'
 import { Descriptions, type DescriptionsProps, Space } from 'antd'
 import { type JSX, type ReactNode } from 'react'
 
@@ -53,12 +54,12 @@ export interface DescriptionItemProps<T = any> extends FaasItemProps {
 }
 
 /**
- * Props for the {@link Description} component.
+ * Common props shared between {@link DescriptionWithoutFaasProps} and {@link DescriptionWithFaasProps}.
  *
  * @template T - Data record shape rendered by the component.
  * @template ExtendItemProps - Additional item prop shape accepted by `items`.
  */
-export interface DescriptionProps<T = any, ExtendItemProps = any> extends Omit<
+interface DescriptionCommonProps<T = any, ExtendItemProps = any> extends Omit<
   DescriptionsProps,
   'items'
 > {
@@ -70,11 +71,88 @@ export interface DescriptionProps<T = any, ExtendItemProps = any> extends Omit<
   extendTypes?: {
     [key: string]: ExtendDescriptionTypeProps
   }
+}
+
+/**
+ * Props for {@link Description} when used with a local `dataSource`.
+ *
+ * @template T - Data record shape rendered by the component.
+ * @template ExtendItemProps - Additional item prop shape accepted by `items`.
+ *
+ * @example
+ * ```tsx
+ * import { Description } from '@faasjs/ant-design'
+ *
+ * export function Detail() {
+ *   return (
+ *     <Description
+ *       title="Title"
+ *       items={[
+ *         { id: 'id', title: 'Title', type: 'string' },
+ *       ]}
+ *       dataSource={{ id: 'value' }}
+ *     />
+ *   )
+ * }
+ * ```
+ */
+export interface DescriptionWithoutFaasProps<
+  T = any,
+  ExtendItemProps = any,
+> extends DescriptionCommonProps<T, ExtendItemProps> {
   /** Local data record rendered directly by the component. */
   dataSource?: T
-  /** Request config used to fetch the record before rendering. */
-  faasData?: FaasDataWrapperProps<any>
+  faasData?: never
 }
+
+/**
+ * Props for {@link Description} when used with a fetched `faasData`.
+ *
+ * @template Path - Action path type for strong typing of `faasData.action` and `params`.
+ * @template T - Data record shape rendered by the component.
+ * @template ExtendItemProps - Additional item prop shape accepted by `items`.
+ *
+ * @example
+ * ```tsx
+ * import { Description } from '@faasjs/ant-design'
+ *
+ * export function Detail() {
+ *   return (
+ *     <Description
+ *       title="Title"
+ *       items={[
+ *         { id: 'id', title: 'Title', type: 'string' },
+ *       ]}
+ *       faasData={{
+ *         action: 'user/get',
+ *         params: { id: 1 },
+ *       }}
+ *     />
+ *   )
+ * }
+ * ```
+ */
+export interface DescriptionWithFaasProps<
+  Path extends FaasActionPaths = any,
+  T = any,
+  ExtendItemProps = any,
+> extends DescriptionCommonProps<T, ExtendItemProps> {
+  dataSource?: never
+  /** Request config used to fetch the record before rendering. */
+  faasData?: FaasDataWrapperProps<Path>
+}
+
+/**
+ * Props for the {@link Description} component.
+ *
+ * Union of {@link DescriptionWithoutFaasProps} and {@link DescriptionWithFaasProps} for backward compatibility.
+ *
+ * @template T - Data record shape rendered by the component.
+ * @template ExtendItemProps - Additional item prop shape accepted by `items`.
+ */
+export type DescriptionProps<T = any, ExtendItemProps = any> =
+  | DescriptionWithoutFaasProps<T, ExtendItemProps>
+  | DescriptionWithFaasProps<any, T, ExtendItemProps>
 
 /**
  * Props passed to the exported `DescriptionItemContent` helper shape.
@@ -157,14 +235,13 @@ function DescriptionItemContent<T = any>(
 DescriptionItemContent.displayName = 'DescriptionItemContent'
 
 /**
- * Render an Ant Design description list from FaasJS item metadata.
+ * Render an Ant Design description list from a local data source.
  *
- * The component can render a local `dataSource` directly or resolve one through `faasData`, and
- * it applies the same item type normalization helpers used by the form and table components.
+ * The component applies FaasJS item type normalization helpers to render item metadata with
+ * appropriate display formatting.
  *
  * @template T - Data record shape rendered by the component.
- * @param {DescriptionProps<T>} props - Description props including items, data source, and optional Faas data config.
- * @throws {Error} When an entry in `extendTypes` omits both `children` and `render`.
+ * @param {DescriptionWithoutFaasProps<T>} props - Description props including items and a local data source.
  *
  * @example
  * ```tsx
@@ -175,11 +252,7 @@ DescriptionItemContent.displayName = 'DescriptionItemContent'
  *     <Description
  *       title="Title"
  *       items={[
- *         {
- *           id: 'id',
- *           title: 'Title',
- *           type: 'string',
- *         },
+ *         { id: 'id', title: 'Title', type: 'string' },
  *       ]}
  *       dataSource={{ id: 'value' }}
  *     />
@@ -187,12 +260,60 @@ DescriptionItemContent.displayName = 'DescriptionItemContent'
  * }
  * ```
  */
+export function Description<T extends Record<string, any> = any>(
+  props: DescriptionWithoutFaasProps<T>,
+): JSX.Element
+
+/**
+ * Render an Ant Design description list with fetched FaasJS data.
+ *
+ * The component fetches data via `faasData` and applies FaasJS item type normalization helpers
+ * to render item metadata with appropriate display formatting.
+ *
+ * When `Path` is provided, the `action` and `params` in `faasData` are strongly typed from the
+ * {@link FaasActions} type augmentation.
+ *
+ * @template Path - Action path type inferred from `faasData.action` for strong typing.
+ * @template T - Data record shape rendered by the component.
+ * @param {DescriptionWithFaasProps<Path, T>} props - Description props including items and FaasJS data config.
+ *
+ * @example
+ * ```tsx
+ * import { Description } from '@faasjs/ant-design'
+ *
+ * export function Detail() {
+ *   return (
+ *     <Description
+ *       title="Title"
+ *       items={[
+ *         { id: 'id', title: 'Title', type: 'string' },
+ *       ]}
+ *       faasData={{
+ *         action: 'user/get',
+ *         params: { id: 1 },
+ *       }}
+ *     />
+ *   )
+ * }
+ * ```
+ */
+export function Description<Path extends FaasActionPaths, T extends Record<string, any> = any>(
+  props: DescriptionWithFaasProps<Path, T>,
+): JSX.Element
+
+/**
+ * Render an Ant Design description list (catch-all overload for backward compatibility).
+ */
+export function Description<T extends Record<string, any> = any>(
+  props: DescriptionProps<T>,
+): JSX.Element
+
 export function Description<T extends Record<string, any> = any>(props: DescriptionProps<T>) {
   const { faasData, dataSource, renderTitle, extendTypes, ...descriptionProps } = props
 
   if (faasData && !dataSource) {
-    const faasDataProps: FaasDataWrapperProps<T> = {
-      action: faasData.action as FaasDataWrapperProps<T>['action'],
+    const faasDataProps: FaasDataWrapperProps<any> = {
+      action: faasData.action as FaasDataWrapperProps<any>['action'],
       render: ({ data }) => (
         <Description
           {...descriptionProps}
@@ -205,18 +326,18 @@ export function Description<T extends Record<string, any> = any>(props: Descript
 
     if (faasData.baseUrl !== undefined) faasDataProps.baseUrl = faasData.baseUrl
     if (faasData.data !== undefined)
-      faasDataProps.data = faasData.data as NonNullable<FaasDataWrapperProps<T>['data']>
+      faasDataProps.data = faasData.data as NonNullable<FaasDataWrapperProps<any>['data']>
     if (faasData.fallback !== undefined) faasDataProps.fallback = faasData.fallback
     if (faasData.onDataChange !== undefined)
       faasDataProps.onDataChange = (args) => faasData.onDataChange?.(args)
     if (faasData.params !== undefined)
-      faasDataProps.params = faasData.params as NonNullable<FaasDataWrapperProps<T>['params']>
+      faasDataProps.params = faasData.params as NonNullable<FaasDataWrapperProps<any>['params']>
     if (faasData.ref !== undefined)
-      faasDataProps.ref = faasData.ref as NonNullable<FaasDataWrapperProps<T>['ref']>
+      faasDataProps.ref = faasData.ref as NonNullable<FaasDataWrapperProps<any>['ref']>
     if (faasData.setData !== undefined)
-      faasDataProps.setData = faasData.setData as NonNullable<FaasDataWrapperProps<T>['setData']>
+      faasDataProps.setData = faasData.setData as NonNullable<FaasDataWrapperProps<any>['setData']>
 
-    return <FaasDataWrapper<T> {...faasDataProps} />
+    return <FaasDataWrapper<any> {...faasDataProps} />
   }
 
   return (

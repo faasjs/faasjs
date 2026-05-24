@@ -2,7 +2,7 @@
 
 # Variable: FaasDataWrapper
 
-> `const` **FaasDataWrapper**: \<`PathOrData`\>(`props`) => `ReactElement`\<`unknown`, `string` \| `JSXElementConstructor`\<`any`\>\> \| `null`
+> `const` **FaasDataWrapper**: \<`Path`\>(`props`) => `ReactElement`\<`unknown`, `string` \| `JSXElementConstructor`\<`any`\>\> \| `null`
 
 Fetch FaasJS data and inject the result into a render prop or child element.
 
@@ -11,15 +11,15 @@ completes, then keeps passing the latest request state to the rendered output.
 
 ## Type Parameters
 
-### PathOrData
+### Path
 
-`PathOrData` _extends_ [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md) = `any`
+`Path` _extends_ `FaasActionPaths`
 
 ## Parameters
 
 ### props
 
-[`FaasDataWrapperProps`](../type-aliases/FaasDataWrapperProps.md)\<`PathOrData`\> & `RefAttributes`\<[`FaasDataWrapperRef`](../type-aliases/FaasDataWrapperRef.md)\<`PathOrData`\>\>
+[`FaasDataWrapperProps`](../type-aliases/FaasDataWrapperProps.md)\<`Path`\> & `RefAttributes`\<[`FaasDataWrapperRef`](../type-aliases/FaasDataWrapperRef.md)\<`Path`\>\>
 
 Wrapper props controlling the request and rendered fallback.
 

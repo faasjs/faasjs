@@ -2,35 +2,36 @@
 
 # Function: Form()
 
-> **Form**\<`Values`\>(`props`): `Element` \| `null`
+## Call Signature
 
-Render a data-aware Ant Design form with optional FaasJS submission helpers.
+> **Form**\<`Values`\>(`props`): `Element`
+
+Render a data-aware Ant Design form without the built-in FaasJS submit handler.
 
 The component normalizes `initialValues` with [transferValue](transferValue.md), renders item definitions
-through [FormItem](FormItem.md), and can either delegate submission to a custom `onFinish` handler or
-the built-in FaasJS request flow configured by `faas`.
+through [FormItem](FormItem.md), and delegates submission to the custom `onFinish` handler.
 
-## Type Parameters
+### Type Parameters
 
-### Values
+#### Values
 
 `Values` _extends_ `Record`\<`string`, `any`\> = `any`
 
 Form values shape.
 
-## Parameters
+### Parameters
 
-### props
+#### props
 
-[`FormProps`](../type-aliases/FormProps.md)\<`Values`\>
+[`FormWithoutFaasProps`](../type-aliases/FormWithoutFaasProps.md)\<`Values`\>
 
-Form props including items, submit behavior, and FaasJS integration.
+Form props including items, submit behavior, and a custom `onFinish` handler.
 
-## Returns
+### Returns
 
-`Element` \| `null`
+`Element`
 
-## Examples
+### Example
 
 ```tsx
 import { Form } from '@faasjs/ant-design'
@@ -49,6 +50,46 @@ export function ProfileForm() {
   )
 }
 ```
+
+## Call Signature
+
+> **Form**\<`Path`, `Values`\>(`props`): `Element`
+
+Render a data-aware Ant Design form with the built-in FaasJS submit handler.
+
+The component normalizes `initialValues` with [transferValue](transferValue.md), renders item definitions
+through [FormItem](FormItem.md), and submits via the built-in FaasJS request flow configured by `faas`.
+
+When `Path` is provided, the `action` and `params` in `faas` are strongly typed from the
+FaasActions type augmentation.
+
+### Type Parameters
+
+#### Path
+
+`Path` _extends_ `FaasActionPaths`
+
+Action path type inferred from `faas.action` for strong typing.
+
+#### Values
+
+`Values` _extends_ `Record`\<`string`, `any`\> = `any`
+
+Form values shape.
+
+### Parameters
+
+#### props
+
+[`FormWithFaasProps`](../type-aliases/FormWithFaasProps.md)\<`Path`, `Values`\>
+
+Form props including items, submit behavior, and FaasJS integration.
+
+### Returns
+
+`Element`
+
+### Example
 
 ```tsx
 import { Form } from '@faasjs/ant-design'
@@ -71,3 +112,29 @@ export function CreateUserForm() {
   )
 }
 ```
+
+## Call Signature
+
+> **Form**\<`Values`, `Path`\>(`props`): `Element`
+
+Render a data-aware Ant Design form (catch-all overload for backward compatibility).
+
+### Type Parameters
+
+#### Values
+
+`Values` _extends_ `Record`\<`string`, `any`\> = `any`
+
+#### Path
+
+`Path` _extends_ `FaasActionPaths` = `any`
+
+### Parameters
+
+#### props
+
+[`FormProps`](../type-aliases/FormProps.md)\<`Values`, `Path`\>
+
+### Returns
+
+`Element`

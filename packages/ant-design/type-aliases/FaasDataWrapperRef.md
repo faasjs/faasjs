@@ -1,15 +1,15 @@
 [@faasjs/ant-design](../README.md) / FaasDataWrapperRef
 
-# Type Alias: FaasDataWrapperRef\<PathOrData\>
+# Type Alias: FaasDataWrapperRef\<Path\>
 
-> **FaasDataWrapperRef**\<`PathOrData`\> = `FaasDataInjection`\<`PathOrData`\>
+> **FaasDataWrapperRef**\<`Path`\> = `FaasDataInjection`\<`Path`\>
 
 Imperative ref shape exposed by [FaasDataWrapper](../functions/FaasDataWrapper.md).
 
 ## Type Parameters
 
-### PathOrData
+### Path
 
-`PathOrData` _extends_ `FaasActionUnionType` = `any`
+`Path` _extends_ `FaasActionPaths`
 
 Action path or response data type used for inference.

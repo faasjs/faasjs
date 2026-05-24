@@ -30,25 +30,25 @@ Creates a new FaasBrowserClient instance.
 
 ### action()
 
-> **action**\<`PathOrData`\>(`action`, `params?`, `options?`): `Promise`\<[`Response`](Response.md)\<[`FaasData`](../type-aliases/FaasData.md)\<`PathOrData`\>\>\>
+> **action**\<`Path`\>(`action`, `params`, `options?`): `Promise`\<[`Response`](Response.md)\<`FaasData`\<`Path`\>\>\>
 
 Makes a request to a FaasJS function.
 
 #### Type Parameters
 
-##### PathOrData
+##### Path
 
-`PathOrData` _extends_ [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md)
+`Path` _extends_ `FaasActionPaths`
 
 #### Parameters
 
 ##### action
 
-[`FaasAction`](../type-aliases/FaasAction.md)\<`PathOrData`\>
+`Path`
 
-##### params?
+##### params
 
-[`FaasParams`](../type-aliases/FaasParams.md)\<`PathOrData`\>
+`FaasParams`\<`Path`\>
 
 ##### options?
 
@@ -56,7 +56,7 @@ Makes a request to a FaasJS function.
 
 #### Returns
 
-`Promise`\<[`Response`](Response.md)\<[`FaasData`](../type-aliases/FaasData.md)\<`PathOrData`\>\>\>
+`Promise`\<[`Response`](Response.md)\<`FaasData`\<`Path`\>\>\>
 
 ## Properties
 

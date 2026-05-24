@@ -7,6 +7,23 @@ import {
   ResponseError,
 } from '../../browser'
 
+declare module '@faasjs/types' {
+  interface FaasActions {
+    path: {
+      Params: Record<string, any>
+      Data: Record<string, any>
+    }
+    success: {
+      Params: { success: boolean }
+      Data: Record<string, any>
+    }
+    error: {
+      Params: { success: boolean }
+      Data: Record<string, any>
+    }
+  }
+}
+
 let request: {
   url: string
   method: string
@@ -48,7 +65,7 @@ describe('client', () => {
 
   it('should work', async () => {
     const client = new FaasBrowserClient()
-    const response = await client.action('path')
+    const response = await client.action('path', {})
 
     expect(client.defaultOptions).toEqual({})
     expect(request.url.substring(0, 8)).toEqual('/path?_=')
@@ -70,7 +87,7 @@ describe('client', () => {
         options.headers = { 'Content-Type': 'plain/text; charset=UTF-8' }
       },
     })
-    await client.action('path')
+    await client.action('path', {})
 
     expect(request.url.substring(0, 8)).toEqual('/path?_=')
     expect(request.method).toEqual('GET')
@@ -96,10 +113,10 @@ describe('client', () => {
       },
     })
 
-    const response = await client.action('/success', { success: true })
+    const response = await client.action('success', { success: true })
 
     expect(response.data).toEqual(response.data)
-    await expect(client.action('/error', { success: false })).rejects.toEqual('error')
+    await expect(client.action('error', { success: false })).rejects.toEqual('error')
   })
 
   it('when error', async () => {
@@ -120,7 +137,7 @@ describe('client', () => {
 
     const client = new FaasBrowserClient('/')
 
-    await expect(client.action('path')).rejects.toEqual(new ResponseError('no'))
+    await expect(client.action('path', {})).rejects.toEqual(new ResponseError('no'))
   })
 
   it('returns an empty wrapped response when success status has no body', async () => {
@@ -134,7 +151,7 @@ describe('client', () => {
     ) as any
 
     const client = new FaasBrowserClient('/')
-    const response = await client.action('path')
+    const response = await client.action('path', {})
 
     expect(response.status).toBe(204)
     expect(response.headers).toMatchObject({
@@ -155,7 +172,7 @@ describe('client', () => {
 
     const client = new FaasBrowserClient('/')
 
-    await expect(client.action('path')).rejects.toMatchObject({
+    await expect(client.action('path', {})).rejects.toMatchObject({
       message: 'service unavailable',
       status: 503,
       body: 'service unavailable',

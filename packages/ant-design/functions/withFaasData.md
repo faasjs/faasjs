@@ -2,21 +2,21 @@
 
 # Function: withFaasData()
 
-> **withFaasData**\<`PathOrData`, `TComponentProps`\>(`Component`, `faasProps`): `FC`\<`Omit`\<`TComponentProps`, keyof `FaasDataInjection`\<`PathOrData`\>\>\>
+> **withFaasData**\<`Path`, `TComponentProps`\>(`Component`, `faasProps`): `FC`\<`Omit`\<`TComponentProps`, keyof `FaasDataInjection`\<`Path`\>\>\>
 
 Wrap a component with [FaasDataWrapper](FaasDataWrapper.md) and its Ant Design loading fallback.
 
 ## Type Parameters
 
-### PathOrData
+### Path
 
-`PathOrData` _extends_ `FaasActionUnionType`
+`Path` _extends_ `FaasActionPaths`
 
 Action path or response data type used for inference.
 
 ### TComponentProps
 
-`TComponentProps` _extends_ `Required`\<`Partial`\<`FaasDataInjection`\<`PathOrData`\>\>\> = `Required`\<`Partial`\<`FaasDataInjection`\<`PathOrData`\>\>\>
+`TComponentProps` _extends_ `Required`\<`Partial`\<`FaasDataInjection`\<`Path`\>\>\> = `Required`\<`Partial`\<`FaasDataInjection`\<`Path`\>\>\>
 
 Component props including injected Faas data fields.
 
@@ -30,13 +30,13 @@ Component that consumes injected Faas data props.
 
 ### faasProps
 
-[`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`PathOrData`\>
+[`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`Path`\>
 
 Request configuration forwarded to [FaasDataWrapper](FaasDataWrapper.md).
 
 ## Returns
 
-`FC`\<`Omit`\<`TComponentProps`, keyof `FaasDataInjection`\<`PathOrData`\>\>\>
+`FC`\<`Omit`\<`TComponentProps`, keyof `FaasDataInjection`\<`Path`\>\>\>
 
 Higher-order component that injects Faas data props.
 
