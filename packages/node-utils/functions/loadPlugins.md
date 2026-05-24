@@ -15,7 +15,7 @@ declare an explicit module `type` whose module exports a class as
 
 ### T
 
-`T` _extends_ `TFunc`
+`T` _extends_ `HasExportHandler`
 
 Function instance type enriched with config-driven plugins.
 

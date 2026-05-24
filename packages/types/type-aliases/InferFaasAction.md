@@ -2,9 +2,10 @@
 
 # Type Alias: InferFaasAction\<TApi\>
 
-> **InferFaasAction**\<`TApi`\> = `TApi` _extends_ `object` ? `object` : `never`
+> **InferFaasAction**\<`TApi`\> = `TApi` _extends_ `object` ? `object` : `TApi` _extends_ `object` ? `TDefault` _extends_ `object` ? `object` : `never` : `never`
 
-Infer the FaasAction type from a Func.
+Infer `{ Params, Data }` from a Func, a Func-like object, or a
+module whose default export is a Func.
 
 ## Type Parameters
 
@@ -12,4 +13,4 @@ Infer the FaasAction type from a Func.
 
 `TApi`
 
-API instance used to infer params and data.
+A Func, Func-like object, or module shape.

@@ -4,21 +4,15 @@
 
 > **FormFaasProps**\<`Values`, `Path`\> = `object`
 
-Built-in FaasJS submit handler configuration for [Form](../functions/Form.md).
-
 ## Type Parameters
 
 ### Values
 
 `Values` _extends_ `Record`\<`string`, `any`\> = `any`
 
-Form values shape used by submit handlers.
-
 ### Path
 
 `Path` _extends_ `FaasActionPaths` = `any`
-
-Action path type.
 
 ## Properties
 
@@ -26,13 +20,9 @@ Action path type.
 
 > **action**: `Path`
 
-Action name submitted through `faas()`.
-
 ### onError?
 
 > `optional` **onError?**: (`error`, `values`) => `void`
-
-Callback invoked when the request fails.
 
 #### Parameters
 
@@ -52,8 +42,6 @@ Callback invoked when the request fails.
 
 > `optional` **onFinally?**: () => `void`
 
-Callback invoked after the request settles.
-
 #### Returns
 
 `void`
@@ -61,8 +49,6 @@ Callback invoked after the request settles.
 ### onSuccess?
 
 > `optional` **onSuccess?**: (`result`, `values`) => `void`
-
-Callback invoked when the request succeeds.
 
 #### Parameters
 
@@ -82,13 +68,9 @@ Callback invoked when the request succeeds.
 
 > `optional` **params?**: `FaasParams`\<`Path`\> \| ((`values`) => `FaasParams`\<`Path`\>)
 
-Extra params merged into the submitted payload after `transformValues` runs.
-
 ### transformValues?
 
 > `optional` **transformValues?**: (`values`) => `Record`\<`string`, `any`\> \| `Promise`\<`Record`\<`string`, `any`\>\>
-
-Transform form values before sending the request.
 
 #### Parameters
 

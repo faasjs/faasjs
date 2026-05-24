@@ -1,16 +1,24 @@
 [@faasjs/react](../README.md) / UseFaasStreamResult
 
-# Type Alias: UseFaasStreamResult
+# Type Alias: UseFaasStreamResult\<Path\>
 
-> **UseFaasStreamResult** = `object`
+> **UseFaasStreamResult**\<`Path`\> = `object`
 
 Result returned by [useFaasStream](../functions/useFaasStream.md).
+
+## Type Parameters
+
+### Path
+
+`Path` _extends_ `FaasActionPaths`
+
+Action path used for params inference.
 
 ## Properties
 
 ### action
 
-> **action**: `string`
+> **action**: `Path`
 
 Action path currently associated with the stream request.
 
@@ -34,7 +42,7 @@ Whether the hook is currently waiting for stream data and should block the main 
 
 ### params
 
-> **params**: `Record`\<`string`, `any`\>
+> **params**: `FaasParams`\<`Path`\>
 
 Params used for the most recent request attempt.
 
@@ -54,7 +62,7 @@ Trigger a new streaming request with optional params.
 
 ##### params?
 
-`Record`\<`string`, `any`\>
+`FaasParams`\<`Path`\>
 
 ##### options?
 

@@ -2,8 +2,6 @@
 
 # Interface: FaasItemProps
 
-Base item props plus the shared built-in value type selector.
-
 ## Extends
 
 - [`BaseItemProps`](BaseItemProps.md)
@@ -19,8 +17,6 @@ Base item props plus the shared built-in value type selector.
 
 > **id**: `string` \| `number`
 
-Stable field identifier used as the default name and title source.
-
 #### Inherited from
 
 [`BaseItemProps`](BaseItemProps.md).[`id`](BaseItemProps.md#id)
@@ -28,8 +24,6 @@ Stable field identifier used as the default name and title source.
 ### options?
 
 > `optional` **options?**: [`BaseOption`](../type-aliases/BaseOption.md)[]
-
-Shared choice options used by select-like renderers.
 
 #### Inherited from
 
@@ -39,8 +33,6 @@ Shared choice options used by select-like renderers.
 
 > `optional` **title?**: `string`
 
-Human-readable title used for labels and table headers.
-
 #### Inherited from
 
 [`BaseItemProps`](BaseItemProps.md).[`title`](BaseItemProps.md#title)
@@ -48,11 +40,3 @@ Human-readable title used for labels and table headers.
 ### type?
 
 > `optional` **type?**: [`FaasItemType`](../type-aliases/FaasItemType.md)
-
-Built-in FaasJS field type used to normalize and render values.
-
-#### Default
-
-```ts
-'string'
-```

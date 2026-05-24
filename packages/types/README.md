@@ -1,7 +1,5 @@
 # @faasjs/types
 
-## Interfaces
-
 ## Type Aliases
 
 - [FaasActionPaths](type-aliases/FaasActionPaths.md)

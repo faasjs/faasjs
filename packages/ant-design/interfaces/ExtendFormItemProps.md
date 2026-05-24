@@ -2,8 +2,6 @@
 
 # Interface: ExtendFormItemProps
 
-Item shape used to extend `Form` with custom type names.
-
 ## Extends
 
 - `Omit`\<[`FormItemProps`](FormItemProps.md), `"type"`\>
@@ -14,8 +12,6 @@ Item shape used to extend `Form` with custom type names.
 
 > `optional` **children?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\> \| `null`
 
-Generic custom field renderer or element.
-
 #### Inherited from
 
 `Omit.children`
@@ -23,8 +19,6 @@ Generic custom field renderer or element.
 ### col?
 
 > `optional` **col?**: `number`
-
-Grid span used by surrounding object-list layouts.
 
 #### Inherited from
 
@@ -34,8 +28,6 @@ Grid span used by surrounding object-list layouts.
 
 > `optional` **disabled?**: `boolean`
 
-Whether the generated field is disabled.
-
 #### Inherited from
 
 [`UnionFaasItemProps`](UnionFaasItemProps.md).[`disabled`](UnionFaasItemProps.md#disabled)
@@ -43,8 +35,6 @@ Whether the generated field is disabled.
 ### extendTypes?
 
 > `optional` **extendTypes?**: [`ExtendTypes`](../type-aliases/ExtendTypes.md)
-
-Custom form item type renderers keyed by type name.
 
 #### Inherited from
 
@@ -54,8 +44,6 @@ Custom form item type renderers keyed by type name.
 
 > `optional` **formChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\> \| `null`
 
-Form-specific custom field renderer or element.
-
 #### Inherited from
 
 `Omit.formChildren`
@@ -63,8 +51,6 @@ Form-specific custom field renderer or element.
 ### formRender?
 
 > `optional` **formRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\> \| `null`
-
-Form-specific custom render callback.
 
 #### Inherited from
 
@@ -74,8 +60,6 @@ Form-specific custom render callback.
 
 > **id**: `string` \| `number`
 
-Stable field identifier used as the default name and title source.
-
 #### Inherited from
 
 [`BaseItemProps`](BaseItemProps.md).[`id`](BaseItemProps.md#id)
@@ -83,8 +67,6 @@ Stable field identifier used as the default name and title source.
 ### if?
 
 > `optional` **if?**: (`values`) => `boolean`
-
-Predicate used to show or hide the item from the current form values.
 
 #### Parameters
 
@@ -102,9 +84,7 @@ Predicate used to show or hide the item from the current form values.
 
 ### input?
 
-> `optional` **input?**: `SelectProps`\<`any`, `DefaultOptionType`\> \| `InputProps` \| `RadioProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps`
-
-Input props forwarded to the generated Ant Design control.
+> `optional` **input?**: `InputProps` \| `RadioProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps` \| `SelectProps`\<`any`, `DefaultOptionType`\>
 
 #### Inherited from
 
@@ -114,8 +94,6 @@ Input props forwarded to the generated Ant Design control.
 
 > `optional` **label?**: `string` \| `false`
 
-Label override, or `false` to hide the label completely.
-
 #### Inherited from
 
 [`UnionFaasItemProps`](UnionFaasItemProps.md).[`label`](UnionFaasItemProps.md#label)
@@ -123,8 +101,6 @@ Label override, or `false` to hide the label completely.
 ### maxCount?
 
 > `optional` **maxCount?**: `number`
-
-Maximum item count allowed for list-style field types.
 
 #### Inherited from
 
@@ -134,8 +110,6 @@ Maximum item count allowed for list-style field types.
 
 > `optional` **object?**: [`FormItemProps`](FormItemProps.md)\<`any`\>[]
 
-Nested field definitions used by `object` and `object[]` item types.
-
 #### Inherited from
 
 `Omit.object`
@@ -143,8 +117,6 @@ Nested field definitions used by `object` and `object[]` item types.
 ### onValueChange?
 
 > `optional` **onValueChange?**: (`value`, `values`, `form`) => `void`
-
-Callback invoked when this field's value changes.
 
 #### Parameters
 
@@ -172,8 +144,6 @@ Callback invoked when this field's value changes.
 
 > `optional` **options?**: [`BaseOption`](../type-aliases/BaseOption.md)[]
 
-Shared choice options used by select-like renderers.
-
 #### Inherited from
 
 [`BaseItemProps`](BaseItemProps.md).[`options`](BaseItemProps.md#options)
@@ -181,8 +151,6 @@ Shared choice options used by select-like renderers.
 ### render?
 
 > `optional` **render?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\> \| `null`
-
-Generic custom render callback.
 
 #### Inherited from
 
@@ -192,8 +160,6 @@ Generic custom render callback.
 
 > `optional` **required?**: `boolean`
 
-Whether the generated field adds a required validation rule.
-
 #### Inherited from
 
 [`UnionFaasItemProps`](UnionFaasItemProps.md).[`required`](UnionFaasItemProps.md#required)
@@ -202,8 +168,6 @@ Whether the generated field adds a required validation rule.
 
 > `optional` **rules?**: `RuleObject`[]
 
-Validation rules forwarded to Ant Design `Form.Item`.
-
 #### Inherited from
 
 [`UnionFaasItemProps`](UnionFaasItemProps.md).[`rules`](UnionFaasItemProps.md#rules)
@@ -211,8 +175,6 @@ Validation rules forwarded to Ant Design `Form.Item`.
 ### title?
 
 > `optional` **title?**: `string`
-
-Human-readable title used for labels and table headers.
 
 #### Inherited from
 

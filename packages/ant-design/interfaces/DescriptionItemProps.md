@@ -2,8 +2,6 @@
 
 # Interface: DescriptionItemProps\<T\>
 
-Item definition used by [Description](../functions/Description.md).
-
 ## Extends
 
 - [`FaasItemProps`](FaasItemProps.md)
@@ -18,33 +16,23 @@ Item definition used by [Description](../functions/Description.md).
 
 `T` = `any`
 
-Value type rendered by the item.
-
 ## Properties
 
 ### children?
 
 > `optional` **children?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\> \| `null`
 
-Generic custom element rendered when no description-specific child overrides it.
-
 ### descriptionChildren?
 
 > `optional` **descriptionChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\> \| `null`
-
-Description-specific custom element.
 
 ### descriptionRender?
 
 > `optional` **descriptionRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\> \| `null`
 
-Description-specific custom render callback.
-
 ### id
 
 > **id**: `string` \| `number`
-
-Stable field identifier used as the default name and title source.
 
 #### Inherited from
 
@@ -53,8 +41,6 @@ Stable field identifier used as the default name and title source.
 ### if?
 
 > `optional` **if?**: (`values`) => `boolean`
-
-Predicate used to hide the item for the current record.
 
 #### Parameters
 
@@ -70,13 +56,9 @@ Predicate used to hide the item for the current record.
 
 > `optional` **object?**: `DescriptionItemProps`\<`T`\>[]
 
-Nested item definitions used by `object` and `object[]` item types.
-
 ### options?
 
 > `optional` **options?**: [`BaseOption`](../type-aliases/BaseOption.md)[]
-
-Shared choice options used by select-like renderers.
 
 #### Inherited from
 
@@ -86,13 +68,9 @@ Shared choice options used by select-like renderers.
 
 > `optional` **render?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\> \| `null`
 
-Generic custom render callback.
-
 ### title?
 
 > `optional` **title?**: `string`
-
-Human-readable title used for labels and table headers.
 
 #### Inherited from
 
@@ -101,14 +79,6 @@ Human-readable title used for labels and table headers.
 ### type?
 
 > `optional` **type?**: [`FaasItemType`](../type-aliases/FaasItemType.md)
-
-Built-in FaasJS field type used to normalize and render values.
-
-#### Default
-
-```ts
-'string'
-```
 
 #### Inherited from
 

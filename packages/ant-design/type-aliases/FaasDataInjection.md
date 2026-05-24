@@ -1,15 +1,116 @@
 [@faasjs/ant-design](../README.md) / FaasDataInjection
 
-# Type Alias: FaasDataInjection\<T\>
+# Type Alias: FaasDataInjection\<Path\>
 
-> **FaasDataInjection**\<`T`\> = `Partial`\<`OriginFaasDataInjection`\<`T`\>\>
+> **FaasDataInjection**\<`Path`\> = `object`
 
-Partial data injection exposed to wrapped Ant Design components.
+Request state injected by [useFaas](../functions/useFaas.md), [FaasDataWrapper](../functions/FaasDataWrapper.md), and [withFaasData](../functions/withFaasData.md).
 
 ## Type Parameters
 
-### T
+### Path
 
-`T` _extends_ `FaasActionPaths` = `any`
+`Path` _extends_ `FaasActionPaths`
 
 Action path or response data type used for inference.
+
+## Methods
+
+### reload()
+
+> **reload**(`params?`, `options?`): `Promise`\<`FaasData`\<`Path`\>\>
+
+Reloads data with new or existing parameters.
+
+When the source hook is currently skipped, calling `reload` clears the skip
+flag before starting the next request.
+
+#### Parameters
+
+##### params?
+
+`FaasParams`\<`Path`\>
+
+##### options?
+
+###### silent?
+
+`boolean`
+
+#### Returns
+
+`Promise`\<`FaasData`\<`Path`\>\>
+
+## Properties
+
+### action
+
+> **action**: `Path`
+
+Action path associated with the current request state.
+
+### data
+
+> **data**: `FaasData`\<`Path`\>
+
+Current resolved data value.
+
+### error
+
+> **error**: `any`
+
+Last request error, if one occurred.
+
+### loading
+
+> **loading**: `boolean`
+
+Whether the request is currently in flight and should block the main UI.
+
+### params
+
+> **params**: `FaasParams`\<`Path`\>
+
+Params used for the most recent request attempt.
+
+### promise
+
+> **promise**: `Promise`\<`Response`\<`FaasData`\<`Path`\>\>\>
+
+Promise representing the latest request.
+
+### refreshing
+
+> **refreshing**: `boolean`
+
+Whether a background refresh request is currently in flight.
+
+### reloadTimes
+
+> **reloadTimes**: `number`
+
+Number of times `reload()` or polling has triggered a new request.
+
+### setData
+
+> **setData**: `React.Dispatch`\<`React.SetStateAction`\<`FaasData`\<`Path`\>\>\>
+
+Controlled or internal setter for the resolved data value.
+
+### setError
+
+> **setError**: `React.Dispatch`\<`React.SetStateAction`\<`any`\>\>
+
+Setter for the last request error.
+
+### setLoading
+
+> **setLoading**: `React.Dispatch`\<`React.SetStateAction`\<`boolean`\>\>
+
+Setter for the loading flag.
+
+### setPromise
+
+> **setPromise**: `React.Dispatch`\<`React.SetStateAction`\<`Promise`\<`Response`\<`FaasData`\<`Path`\>\>\>\>\>
+
+Setter for the latest request promise.

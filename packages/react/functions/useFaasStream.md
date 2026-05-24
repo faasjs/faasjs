@@ -2,7 +2,7 @@
 
 # Function: useFaasStream()
 
-> **useFaasStream**\<`Path`\>(`action`, `defaultParams`, `options?`): [`UseFaasStreamResult`](../type-aliases/UseFaasStreamResult.md)
+> **useFaasStream**\<`Path`\>(`action`, `defaultParams`, `options?`): [`UseFaasStreamResult`](../type-aliases/UseFaasStreamResult.md)\<`Path`\>
 
 Stream a FaasJS response into React state.
 
@@ -39,7 +39,7 @@ See the `UseFaasStreamOptions` type for `params`, `data`, `setData`, `skip`, `de
 
 ## Returns
 
-[`UseFaasStreamResult`](../type-aliases/UseFaasStreamResult.md)
+[`UseFaasStreamResult`](../type-aliases/UseFaasStreamResult.md)\<`Path`\>
 
 Streaming request state and helper methods described by [UseFaasStreamResult](../type-aliases/UseFaasStreamResult.md).
 

@@ -28,7 +28,7 @@ Callback invoked whenever the resolved data value changes.
 
 ##### args
 
-`FaasDataInjection`\<`T`\>
+[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`T`\>
 
 #### Returns
 
@@ -48,7 +48,7 @@ Render prop invoked with the resolved request state after the first load complet
 
 ##### args
 
-`FaasDataInjection`\<`T`\>
+[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`T`\>
 
 #### Returns
 
@@ -82,7 +82,7 @@ Base URL override used for this wrapper instance.
 
 ### children?
 
-> `optional` **children?**: `ReactElement`\<`Partial`\<`FaasDataInjection`\<`T`\>\>, `string` \| `JSXElementConstructor`\<`any`\>\>
+> `optional` **children?**: `ReactElement`\<`Partial`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`T`\>\>, `string` \| `JSXElementConstructor`\<`any`\>\>
 
 Child element cloned with injected request state after the first load completes.
 

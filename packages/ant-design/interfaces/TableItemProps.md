@@ -32,8 +32,6 @@ Generic custom element rendered when no table-specific child overrides it.
 
 > **id**: `string` \| `number`
 
-Stable field identifier used as the default name and title source.
-
 #### Inherited from
 
 [`FaasItemProps`](FaasItemProps.md).[`id`](FaasItemProps.md#id)
@@ -47,8 +45,6 @@ Nested item definitions used by `object` and `object[]` item types.
 ### options?
 
 > `optional` **options?**: [`BaseOption`](../type-aliases/BaseOption.md)[]
-
-Shared choice options used by select-like renderers.
 
 #### Inherited from
 
@@ -82,8 +78,6 @@ Table-specific custom render callback.
 
 > `optional` **title?**: `string`
 
-Human-readable title used for labels and table headers.
-
 #### Inherited from
 
 [`FaasItemProps`](FaasItemProps.md).[`title`](FaasItemProps.md#title)
@@ -91,14 +85,6 @@ Human-readable title used for labels and table headers.
 ### type?
 
 > `optional` **type?**: [`FaasItemType`](../type-aliases/FaasItemType.md)
-
-Built-in FaasJS field type used to normalize and render values.
-
-#### Default
-
-```ts
-'string'
-```
 
 #### Inherited from
 

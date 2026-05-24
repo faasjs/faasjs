@@ -2,7 +2,7 @@
 
 # Function: useFaas()
 
-> **useFaas**\<`Path`\>(`action`, `defaultParams`, `options?`): `FaasDataInjection`\<`Path`\>
+> **useFaas**\<`Path`\>(`action`, `defaultParams`, `options?`): [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`Path`\>
 
 Request FaasJS data and keep request state in React state.
 
@@ -41,7 +41,7 @@ See the `UseFaasOptions` type for `params`, `data`, `setData`, `skip`, `debounce
 
 ## Returns
 
-`FaasDataInjection`\<`Path`\>
+[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`Path`\>
 
 Request state and helper methods described by [FaasDataInjection](../type-aliases/FaasDataInjection.md).
 

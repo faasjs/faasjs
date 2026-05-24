@@ -1,4 +1,4 @@
-[@faasjs/core](../README.md) / defineApi
+[@faasjs/dev](../README.md) / defineApi
 
 # Function: defineApi()
 
