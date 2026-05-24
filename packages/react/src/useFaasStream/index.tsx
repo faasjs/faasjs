@@ -124,7 +124,7 @@ export function useFaasStream<Path extends FaasActionPaths>(
 
         accumulatedText += decoder.decode()
 
-        return accumulatedText as unknown as FaasData<Path>
+        return accumulatedText as FaasData<Path>
       } catch (error) {
         if (signal.aborted) throw new Error('Request aborted')
 
@@ -147,7 +147,7 @@ export function useFaasStream<Path extends FaasActionPaths>(
     reloadTimes: request.reloadTimes,
     data: options.data ?? data,
     error: request.error,
-    reload: request.reload as UseFaasStreamResult<Path>['reload'],
+    reload: request.reload,
     setData: updateData,
     setLoading: request.setLoading,
     setError: request.setError,

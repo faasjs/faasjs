@@ -34,14 +34,14 @@ type UseFaasRequestArgs<Path extends FaasActionPaths> = {
     'params' | 'skip' | 'debounce' | 'polling' | 'baseUrl'
   >
   beforeSend?: (args: { silent: boolean }) => void
-  onSuccess?: (result: Response<FaasData<Path>>) => void
+  onSuccess?: (result: FaasData<Path>) => void
   send: (args: {
     action: Path
     params: FaasParams<Path>
     signal: AbortSignal
     client: FaasReactClientInstance
     setPromise: (promise: Promise<Response<FaasData<Path>>>) => void
-  }) => Promise<Response<FaasData<Path>>>
+  }) => Promise<FaasData<Path>>
 }
 
 type PendingReload<Result> = {
@@ -61,16 +61,15 @@ type RequestTrigger = {
  * retry-on-fetch-failure, polling, and queued reload promises while delegating the
  * actual transport to `send`.
  *
- * @template Params - Request params type tracked by the lifecycle.
- * @template Result - Successful response payload type.
- * @template RequestPromise - Promise type exposed through `promiseRef`.
- * @param {UseFaasRequestArgs<Params, Result, RequestPromise>} args - Request lifecycle configuration.
+ * @template Path - Action path used for request params inference.
+ * @template TData - Data type returned by `send` and resolved by `reload()`.
+ * @param {UseFaasRequestArgs<Path>} args - Request lifecycle configuration.
  * @param {string} args.action - Action path or request key used to trigger the lifecycle.
- * @param {Params} args.defaultParams - Initial params value stored by the lifecycle.
- * @param {Pick<SharedUseFaasOptions<Params, Result>, 'params' | 'skip' | 'debounce' | 'polling' | 'baseUrl'>} args.options - Shared request options used by the lifecycle.
+ * @param {FaasParams<Path>} args.defaultParams - Initial params value stored by the lifecycle.
+ * @param {Pick<SharedUseFaasOptions<FaasParams<Path>, FaasData<Path>>, 'params' | 'skip' | 'debounce' | 'polling' | 'baseUrl'>} args.options - Shared request options used by the lifecycle.
  * @param {(args: { silent: boolean }) => void} [args.beforeSend] - Optional callback invoked immediately before a request starts.
- * @param {(result: Result) => void} [args.onSuccess] - Optional callback invoked after a successful response.
- * @param {UseFaasRequestArgs<Params, Result, RequestPromise>['send']} args.send - Transport function responsible for creating and resolving the request.
+ * @param {(result: FaasData<Path>) => void} [args.onSuccess] - Optional callback invoked after a successful response.
+ * @param {UseFaasRequestArgs<Path>['send']} args.send - Transport function responsible for creating and resolving the request.
  * @returns Shared request state, reload helpers, and refs used by `useFaas` and `useFaasStream`.
  * @example
  * ```ts
@@ -180,8 +179,8 @@ export function useFaasRequest<Path extends FaasActionPaths>({
       pendingReloadsRef.current.clear()
     }
 
-    const resolvePending = (value: Response<FaasData<Path>>) => {
-      for (const { resolve } of pendingReloadsRef.current.values()) resolve(value.data!)
+    const resolvePending = (value: FaasData<Path>) => {
+      for (const { resolve } of pendingReloadsRef.current.values()) resolve(value)
 
       pendingReloadsRef.current.clear()
     }

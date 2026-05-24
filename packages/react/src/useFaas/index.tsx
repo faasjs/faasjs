@@ -73,17 +73,19 @@ export function useFaas<Path extends FaasActionPaths>(
     defaultParams,
     options,
     onSuccess: (nextData) => {
-      if (options.setData) options.setData(nextData.data!)
-      else localSetData(nextData.data!)
+      if (options.setData) options.setData(nextData)
+      else localSetData(nextData)
     },
-    send: ({ action, params, signal, client, setPromise }) => {
+    send: async ({ action, params, signal, client, setPromise }) => {
       const promise = client.faas<Path>(action, params, {
         signal,
       })
 
       setPromise(promise)
 
-      return promise
+      const response = await promise
+
+      return response.data!
     },
   })
 
