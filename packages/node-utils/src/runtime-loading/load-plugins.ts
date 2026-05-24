@@ -1,7 +1,15 @@
 import { dirname, isAbsolute, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import type { TFunc } from '@faasjs/types'
+interface HasExportHandler {
+  config: Record<string, any>
+  plugins: Array<{
+    name: string
+    type: string
+    readonly [key: string]: any
+  }>
+  export(): { handler: (...args: any[]) => Promise<any> }
+}
 import { deepMerge } from '@faasjs/utils'
 
 import type { Logger } from '../logger'
@@ -156,7 +164,7 @@ async function applyPluginConfig(
  * )
  * ```
  */
-export async function loadPlugins<T extends TFunc>(
+export async function loadPlugins<T extends HasExportHandler>(
   func: T,
   options: LoadPluginsOptions,
 ): Promise<T> {

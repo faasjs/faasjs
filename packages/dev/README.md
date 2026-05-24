@@ -34,7 +34,6 @@
 - [Config](type-aliases/Config.md)
 - [CookieOptions](type-aliases/CookieOptions.md)
 - [DefineApiData](type-aliases/DefineApiData.md)
-- [DefineApiOptions](type-aliases/DefineApiOptions.md)
 - [ExportedHandler](type-aliases/ExportedHandler.md)
 - [FuncConfig](type-aliases/FuncConfig.md)
 - [FuncEventType](type-aliases/FuncEventType.md)

@@ -85,7 +85,7 @@ describe('faas cli', () => {
     const content = await readFile(outputPath, 'utf8')
 
     expect(content).toContain("declare module '@faasjs/types'")
-    expect(content).toContain('"/": InferFaasAction<InferFaasApi<typeof import("../index.api")>>')
+    expect(content).toContain('"/": InferFaasAction<typeof import("../index.api")>')
 
     logSpy.mockClear()
 

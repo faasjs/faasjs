@@ -1,8 +1,8 @@
 [@faasjs/core](../README.md) / DefineApiData
 
-# Type Alias: DefineApiData\<TSchema, TEvent, TContext, TResult\>
+# Type Alias: DefineApiData\<TSchema\>
 
-> **DefineApiData**\<`TSchema`, `TEvent`, `TContext`, `TResult`\> = [`InvokeData`](InvokeData.md)\<`TEvent`, `TContext`, `TResult`\> & `object` & `DefineApiInject`
+> **DefineApiData**\<`TSchema`\> = [`InvokeData`](InvokeData.md)\<`Record`\<`string`, `unknown`\>, `unknown`, `unknown`\> & `object` & `DefineApiInject`
 
 Handler data passed to [defineApi](../functions/defineApi.md).
 
@@ -36,21 +36,3 @@ Session helper injected by the HTTP plugin.
 `TSchema` _extends_ `ZodType` \| `undefined` = `undefined`
 
 Zod schema used to validate `event.params`.
-
-### TEvent
-
-`TEvent` = `Record`\<`string`, `unknown`\>
-
-Raw event type passed to the function.
-
-### TContext
-
-`TContext` = `unknown`
-
-Runtime context type.
-
-### TResult
-
-`TResult` = `unknown`
-
-Handler return type.

@@ -1,9 +1,9 @@
 import { useEqualMemo } from '@faasjs/react'
+import type { FaasDataInjection } from '@faasjs/react'
 import { Table as AntdTable, type TablePaginationConfig } from 'antd'
 import type { FilterValue, SorterResult, TableCurrentDataSource } from 'antd/es/table/interface'
 
 import { useConfigContext } from '../Config'
-import type { FaasDataInjection } from '../FaasDataWrapper'
 import { FaasDataWrapper } from '../FaasDataWrapper'
 import { createTableColumns } from './column-builder'
 import type { TableItemProps, TableProps, ExtendTableTypeProps } from './types'
@@ -100,7 +100,7 @@ export function FaasDataTable({
   params,
   reload,
   loading,
-}: Partial<FaasDataInjection> & {
+}: Partial<FaasDataInjection<any>> & {
   props: TableProps
   columns: TableItemProps[]
 }) {

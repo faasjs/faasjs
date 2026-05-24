@@ -90,16 +90,12 @@ describe('typegen', () => {
 
     const content = await readFile(result.output, 'utf8')
 
-    expect(content).toContain('"*": InferFaasAction<InferFaasApi<typeof import("../default.api")>>')
-    expect(content).toContain('"/": InferFaasAction<InferFaasApi<typeof import("../index.api")>>')
+    expect(content).toContain('"*": InferFaasAction<typeof import("../default.api")>')
+    expect(content).toContain('"/": InferFaasAction<typeof import("../index.api")>')
+    expect(content).toContain('"posts": InferFaasAction<typeof import("../posts.api")>')
+    expect(content).toContain('"users/*": InferFaasAction<typeof import("../users/default.api")>')
     expect(content).toContain(
-      '"posts": InferFaasAction<InferFaasApi<typeof import("../posts.api")>>',
-    )
-    expect(content).toContain(
-      '"users/*": InferFaasAction<InferFaasApi<typeof import("../users/default.api")>>',
-    )
-    expect(content).toContain(
-      '"users/profile": InferFaasAction<InferFaasApi<typeof import("../users/profile.api")>>',
+      '"users/profile": InferFaasAction<typeof import("../users/profile.api")>',
     )
     expect(content).not.toContain('import("../posts/index.api")')
 

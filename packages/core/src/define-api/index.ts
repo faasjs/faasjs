@@ -5,21 +5,6 @@ import type { Handler, InvokeData } from '../func'
 import { Func } from '../func'
 import { HttpError, type Cookie, type Session } from '../plugins/http'
 
-type IsAny<T> = 0 extends 1 & T ? true : false
-type DefineApiEventParams<TSchema extends ZodType | undefined = undefined> = SchemaOutput<
-  TSchema,
-  Record<string, unknown>
->
-type DefineApiEvent<
-  TSchema extends ZodType | undefined = undefined,
-  TEvent = Record<string, unknown>,
-> =
-  IsAny<TEvent> extends true
-    ? Record<string, unknown> & {
-        params?: DefineApiEventParams<TSchema>
-      }
-    : TEvent
-
 /**
  * Handler data passed to {@link defineApi}.
  *
@@ -27,16 +12,12 @@ type DefineApiEvent<
  * and any plugin-provided fields declared through `DefineApiInject`.
  *
  * @template TSchema - Zod schema used to validate `event.params`.
- * @template TEvent - Raw event type passed to the function.
- * @template TContext - Runtime context type.
- * @template TResult - Handler return type.
  */
-export type DefineApiData<
-  TSchema extends ZodType | undefined = undefined,
-  TEvent = Record<string, unknown>,
-  TContext = unknown,
-  TResult = unknown,
-> = InvokeData<TEvent, TContext, TResult> & {
+export type DefineApiData<TSchema extends ZodType | undefined = undefined> = InvokeData<
+  Record<string, unknown>,
+  unknown,
+  unknown
+> & {
   /**
    * Params validated by the optional Zod schema.
    */
@@ -60,39 +41,13 @@ export type DefineApiData<
 export interface DefineApiInject extends Record<never, never> {}
 
 /**
- * Options for creating a typed API function with {@link defineApi}.
- *
- * @template TSchema - Zod schema used to validate `event.params`.
- * @template TEvent - Raw event type passed to the function.
- * @template TContext - Runtime context type.
- * @template TResult - Handler return type.
- */
-export type DefineApiOptions<
-  TSchema extends ZodType | undefined = undefined,
-  TEvent = Record<string, unknown>,
-  TContext = unknown,
-  TResult = unknown,
-> = {
-  /**
-   * Optional Zod schema used to validate `event.params`.
-   */
-  schema?: TSchema
-  /**
-   * Async business handler executed after plugin and schema setup.
-   */
-  handler: (data: DefineApiData<TSchema, TEvent, TContext, TResult>) => Promise<TResult>
-}
-
-/**
  * Create an HTTP API function with optional Zod validation.
  *
  * The `http` plugin must come from `faas.yaml` or explicit code injection.
  *
  * @template TSchema - Zod schema used to validate `event.params`.
- * @template TEvent - Raw event type passed to the function.
- * @template TContext - Runtime context type.
  * @template THandler - Handler signature used to infer the response type.
- * @param {DefineApiOptions<TSchema, TEvent, TContext, Awaited<ReturnType<THandler>>>} options - Schema and handler used to build the API function.
+ * @param options - Schema and handler used to build the API function.
  * @param {TSchema} [options.schema] - Optional Zod schema used to validate `event.params`.
  * @param {THandler} options.handler - Async business handler executed after plugins and validation are ready.
  * @throws {Error} When the required `http` plugin is missing from `faas.yaml` and no plugin was injected in code.
@@ -119,26 +74,20 @@ export type DefineApiOptions<
  */
 export function defineApi<
   TSchema extends ZodType | undefined = undefined,
-  TEvent = Record<string, unknown>,
-  TContext = unknown,
-  THandler extends (data: DefineApiData<TSchema, TEvent, TContext, any>) => Promise<any> = (
-    data: DefineApiData<TSchema, TEvent, TContext, any>,
+  THandler extends (data: DefineApiData<TSchema>) => Promise<any> = (
+    data: DefineApiData<TSchema>,
   ) => Promise<any>,
->(
-  options: Omit<
-    DefineApiOptions<TSchema, TEvent, TContext, Awaited<ReturnType<THandler>>>,
-    'handler'
-  > & {
-    handler: THandler
-  },
-): Func<DefineApiEvent<TSchema, TEvent>, TContext, Awaited<ReturnType<THandler>>> {
-  type Event = DefineApiEvent<TSchema, TEvent>
+>(options: {
+  schema?: TSchema
+  handler: THandler
+}): Func<Record<string, unknown>, unknown, Awaited<ReturnType<THandler>>> {
+  type Event = Record<string, unknown>
   type Result = Awaited<ReturnType<THandler>>
 
-  let api: Func<Event, TContext, Result>
-  type Params = DefineApiData<TSchema, TEvent, TContext, Result>['params']
+  let api: Func<Event, unknown, Result>
+  type Params = SchemaOutput<TSchema, Record<string, never>>
 
-  const invokeHandler: Handler<Event, TContext, Result> = async (data) => {
+  const invokeHandler: Handler<Event, unknown, Result> = async (data) => {
     if (!api.plugins.some((plugin) => plugin.type === 'http'))
       throw Error(
         '[defineApi] Missing required "http" plugin. Please configure it in faas.yaml or inject it in code.',
@@ -158,12 +107,12 @@ export function defineApi<
     const invokeData = {
       ...data,
       params,
-    } as DefineApiData<TSchema, TEvent, TContext, Result>
+    } as DefineApiData<TSchema>
 
     return options.handler(invokeData)
   }
 
-  api = new Func<Event, TContext, Result>({
+  api = new Func<Event, unknown, Result>({
     plugins: [],
     handler: invokeHandler,
   })

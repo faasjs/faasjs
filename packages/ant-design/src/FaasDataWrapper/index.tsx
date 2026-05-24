@@ -3,7 +3,7 @@ import {
   type FaasReactClientOptions,
   faas,
   FaasDataWrapper as Origin,
-  type FaasDataInjection as OriginFaasDataInjection,
+  type FaasDataInjection,
   type FaasDataWrapperProps as OriginProps,
   withFaasData as OriginWithFaasData,
   useFaas,
@@ -17,14 +17,6 @@ import { Loading } from '../Loading'
 export { FaasReactClient, type FaasReactClientOptions, faas, useFaas }
 
 /**
- * Convenience alias for a partial {@link OriginFaasDataInjection | FaasDataInjection} from `@faasjs/react`,
- * representing optional data fields injected into Ant Design wrapped components.
- *
- * @template T - Action path or response data type used for inference.
- */
-export type FaasDataInjection<T extends FaasActionPaths = any> = Partial<OriginFaasDataInjection<T>>
-
-/**
  * Ant Design wrapper props for the underlying `@faasjs/react` data wrapper.
  *
  * @template T - Action path or response data type used for inference.
@@ -36,7 +28,7 @@ export interface FaasDataWrapperProps<T extends FaasActionPaths = any> extends O
   loading?: JSX.Element
 }
 
-export type { FaasDataWrapperRef } from '@faasjs/react'
+export type { FaasDataInjection, FaasDataWrapperRef } from '@faasjs/react'
 
 /**
  * Render the `@faasjs/react` data wrapper with an Ant Design loading fallback.

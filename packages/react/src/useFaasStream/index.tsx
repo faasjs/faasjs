@@ -10,12 +10,14 @@ export type UseFaasStreamOptions = SharedUseFaasOptions<Record<string, any>, str
 
 /**
  * Result returned by {@link useFaasStream}.
+ *
+ * @template Path - Action path used for params inference.
  */
-export type UseFaasStreamResult = {
+export type UseFaasStreamResult<Path extends FaasActionPaths> = {
   /** Action path currently associated with the stream request. */
-  action: string
+  action: Path
   /** Params used for the most recent request attempt. */
-  params: Record<string, any>
+  params: FaasParams<Path>
   /** Whether the hook is currently waiting for stream data and should block the main UI. */
   loading: boolean
   /** Whether a background stream refresh is currently in flight. */
@@ -27,7 +29,7 @@ export type UseFaasStreamResult = {
   /** Last error raised while opening or consuming the stream. */
   error: any
   /** Trigger a new streaming request with optional params. */
-  reload: (params?: Record<string, any>, options?: { silent?: boolean }) => Promise<string>
+  reload: (params?: FaasParams<Path>, options?: { silent?: boolean }) => Promise<string>
   /** Controlled or internal setter for the accumulated text. */
   setData: React.Dispatch<React.SetStateAction<string>>
   /** Setter for the loading flag. */
@@ -77,7 +79,7 @@ export function useFaasStream<Path extends FaasActionPaths>(
   action: Path,
   defaultParams: FaasParams<Path>,
   options: UseFaasStreamOptions = {},
-): UseFaasStreamResult {
+): UseFaasStreamResult<Path> {
   const [data, setData] = useState<string>(options.data ?? '')
   const updateData = options.setData ?? setData
   const request = useFaasRequest<Path>({
@@ -145,7 +147,7 @@ export function useFaasStream<Path extends FaasActionPaths>(
     reloadTimes: request.reloadTimes,
     data: options.data ?? data,
     error: request.error,
-    reload: request.reload as unknown as UseFaasStreamResult['reload'],
+    reload: request.reload as UseFaasStreamResult<Path>['reload'],
     setData: updateData,
     setLoading: request.setLoading,
     setError: request.setError,

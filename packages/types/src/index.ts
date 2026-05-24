@@ -63,9 +63,10 @@ export type FaasData<T = unknown> = T extends FaasActionPaths
     : never
 
 /**
- * Infer the FaasAction type from a Func.
+ * Infer `{ Params, Data }` from a Func, a Func-like object, or a
+ * module whose default export is a Func.
  *
- * @template TApi - API instance used to infer params and data.
+ * @template TApi - A Func, Func-like object, or module shape.
  */
 export type InferFaasAction<TApi> = TApi extends {
   export: () => {
@@ -78,21 +79,17 @@ export type InferFaasAction<TApi> = TApi extends {
         : Record<string, unknown>
       Data: TData
     }
-  : never
-
-/**
- * Infer the API type from a module.
- *
- * @template TModule - Module shape that may expose a FaasJS API.
- */
-export type { TFunc } from './func'
-
-export type InferFaasApi<TModule> = TModule extends { default: infer TApi }
-  ? TApi extends {
-      export: () => {
-        handler: (...args: any[]) => any
+  : TApi extends { default: infer TDefault }
+    ? TDefault extends {
+        export: () => {
+          handler: (event?: infer TEvent, ...args: any[]) => Promise<infer TData>
+        }
       }
-    }
-    ? TApi
+      ? {
+          Params: NonNullable<TEvent> extends { params?: infer TParams }
+            ? NonNullable<TParams>
+            : Record<string, unknown>
+          Data: TData
+        }
+      : never
     : never
-  : never

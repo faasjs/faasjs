@@ -1,11 +1,11 @@
 import { defineApi, Func } from '@faasjs/core'
-import type { FaasActions, InferFaasApi, InferFaasAction } from '@faasjs/types'
+import type { FaasActions, InferFaasAction } from '@faasjs/types'
 import { z } from '@faasjs/utils'
 import { assertType, expectTypeOf, it } from 'vitest'
 
 declare module '@faasjs/types' {
   interface FaasActions {
-    test: {
+    'types/test': {
       Params: { key: string }
       Data: { value: string }
     }
@@ -13,8 +13,8 @@ declare module '@faasjs/types' {
 }
 
 it('FaasActions should expose Params and Data', () => {
-  assertType<FaasActions['test']['Params']>({ key: 'key' })
-  assertType<FaasActions['test']['Data']>({ value: 'value' })
+  assertType<FaasActions['types/test']['Params']>({ key: 'key' })
+  assertType<FaasActions['types/test']['Data']>({ value: 'value' })
 })
 
 it('InferFaasAction should infer from Func', () => {
@@ -61,7 +61,7 @@ it('InferFaasAction should infer schema params from defineApi', () => {
   assertType<InferredAction['Data']>({ value: '' })
 })
 
-it('InferFaasApi should infer the default export', () => {
+it('InferFaasAction should infer from a module with default export', () => {
   const api = defineApi({
     schema: z.object({
       slug: z.string(),
@@ -73,14 +73,14 @@ it('InferFaasApi should infer the default export', () => {
     },
   })
 
-  type InferredApi = InferFaasApi<{
+  type InferredAction = InferFaasAction<{
     default: typeof api
   }>
 
-  assertType<InferFaasAction<InferredApi>['Params']>({ slug: 'post' })
+  assertType<InferredAction['Params']>({ slug: 'post' })
 })
 
-it('InferFaasApi should reject modules without a default export', () => {
+it('InferFaasAction should reject modules without a recognized default export', () => {
   const api = defineApi({
     schema: z.object({
       id: z.string(),
@@ -92,5 +92,5 @@ it('InferFaasApi should reject modules without a default export', () => {
     },
   })
 
-  expectTypeOf<InferFaasApi<{ api: typeof api }>>().toEqualTypeOf<never>()
+  expectTypeOf<InferFaasAction<{ api: typeof api }>>().toEqualTypeOf<never>()
 })

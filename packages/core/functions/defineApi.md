@@ -2,7 +2,7 @@
 
 # Function: defineApi()
 
-> **defineApi**\<`TSchema`, `TEvent`, `TContext`, `THandler`\>(`options`): [`Func`](../classes/Func.md)\<`DefineApiEvent`\<`TSchema`, `TEvent`\>, `TContext`, `Awaited`\<`ReturnType`\<`THandler`\>\>\>
+> **defineApi**\<`TSchema`, `THandler`\>(`options`): [`Func`](../classes/Func.md)\<`Record`\<`string`, `unknown`\>, `unknown`, `Awaited`\<`ReturnType`\<`THandler`\>\>\>
 
 Create an HTTP API function with optional Zod validation.
 
@@ -16,21 +16,9 @@ The `http` plugin must come from `faas.yaml` or explicit code injection.
 
 Zod schema used to validate `event.params`.
 
-### TEvent
-
-`TEvent` = `Record`\<`string`, `unknown`\>
-
-Raw event type passed to the function.
-
-### TContext
-
-`TContext` = `unknown`
-
-Runtime context type.
-
 ### THandler
 
-`THandler` _extends_ (`data`) => `Promise`\<`any`\> = (`data`) => `Promise`\<`any`\>
+`THandler` _extends_ (`data`) => `Promise`\<`any`\>
 
 Handler signature used to infer the response type.
 
@@ -38,13 +26,13 @@ Handler signature used to infer the response type.
 
 ### options
 
-`Omit`\<[`DefineApiOptions`](../type-aliases/DefineApiOptions.md)\<`TSchema`, `TEvent`, `TContext`, `Awaited`\<`ReturnType`\<`THandler`\>\>\>, `"handler"`\> & `object`
+`object`
 
 Schema and handler used to build the API function.
 
 ## Returns
 
-[`Func`](../classes/Func.md)\<`DefineApiEvent`\<`TSchema`, `TEvent`\>, `TContext`, `Awaited`\<`ReturnType`\<`THandler`\>\>\>
+[`Func`](../classes/Func.md)\<`Record`\<`string`, `unknown`\>, `unknown`, `Awaited`\<`ReturnType`\<`THandler`\>\>\>
 
 ## Throws
 

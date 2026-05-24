@@ -243,7 +243,7 @@ describe('orders/api/create', () => {
 
 - [测试指南](./testing.md)
 - [defineApi](/doc/node-utils/functions/defineApi.html)
-- [DefineApiOptions](/doc/node-utils/interfaces/DefineApiOptions.html)
+- [defineApi](/doc/node-utils/functions/defineApi.html)
 - [HttpError](/doc/node-utils/classes/HttpError.html)
 - [testApi](/doc/node-utils/functions/testApi.html)
 - [ApiTester](/doc/node-utils/interfaces/ApiTester.html)
