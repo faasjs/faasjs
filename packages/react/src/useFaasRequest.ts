@@ -34,7 +34,7 @@ type UseFaasRequestArgs<Path extends FaasActionPaths> = {
     'params' | 'skip' | 'debounce' | 'polling' | 'baseUrl'
   >
   beforeSend?: (args: { silent: boolean }) => void
-  onSuccess?: (result: FaasData<Path>) => void
+  onSuccess?: (result: Response<FaasData<Path>>) => void
   send: (args: {
     action: Path
     params: FaasParams<Path>
@@ -180,8 +180,8 @@ export function useFaasRequest<Path extends FaasActionPaths>({
       pendingReloadsRef.current.clear()
     }
 
-    const resolvePending = (value: FaasData<Path>) => {
-      for (const { resolve } of pendingReloadsRef.current.values()) resolve(value)
+    const resolvePending = (value: Response<FaasData<Path>>) => {
+      for (const { resolve } of pendingReloadsRef.current.values()) resolve(value.data!)
 
       pendingReloadsRef.current.clear()
     }
@@ -205,11 +205,11 @@ export function useFaasRequest<Path extends FaasActionPaths>({
 
           failedOnceRef.current = false
           setError(null)
-          onSuccessRef.current?.(result.body)
+          onSuccessRef.current?.(result)
           hasLoadedRef.current = true
           setLoading(false)
           setRefreshing(false)
-          resolvePending(result.body)
+          resolvePending(result)
           schedulePolling()
         })
         .catch(async (e) => {
