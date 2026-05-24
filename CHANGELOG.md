@@ -2,7 +2,7 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-[`v8.0.0-beta.30 (2026-05-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.29...v8.0.0-beta.30)
+[`v8.0.0-beta.31 (2026-05-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.29...v8.0.0-beta.31)
 
 - `faasjs`
   - [Fix] Fix actions types.
