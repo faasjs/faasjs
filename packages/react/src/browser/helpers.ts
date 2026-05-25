@@ -15,7 +15,7 @@ export function buildActionUrl(
   options?: Options,
   requestId?: string,
 ): string {
-  return `${(options?.baseUrl || baseUrl) + action.toLowerCase()}?_=${requestId}`
+  return `${(options?.baseUrl || baseUrl) + action}?_=${requestId}`
 }
 
 export function buildActionOptions<Path extends FaasActionPaths>(

@@ -497,6 +497,13 @@ export class Server {
         message: 'Not found.',
       })
 
+    const relativePath = path.slice(this.root.length).replace(/^[/\\]+/, '')
+    if (relativePath.split(sep).some((seg) => seg.toLowerCase() === '__tests__'))
+      throw new HttpError({
+        statusCode: 404,
+        message: 'Not found.',
+      })
+
     const searchPaths = getRouteFiles(this.root, path)
 
     for (const path of searchPaths) {

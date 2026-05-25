@@ -2,10 +2,14 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-[`v8.0.0-beta.32 (2026-05-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.31...v8.0.0-beta.32)
+[`v8.0.0-beta.33 (2026-05-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.32...v8.0.0-beta.33)
 
 - `@faasjs/react`
   - [Fix] Fix `useStateRef` type to allow non-nullable state values and remove unnecessary nullability in the implementation.
+  - [Fix] Remove `toLowerCase()` on action path in `buildActionUrl`, preserving original casing for HTTP requests.
+
+- `@faasjs/core`
+  - [Fix] Block requests targeting `__tests__` directories at the server routing level to prevent exposing test files.
 
 [`v8.0.0-beta.31 (2026-05-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.29...v8.0.0-beta.31)
 
