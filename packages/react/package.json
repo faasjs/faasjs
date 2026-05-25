@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/react",
-  "version": "8.0.0-beta.31",
+  "version": "8.0.0-beta.32",
   "homepage": "https://faasjs.com/doc/react/",
   "bugs": {
     "url": "https://github.com/faasjs/faasjs/issues"
@@ -26,12 +26,12 @@
     }
   },
   "devDependencies": {
-    "@faasjs/types": ">=8.0.0-beta.31",
+    "@faasjs/types": ">=8.0.0-beta.32",
     "@types/react": "^19.0.0",
     "react": "^19.0.0"
   },
   "peerDependencies": {
-    "@faasjs/types": ">=8.0.0-beta.31"
+    "@faasjs/types": ">=8.0.0-beta.32"
   },
   "engines": {
     "node": ">=26.0.0",

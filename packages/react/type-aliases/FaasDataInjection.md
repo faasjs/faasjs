@@ -18,7 +18,7 @@ Action path or response data type used for inference.
 
 ### reload()
 
-> **reload**(`params?`, `options?`): `Promise`\<`FaasData`\<`Path`\>\>
+> **reload**(`this`, `params?`, `options?`): `Promise`\<`FaasData`\<`Path`\>\>
 
 Reloads data with new or existing parameters.
 
@@ -26,6 +26,10 @@ When the source hook is currently skipped, calling `reload` clears the skip
 flag before starting the next request.
 
 #### Parameters
+
+##### this
+
+`void`
 
 ##### params?
 

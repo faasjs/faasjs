@@ -56,7 +56,7 @@ export default function HomePage() {
 
       setMessageText(nextMessage)
       app.message.success('User saved to PostgreSQL')
-      reload()
+      await reload()
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Request failed'
       setMessageText(errorMessage)

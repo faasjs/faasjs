@@ -33,7 +33,11 @@ export type FaasDataInjection<Path extends FaasActionPaths> = {
    * When the source hook is currently skipped, calling `reload` clears the skip
    * flag before starting the next request.
    */
-  reload(params?: FaasParams<Path>, options?: { silent?: boolean }): Promise<FaasData<Path>>
+  reload(
+    this: void,
+    params?: FaasParams<Path>,
+    options?: { silent?: boolean },
+  ): Promise<FaasData<Path>>
   /** Controlled or internal setter for the resolved data value. */
   setData: React.Dispatch<React.SetStateAction<FaasData<Path>>>
   /** Setter for the loading flag. */

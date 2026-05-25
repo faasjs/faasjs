@@ -29,7 +29,7 @@ describe('useStateRef', () => {
   })
 
   it('should keep ref in sync with state', () => {
-    const { result } = renderHook(() => useStateRef())
+    const { result } = renderHook(() => useStateRef<number>())
 
     const [, setState, ref] = result.current
 

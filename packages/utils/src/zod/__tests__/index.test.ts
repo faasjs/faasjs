@@ -10,14 +10,16 @@ describe('zod helpers', () => {
 
   it('should provide a positive integer schema', () => {
     expect(z.positiveint().parse(1)).toBe(1)
-    expect(() => z.positiveint().parse(-1)).toThrow()
+    expect(() => z.positiveint().parse(-1)).toThrow('Too small: expected number to be >0')
     expect(z.positiveint().min(2).parse(2)).toBe(2)
-    expect(() => z.positiveint().max(1).parse(2)).toThrow()
+    expect(() => z.positiveint().max(1).parse(2)).toThrow('Too big: expected number to be <=1')
   })
 
   it('should provide a non-empty string schema', () => {
     expect(z.nonemptystring().parse('hello')).toBe('hello')
-    expect(() => z.nonemptystring().parse('')).toThrow()
+    expect(() => z.nonemptystring().parse('')).toThrow(
+      'Too small: expected string to have >=1 characters',
+    )
   })
 
   it('should correctly identify object records', () => {

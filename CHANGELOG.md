@@ -2,6 +2,11 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[`v8.0.0-beta.32 (2026-05-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.31...v8.0.0-beta.32)
+
+- `@faasjs/react`
+  - [Fix] Fix `useStateRef` type to allow non-nullable state values and remove unnecessary nullability in the implementation.
+
 [`v8.0.0-beta.31 (2026-05-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.29...v8.0.0-beta.31)
 
 - `faasjs`

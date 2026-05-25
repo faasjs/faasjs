@@ -12,9 +12,13 @@ describe('json helpers', () => {
     })
 
     it('should throw an error for invalid JSON strings', () => {
-      expect(() => parseJson('invalid')).toThrow()
-      expect(() => parseJson('{key: value}')).toThrow()
-      expect(() => parseJson('')).toThrow()
+      expect(() => parseJson('invalid')).toThrow(
+        'Unexpected token \'i\', "invalid" is not valid JSON',
+      )
+      expect(() => parseJson('{key: value}')).toThrow(
+        "Expected property name or '}' in JSON at position 1 (line 1 column 2)",
+      )
+      expect(() => parseJson('')).toThrow('Unexpected end of JSON input')
     })
   })
 
@@ -29,8 +33,12 @@ describe('json helpers', () => {
     })
 
     it('should throw an error for invalid JSON strings', () => {
-      expect(() => parseObjectFromJson('invalid')).toThrow()
-      expect(() => parseObjectFromJson('{key: value}')).toThrow()
+      expect(() => parseObjectFromJson('invalid')).toThrow(
+        'Unexpected token \'i\', "invalid" is not valid JSON',
+      )
+      expect(() => parseObjectFromJson('{key: value}')).toThrow(
+        "Expected property name or '}' in JSON at position 1 (line 1 column 2)",
+      )
     })
   })
 
@@ -45,8 +53,12 @@ describe('json helpers', () => {
     })
 
     it('should throw an error for invalid JSON strings', () => {
-      expect(() => parseArrayFromJson('invalid')).toThrow()
-      expect(() => parseArrayFromJson('{key: value}')).toThrow()
+      expect(() => parseArrayFromJson('invalid')).toThrow(
+        'Unexpected token \'i\', "invalid" is not valid JSON',
+      )
+      expect(() => parseArrayFromJson('{key: value}')).toThrow(
+        "Expected property name or '}' in JSON at position 1 (line 1 column 2)",
+      )
     })
   })
 })

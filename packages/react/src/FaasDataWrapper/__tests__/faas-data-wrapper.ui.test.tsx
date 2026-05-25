@@ -46,7 +46,7 @@ describe('FaasDataWrapper', () => {
       renderTimes++
       return (
         <div>
-          {props.data?.toString()}
+          {JSON.stringify(props.data)}
           <button type="button" onClick={() => props.reload?.()}>
             Reload
           </button>
@@ -121,7 +121,7 @@ describe('FaasDataWrapper', () => {
         polling={20}
         render={({ data, loading, refreshing }) => (
           <>
-            <div>data:{data.toString()}</div>
+            <div>data:{JSON.stringify(data)}</div>
             <div>loading:{String(loading)}</div>
             <div>refreshing:{String(refreshing)}</div>
           </>
@@ -188,7 +188,7 @@ describe('FaasDataWrapper', () => {
     })
 
     function Test(props: Partial<FaasDataInjection<'FaasDataWrapper/test'>>) {
-      return <div>{props.data?.toString()}</div>
+      return <div>{JSON.stringify(props.data)}</div>
     }
 
     function App() {
