@@ -12,6 +12,7 @@
 - [streamToObject](functions/streamToObject.md)
 - [streamToString](functions/streamToString.md)
 - [stringToStream](functions/stringToStream.md)
+- [toErrorMessage](functions/toErrorMessage.md)
 
 ## Type Aliases
 

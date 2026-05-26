@@ -32,6 +32,7 @@
  */
 
 export { deepMerge } from './deep-merge'
+export { toErrorMessage } from './error'
 export { streamToString, stringToStream, objectToStream, streamToObject } from './stream'
 export { z, isObjectRecord } from './zod'
 export type { Z, ZodType, ZodError, ZodInfer, ZodInput, ZodOutput, ZodRefinementCtx } from './zod'

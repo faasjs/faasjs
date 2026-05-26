@@ -2,10 +2,10 @@ import { randomUUID } from 'node:crypto'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 
 import { Logger } from '@faasjs/node-utils'
+import { toErrorMessage } from '@faasjs/utils'
 
 import { Func } from '../func'
 import {
-  getErrorMessage,
   getErrorStatusCode,
   respondWithInternalServerError,
   respondWithJsonError,
@@ -71,7 +71,7 @@ async function invokeMiddleware(
     handlerLogger.error('error:', error)
 
     const statusCode = getErrorStatusCode(error)
-    if (statusCode === 500) respondWithJsonError(event.raw.response, 500, getErrorMessage(error))
+    if (statusCode === 500) respondWithJsonError(event.raw.response, 500, toErrorMessage(error))
     else respondWithInternalServerError(event.raw.response)
   } finally {
     handlerLogger.timeEnd(loggerKey, 'end')

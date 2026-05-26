@@ -1,5 +1,5 @@
 import type { Logger } from '@faasjs/node-utils'
-import { deepMerge } from '@faasjs/utils'
+import { deepMerge, toErrorMessage } from '@faasjs/utils'
 
 import { type MountData, type InvokeData, type Next, type Plugin } from '../../func'
 import { Cookie } from './cookie'
@@ -225,8 +225,8 @@ export class Http<
           state.params = Object.keys(state.params).length
             ? Object.assign(state.params, JSON.parse(state.body))
             : JSON.parse(state.body)
-        } catch (error: any) {
-          data.logger.error('Parse params from json body failed: %s', error.message)
+        } catch (error) {
+          data.logger.error('Parse params from json body failed: %s', toErrorMessage(error))
           throw new HttpError({
             statusCode: 400,
             message: 'Invalid JSON request body',

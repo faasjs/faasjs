@@ -1,4 +1,5 @@
 import { OptionalWrapper, useEqualEffect } from '@faasjs/react'
+import { toErrorMessage } from '@faasjs/utils'
 import { ConfigProvider, type ConfigProviderProps, message, notification } from 'antd'
 import type { BrowserRouterProps } from 'react-router-dom'
 import { BrowserRouter, useLocation } from 'react-router-dom'
@@ -55,7 +56,7 @@ export function createOnErrorHandler(messageApi: { error: (message: string) => v
 
     console.error(`[FaasJS][${action}]`, res)
 
-    messageApi.error('message' in res ? res.message : 'Unknown error')
+    messageApi.error(toErrorMessage(res))
   }
 }
 

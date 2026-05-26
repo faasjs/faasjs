@@ -25,6 +25,7 @@ declare module '@faasjs/types' {
 
 import { faas, useApp } from '@faasjs/ant-design'
 import { useFaas } from '@faasjs/react'
+import { toErrorMessage } from '@faasjs/utils'
 import { Button, Card, Input, Space, Table, Typography } from 'antd'
 import { useState } from 'react'
 
@@ -58,7 +59,7 @@ export default function HomePage() {
       app.message.success('User saved to PostgreSQL')
       await reload()
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'Request failed'
+      const errorMessage = toErrorMessage(error, 'Request failed')
       setMessageText(errorMessage)
       app.notification.error({
         message: 'API call failed',
@@ -84,7 +85,7 @@ export default function HomePage() {
       setMessageText(`Auth plugin injected current user: ${currentUser?.name || 'unknown'}`)
       app.message.success('Auth plugin demo loaded current_user')
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'Auth demo failed'
+      const errorMessage = toErrorMessage(error, 'Auth demo failed')
       setMessageText(errorMessage)
       app.notification.error({
         message: 'Auth demo failed',

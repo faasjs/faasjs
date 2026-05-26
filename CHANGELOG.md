@@ -6,6 +6,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `@faasjs/utils`
   - [Feature] Export more zod types with Zod prefix.
+  - [Feature] Add `toErrorMessage`.
 
 [`v8.0.0-beta.33 (2026-05-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.32...v8.0.0-beta.33)
 

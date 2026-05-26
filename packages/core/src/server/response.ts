@@ -2,18 +2,9 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import { Readable } from 'node:stream'
 
 import type { Logger } from '@faasjs/node-utils'
+import { toErrorMessage } from '@faasjs/utils'
 
 import { buildCORSHeaders } from './headers'
-
-/**
- * Default plain-text message used for generic internal server errors.
- *
- * @example
- * ```ts
- * res.end(INTERNAL_SERVER_ERROR_MESSAGE)
- * ```
- */
-export const INTERNAL_SERVER_ERROR_MESSAGE = 'Internal Server Error'
 
 type ErrorWithStatusCode = {
   statusCode?: unknown
@@ -37,26 +28,6 @@ export function getErrorStatusCode(error: unknown): number | undefined {
   if (typeof statusCode !== 'number' || !Number.isFinite(statusCode)) return undefined
 
   return statusCode
-}
-
-/**
- * Resolve a user-facing error message from an unknown error-like value.
- *
- * @param {unknown} error - Error-like value to inspect.
- * @param {string} [fallback] - Message returned when the error does not expose a usable string message.
- * @returns {string} Error message safe to send back to callers.
- * @example
- * ```ts
- * const message = getErrorMessage(error, 'Unexpected failure')
- * ```
- */
-export function getErrorMessage(error: unknown, fallback = INTERNAL_SERVER_ERROR_MESSAGE): string {
-  if (error && typeof error === 'object') {
-    const message = (error as ErrorWithStatusCode).message
-    if (typeof message === 'string' && message.length) return message
-  }
-
-  return fallback
 }
 
 /**
@@ -114,7 +85,7 @@ export function respondWithInternalServerError(res: ServerResponse): void {
 
   res.statusCode = 500
   res.setHeader('Content-Type', 'text/plain; charset=utf-8')
-  res.end(INTERNAL_SERVER_ERROR_MESSAGE)
+  res.end('Internal Server Error')
 }
 
 /**
@@ -265,7 +236,7 @@ export function respondWithError(
       respondWithJsonError(
         res,
         statusCode,
-        getErrorMessage(data, statusCode === 500 ? INTERNAL_SERVER_ERROR_MESSAGE : 'No response'),
+        toErrorMessage(data, statusCode === 500 ? 'Internal Server Error' : 'No response'),
       )
     else respondWithInternalServerError(res)
 
@@ -328,7 +299,7 @@ export async function respond(
   const statusCode = getErrorStatusCode(data)
 
   if (statusCode === 500) {
-    respondWithJsonError(res, 500, getErrorMessage(data))
+    respondWithJsonError(res, 500, toErrorMessage(data))
     return
   }
 

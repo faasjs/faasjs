@@ -2,9 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { createMockReq, createMockRes } from '../mocks'
 import {
-  getErrorMessage,
   getErrorStatusCode,
-  INTERNAL_SERVER_ERROR_MESSAGE,
   respond,
   respondWithError,
   respondWithInternalServerError,
@@ -16,11 +14,6 @@ describe('response', () => {
     expect(getErrorStatusCode(undefined)).toBeUndefined()
     expect(getErrorStatusCode({ statusCode: Number.NaN })).toBeUndefined()
     expect(getErrorStatusCode({ statusCode: 418 })).toBe(418)
-
-    expect(getErrorMessage({ message: '' })).toBe(INTERNAL_SERVER_ERROR_MESSAGE)
-    expect(getErrorMessage({ message: 1 })).toBe(INTERNAL_SERVER_ERROR_MESSAGE)
-    expect(getErrorMessage({ message: 'teapot' }, 'fallback')).toBe('teapot')
-    expect(getErrorMessage(null, 'fallback')).toBe('fallback')
   })
 
   it('should respond with json payload when headers are not sent', () => {
@@ -71,7 +64,7 @@ describe('response', () => {
 
     expect(res.statusCode).toBe(500)
     expect(res.headers['Content-Type']).toBe('text/plain; charset=utf-8')
-    expect(responseData).toBe(INTERNAL_SERVER_ERROR_MESSAGE)
+    expect(responseData).toBe('Internal Server Error')
     expect(res.writableEnded).toBe(true)
   })
 
@@ -126,7 +119,7 @@ describe('response', () => {
 
       expect(res.statusCode).toBe(500)
       expect(res.headers['Content-Type']).toBe('text/plain; charset=utf-8')
-      expect(responseData).toBe(INTERNAL_SERVER_ERROR_MESSAGE)
+      expect(responseData).toBe('Internal Server Error')
       expect(res.writableEnded).toBe(true)
     })
 

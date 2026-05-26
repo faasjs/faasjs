@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/core",
-  "version": "8.0.0-beta.33",
+  "version": "8.0.0-beta.34",
   "homepage": "https://faasjs.com/doc/core",
   "bugs": {
     "url": "https://github.com/faasjs/faasjs/issues"
@@ -26,16 +26,16 @@
     }
   },
   "devDependencies": {
-    "@faasjs/node-utils": ">=8.0.0-beta.33",
-    "@faasjs/types": ">=8.0.0-beta.33",
-    "@faasjs/utils": ">=8.0.0-beta.33",
+    "@faasjs/node-utils": ">=8.0.0-beta.34",
+    "@faasjs/types": ">=8.0.0-beta.34",
+    "@faasjs/utils": ">=8.0.0-beta.34",
     "@types/mime-types": "*",
     "mime-types": "*"
   },
   "peerDependencies": {
-    "@faasjs/node-utils": ">=8.0.0-beta.33",
-    "@faasjs/types": ">=8.0.0-beta.33",
-    "@faasjs/utils": ">=8.0.0-beta.33",
+    "@faasjs/node-utils": ">=8.0.0-beta.34",
+    "@faasjs/types": ">=8.0.0-beta.34",
+    "@faasjs/utils": ">=8.0.0-beta.34",
     "mime-types": "*"
   },
   "engines": {
