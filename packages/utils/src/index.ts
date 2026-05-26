@@ -35,6 +35,17 @@ export { deepMerge } from './deep-merge'
 export { toErrorMessage } from './error'
 export { streamToString, stringToStream, objectToStream, streamToObject } from './stream'
 export { z, isObjectRecord } from './zod'
-export type { Z, ZodType, ZodError, ZodInfer, ZodInput, ZodOutput, ZodRefinementCtx } from './zod'
+export type {
+  Z,
+  ZodType,
+  ZodError,
+  ZodInfer,
+  ZodInput,
+  ZodOutput,
+  ZodRefinementCtx,
+  ZodSafeParseResult,
+  ZodSafeParseError,
+  ZodSafeParseSuccess,
+} from './zod'
 export { parseJson, parseObjectFromJson, parseArrayFromJson } from './json'
 export { parseYaml } from './yaml'

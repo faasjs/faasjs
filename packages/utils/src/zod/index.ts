@@ -6,6 +6,9 @@ export type {
   output as ZodOutput,
   infer as ZodInfer,
   RefinementCtx as ZodRefinementCtx,
+  ZodSafeParseResult,
+  ZodSafeParseError,
+  ZodSafeParseSuccess,
 } from 'zod'
 
 /**
