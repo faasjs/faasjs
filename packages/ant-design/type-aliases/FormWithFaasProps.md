@@ -4,15 +4,21 @@
 
 > **FormWithFaasProps**\<`Path`, `Values`, `ExtendItemProps`\> = `FormCommonProps`\<`Values`, `ExtendItemProps`\> & `object`
 
+Props for the [Form](../functions/Form.md) component when FaasJS integration IS used.
+
 ## Type Declaration
 
 ### faas?
 
 > `optional` **faas?**: [`FormFaasProps`](FormFaasProps.md)\<`Values`, `Path`\>
 
+FaasJS integration configuration.
+
 ### onFinish?
 
 > `optional` **onFinish?**: `never`
+
+Must not be set when `faas` is provided.
 
 ## Type Parameters
 
@@ -20,10 +26,16 @@
 
 `Path` _extends_ `FaasActionPaths` = `any`
 
+Action path type inferred from the registered FaasJS actions.
+
 ### Values
 
 `Values` _extends_ `Record`\<`string`, `any`\> = `any`
 
+Form values shape.
+
 ### ExtendItemProps
 
 `ExtendItemProps` _extends_ [`ExtendFormItemProps`](../interfaces/ExtendFormItemProps.md) = [`ExtendFormItemProps`](../interfaces/ExtendFormItemProps.md)
+
+Additional item prop shape accepted by `items`.

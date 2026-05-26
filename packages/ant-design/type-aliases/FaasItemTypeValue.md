@@ -4,6 +4,8 @@
 
 > **FaasItemTypeValue** = `object`
 
+Map from [FaasItemType](FaasItemType.md) to the expected JavaScript value type.
+
 ## Properties
 
 ### boolean

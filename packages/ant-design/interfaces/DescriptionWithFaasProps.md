@@ -2,6 +2,8 @@
 
 # Interface: DescriptionWithFaasProps\<Path, T, ExtendItemProps\>
 
+Props for the [Description](../functions/Description.md) component when fetching data via FaasJS.
+
 ## Extends
 
 - [`DescriptionCommonProps`](DescriptionCommonProps.md)\<`T`, `ExtendItemProps`\>
@@ -12,19 +14,27 @@
 
 `Path` _extends_ `FaasActionPaths` = `any`
 
+Action path type inferred from `faasData.action`.
+
 ### T
 
 `T` = `any`
 
+Data record shape rendered by the description list.
+
 ### ExtendItemProps
 
 `ExtendItemProps` = `any`
+
+Additional item prop shape accepted by `items`.
 
 ## Methods
 
 ### renderTitle()?
 
 > `optional` **renderTitle**(`this`, `values`): `ReactNode`
+
+Callback that returns a custom React node for the title.
 
 #### Parameters
 
@@ -50,9 +60,13 @@
 
 > `optional` **dataSource?**: `undefined`
 
+Must not be set when using `faasData`.
+
 ### extendTypes?
 
 > `optional` **extendTypes?**: `object`
+
+Custom type renderers keyed by item type.
 
 #### Index Signature
 
@@ -66,9 +80,13 @@
 
 > `optional` **faasData?**: [`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`Path`\>
 
+FaasJS data wrapper configuration that fetches the data source.
+
 ### items
 
 > **items**: ([`DescriptionItemProps`](DescriptionItemProps.md)\<`any`\> \| `ExtendItemProps`)[]
+
+Item metadata definitions rendered as description entries.
 
 #### Inherited from
 

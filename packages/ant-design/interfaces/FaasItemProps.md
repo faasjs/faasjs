@@ -2,6 +2,8 @@
 
 # Interface: FaasItemProps
 
+Minimal FaasJS-aware item definition that includes an optional type.
+
 ## Extends
 
 - [`BaseItemProps`](BaseItemProps.md)

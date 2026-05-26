@@ -4,11 +4,15 @@
 
 > **BaseExtendTypeProps**\<`T`\> = `object`
 
+Base shape for custom item type definitions accepted by `extendTypes`.
+
 ## Type Parameters
 
 ### T
 
 `T` = `any`
+
+Value type rendered or edited by the custom type.
 
 ## Properties
 

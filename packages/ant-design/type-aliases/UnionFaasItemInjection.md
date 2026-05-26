@@ -4,6 +4,8 @@
 
 > **UnionFaasItemInjection**\<`Value`, `Values`\> = `object`
 
+Props injected into a [UnionFaasItemElement](UnionFaasItemElement.md) by the rendering host.
+
 ## Type Parameters
 
 ### Value

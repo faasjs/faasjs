@@ -3,3 +3,5 @@
 # Type Alias: ArrayOperators
 
 > **ArrayOperators** = readonly \[`"IN"`, `"NOT IN"`\]
+
+Array membership operators.

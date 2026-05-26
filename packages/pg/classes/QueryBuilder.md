@@ -2,15 +2,32 @@
 
 # Class: QueryBuilder\<T, TResult\>
 
+Builds and executes parameterized PostgreSQL queries through a fluent, chainable API.
+
+Supports SELECT, INSERT, UPDATE, DELETE, and upsert operations with strongly-typed
+WHERE clauses, JOINs, ORDER BY, LIMIT/OFFSET, and result-type inference from the
+table type map declared via [Tables](../interfaces/Tables.md).
+
+## Example
+
+```ts
+const users = await db('users').select('id', 'name').where('id', '>', 5).limit(10)
+// SELECT "id","name" FROM "users" WHERE "id" > ? LIMIT ?
+```
+
 ## Type Parameters
 
 ### T
 
 `T` _extends_ `string` = `string`
 
+The table name.
+
 ### TResult
 
 `TResult` = [`InferTResult`](../type-aliases/InferTResult.md)\<`T`\>[]
+
+The inferred result row type.
 
 ## Constructors
 
@@ -24,9 +41,13 @@
 
 [`Client`](Client.md)
 
+The database client to execute queries against.
+
 ##### table
 
 `T`
+
+The table name to target.
 
 #### Returns
 
@@ -78,9 +99,15 @@ await db('users').where('id', 1).delete() // DELETE FROM users WHERE id = 1
 
 > **first**(): `Promise`\<`TResult` _extends_ `U`[] ? `U` : `TResult` \| `null`\>
 
+Executes the query and returns the first matching row, or `null` if no rows match.
+
+Automatically applies `LIMIT 1` to the query.
+
 #### Returns
 
 `Promise`\<`TResult` _extends_ `U`[] ? `U` : `TResult` \| `null`\>
+
+The first row of the result set, or `null`.
 
 ### insert()
 
@@ -151,13 +178,19 @@ Adds an INNER JOIN clause.
 
 `string` \| [`RawSql`](../type-aliases/RawSql.md)
 
+The table to join.
+
 ###### left
 
 `string` \| [`RawSql`](../type-aliases/RawSql.md)
 
+The left operand for the ON condition.
+
 ###### right
 
 `string` \| [`RawSql`](../type-aliases/RawSql.md)
+
+The right operand when an explicit operator is provided.
 
 ##### Returns
 
@@ -175,9 +208,13 @@ Adds an INNER JOIN clause.
 
 `string` \| [`RawSql`](../type-aliases/RawSql.md)
 
+The table to join.
+
 ###### left
 
 `string` \| [`RawSql`](../type-aliases/RawSql.md)
+
+The left operand for the ON condition.
 
 ###### operator
 
@@ -186,6 +223,8 @@ Adds an INNER JOIN clause.
 ###### right
 
 `string` \| [`RawSql`](../type-aliases/RawSql.md)
+
+The right operand when an explicit operator is provided.
 
 ##### Returns
 
@@ -205,13 +244,19 @@ Adds a LEFT JOIN clause.
 
 `string` \| [`RawSql`](../type-aliases/RawSql.md)
 
+The table to join.
+
 ###### left
 
 `string` \| [`RawSql`](../type-aliases/RawSql.md)
 
+The left operand for the ON condition.
+
 ###### right
 
 `string` \| [`RawSql`](../type-aliases/RawSql.md)
+
+The right operand when an explicit operator is provided.
 
 ##### Returns
 
@@ -229,9 +274,13 @@ Adds a LEFT JOIN clause.
 
 `string` \| [`RawSql`](../type-aliases/RawSql.md)
 
+The table to join.
+
 ###### left
 
 `string` \| [`RawSql`](../type-aliases/RawSql.md)
+
+The left operand for the ON condition.
 
 ###### operator
 
@@ -240,6 +289,8 @@ Adds a LEFT JOIN clause.
 ###### right
 
 `string` \| [`RawSql`](../type-aliases/RawSql.md)
+
+The right operand when an explicit operator is provided.
 
 ##### Returns
 
@@ -341,9 +392,13 @@ Adds a raw SQL expression to ORDER BY with parameter bindings.
 
 `string`
 
+The raw SQL fragment.
+
 ##### params
 
 ...`any`[]
+
+Bound parameters for the SQL fragment.
 
 #### Returns
 
@@ -603,9 +658,13 @@ Adds a raw SQL expression to the WHERE clause using OR with parameter bindings.
 
 `string`
 
+The raw SQL fragment.
+
 ##### params
 
 ...`any`[]
+
+Bound parameters for the SQL fragment.
 
 #### Returns
 
@@ -681,6 +740,8 @@ const users = await db('users').select('id', { column: 'data', fields: ['email']
 
 > **then**\<`TResult1`, `TResult2`\>(`onfulfilled?`, `onrejected?`): `Promise`\<`TResult1` \| `TResult2`\>
 
+Makes the QueryBuilder thenable — calling `await builder` implicitly executes the query.
+
 #### Type Parameters
 
 ##### TResult1
@@ -697,21 +758,31 @@ const users = await db('users').select('id', { column: 'data', fields: ['email']
 
 ((`value`) => `TResult1` \| `PromiseLike`\<`TResult1`\>) \| `null`
 
+Callback invoked when the query result resolves successfully.
+
 ##### onrejected?
 
 ((`reason`) => `TResult2` \| `PromiseLike`\<`TResult2`\>) \| `null`
+
+Callback invoked when the query rejects.
 
 #### Returns
 
 `Promise`\<`TResult1` \| `TResult2`\>
 
+A promise for the transformed result.
+
 ### toSql()
 
 > **toSql**(): `object`
 
+Serializes the query builder state into a parameterized SQL statement and bound parameters.
+
 #### Returns
 
 `object`
+
+An object containing the generated `sql` string and `params` array.
 
 ##### params
 
@@ -1155,9 +1226,13 @@ Adds a raw SQL expression to the WHERE clause with parameter bindings.
 
 `string`
 
+The raw SQL fragment.
+
 ##### params
 
 ...`any`[]
+
+Bound parameters for the SQL fragment.
 
 #### Returns
 

@@ -4,6 +4,8 @@
 
 > **UnionFaasItemRender**\<`Value`, `Values`\> = (`value`, `values`, `index`, `scene`) => `React.ReactNode`
 
+Render callback shared by form items, description items, and table columns.
+
 ## Type Parameters
 
 ### Value
@@ -20,17 +22,25 @@
 
 `Value`
 
+Normalized value for the field or column.
+
 ### values
 
 `Values`
+
+Full record for the current row or form.
 
 ### index
 
 `number`
 
+Position of the item inside a list (always 0 for single items).
+
 ### scene
 
 [`UnionScene`](UnionScene.md)
+
+Rendering surface that triggered the callback.
 
 ## Returns
 

@@ -2,6 +2,8 @@
 
 # Interface: BaseItemProps
 
+Minimal common shape shared by all item definition types.
+
 ## Extended by
 
 - [`FaasItemProps`](FaasItemProps.md)

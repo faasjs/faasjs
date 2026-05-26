@@ -103,7 +103,7 @@ Decoded session payload.
 
 #### Throws
 
-When the signature is invalid or the payload cannot be decrypted.
+When the HMAC signature is invalid or the payload cannot be decrypted.
 
 ### encode()
 

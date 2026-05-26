@@ -2,6 +2,8 @@
 
 # Interface: DescriptionWithoutFaasProps\<T, ExtendItemProps\>
 
+Props for the [Description](../functions/Description.md) component when rendering a local data source.
+
 ## Extends
 
 - [`DescriptionCommonProps`](DescriptionCommonProps.md)\<`T`, `ExtendItemProps`\>
@@ -12,15 +14,21 @@
 
 `T` = `any`
 
+Data record shape rendered by the description list.
+
 ### ExtendItemProps
 
 `ExtendItemProps` = `any`
+
+Additional item prop shape accepted by `items`.
 
 ## Methods
 
 ### renderTitle()?
 
 > `optional` **renderTitle**(`this`, `values`): `ReactNode`
+
+Callback that returns a custom React node for the title.
 
 #### Parameters
 
@@ -46,9 +54,13 @@
 
 > `optional` **dataSource?**: `T`
 
+Local data source rendered by the description list.
+
 ### extendTypes?
 
 > `optional` **extendTypes?**: `object`
+
+Custom type renderers keyed by item type.
 
 #### Index Signature
 
@@ -62,9 +74,13 @@
 
 > `optional` **faasData?**: `undefined`
 
+Must not be set when using a local `dataSource`.
+
 ### items
 
 > **items**: ([`DescriptionItemProps`](DescriptionItemProps.md)\<`any`\> \| `ExtendItemProps`)[]
+
+Item metadata definitions rendered as description entries.
 
 #### Inherited from
 

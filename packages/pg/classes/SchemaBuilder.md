@@ -18,6 +18,8 @@ Accumulated statements are executed in a single transaction by [run](#run).
 
 [`Client`](Client.md)
 
+The database client used to execute schema changes.
+
 #### Returns
 
 `SchemaBuilder`
@@ -28,15 +30,22 @@ Accumulated statements are executed in a single transaction by [run](#run).
 
 > **alterTable**(`tableName`, `callback`): `SchemaBuilder`
 
+Registers one or more ALTER TABLE statements. The callback receives a [TableBuilder](TableBuilder.md)
+scoped to the given table name in alter mode.
+
 #### Parameters
 
 ##### tableName
 
 `string`
 
+The name of the table to alter.
+
 ##### callback
 
 (`table`) => `void`
+
+A function that defines the alterations.
 
 #### Returns
 
@@ -46,15 +55,22 @@ Accumulated statements are executed in a single transaction by [run](#run).
 
 > **createTable**(`tableName`, `callback`): `SchemaBuilder`
 
+Registers a CREATE TABLE statement. The callback receives a [TableBuilder](TableBuilder.md)
+scoped to the given table name in create mode.
+
 #### Parameters
 
 ##### tableName
 
 `string`
 
+The name of the table to create.
+
 ##### callback
 
 (`table`) => `void`
+
+A function that defines the table schema.
 
 #### Returns
 
@@ -64,11 +80,15 @@ Accumulated statements are executed in a single transaction by [run](#run).
 
 > **dropTable**(`tableName`): `SchemaBuilder`
 
+Registers a DROP TABLE statement.
+
 #### Parameters
 
 ##### tableName
 
 `string`
+
+The name of the table to drop.
 
 #### Returns
 
@@ -78,11 +98,15 @@ Accumulated statements are executed in a single transaction by [run](#run).
 
 > **raw**(`sql`): `SchemaBuilder`
 
+Appends a raw SQL statement to the change list.
+
 #### Parameters
 
 ##### sql
 
 `string`
+
+The raw SQL to execute.
 
 #### Returns
 
@@ -92,15 +116,21 @@ Accumulated statements are executed in a single transaction by [run](#run).
 
 > **renameTable**(`oldTableName`, `newTableName`): `SchemaBuilder`
 
+Registers a table rename statement.
+
 #### Parameters
 
 ##### oldTableName
 
 `string`
 
+The current table name.
+
 ##### newTableName
 
 `string`
+
+The new table name.
 
 #### Returns
 
@@ -110,14 +140,24 @@ Accumulated statements are executed in a single transaction by [run](#run).
 
 > **run**(): `Promise`\<`void`\>
 
+Executes all registered schema changes in a single database transaction.
+
 #### Returns
 
 `Promise`\<`void`\>
+
+#### Throws
+
+Wrapped with the full SQL on failure.
 
 ### toSQL()
 
 > **toSQL**(): `string`[]
 
+Serializes all registered schema changes into an array of SQL statement strings.
+
 #### Returns
 
 `string`[]
+
+The array of generated SQL statements.

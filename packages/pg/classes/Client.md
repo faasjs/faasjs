@@ -2,6 +2,19 @@
 
 # Class: Client
 
+PostgreSQL client wrapping `postgres.js` with a fluent query builder API.
+
+Clients created with the same connection URL are automatically cached and
+reused via [getClient](../functions/getClient.md).
+
+## Example
+
+```ts
+import { createClient } from '@faasjs/pg'
+const client = createClient('postgres://user:pass@localhost:5432/db')
+const rows = await client.query('users').where('id', 1)
+```
+
 ## Constructors
 
 ### Constructor
@@ -14,13 +27,21 @@
 
 `string`
 
+PostgreSQL connection string.
+
 ##### options?
 
 `AnyClientOptions`
 
+Optional `postgres.js` options.
+
 #### Returns
 
 `Client`
+
+#### Throws
+
+When `url` is not a string.
 
 ## Methods
 
@@ -61,6 +82,8 @@ const users = await client.query('users').where('id', userId)
 ### quit()
 
 > **quit**(): `Promise`\<`void`\>
+
+Closes the underlying connection pool and removes this client from the cache.
 
 #### Returns
 

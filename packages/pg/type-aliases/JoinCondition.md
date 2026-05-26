@@ -4,6 +4,8 @@
 
 > **JoinCondition** = `object`
 
+Describes a JOIN clause condition.
+
 ## Properties
 
 ### left

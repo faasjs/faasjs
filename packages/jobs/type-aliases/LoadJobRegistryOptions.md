@@ -4,33 +4,7 @@
 
 > **LoadJobRegistryOptions** = `object`
 
-# @faasjs/jobs
-
-PostgreSQL-backed background jobs for FaasJS.
-
-## Install
-
-```sh
-npm install @faasjs/jobs @faasjs/pg
-```
-
-## Usage
-
-```ts
-import { defineJob, enqueueJob } from '@faasjs/jobs'
-import { z } from '@faasjs/utils'
-
-export default defineJob({
-  schema: z.object({
-    userId: z.string(),
-  }),
-  async handler({ params }) {
-    console.log(params.userId)
-  },
-})
-
-await enqueueJob('jobs/users/sync', { userId: 'u_123' })
-```
+Options for loadJobRegistry.
 
 ## Properties
 
@@ -38,10 +12,16 @@ await enqueueJob('jobs/users/sync', { userId: 'u_123' })
 
 > `optional` **logger?**: `Logger`
 
+Logger instance.
+
 ### root?
 
 > `optional` **root?**: `string`
 
+Root directory for job file discovery. Auto-detected when omitted.
+
 ### staging?
 
 > `optional` **staging?**: `string`
+
+Staging environment name. Defaults to `process.env.FaasEnv` or `'development'`.

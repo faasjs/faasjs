@@ -3,3 +3,5 @@
 # Type Alias: JobStatus
 
 > **JobStatus** = `"pending"` \| `"running"` \| `"completed"` \| `"failed"`
+
+Lifecycle status of a background job.

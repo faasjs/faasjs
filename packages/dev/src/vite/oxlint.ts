@@ -60,5 +60,6 @@ export const OxlintConfig: NonNullable<UserConfig['lint']> = {
       },
     ],
     'react-hooks/exhaustive-deps': ['warn'],
+    'jsdoc/no-defaults': ['off'],
   },
 }

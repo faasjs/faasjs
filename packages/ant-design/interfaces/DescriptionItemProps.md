@@ -2,6 +2,8 @@
 
 # Interface: DescriptionItemProps\<T\>
 
+Description item meta-object consumed by the [Description](../functions/Description.md) component.
+
 ## Extends
 
 - [`FaasItemProps`](FaasItemProps.md)
@@ -16,19 +18,27 @@
 
 `T` = `any`
 
+Data record shape rendered by the description list.
+
 ## Properties
 
 ### children?
 
 > `optional` **children?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\> \| `null`
 
+Generic custom element rendered when no description-specific child overrides it.
+
 ### descriptionChildren?
 
 > `optional` **descriptionChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\> \| `null`
 
+Description-specific custom element.
+
 ### descriptionRender?
 
 > `optional` **descriptionRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\> \| `null`
+
+Description-specific custom render callback.
 
 ### id
 
@@ -41,6 +51,8 @@
 ### if?
 
 > `optional` **if?**: (`values`) => `boolean`
+
+Conditional visibility predicate. When `false`, the item is hidden from the description list.
 
 #### Parameters
 
@@ -56,6 +68,8 @@
 
 > `optional` **object?**: `DescriptionItemProps`\<`T`\>[]
 
+Nested item definitions used by `object` and `object[]` item types.
+
 ### options?
 
 > `optional` **options?**: [`BaseOption`](../type-aliases/BaseOption.md)[]
@@ -67,6 +81,8 @@
 ### render?
 
 > `optional` **render?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\> \| `null`
+
+Generic custom render callback.
 
 ### title?
 

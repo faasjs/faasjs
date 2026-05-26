@@ -4,6 +4,8 @@
 
 > **isNormalOperator**(`value`): value is "\>" \| "\>=" \| "\<=" \| "=" \| "!=" \| "\<"
 
+Type guard for validating that a value is a normal comparison operator.
+
 ## Parameters
 
 ### value

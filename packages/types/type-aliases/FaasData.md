@@ -4,9 +4,12 @@
 
 > **FaasData**\<`T`\> = `T` _extends_ [`FaasActionPaths`](FaasActionPaths.md) ? `FaasActions`\[`T`\]\[`"Data"`\] : `T` _extends_ `string` ? `Record`\<`string`, `unknown`\> : `never`
 
-Infer response data type by action path.
+Infer the response data type for a given action path.
 
-If `T` is already a plain object type, it is returned directly.
+When `T` matches a declared [action path](FaasActionPaths.md),
+resolves to `FaasActions[T]['Data']`. Falls back to
+`Record<string, unknown>` for unrecognized string paths.
+Returns `never` when `T` is not a string.
 
 ## Type Parameters
 
@@ -15,3 +18,31 @@ If `T` is already a plain object type, it is returned directly.
 `T` = `unknown`
 
 Candidate action path or response data type.
+
+## Returns
+
+`FaasActions[T]['Data']` when `T` is a registered action
+path, `Record<string, unknown>` for any unregistered string,
+or `never` when `T` is not a string.
+
+## Example
+
+```ts
+// Registered action — resolves to the declared Data type
+type LoginData = FaasData<'user/login'>
+// → { token: string }
+
+// Unregistered string — falls back to a generic record
+type UnknownData = FaasData<'some/action'>
+// → Record<string, unknown>
+
+// Non-string — resolves to never
+type Invalid = FaasData<42>
+// → never
+```
+
+## See
+
+- FaasActions
+- [FaasActionPaths](FaasActionPaths.md)
+- [FaasParams](FaasParams.md)

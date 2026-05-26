@@ -25,3 +25,11 @@ The JSON string to parse.
 `T`
 
 The parsed JavaScript value.
+
+## Throws
+
+If the input is not a string.
+
+## Throws
+
+If the string is not valid JSON.

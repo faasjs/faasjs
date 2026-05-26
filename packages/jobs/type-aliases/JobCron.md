@@ -18,9 +18,13 @@ Cron rule that enqueues a job with optional schema-typed params.
 
 > **expression**: `string`
 
+Cron expression string (5-field format: minute hour day month weekday).
+
 ### maxAttempts?
 
 > `optional` **maxAttempts?**: `number`
+
+Maximum execution attempts for this cron rule.
 
 ### params?
 
@@ -32,10 +36,16 @@ Params passed to the job when this cron rule enqueues it.
 
 > `optional` **priority?**: `number`
 
+Execution priority for this cron rule.
+
 ### queue?
 
 > `optional` **queue?**: `string`
 
+Queue name. Defaults to the job's queue or `'default'`.
+
 ### timezone?
 
 > `optional` **timezone?**: `string`
+
+Optional IANA timezone (e.g. `'America/New_York'`).
