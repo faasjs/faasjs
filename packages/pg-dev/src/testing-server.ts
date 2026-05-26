@@ -9,6 +9,14 @@ function resolveMigrationsFolder(projectRoot: string) {
   return resolve(projectRoot, 'migrations')
 }
 
+/**
+ * Runs database migrations from the `migrations/` directory using `@faasjs/pg` Migrator.
+ *
+ * Skips silently when the folder does not exist or contains no `.ts` files.
+ *
+ * @param {string} projectRoot - Absolute path to the project root containing the `migrations/` directory.
+ * @param {string} databaseUrl - PostgreSQL connection URL for the migration client.
+ */
 export async function runTestingMigrations(projectRoot: string, databaseUrl: string) {
   const migrationsFolder = resolveMigrationsFolder(projectRoot)
 
@@ -28,6 +36,17 @@ export async function runTestingMigrations(projectRoot: string, databaseUrl: str
   }
 }
 
+/**
+ * Starts a PGlite socket server and runs migrations for the project.
+ *
+ * After the server starts and migrations pass, `process.env.DATABASE_URL` is
+ * backfilled by the setup helper so subsequent `getClient()` calls connect to
+ * this database.
+ *
+ * @param {string} projectRoot - Absolute path to the project root containing the `migrations/` directory.
+ * @returns {Promise<StartedPGliteServer>} A running PGlite server handle.
+ * @throws When migration execution fails (the server is stopped before re-throwing).
+ */
 export async function startTestingServer(projectRoot: string) {
   const testingServer = await startPGliteServer()
 
@@ -40,6 +59,14 @@ export async function startTestingServer(projectRoot: string) {
   }
 }
 
+/**
+ * Stops a batch of PGlite servers, tolerating individual failure.
+ *
+ * Useful in global teardown where every server must be released regardless of
+ * any single stop error.
+ *
+ * @param {StartedPGliteServer[]} testingServers - Servers to stop.
+ */
 export async function stopTestingServers(testingServers: StartedPGliteServer[]) {
   await Promise.allSettled(testingServers.map((testingServer) => testingServer.stop()))
 }

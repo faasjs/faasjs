@@ -7,6 +7,34 @@ let mock: MockHandler | ResponseProps | Response | null | undefined = null
 
 /**
  * Set the global mock handler used by all {@link FaasBrowserClient} instances.
+ *
+ * When a mock handler is set, every {@link FaasBrowserClient.action} call will
+ * route through the mock instead of making a real network request, which is
+ * useful for testing and local development.
+ *
+ * @param {MockHandler | ResponseProps | Response | null | undefined} handler -
+ *   A mock function that receives `(action, params, options)` and returns a
+ *   response shape, or a static response/value, or `null`/`undefined` to
+ *   disable mocking.
+ *
+ * @example
+ * ```ts
+ * import { setMock, Response } from '@faasjs/react'
+ *
+ * // Mock all requests with a static response
+ * setMock({ data: { name: 'test' } })
+ *
+ * // Mock with a handler function
+ * setMock(async (action, params) => {
+ *   if (action === 'posts/get') {
+ *     return { data: { title: 'Hello' } }
+ *   }
+ *   return new Error('Not found')
+ * })
+ *
+ * // Disable mocking
+ * setMock(null)
+ * ```
  */
 export function setMock(handler: MockHandler | ResponseProps | Response | null | undefined) {
   mock = handler
@@ -59,6 +87,19 @@ function normalizeMockResponse<T>(
   return new Response(response || {})
 }
 
+/**
+ * Resolve a mock response for the current request.
+ *
+ * If the global mock is a function it is invoked with the action, params, and
+ * resolved options. Otherwise the static mock value is normalized into a
+ * {@link Response} object.
+ *
+ * @template Path - Action path used for response data inference.
+ * @param {string} action - Action path being requested.
+ * @param {Record<string, any>} params - Params sent with the request.
+ * @param {ResolvedActionOptions} options - Fully resolved request options.
+ * @returns {Promise<Response<FaasData<Path>>>} Normalized mock response.
+ */
 export async function resolveMockResponse<Path extends FaasActionPaths>(
   action: string,
   params: Record<string, any>,

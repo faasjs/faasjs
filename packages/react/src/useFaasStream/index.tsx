@@ -5,6 +5,12 @@ import { useFaasRequest, type SharedUseFaasOptions } from '../useFaasRequest'
 
 /**
  * Options that customize the {@link useFaasStream} request lifecycle.
+ *
+ * Extends the shared request options so stream consumers can control params,
+ * skip logic, debounce timing, polling, and base URL overrides the same way
+ * {@link useFaas} does.
+ *
+ * @see {@link SharedUseFaasOptions} for a full description of each field.
  */
 export type UseFaasStreamOptions = SharedUseFaasOptions<Record<string, any>, string>
 

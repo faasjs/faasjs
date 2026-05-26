@@ -9,6 +9,15 @@ import type {
   ParsedFetchResponse,
 } from './types'
 
+/**
+ * Build the full request URL for an action, with optional request-id query parameter.
+ *
+ * @param {string} action - Action path to append to the base URL.
+ * @param {BaseUrl} baseUrl - Default base URL used when the request options do not override it.
+ * @param {Options} [options] - Per-request options whose `baseUrl` field overrides `baseUrl`.
+ * @param {string} [requestId] - Unique request identifier appended as the `_` query parameter.
+ * @returns {string} Fully assembled request URL.
+ */
 export function buildActionUrl(
   action: string,
   baseUrl: BaseUrl,
@@ -18,6 +27,19 @@ export function buildActionUrl(
   return `${(options?.baseUrl || baseUrl) + action}?_=${requestId}`
 }
 
+/**
+ * Merge default and per-request options into a fully resolved request configuration.
+ *
+ * Sets method to `POST`, adds JSON content-type and CORS credentials, serializes params
+ * as JSON body, and injects the `X-FaasJS-Request-Id` header unless already present.
+ *
+ * @template Path - Action path used for params inference.
+ * @param {Options} defaultOptions - Client-wide default options merged into every request.
+ * @param {Options | undefined} options - Per-request overrides applied on top of defaults.
+ * @param {FaasParams<Path>} params - Params to serialize as the JSON request body.
+ * @param {string} requestId - Unique request identifier injected into headers.
+ * @returns {ResolvedActionOptions} Fully resolved request options ready for `fetch`.
+ */
 export function buildActionOptions<Path extends FaasActionPaths>(
   defaultOptions: Options,
   options: Options | undefined,
@@ -43,6 +65,15 @@ export function buildActionOptions<Path extends FaasActionPaths>(
   return resolvedOptions
 }
 
+/**
+ * Invoke the `beforeRequest` hook if it is configured in the resolved options.
+ *
+ * @template Path - Action path used for params inference.
+ * @param {Path} action - Action path being requested.
+ * @param {FaasParams<Path>} params - Params being sent with the request.
+ * @param {ResolvedActionOptions} options - Resolved options that may carry a `beforeRequest` callback.
+ * @returns {Promise<void>} Resolves after the hook (if any) completes.
+ */
 export async function runBeforeRequest<Path extends FaasActionPaths>(
   action: Path,
   params: FaasParams<Path>,
@@ -58,6 +89,12 @@ export async function runBeforeRequest<Path extends FaasActionPaths>(
   })
 }
 
+/**
+ * Convert fetch `Headers` iterable to a plain key-value object.
+ *
+ * @param {Iterable<[string, string]>} headers - Iterable of header name/value pairs.
+ * @returns {ResponseHeaders} Plain object keyed by lower-cased header names.
+ */
 export function toResponseHeaders(headers: Iterable<[string, string]>): ResponseHeaders {
   const responseHeaders: ResponseHeaders = {}
 
@@ -66,6 +103,19 @@ export function toResponseHeaders(headers: Iterable<[string, string]>): Response
   return responseHeaders
 }
 
+/**
+ * Parse a successful (2xx) HTTP response body into a {@link Response} object.
+ *
+ * If the parsed body contains an `error.message` property the response is treated
+ * as a logical error and a {@link ResponseError} is thrown instead.
+ *
+ * @template Path - Action path used for response data inference.
+ * @param {number} status - HTTP status code.
+ * @param {ResponseHeaders} headers - Response headers.
+ * @param {string} text - Raw response body text.
+ * @returns {Response<FaasData<Path>>} Wrapped response containing the parsed data.
+ * @throws {ResponseError} When the body contains a logical `error.message`.
+ */
 export function parseSuccessfulResponse<Path extends FaasActionPaths>(
   status: number,
   headers: ResponseHeaders,
@@ -95,6 +145,15 @@ export function parseSuccessfulResponse<Path extends FaasActionPaths>(
   })
 }
 
+/**
+ * Parse a failed (non-2xx) HTTP response and always throw a {@link ResponseError}.
+ *
+ * @param {number} status - HTTP status code.
+ * @param {ResponseHeaders} headers - Response headers.
+ * @param {string} text - Raw response body text.
+ * @returns {never} Always throws – never returns normally.
+ * @throws {ResponseError} Wrapped error containing the HTTP status, headers, and body.
+ */
 export function parseFailedResponse(status: number, headers: ResponseHeaders, text: string): never {
   try {
     const body = JSON.parse(text)
@@ -125,6 +184,17 @@ export function parseFailedResponse(status: number, headers: ResponseHeaders, te
   }
 }
 
+/**
+ * Read and parse a native fetch response into a FaasJS {@link Response} or throw on failure.
+ *
+ * Routes to {@link parseSuccessfulResponse} for 2xx status codes and
+ * {@link parseFailedResponse} for all others.
+ *
+ * @template Path - Action path used for response data inference.
+ * @param {ParsedFetchResponse} response - Parsed fetch response with headers, status, and text body.
+ * @returns {Promise<Response<FaasData<Path>>>} Wrapped FaasJS response on success.
+ * @throws {ResponseError} When the HTTP status indicates a failure.
+ */
 export async function parseFetchResponse<Path extends FaasActionPaths>(
   response: ParsedFetchResponse,
 ): Promise<Response<FaasData<Path>>> {

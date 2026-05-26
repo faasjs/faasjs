@@ -51,6 +51,10 @@ function normalizeIssueMessage(message: string): string {
 
 /**
  * Format a Zod validation error with FaasJS' boundary-validation message style.
+ *
+ * @param {ZodError} error - Zod validation error to format.
+ * @param {string} message - First line of the formatted message.
+ * @returns {string} Multi-line formatted validation message.
  */
 export function formatSchemaError(error: ZodError, message: string): string {
   const lines = [message]
@@ -70,6 +74,12 @@ export function formatSchemaError(error: ZodError, message: string): string {
  * If `schema` is omitted, `defaultValue` is returned. If `value` is `null` or
  * `undefined`, the same `defaultValue` is passed to the schema parser. When
  * `defaultValue` is omitted, an empty object is used.
+ *
+ * @template TSchema - Zod schema type used for parsing.
+ * @template TFallback - Fallback type used when no schema is provided.
+ * @param {ParseSchemaValueOptions<TSchema, TFallback>} options - Parsing options including the optional schema, raw value, and error formatting.
+ * @returns {Promise<SchemaOutput<TSchema, TFallback>>} Parsed (and validated) value matching the schema or fallback type.
+ * @throws {Error} If the schema validation fails, using the provided `createError` factory or a plain `Error`.
  */
 export async function parseSchemaValue<
   TSchema extends ZodType | undefined = undefined,

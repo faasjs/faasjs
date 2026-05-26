@@ -7,7 +7,9 @@ import { PGLiteSocketServer } from '@electric-sql/pglite-socket'
  * Started PGlite server handle used by `PgVitestPlugin`.
  */
 export interface StartedPGliteServer {
+  /** PostgreSQL connection URL for the running in-process server. */
   databaseUrl: string
+  /** Stops the socket server and closes the underlying PGlite database. Safe to call more than once. */
   stop(): Promise<void>
 }
 

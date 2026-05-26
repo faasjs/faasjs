@@ -63,7 +63,7 @@ function shouldEnableForProject(project: {
  *
  * By default the plugin skips browser-like projects such as `jsdom` and `happy-dom`.
  *
- * @returns Vitest/Vite plugin instance.
+ * @returns {Plugin} Vitest/Vite plugin instance.
  */
 export function PgVitestPlugin(): Plugin {
   return {

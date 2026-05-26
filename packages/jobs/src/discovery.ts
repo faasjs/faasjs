@@ -11,14 +11,32 @@ import {
 
 import { isJob, type Job } from './define-job'
 
+/**
+ * A registry mapping job paths to their loaded {@link Job} definitions.
+ */
 export type JobRegistry = Map<string, Job<any, any, any>>
 
+/**
+ * Options for {@link loadJobRegistry}.
+ */
 export type LoadJobRegistryOptions = {
+  /** Root directory for job file discovery. Auto-detected when omitted. */
   root?: string
+  /** Staging environment name. Defaults to `process.env.FaasEnv` or `'development'`. */
   staging?: string
+  /** Logger instance. */
   logger?: Logger
 }
 
+/**
+ * Resolve the root directory for job file discovery.
+ *
+ * Defaults to `src/` under the current working directory if it exists,
+ * otherwise falls back to the CWD itself.
+ *
+ * @param root - An explicit root path, or `undefined` to auto-detect.
+ * @returns The resolved absolute root path.
+ */
 export function resolveJobsRoot(root?: string): string {
   if (root) return resolve(root)
 
@@ -63,6 +81,21 @@ function getModuleHooksOptions(root: string): RegisterNodeModuleHooksOptions {
   return options
 }
 
+/**
+ * Derive the job path identifier from a `.job.ts` file.
+ *
+ * Strips the root prefix and the `.job.ts` suffix. An `index.job.ts` file
+ * maps to an empty string path.
+ *
+ * @param file - The absolute path to the `.job.ts` file.
+ * @param root - The root directory for job discovery.
+ * @returns The job path identifier.
+ * @throws {Error} If the file is outside the root or lacks the `.job.ts` suffix.
+ *
+ * @example
+ * getJobPathFromFile('/app/src/jobs/users/sync.job.ts', '/app/src')
+ * // 'jobs/users/sync'
+ */
 export function getJobPathFromFile(file: string, root: string): string {
   const relativePath = relative(root, file)
 
@@ -82,6 +115,18 @@ export function getJobPathFromFile(file: string, root: string): string {
   return jobPath
 }
 
+/**
+ * Scan the filesystem and load all `.job.ts` job definitions.
+ *
+ * Discovers `.job.ts` files under the resolved root, loads each module,
+ * validates that it exports a valid job, and registers it by its derived
+ * job path. Plugins are loaded for each job definition before registration.
+ *
+ * @param options - Discovery options.
+ * @returns A `Map` of job paths to loaded `Job` definitions.
+ * @throws {Error} If a file does not default-export a valid job, or
+ * if duplicate job paths are found.
+ */
 export async function loadJobRegistry(options: LoadJobRegistryOptions = {}): Promise<JobRegistry> {
   const root = resolveJobsRoot(options.root)
   const logger = options.logger || new Logger('@faasjs/jobs')

@@ -58,6 +58,16 @@ export function down(builder: SchemaBuilder) {
   return 0
 }
 
+/**
+ * CLI entry point for migration operations.
+ *
+ * Supported operations: `status`, `migrate`, `up`, `down`, `new <name>`.
+ *
+ * Requires `DATABASE_URL` environment variable for database operations.
+ *
+ * @param operation - The CLI operation to perform (defaults to `process.argv[2]`).
+ * @returns Exit code (0 on success, 1 on failure).
+ */
 export async function main(operation = process.argv[2] as string) {
   const logger = new Logger(cliName)
 

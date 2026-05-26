@@ -1,6 +1,12 @@
 import { EventEmitter } from 'node:events'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 
+/**
+ * Mock request object used for testing server request handling.
+ *
+ * Combines a Node.js `EventEmitter` with the `IncomingMessage` interface and
+ * adds a lightweight `read()` implementation for simulating streamed request bodies.
+ */
 export type MockRequest = EventEmitter &
   IncomingMessage & {
     _body: string | null
@@ -8,6 +14,19 @@ export type MockRequest = EventEmitter &
     read(): Buffer | null
   }
 
+/**
+ * Create a mock `IncomingMessage` compatible with FaasJS server internals.
+ *
+ * The returned request object emits `readable` and `end` events when triggered
+ * via {@link triggerReqEvents}, simulating a standard Node.js request stream.
+ *
+ * @param {object} [options] - Overrides for the mock request properties.
+ * @param {string} [options.method] - HTTP method. Defaults to `GET`.
+ * @param {string} [options.url] - Request URL. Defaults to `/`.
+ * @param {Record<string, string>} [options.headers] - Request headers.
+ * @param {string | null} [options.body] - Body string returned on the first `read()` call.
+ * @returns {MockRequest} Mock request object with an `EventEmitter` base.
+ */
 export function createMockReq(options?: {
   method?: string
   url?: string
@@ -33,11 +52,20 @@ export function createMockReq(options?: {
   return req
 }
 
+/**
+ * Minimal mock response shape used as a type reference.
+ */
 export type MockResponse = ServerResponse<IncomingMessage> & {
   headers: Record<string, string>
   _capturedData: any
 }
 
+/**
+ * Full mock response with writable state that can be captured and inspected in tests.
+ *
+ * Exposes mutable properties for `statusCode`, `headersSent`, `writableEnded`, and
+ * captured response data so tests can assert response behavior.
+ */
 export type MutableMockResponse = EventEmitter &
   Omit<
     MockResponse,
@@ -54,6 +82,16 @@ export type MutableMockResponse = EventEmitter &
     removeListener(event: string, handler: (...args: any[]) => void): MutableMockResponse
   }
 
+/**
+ * Create a mock `ServerResponse` compatible with FaasJS server internals.
+ *
+ * The returned response object tracks headers, captured data, and writable state
+ * without relying on an actual socket connection.
+ *
+ * @param {object} [options] - Mock response options.
+ * @param {(data: any) => void} [options.onDataCapture] - Callback invoked when response data is written or ended.
+ * @returns {MutableMockResponse} Mock response object that captures writes locally.
+ */
 export function createMockRes(options?: {
   onDataCapture?: (data: any) => void
 }): MutableMockResponse {
@@ -109,6 +147,15 @@ export function createMockRes(options?: {
   return res
 }
 
+/**
+ * Asynchronously emit `readable` and `end` events on a mock request.
+ *
+ * Fires the events in sequence via `setImmediate` so that event-driven body reading
+ * completes before request handling continues.
+ *
+ * @param {ReturnType<typeof createMockReq>} req - Mock request returned by {@link createMockReq}.
+ * @returns {void} No return value.
+ */
 export function triggerReqEvents(req: ReturnType<typeof createMockReq>) {
   setImmediate(() => {
     req.emit('readable')

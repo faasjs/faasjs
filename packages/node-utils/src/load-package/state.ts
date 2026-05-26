@@ -19,9 +19,28 @@ import {
 import { parseTsconfig } from './tsconfig'
 import type { LoaderState, LoaderOptions } from './types'
 
+/**
+ * Map of loader states keyed by project root, shared across all loaders in the current process.
+ *
+ * @see {@link buildLoaderState}
+ * @see {@link ensureLoaderState}
+ */
 export const loaderStates = new Map<string, LoaderState>()
+/**
+ * Whether the Node.js module resolution hooks have been installed by {@link installModuleHooks}.
+ */
 export let hooksInstalled = false
 
+/**
+ * Build a loader state by parsing the tsconfig at the given path.
+ *
+ * When the tsconfig file does not exist the returned state has no path-alias rules.
+ *
+ * @param {string} root - Project root directory.
+ * @param {string} tsconfigPath - Path to the tsconfig to parse.
+ * @param {string} version - Version token for cache busting.
+ * @returns {LoaderState} Built loader state with base URL and path-alias rules.
+ */
 export function buildLoaderState(root: string, tsconfigPath: string, version: string): LoaderState {
   const mtimeMs = existsSync(tsconfigPath) ? statSync(tsconfigPath).mtimeMs : -1
 
@@ -47,6 +66,16 @@ export function buildLoaderState(root: string, tsconfigPath: string, version: st
   }
 }
 
+/**
+ * Retrieve or create a loader state for a specifier or path, inferring root and tsconfig when not explicitly given.
+ *
+ * If a state already exists for the resolved root and its tsconfig hasn't changed, the
+ * existing state is reused and its version is updated.
+ *
+ * @param {string} name - Module specifier or file path used to infer loader options.
+ * @param {LoaderOptions} options - Loader options such as explicit root, tsconfig path, and cache-busting version.
+ * @returns {LoaderState | undefined} Created or existing loader state, or `undefined` if no root could be determined.
+ */
 export function ensureLoaderState(name: string, options: LoaderOptions): LoaderState | undefined {
   let root = options.root ? normalizeRoot(options.root) : ''
   let tsconfigPath = options.tsconfigPath ? normalizeFileSystemPath(options.tsconfigPath) : ''
@@ -88,6 +117,13 @@ export function ensureLoaderState(name: string, options: LoaderOptions): LoaderS
   return currentState
 }
 
+/**
+ * Install Node.js module resolution hooks that resolve tsconfig path aliases and extensionless TypeScript files.
+ *
+ * Calling this function multiple times is safe — hooks are installed at most once.
+ *
+ * @see {@link loaderStates}
+ */
 export function installModuleHooks(): void {
   if (hooksInstalled) return
 

@@ -1,6 +1,21 @@
 import { createParseError } from './scanner'
 import type { ParseContext, ParsedValueToken } from './types'
 
+/**
+ * Parse a YAML anchor name or alias name from a value token.
+ *
+ * @param {string} value - Token starting with `&` (anchor) or `*` (alias).
+ * @param {number} line - 1-indexed line number for error reporting.
+ * @param {'&' | '*'} marker - Which marker character the token starts with.
+ * @returns Object with the anchor/alias `name` and remaining `rest` text.
+ * @throws {Error} If the name is missing, empty, or contains invalid characters.
+ *
+ * @example
+ * ```ts
+ * parseReferenceToken('&myAnchor value', 1, '&')
+ * // { name: 'myAnchor', rest: 'value' }
+ * ```
+ */
 export function parseReferenceToken(
   value: string,
   line: number,
@@ -25,6 +40,15 @@ export function parseReferenceToken(
   }
 }
 
+/**
+ * Store a parsed value under an anchor name for later alias resolution.
+ *
+ * This is a no-op when `anchorName` is undefined.
+ *
+ * @param {ParseContext} context - Parse context with the anchors map.
+ * @param {string | undefined} anchorName - Anchor name, or undefined if none.
+ * @param {unknown} value - Value to store under the anchor name.
+ */
 export function setAnchor(
   context: ParseContext,
   anchorName: string | undefined,
@@ -35,6 +59,20 @@ export function setAnchor(
   context.anchors.set(anchorName, value)
 }
 
+/**
+ * Parse a YAML value token, resolving anchors and aliases.
+ *
+ * Handles three token kinds:
+ * - `"nested"`: Token is an anchor-only line (`&name`), value parsed from the next block.
+ * - `"alias"`: Token starts with `*`, resolved from previously stored anchors.
+ * - `"inline"`: Plain token to be parsed as an inline scalar value.
+ *
+ * @param {string} token - Value token from a mapping entry or sequence item.
+ * @param {number} line - 1-indexed line number for error reporting.
+ * @param {ParseContext} context - Parse context with the anchors map.
+ * @returns {ParsedValueToken} Describes the token kind and optional anchor name/raw value.
+ * @throws {Error} If an alias references an unknown anchor or has trailing content.
+ */
 export function parseValueToken(
   token: string,
   line: number,

@@ -44,6 +44,26 @@ export const z: Z = Object.assign(extendedZod, {
   nonemptystring: () => extendedZod.string().min(1),
 })
 
+/**
+ * Type guard that checks whether a value is a plain object record.
+ *
+ * Uses Zod's `safeParse` to validate that the value is an object with
+ * string keys and unknown values. Returns `false` for arrays, null,
+ * primitives, and other non-plain-object values.
+ *
+ * @param {unknown} value - Value to check.
+ * @returns `true` if the value is a plain object record.
+ *
+ * @example
+ * ```ts
+ * import { isObjectRecord } from '@faasjs/utils'
+ *
+ * isObjectRecord({ a: 1 }) // true
+ * isObjectRecord([1, 2, 3]) // false
+ * isObjectRecord('hello') // false
+ * isObjectRecord(null) // false
+ * ```
+ */
 export function isObjectRecord(value: unknown): value is Record<string, unknown> {
   return _z.object().safeParse(value).success
 }

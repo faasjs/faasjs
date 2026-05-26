@@ -24,8 +24,20 @@ export type RegisterNodeModuleHooksOptions = {
   version?: string
 }
 
+/**
+ * Options for building or updating a loader state, excluding the user-facing `entry` field.
+ */
 export type LoaderOptions = Omit<RegisterNodeModuleHooksOptions, 'entry'>
 
+/**
+ * Parsed tsconfig path-alias rule used during module resolution.
+ *
+ * @property {string} key - Original path alias key from tsconfig.
+ * @property {string[]} targets - Target directories or files the key maps to.
+ * @property {boolean} hasWildcard - Whether the key contains a `*` wildcard.
+ * @property {string} prefix - Literal prefix before the wildcard, or the full key if no wildcard exists.
+ * @property {string} suffix - Literal suffix after the wildcard.
+ */
 export type TsconfigPathRule = {
   key: string
   targets: string[]
@@ -34,11 +46,27 @@ export type TsconfigPathRule = {
   suffix: string
 }
 
+/**
+ * Parsed tsconfig data containing the resolved base URL and ordered path-alias rules.
+ *
+ * @property {string} baseUrl - Resolved base directory for non-relative module resolution.
+ * @property {TsconfigPathRule[]} rules - Ordered path-alias rules (longest keys first).
+ */
 export type TsconfigData = {
   baseUrl: string
   rules: TsconfigPathRule[]
 }
 
+/**
+ * Cached loader state for a project root, bundling tsconfig data and cache-busting version.
+ *
+ * @property {string} root - Project root directory.
+ * @property {string} tsconfigPath - Path to the tsconfig file that was parsed.
+ * @property {number} tsconfigMtimeMs - Modification time of the tsconfig file, or `-1` when missing.
+ * @property {string} baseUrl - Resolved base directory for path aliases.
+ * @property {TsconfigPathRule[]} rules - Ordered path-alias rules.
+ * @property {string} version - Cache-busting version token.
+ */
 export type LoaderState = {
   root: string
   tsconfigPath: string
@@ -48,5 +76,11 @@ export type LoaderState = {
   version: string
 }
 
+/**
+ * Query parameter name appended to file URLs for cache busting.
+ */
 export const VERSION_QUERY_KEY = 'faasjsv'
+/**
+ * File extensions probed during script file resolution, in priority order.
+ */
 export const SCRIPT_EXTENSIONS = ['.ts', '.tsx', '.mts', '.js', '.jsx', '.mjs', '.json']

@@ -6,6 +6,12 @@ import { isPathInsideRoot } from '../is-path-inside-root/index.ts'
 import type { LoaderState } from './types'
 import { VERSION_QUERY_KEY, SCRIPT_EXTENSIONS } from './types'
 
+/**
+ * Check whether a module specifier is relative (starts with `./` or `../`, or equals `.` or `..`).
+ *
+ * @param {string} specifier - Module specifier to test.
+ * @returns {boolean} `true` when the specifier is relative.
+ */
 export function isRelativeSpecifier(specifier: string): boolean {
   return (
     specifier === '.' ||
@@ -15,10 +21,22 @@ export function isRelativeSpecifier(specifier: string): boolean {
   )
 }
 
+/**
+ * Check whether a string contains a URL scheme (e.g., `file://`, `npm:`).
+ *
+ * @param {string} specifier - Module specifier to test.
+ * @returns {boolean} `true` when the specifier begins with a scheme.
+ */
 export function hasUrlScheme(specifier: string): boolean {
   return /^[a-zA-Z][a-zA-Z\d+.-]*:/.test(specifier)
 }
 
+/**
+ * Convert a `file://` URL or absolute path to a normalised filesystem path.
+ *
+ * @param {string} value - File URL or absolute path to convert.
+ * @returns {string | undefined} Resolved filesystem path, or `undefined` if the URL could not be converted.
+ */
 export function toFilePath(value: string): string | undefined {
   if (value.startsWith('file://')) {
     try {
@@ -33,6 +51,14 @@ export function toFilePath(value: string): string | undefined {
   return undefined
 }
 
+/**
+ * Resolve a filesystem path to its absolute, real (symlink-free) form.
+ *
+ * When the path does not exist on disk, the resolved absolute path is returned instead.
+ *
+ * @param {string} path - Filesystem path to normalise.
+ * @returns {string} Resolved real path or absolute path.
+ */
 export function normalizeFileSystemPath(path: string): string {
   const resolvedPath = resolve(path)
 
@@ -43,6 +69,12 @@ export function normalizeFileSystemPath(path: string): string {
   }
 }
 
+/**
+ * Normalise a project root path, stripping the trailing separator unless the root is the filesystem root (`/`).
+ *
+ * @param {string} root - Root path to normalise.
+ * @returns {string} Normalised root path.
+ */
 export function normalizeRoot(root: string): string {
   const normalized = normalizeFileSystemPath(root)
 
@@ -51,6 +83,14 @@ export function normalizeRoot(root: string): string {
   return normalized.endsWith(sep) ? normalized.slice(0, -1) : normalized
 }
 
+/**
+ * Resolve a user-supplied entry path to a normalised filesystem path.
+ *
+ * Handles file URLs, absolute paths, and relative paths (resolved against `process.cwd()`).
+ *
+ * @param {string | undefined} entry - Entry path to resolve.
+ * @returns {string | undefined} Normalised filesystem path, or `undefined` when the argument is empty or could not be resolved.
+ */
 export function resolveLoaderEntryPath(entry: string | undefined): string | undefined {
   if (!entry) return undefined
 
@@ -72,6 +112,12 @@ export function resolveLoaderEntryPath(entry: string | undefined): string | unde
   return normalizeFileSystemPath(absoluteEntry)
 }
 
+/**
+ * Stat a path and return whether it is a file or directory.
+ *
+ * @param {string} path - Path to inspect.
+ * @returns {'file' | 'directory' | undefined} `file` for regular files, `directory` for directories, `undefined` when the path does not exist.
+ */
 export function getPathType(path: string): 'file' | 'directory' | undefined {
   try {
     const stat = statSync(path)
@@ -83,6 +129,15 @@ export function getPathType(path: string): 'file' | 'directory' | undefined {
   return undefined
 }
 
+/**
+ * Resolve a bare specifier path to an actual script file by probing known extensions.
+ *
+ * If the candidate is already a file it is returned directly. Otherwise extensions from
+ * {@link SCRIPT_EXTENSIONS} are tried, and directories are probed for `index` entries.
+ *
+ * @param {string} candidate - Path candidate to resolve.
+ * @returns {string | undefined} Resolved script file path, or `undefined` if no file was found.
+ */
 export function resolveScriptFile(candidate: string): string | undefined {
   const resolved = resolve(candidate)
   const directType = getPathType(resolved)
@@ -108,6 +163,14 @@ export function resolveScriptFile(candidate: string): string | undefined {
   return undefined
 }
 
+/**
+ * Convert a package specifier or file path into a `file://` URL suitable for dynamic `import()`.
+ *
+ * Bare specifiers (npm packages) and URL-scheme specifiers are returned unchanged.
+ *
+ * @param {string} name - Package name or file path.
+ * @returns {string} File URL or original specifier.
+ */
 export function resolveLoadPackageSpecifier(name: string): string {
   if (hasUrlScheme(name)) return name
   if (!isAbsolute(name) && !isRelativeSpecifier(name)) return name
@@ -118,6 +181,13 @@ export function resolveLoadPackageSpecifier(name: string): string {
   return pathToFileURL(scriptFile).href
 }
 
+/**
+ * Try to resolve a specifier against the tsconfig path-alias rules of a loader state.
+ *
+ * @param {string} specifier - Module specifier to resolve.
+ * @param {LoaderState} state - Loader state containing tsconfig path rules.
+ * @returns {string | undefined} Resolved filesystem path, or `undefined` if no rule matched.
+ */
 export function resolveRuleSpecifier(specifier: string, state: LoaderState): string | undefined {
   if (!state.rules.length) return undefined
 
@@ -144,6 +214,15 @@ export function resolveRuleSpecifier(specifier: string, state: LoaderState): str
   return undefined
 }
 
+/**
+ * Resolve a relative specifier against a parent URL to a concrete script file.
+ *
+ * Only file-relative imports (starting with `./` or `../`) whose parent is a `file://` URL are resolved.
+ *
+ * @param {string} specifier - Relative specifier to resolve.
+ * @param {string} [parentURL] - Parent module URL used as the base for resolution.
+ * @returns {string | undefined} Resolved script file path, or `undefined` when resolution is not applicable.
+ */
 export function resolveRelativeSpecifier(
   specifier: string,
   parentURL?: string,
@@ -160,6 +239,15 @@ export function resolveRelativeSpecifier(
   return resolveScriptFile(resolve(dirname(parentPath), specifier))
 }
 
+/**
+ * Append a version query parameter to a file URL so Node's import cache is invalidated.
+ *
+ * Non-`file://` URLs and empty version strings result in the original URL being returned unchanged.
+ *
+ * @param {string} url - File URL to annotate.
+ * @param {string} version - Version token to append as a query parameter.
+ * @returns {string} Versioned URL or the original URL when versioning is not applicable.
+ */
 export function withVersion(url: string, version: string): string {
   if (!version || !url.startsWith('file://')) return url
 
@@ -169,6 +257,13 @@ export function withVersion(url: string, version: string): string {
   return parsed.toString()
 }
 
+/**
+ * Find the deepest loader state whose root contains the given filesystem path.
+ *
+ * @param {string} filePath - Filesystem path to check.
+ * @param {Map<string, LoaderState>} loaderStates - Map of registered loader states keyed by root.
+ * @returns {LoaderState | undefined} Matching loader state, or `undefined` if no state's root contains the path.
+ */
 export function pickStateByFilePath(
   filePath: string,
   loaderStates: Map<string, LoaderState>,
@@ -184,6 +279,17 @@ export function pickStateByFilePath(
   return matched
 }
 
+/**
+ * Pick the loader state applicable to a resolve request, preferring the parent module's state.
+ *
+ * When a parent URL is provided, its filesystem path is used first. Falls back to checking
+ * the specifier's own path against registered states.
+ *
+ * @param {string} specifier - Module specifier being resolved.
+ * @param {string | undefined} parentURL - URL of the importing module.
+ * @param {Map<string, LoaderState>} loaderStates - Map of registered loader states keyed by root.
+ * @returns {LoaderState | undefined} Matching loader state, or `undefined` if none applies.
+ */
 export function pickResolveState(
   specifier: string,
   parentURL: string | undefined,

@@ -26,6 +26,22 @@ import type {
   JsonOperators,
 } from './types'
 
+/**
+ * Builds and executes parameterized PostgreSQL queries through a fluent, chainable API.
+ *
+ * Supports SELECT, INSERT, UPDATE, DELETE, and upsert operations with strongly-typed
+ * WHERE clauses, JOINs, ORDER BY, LIMIT/OFFSET, and result-type inference from the
+ * table type map declared via {@link Tables}.
+ *
+ * @template T - The table name.
+ * @template TResult - The inferred result row type.
+ *
+ * @example
+ * ```ts
+ * const users = await db('users').select('id', 'name').where('id', '>', 5).limit(10)
+ * // SELECT "id","name" FROM "users" WHERE "id" > ? LIMIT ?
+ * ```
+ */
 export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]> {
   private client: Client
   private table: T
@@ -36,6 +52,10 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
   private orderByConditions: OrderByCondition<T>[] = []
   private joinConditions: JoinCondition[] = []
 
+  /**
+   * @param client - The database client to execute queries against.
+   * @param table - The table name to target.
+   */
   constructor(client: Client, table: T) {
     this.client = client
     this.table = table
@@ -205,6 +225,9 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
 
   /**
    * Adds a raw SQL expression to the WHERE clause with parameter bindings.
+   *
+   * @param sql - The raw SQL fragment.
+   * @param params - Bound parameters for the SQL fragment.
    */
   whereRaw(sql: string, ...params: any[]) {
     this.whereConditions.push({
@@ -219,6 +242,9 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
 
   /**
    * Adds a raw SQL expression to the WHERE clause using OR with parameter bindings.
+   *
+   * @param sql - The raw SQL fragment.
+   * @param params - Bound parameters for the SQL fragment.
    */
   orWhereRaw(sql: string, ...params: any[]) {
     this.whereConditions.push({
@@ -287,6 +313,9 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
 
   /**
    * Adds a raw SQL expression to ORDER BY with parameter bindings.
+   *
+   * @param sql - The raw SQL fragment.
+   * @param params - Bound parameters for the SQL fragment.
    */
   orderByRaw(sql: string, ...params: any[]) {
     this.orderByConditions.push({
@@ -300,6 +329,11 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
 
   /**
    * Adds an INNER JOIN clause.
+   *
+   * @param table - The table to join.
+   * @param left - The left operand for the ON condition.
+   * @param operatorOrRight - The comparison operator or right operand if using the default `=` operator.
+   * @param right - The right operand when an explicit operator is provided.
    */
   join(
     table: string | RawSql,
@@ -323,6 +357,11 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
 
   /**
    * Adds a LEFT JOIN clause.
+   *
+   * @param table - The table to join.
+   * @param left - The left operand for the ON condition.
+   * @param operatorOrRight - The comparison operator or right operand if using the default `=` operator.
+   * @param right - The right operand when an explicit operator is provided.
    */
   leftJoin(
     table: string | RawSql,
@@ -377,6 +416,11 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
     return this
   }
 
+  /**
+   * Serializes the query builder state into a parameterized SQL statement and bound parameters.
+   *
+   * @returns An object containing the generated `sql` string and `params` array.
+   */
   toSql() {
     const sql = ['SELECT']
     const params: any[] = []
@@ -438,6 +482,13 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
     }
   }
 
+  /**
+   * Makes the QueryBuilder thenable — calling `await builder` implicitly executes the query.
+   *
+   * @param onfulfilled - Callback invoked when the query result resolves successfully.
+   * @param onrejected - Callback invoked when the query rejects.
+   * @returns A promise for the transformed result.
+   */
   // eslint-disable-next-line unicorn/no-thenable
   then<TResult1 = TResult, TResult2 = never>(
     onfulfilled?: ((value: TResult) => TResult1 | PromiseLike<TResult1>) | null,
@@ -448,6 +499,13 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
     return this.client.raw(sql, ...params).then(onfulfilled as any, onrejected)
   }
 
+  /**
+   * Executes the query and returns the first matching row, or `null` if no rows match.
+   *
+   * Automatically applies `LIMIT 1` to the query.
+   *
+   * @returns The first row of the result set, or `null`.
+   */
   async first(): Promise<(TResult extends (infer U)[] ? U : TResult) | null> {
     this.limit(1)
 

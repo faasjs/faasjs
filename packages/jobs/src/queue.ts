@@ -96,6 +96,15 @@ async function runJobsSchemaMigrations(client: Client): Promise<void> {
   })
 }
 
+/**
+ * Ensure the `faasjs_jobs` database schema exists and is up-to-date.
+ *
+ * Creates tables and indexes if they do not exist, and runs any pending
+ * schema migrations using advisory locks to prevent races. Safe to call
+ * multiple times — subsequent calls are no-ops for the same client.
+ *
+ * @param client - An optional pg client. If omitted, a default client is obtained.
+ */
 export async function ensureJobsSchema(client?: Client): Promise<void> {
   const targetClient = client || (await getClient())
 
@@ -211,6 +220,15 @@ async function insertJob(
   return record
 }
 
+/**
+ * Internal entry point for enqueuing a job. Used by both the public API
+ * and the scheduler to insert jobs with deduplication support.
+ *
+ * @param jobPath - The job path identifier.
+ * @param params - The parameters to pass to the job handler.
+ * @param options - Enqueue options including idempotency and cron keys.
+ * @returns The persisted job record.
+ */
 export async function enqueueJobInternal(
   jobPath: string,
   params: unknown = {},
@@ -233,6 +251,21 @@ export async function enqueueJobInternal(
 
 /**
  * Enqueue a pending job by its `.job.ts` path-derived identifier.
+ *
+ * @param jobPath - The job path identifier derived from the `.job.ts` file location.
+ * @param params - The parameters to pass to the job handler.
+ * @param options - Enqueue options including queue, priority, run time, and idempotency.
+ * @returns The persisted job record.
+ *
+ * @example
+ * await enqueueJob('jobs/users/sync', { userId: 'u_123' })
+ *
+ * @example
+ * await enqueueJob('jobs/reports/daily', {}, {
+ *   queue: 'reports',
+ *   priority: 10,
+ *   idempotencyKey: 'report-2025-01-01',
+ * })
  */
 export async function enqueueJob(
   jobPath: string,

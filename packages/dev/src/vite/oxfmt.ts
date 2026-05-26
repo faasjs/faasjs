@@ -5,6 +5,10 @@ const ignorePatterns = ['**/dist/**', 'node_modules/**']
 /**
  * Shared Oxfmt configuration used by FaasJS projects.
  *
+ * Enables single quotes, omits semicolons, and sorts import declarations.
+ * These defaults match the FaasJS repository style and can be overridden
+ * by spreading additional `fmt` options.
+ *
  * @example
  * ```ts
  * import { defineConfig } from 'vite-plus'

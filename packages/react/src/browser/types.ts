@@ -43,7 +43,13 @@ export type ResponseHeaders = {
 }
 
 /**
- * Type definition for the FaasBrowserClient.action method.
+ * Type signature for the {@link FaasBrowserClient.action} method.
+ *
+ * @template Path - Action path used to infer the request params and response data types.
+ * @param {Path} action - Action path to invoke.
+ * @param {FaasParams<Path>} [params] - Params sent to the action.
+ * @param {Options} [options] - Per-request overrides on top of client defaults.
+ * @returns {Promise<Response<FaasData<Path>> | Response>} FaasJS response or native fetch response when streaming.
  */
 export type FaasBrowserClientAction = <Path extends FaasActionPaths>(
   action: Path,
@@ -86,6 +92,7 @@ export type MockHandler = (
   options: Options,
 ) => Promise<ResponseProps> | Promise<void> | Promise<Error>
 
+/** Fully resolved request options with serialized body and typed fetch fields, as produced by {@link buildActionOptions}. */
 export type ResolvedActionOptions = Options & {
   body: string
   credentials: RequestCredentials
@@ -94,6 +101,7 @@ export type ResolvedActionOptions = Options & {
   mode: RequestMode
 }
 
+/** Shape of a native fetch response consumed by {@link parseFetchResponse}. */
 export type ParsedFetchResponse = {
   headers: Iterable<[string, string]>
   status: number

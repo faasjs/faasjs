@@ -9,8 +9,13 @@ import { resolveMaxAttempts, resolvePositiveInteger, resolveQueue } from './opti
 import { ensureJobsSchema, enqueueJobInternal } from './queue'
 import type { JobCron } from './types'
 
+/**
+ * Options for {@link startJobScheduler}.
+ */
 export type JobSchedulerOptions = LoadJobRegistryOptions & {
+  /** Milliseconds between cron ticks. Defaults to `30000` (30s). */
   pollInterval?: number
+  /** Unique identifier for this scheduler instance. Auto-generated when omitted. */
   schedulerId?: string
 }
 
@@ -43,6 +48,19 @@ function createCronKey(jobPath: string, rule: JobCron, queue: string, params: un
     .digest('hex')
 }
 
+/**
+ * Periodic scheduler that iterates over registered job definitions,
+ * evaluates their cron rules, and enqueues matching jobs at the top
+ * of each minute.
+ *
+ * Deduplicates cron enqueues by computing a hash of the rule configuration
+ * (job path, expression, timezone, queue, params) and using it as a
+ * conflict key in the database.
+ *
+ * @example
+ * const scheduler = new JobScheduler(registry, { pollInterval: 60_000 })
+ * scheduler.start()
+ */
 export class JobScheduler {
   public readonly pollInterval: number
   public readonly schedulerId: string
@@ -61,6 +79,11 @@ export class JobScheduler {
     this.logger = options.logger || new Logger('@faasjs/jobs')
   }
 
+  /**
+   * Start the scheduler's cron loop. No-op if already active.
+   *
+   * @returns The scheduler instance (for chaining).
+   */
   public start(): this {
     if (this.active) return this
 
@@ -70,6 +93,10 @@ export class JobScheduler {
     return this
   }
 
+  /**
+   * Stop the scheduler loop. Waits for the current tick to complete
+   * before resolving.
+   */
   public async stop(): Promise<void> {
     this.active = false
 
@@ -98,6 +125,14 @@ export class JobScheduler {
     }, delay)
   }
 
+  /**
+   * Execute one scheduling tick: evaluate all cron rules against the
+   * current minute and enqueue matching jobs. No-op if a tick is
+   * already in progress.
+   *
+   * @param now - The reference time (defaults to the current instant).
+   * @returns The number of jobs enqueued in this tick.
+   */
   public async tick(now = new Date()): Promise<number> {
     if (this.ticking) return 0
 
@@ -135,6 +170,18 @@ export class JobScheduler {
   }
 }
 
+/**
+ * Discover job definitions and start a scheduler immediately.
+ *
+ * This is the recommended shorthand for initializing the schema,
+ * loading the job registry, and starting the cron loop in one call.
+ *
+ * @param options - Scheduler options.
+ * @returns A running `JobScheduler` instance.
+ *
+ * @example
+ * const scheduler = await startJobScheduler({ pollInterval: 60_000 })
+ */
 export async function startJobScheduler(options: JobSchedulerOptions = {}): Promise<JobScheduler> {
   const client = await getClient()
 

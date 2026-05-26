@@ -16,6 +16,18 @@ import {
   type NormalizedTableOption,
 } from './utils'
 
+/**
+ * Build Ant Design table column definitions from FaasJS item metadata.
+ *
+ * The function applies default titles, data indices, renderers, sorters, and filter dropdowns
+ * for each built-in item type. Custom types registered via `extendTypes` are resolved
+ * through the configured children or render callbacks.
+ *
+ * @param items - Raw item metadata definitions.
+ * @param options - Configuration including theme strings, custom type renderers, and optional FaasJS or local data.
+ * @returns Fully populated column definitions ready for the Ant Design table.
+ * @throws {Error} When a custom type in `extendTypes` omits both `children` and `render`.
+ */
 export function createTableColumns(
   items: TableItemProps[],
   options: {

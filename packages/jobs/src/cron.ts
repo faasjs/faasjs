@@ -102,6 +102,24 @@ function createCronMatcher(segment: string, field: CronField): CronMatcher {
   return (value: number): boolean => values.has(value)
 }
 
+/**
+ * Parse a cron expression into an array of field matchers.
+ *
+ * Accepts the standard 5-field format: `minute hour dayOfMonth month dayOfWeek`.
+ * Supports comma-separated values, ranges (`-`), steps (`/`), and wildcards (`*`).
+ * Day-of-week accepts both numeric (0–7) and abbreviated names (SUN–SAT).
+ *
+ * @param expression - A cron expression string.
+ * @returns An array of five matcher functions, one per field.
+ * @throws {Error} If the expression is empty, has the wrong number of fields,
+ * or contains invalid values.
+ *
+ * @example
+ * ```ts
+ * parseCronExpression('0 9 * * 1-5')
+ * // every weekday at 9:00
+ * ```
+ */
 export function parseCronExpression(expression: string): CronMatcher[] {
   const trimmed = expression.trim()
 
@@ -142,6 +160,18 @@ function getZonedDateParts(now: Date, timezone?: string): number[] {
   ]
 }
 
+/**
+ * Check whether a cron expression matches a given instant.
+ *
+ * @param expression - A cron expression string.
+ * @param now - The instant to check.
+ * @param timezone - Optional IANA timezone (e.g. `'America/New_York'`).
+ * @returns `true` if the expression matches the instant.
+ *
+ * @example
+ * cronMatches('0 9 * * 1-5', new Date())
+ * // true if the current time is a weekday at 9:00
+ */
 export function cronMatches(expression: string, now: Date, timezone?: string): boolean {
   const matchers = parseCronExpression(expression)
   const values = getZonedDateParts(now, timezone)
@@ -149,6 +179,12 @@ export function cronMatches(expression: string, now: Date, timezone?: string): b
   return matchers.every((matcher, index) => matcher(values[index]))
 }
 
+/**
+ * Truncate a date to the current minute, zeroing out seconds and milliseconds.
+ *
+ * @param now - The date to truncate.
+ * @returns A new `Date` set to the start of the minute.
+ */
 export function truncateToMinute(now: Date): Date {
   const scheduledAt = new Date(now)
 

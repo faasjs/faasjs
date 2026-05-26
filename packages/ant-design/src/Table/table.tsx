@@ -93,6 +93,13 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
   )
 }
 
+/**
+ * Internal table renderer that binds FaasJS data injection props to an Ant Design table.
+ *
+ * @param props - Combined FaasJS data injection and table props.
+ *
+ * @internal
+ */
 export function FaasDataTable({
   props,
   columns,

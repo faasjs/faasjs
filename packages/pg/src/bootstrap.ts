@@ -34,6 +34,14 @@ export function registerDatabaseBootstrap(bootstrap: DatabaseBootstrap) {
   databaseBootstrap = bootstrap
 }
 
+/**
+ * Resolves the registered async database bootstrap.
+ *
+ * Ensures the bootstrap only runs once concurrently — if it is already running
+ * the pending promise is returned instead of starting a second invocation.
+ *
+ * @returns A promise that resolves when the bootstrap has completed.
+ */
 export async function resolveDatabaseBootstrap() {
   if (!activeDatabaseBootstrap) {
     activeDatabaseBootstrap = Promise.resolve()

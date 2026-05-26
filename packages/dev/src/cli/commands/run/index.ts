@@ -58,7 +58,7 @@ async function runFile(file: string, args: string[], cwd: string): Promise<numbe
  *
  * @example
  * ```ts
- * const result = await run(['demo'])
+ * const result = await run(['./script.ts', '--flag'])
  * ```
  */
 export async function run(args: string[]): Promise<number> {
@@ -84,9 +84,11 @@ export async function run(args: string[]): Promise<number> {
 /**
  * Default Node.js entrypoint for `faas run`.
  *
+ * @returns Exit code returned by the wrapped `run` handler.
+ *
  * @example
  * ```ts
- * const exitCode = await main(['node', 'faas', '--version'])
+ * const exitCode = await main(process.argv)
  * ```
  */
 export const main = createMain(run)

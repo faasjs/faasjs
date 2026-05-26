@@ -5,6 +5,8 @@ import { isObjectRecord } from '../zod'
  *
  * @param value - The JSON string to parse.
  * @returns The parsed JavaScript value.
+ * @throws {Error} If the input is not a string.
+ * @throws {SyntaxError} If the string is not valid JSON.
  */
 export const parseJson = <T extends unknown>(value: unknown): T => {
   if (typeof value !== 'string') throw Error('Invalid JSON string')

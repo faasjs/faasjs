@@ -88,6 +88,12 @@ export class Job<
   }
 }
 
+/**
+ * Check whether a value is a valid {@link Job} definition.
+ *
+ * @param value - The value to check.
+ * @returns `true` if the value is a `Job` instance.
+ */
 export function isJob(value: unknown): value is Job<any, any, any> {
   return Boolean(value && typeof value === 'object' && (value as any).__faasjsJob === true)
 }

@@ -1,5 +1,16 @@
 import { createParseError } from './scanner'
 
+/**
+ * Parse a YAML double-quoted scalar string.
+ *
+ * Handles escape sequences: `\\"`, `\\\\`, `\\/`, `\\b`, `\\f`, `\\n`, `\\r`,
+ * `\\t`, and `\\uXXXX` (unicode).
+ *
+ * @param {string} value - Double-quoted string including opening/closing quotes.
+ * @param {number} line - 1-indexed line number for error reporting.
+ * @returns {string} Decoded string content without quotes.
+ * @throws {Error} If the string is unescaped, unterminated, or contains invalid sequences.
+ */
 export function parseDoubleQuotedScalar(value: string, line: number): string {
   let result = ''
 
@@ -59,6 +70,16 @@ export function parseDoubleQuotedScalar(value: string, line: number): string {
   throw createParseError(line, 'Unterminated double quoted string')
 }
 
+/**
+ * Parse a YAML single-quoted scalar string.
+ *
+ * Handles escaped single quotes (`''` -> `'`).
+ *
+ * @param {string} value - Single-quoted string including opening/closing quotes.
+ * @param {number} line - 1-indexed line number for error reporting.
+ * @returns {string} Decoded string content without quotes.
+ * @throws {Error} If the string is unescaped or unterminated.
+ */
 export function parseSingleQuotedScalar(value: string, line: number): string {
   let result = ''
 
@@ -83,6 +104,14 @@ export function parseSingleQuotedScalar(value: string, line: number): string {
   throw createParseError(line, 'Unterminated single quoted string')
 }
 
+/**
+ * Parse a YAML quoted scalar (single or double quoted).
+ *
+ * @param {string} value - Quoted string including opening/closing quotes.
+ * @param {number} line - 1-indexed line number for error reporting.
+ * @returns {string} Decoded string content without quotes.
+ * @throws {Error} If the value does not start with a quote character.
+ */
 export function parseQuotedScalar(value: string, line: number): string {
   if (value.startsWith('"')) return parseDoubleQuotedScalar(value, line)
 
@@ -91,6 +120,15 @@ export function parseQuotedScalar(value: string, line: number): string {
   throw createParseError(line, 'Invalid quoted string')
 }
 
+/**
+ * Parse a YAML plain (unquoted) scalar into its JavaScript equivalent.
+ *
+ * Converts `~`, `null`, `true`, `false`, and numeric strings. Everything
+ * else is returned as a plain string.
+ *
+ * @param {string} value - Plain scalar string.
+ * @returns Parsed JavaScript value (null, boolean, number, or string).
+ */
 export function parsePlainScalar(value: string): unknown {
   if (value === '~') return null
 
@@ -104,6 +142,18 @@ export function parsePlainScalar(value: string): unknown {
   return value
 }
 
+/**
+ * Parse an inline YAML value into its JavaScript equivalent.
+ *
+ * Rejects unsupported constructs: block scalars (`|`, `>`), YAML tags (`!`),
+ * and flow collections (`[]`, `{}`). Empty brackets are accepted as empty
+ * array/object.
+ *
+ * @param {string} value - Inline value string from a mapping entry or sequence item.
+ * @param {number} line - 1-indexed line number for error reporting.
+ * @returns Parsed JavaScript value.
+ * @throws {Error} If the value uses unsupported YAML syntax.
+ */
 export function parseInlineValue(value: string, line: number): unknown {
   if (value.startsWith('|') || value.startsWith('>'))
     throw createParseError(line, 'Block scalar is not supported')
@@ -122,6 +172,17 @@ export function parseInlineValue(value: string, line: number): unknown {
   return parsePlainScalar(value)
 }
 
+/**
+ * Parse and validate a YAML mapping key.
+ *
+ * Quoted keys are decoded (single or double quoted). Complex keys using
+ * flow syntax (`[]`, `{}`) are rejected.
+ *
+ * @param {string} rawKey - Raw key text from before the `":"` separator.
+ * @param {number} line - 1-indexed line number for error reporting.
+ * @returns {string} Parsed key string.
+ * @throws {Error} If the key is empty or uses unsupported complex key syntax.
+ */
 export function parseKey(rawKey: string, line: number): string {
   if (!rawKey.length) throw createParseError(line, 'Missing mapping key')
 

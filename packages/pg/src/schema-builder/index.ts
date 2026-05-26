@@ -13,10 +13,20 @@ export class SchemaBuilder {
   private client: Client
   private changes: (string | TableBuilder)[] = []
 
+  /**
+   * @param client - The database client used to execute schema changes.
+   */
   constructor(client: Client) {
     this.client = client
   }
 
+  /**
+   * Registers a CREATE TABLE statement. The callback receives a {@link TableBuilder}
+   * scoped to the given table name in create mode.
+   *
+   * @param tableName - The name of the table to create.
+   * @param callback - A function that defines the table schema.
+   */
   createTable(tableName: string, callback: (table: TableBuilder) => void) {
     const builder = new TableBuilder(tableName, 'create')
     callback(builder)
@@ -24,6 +34,13 @@ export class SchemaBuilder {
     return this
   }
 
+  /**
+   * Registers one or more ALTER TABLE statements. The callback receives a {@link TableBuilder}
+   * scoped to the given table name in alter mode.
+   *
+   * @param tableName - The name of the table to alter.
+   * @param callback - A function that defines the alterations.
+   */
   alterTable(tableName: string, callback: (table: TableBuilder) => void) {
     const builder = new TableBuilder(tableName, 'alter')
     callback(builder)
@@ -31,6 +48,12 @@ export class SchemaBuilder {
     return this
   }
 
+  /**
+   * Registers a table rename statement.
+   *
+   * @param oldTableName - The current table name.
+   * @param newTableName - The new table name.
+   */
   renameTable(oldTableName: string, newTableName: string) {
     this.changes.push(
       `alter table ${escapeIdentifier(oldTableName)} rename to ${escapeIdentifier(newTableName)};`,
@@ -38,16 +61,31 @@ export class SchemaBuilder {
     return this
   }
 
+  /**
+   * Registers a DROP TABLE statement.
+   *
+   * @param tableName - The name of the table to drop.
+   */
   dropTable(tableName: string) {
     this.changes.push(`drop table ${escapeIdentifier(tableName)};`)
     return this
   }
 
+  /**
+   * Appends a raw SQL statement to the change list.
+   *
+   * @param sql - The raw SQL to execute.
+   */
   raw(sql: string) {
     this.changes.push(sql)
     return this
   }
 
+  /**
+   * Serializes all registered schema changes into an array of SQL statement strings.
+   *
+   * @returns The array of generated SQL statements.
+   */
   toSQL(): string[] {
     const statements: string[] = []
 
@@ -62,6 +100,11 @@ export class SchemaBuilder {
     return statements
   }
 
+  /**
+   * Executes all registered schema changes in a single database transaction.
+   *
+   * @throws {Error} Wrapped with the full SQL on failure.
+   */
   async run() {
     const statements = this.toSQL()
       .map((statement) => statement.trim())

@@ -90,7 +90,7 @@ function scaffold(
  * @param {object} [options] - Optional CLI arguments used to choose the project name and template.
  * @param {string} [options.name] - Target folder name for the generated app.
  * @param {string} [options.template] - Template name such as `admin` or `minimal`.
- * @returns {Promise<void>} Resolves after the project is generated and its test command finishes.
+ * @returns {Promise<void>} Resolves after the project is scaffolded, dependencies are installed, and tests pass.
  * @throws {Error} When the selected template is unknown.
  * @example
  * ```ts
@@ -133,8 +133,7 @@ export async function action(options: { name?: string; template?: string } = {})
 /**
  * Register the `create-faas-app` command on a Commander program.
  *
- * @param {Command} program - Commander program instance extended with the generator command.
- * @returns {void} No return value.
+ * @param {Command} program - Commander program instance to register the command on.
  * @example
  * ```ts
  * const program = new Command()

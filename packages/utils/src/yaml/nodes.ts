@@ -3,6 +3,18 @@ import { parseInlineValue, parseKey } from './scalar'
 import { createParseError, isMappingValue, isSequenceLine, findMappingSeparator } from './scanner'
 import type { ParsedLine, ParseContext, ParseResult } from './types'
 
+/**
+ * Apply a YAML merge key (`<<`) to a target mapping.
+ *
+ * Copies keys from the source into the target only when the key does not
+ * already exist in the target. If the source is an array, each element is
+ * merged in order (useful for sequences of mappings as merge sources).
+ *
+ * @param target - Mapping to merge keys into.
+ * @param source - Source mapping or sequence of mappings.
+ * @param line - 1-indexed line number for error reporting.
+ * @throws {Error} If the source is not a mapping or sequence of mappings.
+ */
 function applyMergeKey(target: Record<string, unknown>, source: unknown, line: number): void {
   if (Array.isArray(source)) {
     for (const value of source) applyMergeKey(target, value, line)
@@ -19,6 +31,18 @@ function applyMergeKey(target: Record<string, unknown>, source: unknown, line: n
   }
 }
 
+/**
+ * Parse a nested block value or return null when there is no nested content.
+ *
+ * If the next line is indented deeper than the parent, it starts a new node.
+ * Otherwise the value is `null` (explicit null for empty mapping entries).
+ *
+ * @param lines - Array of parsed lines.
+ * @param index - Current line index.
+ * @param parentIndent - Indentation level of the parent entry.
+ * @param context - Parse context.
+ * @returns Parse result with the nested value or null.
+ */
 function parseNestedBlockOrNull(
   lines: ParsedLine[],
   index: number,
@@ -36,6 +60,21 @@ function parseNestedBlockOrNull(
   return parseNode(lines, index + 1, next.indent, context)
 }
 
+/**
+ * Parse a single mapping key-value entry.
+ *
+ * Splits the content on the `":"` separator, parses the key, and resolves
+ * the value token (inline scalar, nested block, or alias).
+ *
+ * @param lines - Array of parsed lines.
+ * @param index - Current line index.
+ * @param content - Line content at the current index.
+ * @param entryIndent - Indentation level of the enclosing mapping.
+ * @param line - 1-indexed line number.
+ * @param context - Parse context.
+ * @returns Object with the parsed `key`, `value`, and `nextIndex`.
+ * @throws {Error} If no valid `":"` separator is found.
+ */
 function parseMappingEntry(
   lines: ParsedLine[],
   index: number,
@@ -99,6 +138,20 @@ function parseMappingEntry(
   }
 }
 
+/**
+ * Parse a YAML mapping node.
+ *
+ * Iterates over lines at the given indentation level, parsing each one as a
+ * mapping entry. Supports merge keys (`<<`). Stops when indentation drops
+ * below the expected level.
+ *
+ * @param {ParsedLine[]} lines - Array of parsed lines.
+ * @param {number} index - Starting line index.
+ * @param {number} indent - Expected indentation of mapping entries.
+ * @param {ParseContext} context - Parse context.
+ * @returns {ParseResult} Result with the parsed mapping and next line index.
+ * @throws {Error} On indentation mismatches or mixed sequence/mapping content.
+ */
 export function parseMapping(
   lines: ParsedLine[],
   index: number,
@@ -139,6 +192,19 @@ export function parseMapping(
   }
 }
 
+/**
+ * Parse a single sequence item (line starting with `"-"`).
+ *
+ * Handles inline values, nested blocks, aliases, and inline mappings
+ * that continue on subsequent lines at an increased indentation.
+ *
+ * @param lines - Array of parsed lines.
+ * @param index - Current line index.
+ * @param indent - Indentation level of the enclosing sequence.
+ * @param context - Parse context.
+ * @returns Parse result with the parsed item and next line index.
+ * @throws {Error} On missing whitespace after `"-"` or indentation mismatches.
+ */
 function parseSequenceItem(
   lines: ParsedLine[],
   index: number,
@@ -239,6 +305,19 @@ function parseSequenceItem(
   }
 }
 
+/**
+ * Parse a YAML sequence node.
+ *
+ * Iterates over lines at the given indentation level, parsing each one as a
+ * sequence item. Stops when indentation drops below the expected level.
+ *
+ * @param {ParsedLine[]} lines - Array of parsed lines.
+ * @param {number} index - Starting line index.
+ * @param {number} indent - Expected indentation of sequence items.
+ * @param {ParseContext} context - Parse context.
+ * @returns {ParseResult} Result with the parsed array and next line index.
+ * @throws {Error} On indentation mismatches or mixed mapping/sequence content.
+ */
 export function parseSequence(
   lines: ParsedLine[],
   index: number,
@@ -277,6 +356,20 @@ export function parseSequence(
   }
 }
 
+/**
+ * Parse any YAML node (mapping, sequence, or null).
+ *
+ * Dispatches to `parseSequence` when the current line starts with `"-"`,
+ * otherwise delegates to `parseMapping`. Returns null when there are no
+ * more lines to parse.
+ *
+ * @param {ParsedLine[]} lines - Array of parsed lines.
+ * @param {number} index - Starting line index.
+ * @param {number} indent - Expected indentation of the node.
+ * @param {ParseContext} context - Parse context.
+ * @returns {ParseResult} Result with the parsed value and next line index.
+ * @throws {Error} On unexpected indentation.
+ */
 export function parseNode(
   lines: ParsedLine[],
   index: number,

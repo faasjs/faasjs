@@ -9,11 +9,19 @@ import { resolvePositiveInteger, resolveQueue } from './options'
 import { ensureJobsSchema } from './queue'
 import type { JobRecord, JobRetry } from './types'
 
+/**
+ * Options for {@link startJobWorker}.
+ */
 export type JobWorkerOptions = LoadJobRegistryOptions & {
+  /** Queue name to poll. Defaults to `'default'`. */
   queue?: string
+  /** Number of jobs to claim per poll tick. Defaults to `1`. */
   concurrency?: number
+  /** Milliseconds between poll ticks. Defaults to `1000`. */
   pollInterval?: number
+  /** Lease duration in seconds before a claimed job can be re-claimed. Defaults to `60`. */
   leaseSeconds?: number
+  /** Unique identifier for this worker instance. Auto-generated when omitted. */
   workerId?: string
 }
 
@@ -44,6 +52,21 @@ async function resolveRetryRunAt(
   return new Date(Date.now() + nextDelay)
 }
 
+/**
+ * Long-running background worker that polls the database for pending jobs,
+ * claims them, executes their handlers, and updates their status.
+ *
+ * Supports configurable concurrency, polling interval, and lease duration.
+ * Failed jobs are retried according to their retry strategy until
+ * max attempts are reached.
+ *
+ * @example
+ * const worker = new JobWorker(registry, {
+ *   concurrency: 5,
+ *   pollInterval: 2000,
+ * })
+ * worker.start()
+ */
 export class JobWorker {
   public readonly queue: string
   public readonly concurrency: number
@@ -68,6 +91,11 @@ export class JobWorker {
     this.logger = options.logger || new Logger('@faasjs/jobs')
   }
 
+  /**
+   * Start the worker's polling loop. No-op if already active.
+   *
+   * @returns The worker instance (for chaining).
+   */
   public start(): this {
     if (this.active) return this
 
@@ -77,6 +105,10 @@ export class JobWorker {
     return this
   }
 
+  /**
+   * Stop the polling loop. Waits for the current poll to complete
+   * before resolving.
+   */
   public async stop(): Promise<void> {
     this.active = false
 
@@ -248,6 +280,12 @@ export class JobWorker {
     }
   }
 
+  /**
+   * Execute one polling cycle: claim up to `concurrency` pending jobs
+   * and run their handlers. No-op if a poll is already in progress.
+   *
+   * @returns The number of jobs processed in this cycle.
+   */
   public async poll(): Promise<number> {
     if (this.polling) return 0
 
@@ -277,6 +315,18 @@ export class JobWorker {
   }
 }
 
+/**
+ * Discover job definitions and start a worker immediately.
+ *
+ * This is the recommended shorthand for initializing the schema,
+ * loading the job registry, and starting the polling loop in one call.
+ *
+ * @param options - Worker options.
+ * @returns A running `JobWorker` instance.
+ *
+ * @example
+ * const worker = await startJobWorker({ concurrency: 5 })
+ */
 export async function startJobWorker(options: JobWorkerOptions = {}): Promise<JobWorker> {
   const client = await getClient()
 

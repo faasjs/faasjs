@@ -249,7 +249,7 @@ export class Session<
    * @template TData - Expected decoded payload shape.
    * @param {string} text - Encoded cookie value.
    * @returns {TData | SessionContent} Decoded session payload.
-   * @throws {Error} When the signature is invalid or the payload cannot be decrypted.
+   * @throws {Error} When the HMAC signature is invalid or the payload cannot be decrypted.
    */
   public decode<TData = any>(text: string): TData | SessionContent {
     text = decodeURIComponent(text)

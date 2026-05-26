@@ -10,9 +10,15 @@ import { startTestingServer } from '../testing-server'
 
 type Awaitable<T> = T | Promise<T>
 
+/**
+ * Runtime hooks provided by the Vitest project that `setupPgVitest` wires into.
+ */
 export interface PgVitestSetupRuntime {
+  /** Lifecycle hook called once after all tests in the file finish. */
   afterAll: (callback: () => Awaitable<void>) => void
+  /** Lifecycle hook called before each test in the file. */
   beforeEach: (callback: () => Awaitable<void>) => void
+  /** Optional project root directory. Defaults to `process.cwd()`. */
   projectRoot?: string
 }
 

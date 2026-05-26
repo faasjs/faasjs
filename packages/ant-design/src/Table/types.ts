@@ -35,6 +35,11 @@ export interface TableItemProps<T = any>
   object?: TableItemProps<T>[]
 }
 
+/**
+ * Type-level extension payload for custom table column types.
+ *
+ * @template T - Row record type rendered by the table.
+ */
 export type ExtendTableTypeProps<T = any> = BaseExtendTypeProps<T>
 
 /**

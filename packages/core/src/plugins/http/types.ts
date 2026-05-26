@@ -97,6 +97,16 @@ export type HttpSetStatusCode = (code: number) => void
  */
 export type HttpSetBody = (body: HttpResponseBody) => void
 
+/**
+ * Internal invoke state assembled by the HTTP plugin for each request.
+ *
+ * Holds parsed headers, body, params, cookie and session helpers, and mutable
+ * response writers injected into the invoke data before the handler runs.
+ *
+ * @template TParams - Parsed HTTP params type.
+ * @template TCookie - Cookie map exposed by the cookie helper.
+ * @template TSession - Session map exposed by the session helper.
+ */
 export type HttpInvokeState<
   TParams extends Record<string, any>,
   TCookie extends Record<string, string>,

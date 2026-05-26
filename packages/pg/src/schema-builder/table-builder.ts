@@ -1,5 +1,8 @@
 import { escapeIdentifier, escapeValue } from '../utils'
 
+/**
+ * Supported PostgreSQL column types for schema definitions.
+ */
 type ColumnType =
   | 'smallint'
   | 'integer'
@@ -33,6 +36,9 @@ type ColumnType =
   | 'box'
   | 'circle'
 
+/**
+ * Definition for a single column within a table schema.
+ */
 type ColumnDefinition = {
   type: ColumnType
   nullable?: boolean
@@ -49,6 +55,9 @@ type ColumnDefinition = {
   collate?: string
 }
 
+/**
+ * Describes a single ALTER TABLE operation (rename, drop, modify column, or drop index).
+ */
 type AlterOperation =
   | {
       type: 'renameColumn'
@@ -73,12 +82,21 @@ export type TableBuilderMode = 'create' | 'alter'
 
 type IndexType = 'btree' | 'hash' | 'gist' | 'gin' | 'spgist' | 'brin'
 
+/**
+ * Index descriptor used to generate CREATE INDEX / UNIQUE INDEX statements.
+ */
 export type IndexDefs = {
   columns: string[]
   unique?: boolean
   indexType?: IndexType
 }
 
+/**
+ * Builder for table schema definitions, supporting both CREATE and ALTER TABLE modes.
+ *
+ * Column definitions and alterations are accumulated and then serialized to SQL
+ * via {@link toSQL}.
+ */
 export class TableBuilder {
   private tableName: string
   private mode: TableBuilderMode
@@ -87,47 +105,103 @@ export class TableBuilder {
   private operations: AlterOperation[] = []
   private raws: string[] = []
 
+  /**
+   * @param tableName - The name of the table.
+   * @param mode - Whether to produce CREATE TABLE or ALTER TABLE statements.
+   */
   constructor(tableName: string, mode: TableBuilderMode) {
     this.tableName = tableName
     this.mode = mode
   }
 
+  /**
+   * Defines a column with an explicit PostgreSQL type.
+   *
+   * @param name - The column name.
+   * @param type - The PostgreSQL type string (e.g. `'integer'`, `'varchar(255)'`).
+   */
   specificType(name: string, type: string) {
     return this.column(name, type as ColumnType)
   }
 
+  /**
+   * Defines a `varchar` column, optionally with a maximum length.
+   *
+   * @param name - The column name.
+   * @param length - Optional maximum length.
+   */
   string(name: string, length?: number) {
     return this.column(name, length ? `varchar(${length})` : 'varchar')
   }
 
+  /**
+   * Defines an `integer` column, or `decimal(precision, scale)` if precision is provided.
+   *
+   * @param name - The column name.
+   * @param precision - Optional decimal precision.
+   * @param scale - Optional decimal scale.
+   */
   number(name: string, precision?: number, scale?: number) {
     return this.column(name, precision ? `decimal(${precision},${scale || 0})` : 'integer')
   }
 
+  /**
+   * Defines a `boolean` column.
+   *
+   * @param name - The column name.
+   */
   boolean(name: string) {
     return this.column(name, 'boolean')
   }
 
+  /**
+   * Defines a `date` column.
+   *
+   * @param name - The column name.
+   */
   date(name: string) {
     return this.column(name, 'date')
   }
 
+  /**
+   * Defines a `json` column.
+   *
+   * @param name - The column name.
+   */
   json(name: string) {
     return this.column(name, 'json')
   }
 
+  /**
+   * Defines a `jsonb` column.
+   *
+   * @param name - The column name.
+   */
   jsonb(name: string) {
     return this.column(name, 'jsonb')
   }
 
+  /**
+   * Defines a `timestamp` column (without timezone).
+   *
+   * @param name - The column name.
+   */
   timestamp(name: string) {
     return this.column(name, 'timestamp')
   }
 
+  /**
+   * Defines a `timestamptz` column (with timezone).
+   *
+   * @param name - The column name.
+   */
   timestamptz(name: string) {
     return this.column(name, 'timestamptz')
   }
 
+  /**
+   * Adds `created_at` and `updated_at` `timestamptz` columns with a default of `now()`.
+   */
   timestamps() {
     this.timestamptz('created_at').defaultTo('now()')
     this.timestamptz('updated_at').defaultTo('now()')
@@ -141,6 +215,13 @@ export class TableBuilder {
     return new ColumnBuilder(column)
   }
 
+  /**
+   * Renames a column. In `create` mode this renames it in the pending definition.
+   * In `alter` mode this stages a RENAME COLUMN operation.
+   *
+   * @param from - The current column name.
+   * @param to - The new column name.
+   */
   renameColumn(from: string, to: string) {
     const column = this.columns.get(from)
 
@@ -163,6 +244,12 @@ export class TableBuilder {
     return this
   }
 
+  /**
+   * Drops a column. In `create` mode this removes it from the pending definition.
+   * In `alter` mode this stages a DROP COLUMN operation.
+   *
+   * @param name - The column name to drop.
+   */
   dropColumn(name: string) {
     this.columns.delete(name)
 
@@ -176,6 +263,13 @@ export class TableBuilder {
     return this
   }
 
+  /**
+   * Alters an existing column. In `create` mode this mutates the pending definition.
+   * In `alter` mode this stages ALTER COLUMN operations.
+   *
+   * @param name - The column name to alter.
+   * @param changes - The partial column definition with changes to apply.
+   */
   alterColumn(name: string, changes: Partial<ColumnDefinition>) {
     const column = this.columns.get(name)
 
@@ -196,6 +290,13 @@ export class TableBuilder {
     return this
   }
 
+  /**
+   * Creates an index on one or more columns. The index name is auto-generated as
+   * `idx_{tableName}_{columns}`.
+   *
+   * @param columns - Single column name or array of column names.
+   * @param options - Index options such as `unique` and `indexType`.
+   */
   index(columns: string | string[], options: Omit<IndexDefs, 'columns'> = {}) {
     const name = `idx_${this.tableName}_${Array.isArray(columns) ? columns.join('_') : columns}`
 
@@ -207,6 +308,12 @@ export class TableBuilder {
     return this
   }
 
+  /**
+   * Drops an index previously defined by {@link index}. The index name must match
+   * the auto-generated naming convention `idx_{tableName}_{columns}`.
+   *
+   * @param columns - The same column(s) originally passed to {@link index}.
+   */
   dropIndex(columns: string | string[]) {
     const name = `idx_${this.tableName}_${Array.isArray(columns) ? columns.join('_') : columns}`
 
@@ -223,12 +330,22 @@ export class TableBuilder {
     })
   }
 
+  /**
+   * Appends a raw SQL fragment to the generated output.
+   *
+   * @param sql - The raw SQL to include.
+   */
   raw(sql: string) {
     this.raws.push(sql)
 
     return this
   }
 
+  /**
+   * Serializes the table builder state into an array of SQL statement strings.
+   *
+   * @returns The generated SQL statements.
+   */
   toSQL(): string[] {
     const sql: string[] = []
     const columnDefs = Array.from(this.columns.entries()).map(([name, def]) =>
@@ -346,32 +463,54 @@ export class TableBuilder {
   }
 }
 
+/**
+ * Fluent builder for configuring a single column definition.
+ */
 class ColumnBuilder {
   constructor(private definition: ColumnDefinition) {}
 
   /**
-   * Set the column to be nullable or not, default is true
+   * Sets whether the column is nullable.
+   *
+   * @param isNullable - Defaults to `true`.
    */
   nullable(isNullable = true) {
     this.definition.nullable = isNullable
     return this
   }
 
+  /**
+   * Sets the default value for the column.
+   *
+   * @param value - The default value. Pass `'now()'` for timestamp defaults.
+   */
   defaultTo(value: any) {
     this.definition.defaultValue = value
     return this
   }
 
+  /**
+   * Marks the column as a primary key.
+   */
   primary() {
     this.definition.primary = true
     return this
   }
 
+  /**
+   * Adds a UNIQUE constraint to the column.
+   */
   unique() {
     this.definition.unique = true
     return this
   }
 
+  /**
+   * Adds a foreign key reference to the column.
+   *
+   * @param table - The referenced table name.
+   * @param column - The referenced column name.
+   */
   references(table: string, column: string) {
     this.definition.references = { table, column }
     return this

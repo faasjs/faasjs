@@ -8,6 +8,11 @@ import { QueryBuilder } from '../query-builder'
 import type { TableName } from '../types'
 import { createTemplateStringsArray } from '../utils'
 
+/**
+ * Options for creating a PostgreSQL client. Extends `postgres.js` options.
+ *
+ * @template T - Custom Postgres type parsers map.
+ */
 export type ClientOptions<T extends Record<string, PostgresType> = Record<string, never>> =
   postgres.Options<T>
 
@@ -45,12 +50,30 @@ function resolveClientOptions(options?: AnyClientOptions): AnyClientOptions {
   }
 }
 
+/**
+ * PostgreSQL client wrapping `postgres.js` with a fluent query builder API.
+ *
+ * Clients created with the same connection URL are automatically cached and
+ * reused via {@link getClient}.
+ *
+ * @example
+ * ```ts
+ * import { createClient } from '@faasjs/pg'
+ * const client = createClient('postgres://user:pass@localhost:5432/db')
+ * const rows = await client.query('users').where('id', 1)
+ * ```
+ */
 export class Client {
   readonly postgres: Sql
   readonly options: ClientOptions<Record<string, PostgresType>>
   readonly logger: Logger
   private url: string
 
+  /**
+   * @param url - PostgreSQL connection string.
+   * @param options - Optional `postgres.js` options.
+   * @throws {TypeError} When `url` is not a string.
+   */
   constructor(url: string, options?: AnyClientOptions) {
     if (typeof url !== 'string') {
       throw new TypeError('Client constructor only accepts a connection URL and optional options')
@@ -160,6 +183,9 @@ export class Client {
     }
   }
 
+  /**
+   * Closes the underlying connection pool and removes this client from the cache.
+   */
   async quit() {
     try {
       await this.postgres.end()

@@ -6,8 +6,9 @@ import postgres, { type PostgresType } from 'postgres'
  * Defaults to a single connection and disabled SSL so the client works with the bundled PGlite
  * socket server setup.
  *
- * @param {string} [databaseUrl] - Optional explicit testing database URL.
+ * @param {string} [databaseUrl] - Optional explicit testing database URL. Falls back to `process.env.DATABASE_URL`.
  * @returns Configured `postgres.js` client instance.
+ * @throws {Error} When no `databaseUrl` is provided and `process.env.DATABASE_URL` is unset.
  */
 export function createTestingPostgres<
   T extends Record<string, PostgresType> = Record<string, never>,

@@ -38,6 +38,18 @@ function resolveOptionLabel(
   return value
 }
 
+/**
+ * Render a display value using FaasJS item-type-aware formatting.
+ *
+ * Arrays are joined by comma, booleans render as icons, date/time values are formatted,
+ * and option-backed values resolve the corresponding label before rendering. Empty values
+ * produce a {@link Blank} placeholder.
+ *
+ * @param type - Item type that controls the formatting logic.
+ * @param value - Raw value to display.
+ * @param options - Optional list of options used for label resolution.
+ * @returns React node representing the formatted display value.
+ */
 export function renderDisplayValue(
   type: FaasItemType,
   value: any,

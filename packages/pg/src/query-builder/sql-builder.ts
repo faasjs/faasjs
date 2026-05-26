@@ -1,6 +1,13 @@
 import { escapeIdentifier } from '../utils'
 import type { WhereCondition, JoinCondition } from './types'
 
+/**
+ * Builds a parameterized WHERE clause from an array of conditions.
+ *
+ * @param whereConditions - The array of where conditions.
+ * @param mode - Whether the clause is for a query or an update. In update mode, `IN` operators use `= ANY(?)` for compatibility.
+ * @returns The SQL string and bound parameters.
+ */
 export function buildWhereSql(
   whereConditions: WhereCondition<string>[],
   mode: 'query' | 'update' = 'query',
@@ -48,6 +55,12 @@ export function buildWhereSql(
   }
 }
 
+/**
+ * Builds a JOIN clause from an array of join conditions.
+ *
+ * @param joinConditions - The array of join conditions.
+ * @returns The JOIN clause SQL string, or an empty string if no conditions exist.
+ */
 export function buildJoinSql(joinConditions: JoinCondition[]): string {
   return joinConditions
     .map(
@@ -57,6 +70,14 @@ export function buildJoinSql(joinConditions: JoinCondition[]): string {
     .join(' ')
 }
 
+/**
+ * Builds an INSERT SQL statement.
+ *
+ * @param table - The target table name.
+ * @param values - The array of records to insert.
+ * @param returning - Optional columns to return after the insert.
+ * @returns The INSERT SQL string and bound parameters.
+ */
 export function buildInsertSql<T extends string>(
   table: T,
   values: Record<string, any>[],
@@ -87,6 +108,16 @@ export function buildInsertSql<T extends string>(
   }
 }
 
+/**
+ * Builds an UPDATE SQL statement.
+ *
+ * @param table - The target table name.
+ * @param values - The column-value pairs to update.
+ * @param whereSql - The pre-built WHERE clause SQL.
+ * @param whereParams - The bound parameters for the WHERE clause.
+ * @param returning - Optional columns to return after the update.
+ * @returns The UPDATE SQL string and bound parameters.
+ */
 export function buildUpdateSql<T extends string>(
   table: T,
   values: Record<string, any>,
@@ -117,6 +148,16 @@ export function buildUpdateSql<T extends string>(
   }
 }
 
+/**
+ * Builds an UPDATE … SET column = column || ? statement to atomically merge JSON/JSONB fields.
+ *
+ * @param table - The target table name.
+ * @param column - The JSON/JSONB column to merge into.
+ * @param value - The value to merge.
+ * @param whereSql - The pre-built WHERE clause SQL.
+ * @param whereParams - The bound parameters for the WHERE clause.
+ * @returns The UPDATE SQL string and bound parameters.
+ */
 export function buildUpdateJsonSql<T extends string>(
   table: T,
   column: string,
@@ -136,6 +177,14 @@ export function buildUpdateJsonSql<T extends string>(
   }
 }
 
+/**
+ * Builds a DELETE SQL statement.
+ *
+ * @param table - The target table name.
+ * @param whereSql - The pre-built WHERE clause SQL.
+ * @param whereParams - The bound parameters for the WHERE clause.
+ * @returns The DELETE SQL string and bound parameters.
+ */
 export function buildDeleteSql<T extends string>(
   table: T,
   whereSql: string,
@@ -147,6 +196,16 @@ export function buildDeleteSql<T extends string>(
   }
 }
 
+/**
+ * Builds an upsert (INSERT … ON CONFLICT … DO UPDATE) SQL statement.
+ *
+ * @param table - The target table name.
+ * @param values - The array of records to upsert.
+ * @param conflict - The conflict columns for the ON CONFLICT clause.
+ * @param update - Optional columns to update on conflict. If omitted, all non-conflict columns are updated.
+ * @param returning - Optional columns to return after the upsert.
+ * @returns The upsert SQL string and bound parameters.
+ */
 export function buildUpsertSql<T extends string>(
   table: T,
   values: Record<string, any>[],

@@ -116,6 +116,24 @@ function parseJSONWithComments(content: string): any {
   return JSON.parse(normalized)
 }
 
+/**
+ * Parse a `tsconfig.json` file into path-alias resolution data.
+ *
+ * Strips JSON comments, resolves `baseUrl` relative to the config directory,
+ * extracts `compilerOptions.paths` entries, and sorts rules so longer prefixes
+ * are attempted first during resolution.
+ *
+ * @param {string} tsconfigPath - Absolute path to the `tsconfig.json` file.
+ * @returns {TsconfigData} Parsed base URL and ordered path-alias rules.
+ *
+ * @example
+ * ```ts
+ * import { parseTsconfig } from '@faasjs/node-utils'
+ *
+ * const data = parseTsconfig('/project/tsconfig.json')
+ * console.log(data.baseUrl, data.rules.length)
+ * ```
+ */
 export function parseTsconfig(tsconfigPath: string): TsconfigData {
   const tsconfigDir = dirname(tsconfigPath)
   const parsed = parseJSONWithComments(readFileSync(tsconfigPath, 'utf8')) as Record<string, any>

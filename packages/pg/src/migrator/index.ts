@@ -19,6 +19,11 @@ export class Migrator {
   private folder: string
   private logger: Logger
 
+  /**
+   * @param options - Migration configuration.
+   * @param options.client - The database client.
+   * @param options.folder - The folder containing migration files.
+   */
   constructor(options: { client: Client; folder: string }) {
     this.logger = new Logger('Migrator')
 
@@ -28,11 +33,20 @@ export class Migrator {
     if (!existsSync(this.folder)) throw Error(`Migration folder not found: ${this.folder}`)
   }
 
+  /**
+   * Returns all applied migration records from the tracking table.
+   */
   async status() {
     await this.createMigrationTable()
     return this.client.raw`SELECT * FROM faasjs_pg_migrations`
   }
 
+  /**
+   * Runs all pending migration files in lexical order.
+   *
+   * Each migration file is loaded dynamically and its `up` function is invoked
+   * with a {@link SchemaBuilder}. Changes are run in a transaction per migration.
+   */
   async migrate() {
     const files = globSync(join(this.folder, '*.ts'))
 
@@ -70,6 +84,11 @@ export class Migrator {
     }
   }
 
+  /**
+   * Runs the next pending migration, if one exists.
+   *
+   * @returns A rejected promise if the migration fails.
+   */
   async up() {
     const files = globSync(join(this.folder, '*.ts'))
 
@@ -111,6 +130,11 @@ export class Migrator {
     }
   }
 
+  /**
+   * Rolls back the last applied migration by calling its `down` function.
+   *
+   * @returns A rejected promise if the rollback fails.
+   */
   async down() {
     const files = globSync(join(this.folder, '*.ts'))
 
@@ -153,6 +177,9 @@ export class Migrator {
     }
   }
 
+  /**
+   * Creates the `faasjs_pg_migrations` tracking table if it does not exist.
+   */
   async createMigrationTable() {
     return this.client.raw`CREATE TABLE IF NOT EXISTS faasjs_pg_migrations (
       "name" varchar(255) NULL,

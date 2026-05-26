@@ -1,12 +1,34 @@
 import type { ColumnName, Tables, TableType } from '../types'
 import type { RawSql } from '../utils'
 
+/**
+ * Comparison operators for scalar values.
+ */
 export const NormalOperators = ['=', '!=', '<', '<=', '>', '>='] as const
+
+/**
+ * Array membership operators.
+ */
 export const ArrayOperators = ['IN', 'NOT IN'] as const
+
+/**
+ * Null-check operators.
+ */
 export const NullOperators = ['IS NULL', 'IS NOT NULL'] as const
+
+/**
+ * JSON containment operators.
+ */
 export const JsonOperators = ['@>'] as const
+
+/**
+ * Pattern-matching operators.
+ */
 export const PatternOperators = ['LIKE', 'ILIKE', 'NOT LIKE', 'NOT ILIKE'] as const
 
+/**
+ * Union of all supported query operators.
+ */
 export const Operators = [
   ...NormalOperators,
   ...ArrayOperators,
@@ -15,22 +37,40 @@ export const Operators = [
   ...JsonOperators,
 ] as const
 
+/**
+ * Union type of all supported query operators.
+ */
 export type Operator = (typeof Operators)[number]
 
+/**
+ * Type guard for validating that a value is a known {@link Operator}.
+ */
 export function isOperator(value: unknown): value is Operator {
   return typeof value === 'string' && Operators.includes(value as Operator)
 }
 
+/**
+ * Type guard for validating that a value is a normal comparison operator.
+ */
 export function isNormalOperator(value: unknown): value is (typeof NormalOperators)[number] {
   return (
     typeof value === 'string' && NormalOperators.includes(value as (typeof NormalOperators)[number])
   )
 }
 
+/**
+ * Valid ORDER BY directions.
+ */
 export const QueryOrderDirections = ['ASC', 'DESC', 'asc', 'desc'] as const
 
+/**
+ * ORDER BY direction literal type.
+ */
 export type QueryOrderDirection = (typeof QueryOrderDirections)[number]
 
+/**
+ * Describes a single WHERE clause condition, either a column-based comparison or a raw SQL fragment.
+ */
 export type WhereCondition<T extends string> =
   | {
       kind: 'column'
@@ -46,6 +86,9 @@ export type WhereCondition<T extends string> =
       params: any[]
     }
 
+/**
+ * Describes a single ORDER BY condition, either a column reference or a raw SQL fragment.
+ */
 export type OrderByCondition<T extends string> =
   | {
       type: 'column'
@@ -58,6 +101,9 @@ export type OrderByCondition<T extends string> =
       params: any[]
     }
 
+/**
+ * Describes a JOIN clause condition.
+ */
 export type JoinCondition = {
   type: 'INNER' | 'LEFT'
   table: string | RawSql
@@ -106,6 +152,12 @@ type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
 
 type MergeTypes<T> = T extends any[] ? Flatten<UnionToIntersection<T[number]>> : T
 
+/**
+ * Infers the result row type for a SELECT query based on the table name and selected columns.
+ *
+ * @template TName - The table name.
+ * @template ColumnNames - The columns selected, or defaults to all columns.
+ */
 export type InferTResult<
   TName extends string,
   ColumnNames extends (ColumnName<TName> | JsonSelectField<TName>)[] = ColumnName<TName>[],

@@ -30,7 +30,7 @@ const Commands = {
  *
  * @example
  * ```ts
- * const result = await run(['demo'])
+ * const result = await run(['types', '--root', '/path/to/project'])
  * ```
  */
 export async function run(args: string[]): Promise<number> {
@@ -53,9 +53,11 @@ export async function run(args: string[]): Promise<number> {
 /**
  * Default Node.js entrypoint for the `faas` binary.
  *
+ * @returns Exit code returned by the wrapped `run` handler.
+ *
  * @example
  * ```ts
- * const exitCode = await main(['node', 'faas', '--version'])
+ * const exitCode = await main(process.argv)
  * ```
  */
 export const main = createMain(run)
