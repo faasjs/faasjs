@@ -1,5 +1,21 @@
 import { z as _z } from 'zod'
-export type { ZodType, ZodError, input, output } from 'zod'
+
+/**
+ * Re-exporting Zod types for external use.
+ *
+ * @example
+ * ```ts
+ * import { z, type Zod } from '@faasjs/utils'
+ *
+ * const schema: Zod.ZodObject<{ name: Zod.ZodString }> = z.object({
+ *  name: z.string(),
+ * })
+ *
+ * type SchemaType = Zod.infer<typeof schema> // { name: string }
+ * ```
+ * @see https://zod.dev
+ */
+export type * as Zod from 'zod'
 
 /**
  * Extended Zod with custom helpers.

@@ -1,4 +1,4 @@
-import type { output, ZodError, ZodType } from '@faasjs/utils'
+import type { Zod } from '@faasjs/utils'
 
 /**
  * Parsed value type for an optional Zod schema.
@@ -7,9 +7,9 @@ import type { output, ZodError, ZodType } from '@faasjs/utils'
  * schema is omitted, the caller-provided fallback type is used instead.
  */
 export type SchemaOutput<
-  TSchema extends ZodType | undefined = undefined,
+  TSchema extends Zod.ZodType | undefined = undefined,
   TFallback = Record<string, never>,
-> = TSchema extends ZodType ? output<NonNullable<TSchema>> : TFallback
+> = TSchema extends Zod.ZodType ? Zod.infer<NonNullable<TSchema>> : TFallback
 
 /**
  * Options for parsing an unknown value with an optional Zod schema.
@@ -18,7 +18,7 @@ export type SchemaOutput<
  * @template TFallback - Value and output type used when the schema is omitted.
  */
 export type ParseSchemaValueOptions<
-  TSchema extends ZodType | undefined = undefined,
+  TSchema extends Zod.ZodType | undefined = undefined,
   TFallback = Record<string, never>,
 > = {
   /**
@@ -52,7 +52,7 @@ function normalizeIssueMessage(message: string): string {
 /**
  * Format a Zod validation error with FaasJS' boundary-validation message style.
  */
-export function formatSchemaError(error: ZodError, message: string): string {
+export function formatSchemaError(error: Zod.ZodError, message: string): string {
   const lines = [message]
 
   for (const issue of error.issues) {
@@ -72,7 +72,7 @@ export function formatSchemaError(error: ZodError, message: string): string {
  * `defaultValue` is omitted, an empty object is used.
  */
 export async function parseSchemaValue<
-  TSchema extends ZodType | undefined = undefined,
+  TSchema extends Zod.ZodType | undefined = undefined,
   TFallback = Record<string, never>,
 >(options: ParseSchemaValueOptions<TSchema, TFallback>): Promise<SchemaOutput<TSchema, TFallback>> {
   const defaultValue = (

@@ -14,12 +14,6 @@ const uiTests = ['packages/**/*.test.tsx', 'packages/**/*.ui.test.ts']
 
 const typeTests = ['packages/**/*.types.test.ts', 'packages/**/*.types.test.tsx']
 
-const pgTests = [
-  'packages/jobs/**/*.test.ts',
-  'packages/pg/**/*.test.ts',
-  'packages/pg-dev/**/*.test.ts',
-]
-
 const adminTemplateTests = ['packages/create-faas-app/template/admin/**/*.test.ts']
 const adminTemplateRoot = join(process.cwd(), 'packages/create-faas-app/template/admin')
 const workspacePackageAliases = Object.fromEntries(
@@ -136,8 +130,9 @@ export default defineConfig({
         test: {
           name: 'node',
           include: tests,
-          exclude: uiTests.concat(typeTests, pgTests, adminTemplateTests),
+          exclude: uiTests.concat(typeTests, adminTemplateTests),
           environment: 'node',
+          setupFiles: ['packages/pg-dev/src/testing-setup.ts'],
         },
       },
       {
@@ -153,18 +148,6 @@ export default defineConfig({
           include: ['src/**/*.test.ts'],
           environment: 'node',
           fileParallelism: false,
-          testTimeout: 30_000,
-        },
-      },
-      {
-        extends: true as const,
-        test: {
-          name: 'node-pg',
-          include: pgTests,
-          exclude: typeTests,
-          environment: 'node',
-          fileParallelism: false,
-          setupFiles: ['packages/pg-dev/src/testing-setup.ts'],
           testTimeout: 30_000,
         },
       },

@@ -14,7 +14,9 @@ describe('defineJob', () => {
       },
     })
 
+    // @ts-expect-error
     await expect(job.export().handler({ params: { count: '2' } })).resolves.toEqual(2)
+    // @ts-expect-error
     await expect(job.export().handler({ params: { count: 'bad' } })).rejects.toThrow(
       'Invalid job params',
     )

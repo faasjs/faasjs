@@ -1,5 +1,5 @@
 import { parseSchemaValue, type SchemaOutput } from '@faasjs/node-utils'
-import type { ZodType } from '@faasjs/utils'
+import type { Zod } from '@faasjs/utils'
 
 import type { Handler, InvokeData } from '../func'
 import { Func } from '../func'
@@ -13,7 +13,7 @@ import { HttpError, type Cookie, type Session } from '../plugins/http'
  *
  * @template TSchema - Zod schema used to validate `event.params`.
  */
-export type DefineApiData<TSchema extends ZodType | undefined = undefined> = InvokeData<
+export type DefineApiData<TSchema extends Zod.ZodType | undefined = undefined> = InvokeData<
   Record<string, unknown>,
   unknown,
   unknown
@@ -73,7 +73,7 @@ export interface DefineApiInject extends Record<never, never> {}
  * ```
  */
 export function defineApi<
-  TSchema extends ZodType | undefined = undefined,
+  TSchema extends Zod.ZodType | undefined = undefined,
   THandler extends (data: DefineApiData<TSchema>) => Promise<any> = (
     data: DefineApiData<TSchema>,
   ) => Promise<any>,

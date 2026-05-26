@@ -2,8 +2,8 @@ import type { FuncEventType } from '@faasjs/core'
 import { z } from '@faasjs/utils'
 import { assertType, expectTypeOf, it } from 'vitest'
 
+import type { DefineJobParams } from '..'
 import { defineJob } from '../../define-job'
-import type { DefineJobParams } from '../../types'
 
 it('defineJob should infer params from schema', () => {
   const schema = z.object({
@@ -25,6 +25,7 @@ it('defineJob should infer params from schema', () => {
   assertType<FuncEventType<typeof job>>({
     params: {
       name: 'FaasJS',
+      // @ts-expect-error
       count: '1',
     },
   })
