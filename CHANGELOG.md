@@ -5,7 +5,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 [`v8.0.0-beta.34 (2026-05-26)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.33...v8.0.0-beta.34)
 
 - `@faasjs/utils`
-  - [Feature] `Zod` as zod type namespaced export for boundary validation schemas.
+  - [Feature] Export more zod types with Zod prefix.
 
 [`v8.0.0-beta.33 (2026-05-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.32...v8.0.0-beta.33)
 

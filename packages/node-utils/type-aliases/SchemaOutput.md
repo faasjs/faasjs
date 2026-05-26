@@ -2,7 +2,7 @@
 
 # Type Alias: SchemaOutput\<TSchema, TFallback\>
 
-> **SchemaOutput**\<`TSchema`, `TFallback`\> = `TSchema` _extends_ `Zod.ZodType` ? `Zod.infer`\<`NonNullable`\<`TSchema`\>\> : `TFallback`
+> **SchemaOutput**\<`TSchema`, `TFallback`\> = `TSchema` _extends_ `ZodType` ? `ZodOutput`\<`NonNullable`\<`TSchema`\>\> : `TFallback`
 
 Parsed value type for an optional Zod schema.
 
@@ -13,7 +13,7 @@ schema is omitted, the caller-provided fallback type is used instead.
 
 ### TSchema
 
-`TSchema` _extends_ `Zod.ZodType` \| `undefined` = `undefined`
+`TSchema` _extends_ `ZodType` \| `undefined` = `undefined`
 
 ### TFallback
 

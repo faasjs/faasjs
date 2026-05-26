@@ -1,6 +1,6 @@
 import type { InvokeData } from '@faasjs/core'
 import type { SchemaOutput } from '@faasjs/node-utils'
-import type { Zod } from '@faasjs/utils'
+import type { ZodInfer, ZodType } from '@faasjs/utils'
 
 export const DEFAULT_JOB_QUEUE = 'default'
 export const DEFAULT_JOB_MAX_ATTEMPTS = 3
@@ -68,8 +68,8 @@ export type JobCron<TParams = Record<string, never>> = {
 /**
  * Runtime event passed to the underlying job function.
  */
-export type JobEvent<TSchema extends Zod.ZodType | undefined = undefined> = {
-  params?: TSchema extends Zod.ZodType ? Zod.infer<TSchema> : Record<string, any>
+export type JobEvent<TSchema extends ZodType | undefined = undefined> = {
+  params?: TSchema extends ZodType ? ZodInfer<TSchema> : Record<string, any>
   /**
    * Job metadata. Defaults are filled when omitted, which keeps direct job tests small.
    */
@@ -83,7 +83,7 @@ export type JobEvent<TSchema extends Zod.ZodType | undefined = undefined> = {
 /**
  * Params validated by the optional Zod schema.
  */
-export type DefineJobParams<TSchema extends Zod.ZodType | undefined = undefined> = SchemaOutput<
+export type DefineJobParams<TSchema extends ZodType | undefined = undefined> = SchemaOutput<
   TSchema,
   Record<string, never>
 >
@@ -92,7 +92,7 @@ export type DefineJobParams<TSchema extends Zod.ZodType | undefined = undefined>
  * Handler data passed to {@link defineJob}.
  */
 export type DefineJobData<
-  TSchema extends Zod.ZodType | undefined = undefined,
+  TSchema extends ZodType | undefined = undefined,
   TContext = any,
   TResult = any,
 > = InvokeData<JobEvent<TSchema>, TContext, TResult> & {
@@ -107,7 +107,7 @@ export type DefineJobData<
 export interface DefineJobInject extends Record<never, never> {}
 
 export type DefineJobOptions<
-  TSchema extends Zod.ZodType | undefined = undefined,
+  TSchema extends ZodType | undefined = undefined,
   TContext = any,
   TResult = any,
 > = {
