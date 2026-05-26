@@ -51,6 +51,7 @@ describe('configs exports', () => {
           },
         ],
         'react-hooks/exhaustive-deps': ['warn'],
+        'jsdoc/no-defaults': ['off'],
       },
     })
   })
