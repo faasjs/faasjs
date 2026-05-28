@@ -91,7 +91,7 @@ describe('cli/main', () => {
 
   beforeEach(async () => {
     tempDir = createTempDir()
-    migrationsDir = join(tempDir, 'migrations')
+    migrationsDir = join(tempDir, 'src/db/migrations')
     createdTables = []
 
     process.chdir(tempDir)

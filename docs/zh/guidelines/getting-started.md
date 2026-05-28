@@ -89,7 +89,7 @@ my-app/
           __tests__/        # API 测试
     types/
       faasjs-pg.d.ts       # PostgreSQL 表类型声明（对 `Tables` 的声明合并）
-  migrations/              # 数据库迁移文件（带时间戳）
+  src/db/migrations/       # 数据库迁移文件（带时间戳）
     20250101000000_create_users.ts
   faas.yaml                #（可选）根级配置覆盖
   tsconfig.json            # TypeScript 配置
@@ -99,11 +99,11 @@ my-app/
 
 ### 关键目录
 
-| 目录          | 用途                                                                                                                               |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `src/pages/`  | 前端页面（React 组件）和后端 API 路由（`.api.ts` 文件）。每个功能有自己的子目录，包含 `components/`、`hooks/` 和 `api/` 子文件夹。 |
-| `src/types/`  | 类型声明文件，包括 `@faasjs/pg` 表类型增强。                                                                                       |
-| `migrations/` | 带时间戳的数据库迁移文件。通过 `faasjs-pg` CLI 创建和管理。                                                                        |
+| 目录                 | 用途                                                                                                                               |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `src/pages/`         | 前端页面（React 组件）和后端 API 路由（`.api.ts` 文件）。每个功能有自己的子目录，包含 `components/`、`hooks/` 和 `api/` 子文件夹。 |
+| `src/types/`         | 类型声明文件，包括 `@faasjs/pg` 表类型增强。                                                                                       |
+| `src/db/migrations/` | 带时间戳的数据库迁移文件。通过 `faasjs-pg` CLI 创建和管理。                                                                        |
 
 ### 关键配置文件
 
@@ -137,7 +137,7 @@ API 路由直接映射到 `src/` 下的文件路径。无需路由注册表。
 DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg new create_todos
 ```
 
-这将创建一个类似 `migrations/20250101000001_create_todos.ts` 的文件。打开它并定义表：
+这将创建一个类似 `src/db/migrations/20250101000001_create_todos.ts` 的文件。打开它并定义表：
 
 ```ts
 import type { SchemaBuilder } from '@faasjs/pg'

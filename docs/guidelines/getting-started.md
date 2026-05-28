@@ -89,7 +89,7 @@ my-app/
           __tests__/        # API tests
     types/
       faasjs-pg.d.ts       # PostgreSQL table type declarations (declaration merging on `Tables`)
-  migrations/              # Database migration files (timestamped)
+  src/db/migrations/       # Database migration files (timestamped)
     20250101000000_create_users.ts
   faas.yaml                # (optional) Root-level config overrides
   tsconfig.json            # TypeScript configuration
@@ -99,11 +99,11 @@ my-app/
 
 ### Key directories
 
-| Directory     | Purpose                                                                                                                                                                    |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/pages/`  | Frontend pages as React components and backend API routes as `.api.ts` files. Each feature gets its own subdirectory with `components/`, `hooks/`, and `api/` sub-folders. |
-| `src/types/`  | Type declaration files, including `@faasjs/pg` table type augmentations.                                                                                                   |
-| `migrations/` | Timestamped database migration files. Created and managed with the `faasjs-pg` CLI.                                                                                        |
+| Directory            | Purpose                                                                                                                                                                    |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/pages/`         | Frontend pages as React components and backend API routes as `.api.ts` files. Each feature gets its own subdirectory with `components/`, `hooks/`, and `api/` sub-folders. |
+| `src/types/`         | Type declaration files, including `@faasjs/pg` table type augmentations.                                                                                                   |
+| `src/db/migrations/` | Timestamped database migration files. Created and managed with the `faasjs-pg` CLI.                                                                                        |
 
 ### Key configuration files
 
@@ -137,7 +137,7 @@ Create a new migration file for the `todos` table:
 DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg new create_todos
 ```
 
-This creates a file like `migrations/20250101000001_create_todos.ts`. Open it and define the table:
+This creates a file like `src/db/migrations/20250101000001_create_todos.ts`. Open it and define the table:
 
 ```ts
 import type { SchemaBuilder } from '@faasjs/pg'

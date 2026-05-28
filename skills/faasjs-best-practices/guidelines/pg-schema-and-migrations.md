@@ -15,7 +15,7 @@ Use this guide when creating or reviewing database schema changes, migrations, o
 2. Implement `up(builder)` with `SchemaBuilder` and `TableBuilder` helpers first.
 3. Implement `down(builder)` for rollback when practical.
 4. Run `faasjs-pg status` from the project root to inspect migration history, then use `faasjs-pg migrate`, `faasjs-pg up`, or `faasjs-pg down` for the execution path you need.
-5. Keep migration files in `./migrations` unless you intentionally reconfigure tooling, because both the CLI and `PgVitestPlugin()` look there by default.
+5. Keep migration files in `src/db/migrations` unless you intentionally reconfigure tooling, because both the CLI and `PgVitestPlugin()` look there by default.
 6. Keep related DDL in one builder run so it stays transactional.
 7. Fall back to `raw()` only for SQL the current helpers do not support.
 
@@ -74,7 +74,7 @@ export function down(builder: SchemaBuilder) {
 
 ### 6. Keep the execution path obvious
 
-- Keep migrations in the project-root `./migrations` folder unless project tooling is configured otherwise.
+- Keep migrations in the project-root `src/db/migrations` folder unless project tooling is configured otherwise.
 - Use `faasjs-pg status` to inspect history, `faasjs-pg migrate` to apply all pending files, `faasjs-pg up` for the next file, and `faasjs-pg down` for the latest rollback.
 - If a project customizes the folder or wrapper commands, document that override explicitly in the project README or contributor guide.
 

@@ -97,18 +97,18 @@ npx faas types
 
 由 `@faasjs/pg` 作为 `faasjs-pg` 二进制提供。
 
-| 命令                   | 描述                                          |
-| ---------------------- | --------------------------------------------- |
-| `faasjs-pg new <name>` | 在 `migrations/` 中创建新的带时间戳的迁移文件 |
-| `faasjs-pg status`     | 显示所有迁移的状态                            |
-| `faasjs-pg migrate`    | 运行所有待处理的迁移                          |
-| `faasjs-pg up`         | 运行下一个待处理的迁移                        |
-| `faasjs-pg down`       | 回滚最近一次应用的迁移                        |
+| 命令                   | 描述                                                 |
+| ---------------------- | ---------------------------------------------------- |
+| `faasjs-pg new <name>` | 在 `src/db/migrations/` 中创建新的带时间戳的迁移文件 |
+| `faasjs-pg status`     | 显示所有迁移的状态                                   |
+| `faasjs-pg migrate`    | 运行所有待处理的迁移                                 |
+| `faasjs-pg up`         | 运行下一个待处理的迁移                               |
+| `faasjs-pg down`       | 回滚最近一次应用的迁移                               |
 
 要求：
 
 - 对于 `status`、`migrate`、`up` 和 `down`，必须设置 `DATABASE_URL` 环境变量。
-- 迁移文件默认位于 `./migrations` 中。
+- 迁移文件默认位于 `src/db/migrations` 中。
 - 迁移文件命名约定：`<timestamp>-<name>.ts`（由 `faasjs-pg new` 自动生成）。
 - 参见 [PG Schema 和迁移指南](./pg-schema-and-migrations.md)了解迁移编写规则。
 
@@ -249,7 +249,7 @@ npx faas types --root /path/to/project
 - 提交前通过 `vp check --fix`
 - `vp test` 通过（或记录了阻塞因素 + 已运行的更窄验证）
 - 在运行 `faasjs-pg` 迁移命令前设置了 `DATABASE_URL`
-- 迁移文件在 `migrations/` 中并遵循时间戳命名
+- 迁移文件在 `src/db/migrations/` 中并遵循时间戳命名
 - 未手动编辑 `src/.faasjs/types.d.ts`
 - 当二进制未全局安装时使用了 `npx` 前缀
 - 环境变量（`FaasEnv`、`FaasLog`、`DATABASE_URL`）在每个项目中都有文档或显而易见

@@ -15,7 +15,7 @@
 2. 首先使用 `SchemaBuilder` 和 `TableBuilder` 辅助函数实现 `up(builder)`。
 3. 在实际可行的情况下实现 `down(builder)` 以便回滚。
 4. 从项目根目录运行 `faasjs-pg status` 检查迁移历史，然后根据需要的执行路径使用 `faasjs-pg migrate`、`faasjs-pg up` 或 `faasjs-pg down`。
-5. 将迁移文件保留在 `./migrations` 目录下，除非有意重新配置工具，因为 CLI 和 `PgVitestPlugin()` 默认都在该目录中查找。
+5. 将迁移文件保留在 `src/db/migrations` 目录下，除非有意重新配置工具，因为 CLI 和 `PgVitestPlugin()` 默认都在该目录中查找。
 6. 将相关的 DDL 放在一次构建器运行中，以保持事务性。
 7. 仅当当前辅助函数不支持的 SQL 时才回退到 `raw()`。
 
@@ -74,7 +74,7 @@ export function down(builder: SchemaBuilder) {
 
 ### 6. 保持执行路径清晰
 
-- 除非项目工具另有配置，否则将迁移文件保留在项目根目录的 `./migrations` 文件夹中。
+- 除非项目工具另有配置，否则将迁移文件保留在项目根目录的 `src/db/migrations` 文件夹中。
 - 使用 `faasjs-pg status` 检查历史记录，`faasjs-pg migrate` 应用所有待处理的文件，`faasjs-pg up` 应用下一个文件，`faasjs-pg down` 进行最新回滚。
 - 如果项目自定义了文件夹或包装命令，请在项目 README 或贡献者指南中明确记录该覆盖。
 

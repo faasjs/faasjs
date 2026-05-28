@@ -46,7 +46,7 @@ describe('faasjs-pg-vitest setup helper', () => {
     const projectRoot = mkdtempSync(join(tmpdir(), 'pg-dev-setup-helper-'))
 
     if (withMigration) {
-      const migrationsDir = join(projectRoot, 'migrations')
+      const migrationsDir = join(projectRoot, 'src/db/migrations')
 
       mkdirSync(migrationsDir, { recursive: true })
       writeFileSync(
@@ -188,7 +188,7 @@ describe('faasjs-pg-vitest setup helper', () => {
     expect(mocks.createClient).toHaveBeenNthCalledWith(2, 'postgresql://worker-1')
     expect(mocks.Migrator).toHaveBeenCalledWith({
       client: mocks.migrationClient,
-      folder: join(projectRoot, 'migrations'),
+      folder: join(projectRoot, 'src/db/migrations'),
     })
     expect(mocks.migrationClient.quit).toHaveBeenCalledTimes(1)
 

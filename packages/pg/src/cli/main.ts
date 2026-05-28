@@ -34,7 +34,7 @@ function createMigration(logger: Logger, name = process.argv[3] as string) {
     return 1
   }
 
-  const folder = resolve('migrations')
+  const folder = resolve('src/db/migrations')
   const filename = `${new Date().toISOString().replace(/[^0-9]/g, '')}-${name}.ts`
   const file = join(folder, filename)
 
@@ -107,7 +107,7 @@ export async function main(operation = process.argv[2] as string) {
   let migrator: Migrator
 
   try {
-    migrator = new Migrator({ client, folder: 'migrations' })
+    migrator = new Migrator({ client, folder: 'src/db/migrations' })
   } catch (error) {
     logger.error(error instanceof Error ? error.message : String(error))
     await closeClient(client)

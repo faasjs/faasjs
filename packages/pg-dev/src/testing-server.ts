@@ -6,7 +6,7 @@ import { Migrator, createClient } from '@faasjs/pg'
 import { startPGliteServer, type StartedPGliteServer } from './pglite'
 
 function resolveMigrationsFolder(projectRoot: string) {
-  return resolve(projectRoot, 'migrations')
+  return resolve(projectRoot, 'src/db/migrations')
 }
 
 /**

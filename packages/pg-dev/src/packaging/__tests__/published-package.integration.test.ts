@@ -87,13 +87,13 @@ function writeConsumerFixture(consumerDir: string, options: { multiProject?: boo
     ),
   )
 
-  mkdirSync(join(consumerDir, 'migrations'), { recursive: true })
+  mkdirSync(join(consumerDir, 'src/db/migrations'), { recursive: true })
   mkdirSync(join(consumerDir, 'test'), { recursive: true })
 
   writeFileSync(join(consumerDir, 'vitest.config.ts'), configLines.join('\n'))
 
   writeFileSync(
-    join(consumerDir, 'migrations', '20250101000000_create_users.ts'),
+    join(consumerDir, 'src/db/migrations', '20250101000000_create_users.ts'),
     [
       'export function up(builder: any) {',
       "  builder.createTable('users', (table: any) => {",
