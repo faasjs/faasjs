@@ -114,6 +114,7 @@ export function useFaasRequest<Path extends FaasActionPaths>({
   const handledRequestTriggerTimesRef = useRef(-1)
   const pollingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const hasLoadedRef = useRef(false)
+  const isOnlineRef = useRef(typeof navigator !== 'undefined' ? navigator.onLine : true)
   const beforeSendRef = useRef(beforeSend)
   const onSuccessRef = useRef(onSuccess)
   const sendRef = useRef(send)
@@ -165,12 +166,36 @@ export function useFaasRequest<Path extends FaasActionPaths>({
       clearPollingTimer()
 
       if (!options.polling || options.polling <= 0 || !isCurrentRequest()) return
+      if (!isOnlineRef.current) return
 
       pollingTimerRef.current = setTimeout(() => {
         if (!isCurrentRequest()) return
+        if (!isOnlineRef.current) return
 
         setRequestTrigger((prev) => ({ times: prev.times + 1, silent: true }))
       }, options.polling)
+    }
+
+    const handleOnline = () => {
+      isOnlineRef.current = true
+      if (options.polling && options.polling > 0 && !skip)
+        setRequestTrigger((prev) => ({
+          times: prev.times + 1,
+          silent: hasLoadedRef.current,
+        }))
+    }
+
+    const handleOffline = () => {
+      isOnlineRef.current = false
+      if (pollingTimerRef.current) {
+        clearTimeout(pollingTimerRef.current)
+        pollingTimerRef.current = null
+      }
+    }
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('online', handleOnline)
+      window.addEventListener('offline', handleOffline)
     }
 
     const rejectPending = (reason: any) => {
@@ -259,6 +284,10 @@ export function useFaasRequest<Path extends FaasActionPaths>({
       return () => {
         clearTimeout(timeout)
         clearPollingTimer()
+        if (typeof window !== 'undefined') {
+          window.removeEventListener('online', handleOnline)
+          window.removeEventListener('offline', handleOffline)
+        }
         if (controllerRef.current === controller) controllerRef.current = null
         controller.abort()
         setLoading(false)
@@ -270,6 +299,10 @@ export function useFaasRequest<Path extends FaasActionPaths>({
 
     return () => {
       clearPollingTimer()
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('online', handleOnline)
+        window.removeEventListener('offline', handleOffline)
+      }
       if (controllerRef.current === controller) controllerRef.current = null
       controller.abort()
       setLoading(false)
