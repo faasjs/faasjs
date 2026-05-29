@@ -108,7 +108,7 @@ Provided by `@faasjs/pg` as the `faasjs-pg` binary.
 Requirements:
 
 - `DATABASE_URL` environment variable must be set for `status`, `migrate`, `up`, and `down`.
-- Migration files live in `./migrations` by default.
+- Migration files live in `./src/db/migrations` by default.
 - Migration file naming convention: `<timestamp>-<name>.ts` (generated automatically by `faasjs-pg new`).
 - See [PG Schema and Migrations Guide](./pg-schema-and-migrations.md) for migration authoring rules.
 

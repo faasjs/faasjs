@@ -97,18 +97,18 @@ npx faas types
 
 Provided by `@faasjs/pg` as the `faasjs-pg` binary.
 
-| Command                | Description                                                     |
-| ---------------------- | --------------------------------------------------------------- |
-| `faasjs-pg new <name>` | Create a new timestamped migration file in `src/db/migrations/` |
-| `faasjs-pg status`     | Show the status of all migrations                               |
-| `faasjs-pg migrate`    | Run all pending migrations                                      |
-| `faasjs-pg up`         | Run the next pending migration                                  |
-| `faasjs-pg down`       | Roll back the latest applied migration                          |
+| Command                | Description                                              |
+| ---------------------- | -------------------------------------------------------- |
+| `faasjs-pg new <name>` | Create a new timestamped migration file in `migrations/` |
+| `faasjs-pg status`     | Show the status of all migrations                        |
+| `faasjs-pg migrate`    | Run all pending migrations                               |
+| `faasjs-pg up`         | Run the next pending migration                           |
+| `faasjs-pg down`       | Roll back the latest applied migration                   |
 
 Requirements:
 
 - `DATABASE_URL` environment variable must be set for `status`, `migrate`, `up`, and `down`.
-- Migration files live in `src/db/migrations` by default.
+- Migration files live in `./src/db/migrations` by default.
 - Migration file naming convention: `<timestamp>-<name>.ts` (generated automatically by `faasjs-pg new`).
 - See [PG Schema and Migrations Guide](./pg-schema-and-migrations.md) for migration authoring rules.
 
@@ -249,7 +249,7 @@ npx faas types --root /path/to/project
 - `vp check --fix` passes before commit
 - `vp test` passes (or a recorded blocker + narrower validation that did run)
 - `DATABASE_URL` is set before running `faasjs-pg` migration commands
-- migration files are in `src/db/migrations/` and follow timestamped naming
+- migration files are in `migrations/` and follow timestamped naming
 - `src/.faasjs/types.d.ts` is not hand-edited
 - `npx` prefix is used when binaries are not globally installed
 - environment variables (`FaasEnv`, `FaasLog`, `DATABASE_URL`) are documented or obvious per project

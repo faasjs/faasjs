@@ -10,11 +10,11 @@ function resolveMigrationsFolder(projectRoot: string) {
 }
 
 /**
- * Runs database migrations from the `migrations/` directory using `@faasjs/pg` Migrator.
+ * Runs database migrations from the `src/db/migrations/` directory using `@faasjs/pg` Migrator.
  *
  * Skips silently when the folder does not exist or contains no `.ts` files.
  *
- * @param {string} projectRoot - Absolute path to the project root containing the `migrations/` directory.
+ * @param {string} projectRoot - Absolute path to the project root containing the `src/db/migrations/` directory.
  * @param {string} databaseUrl - PostgreSQL connection URL for the migration client.
  */
 export async function runTestingMigrations(projectRoot: string, databaseUrl: string) {

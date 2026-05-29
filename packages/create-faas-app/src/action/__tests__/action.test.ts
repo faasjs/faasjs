@@ -21,6 +21,7 @@ const adminFiles = [
   'package.json',
   'server.ts',
   'src/db/migrations/20250101000000_create_users.ts',
+  'src/db/tables/users.ts',
   'src/faas.yaml',
   'src/main.tsx',
   'src/pages/home/api/auth/__tests__/me.test.ts',
@@ -36,7 +37,6 @@ const adminFiles = [
   'src/pages/home/index.tsx',
   'src/plugins/auth.ts',
   'src/types/faasjs-auth.d.ts',
-  'src/types/faasjs-pg.d.ts',
   'tsconfig.json',
   'vite.config.ts',
 ]
@@ -152,8 +152,7 @@ describe('action', () => {
     )
     expect(read(rootPath, 'src/plugins/auth.ts')).toContain('class AuthPlugin')
     expect(read(rootPath, 'src/types/faasjs-auth.d.ts')).toContain('interface DefineApiInject')
-    expect(read(rootPath, 'src/types/faasjs-pg.d.ts')).toContain("import '@faasjs/pg'")
-    expect(read(rootPath, 'src/types/faasjs-pg.d.ts')).toContain('interface Tables')
+    expect(read(rootPath, 'src/db/tables/users.ts')).toContain('interface Tables')
     expect(read(rootPath, 'vite.config.ts')).toContain(
       "import { PgVitestPlugin } from '@faasjs/pg-dev'",
     )

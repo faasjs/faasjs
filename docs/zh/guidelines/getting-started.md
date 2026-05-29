@@ -168,11 +168,9 @@ DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg migrate
 
 ### 第 2 步：更新表类型声明
 
-在 `src/types/faasjs-pg.d.ts` 中添加 `todos` 表类型：
+在 `src/db/tables/todos.ts` 中添加 `todos` 表类型：
 
 ```ts
-import '@faasjs/pg'
-
 declare module '@faasjs/pg' {
   interface Tables {
     todos: {

@@ -41,7 +41,7 @@ async function resetCurrentTestingDatabase(databaseUrl: string) {
  * setup files directly from `node_modules`.
  *
  * The helper registers a lazy async bootstrap for `await getClient()`. The first default-client
- * lookup starts PGlite, runs `./migrations`, and backfills `process.env.DATABASE_URL`. Later tests
+ * lookup starts PGlite, runs `./src/db/migrations`, and backfills `process.env.DATABASE_URL`. Later tests
  * reuse that database within the current Vitest file while `beforeEach` resets table contents.
  *
  * @param {PgVitestSetupRuntime} runtime - Runtime hooks from the active Vitest project.

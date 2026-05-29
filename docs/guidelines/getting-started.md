@@ -81,16 +81,17 @@ my-app/
       users/               # Example feature: users CRUD
         index.tsx          # Page entry
         api/
-          list.api.ts       # POST /pages/users/api/list
-          create.api.ts     # POST /pages/users/api/create
-          detail.api.ts     # POST /pages/users/api/detail
-          update.api.ts     # POST /pages/users/api/update
-          remove.api.ts     # POST /pages/users/api/remove
-          __tests__/        # API tests
-    types/
-      faasjs-pg.d.ts       # PostgreSQL table type declarations (declaration merging on `Tables`)
-  src/db/migrations/       # Database migration files (timestamped)
-    20250101000000_create_users.ts
+          list.api.ts      # POST /pages/users/api/list
+          create.api.ts    # POST /pages/users/api/create
+          detail.api.ts    # POST /pages/users/api/detail
+          update.api.ts    # POST /pages/users/api/update
+          remove.api.ts    # POST /pages/users/api/remove
+          __tests__/       # API tests
+    db/
+      tables/
+        <table_name.ts>  # PostgreSQL table type declarations (declaration merging on `Tables`)
+      migrations/          # Database migration files (timestamped)
+        20250101000000_create_users.ts
   faas.yaml                # (optional) Root-level config overrides
   tsconfig.json            # TypeScript configuration
   vite.config.ts           # Vite + Vitest configuration
@@ -168,11 +169,9 @@ See the [PG Schema and Migrations Guide](./pg-schema-and-migrations.md) for migr
 
 ### Step 2: Update table type declarations
 
-Add the `todos` table type in `src/types/faasjs-pg.d.ts`:
+Add the `todos` table type in `src/db/tables/todos.ts`:
 
 ```ts
-import '@faasjs/pg'
-
 declare module '@faasjs/pg' {
   interface Tables {
     todos: {

@@ -81,16 +81,17 @@ my-app/
       users/               # Example feature: users CRUD
         index.tsx          # Page entry
         api/
-          list.api.ts       # POST /pages/users/api/list
-          create.api.ts     # POST /pages/users/api/create
-          detail.api.ts     # POST /pages/users/api/detail
-          update.api.ts     # POST /pages/users/api/update
-          remove.api.ts     # POST /pages/users/api/remove
-          __tests__/        # API tests
-    types/
-      faasjs-pg.d.ts       # PostgreSQL table type declarations (declaration merging on `Tables`)
-  migrations/              # Database migration files (timestamped)
-    20250101000000_create_users.ts
+          list.api.ts      # POST /pages/users/api/list
+          create.api.ts    # POST /pages/users/api/create
+          detail.api.ts    # POST /pages/users/api/detail
+          update.api.ts    # POST /pages/users/api/update
+          remove.api.ts    # POST /pages/users/api/remove
+          __tests__/       # API tests
+    db/
+      tables/
+        <table_name.ts>  # PostgreSQL table type declarations (declaration merging on `Tables`)
+      migrations/          # Database migration files (timestamped)
+        20250101000000_create_users.ts
   faas.yaml                # (optional) Root-level config overrides
   tsconfig.json            # TypeScript configuration
   vite.config.ts           # Vite + Vitest configuration
@@ -99,11 +100,11 @@ my-app/
 
 ### Key directories
 
-| Directory     | Purpose                                                                                                                                                                    |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/pages/`  | Frontend pages as React components and backend API routes as `.api.ts` files. Each feature gets its own subdirectory with `components/`, `hooks/`, and `api/` sub-folders. |
-| `src/types/`  | Type declaration files, including `@faasjs/pg` table type augmentations.                                                                                                   |
-| `migrations/` | Timestamped database migration files. Created and managed with the `faasjs-pg` CLI.                                                                                        |
+| Directory            | Purpose                                                                                                                                                                    |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/pages/`         | Frontend pages as React components and backend API routes as `.api.ts` files. Each feature gets its own subdirectory with `components/`, `hooks/`, and `api/` sub-folders. |
+| `src/types/`         | Type declaration files, including `@faasjs/pg` table type augmentations.                                                                                                   |
+| `src/db/migrations/` | Timestamped database migration files. Created and managed with the `faasjs-pg` CLI.                                                                                        |
 
 ### Key configuration files
 
@@ -137,7 +138,7 @@ Create a new migration file for the `todos` table:
 DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg new create_todos
 ```
 
-This creates a file like `migrations/20250101000001_create_todos.ts`. Open it and define the table:
+This creates a file like `src/db/migrations/20250101000001_create_todos.ts`. Open it and define the table:
 
 ```ts
 import type { SchemaBuilder } from '@faasjs/pg'
@@ -168,11 +169,9 @@ See the [PG Schema and Migrations Guide](./pg-schema-and-migrations.md) for migr
 
 ### Step 2: Update table type declarations
 
-Add the `todos` table type in `src/types/faasjs-pg.d.ts`:
+Add the `todos` table type in `src/db/tables/todos.ts`:
 
 ```ts
-import '@faasjs/pg'
-
 declare module '@faasjs/pg' {
   interface Tables {
     todos: {
