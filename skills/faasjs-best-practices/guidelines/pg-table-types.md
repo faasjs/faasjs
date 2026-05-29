@@ -11,7 +11,7 @@ Use this guide when defining or updating table types with `@faasjs/pg` declarati
 
 ## Default Workflow
 
-1. Put the augmentation in an app-owned type file such as `src/db/tables/<table_name>.ts`, and make sure `tsconfig.json` includes that file before expecting inference to change.
+1. Put the augmentation in an app-owned type file such as `src/db/tables/<table_name>.ts`, where `<table_name>` mirrors the DB table name in `snake_case` (e.g. `user_roles.ts` for the `user_roles` table). Make sure `tsconfig.json` includes that file before expecting inference to change.
 2. In a `.d.ts` file, import `@faasjs/pg` first, then extend `Tables` with `declare module '@faasjs/pg'`.
 3. Model each table as its runtime row shape, and keep JSON and JSONB object shapes in that merged interface.
 4. Let `client.query`, `TableType`, `ColumnName`, and `ColumnValue` infer from that source instead of forcing result types with `as`.
@@ -21,10 +21,10 @@ Use this guide when defining or updating table types with `@faasjs/pg` declarati
 ## Minimal Example
 
 ```ts
-// src/db/tables/users.ts
+// src/db/tables/user_roles.ts
 declare module '@faasjs/pg' {
   interface Tables {
-    users: {
+    user_roles: {
       id: number
       name: string
       metadata: {

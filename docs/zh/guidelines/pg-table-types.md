@@ -11,7 +11,7 @@
 
 ## 默认工作流
 
-1. 将增强放在应用拥有的类型文件中，例如 `src/db/tables/<table_name>.ts`，并确保 `tsconfig.json` 包含该文件，然后在期望推断生效之前进行检查。
+1. 将增强放在应用拥有的类型文件中，例如 `src/db/tables/<table_name>.ts`，其中 `<table_name>` 直接照搬数据库表名，使用 `snake_case` 格式（如 `user_roles` 表对应 `user_roles.ts`）。确保 `tsconfig.json` 包含该文件。
 2. 在 `.d.ts` 文件中，首先导入 `@faasjs/pg`，然后使用 `declare module '@faasjs/pg'` 扩展 `Tables`。
 3. 将每个表建模为其运行时行结构，并将 JSON 和 JSONB 对象形状保留在该合并接口中。
 4. 让 `client.query`、`TableType`、`ColumnName` 和 `ColumnValue` 从该来源推断，而不是使用 `as` 强制指定结果类型。
@@ -21,10 +21,10 @@
 ## 最小示例
 
 ```ts
-// src/db/tables/users.ts
+// src/db/tables/user_roles.ts
 declare module '@faasjs/pg' {
   interface Tables {
-    users: {
+    user_roles: {
       id: number
       name: string
       metadata: {

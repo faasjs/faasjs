@@ -49,10 +49,11 @@ See [File Conventions](./file-conventions.md) for file placement rules (where to
 
 Both directories and files use `kebab-case` by default, with two exceptions:
 
-| Exception       | Convention                         | Examples                                      |
-| --------------- | ---------------------------------- | --------------------------------------------- |
-| React component | PascalCase, matches component name | `UserCard.tsx` → `export function UserCard()` |
-| React hook      | camelCase, matches hook name       | `useUser.ts` → `export function useUser()`    |
+| Exception       | Convention                            | Examples                                      |
+| --------------- | ------------------------------------- | --------------------------------------------- |
+| React component | PascalCase, matches component name    | `UserCard.tsx` → `export function UserCard()` |
+| React hook      | camelCase, matches hook name          | `useUser.ts` → `export function useUser()`    |
+| DB table file   | snake_case, mirrors the DB table name | `user_roles.ts` → `user_roles` table          |
 
 All other directories and files use `kebab-case`:
 
@@ -71,7 +72,7 @@ All other directories and files use `kebab-case`:
 
 - [ ] Functions start with a verb (camelCase)
 - [ ] Types / interfaces / constants are PascalCase
-- [ ] Directories and files use kebab-case (React components/hooks use their own convention)
+- [ ] Directories and files use kebab-case (React components/hooks use their own convention, DB table files use snake_case)
 - [ ] Abbreviations follow the word rule: `Http`, `Json`, `Url`, `Id`
 - [ ] `lifecycle` is one word, all lowercase
 

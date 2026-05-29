@@ -49,10 +49,11 @@
 
 目录和文件默认统一使用 `kebab-case`，仅两种例外：
 
-| 例外       | 规范                       | 示例                                          |
-| ---------- | -------------------------- | --------------------------------------------- |
-| React 组件 | PascalCase，与组件名称匹配 | `UserCard.tsx` → `export function UserCard()` |
-| React 钩子 | camelCase，与钩子名称匹配  | `useUser.ts` → `export function useUser()`    |
+| 例外         | 规范                           | 示例                                          |
+| ------------ | ------------------------------ | --------------------------------------------- |
+| React 组件   | PascalCase，与组件名称匹配     | `UserCard.tsx` → `export function UserCard()` |
+| React 钩子   | camelCase，与钩子名称匹配      | `useUser.ts` → `export function useUser()`    |
+| 数据库表文件 | snake_case，直接照搬数据库表名 | `user_roles.ts` → `user_roles` 表             |
 
 其他所有目录和文件均使用 `kebab-case`：
 
@@ -71,7 +72,7 @@
 
 - [ ] 函数以动词开头（camelCase）
 - [ ] 类型 / 接口 / 常量为 PascalCase
-- [ ] 目录和文件使用 kebab-case（React 组件/钩子使用各自约定）
+- [ ] 目录和文件使用 kebab-case（React 组件/钩子使用各自约定，数据库表文件使用 snake_case）
 - [ ] 缩写遵循单词规则：`Http`、`Json`、`Url`、`Id`
 - [ ] `lifecycle` 是一个单词，全部小写
 
