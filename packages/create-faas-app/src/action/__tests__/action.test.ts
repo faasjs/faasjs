@@ -18,9 +18,9 @@ const adminFiles = [
   '.env.example',
   '.gitignore',
   'index.html',
-  'migrations/20250101000000_create_users.ts',
   'package.json',
   'server.ts',
+  'src/db/migrations/20250101000000_create_users.ts',
   'src/faas.yaml',
   'src/main.tsx',
   'src/pages/home/api/auth/__tests__/me.test.ts',
@@ -126,7 +126,7 @@ describe('action', () => {
       "console.warn('[faasjs] Failed to load env file', error)",
     )
     expect(read(rootPath, '.env.example')).toContain('DATABASE_URL=postgres://')
-    expect(read(rootPath, 'migrations/20250101000000_create_users.ts')).toContain(
+    expect(read(rootPath, 'src/db/migrations/20250101000000_create_users.ts')).toContain(
       "builder.createTable('users'",
     )
     expect(read(rootPath, 'src/pages/home/api/users/create.api.ts')).toContain(

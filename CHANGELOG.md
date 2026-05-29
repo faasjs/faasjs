@@ -2,10 +2,19 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-[Unreleased]
+[`v8.0.0-beta.35 (2026-05-29)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.34...v8.0.0-beta.35)
+
+- `@faasjs/react`
+  - [Feature] useFaas polling pauses when the browser goes offline and automatically resumes when the network is restored, preventing unnecessary failed requests.
 
 - `@faasjs/utils`
-  - [Feature] Export more zod types with Zod prefix.
+  - [Feature] Export more zod types with Zod prefix (`ZodSafeParseResult`, `ZodSafeParseError`, `ZodSafeParseSuccess`).
+
+- `@faasjs/pg`
+  - [Fix] Default migration folder changed from `migrations/` to `src/db/migrations/`.
+
+- `@faasjs/pg-dev`
+  - [Fix] Update migration resolution to use `src/db/migrations/` instead of `migrations/`.
 
 [`v8.0.0-beta.34 (2026-05-26)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.33...v8.0.0-beta.34)
 
