@@ -174,7 +174,7 @@ See [Testing Guide](./testing.md) for testing principles and [Project Config Gui
 - **Check**: Does `src/faas.yaml` exist? Is the YAML valid?
 - **Check**: Does `src/` contain at least one `.api.ts` file?
 - **Recovery**: Run `npx faas types --root .` if outside the project root.
-- **See**: [faas.yaml Specification](../../../docs/specs/faas-yaml.md)
+- **See**: [faas.yaml Specification](./faas-yaml.md)
 
 ### `faasjs-pg` commands fail
 
@@ -245,7 +245,7 @@ npx faas types --root /path/to/project
 ## Review Checklist
 
 - `.api.ts` changes are followed by `faas types` (or a recorded reason)
-- `faas.yaml` is valid YAML and follows the [faas.yaml specification](../../../docs/specs/faas-yaml.md)
+- `faas.yaml` is valid YAML and follows the [faas.yaml specification](./faas-yaml.md)
 - `vp check --fix` passes before commit
 - `vp test` passes (or a recorded blocker + narrower validation that did run)
 - `DATABASE_URL` is set before running `faasjs-pg` migration commands

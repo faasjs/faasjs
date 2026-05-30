@@ -110,7 +110,7 @@ my-app/
 
 | File             | Purpose                                                                   | See                                                         |
 | ---------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| `src/faas.yaml`  | Runtime configuration: server root, base path, staging overrides, plugins | [faas.yaml Specification](../../../docs/specs/faas-yaml.md) |
+| `src/faas.yaml`  | Runtime configuration: server root, base path, staging overrides, plugins | [faas.yaml Specification](./faas-yaml.md) |
 | `tsconfig.json`  | TypeScript config, extends `@faasjs/types/tsconfig/*` presets             | [Project Config Guide](./project-config.md)                 |
 | `vite.config.ts` | Vite/Vitest config, uses `viteConfig` from `@faasjs/dev`                  | [Project Config Guide](./project-config.md)                 |
 
@@ -124,7 +124,7 @@ API routes map directly to file paths under `src/`. No routing registry needed.
 | `src/pages/todo/api/index.api.ts`   | `POST /pages/todo/api`       |
 | `src/pages/todo/api/default.api.ts` | Fallback for `/pages/todo/*` |
 
-See the [Routing Mapping Specification](../../../docs/specs/routing-mapping.md) for the full route resolution order.
+See the [Routing Mapping Specification](./routing-mapping.md) for the full route resolution order.
 
 ## Your First Feature
 
@@ -616,7 +616,7 @@ See the [defineApi Guide](./define-api.md) for detailed rules.
 
 ### Zero-Mapping routing
 
-API file paths map directly to request paths — no routing configuration needed. A file at `src/pages/todos/api/list.api.ts` responds to `POST /pages/todos/api/list`. See the [Routing Mapping Specification](../../../docs/specs/routing-mapping.md) for the full resolution order.
+API file paths map directly to request paths — no routing configuration needed. A file at `src/pages/todos/api/list.api.ts` responds to `POST /pages/todos/api/list`. See the [Routing Mapping Specification](./routing-mapping.md) for the full resolution order.
 
 ### `faas.yaml` configuration hierarchy
 
@@ -635,7 +635,7 @@ defaults:
           secure: false
 ```
 
-See the [faas.yaml Specification](../../../docs/specs/faas-yaml.md) for the full spec.
+See the [faas.yaml Specification](./faas-yaml.md) for the full spec.
 
 ### `@faasjs/ant-design` components
 
@@ -664,7 +664,7 @@ See the [React Data Fetching Guide](./react-data-fetching.md) for lifecycle cont
 
 Plugins inject cross-cutting concerns (auth, tenant context, request metadata) into the request lifecycle. They are configured in `faas.yaml` under the `plugins` key and can extend the `defineApi` handler context with typed fields.
 
-See the [Plugin Specification](../../../docs/specs/plugin.md) for plugin authoring.
+See the [Plugin Specification](./plugin.md) for plugin authoring.
 
 ## Development Workflow
 
@@ -726,7 +726,7 @@ Now that you have a working project, explore the detailed guides:
 | [Jobs Guide](./jobs.md)                                                 | Background jobs with `@faasjs/jobs`                          |
 | [Logger Guide](./logger.md)                                             | Logging patterns and log levels                              |
 | [Code Comments Guide](./code-comments.md)                               | JSDoc and comment conventions                                |
-| [faas.yaml Specification](../../../docs/specs/faas-yaml.md)             | Full faas.yaml configuration reference                       |
-| [Routing Mapping Specification](../../../docs/specs/routing-mapping.md) | Zero-Mapping route resolution                                |
-| [Plugin Specification](../../../docs/specs/plugin.md)                   | Plugin authoring and configuration                           |
-| [Http Protocol Specification](../../../docs/specs/http-protocol.md)     | HTTP request/response protocol details                       |
+| [faas.yaml Specification](./faas-yaml.md)             | Full faas.yaml configuration reference                       |
+| [Routing Mapping Specification](./routing-mapping.md) | Zero-Mapping route resolution                                |
+| [Plugin Specification](./plugin.md)                   | Plugin authoring and configuration                           |
+| [Http Protocol Specification](./http-protocol.md)     | HTTP request/response protocol details                       |
