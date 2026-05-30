@@ -118,7 +118,7 @@ Frontend page organization under `src/pages` is a project convention, not an imp
 
 ### 4. Follow routing-mapping for backend files
 
-- Backend route files MUST follow the [routing-mapping specification](../../../docs/specs/routing-mapping.md).
+- Backend route files MUST follow the [routing-mapping specification](./routing-mapping.md).
 - API entry files MUST end with `.api.ts`.
 - API files SHOULD be placed under the page or feature's `api/` directory.
 - Route paths and file paths MUST keep direct Zero-Mapping alignment.
