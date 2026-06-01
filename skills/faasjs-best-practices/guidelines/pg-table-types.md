@@ -78,6 +78,12 @@ declare module '@faasjs/pg' {
 - If a new query-builder feature affects result shape, test both runtime output and inferred types.
 - Prefer targeted type assertions over broad snapshots of unrelated inferred types.
 
+## See Also
+
+- [PG Query Builder and Raw SQL Guide](./pg-query-builder.md) — building typed queries against these table definitions
+- [PG Schema and Migrations Guide](./pg-schema-and-migrations.md) — creating tables in migrations
+- [PG Testing Guide](./pg-testing.md) — testing with `PgVitestPlugin()`
+
 ## Review Checklist
 
 - `Tables` contains the new or changed table shape

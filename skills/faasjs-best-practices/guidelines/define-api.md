@@ -183,6 +183,12 @@ src/.faasjs/types.d.ts
 
 Do this before handing off the change, so route-to-type mappings stay in sync.
 
+## See Also
+
+- [HTTP Plugin Guide](./http-plugin.md) — cookie, session, and response helpers available in handlers
+- [Jobs Guide](./jobs.md) — `defineJob` for background work
+- [Testing Guide](./testing.md) — testing API endpoints with `testApi`
+
 ## Testing Checklist
 
 Follow the shared [Testing Guide](./testing.md) first, then use `@faasjs/dev` and cover:
