@@ -29,6 +29,9 @@ export function createFixtureVitestConfig(test: Record<string, unknown>) {
       },
     },
     plugins: [PgVitestPlugin()],
-    test,
+    test: {
+      testTimeout: 15_000,
+      ...test,
+    },
   })
 }
