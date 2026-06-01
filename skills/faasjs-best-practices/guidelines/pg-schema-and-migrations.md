@@ -78,6 +78,12 @@ export function down(builder: SchemaBuilder) {
 - Use `faasjs-pg status` to inspect history, `faasjs-pg migrate` to apply all pending files, `faasjs-pg up` for the next file, and `faasjs-pg down` for the latest rollback.
 - If a project customizes the folder or wrapper commands, document that override explicitly in the project README or contributor guide.
 
+## See Also
+
+- [PG Table Types Guide](./pg-table-types.md) — updating `Tables` after migration changes
+- [PG Query Builder and Raw SQL Guide](./pg-query-builder.md) — querying the tables you create
+- [PG Testing Guide](./pg-testing.md) — testing with `PgVitestPlugin()`
+
 ## Review Checklist
 
 - the migration file name remains timestamp-sorted

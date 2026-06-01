@@ -374,6 +374,10 @@ describe('create with auth plugin', () => {
 | Background work                         | `defineJob`      | Use jobs for async work that should not block the request              |
 | HTTP-level behavior                     | Built-in `http`  | The built-in `http` plugin handles cookies, sessions, and responses    |
 
+## See Also
+
+- [Plugin Specification](./plugin.md) — normative specification for plugin identity, lifecycle, and config layering
+
 ## Review Checklist
 
 - Plugin implements `type` and `name` as readonly strings

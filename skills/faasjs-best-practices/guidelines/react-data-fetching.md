@@ -274,6 +274,13 @@ await otherClient('/external/endpoint', { key: 'value' })
 - Use `getClient(host)` only for special multiple-client cases.
 - Single-client apps should never need `getClient`.
 
+## See Also
+
+- [React Guide](./react.md) — component and hook patterns
+- [Ant Design Guide](./ant-design.md) — `Form.faas`, `Table.faasData`, `Description.faasData` wrappers
+- [defineApi Guide](./define-api.md) — building the API endpoints that these hooks call
+- [React Testing Guide](./react-testing.md) — testing request flows with `setMock`
+
 ## Review Checklist
 
 - each request chooses the smallest fitting API: `useFaas`, `useFaasStream`, `faas`, wrapper, or HOC

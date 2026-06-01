@@ -2,6 +2,19 @@
 
 Use this guide when you need to serve static files in a FaasJS application.
 
+## Applicable Scenarios
+
+- Serving static assets (HTML, JS, CSS, images) from a FaasJS server
+- Hosting a single-page application (SPA) with client-side routing fallback
+- Stripping a URL prefix before resolving static file paths
+
+## Default Workflow
+
+1. Place static files in a directory (e.g., `public/`).
+2. Create a handler with `staticHandler({ root })` and export it via `useMiddleware`.
+3. For SPAs, set `notFound: 'index.html'` to serve the SPA entry for missing paths.
+4. Use `stripPrefix` when the URL path includes a prefix not present in the filesystem.
+
 ## staticHandler
 
 `staticHandler` creates a middleware that serves files from a directory. It is used with `useMiddleware` to produce an exported handler.

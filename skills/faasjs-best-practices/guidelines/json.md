@@ -17,6 +17,14 @@ Use this guide when you need to parse, serialize, or normalize JSON data in Faas
 - `objectToStream` — serialize JSON data into a `ReadableStream`
 - `streamToObject` — parse JSON data from a stream
 
+## Default Workflow
+
+1. Use `parseJson<T>()` when you have a JSON string and want a typed result.
+2. Use `parseObjectFromJson<T>()` when input could be an object or a JSON string.
+3. Use `parseArrayFromJson<T>()` when input could be an array or a JSON string.
+4. Use `objectToStream()` / `streamToObject()` for JSON stream serialization.
+5. Wrap parsing calls in try/catch at trust boundaries.
+
 ## Common Patterns
 
 ### 1. Parse JSON safely

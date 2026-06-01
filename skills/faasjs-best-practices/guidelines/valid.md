@@ -19,6 +19,14 @@ Use this guide when you need to validate data in FaasJS projects — whether at 
 - `SchemaOutput` (from `@faasjs/node-utils`) — utility type that follows a Zod schema output type
 - `isPathInsideRoot` (from `@faasjs/node-utils`) — validate that a resolved path stays inside a root directory
 
+## Default Workflow
+
+1. Use `z` (the extended Zod) instead of bare `zod` for FaasJS projects.
+2. In `defineApi`/`defineJob` handlers, use the injected `params` — do not call `parseSchemaValue` there.
+3. Use `parseSchemaValue` only in custom Node-side boundaries (CLIs, worker adapters, loaders).
+4. Use `isPathInsideRoot` before opening files resolved from user-controlled paths.
+5. Use `formatSchemaError` only when you need the formatted message without throwing.
+
 ## Common Patterns
 
 ### 1. Validate data with Zod schemas

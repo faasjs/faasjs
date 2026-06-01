@@ -3,6 +3,54 @@ name: faasjs-best-practices
 description: When working with FaasJS projects, must follow these best practices to ensure code quality, maintainability, and testability.
 ---
 
+## CheatSheet
+
+Quick reference for AI agents. See linked guides for details when a rule does not cover your scenario.
+
+### Commands
+
+| Command | Purpose |
+|--------|---------|
+| `vp dev` | Start dev server |
+| `vp test` / `vp test <pattern>` | Run tests |
+| `vp check --fix` | Lint + format (oxlint + oxfmt) |
+| `npx faas types` | Regenerate API type declarations after `.api.ts` changes |
+| `npx faasjs-pg migrate` | Run pending DB migrations (`DATABASE_URL` required) |
+| `npx faasjs-pg new <name>` | Create timestamped migration file |
+
+### File Layout
+
+| Layer | Pattern | Example |
+|-------|---------|---------|
+| Page entry | `pages/<feature>/index.tsx` | `pages/users/index.tsx` |
+| Component | `pages/<feature>/components/<Name>.tsx` | `components/UserTable.tsx` |
+| Hook | `pages/<feature>/hooks/use<Name>.ts` | `hooks/useUserItems.ts` |
+| API | `pages/<feature>/api/<action>.api.ts` | `api/list.api.ts` |
+| API test | `…/api/__tests__/<action>.test.ts` | `__tests__/list.test.ts` |
+| Table type | `db/tables/<table_name>.ts` | `db/tables/users.ts` |
+| Migration | `db/migrations/<timestamp>_<name>.ts` | `…/20250101_create_users.ts` |
+| Job | `jobs/<path>.job.ts` | `jobs/emails/send.job.ts` |
+
+Tests live in `__tests__/` inside the feature folder they protect. Fixtures/mocks go inside `__tests__/` too, not as siblings.
+
+### Core Rules
+
+- **Validation**: zod for external input (`defineApi` schema). `typeof`/`instanceof`/`=== null` for internal control flow. Do not swap them.
+- **React**: no `useEffect`. Use `useEqualEffect` for side effects. Object/array deps → `useEqualMemo`/`useEqualCallback`.
+- **Data fetching**: `useFaas` for component-owned requests. `faas` for event handlers. `Form.faas` for form submits. `useFaasStream` for streaming.
+- **CRUD**: `Table.faasData` list → `Description.faasData` detail → `Form.faas` create/edit → `faas` + modal for delete. Shared `items` in `use<Feature>Items` drives all three.
+- **Types**: rely on inference first. Add explicit types only at API boundaries, shared contracts, or where inference is ambiguous.
+- **Imports**: use tsconfig aliases when configured. Short relative imports for nearby files. No `.ts`/`.tsx` suffix.
+- **Files**: keep under ~500 lines. Extract only at real boundaries (reuse, >20 line body).
+- **Errors**: `HttpError` + explicit status for expected failures (400/401/403/404/409). `throw Error` for internal 500.
+- **Security**: check user/tenant/permission scope before data access. Never log secrets/tokens/passwords.
+- **Return values**: return directly, avoid single-use intermediate variables. Do not destructure function params.
+- **Comments**: JSDoc for package public exports only. No comments on untouched code. Delete dead code, don't mark it.
+
+### Gate
+
+Before handoff: `vp check --fix && vp test`. If either can't run, record why.
+
 ## Global Rules
 
 - Read `tsconfig.json` and any extended TypeScript config before choosing import paths.
@@ -35,32 +83,86 @@ Use this checklist whenever code handles users, tenants, permissions, secrets, e
 
 ## Guidelines
 
-- [Getting Started Guide](./guidelines/getting-started.md): Covers the full setup, first feature walkthrough, project structure, key concepts, and daily workflow for new developers and new projects.
-- [Curated Stack Guide](./guidelines/curated-stack.md): Covers the Rails-inspired default stack, official React/Ant Design/PostgreSQL path, plugin extension boundaries, auth/permission scope, and replacement rules.
-- [Application Slices Guide](./guidelines/application-slices.md): Covers vertical UI/API/database/test slices, recommended file layout, agent workflow, and why FaasJS avoids generator-heavy development.
-- [Ant Design Guide](./guidelines/ant-design.md): Covers `@faasjs/ant-design` page structure, routing, CRUD composition, feature-local APIs, and UI feedback patterns.
-- [File Conventions](./guidelines/file-conventions.md): Covers where to place pages, components, hooks, and `.api.ts` files, plus when separate files are worth creating.
-- [Code Comments Guide](./guidelines/code-comments.md): Covers package public JSDoc expectations, caller contract conventions, when shared app exports need docs, and how to explain non-standard code without narrating it line by line.
-- [Node Utils Guide](./guidelines/node-utils.md): Covers Node-only helpers for env/config loading, function and plugin bootstrapping, module loading, and shared logging.
-- [Project Config Guide](./guidelines/project-config.md): Covers how to keep `tsconfig.json`, `vite.config.ts`, and shared tooling config aligned with FaasJS defaults.
-- [CLI and Tooling Guide](./guidelines/cli-and-tooling.md): Covers the FaasJS CLI, Vite Plus commands, project scaffolding, migrations, type generation, testing, common errors, and environment variables.
-- [Testing Guide](./guidelines/testing.md): Covers shared testing principles such as choosing test level, keeping mock boundaries narrow, and avoiding unnecessary mocks.
-- [React Guide](./guidelines/react.md): Covers React component and hook patterns in FaasJS, especially avoiding native `useEffect` and handling non-primitive dependencies safely.
-- [React Data Fetching Guide](./guidelines/react-data-fetching.md): Covers when to use `useFaas`, `useFaasStream`, `faas`, or wrapper components, and how to handle loading, error, and retry states.
-- [React Testing Guide](./guidelines/react-testing.md): Covers request-related React testing with `setMock`, shared cleanup, `jsdom`, and common request-flow scenarios on top of the shared Testing Guide.
-- [defineApi Guide](./guidelines/define-api.md): Covers building `.api.ts` endpoints with `defineApi`, inline schemas, typed `params`, error handling, and validation expectations.
-- [Jobs Guide](./guidelines/jobs.md): Covers `.job.ts` files, `defineJob`, `enqueueJob`, workers, scheduler cron enqueueing, retries, idempotency, and testing.
-- [Logger Guide](./guidelines/logger.md): Covers when to reuse injected loggers versus creating `Logger` instances, how to choose log levels, and how to time slow operations.
-- [Naming Convention Guide](./guidelines/naming-convention.md): Covers identifier naming (camelCase/PascalCase), file/directory naming, abbreviation rules, and cross-package naming consistency.
-- [Plugins Guide](./guidelines/plugins.md): Covers the `Plugin` interface, lifecycle methods (`onMount`/`onInvoke`), injecting fields via `DefineApiInject`, config-driven loading through `faas.yaml`, manual registration in code, config merging precedence, and plugin testing.
-- [CRUD Patterns Guide](./guidelines/crud-patterns.md): Covers the complete CRUD vertical slice — shared items metadata, list/detail/create/update/delete patterns, testing, and agent efficiency tips for faster page generation.
-- [Utils Guide](./guidelines/utils.md): Covers portable helpers from `@faasjs/utils` for deep merging and converting text to and from streams.
-- [JSON Guide](./guidelines/json.md): Covers JSON parsing and streaming helpers from `@faasjs/utils`.
-- [Validation Guide](./guidelines/valid.md): Covers data validation and type guard helpers from `@faasjs/utils` and `@faasjs/node-utils`.
-- [YAML Guide](./guidelines/yaml.md): Covers direct YAML parsing with `parseYaml` from `@faasjs/utils`.
-- [PG Query Builder and Raw SQL Guide](./guidelines/pg-query-builder.md): Covers preferring `QueryBuilder` clauses, choosing raw SQL fallbacks deliberately, keeping client bootstrap consistent, and narrowing row shapes intentionally.
-- [PG Table Types Guide](./guidelines/pg-table-types.md): Covers declaration merging on `Tables`, concrete row shapes, and keeping query inference aligned with table definitions.
-- [PG Schema and Migrations Guide](./guidelines/pg-schema-and-migrations.md): Covers timestamped migrations, `SchemaBuilder`, `TableBuilder`, and transactional schema changes.
-- [PG Testing Guide](./guidelines/pg-testing.md): Covers `PgVitestPlugin()`, shared `DATABASE_URL` bootstrap, and pairing runtime assertions with `expectTypeOf(...)`.
-- [HTTP Plugin Guide](./guidelines/http-plugin.md): Covers Cookie, Session, ContentType, response helpers, and HTTP plugin configuration.
-- [Middleware Guide](./guidelines/middleware.md): Covers staticHandler and useMiddleware for static file hosting.
+### Getting Started
+
+Start here for new projects or onboarding.
+
+- [Getting Started Guide](./guidelines/getting-started.md): Full setup, first feature walkthrough, project structure, key concepts, and daily workflow.
+- [Application Slices Guide](./guidelines/application-slices.md): Vertical UI/API/database/test slices, recommended file layout, agent workflow, and why FaasJS avoids generator-heavy development.
+- [Curated Stack Guide](./guidelines/curated-stack.md): Rails-inspired default stack, official React/Ant Design/PostgreSQL path, plugin extension boundaries, auth/permission scope, and replacement rules.
+
+### Conventions
+
+Read once, apply everywhere.
+
+- [File Conventions](./guidelines/file-conventions.md): Where to place pages, components, hooks, and `.api.ts` files, plus when separate files are worth creating.
+- [Naming Convention](./guidelines/naming-convention.md): Identifier naming (camelCase/PascalCase), file/directory naming, abbreviation rules, and cross-package consistency.
+- [Code Comments Guide](./guidelines/code-comments.md): Package public JSDoc expectations, caller contract conventions, and when shared app exports need docs.
+
+### Frontend
+
+React + Ant Design patterns.
+
+- [Ant Design Guide](./guidelines/ant-design.md): `@faasjs/ant-design` page structure, routing, CRUD composition, feature-local APIs, and UI feedback patterns.
+- [React Guide](./guidelines/react.md): Component and hook patterns, avoiding native `useEffect`, and handling non-primitive dependencies safely.
+- [React Data Fetching Guide](./guidelines/react-data-fetching.md): When to use `useFaas`, `useFaasStream`, `faas`, or wrapper components, and how to handle loading, error, and retry states.
+- [React Testing Guide](./guidelines/react-testing.md): Request-related React testing with `setMock`, shared cleanup, `jsdom`, and common request-flow scenarios.
+
+### Backend
+
+API endpoints, jobs, and HTTP concerns.
+
+- [defineApi Guide](./guidelines/define-api.md): Building `.api.ts` endpoints with `defineApi`, inline schemas, typed `params`, error handling, and validation.
+- [Jobs Guide](./guidelines/jobs.md): `.job.ts` files, `defineJob`, `enqueueJob`, workers, scheduler cron enqueueing, retries, idempotency, and testing.
+- [HTTP Plugin Guide](./guidelines/http-plugin.md): Cookie, Session, ContentType, response helpers, and HTTP plugin configuration.
+- [Middleware Guide](./guidelines/middleware.md): staticHandler and useMiddleware for static file hosting.
+
+### Database
+
+PostgreSQL via `@faasjs/pg`.
+
+- [PG Table Types Guide](./guidelines/pg-table-types.md): Declaration merging on `Tables`, concrete row shapes, and keeping query inference aligned with table definitions.
+- [PG Query Builder and Raw SQL Guide](./guidelines/pg-query-builder.md): Preferring `QueryBuilder` clauses, choosing raw SQL fallbacks deliberately, and narrowing row shapes.
+- [PG Schema and Migrations Guide](./guidelines/pg-schema-and-migrations.md): Timestamped migrations, `SchemaBuilder`, `TableBuilder`, and transactional schema changes.
+- [PG Testing Guide](./guidelines/pg-testing.md): `PgVitestPlugin()`, shared `DATABASE_URL` bootstrap, and pairing runtime assertions with `expectTypeOf(...)`.
+
+### Testing
+
+General testing principles. Also see React Testing, PG Testing, and Jobs (for job-specific testing).
+
+- [Testing Guide](./guidelines/testing.md): Choosing test level, keeping mock boundaries narrow, avoiding unnecessary mocks, and test placement.
+
+### Advanced
+
+Plugins, full CRUD slices, and cross-cutting concerns.
+
+- [Plugins Guide](./guidelines/plugins.md): The `Plugin` interface, lifecycle methods, injecting fields via `DefineApiInject`, config-driven loading, and plugin testing.
+- [CRUD Patterns Guide](./guidelines/crud-patterns.md): Complete CRUD vertical slice — shared items metadata, list/detail/create/update/delete patterns, testing, and agent efficiency tips.
+- [Logger Guide](./guidelines/logger.md): When to reuse injected loggers versus creating `Logger` instances, log levels, and timing slow operations.
+- [Code Comments Guide](./guidelines/code-comments.md): Already listed under Conventions; repeated here as a cross-cutting concern.
+
+### Config & Tooling
+
+Development workflow and project configuration.
+
+- [CLI and Tooling Guide](./guidelines/cli-and-tooling.md): FaasJS CLI, Vite Plus commands, project scaffolding, migrations, type generation, testing, common errors, and environment variables.
+- [Project Config Guide](./guidelines/project-config.md): Keeping `tsconfig.json`, `vite.config.ts`, and shared tooling config aligned with FaasJS defaults.
+- [Node Utils Guide](./guidelines/node-utils.md): Node-only helpers for env/config loading, function and plugin bootstrapping, module loading, and shared logging.
+
+### Utility Libraries
+
+Portable helpers from `@faasjs/utils`.
+
+- [Utils Guide](./guidelines/utils.md): Deep merging and converting text to and from streams.
+- [JSON Guide](./guidelines/json.md): JSON parsing and streaming helpers.
+- [Validation Guide](./guidelines/valid.md): Data validation and type guard helpers.
+- [YAML Guide](./guidelines/yaml.md): Direct YAML parsing with `parseYaml`.
+
+### Specifications
+
+Normative specifications for FaasJS runtime behavior. Use MUST/SHOULD/MAY language.
+
+- [faas.yaml Specification](./guidelines/faas-yaml.md): Full faas.yaml configuration reference — file placement, discovery, merge order, staging keys, supported YAML subset.
+- [Routing Mapping Specification](./guidelines/routing-mapping.md): Zero-Mapping route resolution — file naming, search order, and fallback chain.
+- [HTTP Protocol Specification](./guidelines/http-protocol.md): Request/response transport baseline — POST convention, JSON body, status codes, `data`/`error` response envelope.
+- [Plugin Specification](./guidelines/plugin.md): Plugin identity, lifecycle execution, config layering, manual registration, and config-driven loading contract.
