@@ -22,6 +22,34 @@ describe('http', () => {
     expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":1}')
   })
 
+  it('should preserve falsy handler responses', async () => {
+    const cases = [
+      { value: 0, body: '{"data":0}' },
+      { value: false, body: '{"data":false}' },
+      { value: '', body: '{"data":""}' },
+      { value: null, body: '{"data":null}' },
+    ]
+
+    for (const item of cases) {
+      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
+      const handler = new Func({
+        plugins: [http],
+        async handler() {
+          return item.value
+        },
+      }).export().handler
+
+      const res = await handler({
+        headers: {},
+        body: null,
+      })
+
+      expect(res.statusCode).toEqual(200)
+      expect(res.body).toBeInstanceOf(ReadableStream)
+      expect(await streamToString(res.body as ReadableStream)).toEqual(item.body)
+    }
+  })
+
   it('with config name', async () => {
     const http = new Http({
       name: 'name',

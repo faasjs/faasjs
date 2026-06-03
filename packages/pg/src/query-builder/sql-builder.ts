@@ -5,7 +5,7 @@ import type { WhereCondition, JoinCondition } from './types'
  * Builds a parameterized WHERE clause from an array of conditions.
  *
  * @param whereConditions - The array of where conditions.
- * @param mode - Whether the clause is for a query or an update. In update mode, `IN` operators use `= ANY(?)` for compatibility.
+ * @param mode - Whether the clause is for a query or an update. In update mode, array operators use `ANY`/`ALL` for compatibility.
  * @returns The SQL string and bound parameters.
  */
 export function buildWhereSql(
@@ -35,7 +35,9 @@ export function buildWhereSql(
           if (operator === 'IN' || operator === 'NOT IN') {
             if (mode === 'update') {
               params.push(value)
-              return `${prefix}${escapeIdentifier(column)} = ANY(?)`
+              const arrayOperator = operator === 'IN' ? '= ANY(?)' : '<> ALL(?)'
+
+              return `${prefix}${escapeIdentifier(column)} ${arrayOperator}`
             }
 
             params.push(...value)

@@ -94,6 +94,18 @@ describe('QueryBuilder/mutation', () => {
 
       expect(result).toEqual(['Bob', 'David'])
     })
+
+    it('updates rows with NOT IN', async () => {
+      const returning = await new QueryBuilder(client, 'mutation')
+        .where('name', 'NOT IN', ['Alice'])
+        .update({ name: 'David' }, { returning: ['id', 'name'] })
+
+      expect(returning).toEqual([{ id: 2, name: 'David' }])
+
+      const result = await new QueryBuilder(client, 'mutation').orderBy('id', 'ASC').pluck('name')
+
+      expect(result).toEqual(['Alice', 'David'])
+    })
   })
 
   describe('delete', () => {
@@ -231,6 +243,19 @@ describe('QueryBuilder/mutation', () => {
       const result = await new QueryBuilder(client, 'mutation').where('name', 'Alice').first()
 
       expect(result?.metadata).toEqual({ age: 100, gender: 'female' })
+    })
+
+    it('updates JSON rows with NOT IN', async () => {
+      await new QueryBuilder(client, 'mutation')
+        .where('name', 'NOT IN', ['Alice'])
+        .updateJson('metadata', { age: 25 })
+
+      const result = await new QueryBuilder(client, 'mutation').orderBy('id', 'ASC')
+
+      expect(result).toEqual([
+        { id: 1, name: 'Alice', metadata: { age: 100 } },
+        { id: 2, name: 'Bob', metadata: { age: 25 } },
+      ])
     })
 
     it('merges into empty jsonb', async () => {

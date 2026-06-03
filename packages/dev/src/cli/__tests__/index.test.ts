@@ -147,8 +147,8 @@ describe('faas cli', () => {
   it('should run a ts file with register hooks and forwarded args without auto-loading .env', async () => {
     const root = await createTempProject()
     const outputPath = join(root, 'run-output.json')
-    const originalArgv1 = process.argv[1]
     const originalEnvValue = process.env.FAAS_RUN_TEST_MESSAGE
+    const faasBin = join(process.cwd(), 'packages', 'dev', 'faas.mjs')
 
     await writeFixture(join(root, 'src', 'message.ts'), "export const message = 'ok'\n")
     await writeFixture(join(root, '.env'), 'FAAS_RUN_TEST_MESSAGE=from-dotenv\n')
@@ -165,13 +165,12 @@ writeFileSync(${JSON.stringify(outputPath)}, JSON.stringify({
 `,
     )
 
-    process.argv[1] = join(process.cwd(), 'packages', 'dev', 'faas.mjs')
     delete process.env.FAAS_RUN_TEST_MESSAGE
 
     try {
       const code = await main([
         'node',
-        'faas',
+        faasBin,
         'run',
         '--root',
         root,
@@ -187,8 +186,6 @@ writeFileSync(${JSON.stringify(outputPath)}, JSON.stringify({
         message: 'ok',
       })
     } finally {
-      process.argv[1] = originalArgv1
-
       if (originalEnvValue === undefined) delete process.env.FAAS_RUN_TEST_MESSAGE
       else process.env.FAAS_RUN_TEST_MESSAGE = originalEnvValue
     }

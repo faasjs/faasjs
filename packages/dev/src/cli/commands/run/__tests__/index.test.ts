@@ -35,17 +35,15 @@ function queueChildClose(code: number | null, signal: NodeJS.Signals | null = nu
 }
 
 describe('faas run command coverage', () => {
-  const originalArgv1 = process.argv[1]
+  const binPath = '/mock/bin/faas.mjs'
 
   beforeEach(() => {
     spawnMock.mockReset()
     existsSyncMock.mockReset()
     realpathSyncMock.mockReset()
-    process.argv[1] = '/mock/bin/faas.mjs'
   })
 
   afterEach(() => {
-    process.argv[1] = originalArgv1
     vi.restoreAllMocks()
   })
 
@@ -72,7 +70,7 @@ describe('faas run command coverage', () => {
       throw Error('bad symlink')
     })
 
-    await expect(run(['runner.ts', '--flag'])).rejects.toThrow('bad symlink')
+    await expect(run(['runner.ts', '--flag'], { binPath })).rejects.toThrow('bad symlink')
     expect(spawnMock).not.toHaveBeenCalled()
   })
 
@@ -83,7 +81,7 @@ describe('faas run command coverage', () => {
     existsSyncMock.mockImplementation((path: string) => path === argvCandidate)
     queueChildClose(null, 'SIGTERM')
 
-    const code = await run(['--root', '/tmp/project', 'runner.ts'])
+    const code = await run(['--root', '/tmp/project', 'runner.ts'], { binPath })
 
     expect(code).toBe(1)
     expect(spawnMock).toHaveBeenCalledWith(
@@ -104,14 +102,14 @@ describe('faas run command coverage', () => {
     existsSyncMock.mockImplementation((path: string) => path === argvCandidate)
     queueChildClose(null, null)
 
-    await expect(run(['runner.ts'])).resolves.toBe(0)
+    await expect(run(['runner.ts'], { binPath })).resolves.toBe(0)
   })
 
   it('should fail when no register hooks file can be resolved', async () => {
     realpathSyncMock.mockReturnValue('/mock/bin/faas.mjs')
     existsSyncMock.mockReturnValue(false)
 
-    await expect(run(['runner.ts'])).rejects.toThrow(
+    await expect(run(['runner.ts'], { binPath })).rejects.toThrow(
       '[faas run] Cannot resolve @faasjs/node-utils/register-hooks',
     )
   })

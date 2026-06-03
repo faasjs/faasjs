@@ -14,24 +14,67 @@ const npmCacheDir = join(tmpRoot, '.npm-cache')
 const moduleRequire = createRequire(import.meta.url)
 const vitestBin = join(dirname(moduleRequire.resolve('vitest/package.json')), 'vitest.mjs')
 
+function stringifyCommandOutput(output: unknown): string {
+  if (!output) return ''
+
+  if (Buffer.isBuffer(output)) return output.toString('utf8').trim()
+
+  if (typeof output === 'string') return output.trim()
+
+  if (typeof output === 'bigint') return output.toString()
+
+  if (typeof output === 'boolean' || typeof output === 'number')
+    return JSON.stringify(output)?.trim() || ''
+
+  return JSON.stringify(output, undefined, 2)?.trim() || ''
+}
+
 function run(command: string, args: string[], cwd: string) {
   mkdirSync(npmCacheDir, { recursive: true })
 
-  return execFileSync(command, args, {
-    cwd,
-    encoding: 'utf8',
-    env: {
-      ...process.env,
-      FORCE_COLOR: '0',
-      NPM_CONFIG_CACHE: npmCacheDir,
-    },
-  })
+  try {
+    return execFileSync(command, args, {
+      cwd,
+      encoding: 'utf8',
+      env: {
+        ...process.env,
+        FORCE_COLOR: '0',
+        NPM_CONFIG_CACHE: npmCacheDir,
+      },
+    })
+  } catch (error) {
+    const failed = error as {
+      message?: string
+      status?: number
+      stdout?: unknown
+      stderr?: unknown
+    }
+    const details = [
+      failed.message || `Command failed: ${command} ${args.join(' ')}`,
+      `cwd: ${cwd}`,
+      typeof failed.status === 'number' ? `status: ${failed.status}` : '',
+      stringifyCommandOutput(failed.stdout)
+        ? `stdout:\n${stringifyCommandOutput(failed.stdout)}`
+        : '',
+      stringifyCommandOutput(failed.stderr)
+        ? `stderr:\n${stringifyCommandOutput(failed.stderr)}`
+        : '',
+    ].filter(Boolean)
+
+    throw new Error(details.join('\n'))
+  }
 }
 
-function packPackage(packageDir: string) {
-  const tarballName = run('npm', ['pack', '--silent'], packageDir).trim()
+function packPackage(packageDir: string, packDestination: string) {
+  mkdirSync(packDestination, { recursive: true })
 
-  return join(packageDir, tarballName)
+  const tarballName = run(
+    'npm',
+    ['pack', '--silent', '--pack-destination', packDestination],
+    packageDir,
+  ).trim()
+
+  return join(packDestination, tarballName)
 }
 
 function buildWorkspacePackages() {
@@ -131,6 +174,7 @@ describe('faasjs-pg-dev published package', () => {
     mkdirSync(tmpRoot, { recursive: true })
 
     const consumerDir = mkdtempSync(join(tmpRoot, 'faasjs-pg-dev-consumer-'))
+    const packDestination = join(consumerDir, 'packed')
     const pgDir = join(workspaceRoot, 'packages', 'pg')
     const pgDevDir = join(workspaceRoot, 'packages', 'pg-dev')
 
@@ -138,8 +182,8 @@ describe('faasjs-pg-dev published package', () => {
 
     buildWorkspacePackages()
 
-    const pgTarball = packPackage(pgDir)
-    const pgDevTarball = packPackage(pgDevDir)
+    const pgTarball = packPackage(pgDir, packDestination)
+    const pgDevTarball = packPackage(pgDevDir, packDestination)
 
     try {
       run('npm', ['install', '--ignore-scripts', pgTarball, pgDevTarball], consumerDir)
@@ -165,6 +209,7 @@ describe('faasjs-pg-dev published package', () => {
     mkdirSync(tmpRoot, { recursive: true })
 
     const consumerDir = mkdtempSync(join(tmpRoot, 'faasjs-pg-dev-consumer-projects-'))
+    const packDestination = join(consumerDir, 'packed')
     const pgDir = join(workspaceRoot, 'packages', 'pg')
     const pgDevDir = join(workspaceRoot, 'packages', 'pg-dev')
 
@@ -172,8 +217,8 @@ describe('faasjs-pg-dev published package', () => {
 
     buildWorkspacePackages()
 
-    const pgTarball = packPackage(pgDir)
-    const pgDevTarball = packPackage(pgDevDir)
+    const pgTarball = packPackage(pgDir, packDestination)
+    const pgDevTarball = packPackage(pgDevDir, packDestination)
 
     try {
       run('npm', ['install', '--ignore-scripts', pgTarball, pgDevTarball], consumerDir)

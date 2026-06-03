@@ -252,10 +252,13 @@ export class Http<
     data: InvokeData,
     state: HttpInvokeState<TParams, TCookie, TSession>,
   ): void {
-    if (state.response.body && !data.response) data.response = state.response.body
+    if (typeof state.response.body !== 'undefined' && typeof data.response === 'undefined')
+      data.response = state.response.body
 
-    if (data.response)
-      if (data.response instanceof Error || data.response.constructor?.name === 'Error') {
+    const hasResponse = typeof data.response !== 'undefined'
+
+    if (hasResponse)
+      if (data.response instanceof Error || data.response?.constructor?.name === 'Error') {
         data.logger.error(data.response)
         state.response.body = JSON.stringify({
           error: { message: data.response.message },
@@ -275,10 +278,10 @@ export class Http<
       else if (data.response instanceof ReadableStream) state.response.body = data.response
       else
         state.response.body = JSON.stringify({
-          data: data.response === undefined ? null : data.response,
+          data: data.response,
         })
 
-    if (!state.response.statusCode) state.response.statusCode = data.response ? 200 : 204
+    if (!state.response.statusCode) state.response.statusCode = hasResponse ? 200 : 204
 
     state.response.headers = Object.assign(
       {
@@ -293,7 +296,13 @@ export class Http<
       state.response.headers,
     )
 
-    data.response = Object.assign({}, data.response, state.response)
+    data.response = Object.assign(
+      {},
+      data.response && Object.prototype.toString.call(data.response) === '[object Object]'
+        ? data.response
+        : Object.create(null),
+      state.response,
+    )
   }
 
   private finalizeBody(data: InvokeData): void {

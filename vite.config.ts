@@ -16,6 +16,8 @@ const typeTests = ['packages/**/*.types.test.ts', 'packages/**/*.types.test.tsx'
 
 const adminTemplateTests = ['packages/create-faas-app/template/admin/**/*.test.ts']
 const adminTemplateRoot = join(process.cwd(), 'packages/create-faas-app/template/admin')
+const minimalTemplateTests = ['packages/create-faas-app/template/minimal/**/*.test.ts']
+const minimalTemplateRoot = join(process.cwd(), 'packages/create-faas-app/template/minimal')
 const workspacePackageAliases = Object.fromEntries(
   [
     'ant-design',
@@ -130,8 +132,9 @@ export default defineConfig({
         test: {
           name: 'node',
           include: tests,
-          exclude: uiTests.concat(typeTests, adminTemplateTests),
+          exclude: uiTests.concat(typeTests, adminTemplateTests, minimalTemplateTests),
           environment: 'node',
+          fileParallelism: false,
           setupFiles: ['packages/pg-dev/src/testing-setup.ts'],
         },
       },
@@ -149,6 +152,19 @@ export default defineConfig({
           environment: 'node',
           fileParallelism: false,
           testTimeout: 30_000,
+        },
+      },
+      {
+        extends: true as const,
+        root: minimalTemplateRoot,
+        resolve: {
+          alias: workspacePackageAliases,
+          dedupe: ['@faasjs/core'],
+        },
+        test: {
+          name: 'template-minimal',
+          include: ['src/**/*.test.ts'],
+          environment: 'node',
         },
       },
       {

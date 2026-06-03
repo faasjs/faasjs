@@ -16,6 +16,13 @@ type ParsedCommonArgs = {
   rest: string[]
 }
 
+export type CliRunOptions = {
+  /**
+   * Executable path used by commands that need to resolve files beside the CLI binary.
+   */
+  binPath?: string
+}
+
 type ParseCommonCliArgsOptions = {
   /**
    * Stop parsing options after the first positional argument and pass the rest through unchanged.
@@ -139,6 +146,11 @@ export async function runCli(handler: () => Promise<number>): Promise<number> {
  * })
  * ```
  */
-export function createMain(run: (args: string[]) => Promise<number>) {
-  return async (argv = process.argv): Promise<number> => runCli(() => run(argv.slice(2)))
+export function createMain(run: (args: string[], options?: CliRunOptions) => Promise<number>) {
+  return async (argv = process.argv): Promise<number> =>
+    runCli(() =>
+      run(argv.slice(2), {
+        binPath: argv[1],
+      }),
+    )
 }

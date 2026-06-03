@@ -1,6 +1,6 @@
 ---
 name: faasjs-best-practices
-description: When working with FaasJS projects, must follow these best practices to ensure code quality, maintainability, and testability.
+description: Use when building, reviewing, or testing FaasJS projects, including defineApi, useFaas, @faasjs/pg, @faasjs/ant-design, faas.yaml, jobs, plugins, validation, vp CLI, TypeScript config, and project conventions.
 ---
 
 ## CheatSheet
@@ -63,7 +63,7 @@ Before handoff: `vp check --fix && vp test`. If either can't run, record why.
 - Keep internal runtime type checks (`typeof`, `instanceof`, `=== null/undefined`) as-is. Replacing these with zod would increase code volume and add parsing overhead with no benefit—they are control-flow predicates, not input validation. The rule is: zod for external input contracts, `typeof`/`instanceof` for internal type interrogation.
 - Keep code direct: validate at system boundaries, fail fast on invalid internal data, and do not add silent fallbacks or impossible-case handling.
 - Avoid unnecessary intermediate variables: return or pass values directly instead of assigning to a single-use variable. An intermediate variable is justified when it documents a non-trivial condition, is referenced more than once, or breaks a long chain for readability.
-- Do not destructure function parameters; access them through the parameter object (e.g., `input.xxx` or `props.xxx`) so the source of each value is immediately visible.
+- Do not destructure function parameters except the exact FaasJS API handler form `handler({ params })`; access all other function, handler, component, hook, and callback parameters through the parameter object (e.g., `input.xxx`, `props.xxx`, or `data.xxx`) so the source of each value is immediately visible.
 - Do not create standalone type aliases or interfaces when TypeScript can infer the type from the expression, schema, or return statement; rely on inference first and add explicit types only at API boundaries, shared contracts, or where inference is ambiguous.
 - Extract helpers, hooks, components, or abstractions only when they are reused, create a real boundary, or simplify a large block; keep one-off code inline unless the body is over about 20 lines.
 - Document package public exports with JSDoc. Add JSDoc for shared app exports when the caller contract is not obvious. Do not add comments, docstrings, or type annotations to untouched code.
@@ -82,6 +82,21 @@ Use this checklist whenever code handles users, tenants, permissions, secrets, e
 - Do not log secrets, tokens, passwords, cookies, full sensitive payloads, or unredacted third-party responses.
 
 ## Guidelines
+
+For new feature work or broad review, start with these guides in order:
+
+1. [Curated Stack Guide](./guidelines/curated-stack.md)
+2. [Project Config Guide](./guidelines/project-config.md)
+3. [File Conventions](./guidelines/file-conventions.md)
+4. [defineApi Guide](./guidelines/define-api.md)
+5. [React Data Fetching Guide](./guidelines/react-data-fetching.md)
+6. [Ant Design Guide](./guidelines/ant-design.md)
+7. [PG Query Builder and Raw SQL Guide](./guidelines/pg-query-builder.md)
+8. [PG Schema and Migrations Guide](./guidelines/pg-schema-and-migrations.md)
+9. [PG Testing Guide](./guidelines/pg-testing.md)
+10. [Application Slices Guide](./guidelines/application-slices.md)
+
+For narrow tasks, load only the relevant guide from the sections below.
 
 ### Getting Started
 

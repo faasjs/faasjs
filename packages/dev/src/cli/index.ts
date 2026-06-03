@@ -1,6 +1,6 @@
 import { run as runFileCli } from './commands/run'
 import { run as runTypesCli } from './commands/types'
-import { createMain, printVersion } from './utils'
+import { createMain, type CliRunOptions, printVersion } from './utils'
 
 const HelpText = `FaasJS CLI.
 
@@ -33,7 +33,7 @@ const Commands = {
  * const result = await run(['types', '--root', '/path/to/project'])
  * ```
  */
-export async function run(args: string[]): Promise<number> {
+export async function run(args: string[], options: CliRunOptions = {}): Promise<number> {
   const command = args[0]
 
   if (!command || command === '-h' || command === '--help') {
@@ -46,6 +46,8 @@ export async function run(args: string[]): Promise<number> {
   const handler = Commands[command as keyof typeof Commands]
 
   if (!handler) throw Error(`[faas] Unknown command: ${command}`)
+
+  if (handler === runFileCli) return await handler(args.slice(1), options)
 
   return await handler(args.slice(1))
 }

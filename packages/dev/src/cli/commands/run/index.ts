@@ -3,7 +3,12 @@ import { existsSync, realpathSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import { createMain, parseCommonCliArgs, printVersion } from '../../utils/index.ts'
+import {
+  createMain,
+  type CliRunOptions,
+  parseCommonCliArgs,
+  printVersion,
+} from '../../utils/index.ts'
 
 const HelpText = `Run a TypeScript file with FaasJS Node module hooks.
 
@@ -16,13 +21,10 @@ Options:
   -v, --version      Show version
 `
 
-function resolveRegisterHooksSpecifier(): string {
-  if (!process.argv[1]) throw Error('[faas run] Cannot resolve @faasjs/node-utils/register-hooks')
+function resolveRegisterHooksSpecifier(binPath = process.argv[1]): string {
+  if (!binPath) throw Error('[faas run] Cannot resolve @faasjs/node-utils/register-hooks')
 
-  const resolved = join(
-    dirname(realpathSync(process.argv[1])),
-    '../node-utils/dist/register-hooks.mjs',
-  )
+  const resolved = join(dirname(realpathSync(binPath)), '../node-utils/dist/register-hooks.mjs')
 
   if (!existsSync(resolved))
     throw Error('[faas run] Cannot resolve @faasjs/node-utils/register-hooks')
@@ -30,8 +32,13 @@ function resolveRegisterHooksSpecifier(): string {
   return pathToFileURL(resolved).href
 }
 
-async function runFile(file: string, args: string[], cwd: string): Promise<number> {
-  const registerHooksSpecifier = resolveRegisterHooksSpecifier()
+async function runFile(
+  file: string,
+  args: string[],
+  cwd: string,
+  options: CliRunOptions,
+): Promise<number> {
+  const registerHooksSpecifier = resolveRegisterHooksSpecifier(options.binPath)
 
   return await new Promise((resolvePromise, reject) => {
     const child = spawn(process.execPath, ['--import', registerHooksSpecifier, file, ...args], {
@@ -61,8 +68,12 @@ async function runFile(file: string, args: string[], cwd: string): Promise<numbe
  * const result = await run(['./script.ts', '--flag'])
  * ```
  */
-export async function run(args: string[]): Promise<number> {
-  const { mode, options, rest } = parseCommonCliArgs(args, 'faas run', {
+export async function run(args: string[], runOptions: CliRunOptions = {}): Promise<number> {
+  const {
+    mode,
+    options: cliOptions,
+    rest,
+  } = parseCommonCliArgs(args, 'faas run', {
     stopAtFirstPositional: true,
   })
 
@@ -75,10 +86,10 @@ export async function run(args: string[]): Promise<number> {
 
   if (!rest[0]) throw Error('[faas run] Missing file name')
 
-  const cwd = resolve(options.root ?? process.cwd())
+  const cwd = resolve(cliOptions.root ?? process.cwd())
   const file = resolve(cwd, rest[0])
 
-  return await runFile(file, rest.slice(1), cwd)
+  return await runFile(file, rest.slice(1), cwd, runOptions)
 }
 
 /**
