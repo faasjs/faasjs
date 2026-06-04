@@ -3,6 +3,7 @@
 ## Functions
 
 - [deepMerge](functions/deepMerge.md)
+- [generateId](functions/generateId.md)
 - [isObjectRecord](functions/isObjectRecord.md)
 - [objectToStream](functions/objectToStream.md)
 - [parseArrayFromJson](functions/parseArrayFromJson.md)

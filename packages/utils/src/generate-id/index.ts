@@ -8,7 +8,7 @@
  *
  * @example
  * ```ts
- * import { generateId } from '@faasjs/react'
+ * import { generateId } from '@faasjs/utils'
  *
  * const id = generateId('prefix-')
  *

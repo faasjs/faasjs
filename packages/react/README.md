@@ -6,7 +6,6 @@
 - [equal](functions/equal.md)
 - [faas](functions/faas.md)
 - [FaasReactClient](functions/FaasReactClient.md)
-- [generateId](functions/generateId.md)
 - [getClient](functions/getClient.md)
 - [OptionalWrapper](functions/OptionalWrapper.md)
 - [setMock](functions/setMock.md)

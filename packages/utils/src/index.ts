@@ -4,7 +4,7 @@
  * FaasJS cross-runtime utility helpers.
  *
  * The package bundles pure utilities that work across Node.js, browsers, and edge runtimes,
- * including deep merge helpers and stream conversion helpers.
+ * including deep merge helpers, random identifier helpers, and stream conversion helpers.
  *
  * ## Install
  *
@@ -33,6 +33,7 @@
 
 export { deepMerge } from './deep-merge'
 export { toErrorMessage } from './error'
+export { generateId } from './generate-id'
 export { streamToString, stringToStream, objectToStream, streamToObject } from './stream'
 export { z, isObjectRecord } from './zod'
 export type {

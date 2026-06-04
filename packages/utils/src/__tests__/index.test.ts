@@ -8,5 +8,6 @@ it('should export helpers', () => {
   expect(utils).toHaveProperty('streamToObject')
   expect(utils).toHaveProperty('stringToStream')
   expect(utils).toHaveProperty('objectToStream')
+  expect(utils).toHaveProperty('generateId')
   expect(utils).toHaveProperty('z')
 })

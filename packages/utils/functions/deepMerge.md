@@ -7,7 +7,7 @@
 FaasJS cross-runtime utility helpers.
 
 The package bundles pure utilities that work across Node.js, browsers, and edge runtimes,
-including deep merge helpers and stream conversion helpers.
+including deep merge helpers, random identifier helpers, and stream conversion helpers.
 
 ## Install
 

@@ -1,4 +1,4 @@
-[@faasjs/react](../README.md) / generateId
+[@faasjs/utils](../README.md) / generateId
 
 # Function: generateId()
 
@@ -33,7 +33,7 @@ When `length` is outside the supported `8` to `18` range.
 ## Example
 
 ```ts
-import { generateId } from '@faasjs/react'
+import { generateId } from '@faasjs/utils'
 
 const id = generateId('prefix-')
 
