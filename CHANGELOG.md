@@ -2,7 +2,7 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-Unreleased
+[`v8.0.0-beta.36 (2026-06-05)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.35...v8.0.0-beta.36)
 
 - `faasjs`
   - [Feature] Reframe docs and `faasjs-best-practices` around feature-based application slices, dedicated guide pages, and local spec references for agents.

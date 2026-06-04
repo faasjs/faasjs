@@ -7,13 +7,19 @@ It provides methods to check migration status, apply migrations, and roll back m
 
 ## Param
 
+**options**
+
 The options for the migrator.
 
 ## Param
 
+**options.client**
+
 The database client.
 
 ## Param
+
+**options.folder**
 
 The folder containing migration files.
 
