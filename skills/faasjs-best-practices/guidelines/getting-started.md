@@ -108,11 +108,11 @@ my-app/
 
 ### Key configuration files
 
-| File             | Purpose                                                                   | See                                                         |
-| ---------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| `src/faas.yaml`  | Runtime configuration: server root, base path, staging overrides, plugins | [faas.yaml Specification](./faas-yaml.md) |
-| `tsconfig.json`  | TypeScript config, extends `@faasjs/types/tsconfig/*` presets             | [Project Config Guide](./project-config.md)                 |
-| `vite.config.ts` | Vite/Vitest config, uses `viteConfig` from `@faasjs/dev`                  | [Project Config Guide](./project-config.md)                 |
+| File             | Purpose                                                                   | See                                         |
+| ---------------- | ------------------------------------------------------------------------- | ------------------------------------------- |
+| `src/faas.yaml`  | Runtime configuration: server root, base path, staging overrides, plugins | [faas.yaml Specification](./faas-yaml.md)   |
+| `tsconfig.json`  | TypeScript config, extends `@faasjs/types/tsconfig/*` presets             | [Project Config Guide](./project-config.md) |
+| `vite.config.ts` | Vite/Vitest config, uses `viteConfig` from `@faasjs/dev`                  | [Project Config Guide](./project-config.md) |
 
 ### Zero-Mapping routing
 
@@ -262,26 +262,26 @@ See the [CLI and Tooling Guide](./cli-and-tooling.md) for all commands and troub
 
 Now that you have a working project, explore the detailed guides:
 
-| Guide                                                                   | What it covers                                               |
-| ----------------------------------------------------------------------- | ------------------------------------------------------------ |
-| [Application Slices Guide](./application-slices.md)                     | Vertical feature structure and recommended layout            |
-| [CRUD Patterns Guide](./crud-patterns.md)                               | Complete CRUD implementation from API to React page          |
-| [defineApi Guide](./define-api.md)                                      | API endpoint schema, validation, and error handling          |
-| [Ant Design Guide](./ant-design.md)                                     | Page structure, routes, CRUD composition, and UI feedback    |
-| [React Data Fetching Guide](./react-data-fetching.md)                   | `useFaas`, `faas`, lifecycle controls, polling, and retry    |
-| [PG Schema and Migrations Guide](./pg-schema-and-migrations.md)         | Database migration authoring rules                           |
-| [PG Table Types Guide](./pg-table-types.md)                             | Declaration merging on `Tables` for type-safe queries        |
-| [PG Query Builder and Raw SQL Guide](./pg-query-builder.md)             | Query building with `@faasjs/pg`                             |
-| [Testing Guide](./testing.md)                                           | Testing principles and practices                             |
-| [React Testing Guide](./react-testing.md)                               | React component and request-flow testing                     |
-| [PG Testing Guide](./pg-testing.md)                                     | PostgreSQL integration testing                               |
-| [CLI and Tooling Guide](./cli-and-tooling.md)                           | All CLI commands, environment variables, and troubleshooting |
-| [Project Config Guide](./project-config.md)                             | TypeScript, Vite, and tooling configuration                  |
-| [File Conventions](./file-conventions.md)                               | File placement and naming conventions                        |
-| [Jobs Guide](./jobs.md)                                                 | Background jobs with `@faasjs/jobs`                          |
-| [Logger Guide](./logger.md)                                             | Logging patterns and log levels                              |
-| [Code Comments Guide](./code-comments.md)                               | JSDoc and comment conventions                                |
-| [faas.yaml Specification](./faas-yaml.md)             | Full faas.yaml configuration reference                       |
-| [Routing Mapping Specification](./routing-mapping.md) | Zero-Mapping route resolution                                |
-| [Plugin Specification](./plugin.md)                   | Plugin authoring and configuration                           |
-| [Http Protocol Specification](./http-protocol.md)     | HTTP request/response protocol details                       |
+| Guide                                                           | What it covers                                               |
+| --------------------------------------------------------------- | ------------------------------------------------------------ |
+| [Application Slices Guide](./application-slices.md)             | Vertical feature structure and recommended layout            |
+| [CRUD Patterns Guide](./crud-patterns.md)                       | Complete CRUD implementation from API to React page          |
+| [defineApi Guide](./define-api.md)                              | API endpoint schema, validation, and error handling          |
+| [Ant Design Guide](./ant-design.md)                             | Page structure, routes, CRUD composition, and UI feedback    |
+| [React Data Fetching Guide](./react-data-fetching.md)           | `useFaas`, `faas`, lifecycle controls, polling, and retry    |
+| [PG Schema and Migrations Guide](./pg-schema-and-migrations.md) | Database migration authoring rules                           |
+| [PG Table Types Guide](./pg-table-types.md)                     | Declaration merging on `Tables` for type-safe queries        |
+| [PG Query Builder and Raw SQL Guide](./pg-query-builder.md)     | Query building with `@faasjs/pg`                             |
+| [Testing Guide](./testing.md)                                   | Testing principles and practices                             |
+| [React Testing Guide](./react-testing.md)                       | React component and request-flow testing                     |
+| [PG Testing Guide](./pg-testing.md)                             | PostgreSQL integration testing                               |
+| [CLI and Tooling Guide](./cli-and-tooling.md)                   | All CLI commands, environment variables, and troubleshooting |
+| [Project Config Guide](./project-config.md)                     | TypeScript, Vite, and tooling configuration                  |
+| [File Conventions](./file-conventions.md)                       | File placement and naming conventions                        |
+| [Jobs Guide](./jobs.md)                                         | Background jobs with `@faasjs/jobs`                          |
+| [Logger Guide](./logger.md)                                     | Logging patterns and log levels                              |
+| [Code Comments Guide](./code-comments.md)                       | JSDoc and comment conventions                                |
+| [faas.yaml Specification](./faas-yaml.md)                       | Full faas.yaml configuration reference                       |
+| [Routing Mapping Specification](./routing-mapping.md)           | Zero-Mapping route resolution                                |
+| [Plugin Specification](./plugin.md)                             | Plugin authoring and configuration                           |
+| [Http Protocol Specification](./http-protocol.md)               | HTTP request/response protocol details                       |

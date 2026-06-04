@@ -228,6 +228,12 @@ describe('useFaas', () => {
 })
 ```
 
+## See Also
+
+- [Testing Guide](./testing.md) — shared testing principles (apply first)
+- [React Data Fetching Guide](./react-data-fetching.md) — request flow patterns under test
+- [React Guide](./react.md) — component and hook patterns
+
 ## Review Checklist
 
 - shared [Testing Guide](./testing.md) rules are followed first

@@ -9,27 +9,27 @@ Quick reference for AI agents. See linked guides for details when a rule does no
 
 ### Commands
 
-| Command | Purpose |
-|--------|---------|
-| `vp dev` | Start dev server |
-| `vp test` / `vp test <pattern>` | Run tests |
-| `vp check --fix` | Lint + format (oxlint + oxfmt) |
-| `npx faas types` | Regenerate API type declarations after `.api.ts` changes |
-| `npx faasjs-pg migrate` | Run pending DB migrations (`DATABASE_URL` required) |
-| `npx faasjs-pg new <name>` | Create timestamped migration file |
+| Command                         | Purpose                                                  |
+| ------------------------------- | -------------------------------------------------------- |
+| `vp dev`                        | Start dev server                                         |
+| `vp test` / `vp test <pattern>` | Run tests                                                |
+| `vp check --fix`                | Lint + format (oxlint + oxfmt)                           |
+| `npx faas types`                | Regenerate API type declarations after `.api.ts` changes |
+| `npx faasjs-pg migrate`         | Run pending DB migrations (`DATABASE_URL` required)      |
+| `npx faasjs-pg new <name>`      | Create timestamped migration file                        |
 
 ### File Layout
 
-| Layer | Pattern | Example |
-|-------|---------|---------|
-| Page entry | `pages/<feature>/index.tsx` | `pages/users/index.tsx` |
-| Component | `pages/<feature>/components/<Name>.tsx` | `components/UserTable.tsx` |
-| Hook | `pages/<feature>/hooks/use<Name>.ts` | `hooks/useUserItems.ts` |
-| API | `pages/<feature>/api/<action>.api.ts` | `api/list.api.ts` |
-| API test | `…/api/__tests__/<action>.test.ts` | `__tests__/list.test.ts` |
-| Table type | `db/tables/<table_name>.ts` | `db/tables/users.ts` |
-| Migration | `db/migrations/<timestamp>_<name>.ts` | `…/20250101_create_users.ts` |
-| Job | `jobs/<path>.job.ts` | `jobs/emails/send.job.ts` |
+| Layer      | Pattern                                 | Example                      |
+| ---------- | --------------------------------------- | ---------------------------- |
+| Page entry | `pages/<feature>/index.tsx`             | `pages/users/index.tsx`      |
+| Component  | `pages/<feature>/components/<Name>.tsx` | `components/UserTable.tsx`   |
+| Hook       | `pages/<feature>/hooks/use<Name>.ts`    | `hooks/useUserItems.ts`      |
+| API        | `pages/<feature>/api/<action>.api.ts`   | `api/list.api.ts`            |
+| API test   | `…/api/__tests__/<action>.test.ts`      | `__tests__/list.test.ts`     |
+| Table type | `db/tables/<table_name>.ts`             | `db/tables/users.ts`         |
+| Migration  | `db/migrations/<timestamp>_<name>.ts`   | `…/20250101_create_users.ts` |
+| Job        | `jobs/<path>.job.ts`                    | `jobs/emails/send.job.ts`    |
 
 Tests live in `__tests__/` inside the feature folder they protect. Fixtures/mocks go inside `__tests__/` too, not as siblings.
 

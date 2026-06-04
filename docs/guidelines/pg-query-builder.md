@@ -95,6 +95,12 @@ await client.transaction(async (trx) => {
 - Debug logging is appropriate for query timing, troubleshooting, or temporary diagnostics.
 - Avoid coupling normal application logic to debug logging side effects.
 
+## See Also
+
+- [PG Table Types Guide](./pg-table-types.md) — declaration merging on `Tables` for type-safe query results
+- [PG Schema and Migrations Guide](./pg-schema-and-migrations.md) — creating and running migrations
+- [PG Testing Guide](./pg-testing.md) — testing with `PgVitestPlugin()`
+
 ## Review Checklist
 
 - builder methods are used before falling back to raw SQL

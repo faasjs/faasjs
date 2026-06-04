@@ -27,6 +27,26 @@ footer: 🚀 FaasJS is a Rails-inspired, curated full-stack TypeScript framework
 
 <p style="max-width:760px;margin:0 auto 2em;text-align:center;line-height:1.8;color:#5c7080">The official frontend path is React. The curated business-app stack uses <code>@faasjs/ant-design</code> for UI, <code>@faasjs/pg</code> for PostgreSQL workflows, and agent-readable conventions for complete UI &rarr; API &rarr; DB &rarr; test slices.</p>
 
+## Why FaasJS?
+
+FaasJS is for teams who build business software more often than marketing sites: admin panels, back-office systems, internal tools, SaaS dashboards, BFF/API layers, and workflow products.
+
+It is not a general replacement for Next.js or TanStack Start. Those frameworks are excellent choices when the main decision is rendering, routing, caching, server functions, or deployment. FaasJS is narrower on purpose: it gives database-driven React business applications one official path across UI, API, validation, PostgreSQL, background jobs, tests, and conventions.
+
+That means a feature is expected to land as a complete application slice:
+
+```text
+src/db/migrations/20250101000000_create_users.ts
+src/db/tables/users.ts
+src/pages/users/index.tsx
+src/pages/users/api/list.api.ts
+src/pages/users/api/create.api.ts
+src/pages/users/api/__tests__/list.test.ts
+src/pages/users/api/__tests__/create.test.ts
+```
+
+This shape keeps product behavior easy for humans and AI coding agents to find, review, and change together.
+
 ## Features
 
 ### Curated default stack
@@ -52,6 +72,16 @@ footer: 🚀 FaasJS is a Rails-inspired, curated full-stack TypeScript framework
 ✅ Complete application slices that are easy for humans and AI coding agents to inspect, review, and refactor.
 
 ✅ Plugin patterns for business-specific concerns such as auth context and permissions.
+
+## Best fit
+
+- Admin panels and back-office systems
+- Internal tools and business workflow apps
+- SaaS dashboards and authenticated product consoles
+- PostgreSQL-backed BFF/API layers
+- AI product surfaces that need dashboards, jobs, APIs, or operational workflows
+
+For content-heavy websites, highly bespoke consumer frontends, or apps where React Server Components and deployment-specific rendering are the primary concern, FaasJS can still be used, but it is not the center of the framework's design.
 
 ## Quick start
 

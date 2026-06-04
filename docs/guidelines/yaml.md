@@ -12,6 +12,12 @@ Use this guide when you need to parse YAML text directly in FaasJS projects usin
 
 - `parseYaml` — parse the YAML subset supported by FaasJS
 
+## Default Workflow
+
+1. Use `parseYaml()` for direct YAML text parsing in custom tooling or scripts.
+2. For `faas.yaml` config with staged discovery and merging, use `loadConfig()` from `@faasjs/node-utils` instead (see [Node Utils Guide](./node-utils.md)).
+3. Validate the parsed YAML shape after parsing (e.g., with Zod schemas from `@faasjs/utils`).
+
 ## Common Patterns
 
 ### 1. Parse YAML text directly

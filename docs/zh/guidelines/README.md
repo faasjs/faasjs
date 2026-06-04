@@ -44,12 +44,16 @@ FaasJS 更重视完整应用切片，而不是 generator-heavy 工作流。一�
 - [PG 测试指南](/zh/guidelines/pg-testing.html): 如何使用 `PgVitestPlugin()`、共享 `DATABASE_URL` 引导路径，并让运行时断言与 `expectTypeOf(...)` 配套。
 - [CLI 和工具指南](/zh/guidelines/cli-and-tooling.html): Use this guide when running CLI commands, troubleshooting command errors, or choosing the right tool for the task. It is a quick-reference for the FaasJS toolchain to reduce command-execution mistakes.
 - [CRUD 模式指南](/zh/guidelines/crud-patterns.html): Use this guide when implementing or reviewing a standard CRUD feature — list, detail, create, update, delete — in a FaasJS application. It covers the full vertical slice from API endpoints to React pages.
+- [faas.yaml Configuration Specification](/zh/guidelines/faas-yaml.html): `faas.yaml` is the runtime configuration entry used by FaasJS config loading, local dev server resolution, and type generation.
 - [快速入门指南](/zh/guidelines/getting-started.html): Use this guide when starting a new FaasJS project or onboarding a new developer to an existing FaasJS codebase. It walks through the full setup, first feature, and daily workflow so both humans and AI coding agents can get productive quickly.
 - [HTTP Plugin Guide](/zh/guidelines/http-plugin.html): Use this guide when working with cookies, sessions, response helpers, or HTTP plugin configuration in FaasJS APIs.
+- [HTTP Protocol Specification](/zh/guidelines/http-protocol.html): FaasJS request/response guidance is spread across multiple locations. This spec defines a single internal baseline for transport behavior.
 - [JSON 指南](/zh/guidelines/json.html): Use this guide when you need to parse, serialize, or normalize JSON data in FaasJS projects using the helpers from `@faasjs/utils`.
 - [Middleware Guide](/zh/guidelines/middleware.html): Use this guide when you need to serve static files in a FaasJS application.
 - [命名规范](/zh/guidelines/naming-convention.html): Use this guide when naming identifiers — functions, variables, types, files, and directories.
+- [Plugin Specification](/zh/guidelines/plugin.html): FaasJS supports plugins in two complementary layers:
 - [Plugins 指南](/zh/guidelines/plugins.html): Use this guide when adding cross-cutting behavior that should run before or after every request — such as auth, tenant resolution, request logging, rate limiting, or feature flags. Plugins hook into the FaasJS request lifecycle and can inject typed fields into `defineApi` and `defineJob` handlers.
+- [Routing Mapping Specification](/zh/guidelines/routing-mapping.html): Related references:
 - [校验指南](/zh/guidelines/valid.html): Use this guide when you need to validate data in FaasJS projects — whether at system boundaries, in custom Node-side code, or in portable helpers.
 - [YAML 指南](/zh/guidelines/yaml.html): Use this guide when you need to parse YAML text directly in FaasJS projects using `parseYaml` from `@faasjs/utils`.
 

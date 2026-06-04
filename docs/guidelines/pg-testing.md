@@ -121,6 +121,13 @@ describe('users query', () => {
 - Reach for `createClient(process.env.DATABASE_URL, options)` only when a suite genuinely needs custom `postgres.js` options or an extra connection after the bootstrap URL exists.
 - Keep lower-level database bootstrapping internal to the test support layer; public examples should only show the plugin.
 
+## See Also
+
+- [Testing Guide](./testing.md) — shared testing principles (apply first)
+- [PG Query Builder and Raw SQL Guide](./pg-query-builder.md) — building queries under test
+- [PG Table Types Guide](./pg-table-types.md) — table type definitions for typed assertions
+- [PG Schema and Migrations Guide](./pg-schema-and-migrations.md) — migrations run by the plugin
+
 ## Review Checklist
 
 - runtime behavior changes have test coverage

@@ -235,6 +235,11 @@ This is resolved at plugin mount time and merged into the config object.
 - Session data is encrypted and signed, but keep payloads small and avoid storing secrets that never need to leave the server.
 - Do not log cookie or session content in production.
 
+## See Also
+
+- [HTTP Protocol Specification](./http-protocol.md) — normative specification for request/response transport behavior
+- [defineApi Guide](./define-api.md) — building API endpoints that receive these injected fields
+
 ## Review Checklist
 
 - Cookie and session operations happen inside the handler, not in module scope

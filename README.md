@@ -20,6 +20,20 @@ It provides a chef-selected default path across React, Ant Design, typed APIs, P
 
 The official frontend path is React. The curated business-app stack uses `@faasjs/ant-design` for UI, `@faasjs/pg` for PostgreSQL workflows, and agent-readable conventions for complete UI → API → DB → test slices.
 
+## Why FaasJS?
+
+FaasJS is not trying to be the most general React framework. Next.js and TanStack Start focus on application rendering, routing, server functions, caching, and deployment models. FaasJS focuses on the repeated work inside database-driven business products: tables, forms, typed APIs, validation, PostgreSQL queries, migrations, background jobs, tests, and project conventions that stay easy to inspect.
+
+Choose FaasJS when you want one maintained path for building complete business features, instead of assembling and governing React, API, database, UI, and testing choices for every project.
+
+The strongest fit is:
+
+- admin panels and back-office systems
+- internal tools and business workflow apps
+- SaaS dashboards and authenticated product consoles
+- BFF/API layers backed by typed contracts and PostgreSQL
+- AI product surfaces that need dashboards, jobs, APIs, or operational workflows
+
 ## Features
 
 ### Curated default stack

@@ -4,6 +4,8 @@ Create a new FaasJS app from a curated starter template.
 
 FaasJS is optimized for database-driven React business applications. `create-faas-app` gives new projects a working starting point for the official path instead of asking every team to assemble React, API, database, testing, and UI conventions from scratch.
 
+This is the key difference from a generic React starter: the default template is shaped around complete business features. A feature is expected to connect UI pages, typed APIs, validation, PostgreSQL migrations, table types, and tests in one reviewable application slice.
+
 ## Quick Start
 
 ```bash
@@ -58,6 +60,8 @@ Start with `admin` unless you have a specific reason not to. It shows how FaasJS
 - tests cover the API and database behavior
 
 FaasJS allows teams to replace parts of the stack, but the templates, docs, and examples optimize this curated path first.
+
+Use `minimal` only when you intentionally want to step away from that path, such as for an API-only service, a BFF that will be paired with a separate frontend, or an app that needs a custom UI/database stack from day one.
 
 ## Auth And Permissions
 

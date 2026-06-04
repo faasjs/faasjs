@@ -44,12 +44,16 @@ FaasJS favors complete application slices over generator-heavy workflows. A slic
 - [PG Testing Guide](/guidelines/pg-testing.html): Use this guide when writing or reviewing tests that use `@faasjs/pg` or `@faasjs/pg-dev` in FaasJS projects.
 - [CLI and Tooling Guide](/guidelines/cli-and-tooling.html): Use this guide when running CLI commands, troubleshooting command errors, or choosing the right tool for the task. It is a quick-reference for the FaasJS toolchain to reduce command-execution mistakes.
 - [CRUD Patterns Guide](/guidelines/crud-patterns.html): Use this guide when implementing or reviewing a standard CRUD feature — list, detail, create, update, delete — in a FaasJS application. It covers the full vertical slice from API endpoints to React pages.
+- [faas.yaml Configuration Specification](/guidelines/faas-yaml.html): `faas.yaml` is the runtime configuration entry used by FaasJS config loading, local dev server resolution, and type generation.
 - [Getting Started Guide](/guidelines/getting-started.html): Use this guide when starting a new FaasJS project or onboarding a new developer to an existing FaasJS codebase. It walks through the full setup, first feature, and daily workflow so both humans and AI coding agents can get productive quickly.
 - [HTTP Plugin Guide](/guidelines/http-plugin.html): Use this guide when working with cookies, sessions, response helpers, or HTTP plugin configuration in FaasJS APIs.
+- [HTTP Protocol Specification](/guidelines/http-protocol.html): FaasJS request/response guidance is spread across multiple locations. This spec defines a single internal baseline for transport behavior.
 - [JSON Guide](/guidelines/json.html): Use this guide when you need to parse, serialize, or normalize JSON data in FaasJS projects using the helpers from `@faasjs/utils`.
 - [Middleware Guide](/guidelines/middleware.html): Use this guide when you need to serve static files in a FaasJS application.
 - [Naming Convention](/guidelines/naming-convention.html): Use this guide when naming identifiers — functions, variables, types, files, and directories.
+- [Plugin Specification](/guidelines/plugin.html): FaasJS supports plugins in two complementary layers:
 - [Plugins Guide](/guidelines/plugins.html): Use this guide when adding cross-cutting behavior that should run before or after every request — such as auth, tenant resolution, request logging, rate limiting, or feature flags. Plugins hook into the FaasJS request lifecycle and can inject typed fields into `defineApi` and `defineJob` handlers.
+- [Routing Mapping Specification](/guidelines/routing-mapping.html): Related references:
 - [Validation Guide](/guidelines/valid.html): Use this guide when you need to validate data in FaasJS projects — whether at system boundaries, in custom Node-side code, or in portable helpers.
 - [YAML Guide](/guidelines/yaml.html): Use this guide when you need to parse YAML text directly in FaasJS projects using `parseYaml` from `@faasjs/utils`.
 
