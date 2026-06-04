@@ -1,6 +1,6 @@
 import type { UserConfig } from 'vite-plus'
 
-const ignorePatterns = ['**/dist/**', 'node_modules/**']
+const ignorePatterns = ['**/dist/**', '**/.faasjs/**', 'node_modules/**']
 
 /**
  * Shared Oxfmt configuration used by FaasJS projects.

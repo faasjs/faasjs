@@ -127,6 +127,7 @@ export async function action(options: { name?: string; template?: string } = {})
   )
 
   execSync(`cd ${answers.name} && npm install`, { stdio: 'inherit' })
+  execSync(`cd ${answers.name} && npm run types`, { stdio: 'inherit' })
   execSync(`cd ${answers.name} && npm run test`, { stdio: 'inherit' })
 }
 

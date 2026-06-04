@@ -1,10 +1,10 @@
 # Ant Design Guide
 
-Use when building or reviewing `@faasjs/ant-design` pages, CRUD surfaces, routes, app feedback, modals, and drawers.
+Use when building or reviewing `@faasjs/ant-design` feature UI, CRUD surfaces, routes, app feedback, modals, and drawers.
 
 ## Applicable Scenarios
 
-- Creating new pages or features under `pages/`
+- Creating feature UI under `features/`
 - Configuring routes with `Routes` and `lazy`
 - Building list, detail, create, update, or delete flows
 - Deciding how to split feature frontend files
@@ -13,9 +13,9 @@ Use when building or reviewing `@faasjs/ant-design` pages, CRUD surfaces, routes
 
 ## Default Workflow
 
-1. Follow [File Conventions](./file-conventions.md) and place features under `pages/<feature-name>/`.
-2. Use `App` once near the frontend root, then `Routes` plus `lazy` for feature pages.
-3. Keep page entries mostly compositional; move concrete UI to `components/` only when it earns a boundary.
+1. Follow [File Conventions](./file-conventions.md) and place features under `features/<feature-name>/`.
+2. Use `App` once near the frontend root, then `Routes` plus `lazy` for feature UI entries.
+3. Keep feature entries mostly compositional; move concrete UI to `components/` only when it earns a boundary.
 4. Put feature-local request files under `api/` and keep action paths aligned with file paths.
 5. Model business fields as shared `items` metadata reused by `Form`, `Description`, and `Table`.
 6. Start CRUD with `Table`, `Description`, and `Form`; use `useApp()` for `message`, `notification`, `setModalProps`, and `setDrawerProps`.
@@ -23,7 +23,7 @@ Use when building or reviewing `@faasjs/ant-design` pages, CRUD surfaces, routes
 ## Recommended Layout
 
 ```text
-src/pages/users/
+src/features/users/
   index.tsx
   components/
     UserDescription.tsx
@@ -41,22 +41,22 @@ src/pages/users/
 
 This keeps:
 
-- Routes in `pages/`
+- Feature entry UI in `index.tsx`
 - Feature UI in `components/`
 - Feature-specific reusable logic in `hooks/`
 - Backend handlers in `api/`
 
 Actions map directly to:
 
-- `/pages/users/api/list`
-- `/pages/users/api/detail`
-- `/pages/users/api/create`
-- `/pages/users/api/update`
-- `/pages/users/api/remove`
+- `/features/users/api/list`
+- `/features/users/api/detail`
+- `/features/users/api/create`
+- `/features/users/api/update`
+- `/features/users/api/remove`
 
 ## Core Patterns
 
-### Routes and page entries
+### Routes and feature entries
 
 Root routes should stay minimal, letting each feature lazy-load its own entry:
 
@@ -113,7 +113,7 @@ export default function UsersPage() {
 
 ### List, detail, edit, delete
 
-For most CRUD pages:
+For most CRUD feature UI:
 
 - Use `Table` for the list, `Description` for detail, and `Form` for create/edit.
 - Open detail and edit panels in drawers to keep list context visible.
@@ -177,7 +177,7 @@ export function UserTable() {
                     title: 'Delete User',
                     children: 'This action cannot be undone.',
                     onOk: async () => {
-                      await faas('/pages/users/api/remove', { id: row.id })
+                      await faas('features/users/api/remove', { id: row.id })
                       message.success('User deleted')
                       setModalProps({ open: false })
                     },
@@ -191,7 +191,7 @@ export function UserTable() {
         },
       ]}
       faasData={{
-        action: '/pages/users/api/list',
+        action: 'features/users/api/list',
       }}
       pagination={{
         pageSize: 20,
@@ -225,7 +225,7 @@ export function UserDescription(props: { id: number }) {
       column={1}
       items={items}
       faasData={{
-        action: '/pages/users/api/detail',
+        action: 'features/users/api/detail',
         params: {
           id: props.id,
         },
@@ -255,7 +255,7 @@ export function UserForm(props: { id?: number; initialValues?: Record<string, an
       initialValues={props.initialValues}
       items={items}
       faas={{
-        action: props.id ? '/pages/users/api/update' : '/pages/users/api/create',
+        action: props.id ? 'features/users/api/update' : 'features/users/api/create',
         params: (values) => ({
           ...values,
           ...(props.id ? { id: props.id } : {}),
@@ -298,7 +298,7 @@ export function RemoveButton(props: { id: number }) {
           children: 'Please confirm the deletion.',
           onOk: async () => {
             try {
-              await faas('/pages/users/api/remove', { id: props.id })
+              await faas('features/users/api/remove', { id: props.id })
               message.success('User deleted')
               setModalProps({ open: false })
             } catch (error: any) {
@@ -435,7 +435,7 @@ import { FaasDataWrapper } from '@faasjs/ant-design'
 
 export function UserSummary(props: { id: number }) {
   return (
-    <FaasDataWrapper action="/pages/users/api/detail" params={{ id: props.id }}>
+    <FaasDataWrapper action="features/users/api/detail" params={{ id: props.id }}>
       {({ data }) => <div>{data?.name}</div>}
     </FaasDataWrapper>
   )
@@ -458,7 +458,7 @@ export function Section() {
 
 ### `useModal` / `useDrawer`
 
-Use only for intentionally isolated local instances outside the shared `App` shell. In regular feature pages, prefer `useApp().setModalProps(...)` and `useApp().setDrawerProps(...)`.
+Use only for intentionally isolated local instances outside the shared `App` shell. In regular feature UI, prefer `useApp().setModalProps(...)` and `useApp().setDrawerProps(...)`.
 
 ```tsx
 import { Button } from 'antd'
@@ -482,7 +482,7 @@ export function LocalPreview() {
 
 ## Rules
 
-1. Follow the `pages/`, `components/`, `hooks/`, `api/` structure and routing-mapping for feature-local APIs. Feature pages live under `pages/`, entry files use `index.tsx`, components go in `components/`, hooks in `hooks/`, request handlers in `api/`.
+1. Follow the `features/`, `components/`, `hooks/`, `api/` structure and routing-mapping for feature-local APIs. Feature UI lives under `features/<feature>/`, entry files use `index.tsx`, components go in `components/`, hooks in `hooks/`, request handlers in `api/`.
 
 2. Use `App` once as the application shell; do not scatter independent app shells through features. `App` owns shared `message`, `notification`, `modal`, and `drawer` behavior. Only drop down to `ConfigProvider` when a smaller boundary is intentional.
 
@@ -522,7 +522,7 @@ export function LocalPreview() {
 
 6. Use `Form.faas`, `Table.faasData`, `Description.faasData`, and `faas` for straightforward request lifecycles before custom loading/effect plumbing. Lean on built-in request props rather than wiring manual loading state and effect-based glue.
 
-7. Use `useApp()` for shared feedback and overlays. Use `message` for lightweight success/warning feedback, `notification` for persistent feedback with title and description, `setModalProps` for confirmations, and `setDrawerProps` for create/edit/detail panels that should preserve page context. Prefer drawers for in-context create/edit/detail and modals for confirmations. Use local `useModal` or `useDrawer` only when creating isolated instances outside the shared app shell.
+7. Use `useApp()` for shared feedback and overlays. Use `message` for lightweight success/warning feedback, `notification` for persistent feedback with title and description, `setModalProps` for confirmations, and `setDrawerProps` for create/edit/detail panels that should preserve feature context. Prefer drawers for in-context create/edit/detail and modals for confirmations. Use local `useModal` or `useDrawer` only when creating isolated instances outside the shared app shell.
 
 8. Promote repeated custom field behavior into `extendTypes`; keep one-off customization on the item itself.
 
@@ -552,18 +552,18 @@ export function LocalPreview() {
 
 ## Review Checklist
 
-- feature layout and action paths follow the `pages/`, `components/`, `hooks/`, `api/` structure
+- feature layout and action paths follow the `features/`, `components/`, `hooks/`, `api/` structure
 - routes use `Routes` and `lazy`
 - API files align with routing-mapping conventions
-- page entry composes feature components instead of containing all logic inline
+- feature entry composes feature components instead of containing all logic inline
 - shared `items` metadata drives `Form`, `Description`, and `Table`
 - wrappers and `faas`/`faasData` cover straightforward request flows
-- CRUD pages primarily use `Table`, `Description`, and `Form`
+- CRUD feature UI primarily uses `Table`, `Description`, and `Form`
 - FaasJS wrapper components are preferred over raw Ant Design primitives where they fit
 - custom `div`-based UI is not written unless existing components are insufficient
 - custom layout uses `useThemeToken` instead of hardcoded values
 - user feedback is centralized through `useApp` instead of scattered local message/modal instances
-- create/edit overlays use `setDrawerProps` when page context should be preserved
+- create/edit overlays use `setDrawerProps` when feature context should be preserved
 - destructive confirmations use `setModalProps`
 - repeated custom field behavior is promoted to `extendTypes`
 - surface-specific overrides are used only when rendering truly differs

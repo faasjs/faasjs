@@ -258,10 +258,10 @@ export async function enqueueJobInternal(
  * @returns The persisted job record.
  *
  * @example
- * await enqueueJob('jobs/users/sync', { userId: 'u_123' })
+ * await enqueueJob('features/users/jobs/sync', { userId: 'u_123' })
  *
  * @example
- * await enqueueJob('jobs/reports/daily', {}, {
+ * await enqueueJob('features/reports/jobs/daily', {}, {
  *   queue: 'reports',
  *   priority: 10,
  *   idempotencyKey: 'report-2025-01-01',

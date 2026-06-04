@@ -1,7 +1,7 @@
 import { App } from '@faasjs/ant-design'
 import { createRoot } from 'react-dom/client'
 
-import HomePage from './pages/home'
+import UsersPage from './features/users'
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <App
@@ -20,6 +20,6 @@ createRoot(document.getElementById('root') as HTMLElement).render(
       },
     }}
   >
-    <HomePage />
+    <UsersPage />
   </App>,
 )

@@ -4,7 +4,7 @@
 
 ## 适用场景
 
-- 在 `pages/` 下创建新页面或新功能
+- 在 `features/` 下创建功能 UI
 - 使用 `Routes` 和 `lazy` 配置路由
 - 构建列表、详情、创建、更新或删除流程
 - 决定如何拆分功能前端文件
@@ -13,9 +13,9 @@
 
 ## 默认工作流
 
-1. 遵循[文件约定](./file-conventions.md)，将功能放在 `pages/<功能名称>/` 下。
-2. 在前端根目录附近使用一次 `App`，然后在功能页面中使用 `Routes` 配合 `lazy`。
-3. 保持页面入口以组合为主；只有在真正需要边界时才将具体 UI 移到 `components/`。
+1. 遵循[文件约定](./file-conventions.md)，将功能放在 `features/<功能名称>/` 下。
+2. 在前端根目录附近使用一次 `App`，然后用 `Routes` 配合 `lazy` 加载功能 UI 入口。
+3. 保持功能入口以组合为主；只有在真正需要边界时才将具体 UI 移到 `components/`。
 4. 将功能相关的请求文件放在 `api/` 下，保持 action 路径与文件路径一致。
 5. 将业务字段建模为共享的 `items` 元数据，供 `Form`、`Description` 和 `Table` 复用。
 6. CRUD 从 `Table`、`Description` 和 `Form` 开始；使用 `useApp()` 获取 `message`、`notification`、`setModalProps` 和 `setDrawerProps`。
@@ -23,7 +23,7 @@
 ## 推荐布局
 
 ```text
-src/pages/users/
+src/features/users/
   index.tsx
   components/
     UserDescription.tsx
@@ -41,22 +41,22 @@ src/pages/users/
 
 这样保持：
 
-- 路由在 `pages/` 中
+- 功能入口 UI 在 `index.tsx` 中
 - 功能 UI 在 `components/` 中
 - 功能特定的可复用逻辑在 `hooks/` 中
 - 后端处理程序在 `api/` 中
 
 Action 直接映射到：
 
-- `/pages/users/api/list`
-- `/pages/users/api/detail`
-- `/pages/users/api/create`
-- `/pages/users/api/update`
-- `/pages/users/api/remove`
+- `/features/users/api/list`
+- `/features/users/api/detail`
+- `/features/users/api/create`
+- `/features/users/api/update`
+- `/features/users/api/remove`
 
 ## 核心模式
 
-### 路由和页面入口
+### 路由和功能入口
 
 根路由应保持最小化，让每个功能懒加载自己的入口：
 
@@ -177,7 +177,7 @@ export function UserTable() {
                     title: 'Delete User',
                     children: 'This action cannot be undone.',
                     onOk: async () => {
-                      await faas('/pages/users/api/remove', { id: row.id })
+                      await faas('features/users/api/remove', { id: row.id })
                       message.success('User deleted')
                       setModalProps({ open: false })
                     },
@@ -191,7 +191,7 @@ export function UserTable() {
         },
       ]}
       faasData={{
-        action: '/pages/users/api/list',
+        action: 'features/users/api/list',
       }}
       pagination={{
         pageSize: 20,
@@ -225,7 +225,7 @@ export function UserDescription(props: { id: number }) {
       column={1}
       items={items}
       faasData={{
-        action: '/pages/users/api/detail',
+        action: 'features/users/api/detail',
         params: {
           id: props.id,
         },
@@ -255,7 +255,7 @@ export function UserForm(props: { id?: number; initialValues?: Record<string, an
       initialValues={props.initialValues}
       items={items}
       faas={{
-        action: props.id ? '/pages/users/api/update' : '/pages/users/api/create',
+        action: props.id ? 'features/users/api/update' : 'features/users/api/create',
         params: (values) => ({
           ...values,
           ...(props.id ? { id: props.id } : {}),
@@ -298,7 +298,7 @@ export function RemoveButton(props: { id: number }) {
           children: 'Please confirm the deletion.',
           onOk: async () => {
             try {
-              await faas('/pages/users/api/remove', { id: props.id })
+              await faas('features/users/api/remove', { id: props.id })
               message.success('User deleted')
               setModalProps({ open: false })
             } catch (error: any) {
@@ -435,7 +435,7 @@ import { FaasDataWrapper } from '@faasjs/ant-design'
 
 export function UserSummary(props: { id: number }) {
   return (
-    <FaasDataWrapper action="/pages/users/api/detail" params={{ id: props.id }}>
+    <FaasDataWrapper action="features/users/api/detail" params={{ id: props.id }}>
       {({ data }) => <div>{data?.name}</div>}
     </FaasDataWrapper>
   )
@@ -458,7 +458,7 @@ export function Section() {
 
 ### `useModal` / `useDrawer`
 
-仅在有意隔离的本地实例需要位于共享 `App` 外壳之外时使用。在常规功能页面中，优先使用 `useApp().setModalProps(...)` 和 `useApp().setDrawerProps(...)`。
+仅在有意隔离的本地实例需要位于共享 `App` 外壳之外时使用。在常规功能 UI 中，优先使用 `useApp().setModalProps(...)` 和 `useApp().setDrawerProps(...)`。
 
 ```tsx
 import { Button } from 'antd'
@@ -482,7 +482,7 @@ export function LocalPreview() {
 
 ## 规则
 
-1. 遵循 `pages/`、`components/`、`hooks/`、`api/` 结构和功能本地 API 的路由映射。功能页面位于 `pages/` 下，入口文件使用 `index.tsx`，组件放在 `components/` 中，hooks 放在 `hooks/` 中，请求处理程序放在 `api/` 中。
+1. 遵循 `features/`、`components/`、`hooks/`、`api/` 结构和功能本地 API 的路由映射。功能 UI 位于 `features/<feature>/` 下，入口文件使用 `index.tsx`，组件放在 `components/` 中，hooks 放在 `hooks/` 中，请求处理程序放在 `api/` 中。
 
 2. 使用 `App` 一次作为应用程序外壳；不要将独立的应用程序外壳分散到各功能中。`App` 拥有共享的 `message`、`notification`、`modal` 和 `drawer` 行为。仅在有意缩小边界时才降级使用 `ConfigProvider`。
 
@@ -552,10 +552,10 @@ export function LocalPreview() {
 
 ## 审查清单
 
-- [ ] 功能布局和 action 路径遵循 `pages/`、`components/`、`hooks/`、`api/` 结构
+- [ ] 功能布局和 action 路径遵循 `features/`、`components/`、`hooks/`、`api/` 结构
 - [ ] 路由使用 `Routes` 和 `lazy`
 - [ ] API 文件符合路由映射约定
-- [ ] 页面入口组合功能组件而非内联包含所有逻辑
+- [ ] 功能入口组合功能组件而非内联包含所有逻辑
 - [ ] 共享的 `items` 元数据驱动 `Form`、`Description` 和 `Table`
 - [ ] 包装器和 `faas`/`faasData` 覆盖直接的请求流程
 - [ ] CRUD 页面主要使用 `Table`、`Description` 和 `Form`

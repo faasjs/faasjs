@@ -6,9 +6,9 @@ FaasJS API route resolution is file-based. This spec standardizes backend route
 mapping so Zero-Mapping remains explicit: file path and request path stay in
 one-to-one alignment by default.
 
-Frontend page components may still live under `src/pages`, but FaasJS does not
-auto-discover webpage routes for React applications anymore. Browser routing is
-an application concern and is out of scope for this spec.
+Feature UI components commonly live under `src/features/<feature>`, but FaasJS
+does not auto-discover webpage routes for React applications anymore. Browser
+routing is an application concern and is out of scope for this spec.
 
 Related references:
 
@@ -57,20 +57,20 @@ If no candidate exists, the request is treated as not found.
 
 ## Examples
 
-| File                              | Route                                          |
-| --------------------------------- | ---------------------------------------------- |
-| `src/pages/todo/api/list.api.ts`  | `POST /pages/todo/api/list`                    |
-| `src/pages/todo/api/index.api.ts` | `POST /pages/todo/api`                         |
-| `src/pages/todo/default.api.ts`   | fallback for `/pages/todo/*`                   |
-| `src/pages/default.api.ts`        | fallback for unmatched routes under `/pages/*` |
+| File                                 | Route                                             |
+| ------------------------------------ | ------------------------------------------------- |
+| `src/features/todo/api/list.api.ts`  | `POST /features/todo/api/list`                    |
+| `src/features/todo/api/index.api.ts` | `POST /features/todo/api`                         |
+| `src/features/todo/default.api.ts`   | fallback for `/features/todo/*`                   |
+| `src/features/default.api.ts`        | fallback for unmatched routes under `/features/*` |
 
 API fallback example:
 
-- Request: `POST /pages/todo/item/unknown`
+- Request: `POST /features/todo/item/unknown`
 - Probe order:
-  1. `src/pages/todo/item/unknown.api.ts`
-  2. `src/pages/todo/item/unknown/index.api.ts`
-  3. `src/pages/todo/item/unknown/default.api.ts`
-  4. `src/pages/todo/item/default.api.ts`
-  5. `src/pages/todo/default.api.ts`
-  6. `src/pages/default.api.ts`
+  1. `src/features/todo/item/unknown.api.ts`
+  2. `src/features/todo/item/unknown/index.api.ts`
+  3. `src/features/todo/item/unknown/default.api.ts`
+  4. `src/features/todo/item/default.api.ts`
+  5. `src/features/todo/default.api.ts`
+  6. `src/features/default.api.ts`

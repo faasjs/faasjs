@@ -1,10 +1,10 @@
 # React 指南
 
-在 FaasJS 项目中用于 React 页面、组件、hooks、依赖处理、派生状态以及 `@faasjs/react` 辅助函数。
+在 FaasJS 项目中用于 React 功能 UI、组件、hooks、依赖处理、派生状态以及 `@faasjs/react` 辅助函数。
 
 ## 适用场景
 
-- 创建新的 React 页面、组件或 hooks
+- 创建新的 React 功能 UI、组件或 hooks
 - 审查 hook 使用和依赖处理
 - 决定状态应该派生、记忆还是同步
 - 处理对象、数组或函数类型的依赖

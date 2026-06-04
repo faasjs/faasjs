@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 
 import api from '../list.api'
 
-describe('pages/home/api/users/list', () => {
+describe('features/users/api/list', () => {
   it('lists users with total count', async () => {
     const client = await getClient()
 

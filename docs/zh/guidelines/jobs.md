@@ -4,7 +4,7 @@
 
 ## 默认工作流
 
-1. 在 `src/jobs/` 下创建 `.job.ts` 文件。
+1. 在 `src/features/<feature>/jobs/` 下创建功能本地 `.job.ts` 文件；跨功能或平台级任务可放在 `src/jobs/` 下。
 2. 当参数有结构时，使用 schema 默认导出 `defineJob(...)`。
 3. 在 API、脚本或其他任务中使用 `enqueueJob(jobPath, params)` 入队工作。
 4. 在工作器进程中运行 `startJobWorker()` 来执行任务。
@@ -18,9 +18,9 @@
 任务路径来自相对于工作器根目录的 `.job.ts` 文件：
 
 ```text
-src/jobs/users/cleanup.job.ts -> jobs/users/cleanup
-src/jobs/emails/send.job.ts   -> jobs/emails/send
-src/jobs/reports/index.job.ts -> jobs/reports
+src/features/users/jobs/cleanup.job.ts -> features/users/jobs/cleanup
+src/features/emails/jobs/send.job.ts   -> features/emails/jobs/send
+src/features/reports/jobs/index.job.ts -> features/reports/jobs
 ```
 
 不要在文件内部重复任务名称。移动或重命名任务文件将更改 `enqueueJob()` 使用的路径。
@@ -55,7 +55,7 @@ export default defineJob({
 import { enqueueJob } from '@faasjs/jobs'
 
 await enqueueJob(
-  'jobs/emails/send',
+  'features/emails/jobs/send',
   {
     userId: 'u_123',
   },
@@ -113,7 +113,7 @@ export default defineJob({
 
 ### 7. 直接测试单个任务
 
-将任务测试放在任务文件夹的 `__tests__` 下，例如 `cleanup.job.ts` 对应的 `src/jobs/users/__tests__/cleanup.test.ts`。
+将任务测试放在任务文件夹的 `__tests__` 下，例如 `cleanup.job.ts` 对应的 `src/features/users/jobs/__tests__/cleanup.test.ts`。
 
 对于单个任务的业务行为，直接调用导出的任务处理函数。这样可以保持 `defineJob` 包装器、schema 验证、`job` 和 `attempt` 结构的真实性，而无需创建队列行或启动工作器循环。
 
@@ -129,7 +129,7 @@ vi.mock('../send-daily-report', () => ({
 
 const mockedSendDailyReport = vi.mocked(sendDailyReport)
 
-describe('jobs/reports/daily-report', () => {
+describe('features/reports/jobs/daily-report', () => {
   beforeEach(() => {
     mockedSendDailyReport.mockReset()
   })
@@ -178,16 +178,16 @@ vi.mock('../send-daily-report', () => ({
 
 const mockedSendDailyReport = vi.mocked(sendDailyReport)
 
-const jobs = new Map([['jobs/reports/daily-report', dailyReportJob]])
+const jobs = new Map([['features/reports/jobs/daily-report', dailyReportJob]])
 
-describe('jobs/reports/daily-report', () => {
+describe('features/reports/jobs/daily-report', () => {
   beforeEach(() => {
     mockedSendDailyReport.mockReset()
   })
 
   it('runs queued work and sends the report', async () => {
     const client = await getClient()
-    const record = await enqueueJob('jobs/reports/daily-report', {
+    const record = await enqueueJob('features/reports/jobs/daily-report', {
       reportId: 'r_123',
     })
     const worker = new JobWorker(jobs)
@@ -212,7 +212,7 @@ describe('jobs/reports/daily-report', () => {
 
     const rows = await client.raw<JobRecord>`
       SELECT * FROM faasjs_jobs
-      WHERE job_path = 'jobs/reports/daily-report'
+      WHERE job_path = 'features/reports/jobs/daily-report'
     `
 
     expect(rows).toHaveLength(1)

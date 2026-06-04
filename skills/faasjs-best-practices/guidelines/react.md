@@ -1,10 +1,10 @@
 # React Guide
 
-Use for React pages, components, hooks, dependency handling, derived state, and `@faasjs/react` helpers in FaasJS projects.
+Use for React feature UI, components, hooks, dependency handling, derived state, and `@faasjs/react` helpers in FaasJS projects.
 
 ## Applicable Scenarios
 
-- Creating new React pages, components, or hooks
+- Creating new React feature UI, components, or hooks
 - Reviewing hook usage and dependency handling
 - Deciding whether state should be derived, memoized, or synced
 - Handling object, array, or function type dependencies

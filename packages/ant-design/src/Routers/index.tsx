@@ -63,7 +63,7 @@ export interface RoutesProps {
  *         routes={[
  *           {
  *             path: '/',
- *             page: lazy(() => import('./pages/home')),
+ *             page: lazy(() => import('./features/home')),
  *           },
  *         ]}
  *       />

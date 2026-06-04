@@ -60,7 +60,7 @@ Use this guide when writing or reviewing tests in FaasJS projects.
 
 - Do not collect all package tests in a catch-all `src/__tests__` directory, including feature-named subfolders inside that centralized directory.
 - Split code and tests by project purpose, feature, or slice so API, UI, job, helper, and integration tests stay under the feature folder that owns the behavior.
-- Put tests in the owning folder's `__tests__`, such as `src/pages/users/api/__tests__/list.test.ts` for `list.api.ts` or `src/jobs/users/__tests__/cleanup.test.ts` for `cleanup.job.ts`.
+- Put tests in the owning folder's `__tests__`, such as `src/features/users/api/__tests__/list.test.ts` for `list.api.ts` or `src/features/users/jobs/__tests__/cleanup.test.ts` for `cleanup.job.ts`.
 - When the protected business code would otherwise be a single file, turn it into a folder with `index.ts` or `index.tsx` and keep the test under that folder's `__tests__`, for example `src/useBilling/index.ts` and `src/useBilling/__tests__/useBilling.test.ts`.
 
 ## Review Checklist

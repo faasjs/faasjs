@@ -1,35 +1,10 @@
-declare module '@faasjs/types' {
-  interface FaasActions {
-    '/pages/home/api/users/list': {
-      Params: { limit: number }
-      Data: { total?: number; rows?: { id: number; name: string }[] }
-    }
-    '/pages/home/api/users/create': {
-      Params: { name?: string | undefined }
-      Data: { message?: string; total?: number; user?: { id: number; name: string } }
-    }
-    '/pages/home/api/users/update': {
-      Params: { id: number; name: string }
-      Data: { message?: string; user?: { id: number; name: string } }
-    }
-    '/pages/home/api/users/detail': {
-      Params: { id: number }
-      Data: { user?: { id: number; name: string } }
-    }
-    '/pages/home/api/auth/me': {
-      Params: Record<string, never>
-      Data: { current_user?: { id: number; name: string; role: string } }
-    }
-  }
-}
-
 import { faas, useApp } from '@faasjs/ant-design'
 import { useFaas } from '@faasjs/react'
 import { toErrorMessage } from '@faasjs/utils'
 import { Button, Card, Input, Space, Table, Typography } from 'antd'
 import { useState } from 'react'
 
-export default function HomePage() {
+export default function UsersPage() {
   const app = useApp()
   const [name, setName] = useState('FaasJS')
   const [messageText, setMessageText] = useState('Create your first user through the FaasJS API')
@@ -38,7 +13,7 @@ export default function HomePage() {
     data: listData,
     loading: listLoading,
     reload,
-  } = useFaas('/pages/home/api/users/list', { limit: 10 })
+  } = useFaas('features/users/api/list', { limit: 10 })
 
   const rows = listData?.rows || []
 
@@ -46,7 +21,7 @@ export default function HomePage() {
   const callApi = async () => {
     setCreating(true)
     try {
-      const response = await faas('/pages/home/api/users/create', {
+      const response = await faas('features/users/api/create', {
         name: name.trim() || undefined,
       })
       const result = response.data
@@ -75,7 +50,7 @@ export default function HomePage() {
     setAuthLoading(true)
     try {
       const response = await faas(
-        '/pages/home/api/auth/me',
+        'features/auth/api/me',
         {},
         {
           headers: { authorization: 'Bearer demo-admin' },
@@ -137,7 +112,7 @@ export default function HomePage() {
               Load users slice
             </Button>
             <Button type="primary" loading={creating} onClick={callApi}>
-              Create /pages/home/api/users/create
+              Create features/users/api/create
             </Button>
             <Button loading={authLoading} onClick={callAuthDemo}>
               Call auth plugin demo

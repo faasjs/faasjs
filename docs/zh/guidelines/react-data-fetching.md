@@ -29,7 +29,7 @@
 import { useFaas } from '@faasjs/react'
 
 export function Profile(props: { id: number }) {
-  const { data, error, loading, reload } = useFaas('/pages/users/detail', { id })
+  const { data, error, loading, reload } = useFaas('features/users/api/detail', { id })
 
   if (loading) return <div>Loading...</div>
   if (error)
@@ -57,7 +57,7 @@ export function UserSearch() {
   const [keyword, setKeyword] = React.useState('')
 
   const { data, error, loading, reload } = useFaas(
-    '/pages/users/search',
+    'features/users/api/search',
     { keyword },
     {
       skip: (params) => !params.keyword.trim(),
@@ -98,7 +98,7 @@ import { useFaas } from '@faasjs/react'
 
 export function PendingOrdersTable() {
   const { data, error, loading, refreshing } = useFaas(
-    '/pages/orders/list',
+    'features/orders/api/list',
     { status: 'pending' },
     {
       polling: 5000,
@@ -135,7 +135,9 @@ export function PendingOrdersTable() {
 import { useFaasStream } from '@faasjs/react'
 
 export function Chat() {
-  const { data, error, loading, reload } = useFaasStream('/pages/chat/stream', { prompt: 'hello' })
+  const { data, error, loading, reload } = useFaasStream('features/chat/api/stream', {
+    prompt: 'hello',
+  })
 
   if (loading) return <div>Connecting...</div>
   if (error) return <button onClick={reload}>Retry</button>
@@ -162,7 +164,7 @@ export function UserForm() {
     setSaving(true)
     setSubmitError(null)
     try {
-      await faas('/pages/users/create', values)
+      await faas('features/users/api/create', values)
       // 关闭浮层、刷新列表、显示成功信息
     } catch (error: any) {
       setSubmitError(error.message)
@@ -200,7 +202,7 @@ import { FaasDataWrapper } from '@faasjs/react'
 export function UserSummary(props: { id: number }) {
   return (
     <FaasDataWrapper
-      action="/pages/users/detail"
+      action="features/users/api/detail"
       params={{ id: props.id }}
       fallback={<div>Loading...</div>}
       render={(data) => <div>{data?.name}</div>}
@@ -220,7 +222,7 @@ function UserContent({ data }: { data: any }) {
 
 export function UserDetail(props: { id: number }) {
   return (
-    <FaasDataWrapper action="/pages/users/detail" params={{ id: props.id }}>
+    <FaasDataWrapper action="features/users/api/detail" params={{ id: props.id }}>
       <UserContent />
     </FaasDataWrapper>
   )
@@ -233,7 +235,7 @@ export function UserDetail(props: { id: number }) {
 import { withFaasData } from '@faasjs/react'
 
 const UserDetail = withFaasData({
-  action: '/pages/users/detail',
+  action: 'features/users/api/detail',
 })(({ data }) => <div>{data?.name}</div>)
 ```
 
@@ -277,7 +279,7 @@ await otherClient('/external/endpoint', { key: 'value' })
 ## 审查清单
 
 - 每个请求选择最匹配的 API：`useFaas`、`useFaasStream`、`faas`、包装器或 HOC
-- 操作路径遵循文件约定并使用 `/pages/...` 映射
+- 操作路径遵循文件约定并使用 `/features/...` 映射
 - 显式处理加载、错误、重试和非阻塞刷新状态
 - 内置生命周期选项替代自定义副作用、定时器和临时的防抖逻辑
 - 仅当结构上有益时才使用包装器风格组合

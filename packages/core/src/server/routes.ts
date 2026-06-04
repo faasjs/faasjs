@@ -11,7 +11,7 @@ import { sep } from 'node:path'
  * @returns {string[]} Candidate route files in the order the server checks them.
  * @example
  * ```ts
- * const files = getRouteFiles('/app/src', '/app/src/pages/users/profile')
+ * const files = getRouteFiles('/app/src', '/app/src/features/users/profile')
  * ```
  */
 export function getRouteFiles(root: string, path: string): string[] {

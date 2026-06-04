@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 
 import api from '../me.api'
 
-describe('pages/home/api/auth/me', () => {
+describe('features/auth/api/me', () => {
   it('returns the current user from the auth plugin demo', async () => {
     const handler = testApi(api)
 

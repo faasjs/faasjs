@@ -29,7 +29,7 @@ Use for FaasJS requests in React: `useFaas`, `useFaasStream`, `faas`, `FaasDataW
 import { useFaas } from '@faasjs/react'
 
 export function Profile(props: { id: number }) {
-  const { data, error, loading, reload } = useFaas('/pages/users/detail', { id })
+  const { data, error, loading, reload } = useFaas('features/users/api/detail', { id })
 
   if (loading) return <div>Loading...</div>
   if (error)
@@ -57,7 +57,7 @@ export function UserSearch() {
   const [keyword, setKeyword] = React.useState('')
 
   const { data, error, loading, reload } = useFaas(
-    '/pages/users/search',
+    'features/users/api/search',
     { keyword },
     {
       skip: (params) => !params.keyword.trim(),
@@ -98,7 +98,7 @@ import { useFaas } from '@faasjs/react'
 
 export function PendingOrdersTable() {
   const { data, error, loading, refreshing } = useFaas(
-    '/pages/orders/list',
+    'features/orders/api/list',
     { status: 'pending' },
     {
       polling: 5000,
@@ -135,7 +135,9 @@ export function PendingOrdersTable() {
 import { useFaasStream } from '@faasjs/react'
 
 export function Chat() {
-  const { data, error, loading, reload } = useFaasStream('/pages/chat/stream', { prompt: 'hello' })
+  const { data, error, loading, reload } = useFaasStream('features/chat/api/stream', {
+    prompt: 'hello',
+  })
 
   if (loading) return <div>Connecting...</div>
   if (error) return <button onClick={reload}>Retry</button>
@@ -162,7 +164,7 @@ export function UserForm() {
     setSaving(true)
     setSubmitError(null)
     try {
-      await faas('/pages/users/create', values)
+      await faas('features/users/api/create', values)
       // Close overlay, refresh list, show success
     } catch (error: any) {
       setSubmitError(error.message)
@@ -200,7 +202,7 @@ import { FaasDataWrapper } from '@faasjs/react'
 export function UserSummary(props: { id: number }) {
   return (
     <FaasDataWrapper
-      action="/pages/users/detail"
+      action="features/users/api/detail"
       params={{ id: props.id }}
       fallback={<div>Loading...</div>}
       render={(data) => <div>{data?.name}</div>}
@@ -220,7 +222,7 @@ function UserContent({ data }: { data: any }) {
 
 export function UserDetail(props: { id: number }) {
   return (
-    <FaasDataWrapper action="/pages/users/detail" params={{ id: props.id }}>
+    <FaasDataWrapper action="features/users/api/detail" params={{ id: props.id }}>
       <UserContent />
     </FaasDataWrapper>
   )
@@ -233,7 +235,7 @@ export function UserDetail(props: { id: number }) {
 import { withFaasData } from '@faasjs/react'
 
 const UserDetail = withFaasData({
-  action: '/pages/users/detail',
+  action: 'features/users/api/detail',
 })(({ data }) => <div>{data?.name}</div>)
 ```
 
@@ -284,7 +286,7 @@ await otherClient('/external/endpoint', { key: 'value' })
 ## Review Checklist
 
 - each request chooses the smallest fitting API: `useFaas`, `useFaasStream`, `faas`, wrapper, or HOC
-- action paths follow file-conventions and use `/pages/...` mapping
+- action paths follow file-conventions and use `/features/...` mapping
 - loading, error, retry, and non-blocking refresh states are explicit
 - built-in lifecycle options replace custom effects, intervals, and ad hoc debounce logic
 - wrapper-style composition is used only when structurally beneficial

@@ -1,7 +1,7 @@
 import { defineApi, HttpError } from '@faasjs/core'
 import { z } from '@faasjs/utils'
 
-import { AuthPlugin } from '../../../../plugins/auth'
+import { AuthPlugin } from '../../../plugins/auth'
 
 const api = defineApi({
   schema: z.object({}).strict(),

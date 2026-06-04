@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 
 import api from '../create.api'
 
-describe('pages/home/api/users/create', () => {
+describe('features/users/api/create', () => {
   it('creates a user with the shared pg bootstrap', async () => {
     const handler = testApi(api)
 

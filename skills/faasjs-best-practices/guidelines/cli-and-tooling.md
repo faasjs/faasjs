@@ -50,7 +50,7 @@ Common combinations:
 vp check --fix && vp test
 
 # Run a specific test file
-vp test src/pages/users/api/__tests__/list.test.ts
+vp test src/features/users/api/__tests__/list.test.ts
 
 # Run tests matching a pattern with watch
 vp test list --watch

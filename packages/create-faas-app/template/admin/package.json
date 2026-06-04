@@ -7,6 +7,7 @@
     "dev": "vp dev",
     "build": "vp build",
     "start": "node --import @faasjs/node-utils/register-hooks server.ts",
+    "types": "faas types",
     "test": "vp test",
     "db:new": "faasjs-pg new",
     "db:status": "faasjs-pg status",

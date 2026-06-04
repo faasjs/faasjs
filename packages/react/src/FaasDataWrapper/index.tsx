@@ -140,7 +140,7 @@ const fixedForwardRef = forwardRef as FixedForwardRef
  * export function UserProfile(props: { id: number }) {
  *   return (
  *     <FaasDataWrapper<User>
- *       action="/pages/users/get"
+ *       action="features/users/api/get"
  *       params={{ id: props.id }}
  *       fallback={<div>Loading user...</div>}
  *       render={({ data, error, reload }) => {
@@ -165,7 +165,7 @@ const fixedForwardRef = forwardRef as FixedForwardRef
  * export function UserProfileWithChildren(props: { id: number }) {
  *   return (
  *     <FaasDataWrapper<User>
- *       action="/pages/users/get"
+ *       action="features/users/api/get"
  *       params={{ id: props.id }}
  *       fallback={<div>Loading user...</div>}
  *     >
@@ -259,7 +259,7 @@ Object.assign(FaasDataWrapper, {
  *
  *     return <div>{data.name}</div>
  *   },
- *   { action: '/pages/users/get', params: { id: 1 } },
+ *   { action: 'features/users/api/get', params: { id: 1 } },
  * )
  * ```
  */

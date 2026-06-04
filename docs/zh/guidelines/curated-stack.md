@@ -30,7 +30,7 @@ FaasJS 前端应用使用 React。
 
 ## Ant Design 是业务 UI 路径
 
-使用 `@faasjs/ant-design` 满足常见业务 UI 需求，如页面、路由、表单、表格、描述、加载状态和反馈。
+使用 `@faasjs/ant-design` 满足常见业务 UI 需求，如功能 UI、路由、表单、表格、描述、加载状态和反馈。
 
 当 FaasJS Ant Design 封装能覆盖场景时，优先使用它们，而不是围绕原始 Ant Design 组件手写胶水代码。这使业务 UI 代码可预测，并且更易于代理生成和审查。
 

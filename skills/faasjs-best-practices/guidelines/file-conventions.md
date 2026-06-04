@@ -1,26 +1,27 @@
 # File Conventions
 
-Use this guide when creating or reviewing frontend pages, React components, hooks, FaasJS backend route files, or background job files.
+Use this guide when creating or reviewing feature folders, React components, hooks, FaasJS backend route files, background job files, or feature-owned CLI tools.
 
 > **See also**: [Naming Convention Guide](./naming-convention.md) for identifier and file naming rules (camelCase, PascalCase, kebab-case, abbreviations, etc.). This guide covers _where_ files go; naming covers _what_ they are called.
 
 ## Applicable Scenarios
 
-- Creating new pages, components, or hooks
-- Refactoring frontend directory structure
-- Adding a new page or feature directory under `pages/`
+- Creating new features, feature UI, components, or hooks
+- Refactoring application directory structure
+- Adding a new feature directory under `features/`
 - Creating or moving `.api.ts` backend files
 - Creating or moving `.job.ts` background job files
+- Creating or moving feature-owned CLI or tooling files
 - Reviewing naming and placement decisions (see also [Naming Convention Guide](./naming-convention.md))
 
 ## Default Workflow
 
-1. Put frontend pages under `pages/`.
-2. Use `index.tsx` for the main page entry when it keeps the folder easy to scan.
-3. Keep one-off page-local logic inline until extraction is justified.
+1. Put business feature code under `src/features/<feature>/`.
+2. Use `index.tsx` for a feature's main React entry when the feature exposes UI.
+3. Keep one-off feature-local logic inline until extraction is justified.
 4. When a component or hook earns its own abstraction, give it its own file.
-5. Group frontend code by page or feature.
-6. Place components in `components/`, hooks in `hooks/`, backend route handlers in `api/`, and background jobs in `jobs/`.
+5. Group UI, APIs, jobs, CLI tools, schemas, and tests by feature.
+6. Place components in `components/`, hooks in `hooks/`, backend route handlers in `api/`, background jobs in `jobs/`, and CLI tools in `cli/` inside the owning feature.
 7. Place backend route files according to the routing-mapping specification and job files according to the jobs guide.
 
 ## Rules
@@ -32,7 +33,7 @@ Use this guide when creating or reviewing frontend pages, React components, hook
 - When a React component is extracted, it SHOULD live in its own file.
 - The file name SHOULD exactly match the component name.
 - Preserve the component's case in the file name.
-- Page files are the exception: page entry files SHOULD use `index.tsx` or `default.tsx`.
+- Feature UI entry files are the exception: use `index.tsx` or `default.tsx` when the file represents the feature entry.
 
 Examples:
 
@@ -52,28 +53,27 @@ Examples:
 - `useUser.ts` -> `export function useUser() {}`
 - `useOrderFilters.ts` -> `export function useOrderFilters() {}`
 
-### 3. Organize frontend files by page or feature
+### 3. Organize files by feature
 
-- Frontend pages SHOULD be placed under `pages/`.
-- Each page or feature SHOULD use its own directory under `pages/`.
-- Main page entry files SHOULD use `index.tsx` when the folder maps cleanly to one feature page.
-- Page entry files SHOULD `export default` the page component.
+- Business features SHOULD be placed under `src/features/<feature>/`.
+- Each feature SHOULD own its local UI, APIs, hooks, jobs, CLI tools, schemas, and tests.
+- Feature UI entry files SHOULD use `index.tsx` when the folder maps cleanly to one feature surface.
+- Feature UI entry files SHOULD `export default` the entry component.
 - Frontend routing SHOULD be defined explicitly in app code or the chosen UI framework.
 - A directory named `api/` is reserved for backend handlers.
 - Components MUST be placed under `components/`.
 - Hooks MUST be placed under `hooks/`.
-- Backend handlers for that page or feature SHOULD be placed under `api/` when they are feature-local.
-- Only page entry files MAY be placed directly in the outer page or feature directory.
-- Shared code that belongs to the same page or feature SHOULD stay inside that page or feature scope instead of being flattened at the root.
-- If a page or feature file grows too large to scan comfortably, split it at a real component, hook, or API boundary instead of creating placeholder helper files.
+- Backend handlers for that feature SHOULD be placed under the feature's `api/` directory.
+- Feature-owned background jobs SHOULD be placed under the feature's `jobs/` directory.
+- Feature-owned CLI tools SHOULD be placed under the feature's `cli/` directory.
+- Only feature entry files MAY be placed directly in the outer feature directory.
+- Shared code that belongs to the same feature SHOULD stay inside that feature scope instead of being flattened at the root.
+- If a feature file grows too large to scan comfortably, split it at a real component, hook, API, job, CLI, or service boundary instead of creating placeholder helper files.
 
 Prefer this:
 
 ```text
-src/pages/
-  index.tsx
-  docs/
-    index.tsx
+src/features/
   feature-name/
     index.tsx
     components/
@@ -84,12 +84,16 @@ src/pages/
       useFeatureNameFilters.ts
     api/
       list.api.ts
+    jobs/
+      sync.job.ts
+    cli/
+      import.ts
 ```
 
 Avoid this:
 
 ```text
-src/pages/
+src/features/
   feature-name/
     FeatureNamePage.tsx
     FeatureNameHeader.tsx
@@ -98,7 +102,7 @@ src/pages/
     useFeatureNameFilters.ts
 ```
 
-Page entry example:
+Feature UI entry example:
 
 ```tsx
 export default function FeatureNamePage() {
@@ -106,42 +110,43 @@ export default function FeatureNamePage() {
 }
 ```
 
-Page layout example:
+Feature layout example:
 
 ```text
-src/pages/index.tsx
-src/pages/feature-name/index.tsx
-src/pages/docs/index.tsx
+src/features/feature-name/index.tsx
+src/features/feature-name/components/FeatureNameTable.tsx
+src/features/feature-name/api/list.api.ts
 ```
 
-Frontend page organization under `src/pages` is a project convention, not an implicit FaasJS router. Define browser routes explicitly in your app or UI framework. Backend API routing is separate and still follows Zero-Mapping from the full path under `src/`.
+Feature organization under `src/features` is a project convention, not an implicit browser router. Define browser routes explicitly in your app or UI framework. Backend API routing is separate and still follows Zero-Mapping from the full path under `src/`.
 
 ### 4. Follow routing-mapping for backend files
 
 - Backend route files MUST follow the [routing-mapping specification](./routing-mapping.md).
 - API entry files MUST end with `.api.ts`.
-- API files SHOULD be placed under the page or feature's `api/` directory.
+- API files SHOULD be placed under the owning feature's `api/` directory.
 - Route paths and file paths MUST keep direct Zero-Mapping alignment.
 - Use `index.api.ts` and `default.api.ts` only for the meanings defined by the spec.
 
 Prefer this:
 
 ```text
-src/pages/feature-name/api/list.api.ts
-src/pages/feature-name/api/index.api.ts
-src/pages/feature-name/api/default.api.ts
+src/features/feature-name/api/list.api.ts
+src/features/feature-name/api/index.api.ts
+src/features/feature-name/api/default.api.ts
 ```
 
 This maps directly to:
 
-- `/pages/feature-name/api/list`
-- `/pages/feature-name/api`
-- `/pages/feature-name/api/*` fallback
+- `/features/feature-name/api/list`
+- `/features/feature-name/api`
+- `/features/feature-name/api/*` fallback
 
-### 5. Place background jobs under `jobs/`
+### 5. Place background jobs under feature `jobs/`
 
 - Job entry files MUST end with `.job.ts`.
-- Job files SHOULD live under `src/jobs/` unless a project has an explicit worker root.
+- Feature-owned job files SHOULD live under `src/features/<feature>/jobs/`.
+- Cross-cutting or platform jobs MAY live under `src/jobs/`.
 - Job files MUST default-export `defineJob(...)`.
 - `index.job.ts` acts as the directory entry for a job path.
 - Moving or renaming a `.job.ts` file changes the `enqueueJob()` path, just like moving a `.api.ts` file changes its route.
@@ -149,15 +154,15 @@ This maps directly to:
 Prefer this:
 
 ```text
-src/jobs/users/cleanup.job.ts
-src/jobs/emails/send.job.ts
+src/features/users/jobs/cleanup.job.ts
+src/features/emails/jobs/send.job.ts
 src/jobs/reports/index.job.ts
 ```
 
 This maps directly to:
 
-- `jobs/users/cleanup`
-- `jobs/emails/send`
+- `features/users/jobs/cleanup`
+- `features/emails/jobs/send`
 - `jobs/reports`
 
 ### 6. Keep imports readable
@@ -211,14 +216,15 @@ src/feature/
 - extracted hooks have their own file
 - component file names match component names
 - hook file names match hook names
-- main page entry files use `index.tsx` when that keeps the folder easy to scan
-- page entry files default-export the page component
-- frontend pages live under `pages/`
+- main feature UI entry files use `index.tsx` when that keeps the folder easy to scan
+- feature UI entry files default-export the entry component
+- business feature code lives under `src/features/<feature>/`
 - frontend components live in `components/`
 - frontend hooks live in `hooks/`
 - frontend backend handlers live in `api/`
-- background job files live in `jobs/` and end with `.job.ts`
-- only page entry files stay at the outer page or feature level
+- feature-owned background job files live in `jobs/` and end with `.job.ts`
+- feature-owned CLI tools live in `cli/`
+- only feature entry files stay at the outer feature level
 - backend `.api.ts` files follow routing-mapping
 - imports follow aliases already defined in `tsconfig.json` when available
 - nearby imports stay relative instead of forcing alias usage everywhere

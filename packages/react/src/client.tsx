@@ -172,7 +172,7 @@ export function FaasReactClient(
  *
  * const client = getClient('https://service-b.example.com/api/')
  *
- * await client.faas('/pages/posts/get', { id: 1 })
+ * await client.faas('features/posts/api/get', { id: 1 })
  * ```
  */
 export function getClient(host?: string): FaasReactClientInstance {

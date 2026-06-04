@@ -5,7 +5,7 @@ import { OxfmtConfig, OxlintConfig, ViteConfig } from '../..'
 describe('configs exports', () => {
   it('should export the shared oxfmt config', () => {
     expect(OxfmtConfig).toEqual({
-      ignorePatterns: ['**/dist/**', 'node_modules/**'],
+      ignorePatterns: ['**/dist/**', '**/.faasjs/**', 'node_modules/**'],
       semi: false,
       singleQuote: true,
       sortImports: {},
@@ -14,7 +14,7 @@ describe('configs exports', () => {
 
   it('should export the shared oxlint config', () => {
     expect(OxlintConfig).toEqual({
-      ignorePatterns: ['**/dist/**', 'node_modules/**'],
+      ignorePatterns: ['**/dist/**', '**/.faasjs/**', 'node_modules/**'],
       plugins: [
         'typescript',
         'react',

@@ -61,6 +61,6 @@ const MyComponent = withFaasData(
 
     return <div>{data.name}</div>
   },
-  { action: '/pages/users/get', params: { id: 1 } },
+  { action: 'features/users/api/get', params: { id: 1 } },
 )
 ```

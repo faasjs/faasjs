@@ -20,16 +20,17 @@ Quick reference for AI agents. See linked guides for details when a rule does no
 
 ### File Layout
 
-| Layer      | Pattern                                 | Example                      |
-| ---------- | --------------------------------------- | ---------------------------- |
-| Page entry | `pages/<feature>/index.tsx`             | `pages/users/index.tsx`      |
-| Component  | `pages/<feature>/components/<Name>.tsx` | `components/UserTable.tsx`   |
-| Hook       | `pages/<feature>/hooks/use<Name>.ts`    | `hooks/useUserItems.ts`      |
-| API        | `pages/<feature>/api/<action>.api.ts`   | `api/list.api.ts`            |
-| API test   | `…/api/__tests__/<action>.test.ts`      | `__tests__/list.test.ts`     |
-| Table type | `db/tables/<table_name>.ts`             | `db/tables/users.ts`         |
-| Migration  | `db/migrations/<timestamp>_<name>.ts`   | `…/20250101_create_users.ts` |
-| Job        | `jobs/<path>.job.ts`                    | `jobs/emails/send.job.ts`    |
+| Layer      | Pattern                                    | Example                      |
+| ---------- | ------------------------------------------ | ---------------------------- |
+| Feature UI | `features/<feature>/index.tsx`             | `features/users/index.tsx`   |
+| Component  | `features/<feature>/components/<Name>.tsx` | `components/UserTable.tsx`   |
+| Hook       | `features/<feature>/hooks/use<Name>.ts`    | `hooks/useUserItems.ts`      |
+| API        | `features/<feature>/api/<action>.api.ts`   | `api/list.api.ts`            |
+| API test   | `…/api/__tests__/<action>.test.ts`         | `__tests__/list.test.ts`     |
+| Job        | `features/<feature>/jobs/<name>.job.ts`    | `jobs/sync.job.ts`           |
+| CLI        | `features/<feature>/cli/<command>.ts`      | `cli/import.ts`              |
+| Table type | `db/tables/<table_name>.ts`                | `db/tables/users.ts`         |
+| Migration  | `db/migrations/<timestamp>_<name>.ts`      | `…/20250101_create_users.ts` |
 
 Tests live in `__tests__/` inside the feature folder they protect. Fixtures/mocks go inside `__tests__/` too, not as siblings.
 
@@ -110,7 +111,7 @@ Start here for new projects or onboarding.
 
 Read once, apply everywhere.
 
-- [File Conventions](./guidelines/file-conventions.md): Where to place pages, components, hooks, and `.api.ts` files, plus when separate files are worth creating.
+- [File Conventions](./guidelines/file-conventions.md): Where to place feature UI, components, hooks, and `.api.ts` files, plus when separate files are worth creating.
 - [Naming Convention](./guidelines/naming-convention.md): Identifier naming (camelCase/PascalCase), file/directory naming, abbreviation rules, and cross-package consistency.
 - [Code Comments Guide](./guidelines/code-comments.md): Package public JSDoc expectations, caller contract conventions, and when shared app exports need docs.
 

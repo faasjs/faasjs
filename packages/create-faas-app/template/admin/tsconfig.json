@@ -1,4 +1,4 @@
 {
   "extends": "@faasjs/types/tsconfig/build.json",
-  "include": ["src", "vite.config.ts", "server.ts"]
+  "include": ["src", "src/.faasjs/types.d.ts", "vite.config.ts", "server.ts"]
 }

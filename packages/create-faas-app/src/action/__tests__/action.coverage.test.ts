@@ -52,7 +52,11 @@ describe('action coverage', () => {
 
     expect(promptMock).toHaveBeenCalledTimes(1)
     expect(existsSync(join(tempDir, 'prompted-app'))).toBe(true)
-    expect(execs).toEqual(['cd prompted-app && npm install', 'cd prompted-app && npm run test'])
+    expect(execs).toEqual([
+      'cd prompted-app && npm install',
+      'cd prompted-app && npm run types',
+      'cd prompted-app && npm run test',
+    ])
   })
 
   it('should prompt again when the target folder already exists', async () => {

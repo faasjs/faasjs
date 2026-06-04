@@ -38,11 +38,11 @@ That means a feature is expected to land as a complete application slice:
 ```text
 src/db/migrations/20250101000000_create_users.ts
 src/db/tables/users.ts
-src/pages/users/index.tsx
-src/pages/users/api/list.api.ts
-src/pages/users/api/create.api.ts
-src/pages/users/api/__tests__/list.test.ts
-src/pages/users/api/__tests__/create.test.ts
+src/features/users/index.tsx
+src/features/users/api/list.api.ts
+src/features/users/api/create.api.ts
+src/features/users/api/__tests__/list.test.ts
+src/features/users/api/__tests__/create.test.ts
 ```
 
 This shape keeps product behavior easy for humans and AI coding agents to find, review, and change together.

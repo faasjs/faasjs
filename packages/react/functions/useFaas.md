@@ -51,7 +51,7 @@ Request state and helper methods described by [FaasDataInjection](../type-aliase
 import { useFaas } from '@faasjs/react'
 
 function Profile({ id }: { id: number }) {
-  const { data, error, loading, reload } = useFaas('/pages/users/get', { id })
+  const { data, error, loading, reload } = useFaas('features/users/api/get', { id })
 
   if (loading) return <div>Loading...</div>
 

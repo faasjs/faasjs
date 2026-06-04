@@ -1,6 +1,6 @@
 # CRUD Patterns Guide
 
-Use this guide when implementing or reviewing a standard CRUD feature — list, detail, create, update, delete — in a FaasJS application. It covers the full vertical slice from API endpoints to React pages.
+Use this guide when implementing or reviewing a standard CRUD feature — list, detail, create, update, delete — in a FaasJS application. It covers the full vertical slice from API endpoints to feature UI.
 
 Apply the [Application Slices Guide](./application-slices.md), [Ant Design Guide](./ant-design.md), [defineApi Guide](./define-api.md), and [React Data Fetching Guide](./react-data-fetching.md) for deeper rules. This guide focuses on composing those patterns into a complete CRUD cycle.
 
@@ -20,23 +20,23 @@ Apply the [Application Slices Guide](./application-slices.md), [Ant Design Guide
 
 ### API Endpoint Mapping
 
-| Action | API File            | Route                              | Method | Params              |
-| ------ | ------------------- | ---------------------------------- | ------ | ------------------- |
-| List   | `api/list.api.ts`   | `POST /pages/<feature>/api/list`   | post   | Filters, pagination |
-| Detail | `api/detail.api.ts` | `POST /pages/<feature>/api/detail` | post   | `{ id }`            |
-| Create | `api/create.api.ts` | `POST /pages/<feature>/api/create` | post   | Business fields     |
-| Update | `api/update.api.ts` | `POST /pages/<feature>/api/update` | post   | `{ id, ...fields }` |
-| Remove | `api/remove.api.ts` | `POST /pages/<feature>/api/remove` | post   | `{ id }`            |
+| Action | API File            | Route                                 | Method | Params              |
+| ------ | ------------------- | ------------------------------------- | ------ | ------------------- |
+| List   | `api/list.api.ts`   | `POST /features/<feature>/api/list`   | post   | Filters, pagination |
+| Detail | `api/detail.api.ts` | `POST /features/<feature>/api/detail` | post   | `{ id }`            |
+| Create | `api/create.api.ts` | `POST /features/<feature>/api/create` | post   | Business fields     |
+| Update | `api/update.api.ts` | `POST /features/<feature>/api/update` | post   | `{ id, ...fields }` |
+| Remove | `api/remove.api.ts` | `POST /features/<feature>/api/remove` | post   | `{ id }`            |
 
 ### File Naming Convention
 
-| Layer      | Convention                                | Example                                  |
-| ---------- | ----------------------------------------- | ---------------------------------------- |
-| Page entry | `pages/<feature>/index.tsx`               | `pages/users/index.tsx`                  |
-| Components | `pages/<feature>/components/*.tsx`        | `pages/users/components/UserTable.tsx`   |
-| Hooks      | `pages/<feature>/hooks/*.ts`              | `pages/users/hooks/useUserItems.ts`      |
-| APIs       | `pages/<feature>/api/*.api.ts`            | `pages/users/api/list.api.ts`            |
-| API tests  | `pages/<feature>/api/__tests__/*.test.ts` | `pages/users/api/__tests__/list.test.ts` |
+| Layer      | Convention                                   | Example                                     |
+| ---------- | -------------------------------------------- | ------------------------------------------- |
+| Feature UI | `features/<feature>/index.tsx`               | `features/users/index.tsx`                  |
+| Components | `features/<feature>/components/*.tsx`        | `features/users/components/UserTable.tsx`   |
+| Hooks      | `features/<feature>/hooks/*.ts`              | `features/users/hooks/useUserItems.ts`      |
+| APIs       | `features/<feature>/api/*.api.ts`            | `features/users/api/list.api.ts`            |
+| API tests  | `features/<feature>/api/__tests__/*.test.ts` | `features/users/api/__tests__/list.test.ts` |
 
 ## Shared Items Pattern
 
@@ -154,7 +154,7 @@ export default function UsersPage() {
           },
         ]}
         faasData={{
-          action: '/pages/users/api/list',
+          action: 'features/users/api/list',
           params: searchParams,
         }}
       />
@@ -215,7 +215,7 @@ export function UserDetail(props: { id: number }) {
     <Description<UserField>
       items={items}
       faasData={{
-        action: '/pages/users/api/detail',
+        action: 'features/users/api/detail',
         params: { id: props.id },
       }}
     />
@@ -275,7 +275,7 @@ export function UserForm(props: { onSuccess?: () => void }) {
     <Form
       items={items}
       faas={{
-        action: '/pages/users/api/create',
+        action: 'features/users/api/create',
         onSuccess: () => {
           message.success('User created')
           setDrawerProps({ open: false })
@@ -351,7 +351,7 @@ export function UserForm(props: {
       initialValues={props.initialValues}
       items={items}
       faas={{
-        action: props.id ? '/pages/users/api/update' : '/pages/users/api/create',
+        action: props.id ? 'features/users/api/update' : 'features/users/api/create',
         params: (values) => ({ ...values, ...(props.id ? { id: props.id } : {}) }),
         onSuccess: () => {
           message.success(props.id ? 'User updated' : 'User created')
@@ -420,7 +420,7 @@ export function UserActions(props: { row: { id: number }; onSuccess?: () => void
       children: 'Are you sure you want to delete this user? This action cannot be undone.',
       onOk: async () => {
         try {
-          await faas('/pages/users/api/remove', { id: props.row.id })
+          await faas('features/users/api/remove', { id: props.row.id })
           message.success('User deleted')
           setModalProps({ open: false })
           props.onSuccess?.()
@@ -493,8 +493,8 @@ export default defineApi({
 ### Directory Structure
 
 ```
-src/pages/users/
-  index.tsx                          # Page entry: composes UserTable, create button
+src/features/users/
+  index.tsx                          # Feature UI entry: composes UserTable, create button
   components/
     UserTable.tsx                    # Table with faasData, search, action column
     UserForm.tsx                     # Form for create/update (id prop switches mode)
@@ -503,11 +503,11 @@ src/pages/users/
   hooks/
     useUserItems.ts                  # Shared items metadata
   api/
-    list.api.ts                      # POST /pages/users/api/list
-    detail.api.ts                    # POST /pages/users/api/detail
-    create.api.ts                    # POST /pages/users/api/create
-    update.api.ts                    # POST /pages/users/api/update
-    remove.api.ts                    # POST /pages/users/api/remove
+    list.api.ts                      # POST /features/users/api/list
+    detail.api.ts                    # POST /features/users/api/detail
+    create.api.ts                    # POST /features/users/api/create
+    update.api.ts                    # POST /features/users/api/update
+    remove.api.ts                    # POST /features/users/api/remove
     __tests__/
       list.test.ts                   # testApi for list
       detail.test.ts                 # testApi for detail
@@ -518,16 +518,16 @@ src/pages/users/
 
 ### File Count & Responsibility
 
-| File              | Lines (approx) | Responsibility                            |
-| ----------------- | -------------- | ----------------------------------------- |
-| `index.tsx`       | 30-60          | Page entry, layout, compose components    |
-| `UserTable.tsx`   | 40-80          | Table, search, filter, action column      |
-| `UserForm.tsx`    | 30-60          | Form items, faas config, feedback         |
-| `UserDetail.tsx`  | 15-30          | Description with faasData                 |
-| `UserActions.tsx` | 40-70          | Detail/Edit/Delete buttons, modal confirm |
-| `useUserItems.ts` | 30-60          | Shared items metadata                     |
-| Each `.api.ts`    | 15-40          | Schema, handler, DB query                 |
-| Each API test     | 20-50          | testApi, success/error paths              |
+| File              | Lines (approx) | Responsibility                               |
+| ----------------- | -------------- | -------------------------------------------- |
+| `index.tsx`       | 30-60          | Feature UI entry, layout, compose components |
+| `UserTable.tsx`   | 40-80          | Table, search, filter, action column         |
+| `UserForm.tsx`    | 30-60          | Form items, faas config, feedback            |
+| `UserDetail.tsx`  | 15-30          | Description with faasData                    |
+| `UserActions.tsx` | 40-70          | Detail/Edit/Delete buttons, modal confirm    |
+| `useUserItems.ts` | 30-60          | Shared items metadata                        |
+| Each `.api.ts`    | 15-40          | Schema, handler, DB query                    |
+| Each API test     | 20-50          | testApi, success/error paths                 |
 
 ## Testing CRUD Endpoints
 
@@ -667,7 +667,7 @@ The following patterns help AI coding agents generate complete CRUD features 2-3
 ### 1. Start with items
 
 ```text
-Prompt: "Create a `useProductItems` hook with fields: name (required), price (required, positive number), category (select with 3 options), description (textarea), status (select). Store in pages/products/hooks/useProductItems.ts"
+Prompt: "Create a `useProductItems` hook with fields: name (required), price (required, positive number), category (select with 3 options), description (textarea), status (select). Store in features/products/hooks/useProductItems.ts"
 ```
 
 Items are the foundation. Once items exist, the agent can derive `Table`, `Form`, and `Description` consistently.
@@ -675,7 +675,7 @@ Items are the foundation. Once items exist, the agent can derive `Table`, `Form`
 ### 2. Generate five APIs in one pass
 
 ```text
-Prompt: "Create 5 API files for products CRUD under pages/products/api/: list, detail, create, update, remove. Follow the defineApi guide. Each should have a Zod schema and handler."
+Prompt: "Create 5 API files for products CRUD under features/products/api/: list, detail, create, update, remove. Follow the defineApi guide. Each should have a Zod schema and handler."
 ```
 
 Five small `.api.ts` files are faster to generate together than one at a time, and the agent can keep schemas consistent.
@@ -687,15 +687,15 @@ The `UserForm` pattern with `id`-based mode switching (create vs update) is reus
 ### 4. Generate list + drawer wiring in one go
 
 ```text
-Prompt: "Create pages/products/index.tsx with a Table.faasData list, search button, create button that opens a drawer with ProductForm, and an actions column with detail/edit/delete. Use the shared items from useProductItems."
+Prompt: "Create features/products/index.tsx with a Table.faasData list, search button, create button that opens a drawer with ProductForm, and an actions column with detail/edit/delete. Use the shared items from useProductItems."
 ```
 
-One prompt covers the page entry, table, drawer wiring, and action column.
+One prompt covers the feature entry, table, drawer wiring, and action column.
 
 ### 5. Batch API tests
 
 ```text
-Prompt: "Create test files for all 5 product APIs under pages/products/api/__tests__/. Each test should cover success and 400/404/409 paths where applicable."
+Prompt: "Create test files for all 5 product APIs under features/products/api/__tests__/. Each test should cover success and 400/404/409 paths where applicable."
 ```
 
 One prompt generates all tests with a consistent pattern.
@@ -705,7 +705,7 @@ One prompt generates all tests with a consistent pattern.
 When starting a new CRUD feature, create the full directory structure first:
 
 ```text
-Prompt: "Create a full CRUD slice for orders under pages/orders/. Include: index.tsx, components/ (OrderTable, OrderForm, OrderDetail, OrderActions), hooks/useOrderItems, api/ (list, detail, create, update, remove), and api/__tests__/ for all 5 endpoints."
+Prompt: "Create a full CRUD slice for orders under features/orders/. Include: index.tsx, components/ (OrderTable, OrderForm, OrderDetail, OrderActions), hooks/useOrderItems, api/ (list, detail, create, update, remove), and api/__tests__/ for all 5 endpoints."
 ```
 
 ## Rules
@@ -746,4 +746,4 @@ Prompt: "Create a full CRUD slice for orders under pages/orders/. Include: index
 - [ ] Items are wrapped in `useConstant`
 - [ ] Action columns are added inline on the `Table` rather than in shared items
 - [ ] Drawers are used for create/edit/detail; modals for delete confirmation
-- [ ] File structure follows `pages/<feature>/{components/,hooks/,api/}` conventions
+- [ ] File structure follows `features/<feature>/{components/,hooks/,api/}` conventions

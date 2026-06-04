@@ -30,7 +30,7 @@ Do not add another frontend framework as an official equal path unless it clearl
 
 ## Ant Design Is The Business UI Path
 
-Use `@faasjs/ant-design` for common business UI needs such as pages, routes, forms, tables, descriptions, loading states, and feedback.
+Use `@faasjs/ant-design` for common business UI needs such as feature UI, routes, forms, tables, descriptions, loading states, and feedback.
 
 Prefer FaasJS Ant Design wrappers before hand-writing glue code around raw Ant Design components when the wrapper covers the scenario. This keeps business UI code predictable and easier for agents to generate and review.
 

@@ -75,7 +75,7 @@ type RequestTrigger = {
  * ```ts
  * function useUserRequest(id: number) {
  *   return useFaasRequest({
- *     action: '/pages/users/get',
+ *     action: 'features/users/api/get',
  *     defaultParams: { id },
  *     options: {},
  *     send: async ({ action, params, signal, client, setPromise }) => {

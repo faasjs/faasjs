@@ -34,7 +34,7 @@ export function App() {
         routes={[
           {
             path: '/',
-            page: lazy(() => import('./pages/home')),
+            page: lazy(() => import('./features/home')),
           },
         ]}
       />

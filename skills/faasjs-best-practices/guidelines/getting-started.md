@@ -41,10 +41,10 @@ This command:
 
 `create-faas-app` offers two templates:
 
-| Template          | Description                                                                                                         | When to use                                                        |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| `admin` (default) | Full admin panel starter with React, Ant Design pages, PostgreSQL integration, and a ready-to-copy users CRUD slice | Back-office systems, internal tools, SaaS dashboards, admin panels |
-| `minimal`         | Lighter starter with React and minimal configuration                                                                | Simple APIs, BFF layers, or when you want to build UI from scratch |
+| Template          | Description                                                                                                      | When to use                                                        |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `admin` (default) | Full admin panel starter with React, Ant Design UI, PostgreSQL integration, and a ready-to-copy users CRUD slice | Back-office systems, internal tools, SaaS dashboards, admin panels |
+| `minimal`         | Lighter starter with React and minimal configuration                                                             | Simple APIs, BFF layers, or when you want to build UI from scratch |
 
 To use a specific template:
 
@@ -76,16 +76,15 @@ my-app/
     faas.yaml              # Runtime configuration (server root, plugins, staging overrides)
     .faasjs/
       types.d.ts           # Auto-generated API type declarations
-    pages/                 # Frontend pages and backend API routes
-      index.tsx            # App entry page
+    features/              # Feature-owned UI, APIs, hooks, and tests
       users/               # Example feature: users CRUD
-        index.tsx          # Page entry
+        index.tsx          # Feature UI entry
         api/
-          list.api.ts      # POST /pages/users/api/list
-          create.api.ts    # POST /pages/users/api/create
-          detail.api.ts    # POST /pages/users/api/detail
-          update.api.ts    # POST /pages/users/api/update
-          remove.api.ts    # POST /pages/users/api/remove
+          list.api.ts      # POST /features/users/api/list
+          create.api.ts    # POST /features/users/api/create
+          detail.api.ts    # POST /features/users/api/detail
+          update.api.ts    # POST /features/users/api/update
+          remove.api.ts    # POST /features/users/api/remove
           __tests__/       # API tests
     db/
       tables/
@@ -100,11 +99,11 @@ my-app/
 
 ### Key directories
 
-| Directory            | Purpose                                                                                                                                                                    |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/pages/`         | Frontend pages as React components and backend API routes as `.api.ts` files. Each feature gets its own subdirectory with `components/`, `hooks/`, and `api/` sub-folders. |
-| `src/types/`         | Type declaration files, including `@faasjs/pg` table type augmentations.                                                                                                   |
-| `src/db/migrations/` | Timestamped database migration files. Created and managed with the `faasjs-pg` CLI.                                                                                        |
+| Directory            | Purpose                                                                                                                                                                 |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/features/`      | Feature-owned UI, APIs, hooks, components, jobs, CLI tools, and tests. Each feature gets its own subdirectory with folders such as `components/`, `hooks/`, and `api/`. |
+| `src/types/`         | Type declaration files, including `@faasjs/pg` table type augmentations.                                                                                                |
+| `src/db/migrations/` | Timestamped database migration files. Created and managed with the `faasjs-pg` CLI.                                                                                     |
 
 ### Key configuration files
 
@@ -118,17 +117,17 @@ my-app/
 
 API routes map directly to file paths under `src/`. No routing registry needed.
 
-| File                                | Route                        |
-| ----------------------------------- | ---------------------------- |
-| `src/pages/todo/api/list.api.ts`    | `POST /pages/todo/api/list`  |
-| `src/pages/todo/api/index.api.ts`   | `POST /pages/todo/api`       |
-| `src/pages/todo/api/default.api.ts` | Fallback for `/pages/todo/*` |
+| File                                   | Route                               |
+| -------------------------------------- | ----------------------------------- |
+| `src/features/todo/api/list.api.ts`    | `POST /features/todo/api/list`      |
+| `src/features/todo/api/index.api.ts`   | `POST /features/todo/api`           |
+| `src/features/todo/api/default.api.ts` | Fallback for `/features/todo/api/*` |
 
 See the [Routing Mapping Specification](./routing-mapping.md) for the full route resolution order.
 
 ## Your First Feature
 
-FaasJS features follow a complete vertical slice pattern: database migration → table types → API endpoints → React page → tests. Below is a quick overview; for full code examples and patterns, read the [CRUD Patterns Guide](./crud-patterns.md).
+FaasJS features follow a complete vertical slice pattern: database migration → table types → API endpoints → feature UI → tests. Below is a quick overview; for full code examples and patterns, read the [CRUD Patterns Guide](./crud-patterns.md).
 
 ### Quick Walkthrough
 
@@ -136,7 +135,7 @@ FaasJS features follow a complete vertical slice pattern: database migration →
 
 **Step 2: Table types** — Add declaration merging on `Tables` in `src/db/tables/<table_name>.ts`. See [PG Table Types Guide](./pg-table-types.md).
 
-**Step 3: API endpoints** — Create five `.api.ts` files (`list`, `detail`, `create`, `update`, `remove`) under `src/pages/<feature>/api/`, each with inline Zod schema + handler. See [defineApi Guide](./define-api.md) and [CRUD Patterns Guide](./crud-patterns.md).
+**Step 3: API endpoints** — Create five `.api.ts` files (`list`, `detail`, `create`, `update`, `remove`) under `src/features/<feature>/api/`, each with inline Zod schema + handler. See [defineApi Guide](./define-api.md) and [CRUD Patterns Guide](./crud-patterns.md).
 
 **Step 4: Frontend page** — Create shared `use<Feature>Items` hook, then compose `Table.faasData` (list), `Description.faasData` (detail), `Form.faas` (create/edit), and `faas` + modal (delete). See [Ant Design Guide](./ant-design.md), [React Guide](./react.md), and [React Data Fetching Guide](./react-data-fetching.md).
 
@@ -171,7 +170,7 @@ See the [defineApi Guide](./define-api.md) for detailed rules.
 
 ### Zero-Mapping routing
 
-API file paths map directly to request paths — no routing configuration needed. A file at `src/pages/todos/api/list.api.ts` responds to `POST /pages/todos/api/list`. See the [Routing Mapping Specification](./routing-mapping.md) for the full resolution order.
+API file paths map directly to request paths — no routing configuration needed. A file at `src/features/todos/api/list.api.ts` responds to `POST /features/todos/api/list`. See the [Routing Mapping Specification](./routing-mapping.md) for the full resolution order.
 
 ### `faas.yaml` configuration hierarchy
 
@@ -238,9 +237,9 @@ The FaasJS toolchain uses `vp` (Vite Plus) as the primary entry point for develo
 ### Daily iteration loop
 
 1. Start the dev server: `vp dev`
-2. Edit API files (`*.api.ts`) and frontend pages (`*.tsx`)
+2. Edit API files (`*.api.ts`) and feature UI (`*.tsx`)
 3. After creating, renaming, or moving `.api.ts` files, regenerate types: `npx faas types`
-4. Run focused tests: `vp test src/pages/todos/api/__tests__/list.test.ts`
+4. Run focused tests: `vp test src/features/todos/api/__tests__/list.test.ts`
 5. Before committing: `vp check --fix && vp test`
 
 ### Database migrations
@@ -265,7 +264,7 @@ Now that you have a working project, explore the detailed guides:
 | Guide                                                           | What it covers                                               |
 | --------------------------------------------------------------- | ------------------------------------------------------------ |
 | [Application Slices Guide](./application-slices.md)             | Vertical feature structure and recommended layout            |
-| [CRUD Patterns Guide](./crud-patterns.md)                       | Complete CRUD implementation from API to React page          |
+| [CRUD Patterns Guide](./crud-patterns.md)                       | Complete CRUD implementation from API to feature UI          |
 | [defineApi Guide](./define-api.md)                              | API endpoint schema, validation, and error handling          |
 | [Ant Design Guide](./ant-design.md)                             | Page structure, routes, CRUD composition, and UI feedback    |
 | [React Data Fetching Guide](./react-data-fetching.md)           | `useFaas`, `faas`, lifecycle controls, polling, and retry    |

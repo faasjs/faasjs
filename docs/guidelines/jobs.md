@@ -4,7 +4,7 @@ Use this guide when defining `.job.ts` background jobs, enqueueing asynchronous 
 
 ## Default Workflow
 
-1. Create a `.job.ts` file under `src/jobs/`.
+1. Create feature-owned `.job.ts` files under `src/features/<feature>/jobs/`; use `src/jobs/` for cross-cutting or platform jobs.
 2. Default-export `defineJob(...)` with a schema when the params have a shape.
 3. Enqueue work with `enqueueJob(jobPath, params)` from APIs, scripts, or other jobs.
 4. Run `startJobWorker()` in a worker process for execution.
@@ -18,9 +18,9 @@ Use this guide when defining `.job.ts` background jobs, enqueueing asynchronous 
 Job paths come from `.job.ts` files relative to the worker root:
 
 ```text
-src/jobs/users/cleanup.job.ts -> jobs/users/cleanup
-src/jobs/emails/send.job.ts   -> jobs/emails/send
-src/jobs/reports/index.job.ts -> jobs/reports
+src/features/users/jobs/cleanup.job.ts -> features/users/jobs/cleanup
+src/features/emails/jobs/send.job.ts   -> features/emails/jobs/send
+src/features/reports/jobs/index.job.ts -> features/reports/jobs
 ```
 
 Do not duplicate the job name inside the file. Moving or renaming a job file changes the path used by `enqueueJob()`.
@@ -55,7 +55,7 @@ If a job has no business input, omit `schema`; `params` will be typed as `Record
 import { enqueueJob } from '@faasjs/jobs'
 
 await enqueueJob(
-  'jobs/emails/send',
+  'features/emails/jobs/send',
   {
     userId: 'u_123',
   },
@@ -113,7 +113,7 @@ Run a scheduler process to create pending rows, and run worker processes to clai
 
 ### 7. Test a single job directly
 
-Put job tests under the job folder's `__tests__`, such as `src/jobs/users/__tests__/cleanup.test.ts` for `cleanup.job.ts`.
+Put job tests under the job folder's `__tests__`, such as `src/features/users/jobs/__tests__/cleanup.test.ts` for `cleanup.job.ts`.
 
 For a single job's business behavior, call the exported job handler directly. This keeps the `defineJob` wrapper, schema validation, `job`, and `attempt` shape real without creating queue rows or starting worker loops.
 
@@ -129,7 +129,7 @@ vi.mock('../send-daily-report', () => ({
 
 const mockedSendDailyReport = vi.mocked(sendDailyReport)
 
-describe('jobs/reports/daily-report', () => {
+describe('features/reports/jobs/daily-report', () => {
   beforeEach(() => {
     mockedSendDailyReport.mockReset()
   })
@@ -178,16 +178,16 @@ vi.mock('../send-daily-report', () => ({
 
 const mockedSendDailyReport = vi.mocked(sendDailyReport)
 
-const jobs = new Map([['jobs/reports/daily-report', dailyReportJob]])
+const jobs = new Map([['features/reports/jobs/daily-report', dailyReportJob]])
 
-describe('jobs/reports/daily-report', () => {
+describe('features/reports/jobs/daily-report', () => {
   beforeEach(() => {
     mockedSendDailyReport.mockReset()
   })
 
   it('runs queued work and sends the report', async () => {
     const client = await getClient()
-    const record = await enqueueJob('jobs/reports/daily-report', {
+    const record = await enqueueJob('features/reports/jobs/daily-report', {
       reportId: 'r_123',
     })
     const worker = new JobWorker(jobs)
@@ -212,7 +212,7 @@ describe('jobs/reports/daily-report', () => {
 
     const rows = await client.raw<JobRecord>`
       SELECT * FROM faasjs_jobs
-      WHERE job_path = 'jobs/reports/daily-report'
+      WHERE job_path = 'features/reports/jobs/daily-report'
     `
 
     expect(rows).toHaveLength(1)

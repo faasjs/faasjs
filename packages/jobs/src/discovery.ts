@@ -93,8 +93,8 @@ function getModuleHooksOptions(root: string): RegisterNodeModuleHooksOptions {
  * @throws {Error} If the file is outside the root or lacks the `.job.ts` suffix.
  *
  * @example
- * getJobPathFromFile('/app/src/jobs/users/sync.job.ts', '/app/src')
- * // 'jobs/users/sync'
+ * getJobPathFromFile('/app/src/features/users/jobs/sync.job.ts', '/app/src')
+ * // 'features/users/jobs/sync'
  */
 export function getJobPathFromFile(file: string, root: string): string {
   const relativePath = relative(root, file)

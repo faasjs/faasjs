@@ -50,7 +50,7 @@
 vp check --fix && vp test
 
 # 运行特定测试文件
-vp test src/pages/users/api/__tests__/list.test.ts
+vp test src/features/users/api/__tests__/list.test.ts
 
 # 以监听模式运行匹配校验的测试
 vp test list --watch

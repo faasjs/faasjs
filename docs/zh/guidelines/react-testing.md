@@ -86,7 +86,7 @@ setMock(async () => ({
 }))
 
 setMock(async (path) => {
-  if (path === '/pages/users/get') {
+  if (path === 'features/users/api/get') {
     return {
       data: {
         id: 1,
@@ -95,7 +95,7 @@ setMock(async (path) => {
     }
   }
 
-  if (path === '/pages/posts/get') {
+  if (path === 'features/posts/api/get') {
     return {
       data: {
         id: 2,
@@ -113,7 +113,7 @@ setMock(async (path) => {
 })
 
 setMock(async (path, params) => {
-  if (path === '/pages/users/get' && params.id === 1) {
+  if (path === 'features/users/api/get' && params.id === 1) {
     return {
       data: {
         id: 1,
@@ -122,7 +122,7 @@ setMock(async (path, params) => {
     }
   }
 
-  if (path === '/pages/users/get' && params.id === 2) {
+  if (path === 'features/users/api/get' && params.id === 2) {
     return {
       data: {
         id: 2,
@@ -173,7 +173,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { setMock, useFaas } from '@faasjs/react'
 
 function UserName() {
-  const { data } = useFaas<{ name: string }>('/pages/users/get', {})
+  const { data } = useFaas<{ name: string }>('features/users/api/get', {})
 
   return <div>{data?.name}</div>
 }
@@ -217,7 +217,9 @@ describe('useFaas', () => {
   })
 
   it('supports reload with next params', async () => {
-    const { result } = renderHook(() => useFaas<{ id: number }>('/pages/users/get', { id: 1 }))
+    const { result } = renderHook(() =>
+      useFaas<{ id: number }>('features/users/api/get', { id: 1 }),
+    )
 
     await waitFor(() => expect(result.current.data).toEqual({ id: 1 }))
 

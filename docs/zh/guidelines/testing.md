@@ -60,7 +60,7 @@
 
 - 不要将所有包测试集中到 `src/__tests__` 目录中，包括该集中目录下以功能命名的子文件夹。
 - 按项目用途、功能或切片拆分代码和测试，使 API、UI、任务、辅助函数和集成测试归属于拥有该行为的 feature 文件夹。
-- 将测试放在所属文件夹的 `__tests__` 中，例如 `list.api.ts` 的测试放在 `src/pages/users/api/__tests__/list.test.ts`，或 `cleanup.job.ts` 的测试放在 `src/jobs/users/__tests__/cleanup.test.ts`。
+- 将测试放在所属文件夹的 `__tests__` 中，例如 `list.api.ts` 的测试放在 `src/features/users/api/__tests__/list.test.ts`，或 `cleanup.job.ts` 的测试放在 `src/features/users/jobs/__tests__/cleanup.test.ts`。
 - 当被保护的业务代码本身是单个文件时，将其转换为包含 `index.ts` 或 `index.tsx` 的文件夹，并将测试放在该文件夹的 `__tests__` 下，例如 `src/useBilling/index.ts` 和 `src/useBilling/__tests__/useBilling.test.ts`。
 
 ## 审查清单

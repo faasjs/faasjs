@@ -62,7 +62,7 @@ export type UseFaasStreamResult<Path extends FaasActionPaths> = {
  * import { useFaasStream } from '@faasjs/react'
  *
  * function Chat({ prompt }: { prompt: string }) {
- *   const { data, error, loading, reload } = useFaasStream('/pages/chat/stream', { prompt })
+ *   const { data, error, loading, reload } = useFaasStream('features/chat/api/stream', { prompt })
  *
  *   if (loading) return <div>Streaming...</div>
  *

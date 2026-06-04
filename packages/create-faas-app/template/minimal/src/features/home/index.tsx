@@ -1,12 +1,3 @@
-declare module '@faasjs/types' {
-  interface FaasActions {
-    '/pages/home/api/hello': {
-      Params: { name?: string | undefined }
-      Data: { message?: string }
-    }
-  }
-}
-
 import { useState } from 'react'
 
 import { useFaas } from '../../react-client'
@@ -15,7 +6,7 @@ export default function HomePage() {
   const [name, setName] = useState('FaasJS')
 
   const { data, loading, reload } = useFaas(
-    '/pages/home/api/hello',
+    'features/home/api/hello',
     { name: name.trim() || undefined },
     { skip: true },
   )
@@ -39,7 +30,7 @@ export default function HomePage() {
         onClick={() => reload({ name: name.trim() || undefined })}
         disabled={loading}
       >
-        {loading ? 'Loading...' : 'Call /pages/home/api/hello'}
+        {loading ? 'Loading...' : 'Call features/home/api/hello'}
       </button>
     </main>
   )

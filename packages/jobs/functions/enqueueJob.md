@@ -35,12 +35,12 @@ The persisted job record.
 ## Examples
 
 ```ts
-await enqueueJob('jobs/users/sync', { userId: 'u_123' })
+await enqueueJob('features/users/jobs/sync', { userId: 'u_123' })
 ```
 
 ```ts
 await enqueueJob(
-  'jobs/reports/daily',
+  'features/reports/jobs/daily',
   {},
   {
     queue: 'reports',
