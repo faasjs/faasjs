@@ -39,3 +39,9 @@ Final business handler invoked after plugins complete.
 > `optional` **plugins?**: [`Plugin`](Plugin.md)[]
 
 Ordered plugin list to attach before the run handler.
+
+### runtime?
+
+> `optional` **runtime?**: [`FuncRuntime`](FuncRuntime.md)
+
+Default runtime value written to `context.runtime`.

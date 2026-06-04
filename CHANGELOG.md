@@ -2,6 +2,15 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+Unreleased
+
+- `@faasjs/core`
+  - [Feature] Add `context.runtime` for plugin lifecycle code and default it to `api` for `defineApi()`.
+  - [Fix] Skip the built-in HTTP plugin lifecycle outside the API runtime so inherited HTTP config does not rewrite non-HTTP params.
+
+- `@faasjs/jobs`
+  - [Fix] Set `context.runtime` to `job` for `defineJob()` and job worker invocations.
+
 [`v8.0.0-beta.35 (2026-05-29)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.34...v8.0.0-beta.35)
 
 - `@faasjs/react`

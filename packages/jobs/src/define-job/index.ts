@@ -76,6 +76,7 @@ export class Job<
     }
 
     super({
+      runtime: 'job',
       plugins: [],
       handler: invokeHandler,
     })

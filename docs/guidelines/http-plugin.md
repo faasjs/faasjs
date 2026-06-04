@@ -6,6 +6,8 @@ Use this guide when working with cookies, sessions, response helpers, or HTTP pl
 
 The HTTP plugin is built into `@faasjs/core` and **activated automatically** for every `defineApi` endpoint. You do not need to declare it in `faas.yaml`.
 
+It only processes invocations when `data.context.runtime` is missing or set to `api`. When the same plugin is inherited by a background job, `context.runtime === 'job'` makes the HTTP plugin call `await next()` without parsing HTTP params, injecting HTTP helpers, or rewriting job params.
+
 It injects the following fields into every `defineApi` handler:
 
 - `cookie` — read and write cookies

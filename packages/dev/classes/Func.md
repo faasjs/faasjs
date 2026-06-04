@@ -177,3 +177,10 @@ Indicates whether mount hooks have already run.
 > **plugins**: [`Plugin`](../type-aliases/Plugin.md)[]
 
 Ordered plugin instances attached to this function.
+
+### runtime
+
+> **runtime**: [`FuncRuntime`](../type-aliases/FuncRuntime.md) \| `undefined`
+
+Default runtime value written to `context.runtime` when the caller does not
+provide one.

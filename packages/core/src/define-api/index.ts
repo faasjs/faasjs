@@ -113,6 +113,7 @@ export function defineApi<
   }
 
   api = new Func<Event, unknown, Result>({
+    runtime: 'api',
     plugins: [],
     handler: invokeHandler,
   })

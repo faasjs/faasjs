@@ -1,4 +1,4 @@
-import { Http, defineApi } from '@faasjs/core'
+import { Http, defineApi, type FuncRuntime } from '@faasjs/core'
 import { streamToObject, z } from '@faasjs/utils'
 import { describe, expect, it } from 'vitest'
 
@@ -61,6 +61,27 @@ describe('@faasjs/core defineApi', () => {
       data: {
         params: {},
         raw: { name: 'FaasJS' },
+      },
+    })
+  })
+
+  it('sets api runtime on context', async () => {
+    const func = defineApi({
+      async handler(data) {
+        return {
+          runtime: (data.context as { runtime?: FuncRuntime }).runtime,
+        }
+      },
+    })
+
+    useHttpPlugin(func)
+
+    const response: any = await func.export().handler({})
+
+    expect(response.statusCode).toEqual(200)
+    expect(await streamToObject(response.body)).toEqual({
+      data: {
+        runtime: 'api',
       },
     })
   })

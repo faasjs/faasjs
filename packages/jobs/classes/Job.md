@@ -210,6 +210,17 @@ Ordered plugin instances attached to this function.
 
 > `readonly` **retry**: [`JobRetry`](../type-aliases/JobRetry.md) \| `undefined`
 
+### runtime
+
+> **runtime**: `FuncRuntime` \| `undefined`
+
+Default runtime value written to `context.runtime` when the caller does not
+provide one.
+
+#### Inherited from
+
+`Func.runtime`
+
 ### schema
 
 > `readonly` **schema**: `TSchema` \| `undefined`

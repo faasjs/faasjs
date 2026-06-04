@@ -269,6 +269,7 @@ export class JobWorker {
           attempt: record.attempts,
         },
         {
+          runtime: 'job',
           job: record,
           workerId: this.workerId,
         } as any,

@@ -97,6 +97,12 @@ export class Http<
     }
   }
 
+  private shouldSkipForRuntime(data: MountData | InvokeData): boolean {
+    const runtime = data.context?.runtime
+
+    return typeof runtime === 'string' && runtime.length > 0 && runtime !== 'api'
+  }
+
   private createInvokeState(data: InvokeData): HttpInvokeState<TParams, TCookie, TSession> {
     const response: Response = { headers: Object.create(null) }
     const cookie = this.cookieTemplate.fork(data.logger)
@@ -153,6 +159,11 @@ export class Http<
    * @throws {Error} When function config is unavailable.
    */
   public async onMount(data: MountData, next: Next): Promise<void> {
+    if (this.shouldSkipForRuntime(data)) {
+      await next()
+      return
+    }
+
     data.logger.debug('merge config')
 
     this.mergeEnvConfig()
@@ -184,6 +195,11 @@ export class Http<
    * @returns {Promise<void>} Promise that resolves after response helpers are applied.
    */
   public async onInvoke(data: InvokeData, next: Next): Promise<void> {
+    if (this.shouldSkipForRuntime(data)) {
+      await next()
+      return
+    }
+
     const state = this.createInvokeState(data)
 
     this.attachInvokeData(data, state)

@@ -46,6 +46,33 @@ export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
 ) => Promise<TResult>
 
 /**
+ * Runtime family executing a {@link Func}.
+ *
+ * `api` is used by HTTP APIs created with `defineApi()`, and `job` is used by
+ * background jobs created with `defineJob()`.
+ */
+export type FuncRuntime = 'api' | 'job'
+
+/**
+ * Framework-managed context fields shared with plugins and handlers.
+ */
+export type RuntimeContext = {
+  [key: string]: any
+  /**
+   * Runtime family currently executing the function.
+   */
+  runtime?: FuncRuntime
+  /**
+   * Request-scoped id used by logs and plugin labels.
+   */
+  request_id?: string
+  /**
+   * Request creation marker used by logs and plugin labels.
+   */
+  request_at?: string
+}
+
+/**
  * Lifecycle plugin attached to a {@link Func}.
  *
  * @property {string} type - Stable plugin type identifier.
@@ -148,10 +175,12 @@ export type LifecycleKey = 'onMount' | 'onInvoke'
  *
  * @property {Plugin[]} [plugins] - Ordered plugin list to attach before the run handler.
  * @property {Handler<TEvent, TContext, TResult>} [handler] - Final business handler invoked after plugins complete.
+ * @property {FuncRuntime} [runtime] - Default runtime value written to `context.runtime`.
  */
 export type FuncConfig<TEvent = any, TContext = any, TResult = any> = {
   plugins?: Plugin[]
   handler?: Handler<TEvent, TContext, TResult>
+  runtime?: FuncRuntime
 }
 
 type CachedFunction = {
@@ -280,6 +309,11 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
    */
   public handler?: Handler<TEvent, TContext, TResult>
   /**
+   * Default runtime value written to `context.runtime` when the caller does not
+   * provide one.
+   */
+  public runtime: FuncRuntime | undefined
+  /**
    * Mutable runtime configuration used by the function.
    */
   public config: Config
@@ -304,6 +338,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
    */
   constructor(config: FuncConfig<TEvent, TContext>) {
     if (config.handler) this.handler = config.handler
+    this.runtime = config.runtime
     this.plugins = config.plugins || []
     this.plugins.push(new RunHandler())
     this.config = {
@@ -360,6 +395,8 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
         if (typeof fn.key === 'undefined') fn.key = `uname#${i}`
 
         if (!data.context) data.context = Object.create(null)
+
+        if (this.runtime) data.context.runtime = this.runtime
 
         if (!data.context.request_at) data.context.request_at = randomBytes(16).toString('hex')
 
@@ -457,11 +494,9 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       context?: TContext,
     ): Promise<TResult> => {
       const runtimeContext = ((typeof context === 'undefined' ? Object.create(null) : context) ||
-        Object.create(null)) as TContext & {
-        request_id?: string
-        request_at?: string
-        [key: string]: any
-      }
+        Object.create(null)) as TContext & RuntimeContext
+
+      if (this.runtime) runtimeContext.runtime = this.runtime
 
       if (!runtimeContext.request_id)
         runtimeContext.request_id =

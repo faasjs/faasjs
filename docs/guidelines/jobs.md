@@ -228,6 +228,7 @@ describe('features/reports/jobs/daily-report', () => {
 - enqueue paths match file-derived job paths
 - params are validated with schemas when structured
 - handlers use `getClient()` when they need database access and use the injected `logger`
+- plugins that are API-only check `data.context.runtime !== 'api'` and call `await next()` so inherited HTTP concerns do not rewrite job params
 - idempotency and retry behavior are explicit
 - cron rules enqueue jobs instead of doing work directly
 - worker and scheduler startup are separate from HTTP server lifecycle

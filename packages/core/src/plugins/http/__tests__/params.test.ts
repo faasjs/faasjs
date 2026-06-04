@@ -122,4 +122,70 @@ describe('params', () => {
     expect(res.body).toBeInstanceOf(ReadableStream)
     expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":{"key":"value"}}')
   })
+
+  it('skips params parsing outside api runtime', async () => {
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
+    const handler = new Func({
+      runtime: 'job',
+      plugins: [http],
+      async handler(data) {
+        return {
+          params: data.event.params,
+          parsedParams: data.params ?? null,
+          runtime: data.context.runtime,
+          hasHttpHelpers: typeof data.setBody === 'function',
+        }
+      },
+    }).export().handler
+
+    const res = await handler({
+      params: {
+        message: 'keep',
+      },
+      queryString: {
+        message: 'from-http',
+      },
+    })
+
+    expect(res).toEqual({
+      params: {
+        message: 'keep',
+      },
+      parsedParams: null,
+      runtime: 'job',
+      hasHttpHelpers: false,
+    })
+  })
+
+  it('uses configured api runtime over caller context runtime', async () => {
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
+    const handler = new Func({
+      runtime: 'api',
+      plugins: [http],
+      async handler(data) {
+        return {
+          params: data.params,
+          runtime: data.context.runtime,
+        }
+      },
+    }).export().handler
+
+    const res = await handler(
+      {
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          message: 'parsed',
+        }),
+      },
+      {
+        runtime: 'job',
+      },
+    )
+
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toBeInstanceOf(ReadableStream)
+    expect(await streamToString(res.body as ReadableStream)).toEqual(
+      '{"data":{"params":{"message":"parsed"},"runtime":"api"}}',
+    )
+  })
 })

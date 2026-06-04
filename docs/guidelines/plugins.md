@@ -19,6 +19,8 @@ FaasJS plugins follow a Koa-style middleware model. Each plugin has a `type` (so
 
 The built-in `RunHandler` plugin always runs last and calls the business handler. User plugins always execute before it.
 
+FaasJS also writes the current runtime to `data.context.runtime`. The supported values are `api` and `job`: `defineApi()` uses `api`; `defineJob()` and job workers use `job`. Plugins that only apply to one runtime should inspect this field and call `await next()` when they skip their own behavior.
+
 ## Default Workflow
 
 1. Decide whether the plugin is one-off (inline in a specific API) or reusable (shared across endpoints).
@@ -71,7 +73,22 @@ public async onInvoke(data: InvokeData, next: Next) {
 ```
 
 - Prefer adding fields directly to `data` over using `context` — `context` is for internal framework wiring.
+- `data.context.runtime` is a framework-managed field; read it when a plugin needs to distinguish APIs from jobs, but do not overwrite it.
 - Do not wrap `data` in another object; add fields at the top level so handlers see them directly.
+
+Runtime-specific plugins should skip cleanly:
+
+```ts
+public async onInvoke(data: InvokeData, next: Next) {
+  if (data.context.runtime && data.context.runtime !== 'api') {
+    await next()
+    return
+  }
+
+  data.current_user = await resolveUser(data.event.headers?.authorization)
+  await next()
+}
+```
 
 ### 3. Provide types via `DefineApiInject` module augmentation
 
