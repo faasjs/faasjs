@@ -6,5 +6,5 @@
     },
     "types": ["node", "@testing-library/jest-dom"]
   },
-  "exclude": ["packages/*/dist", "packages/create-faas-app/template/admin"]
+  "exclude": ["packages/*/dist", "packages/create-faas-app/template/*"]
 }
