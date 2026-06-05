@@ -26,6 +26,10 @@
 
 > **slug**: `string`
 
+### sourceContent
+
+> **sourceContent**: `string`
+
 ### sourcePath
 
 > **sourcePath**: `string`

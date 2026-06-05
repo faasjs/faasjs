@@ -17,7 +17,6 @@ Related references:
 - `packages/core/src/index.ts`
 - `packages/node-utils/src/load_config.ts`
 - `packages/core/src/plugins/http/index.ts`
-- `docs/zh/guide/excel/plugin.md`
 
 ## Goals
 

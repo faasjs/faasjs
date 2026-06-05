@@ -38,7 +38,7 @@ import {
   walkMarkdownFiles,
 } from './site-utils.ts'
 
-type LocaleKey = '/' | '/zh/'
+type LocaleKey = '/'
 
 type Page = {
   sourcePath: string
@@ -56,7 +56,6 @@ type Page = {
 type BuildContext = {
   pages: Page[]
   pageBySource: Map<string, Page>
-  pageByRoute: Map<string, Page>
   titleByRoute: Map<string, string>
 }
 
@@ -68,8 +67,8 @@ const docsRoot = resolve(scriptsDirectory, '..')
 const distRoot = join(docsRoot, 'dist')
 const siteRoot = join(docsRoot, 'site')
 
-function findLocale(routePath: string): LocaleKey {
-  return routePath.startsWith('/zh/') ? '/zh/' : '/'
+function findLocale(_routePath: string): LocaleKey {
+  return '/'
 }
 
 function parseMarkdownFrontmatter(source: string): {
@@ -244,28 +243,6 @@ function findSidebarPrefix(
   return Object.keys(sidebar)
     .sort((a, b) => b.length - a.length)
     .find((prefix) => currentRoute.startsWith(prefix))
-}
-
-function createLanguageItems(currentRoute: string, routeMap: Map<string, Page>): NavbarItem[] {
-  const enCandidate = currentRoute.startsWith('/zh/')
-    ? `/${currentRoute.slice('/zh/'.length)}`
-    : currentRoute
-  const enRoute = enCandidate === '//' ? '/' : enCandidate
-  const zhCandidate = enRoute === '/' ? '/zh/' : `/zh${enRoute}`
-
-  const english = routeMap.has(enRoute) ? enRoute : '/'
-  const chinese = routeMap.has(zhCandidate) ? zhCandidate : '/zh/'
-
-  return [
-    {
-      text: 'English',
-      link: english,
-    },
-    {
-      text: '简体中文',
-      link: chinese,
-    },
-  ]
 }
 
 function renderHomeHero(page: Page, locale: LocaleConfig): string {
@@ -511,19 +488,16 @@ function collectPages(): Page[] {
 
 function createBuildContext(pages: Page[]): BuildContext {
   const pageBySource = new Map<string, Page>()
-  const pageByRoute = new Map<string, Page>()
   const titleByRoute = new Map<string, string>()
 
   for (const page of pages) {
     pageBySource.set(page.sourcePath, page)
-    pageByRoute.set(page.routePath, page)
     titleByRoute.set(page.routePath, page.title)
   }
 
   return {
     pages,
     pageBySource,
-    pageByRoute,
     titleByRoute,
   }
 }
@@ -534,18 +508,8 @@ function createResolveConfigLink(): ResolveConfigLink {
   }
 }
 
-function createNavbarItems(
-  localeConfig: LocaleConfig,
-  currentRoute: string,
-  pageByRoute: Map<string, Page>,
-): NavbarItem[] {
-  return [
-    ...localeConfig.navbar,
-    {
-      text: localeConfig.selectLanguageName,
-      children: createLanguageItems(currentRoute, pageByRoute),
-    },
-  ]
+function createNavbarItems(localeConfig: LocaleConfig): NavbarItem[] {
+  return localeConfig.navbar
 }
 
 function renderNavbarPair(
@@ -593,13 +557,12 @@ function renderSidebar(
 
 function renderAndWritePage(options: {
   page: Page
-  pageByRoute: Map<string, Page>
   titleByRoute: Map<string, string>
   markdown: MarkdownIt
   resolveConfigLink: ResolveConfigLink
 }): void {
   const localeConfig = siteConfig.locales[options.page.locale]
-  const navbarItems = createNavbarItems(localeConfig, options.page.routePath, options.pageByRoute)
+  const navbarItems = createNavbarItems(localeConfig)
   const { desktop: navbarHtml, mobile: mobileNavbarHtml } = renderNavbarPair(
     navbarItems,
     options.page.routePath,
@@ -633,7 +596,7 @@ function renderAndWritePage(options: {
     : undefined
 
   const pageTitle =
-    options.page.routePath === '/' || options.page.routePath === '/zh/'
+    options.page.routePath === '/'
       ? localeConfig.title
       : `${options.page.title} | ${localeConfig.title}`
 
@@ -642,7 +605,7 @@ function renderAndWritePage(options: {
       ? options.page.frontmatter.description
       : localeConfig.description
 
-  const homeLink = options.page.locale === '/zh/' ? '/zh/' : '/'
+  const homeLink = '/'
 
   const html = renderLayout({
     lang: localeConfig.lang,
@@ -663,18 +626,9 @@ function renderAndWritePage(options: {
   writeFileSync(outputFile, html)
 }
 
-function writeNotFoundPage(
-  pageByRoute: Map<string, Page>,
-  resolveConfigLink: ResolveConfigLink,
-): void {
+function writeNotFoundPage(resolveConfigLink: ResolveConfigLink): void {
   const localeConfig = siteConfig.locales['/']
-  const navbarItems: NavbarItem[] = [
-    ...localeConfig.navbar,
-    {
-      text: localeConfig.selectLanguageName,
-      children: createLanguageItems('/', pageByRoute),
-    },
-  ]
+  const navbarItems = createNavbarItems(localeConfig)
 
   const { desktop: notFoundNavbar, mobile: notFoundSidebar } = renderNavbarPair(
     navbarItems,
@@ -731,14 +685,13 @@ function buildSite(): void {
   for (const page of context.pages) {
     renderAndWritePage({
       page,
-      pageByRoute: context.pageByRoute,
       titleByRoute: context.titleByRoute,
       markdown,
       resolveConfigLink,
     })
   }
 
-  writeNotFoundPage(context.pageByRoute, resolveConfigLink)
+  writeNotFoundPage(resolveConfigLink)
   writeStaticAssets()
   writeSitemapAndRoutes(context.pages)
 

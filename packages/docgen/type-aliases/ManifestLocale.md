@@ -2,4 +2,4 @@
 
 # Type Alias: ManifestLocale
 
-> **ManifestLocale** = `"en"` \| `"zh"`
+> **ManifestLocale** = `"en"`

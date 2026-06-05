@@ -1,3 +1,3 @@
-import { prepareDocsSite } from '@faasjs/docgen'
+import { prepareDocsSite } from '../packages/docgen/src/index.ts'
 
 prepareDocsSite()

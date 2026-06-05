@@ -7,7 +7,7 @@ This file is the entry point for contributors and agents developing the FaasJS f
 1. [`contributing/target-users.md`](./contributing/target-users.md) for product boundaries, target users, supported stacks, and core framework trade-offs
 2. [`contributing/source-of-truth.md`](./contributing/source-of-truth.md) for edit locations, generated-file rules, and codebase conventions
 3. [`contributing/validation.md`](./contributing/validation.md) for environment requirements and validation commands
-4. [`contributing/documentation-sync.md`](./contributing/documentation-sync.md) when changes may affect docs, generated docs, translations, navigation, or changelog entries; it uses `@faasjs/docgen` via `npm run doc` as the docs update and sync tool
+4. [`contributing/documentation-sync.md`](./contributing/documentation-sync.md) when changes may affect docs, generated docs, navigation, or changelog entries; it uses `@faasjs/docgen` via `npm run doc` as the docs update and sync tool
 
 ## By Task
 
@@ -18,9 +18,9 @@ This file is the entry point for contributors and agents developing the FaasJS f
 
 ## Documentation Flow
 
-- Edit source-of-truth content first: JSDoc in `packages/*/src`, English guides in `skills/faasjs-best-practices/guidelines/**`, specs in `skills/*/references/specs/**`, and Chinese translations in `docs/zh/**`.
+- Edit source-of-truth content first: JSDoc in `packages/*/src`, English guides in `skills/faasjs-best-practices/guidelines/**`, and specs in `skills/*/references/specs/**`.
 - Run `npm run doc` to invoke `@faasjs/docgen`, which refreshes API Markdown, skill references, generated English published docs, and generated guide indexes.
-- Do not hand-edit generated docs under `packages/*/{classes,functions,interfaces,type-aliases,variables}`, `docs/guidelines/**`, `docs/specs/**`, `docs/guidelines/README.md`, or `docs/zh/guidelines/README.md`.
+- Do not hand-edit generated docs under `packages/*/{classes,functions,interfaces,type-aliases,variables}`, `docs/guidelines/**`, `docs/specs/**`, or `docs/guidelines/README.md`.
 
 ## Standard Flow
 

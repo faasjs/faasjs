@@ -2,15 +2,15 @@
 
 Use this guide after any FaasJS change that may require documentation updates or validation.
 
-It covers syncing best-practices content under `skills/faasjs-best-practices/**`, specs under `skills/*/references/specs/**`, generated English docs under `docs/guidelines/**` and `docs/specs/**`, Chinese docs under `docs/zh/guidelines/**` and `docs/zh/specs/**`, generated API docs from `packages/*/src`, generated guide indexes such as `docs/guidelines/README.md` and `docs/zh/guidelines/README.md`, and docs navigation files such as `docs/site/site.config.ts`.
+It covers syncing best-practices content under `skills/faasjs-best-practices/**`, specs under `skills/*/references/specs/**`, generated English docs under `docs/guidelines/**` and `docs/specs/**`, generated API docs from `packages/*/src`, generated guide indexes such as `docs/guidelines/README.md`, and docs navigation files such as `docs/site/site.config.ts`.
 
 ## Overview
 
 Use this guide after any FaasJS code or behavior change to decide which docs must be updated in the same change.
 
-`@faasjs/docgen` is the documentation update and sync tool. In this repo it is invoked through `npm run doc`, which regenerates API Markdown, mirrors package references into skills, generates published English and Chinese guide/spec pages, and refreshes generated guide indexes.
+`@faasjs/docgen` is the documentation update and sync tool. In this repo it is invoked through `npm run doc`, which regenerates API Markdown, mirrors package references into skills, generates published English guide/spec pages, and refreshes generated guide indexes.
 
-Keep source-of-truth docs, generated published docs, translations, generated API docs, and docs site navigation aligned before handoff.
+Keep source-of-truth docs, generated published docs, generated API docs, and docs site navigation aligned before handoff.
 
 Also check whether `CHANGELOG.md` needs an update for the same change, especially when behavior, APIs, workflows, or user-visible guidance changed.
 
@@ -41,8 +41,7 @@ If you are unsure, assume docs are affected and follow the workflow below before
    - API Markdown: generated from JSDoc in `packages/*/src`
    - skill package references: mirrored into `skills/faasjs-best-practices/references/packages/**`
    - English published docs: generated from `skills/faasjs-best-practices/guidelines/**` and `skills/*/references/specs/**` into `docs/guidelines/**` and `docs/specs/**`
-   - Chinese published docs: maintained directly at `docs/zh/guidelines/**` and `docs/zh/specs/**` (no longer generated from skill locales)
-   - guide indexes: generated into `docs/guidelines/README.md` and `docs/zh/guidelines/README.md`
+   - guide indexes: generated into `docs/guidelines/README.md`
    - navigation page lists: read from the `@faasjs/docgen` manifest in `docs/site/site.config.ts`
 4. Update release notes when needed.
    - review user-visible behavior, API, workflow, and documentation changes since the previous released version, not just the current diff you are editing
@@ -50,9 +49,9 @@ If you are unsure, assume docs are affected and follow the workflow below before
    - turn that full change set into user-facing notes by keeping only items that matter to end users, and skip internal-only churn
    - add or adjust the unreleased entry when the change should be called out to users
 5. Regenerate generated outputs only from their real source.
-   - run `npm run doc` after API docs, guides, specs, translations, or generated guide indexes need refreshing
+   - run `npm run doc` after API docs, guides, specs, or generated guide indexes need refreshing
    - never edit Markdown under `packages/*/{classes,functions,interfaces,type-aliases,variables}` directly
-   - never edit generated published docs under `docs/guidelines/**`, `docs/specs/**`, `docs/zh/guidelines/**`, `docs/zh/specs/**`, `docs/guidelines/README.md`, or `docs/zh/guidelines/README.md` directly
+   - never edit generated published docs under `docs/guidelines/**`, `docs/specs/**`, or `docs/guidelines/README.md` directly
    - update JSDoc or `skills/**` source first, then run `npm run doc`
    - do not hand-edit `docs/dist/**`
 6. Validate the smallest meaningful scope.
@@ -62,9 +61,8 @@ If you are unsure, assume docs are affected and follow the workflow below before
 
 ## Working Rules
 
-- Update English source docs and Chinese locale source docs together for the same best-practices or spec change unless the user explicitly scopes otherwise.
 - Do not update copied or generated docs while leaving the source-of-truth files stale.
-- Do not directly edit generated Markdown under `packages/**`, `docs/guidelines/**`, `docs/specs/**`, `docs/zh/guidelines/**`, `docs/zh/specs/**`, `docs/guidelines/README.md`, or `docs/zh/guidelines/README.md`; change the source JSDoc or `skills/**` content and regenerate with `npm run doc`.
+- Do not directly edit generated Markdown under `packages/**`, `docs/guidelines/**`, `docs/specs/**`, or `docs/guidelines/README.md`; change the source JSDoc or `skills/**` content and regenerate with `npm run doc`.
 - Do not ship a user-visible change without checking whether `CHANGELOG.md` should mention it.
 - Do not regenerate `CHANGELOG.md` from only the files in your current patch; review the whole range since the previous released version and summarize only end-user-meaningful items.
 - When a change does not require docs edits, say why in the final handoff.

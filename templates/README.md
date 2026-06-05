@@ -1,6 +1,6 @@
 # FaasJS Templates
 
-> Bilingual starter templates for FaasJS (English + 简体中文).
+> Starter templates for FaasJS.
 
 All templates are independent projects.
 
@@ -8,15 +8,15 @@ All templates are independent projects.
 - Every template provides an independent test command: `npm run test`.
 - These templates are **not** wired into repository CI by default.
 
-## Learning Path 学习路径
+## Learning Path
 
-| Order | Template                                    | You will learn                                       | 你将学到              |
-| ----- | ------------------------------------------- | ---------------------------------------------------- | --------------------- |
-| 1     | [`hello-api`](./hello-api/)                 | Smallest `defineApi` + unit test                     | 最小可运行 API 与单测 |
-| 2     | [`routing-fallback`](./routing-fallback/)   | `index.api.ts` and `default.api.ts` routing fallback | 路由命中与逐级兜底    |
-| 3     | [`params-and-errors`](./params-and-errors/) | Zod validation and API error handling                | 参数校验与错误处理    |
+| Order | Template                                    | You will learn                                       |
+| ----- | ------------------------------------------- | ---------------------------------------------------- |
+| 1     | [`hello-api`](./hello-api/)                 | Smallest `defineApi` + unit test                     |
+| 2     | [`routing-fallback`](./routing-fallback/)   | `index.api.ts` and `default.api.ts` routing fallback |
+| 3     | [`params-and-errors`](./params-and-errors/) | Zod validation and API error handling                |
 
-## Quick Start 快速开始
+## Quick Start
 
 ```bash
 cd templates/hello-api
@@ -25,15 +25,11 @@ npm run test
 npm run dev
 ```
 
-## Run in Codespaces 在 Codespaces 中运行
+## Run In Codespaces
 
 This repo includes `.devcontainer/devcontainer.json`.
 
-这个仓库内置了 `.devcontainer/devcontainer.json`，可直接用于 GitHub Codespaces。
-
 After Codespace is created, `.devcontainer/post-create.sh` will auto-install dependencies for the workspace and all templates.
-
-创建 Codespace 后，`.devcontainer/post-create.sh` 会自动安装仓库和全部模板依赖。
 
 Then run any template directly:
 
@@ -43,7 +39,7 @@ npm run test
 npm run dev
 ```
 
-## Conventions 约定
+## Conventions
 
 - API files end with `.api.ts`.
 - API modules prefer `export default defineApi(...)`.

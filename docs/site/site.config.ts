@@ -1,4 +1,4 @@
-import { buildManifest } from '@faasjs/docgen'
+import { buildManifest } from '../../packages/docgen/src/index.ts'
 
 export type NavbarItem = {
   text: string
@@ -19,7 +19,6 @@ export type LocaleConfig = {
   title: string
   description: string
   footer: string
-  selectLanguageName: string
   navbar: NavbarItem[]
   sidebar: Record<string, SidebarItem[]>
 }
@@ -31,7 +30,6 @@ export type SiteConfig = {
   adsScript: string
   locales: {
     '/': LocaleConfig
-    '/zh/': LocaleConfig
   }
 }
 
@@ -42,8 +40,6 @@ const enGuidelines = navigationManifest.pages
 const enSpecs = navigationManifest.pages
   .filter((page) => page.kind === 'spec' && page.locale === 'en')
   .map((page) => page.routePath)
-const zhGuidelines = enGuidelines.map((link) => `/zh${link}`)
-const zhSpecs = enSpecs.map((link) => `/zh${link}`)
 
 export const siteConfig: SiteConfig = {
   title: 'FaasJS',
@@ -59,7 +55,6 @@ export const siteConfig: SiteConfig = {
         'A Rails-inspired, curated full-stack TypeScript framework for database-driven React business applications.',
       footer:
         'A Rails-inspired, curated full-stack TypeScript framework for database-driven React business applications. | MIT Licensed | Copyright © 2019-2026 Zhu Feng',
-      selectLanguageName: 'English',
       navbar: [
         {
           text: 'Home',
@@ -120,80 +115,6 @@ export const siteConfig: SiteConfig = {
       sidebar: {
         '/guidelines/': enGuidelines,
         '/specs/': enSpecs,
-      },
-    },
-    '/zh/': {
-      lang: 'zh',
-      title: 'FaasJS',
-      description: '一个受 Rails 启发的精选式全栈 TypeScript 框架，面向数据库驱动的 React 业务应用',
-      footer:
-        '一个受 Rails 启发的精选式全栈 TypeScript 框架，面向数据库驱动的 React 业务应用 | MIT Licensed | Copyright © 2019-2026 Zhu Feng',
-      selectLanguageName: '简体中文',
-      navbar: [
-        {
-          text: '首页',
-          link: '/zh/',
-        },
-        {
-          text: '学习',
-          children: [
-            {
-              text: '最佳实践',
-              link: '/zh/guidelines/',
-            },
-            {
-              text: '文档',
-              link: '/doc/',
-            },
-            {
-              text: '更新日志',
-              link: '/CHANGELOG.html',
-            },
-          ],
-        },
-        {
-          text: '生态',
-          children: [
-            {
-              text: 'Docker 镜像',
-              children: [
-                {
-                  text: 'faasjs/nginx',
-                  link: 'https://github.com/faasjs/faasjs/tree/main/images/nginx',
-                },
-                {
-                  text: 'faasjs/node',
-                  link: 'https://github.com/faasjs/faasjs/tree/main/images/node',
-                },
-                {
-                  text: 'faasjs/vscode',
-                  link: 'https://github.com/faasjs/faasjs/tree/main/images/vscode',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          text: '社区',
-          children: [
-            {
-              text: 'Github',
-              link: 'https://github.com/faasjs/faasjs/',
-            },
-            {
-              text: '支持 FaasJS',
-              link: '/CONTRIBUTING.html',
-            },
-            {
-              text: '赞助 FaasJS',
-              link: 'https://github.com/sponsors/faasjs',
-            },
-          ],
-        },
-      ],
-      sidebar: {
-        '/zh/guidelines/': zhGuidelines,
-        '/zh/specs/': zhSpecs,
       },
     },
   },

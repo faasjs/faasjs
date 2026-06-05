@@ -23,7 +23,7 @@ Use this guide when developing or maintaining the FaasJS framework in this monor
 
 - Prefer the smallest useful validation for the files you touched.
 - For significant or cross-package changes, run broader checks before handoff.
-- If exported APIs, JSDoc, best-practices guides, specs, translations, or generated guide indexes changed, run `npm run doc`.
+- If exported APIs, JSDoc, best-practices guides, specs, or generated guide indexes changed, run `npm run doc`.
 - If docs content or navigation changed, run `npm run doc` first, then build the docs site.
 - If you intentionally skip a check, explain why in the PR or handoff.
 
@@ -47,4 +47,4 @@ npm run ci
 
 ## Related Guides
 
-- For docs, generated docs, translations, navigation, and changelog triage, also follow [`documentation-sync.md`](./documentation-sync.md).
+- For docs, generated docs, navigation, and changelog triage, also follow [`documentation-sync.md`](./documentation-sync.md).

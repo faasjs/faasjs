@@ -11,7 +11,6 @@ Use this guide when developing or maintaining the FaasJS framework in this monor
 - Framework contribution guides and maintainer workflows: `contributing/**`
 - Docker image definitions and related assets: `images/**`
 - Framework specifications: `skills/*/references/specs/**`
-- Chinese best-practices and specs translations: `docs/zh/**`
 
 ## Guide Boundaries
 
@@ -26,7 +25,7 @@ Use this guide when developing or maintaining the FaasJS framework in this monor
 - Do not directly edit generated API Markdown under `packages/*/{classes,functions,interfaces,type-aliases,variables}`.
 - Update JSDoc in `packages/*/src` first, then run `npm run doc` to refresh generated package API Markdown.
 - Update guide/spec source under `skills/**` first, then run `npm run doc` to refresh generated published docs.
-- Do not hand-edit generated docs output such as `docs/guidelines/**`, `docs/specs/**`, `docs/zh/guidelines/**`, `docs/zh/specs/**`, `docs/guidelines/README.md`, `docs/zh/guidelines/README.md`, or `docs/dist/**`.
+- Do not hand-edit generated docs output such as `docs/guidelines/**`, `docs/specs/**`, `docs/guidelines/README.md`, or `docs/dist/**`.
 
 ## Codebase Conventions
 

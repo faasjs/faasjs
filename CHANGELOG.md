@@ -6,6 +6,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `faasjs`
   - [Feature] Reframe docs and `faasjs-best-practices` around feature-based application slices, dedicated guide pages, and local spec references for agents.
+  - [Break] Remove Chinese documentation and make the docs site English-only.
 
 - `@faasjs/core`
   - [Feature] Add `context.runtime` for plugin lifecycle code and default it to `api` for `defineApi()`.
