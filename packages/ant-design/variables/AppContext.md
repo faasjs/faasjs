@@ -79,7 +79,7 @@ Descendant elements that should read from the split contexts.
 
 `Partial`\<`NewT`\>
 
-Initial values converted into local state via `useSplittingState`.
+Initial values converted into local state via `useStates`.
 
 Each key produces both a state value and its matching setter using the
 `value` / `setValue` naming convention.

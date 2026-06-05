@@ -4,7 +4,7 @@
 
 > **StatesWithSetters**\<`T`\> = `T` & [`StateSetters`](StateSetters.md)\<`T`\>
 
-State object returned by [useSplittingState](../functions/useSplittingState.md), including generated setters.
+State object returned by [useStates](../functions/useStates.md), including generated setters.
 
 ## Type Parameters
 

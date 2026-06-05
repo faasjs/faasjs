@@ -14,7 +14,8 @@
  *   - Utils:
  *     - `equal`: Compare two values for deep equality.
  *     - `createSplittingContext`: Create a context for code splitting.
- *     - `useSplittingState`: Create splitting states.
+ *     - `useStates`: Create splitting states.
+ *     - `useStatesRef`: Create splitting states with refs.
  *   - Hooks:
  *     - `useEqualMemoize`: Memoize a value with deep equality.
  *     - `useEqualEffect`: Run an effect with deep equality.
@@ -49,7 +50,7 @@ export * from './FaasDataWrapper'
 export * from './faas'
 export * from './OptionalWrapper'
 export * from './splitting-context'
-export * from './splitting-state'
+export * from './useStates'
 export * from './useFaas'
 export * from './useFaasStream'
 export * from './usePrevious'

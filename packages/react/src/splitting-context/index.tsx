@@ -1,8 +1,8 @@
-import { type Context, createContext, type ReactNode, useContext } from 'react'
+import { type Context, createContext, type Key, type ReactNode, useContext } from 'react'
 
 import { useConstant } from '../constants'
 import { useEqualMemo } from '../equal'
-import { useSplittingState } from '../splitting-state'
+import { useStates } from '../useStates'
 
 /**
  * Create a context whose keys can be consumed independently.
@@ -12,8 +12,8 @@ import { useSplittingState } from '../splitting-state'
  * subscribe to the values they access.
  *
  * @template T - Context value shape exposed by the provider and hook.
- * @param {Record<string, any> | (keyof T)[]} defaultValue - Default value map or key list used to create split contexts.
- * @returns {{ Provider<NewT extends T = T>(this: void, props: { value?: Partial<NewT>; children: ReactNode; memo?: true | any[]; initializeStates?: Partial<NewT> }): ReactNode; use<NewT extends T = T>(this: void): Readonly<NewT> }} Provider and hook helpers for the split context.
+ * @param {Record<string, unknown> | (keyof T)[]} defaultValue - Default value map or key list used to create split contexts.
+ * @returns {{ Provider<NewT extends T = T>(this: void, props: { value?: Partial<NewT>; children: ReactNode; memo?: true | Key[]; initializeStates?: Partial<NewT> }): ReactNode; use<NewT extends T = T>(this: void): Readonly<NewT> }} Provider and hook helpers for the split context.
  *
  * @example
  * ```tsx
@@ -53,7 +53,7 @@ import { useSplittingState } from '../splitting-state'
  * }
  * ```
  */
-export function createSplittingContext<T extends Record<string, any>>(
+export function createSplittingContext<T extends Record<string, unknown>>(
   defaultValue:
     | {
         [K in keyof T]: Partial<T[K]> | null
@@ -94,9 +94,9 @@ export function createSplittingContext<T extends Record<string, any>>(
        * Pass `true` to memoize without dependencies or an array to control the
        * deep-equality dependency list manually.
        */
-      memo?: true | any[]
+      memo?: true | Key[]
       /**
-       * Initial values converted into local state via `useSplittingState`.
+       * Initial values converted into local state via `useStates`.
        *
        * Each key produces both a state value and its matching setter using the
        * `value` / `setValue` naming convention.
@@ -149,11 +149,11 @@ export function createSplittingContext<T extends Record<string, any>>(
     props: {
       value?: Partial<NewT>
       children: React.ReactNode
-      memo?: true | any[]
+      memo?: true | Key[]
       initializeStates?: Partial<NewT>
     },
   ) {
-    const states = props.initializeStates ? useSplittingState(props.initializeStates) : ({} as NewT)
+    const states = props.initializeStates ? useStates(props.initializeStates) : ({} as NewT)
 
     let children = props.memo
       ? useEqualMemo(() => props.children, props.memo === true ? [] : props.memo)

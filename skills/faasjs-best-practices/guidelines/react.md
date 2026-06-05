@@ -184,17 +184,17 @@ export function AsyncCounter() {
 
 ### 5. Split multi-field shared state deliberately
 
-Use `createSplittingContext` when one context object has fields that change independently. Use `useSplittingState` to build a small object state container with matching setters. Prefer this over putting a large mutable object into one normal context.
+Use `createSplittingContext` when one context object has fields that change independently. Use `useStates` to build a small object state container with matching setters. Use `useStatesRef` when the same state fields also need latest-value refs. Prefer this over putting a large mutable object into one normal context.
 
 ```tsx
-import { createSplittingContext, useSplittingState } from '@faasjs/react'
+import { createSplittingContext, useStates } from '@faasjs/react'
 
 const CounterContext = createSplittingContext<{
   count: number
   setCount: (value: number) => void
   keyword: string
   setKeyword: (value: string) => void
-}>()
+}>(['count', 'setCount', 'keyword', 'setKeyword'])
 
 function Filters() {
   const { keyword, setKeyword } = CounterContext.use()
@@ -214,10 +214,10 @@ function Count() {
 }
 
 export function Page() {
-  const { value, Provider } = useSplittingState({ count: 0, keyword: '' })
+  const states = useStates({ count: 0, keyword: '' })
 
   return (
-    <CounterContext.Provider value={value}>
+    <CounterContext.Provider value={states}>
       <Filters />
       <Count />
     </CounterContext.Provider>

@@ -17,8 +17,9 @@
 - [useFaas](functions/useFaas.md)
 - [useFaasStream](functions/useFaasStream.md)
 - [usePrevious](functions/usePrevious.md)
-- [useSplittingState](functions/useSplittingState.md)
 - [useStateRef](functions/useStateRef.md)
+- [useStates](functions/useStates.md)
+- [useStatesRef](functions/useStatesRef.md)
 - [withFaasData](functions/withFaasData.md)
 
 ## Classes
@@ -49,8 +50,10 @@
 - [ResponseErrorProps](type-aliases/ResponseErrorProps.md)
 - [ResponseHeaders](type-aliases/ResponseHeaders.md)
 - [ResponseProps](type-aliases/ResponseProps.md)
+- [StateRefs](type-aliases/StateRefs.md)
 - [StateSetters](type-aliases/StateSetters.md)
 - [StatesWithSetters](type-aliases/StatesWithSetters.md)
+- [StatesWithSettersAndRefs](type-aliases/StatesWithSettersAndRefs.md)
 - [UseFaasOptions](type-aliases/UseFaasOptions.md)
 - [UseFaasStreamOptions](type-aliases/UseFaasStreamOptions.md)
 - [UseFaasStreamResult](type-aliases/UseFaasStreamResult.md)

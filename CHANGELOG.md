@@ -7,6 +7,10 @@ Unreleased
 - `@faasjs/pg`
   - [Feature] Add `faasjs-pg sql` to execute SQL from arguments or stdin using `DATABASE_URL`.
 
+- `@faasjs/react`
+  - [Break] Rename `useSplittingState` to `useStates`.
+  - [Feature] Add `useStatesRef` to create object-based states with matching latest-value refs.
+
 [`v8.0.0-beta.36 (2026-06-05)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.35...v8.0.0-beta.36)
 
 - `faasjs`

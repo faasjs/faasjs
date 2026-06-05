@@ -1,8 +1,8 @@
-[@faasjs/react](../README.md) / useSplittingState
+[@faasjs/react](../README.md) / useStates
 
-# Function: useSplittingState()
+# Function: useStates()
 
-> **useSplittingState**\<`T`\>(`initialStates`): [`StatesWithSetters`](../type-aliases/StatesWithSetters.md)\<`T`\>
+> **useStates**\<`T`\>(`initialStates`): [`StatesWithSetters`](../type-aliases/StatesWithSetters.md)\<`T`\>
 
 Create local state entries and matching setters for each key in an object.
 
@@ -32,7 +32,7 @@ Object containing the original keys plus generated setter functions.
 
 ```tsx
 function Counter() {
-  const { count, setCount, name, setName } = useSplittingState({ count: 0, name: 'John' })
+  const { count, setCount, name, setName } = useStates({ count: 0, name: 'John' })
 
   return (
     <>
