@@ -97,25 +97,28 @@ npx faas types
 
 Provided by `@faasjs/pg` as the `faasjs-pg` binary.
 
-| Command                | Description                                              |
-| ---------------------- | -------------------------------------------------------- |
-| `faasjs-pg new <name>` | Create a new timestamped migration file in `migrations/` |
-| `faasjs-pg status`     | Show the status of all migrations                        |
-| `faasjs-pg migrate`    | Run all pending migrations                               |
-| `faasjs-pg up`         | Run the next pending migration                           |
-| `faasjs-pg down`       | Roll back the latest applied migration                   |
+| Command                | Description                                                    |
+| ---------------------- | -------------------------------------------------------------- |
+| `faasjs-pg new <name>` | Create a new timestamped migration file in `src/db/migrations` |
+| `faasjs-pg status`     | Show the status of all migrations                              |
+| `faasjs-pg migrate`    | Run all pending migrations                                     |
+| `faasjs-pg up`         | Run the next pending migration                                 |
+| `faasjs-pg down`       | Roll back the latest applied migration                         |
+| `faasjs-pg sql <sql>`  | Execute SQL from an argument or stdin and print JSON output    |
 
 Requirements:
 
-- `DATABASE_URL` environment variable must be set for `status`, `migrate`, `up`, and `down`.
+- `DATABASE_URL` environment variable must be set for `status`, `migrate`, `up`, `down`, and `sql`.
 - Migration files live in `./src/db/migrations` by default.
 - Migration file naming convention: `<timestamp>-<name>.ts` (generated automatically by `faasjs-pg new`).
+- SQL can be passed as an argument (`faasjs-pg sql "SELECT 1"`) or through stdin (`cat query.sql | faasjs-pg sql`).
 - See [PG Schema and Migrations Guide](./pg-schema-and-migrations.md) for migration authoring rules.
 
 Example:
 
 ```bash
 DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg migrate
+DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg sql "SELECT 1"
 DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg new add_users_table
 ```
 
@@ -248,8 +251,8 @@ npx faas types --root /path/to/project
 - `faas.yaml` is valid YAML and follows the [faas.yaml specification](./faas-yaml.md)
 - `vp check --fix` passes before commit
 - `vp test` passes (or a recorded blocker + narrower validation that did run)
-- `DATABASE_URL` is set before running `faasjs-pg` migration commands
-- migration files are in `migrations/` and follow timestamped naming
+- `DATABASE_URL` is set before running `faasjs-pg` database commands
+- migration files are in `src/db/migrations/` and follow timestamped naming
 - `src/.faasjs/types.d.ts` is not hand-edited
 - `npx` prefix is used when binaries are not globally installed
 - environment variables (`FaasEnv`, `FaasLog`, `DATABASE_URL`) are documented or obvious per project

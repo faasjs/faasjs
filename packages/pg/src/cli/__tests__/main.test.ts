@@ -10,11 +10,12 @@ import {
 } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { Readable } from 'node:stream'
 
 import { Logger } from '@faasjs/node-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { createClient, type Client } from '../../client'
+import { createClient, getClients, type Client } from '../../client'
 import { main } from '../main'
 
 const testingDatabaseUrl = process.env.DATABASE_URL!
@@ -35,9 +36,18 @@ function captureLogger() {
     debug: vi.spyOn(Logger.prototype, 'debug').mockImplementation(noopLoggerMethod),
     error: vi.spyOn(Logger.prototype, 'error').mockImplementation(noopLoggerMethod),
     info: vi.spyOn(Logger.prototype, 'info').mockImplementation(noopLoggerMethod),
+    raw: vi.spyOn(Logger.prototype, 'raw').mockImplementation(noopLoggerMethod),
     time: vi.spyOn(Logger.prototype, 'time').mockImplementation(noopLoggerMethod),
     timeEnd: vi.spyOn(Logger.prototype, 'timeEnd').mockImplementation(noopLoggerMethod),
   }
+}
+
+function getRawJson(logger: ReturnType<typeof captureLogger>) {
+  const output = logger.raw.mock.calls.at(-1)?.[0]
+
+  if (typeof output !== 'string') throw new Error('Expected raw JSON output')
+
+  return JSON.parse(output)
 }
 
 async function withTestingClient<T>(fn: (client: Client) => Promise<T>) {
@@ -235,6 +245,104 @@ export function down(builder) {
     expect(logger.error).not.toHaveBeenCalled()
     expect(await listMigrationNames()).toEqual([])
     expect(await tableExists(migration.tableName)).toBe(false)
+  })
+
+  it('runs sql operation from argv and prints JSON without connection logs', async () => {
+    const logger = captureLogger()
+    const cachedClientCount = getClients().length
+
+    process.argv = ['node', 'faasjs-pg', 'sql', 'SELECT 1 AS value']
+
+    expect(await main('sql')).toBe(0)
+    expect(logger.error).not.toHaveBeenCalled()
+    expect(logger.info).not.toHaveBeenCalledWith('Connected to database successfully')
+    expect(getRawJson(logger)).toEqual({
+      command: 'SELECT',
+      count: 1,
+      rows: [{ value: 1 }],
+    })
+    expect(getClients()).toHaveLength(cachedClientCount)
+  })
+
+  it('runs sql operation from stdin when no SQL argument is provided', async () => {
+    const logger = captureLogger()
+
+    process.argv = ['node', 'faasjs-pg', 'sql']
+
+    expect(await main('sql', { stdin: Readable.from(['SELECT 2 AS value']) })).toBe(0)
+    expect(logger.error).not.toHaveBeenCalled()
+    expect(getRawJson(logger)).toEqual({
+      command: 'SELECT',
+      count: 1,
+      rows: [{ value: 2 }],
+    })
+  })
+
+  it('runs sql operation from stdin when SQL argument is dash', async () => {
+    const logger = captureLogger()
+
+    process.argv = ['node', 'faasjs-pg', 'sql', '-']
+
+    expect(await main('sql', { stdin: Readable.from(['SELECT 3 AS value']) })).toBe(0)
+    expect(logger.error).not.toHaveBeenCalled()
+    expect(getRawJson(logger)).toEqual({
+      command: 'SELECT',
+      count: 1,
+      rows: [{ value: 3 }],
+    })
+  })
+
+  it('logs error when DATABASE_URL is missing for sql operation', async () => {
+    const logger = captureLogger()
+
+    delete process.env.DATABASE_URL
+    process.argv = ['node', 'faasjs-pg', 'sql', 'SELECT 1']
+
+    expect(await main('sql')).toBe(1)
+    expect(logger.error).toHaveBeenCalledWith(expect.stringContaining('DATABASE_URL not set'))
+  })
+
+  it('logs error when SQL input is empty without connecting to the database', async () => {
+    const logger = captureLogger()
+
+    process.env.DATABASE_URL =
+      'postgresql://postgres:postgres@127.0.0.1:1/template1?sslmode=disable&connect_timeout=1'
+    process.argv = ['node', 'faasjs-pg', 'sql', '   ']
+
+    expect(await main('sql')).toBe(1)
+    expect(logger.error).toHaveBeenCalledWith(expect.stringContaining('Please provide SQL'))
+    expect(logger.error).not.toHaveBeenCalledWith(
+      expect.stringContaining('Error connecting to database, please check your DATABASE_URL\n'),
+      expect.any(Error),
+    )
+  })
+
+  it('runs sql operation with question marks as literal SQL text', async () => {
+    const logger = captureLogger()
+
+    process.argv = ['node', 'faasjs-pg', 'sql', "SELECT '?' AS value"]
+
+    expect(await main('sql')).toBe(0)
+    expect(logger.error).not.toHaveBeenCalled()
+    expect(getRawJson(logger)).toEqual({
+      command: 'SELECT',
+      count: 1,
+      rows: [{ value: '?' }],
+    })
+  })
+
+  it('closes the sql operation client after execution errors', async () => {
+    const logger = captureLogger()
+    const cachedClientCount = getClients().length
+
+    process.argv = ['node', 'faasjs-pg', 'sql', 'SELECT * FROM "faasjs_pg_missing_table"']
+
+    expect(await main('sql')).toBe(1)
+    expect(logger.error).toHaveBeenCalledWith(
+      expect.stringContaining('Error executing SQL\n'),
+      expect.any(Error),
+    )
+    expect(getClients()).toHaveLength(cachedClientCount)
   })
 
   it('shows an error when creating a migration without a name without touching the database', async () => {

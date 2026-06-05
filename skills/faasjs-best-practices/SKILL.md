@@ -16,6 +16,7 @@ Quick reference for AI agents. See linked guides for details when a rule does no
 | `vp check --fix`                | Lint + format (oxlint + oxfmt)                           |
 | `npx faas types`                | Regenerate API type declarations after `.api.ts` changes |
 | `npx faasjs-pg migrate`         | Run pending DB migrations (`DATABASE_URL` required)      |
+| `npx faasjs-pg sql "<sql>"`     | Execute SQL and print JSON (`DATABASE_URL` required)     |
 | `npx faasjs-pg new <name>`      | Create timestamped migration file                        |
 
 ### File Layout

@@ -7,6 +7,13 @@ import { createClient, type Client } from '../client'
 import { Migrator } from '../migrator'
 
 const cliName = 'faasjs-pg'
+const databaseOperations = ['status', 'migrate', 'up', 'down', 'sql']
+
+export type MainOptions = {
+  stdin?: AsyncIterable<string | Buffer> & {
+    setEncoding?: (encoding: BufferEncoding) => unknown
+  }
+}
 
 function printUsage(logger: Logger) {
   logger.error(`Please provide a operation to run: ${cliName} <operation>
@@ -14,6 +21,7 @@ function printUsage(logger: Logger) {
 - migrate: Run all pending migrations
 - up: Run the next migration
 - down: Rollback the last migration
+- sql <sql>: Execute SQL and print the result as JSON
 - new <name>: Create a new migration file with the given name
 `)
 }
@@ -58,17 +66,105 @@ export function down(builder: SchemaBuilder) {
   return 0
 }
 
+async function readStdin(options: MainOptions) {
+  const stdin = options.stdin || process.stdin
+
+  stdin.setEncoding?.('utf8')
+
+  let sql = ''
+
+  for await (const chunk of stdin) {
+    sql += chunk
+  }
+
+  return sql
+}
+
+async function readSqlInput(options: MainOptions) {
+  const args = process.argv.slice(3)
+
+  if (!args.length || (args.length === 1 && args[0] === '-')) return readStdin(options)
+
+  return args.join(' ')
+}
+
+async function createConnectedClient(
+  logger: Logger,
+  options?: { logSuccess?: boolean; silenceNotices?: boolean },
+) {
+  const connection = process.env.DATABASE_URL as string | undefined
+
+  if (!connection) {
+    logger.error(
+      `DATABASE_URL not set, please run \`DATABASE_URL=postgres://<your pg url> ${cliName}\``,
+    )
+    return
+  }
+
+  let client: Client | undefined
+
+  try {
+    client = createClient(
+      connection,
+      options?.silenceNotices ? { onnotice: () => undefined } : undefined,
+    )
+    await client.raw`SELECT 1`
+    if (options?.logSuccess !== false) logger.info('Connected to database successfully')
+    return client
+  } catch (error) {
+    logger.error('Error connecting to database, please check your DATABASE_URL\n', error)
+    await closeClient(client)
+  }
+}
+
+async function executeSql(logger: Logger, options: MainOptions) {
+  const sql = await readSqlInput(options)
+
+  if (!sql.trim()) {
+    logger.error(`Please provide SQL to execute: \`${cliName} sql "SELECT 1"\``)
+    return 1
+  }
+
+  const client = await createConnectedClient(logger, { logSuccess: false, silenceNotices: true })
+
+  if (!client) return 1
+
+  try {
+    const result = await client.postgres.unsafe(sql)
+
+    logger.raw(
+      JSON.stringify(
+        {
+          command: result.command,
+          count: result.count,
+          rows: [...result],
+        },
+        null,
+        2,
+      ),
+    )
+
+    return 0
+  } catch (error) {
+    logger.error('Error executing SQL\n', error)
+    return 1
+  } finally {
+    await closeClient(client)
+  }
+}
+
 /**
  * CLI entry point for migration operations.
  *
- * Supported operations: `status`, `migrate`, `up`, `down`, `new <name>`.
+ * Supported operations: `status`, `migrate`, `up`, `down`, `sql <sql>`, `new <name>`.
  *
  * Requires `DATABASE_URL` environment variable for database operations.
  *
  * @param operation - The CLI operation to perform (defaults to `process.argv[2]`).
+ * @param options - Optional test hooks for CLI input streams.
  * @returns Exit code (0 on success, 1 on failure).
  */
-export async function main(operation = process.argv[2] as string) {
+export async function main(operation = process.argv[2] as string, options: MainOptions = {}) {
   const logger = new Logger(cliName)
 
   if (!operation) {
@@ -78,31 +174,16 @@ export async function main(operation = process.argv[2] as string) {
 
   if (operation === 'new') return createMigration(logger)
 
-  if (!['status', 'migrate', 'up', 'down'].includes(operation)) {
+  if (!databaseOperations.includes(operation)) {
     logger.error('Unknown operation:', operation)
     return 1
   }
 
-  const connection = process.env.DATABASE_URL as string | undefined
+  if (operation === 'sql') return executeSql(logger, options)
 
-  if (!connection) {
-    logger.error(
-      `DATABASE_URL not set, please run \`DATABASE_URL=postgres://<your pg url> ${cliName}\``,
-    )
-    return 1
-  }
+  const client = await createConnectedClient(logger)
 
-  let client: Client | undefined
-
-  try {
-    client = createClient(connection)
-    await client.raw`SELECT 1`
-    logger.info('Connected to database successfully')
-  } catch (error) {
-    logger.error('Error connecting to database, please check your DATABASE_URL\n', error)
-    await closeClient(client)
-    return 1
-  }
+  if (!client) return 1
 
   let migrator: Migrator
 
