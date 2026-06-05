@@ -8,7 +8,7 @@ import type { ModalProps, setModalProps } from '../Modal'
 /**
  * Shared app services exposed by {@link AppContext} and {@link useApp}.
  */
-export interface useAppProps {
+export type useAppProps = {
   /** Ant Design message API instance created by the root `App` component. */
   message: MessageInstance
   /** Ant Design notification API instance created by the root `App` component. */
