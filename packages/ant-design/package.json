@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ant-design",
-  "version": "8.0.0-beta.36",
+  "version": "8.0.0-beta.37",
   "homepage": "https://faasjs.com/doc/ant-design",
   "bugs": {
     "url": "https://github.com/faasjs/faasjs/issues"
@@ -27,9 +27,9 @@
   },
   "devDependencies": {
     "@ant-design/icons": "*",
-    "@faasjs/react": ">=8.0.0-beta.36",
-    "@faasjs/types": ">=8.0.0-beta.36",
-    "@faasjs/utils": ">=8.0.0-beta.36",
+    "@faasjs/react": ">=8.0.0-beta.37",
+    "@faasjs/types": ">=8.0.0-beta.37",
+    "@faasjs/utils": ">=8.0.0-beta.37",
     "@types/lodash-es": "*",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
@@ -41,9 +41,9 @@
   },
   "peerDependencies": {
     "@ant-design/icons": "*",
-    "@faasjs/react": ">=8.0.0-beta.36",
-    "@faasjs/types": ">=8.0.0-beta.36",
-    "@faasjs/utils": ">=8.0.0-beta.36",
+    "@faasjs/react": ">=8.0.0-beta.37",
+    "@faasjs/types": ">=8.0.0-beta.37",
+    "@faasjs/utils": ">=8.0.0-beta.37",
     "antd": "^6.0.0",
     "lodash-es": "*",
     "react": "^19.0.0",

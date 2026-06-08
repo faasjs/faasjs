@@ -2,7 +2,7 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-Unreleased
+[`v8.0.0-beta.37 (2026-06-09)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.36...v8.0.0-beta.37)
 
 - `@faasjs/pg`
   - [Feature] Add `faasjs-pg sql` to execute SQL from arguments or stdin using `DATABASE_URL`.
