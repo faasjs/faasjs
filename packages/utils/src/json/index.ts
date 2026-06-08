@@ -1,18 +1,34 @@
+import type { ZodOutput, ZodType } from '../zod'
 import { isObjectRecord } from '../zod'
 
 /**
  * Parses a JSON string into a JavaScript value.
  *
- * @template T - Expected parsed value type. The helper does not validate the parsed shape.
+ * @template T - Expected parsed value type. Without a schema, this is a TypeScript assertion.
  * @param value - The JSON string to parse.
  * @returns The parsed JavaScript value.
  * @throws {Error} If the input is not a string.
  * @throws {SyntaxError} If the string is not valid JSON.
  */
-export const parseJson = <T extends unknown>(value: unknown): T => {
+export function parseJson<T = unknown>(value: unknown): T
+/**
+ * Parses a JSON string and validates the parsed value with a Zod schema.
+ *
+ * @template Schema - Zod schema used to validate and type the parsed value.
+ * @param value - The JSON string to parse.
+ * @param schema - Zod schema used to validate the parsed value.
+ * @returns The Zod schema output.
+ * @throws {Error} If the input is not a string.
+ * @throws {SyntaxError} If the string is not valid JSON.
+ * @throws {ZodError} If schema validation fails.
+ */
+export function parseJson<Schema extends ZodType>(value: unknown, schema: Schema): ZodOutput<Schema>
+export function parseJson(value: unknown, schema?: ZodType): unknown {
   if (typeof value !== 'string') throw Error('Invalid JSON string')
 
-  return JSON.parse(value.trim()) as T
+  const parsed = JSON.parse(value.trim())
+
+  return schema ? schema.parse(parsed) : parsed
 }
 
 /**

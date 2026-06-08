@@ -1,3 +1,4 @@
+import type { ZodOutput, ZodType } from '../zod'
 import { parseNode } from './nodes'
 import { createParseError, normalizeLines } from './scanner'
 import type { ParseContext } from './types'
@@ -55,10 +56,26 @@ export { parseNode, parseMapping, parseSequence } from './nodes'
  * `)
  * ```
  */
-export function parseYaml<T = unknown>(content: string): T {
+export function parseYaml<T = unknown>(content: string): T
+/**
+ * Parses the FaasJS-supported YAML subset and validates it with a Zod schema.
+ *
+ * Empty YAML content is parsed as `undefined` and then validated by the schema.
+ *
+ * @param {string} content - YAML source text.
+ * @param schema - Zod schema used to validate the parsed value.
+ * @returns The Zod schema output.
+ * @throws {Error} If the YAML uses unsupported syntax or cannot be parsed.
+ * @throws {ZodError} If schema validation fails.
+ */
+export function parseYaml<Schema extends ZodType>(
+  content: string,
+  schema: Schema,
+): ZodOutput<Schema>
+export function parseYaml(content: string, schema?: ZodType): unknown {
   const lines = normalizeLines(content)
 
-  if (!lines.length) return undefined as T
+  if (!lines.length) return schema ? schema.parse(undefined) : undefined
 
   const context: ParseContext = {
     anchors: new Map(),
@@ -68,5 +85,5 @@ export function parseYaml<T = unknown>(content: string): T {
   if (parsed.nextIndex < lines.length)
     throw createParseError(lines[parsed.nextIndex].line, 'Unexpected trailing content')
 
-  return parsed.value as T
+  return schema ? schema.parse(parsed.value) : parsed.value
 }

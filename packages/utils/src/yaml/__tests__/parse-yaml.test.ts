@@ -1,5 +1,6 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, expectTypeOf, it } from 'vitest'
 
+import { z } from '../../zod'
 import { parseYaml } from '../index'
 
 describe('parseYaml', () => {
@@ -110,6 +111,73 @@ target:
 
   it('should return undefined for empty content', () => {
     expect(parseYaml('\n# comment\n')).toBeUndefined()
+  })
+
+  it('should validate parsed YAML with a zod schema', () => {
+    const schema = z.object({
+      defaults: z.object({
+        retries: z.number(),
+      }),
+    })
+    const result = parseYaml(
+      `defaults:
+  retries: 3
+`,
+      schema,
+    )
+
+    expect(result).toEqual({
+      defaults: {
+        retries: 3,
+      },
+    })
+    expectTypeOf(result).toEqualTypeOf<{
+      defaults: {
+        retries: number
+      }
+    }>()
+  })
+
+  it('should return zod output after transforms and defaults', () => {
+    const schema = z.object({
+      count: z.number().default(1),
+      name: z.string().transform((value) => value.toUpperCase()),
+    })
+    const result = parseYaml(
+      `name: admin
+`,
+      schema,
+    )
+
+    expect(result).toEqual({
+      count: 1,
+      name: 'ADMIN',
+    })
+    expectTypeOf(result).toEqualTypeOf<{
+      count: number
+      name: string
+    }>()
+  })
+
+  it('should validate empty YAML content when a zod schema is provided', () => {
+    expect(parseYaml('\n# comment\n', z.object({}).optional())).toBeUndefined()
+    expect(() => parseYaml('\n# comment\n', z.object({}))).toThrow(
+      'Invalid input: expected object, received undefined',
+    )
+  })
+
+  it('should throw the zod error when schema validation fails', () => {
+    const schema = z.object({
+      id: z.number(),
+    })
+
+    expect(() =>
+      parseYaml(
+        `id: '1'
+`,
+        schema,
+      ),
+    ).toThrow('Invalid input: expected number, received string')
   })
 
   it('should throw for unsupported block scalar', () => {

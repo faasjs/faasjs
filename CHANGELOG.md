@@ -11,6 +11,9 @@ Unreleased
   - [Break] Rename `useSplittingState` to `useStates`.
   - [Feature] Add `useStatesRef` to create object-based states with matching latest-value refs.
 
+- `@faasjs/utils`
+  - [Feature] Add optional Zod schema validation to `parseJson` and `parseYaml`.
+
 [`v8.0.0-beta.36 (2026-06-05)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.35...v8.0.0-beta.36)
 
 - `faasjs`

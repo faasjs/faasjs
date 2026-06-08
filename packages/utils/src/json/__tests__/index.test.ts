@@ -1,6 +1,7 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, expectTypeOf, it } from 'vitest'
 
 import { parseJson, parseArrayFromJson, parseObjectFromJson } from '..'
+import { z } from '../../zod'
 
 describe('json helpers', () => {
   describe('parseJson', () => {
@@ -19,6 +20,50 @@ describe('json helpers', () => {
         "Expected property name or '}' in JSON at position 1 (line 1 column 2)",
       )
       expect(() => parseJson('')).toThrow('Unexpected end of JSON input')
+    })
+
+    it('should validate parsed JSON with a zod schema', () => {
+      const schema = z.object({
+        id: z.number(),
+        name: z.string(),
+      })
+      const result = parseJson('{"id": 1, "name": "admin"}', schema)
+
+      expect(result).toEqual({
+        id: 1,
+        name: 'admin',
+      })
+      expectTypeOf(result).toEqualTypeOf<{
+        id: number
+        name: string
+      }>()
+    })
+
+    it('should return zod output after transforms and defaults', () => {
+      const schema = z.object({
+        count: z.number().default(1),
+        name: z.string().transform((value) => value.toUpperCase()),
+      })
+      const result = parseJson('{"name": "admin"}', schema)
+
+      expect(result).toEqual({
+        count: 1,
+        name: 'ADMIN',
+      })
+      expectTypeOf(result).toEqualTypeOf<{
+        count: number
+        name: string
+      }>()
+    })
+
+    it('should throw the zod error when schema validation fails', () => {
+      const schema = z.object({
+        id: z.number(),
+      })
+
+      expect(() => parseJson('{"id": "1"}', schema)).toThrow(
+        'Invalid input: expected number, received string',
+      )
     })
   })
 
