@@ -7,7 +7,9 @@
 Handler data passed to [defineApi](../functions/defineApi.md).
 
 Extends the normal invoke data with validated `params`, `cookie`, `session`,
-and any plugin-provided fields declared through `DefineApiInject`.
+and any plugin-provided fields declared through `DefineApiInject`. The built-in
+HTTP plugin augments this type with `headers`, `body`, `setHeader`,
+`setContentType`, `setStatusCode`, and `setBody`.
 
 ## Type Declaration
 

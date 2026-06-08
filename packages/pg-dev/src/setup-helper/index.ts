@@ -8,16 +8,18 @@ import { createTestingPostgres } from '../postgres'
 import { resetTestingDatabase } from '../testing'
 import { startTestingServer } from '../testing-server'
 
-type Awaitable<T> = T | Promise<T>
-
 /**
  * Runtime hooks provided by the Vitest project that `setupPgVitest` wires into.
+ *
+ * Pass Vitest's `afterAll` and `beforeEach` functions from the active setup module.
+ * `projectRoot` should point at the project whose `src/db/migrations` directory should
+ * be applied to the temporary database.
  */
 export interface PgVitestSetupRuntime {
   /** Lifecycle hook called once after all tests in the file finish. */
-  afterAll: (callback: () => Awaitable<void>) => void
+  afterAll: (callback: () => void | Promise<void>) => void
   /** Lifecycle hook called before each test in the file. */
-  beforeEach: (callback: () => Awaitable<void>) => void
+  beforeEach: (callback: () => void | Promise<void>) => void
   /** Optional project root directory. Defaults to `process.cwd()`. */
   projectRoot?: string
 }
@@ -41,8 +43,14 @@ async function resetCurrentTestingDatabase(databaseUrl: string) {
  * setup files directly from `node_modules`.
  *
  * The helper registers a lazy async bootstrap for `await getClient()`. The first default-client
- * lookup starts PGlite, runs `./src/db/migrations`, and backfills `process.env.DATABASE_URL`. Later tests
- * reuse that database within the current Vitest file while `beforeEach` resets table contents.
+ * lookup starts PGlite, runs `./src/db/migrations`, backfills `process.env.DATABASE_URL`,
+ * and creates the cached `@faasjs/pg` client. If startup or migrations fail, the lazy promise is
+ * cleared so the next lookup can retry.
+ *
+ * The registered `beforeEach` hook is intentionally cheap before the database is booted. After
+ * boot, it closes cached `@faasjs/pg` clients, truncates public tables with identity restart and
+ * cascade semantics, and preserves `faasjs_pg_migrations`. The `afterAll` hook closes cached
+ * clients and stops the active PGlite server.
  *
  * @param {PgVitestSetupRuntime} runtime - Runtime hooks from the active Vitest project.
  */

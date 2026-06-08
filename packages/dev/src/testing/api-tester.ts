@@ -40,7 +40,13 @@ function inferPathFromFilename(filename: string): string | undefined {
   return undefined
 }
 
-type JsonHandlerBody<TApi extends Func<any, any, any>> =
+/**
+ * Request body accepted by {@link ApiTester.JSONhandler} and {@link testApi}.
+ *
+ * Uses the wrapped API params type when it can be inferred; raw strings are also
+ * accepted so tests can send malformed JSON or custom payloads.
+ */
+export type JsonHandlerBody<TApi extends Func<any, any, any>> =
   FuncEventType<TApi> extends {
     params?: infer TParams
   }
@@ -49,28 +55,48 @@ type JsonHandlerBody<TApi extends Func<any, any, any>> =
       : TParams | string | null
     : Record<string, any> | string | null
 
-type JsonHandlerOptions = {
+/**
+ * Options for HTTP-style JSON API test calls.
+ */
+export type JsonHandlerOptions = {
+  /** Headers merged into the JSON request. */
   headers?: { [key: string]: any }
+  /** URL pathname used for `event.path`; defaults to the path inferred from the API filename. */
   path?: string
+  /** Cookie key-value pairs preloaded into the request. */
   cookie?: { [key: string]: any }
+  /** Session key-value pairs encoded into the request cookie before invocation. */
   session?: { [key: string]: any }
 }
 
-type JsonHandlerResult<TData = any> = {
+/**
+ * Normalized HTTP-style response returned by JSON API test helpers.
+ */
+export type JsonHandlerResult<TData = any> = {
+  /** HTTP status code returned by the HTTP plugin. */
   statusCode: number
+  /** Response headers returned by the HTTP plugin. */
   headers: {
     [key: string]: string
   }
+  /** Decoded response cookies. */
   cookie?: Record<string, any>
+  /** Decoded response session values. */
   session?: Record<string, any>
+  /** Raw parsed response body. */
   body: any
+  /** Successful `data` payload from the FaasJS response envelope. */
   data?: TData
+  /** Error payload from the FaasJS response envelope. */
   error?: {
     message: string
   }
 }
 
-type TestApiHandler<TApi extends Func<any, any, any>> = Pick<
+/**
+ * Callable helper returned by {@link testApi}.
+ */
+export type TestApiHandler<TApi extends Func<any, any, any>> = Pick<
   ApiTester<TApi>,
   'api' | 'config' | 'file' | 'handler' | 'JSONhandler' | 'logger' | 'mount' | 'staging'
 > & {
@@ -94,14 +120,16 @@ function createTester<TApi extends Func<any, any, any>>(api: TApi): ApiTester<TA
  * Wrap a FaasJS API with helpers for mounting and assertion-friendly invocations.
  *
  * The tester resolves config for the current `FaasEnv` or `development`, mounts lazily, and
- * exposes helpers for raw handler calls and HTTP-style JSON assertions.
+ * exposes helpers for raw handler calls and HTTP-style JSON assertions. When the wrapped
+ * API has a filename under `src/`, JSON requests infer the pathname from FaasJS API file
+ * conventions such as `index.api.ts`, `default.api.ts`, and nested `*.api.ts` files.
  *
  * @template TApi - Wrapped FaasJS API type.
  * @see {@link testApi}
  * @example
  * ```ts
  * import { ApiTester } from '@faasjs/dev'
- * import api from './hello.api.ts'
+ * import api from './hello.api'
  *
  * const wrapped = new ApiTester(api)
  *
@@ -140,7 +168,7 @@ export class ApiTester<TApi extends Func<any, any, any> = Func<any, any, any>> {
    * @example
    * ```ts
    * import { ApiTester } from '@faasjs/dev'
-   * import api from './hello.api.ts'
+   * import api from './hello.api'
    *
    * const wrapped = new ApiTester(api)
    * ```
@@ -204,8 +232,15 @@ export class ApiTester<TApi extends Func<any, any, any> = Func<any, any, any>> {
   /**
    * Invoke an HTTP-enabled API with JSON body helpers and decoded cookies.
    *
-   * JSON responses populate `data` and `error`, while `Set-Cookie` headers are
-   * decoded into the returned `cookie` and `session` objects.
+   * The helper mounts the API, sends a POST request with `content-type: application/json`,
+   * stringifies non-string bodies, and leaves string bodies untouched for malformed-JSON
+   * or raw-payload tests. JSON responses populate `data` and `error`; response
+   * `Set-Cookie` headers are merged back into the returned `cookie` object and the
+   * session cookie is decoded into `session`.
+   *
+   * ReadableStream response bodies are consumed into strings before JSON parsing. If
+   * stream decoding fails, the result is normalized to a 500-style JSON error object
+   * so tests can assert `response.error.message`.
    *
    * @template TData - Expected JSON `data` payload returned by the API.
    * @param {JsonHandlerBody<TApi>} [body] - Request body object or raw JSON string.
@@ -219,7 +254,7 @@ export class ApiTester<TApi extends Func<any, any, any> = Func<any, any, any>> {
    * @example
    * ```ts
    * import { testApi } from '@faasjs/dev'
-   * import api from './hello.api.ts'
+   * import api from './hello.api'
    *
    * const handler = testApi(api)
    * const response = await handler({ name: 'FaasJS' }, { session: { userId: '1' } })
@@ -331,7 +366,8 @@ export class ApiTester<TApi extends Func<any, any, any> = Func<any, any, any>> {
  *
  * The returned function forwards to {@link ApiTester.JSONhandler} so it keeps
  * the same `(body, options?)` calling style while still exposing bound tester
- * methods for advanced cases.
+ * methods for advanced cases. Detached `handler`, `JSONhandler`, and `mount`
+ * references remain bound to the underlying tester instance.
  *
  * @template TApi - Wrapped FaasJS API type.
  * @param {TApi} api - API instance to wrap.
@@ -340,7 +376,7 @@ export class ApiTester<TApi extends Func<any, any, any> = Func<any, any, any>> {
  * @example
  * ```ts
  * import { testApi } from '@faasjs/dev'
- * import api from './hello.api.ts'
+ * import api from './hello.api'
  *
  * const handler = testApi(api)
  * const response = await handler({ name: 'FaasJS' }, { session: { userId: '1' } })

@@ -14,7 +14,7 @@ Ant Design wrapper props for the underlying `@faasjs/react` data wrapper.
 
 `T` _extends_ `FaasActionPaths` = `any`
 
-Action path or response data type used for inference.
+Registered action path used to infer params and response data.
 
 ## Methods
 

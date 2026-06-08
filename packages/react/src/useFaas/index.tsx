@@ -1,19 +1,31 @@
 import type { FaasData, FaasParams, FaasActionPaths } from '@faasjs/types'
 import { useState } from 'react'
 
-import type { Response } from '../browser'
+import type { BaseUrl, Response } from '../browser'
 import type { FaasDataInjection } from '../FaasDataWrapper'
-import { useFaasRequest, type SharedUseFaasOptions } from '../useFaasRequest'
+import { useFaasRequest } from '../useFaasRequest'
 
 /**
  * Options that customize the {@link useFaas} request lifecycle.
  *
- * @template Path - Action path or response data type used for inference.
+ * @template Path - Registered action path used to infer params and response data.
  */
-export type UseFaasOptions<Path extends FaasActionPaths> = SharedUseFaasOptions<
-  FaasParams<Path>,
-  FaasData<Path>
->
+export type UseFaasOptions<Path extends FaasActionPaths> = {
+  /** Controlled params override sent with the request without mutating local params state. */
+  params?: FaasParams<Path>
+  /** Controlled data value used instead of internal hook state. */
+  data?: FaasData<Path>
+  /** Controlled setter paired with `data`. */
+  setData?: React.Dispatch<React.SetStateAction<FaasData<Path>>>
+  /** Boolean or predicate that suppresses the automatic request. */
+  skip?: boolean | ((params: Partial<FaasParams<Path>>) => boolean)
+  /** Milliseconds to wait before sending the latest request. */
+  debounce?: number
+  /** Milliseconds to wait after each completed request before refreshing data in the background. */
+  polling?: number | false
+  /** Base URL override used for this request lifecycle. */
+  baseUrl?: BaseUrl
+}
 
 /**
  * Request FaasJS data and keep request state in React state.
@@ -22,7 +34,7 @@ export type UseFaasOptions<Path extends FaasActionPaths> = SharedUseFaasOptions<
  * It sends an initial request unless `skip` is enabled, and returns request state
  * plus helpers for reloading, background refreshing, updating data, and handling errors.
  *
- * @template Path - Action path or response data type used for inference.
+ * @template Path - Registered action path used to infer params and response data.
  *
  * @param {Path} action - Action path to invoke.
  * @param {FaasParams<Path>} defaultParams - Params used for the initial request and future reloads.
@@ -34,8 +46,22 @@ export type UseFaasOptions<Path extends FaasActionPaths> = SharedUseFaasOptions<
  * ```tsx
  * import { useFaas } from '@faasjs/react'
  *
+ * declare module '@faasjs/types' {
+ *   interface FaasActions {
+ *     'features/users/api/get': {
+ *       Params: { id: number }
+ *       Data: { name: string }
+ *     }
+ *   }
+ * }
+ *
+ * type GetUserAction = 'features/users/api/get'
+ *
  * function Profile({ id }: { id: number }) {
- *   const { data, error, loading, reload } = useFaas('features/users/api/get', { id })
+ *   const { data, error, loading, reload } = useFaas<GetUserAction>(
+ *     'features/users/api/get',
+ *     { id },
+ *   )
  *
  *   if (loading) return <div>Loading...</div>
  *

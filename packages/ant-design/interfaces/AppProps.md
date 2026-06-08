@@ -4,8 +4,11 @@
 
 Props for the root [App](../functions/App.md) shell.
 
-`App` composes the Ant Design provider tree, FaasJS config provider, shared modal and drawer
-state, and optional browser routing into a single wrapper component.
+`App` composes Ant Design feedback APIs, the FaasJS Ant Design config layer,
+shared modal and drawer state, error handling, and optional browser routing
+into a single wrapper component. Use `configProviderProps` for Ant Design's
+own `ConfigProvider`; use `faasConfigProviderProps` for the FaasJS
+`ConfigProvider` exported by this package.
 
 ## Properties
 
@@ -33,6 +36,9 @@ Descendant elements rendered inside all configured providers.
 
 Props forwarded to Ant Design's `ConfigProvider`.
 
+Omit this prop when you do not need Ant Design token, locale, direction, or
+component config overrides from this root shell.
+
 #### See
 
 [Ant Design ConfigProvider API](https://ant.design/components/config-provider/#API)
@@ -51,7 +57,11 @@ Props forwarded to [ErrorBoundary](../functions/ErrorBoundary.md).
 
 > `optional` **faasConfigProviderProps?**: `false` \| `Omit`\<[`ConfigProviderProps`](ConfigProviderProps.md), `"children"`\>
 
-Props forwarded to [ConfigProvider](../functions/ConfigProvider.md), or `false` to skip the FaasJS config layer.
+Props forwarded to the FaasJS Ant Design [ConfigProvider](../functions/ConfigProvider.md).
+
+`App` still mounts the FaasJS config layer so descendants can read theme
+defaults. Pass `false` to use only the built-in defaults and App's default
+`onError` handler.
 
 #### See
 

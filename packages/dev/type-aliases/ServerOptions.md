@@ -20,6 +20,8 @@ Write to the response to short-circuit normal request handling.
 
 ```ts
 import { join } from 'node:path'
+import { Server } from '@faasjs/core'
+
 const server = new Server(join(process.cwd(), 'src'), {
   beforeHandle: async (req, res) => {
     console.log(`Processing ${req.method} request to ${req.url}`)
@@ -59,6 +61,8 @@ Promise returned by the close hook.
 
 ```ts
 import { join } from 'node:path'
+import { Server } from '@faasjs/core'
+
 const server = new Server(join(process.cwd(), 'src'), {
   onClose: async ({ logger }) => {
     logger.info('Server closed')
@@ -102,6 +106,8 @@ Promise returned by the error hook.
 
 ```ts
 import { join } from 'node:path'
+import { Server } from '@faasjs/core'
+
 const server = new Server(join(process.cwd(), 'src'), {
   onError: async (error, { logger }) => {
     logger.error(error)
@@ -139,6 +145,8 @@ Promise returned by the start hook.
 
 ```ts
 import { join } from 'node:path'
+import { Server } from '@faasjs/core'
+
 const server = new Server(join(process.cwd(), 'src'), {
   onStart: async ({ logger }) => {
     logger.info('Server started')

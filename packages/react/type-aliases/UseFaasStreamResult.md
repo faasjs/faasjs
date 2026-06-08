@@ -12,7 +12,7 @@ Result returned by [useFaasStream](../functions/useFaasStream.md).
 
 `Path` _extends_ `FaasActionPaths`
 
-Action path used for params inference.
+Registered action path used for params inference.
 
 ## Properties
 

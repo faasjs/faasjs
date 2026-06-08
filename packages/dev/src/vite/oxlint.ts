@@ -11,6 +11,7 @@ const ignorePatterns = ['**/dist/**', '**/.faasjs/**', 'node_modules/**']
  * with `argsIgnorePattern: '^_'`, while
  * {@link https://oxc.rs/docs/guide/usage/linter/rules/typescript/consistent-type-imports.html | consistent-type-imports}
  * enforces `type`-only imports.
+ * Generated output under `dist/`, `.faasjs/`, and `node_modules/` is ignored by default.
  *
  * @example
  * ```ts
@@ -60,6 +61,7 @@ export const OxlintConfig: NonNullable<UserConfig['lint']> = {
       },
     ],
     'react-hooks/exhaustive-deps': ['warn'],
+    'jsdoc/check-tag-names': ['off'],
     'jsdoc/no-defaults': ['off'],
   },
 }

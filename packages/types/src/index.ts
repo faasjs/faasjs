@@ -1,7 +1,8 @@
 /**
  * # @faasjs/types
  *
- * Action Type definitions for FaasJS and cross backend and frontend.
+ * Shared action type helpers for FaasJS backends, generated route declarations,
+ * React callers, and TypeScript config presets.
  *
  * [![License: MIT](https://img.shields.io/npm/l/@faasjs/types.svg)](https://github.com/faasjs/faasjs/blob/main/packages/types/LICENSE)
  * [![NPM Version](https://img.shields.io/npm/v/@faasjs/types.svg)](https://www.npmjs.com/package/@faasjs/types)
@@ -27,6 +28,8 @@
  *   "extends": "@faasjs/types/tsconfig/build.json"
  * }
  * ```
+ *
+ * @packageDocumentation
  */
 /**
  * Augmentation interface for registering typed FaasJS actions.
@@ -35,6 +38,8 @@
  * action paths and their corresponding `Params` and `Data` shapes.
  * Each key is an action path (e.g. `'user/login'`) and each value
  * is an object with `Params` and `Data` type properties.
+ * Generated route declarations use the same interface and map route keys to
+ * `InferFaasAction<typeof import('../path.api')>`.
  *
  * @example
  * ```ts
@@ -66,8 +71,9 @@ export interface FaasActions {}
  *
  * Used internally by {@link FaasParams} and {@link FaasData} to
  * resolve parameter and response types by action path.
+ * Resolves to `never` until `FaasActions` is augmented, usually by the
+ * generated `src/.faasjs/types.d.ts` file being included in `tsconfig.json`.
  *
- * @see {@link FaasActions}
  * @see {@link FaasParams}
  * @see {@link FaasData}
  */
@@ -78,8 +84,9 @@ export type FaasActionPaths = Extract<keyof FaasActions, string>
  *
  * When `T` matches a declared {@link FaasActionPaths | action path},
  * resolves to `FaasActions[T]['Params']`. Falls back to
- * `Record<string, unknown>` for unrecognized string paths.
- * Returns `never` when `T` is not a string.
+ * `Record<string, unknown>` for explicit unrecognized string paths.
+ * Returns `never` when `T` is not a string; the bare `FaasParams` default uses
+ * `unknown`, so it also resolves to `never`.
  *
  * @template T - Candidate action path or params type.
  * @returns `FaasActions[T]['Params']` when `T` is a registered action
@@ -101,7 +108,6 @@ export type FaasActionPaths = Extract<keyof FaasActions, string>
  * // → never
  * ```
  *
- * @see {@link FaasActions}
  * @see {@link FaasActionPaths}
  * @see {@link FaasData}
  */
@@ -116,8 +122,9 @@ export type FaasParams<T = unknown> = T extends FaasActionPaths
  *
  * When `T` matches a declared {@link FaasActionPaths | action path},
  * resolves to `FaasActions[T]['Data']`. Falls back to
- * `Record<string, unknown>` for unrecognized string paths.
- * Returns `never` when `T` is not a string.
+ * `Record<string, unknown>` for explicit unrecognized string paths.
+ * Returns `never` when `T` is not a string; the bare `FaasData` default uses
+ * `unknown`, so it also resolves to `never`.
  *
  * @template T - Candidate action path or response data type.
  * @returns `FaasActions[T]['Data']` when `T` is a registered action
@@ -139,7 +146,6 @@ export type FaasParams<T = unknown> = T extends FaasActionPaths
  * // → never
  * ```
  *
- * @see {@link FaasActions}
  * @see {@link FaasActionPaths}
  * @see {@link FaasParams}
  */
@@ -150,17 +156,15 @@ export type FaasData<T = unknown> = T extends FaasActionPaths
     : never
 
 /**
- * Infer `{ Params, Data }` from a Func, Func-like object, or a
- * module whose default export is a Func.
+ * Infer `{ Params, Data }` from a FaasJS API object or a module whose default
+ * export is a FaasJS API object.
  *
- * Peers into the handler signature of an API definition to extract:
- * - `Params` — resolved from the {@link https://faasjs.com/doc/func | event}
- *   argument of the handler via `event.params`.
+ * Peers into the exported handler signature to extract:
+ * - `Params` — resolved from the handler event's `params` field.
  * - `Data` — resolved from the handler's return type.
  *
- * Supports both direct Func exports and default-export patterns
- * (ESM `default` / CJS `module.exports`). Returns `never` when
- * inference fails.
+ * Supports direct API objects and module objects with an ESM `default` export.
+ * Returns `never` when inference fails.
  *
  * @template TApi - A Func, Func-like object, or module shape with a
  *   `default` export.
@@ -170,7 +174,7 @@ export type FaasData<T = unknown> = T extends FaasActionPaths
  * @example
  * ```ts
  * import type { InferFaasAction } from '@faasjs/types'
- * import type * as loginApi from './user/login.func'
+ * import type * as loginApi from './user/login.api'
  *
  * type LoginAction = InferFaasAction<typeof loginApi>
  * // → { Params: { email: string }; Data: { token: string } }

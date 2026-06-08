@@ -20,6 +20,7 @@ Use for FaasJS requests in React: `useFaas`, `useFaasStream`, `faas`, `FaasDataW
 5. Use `FaasDataWrapper` or `withFaasData` only when wrapper composition helps.
 6. Configure `FaasReactClient` once at app setup; use `getClient` only for multiple-client scenarios.
 7. Always handle loading, error, and retry states in user-facing code.
+8. Keep component props visible as `props.xxx`; avoid destructuring props in the component parameter list.
 
 ## Rules
 
@@ -29,7 +30,7 @@ Use for FaasJS requests in React: `useFaas`, `useFaasStream`, `faas`, `FaasDataW
 import { useFaas } from '@faasjs/react'
 
 export function Profile(props: { id: number }) {
-  const { data, error, loading, reload } = useFaas('features/users/api/detail', { id })
+  const { data, error, loading, reload } = useFaas('features/users/api/detail', { id: props.id })
 
   if (loading) return <div>Loading...</div>
   if (error)
@@ -186,7 +187,7 @@ export function UserForm() {
 
 - Use in event handlers, confirmations, submit callbacks, or one-off commands.
 - Pair mutations with user feedback and an intentional reload, close, or invalidate step.
-- For form submissions, prefer `Form.faas` when available.
+- For form submissions, prefer the `Form` `faas` prop when available.
 
 ### 6. Wrappers are for composition boundaries
 
@@ -216,8 +217,8 @@ Wrapper with children pattern:
 ```tsx
 import { FaasDataWrapper } from '@faasjs/react'
 
-function UserContent({ data }: { data: any }) {
-  return <div>{data?.name}</div>
+function UserContent(props: { data: any }) {
+  return <div>{props.data?.name}</div>
 }
 
 export function UserDetail(props: { id: number }) {
@@ -232,11 +233,19 @@ export function UserDetail(props: { id: number }) {
 ### 7. HOC-style integration
 
 ```tsx
-import { withFaasData } from '@faasjs/react'
+import { type FaasDataInjection, withFaasData } from '@faasjs/react'
 
-const UserDetail = withFaasData({
+type UserDetailProps = FaasDataInjection<'features/users/api/detail'> & {
+  compact?: boolean
+}
+
+function UserDetail(props: UserDetailProps) {
+  return <div>{props.data?.name}</div>
+}
+
+export default withFaasData<'features/users/api/detail', UserDetailProps>(UserDetail, {
   action: 'features/users/api/detail',
-})(({ data }) => <div>{data?.name}</div>)
+})
 ```
 
 - Use `withFaasData` for legacy component boundaries or when the export shape requires an HOC.
@@ -247,10 +256,10 @@ const UserDetail = withFaasData({
 import { FaasReactClient } from '@faasjs/react'
 
 FaasReactClient({
-  baseUrl: '/api',
-  onError: (error, action, params) => {
+  baseUrl: '/api/',
+  onError: (action, params) => async (error) => {
     console.error(`[${action}]`, error.message, params)
-    // reportError(error)
+    // reportError(error, { action, params })
   },
 })
 ```
@@ -265,12 +274,12 @@ FaasReactClient({
 import { FaasReactClient, getClient } from '@faasjs/react'
 
 // Default client
-FaasReactClient({ baseUrl: '/api' })
+FaasReactClient({ baseUrl: '/api/' })
 // Secondary client
-FaasReactClient({ baseUrl: 'https://other-service.com' }, 'other')
+FaasReactClient({ baseUrl: 'https://other-service.com/' })
 
-const otherClient = getClient('other')
-await otherClient('/external/endpoint', { key: 'value' })
+const otherClient = getClient('https://other-service.com/')
+await otherClient.faas('external/endpoint', { key: 'value' })
 ```
 
 - Use `getClient(host)` only for special multiple-client cases.
@@ -279,7 +288,7 @@ await otherClient('/external/endpoint', { key: 'value' })
 ## See Also
 
 - [React Guide](./react.md) — component and hook patterns
-- [Ant Design Guide](./ant-design.md) — `Form.faas`, `Table.faasData`, `Description.faasData` wrappers
+- [Ant Design Guide](./ant-design.md) — `Form` `faas`, `Table` `faasData`, and `Description` `faasData` props
 - [defineApi Guide](./define-api.md) — building the API endpoints that these hooks call
 - [React Testing Guide](./react-testing.md) — testing request flows with `setMock`
 

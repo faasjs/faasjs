@@ -6,8 +6,9 @@
 
 Creates a raw SQL value object.
 
-This function is used to mark a string as a raw SQL value, which can be useful
-when you need to include raw SQL in a query without any escaping or processing.
+Use this for trusted SQL fragments such as function calls, expressions, or join
+operands that should not be quoted as identifiers or serialized as values. Never
+wrap user input with `rawSql`; use query parameters instead.
 
 ## Parameters
 

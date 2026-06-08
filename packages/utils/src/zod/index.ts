@@ -13,6 +13,9 @@ export type {
 
 /**
  * Extended Zod with custom helpers.
+ *
+ * @property {() => _z.ZodNumber} positiveint - Returns `z.int().gt(0)` for positive integer validation.
+ * @property {() => _z.ZodString} nonemptystring - Returns `z.string().min(1)` for non-empty string validation.
  */
 export type Z = typeof _z & {
   positiveint: () => _z.ZodNumber
@@ -25,8 +28,8 @@ const extendedZod = Object.assign(Object.create(Object.getPrototypeOf(_z)), _z)
  * Extended Zod instance with custom helpers.
  *
  * Currently includes:
- * - `positiveint()`: A helper that returns a Zod schema for positive integers.
- * - `nonemptystring()`: A helper that returns a Zod schema for non-empty strings.
+ * - `positiveint()`: returns `z.int().gt(0)`.
+ * - `nonemptystring()`: returns `z.string().min(1)`.
  *
  * @example
  * ```ts
@@ -45,14 +48,15 @@ export const z: Z = Object.assign(extendedZod, {
 })
 
 /**
- * Type guard that checks whether a value is a plain object record.
+ * Type guard that checks whether a value is an object record.
  *
- * Uses Zod's `safeParse` to validate that the value is an object with
- * string keys and unknown values. Returns `false` for arrays, null,
- * primitives, and other non-plain-object values.
+ * Uses Zod's `safeParse` to check the coarse object shape. It does not validate
+ * any required keys or value shapes; use an explicit Zod schema for trusted
+ * business data. Returns `false` for arrays, null, primitives, and other
+ * non-object values.
  *
  * @param {unknown} value - Value to check.
- * @returns `true` if the value is a plain object record.
+ * @returns `true` if the value is an object record.
  *
  * @example
  * ```ts

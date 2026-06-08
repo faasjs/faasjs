@@ -9,13 +9,15 @@ let mock: MockHandler | ResponseProps | Response | null | undefined = null
  * Set the global mock handler used by all {@link FaasBrowserClient} instances.
  *
  * When a mock handler is set, every {@link FaasBrowserClient.action} call will
- * route through the mock instead of making a real network request, which is
- * useful for testing and local development.
+ * route through the mock after `beforeRequest` runs and before any native
+ * `fetch` or custom `request` implementation is called. The mock is process
+ * global, so it affects every registered React/browser client until cleared.
  *
  * @param {MockHandler | ResponseProps | Response | null | undefined} handler -
  *   A mock function that receives `(action, params, options)` and returns a
- *   response shape, or a static response/value, or `null`/`undefined` to
- *   disable mocking.
+ *   response shape, a {@link Response}, an `Error`, or nothing. Static
+ *   response shapes and `Response` instances are also accepted. Pass `null` or
+ *   `undefined` to disable mocking.
  *
  * @example
  * ```ts

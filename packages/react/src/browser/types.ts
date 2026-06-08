@@ -3,7 +3,10 @@ import type { FaasActionPaths, FaasData, FaasParams } from '@faasjs/types'
 import type { Response } from './response'
 
 /**
- * Template literal type for URL strings that must end with a forward slash.
+ * URL prefix used when building FaasJS action URLs.
+ *
+ * `BaseUrl` values must end with `/` because action paths are appended directly
+ * after the prefix.
  */
 export type BaseUrl = `${string}/`
 
@@ -15,7 +18,10 @@ export type BaseUrl = `${string}/`
  */
 export type Options = RequestInit & {
   headers?: Record<string, string>
-  /** Async hook called after request options are merged but before the request is sent. */
+  /**
+   * Async hook called after default and per-request options are merged, but before
+   * mock resolution or the final network/custom request dispatch.
+   */
   beforeRequest?: ({
     action,
     params,
@@ -27,9 +33,12 @@ export type Options = RequestInit & {
     options: Options
     headers: Record<string, string>
   }) => Promise<void>
-  /** Custom request implementation used instead of the native `fetch`. */
+  /**
+   * Custom request implementation used instead of native `fetch` when no global
+   * mock is active.
+   */
   request?: (url: string, options: Options) => Promise<Response>
-  /** Base URL override for the current request. */
+  /** Base URL override for the current request; it also selects the registered React client. */
   baseUrl?: BaseUrl
   /** When `true`, return the native fetch response so callers can consume the stream manually. */
   stream?: boolean
@@ -45,7 +54,7 @@ export type ResponseHeaders = {
 /**
  * Type signature for the {@link FaasBrowserClient.action} method.
  *
- * @template Path - Action path used to infer the request params and response data types.
+ * @template Path - Registered action path used to infer request params and response data.
  * @param {Path} action - Action path to invoke.
  * @param {FaasParams<Path>} [params] - Params sent to the action.
  * @param {Options} [options] - Per-request overrides on top of client defaults.
@@ -85,6 +94,10 @@ export type ResponseErrorProps = {
 
 /**
  * Mock handler function type for testing FaasJS requests.
+ *
+ * The handler receives the action path, request params, and fully resolved
+ * request options. Returning an `Error` makes the request reject with a
+ * response error; returning nothing creates an empty successful response.
  */
 export type MockHandler = (
   action: string,

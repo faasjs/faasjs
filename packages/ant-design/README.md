@@ -1,5 +1,38 @@
 # @faasjs/ant-design
 
+# @faasjs/ant-design
+
+React UI primitives and data-aware helpers for building FaasJS applications with Ant Design.
+
+`@faasjs/ant-design` combines FaasJS request helpers, Ant Design components, and optional
+React Router integration behind a single public entrypoint.
+
+## Install
+
+```sh
+npm install @faasjs/ant-design
+```
+
+## Highlights
+
+- Use [App](functions/App.md) to wire Ant Design feedback APIs, routing, and FaasJS config providers.
+- Use [Form](functions/Form.md), [Description](functions/Description.md), and [Table](functions/Table.md) with shared FaasJS item metadata.
+- Use [FaasDataWrapper](functions/FaasDataWrapper.md) or [withFaasData](functions/withFaasData.md) to bind components to FaasJS actions.
+
+## Usage
+
+```tsx
+import { App, Form } from '@faasjs/ant-design'
+
+export default function Page() {
+  return (
+    <App>
+      <Form items={[{ id: 'name', required: true }]} />
+    </App>
+  )
+}
+```
+
 ## Functions
 
 - [App](functions/App.md)
@@ -58,12 +91,12 @@
 - [TabsProps](interfaces/TabsProps.md)
 - [TitleProps](interfaces/TitleProps.md)
 - [UnionFaasItemProps](interfaces/UnionFaasItemProps.md)
-- [useAppProps](interfaces/useAppProps.md)
 
 ## Type Aliases
 
 - [BaseExtendTypeProps](type-aliases/BaseExtendTypeProps.md)
 - [BaseOption](type-aliases/BaseOption.md)
+- [ConfigContextValue](type-aliases/ConfigContextValue.md)
 - [DescriptionProps](type-aliases/DescriptionProps.md)
 - [ExtendDescriptionItemProps](type-aliases/ExtendDescriptionItemProps.md)
 - [ExtendDescriptionTypeProps](type-aliases/ExtendDescriptionTypeProps.md)
@@ -76,6 +109,7 @@
 - [FaasItemType](type-aliases/FaasItemType.md)
 - [FaasItemTypeValue](type-aliases/FaasItemTypeValue.md)
 - [FaasReactClientOptions](type-aliases/FaasReactClientOptions.md)
+- [FormCommonProps](type-aliases/FormCommonProps.md)
 - [FormFaasProps](type-aliases/FormFaasProps.md)
 - [FormProps](type-aliases/FormProps.md)
 - [FormSubmitProps](type-aliases/FormSubmitProps.md)
@@ -92,6 +126,7 @@
 - [UnionFaasItemInjection](type-aliases/UnionFaasItemInjection.md)
 - [UnionFaasItemRender](type-aliases/UnionFaasItemRender.md)
 - [UnionScene](type-aliases/UnionScene.md)
+- [useAppProps](type-aliases/useAppProps.md)
 
 ## Variables
 

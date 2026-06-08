@@ -7,7 +7,9 @@ export { TableBuilder } from './table-builder'
 /**
  * Builds and executes schema changes against a {@link Client}.
  *
- * Accumulated statements are executed in a single transaction by {@link run}.
+ * Accumulated statements are executed in a single transaction by {@link run}. Identifier
+ * helpers escape table and column names, while {@link raw} appends trusted SQL text
+ * exactly as provided.
  */
 export class SchemaBuilder {
   private client: Client
@@ -74,6 +76,10 @@ export class SchemaBuilder {
   /**
    * Appends a raw SQL statement to the change list.
    *
+   * Raw statements are executed one by one in the same transaction as generated schema
+   * statements. Only pass static, trusted SQL; runtime values should be handled outside
+   * schema generation.
+   *
    * @param sql - The raw SQL to execute.
    */
   raw(sql: string) {
@@ -102,6 +108,9 @@ export class SchemaBuilder {
 
   /**
    * Executes all registered schema changes in a single database transaction.
+   *
+   * On failure, the thrown error message includes the full generated SQL block to make
+   * migration failures easier to diagnose. Successful runs clear the pending change list.
    *
    * @throws {Error} Wrapped with the full SQL on failure.
    */

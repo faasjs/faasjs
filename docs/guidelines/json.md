@@ -23,7 +23,8 @@ Use this guide when you need to parse, serialize, or normalize JSON data in Faas
 2. Use `parseObjectFromJson<T>()` when input could be an object or a JSON string.
 3. Use `parseArrayFromJson<T>()` when input could be an array or a JSON string.
 4. Use `objectToStream()` / `streamToObject()` for JSON stream serialization.
-5. Wrap parsing calls in try/catch at trust boundaries.
+5. Treat generic type arguments as TypeScript assertions, not runtime validation.
+6. Wrap parsing calls in try/catch at trust boundaries and validate untrusted shapes after parsing.
 
 ## Common Patterns
 
@@ -31,7 +32,7 @@ Use this guide when you need to parse, serialize, or normalize JSON data in Faas
 
 Use `parseJson` when you have a JSON string and want a typed result. Use `parseObjectFromJson` when input could be an object or a JSON string — normalizes both into a typed record. Use `parseArrayFromJson` when input could be an array or a JSON string — normalizes both into a typed array.
 
-All three throw on invalid input, so wrap them in try/catch at trust boundaries.
+All three throw on invalid input, but they do not validate the parsed shape. Wrap them in try/catch at trust boundaries and validate untrusted output with a schema when shape matters.
 
 ```ts
 import { parseJson, parseObjectFromJson, parseArrayFromJson } from '@faasjs/utils'
@@ -83,5 +84,6 @@ console.log(result.ok) // true
 
 - JSON parsing uses `parseJson` / `parseObjectFromJson` / `parseArrayFromJson` instead of raw `JSON.parse`
 - input normalization prefers `parseObjectFromJson` or `parseArrayFromJson` over type assertions
+- untrusted parsed JSON is validated after parsing when shape matters
 - JSON payloads use `objectToStream` / `streamToObject` instead of manual `JSON.stringify` / `JSON.parse`
 - examples and tests choose the smallest helper that keeps intent obvious

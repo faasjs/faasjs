@@ -12,7 +12,7 @@ Options used by [loadPlugins](../functions/loadPlugins.md) while resolving stage
 
 > **filename**: `string`
 
-API filename whose directory scopes nested config lookup.
+API filename whose directory scopes nested config lookup and relative plugin paths.
 
 ### logger?
 
@@ -24,7 +24,7 @@ Optional logger used for debug output during config and plugin loading.
 
 > **root**: `string`
 
-Project root used to discover `faas.yaml`.
+Project root used to discover and merge `faas.yaml`.
 
 ### staging
 

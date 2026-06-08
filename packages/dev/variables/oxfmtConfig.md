@@ -8,7 +8,8 @@ Shared Oxfmt configuration used by FaasJS projects.
 
 Enables single quotes, omits semicolons, and sorts import declarations.
 These defaults match the FaasJS repository style and can be overridden
-by spreading additional `fmt` options.
+by spreading additional `fmt` options. Generated output under `dist/`,
+`.faasjs/`, and `node_modules/` is ignored by default.
 
 ## Example
 

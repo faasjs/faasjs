@@ -22,8 +22,9 @@ export { loaderStates, buildLoaderState, ensureLoaderState, installModuleHooks }
 /**
  * Clear cached loader state used by this module.
  *
- * Installed Node module hooks remain active. This only resets in-memory state used by
- * {@link loadPackage}.
+ * Installed Node module hooks remain active. This only resets the in-memory
+ * root, tsconfig, path-alias, and cache-busting state used by {@link loadPackage}
+ * and {@link registerNodeModuleHooks}.
  *
  * @example
  * ```ts
@@ -40,8 +41,11 @@ export function resetRuntime(): void {
 /**
  * Install Node module hooks for tsconfig path aliases and TypeScript-friendly local imports.
  *
- * Calling this function multiple times is safe. Hooks are installed once, while loader state is refreshed
- * from the latest options when a root, entry, or tsconfig path can be inferred.
+ * Calling this function multiple times is safe. Hooks are installed once, while
+ * loader state is refreshed from the latest options when a root, entry, or
+ * tsconfig path can be inferred. The hooks resolve tsconfig `paths`,
+ * extensionless local script imports, and optional cache-busting query strings
+ * for project-local `file://` URLs.
  *
  * @param {RegisterNodeModuleHooksOptions} options - Hook registration options such as entry file, root, tsconfig path, and cache-busting version. @default {}
  *
@@ -78,8 +82,13 @@ export function registerNodeModuleHooks(options: RegisterNodeModuleHooksOptions 
 /**
  * Load a module in the current Node ESM runtime and return its default export.
  *
- * The loader can install tsconfig-aware hooks and append a version query string to bust Node's
- * import cache for project-local files.
+ * Local file paths are converted to `file://` URLs, tsconfig-aware hooks are
+ * installed when a project root can be inferred, and project-local file imports
+ * can receive a version query string for cache busting. Bare package specifiers
+ * and URL-scheme specifiers are imported as provided.
+ *
+ * The target module must provide a `default` export; named exports are not used
+ * as a fallback.
  *
  * @template T - The type of module to be loaded.
  * @param {string} name - Package name, file path, or module specifier to load.

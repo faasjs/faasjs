@@ -6,9 +6,10 @@
 
 Parse a value with an optional Zod schema.
 
-If `schema` is omitted, `defaultValue` is returned. If `value` is `null` or
-`undefined`, the same `defaultValue` is passed to the schema parser. When
-`defaultValue` is omitted, an empty object is used.
+If `schema` is omitted, `defaultValue` is returned and `value` is ignored. If
+`value` is `null` or `undefined`, `defaultValue` is passed to
+`schema.safeParseAsync()`. When `defaultValue` is omitted, an empty object is
+used. Validation failures are formatted with [formatSchemaError](formatSchemaError.md).
 
 ## Type Parameters
 
@@ -41,3 +42,18 @@ Parsed (and validated) value matching the schema or fallback type.
 ## Throws
 
 If the schema validation fails, using the provided `createError` factory or a plain `Error`.
+
+## Example
+
+```ts
+import { parseSchemaValue } from '@faasjs/node-utils'
+import { z } from '@faasjs/utils'
+
+const params = await parseSchemaValue({
+  schema: z.object({
+    page: z.coerce.number().default(1),
+  }),
+  value: { page: '2' },
+  errorMessage: 'Invalid params',
+})
+```

@@ -74,6 +74,9 @@ Plugins and optional business handler used to configure the function.
 
 Build the exported handler wrapper for the function.
 
+The wrapper initializes request id/runtime context fields, invokes mount hooks on
+first use, and throws any `Error` object stored in `data.response`.
+
 #### Returns
 
 `object`

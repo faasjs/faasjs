@@ -6,6 +6,10 @@
 
 Determine whether a file change should trigger Faas type generation.
 
+API files affect route declarations directly. `faas.yaml` and `faas.yml` files
+can affect the resolved server root, so watchers should treat them as typegen
+inputs as well.
+
 ## Parameters
 
 ### filePath

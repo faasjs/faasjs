@@ -29,6 +29,8 @@
  *
  * console.log(merged, text)
  * ```
+ *
+ * @packageDocumentation
  */
 
 export { deepMerge } from './deep-merge'

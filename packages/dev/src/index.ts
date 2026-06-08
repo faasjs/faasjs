@@ -57,7 +57,7 @@
  *
  * ```ts
  * import { testApi } from '@faasjs/dev'
- * import api from '../demo.api.ts'
+ * import api from '../demo.api'
  *
  * const handler = testApi(api)
  * const response = await handler({ name: 'FaasJS' })
@@ -72,6 +72,8 @@
  * - Config: {@link ViteConfig}, {@link OxfmtConfig}, {@link OxlintConfig}
  * - Typegen: {@link generateFaasTypes}, {@link isTypegenInputFile}
  * - Test: {@link testApi}, {@link ApiTester}
+ *
+ * @packageDocumentation
  */
 
 export * from './testing'

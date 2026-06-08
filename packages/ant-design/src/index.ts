@@ -31,6 +31,8 @@
  *   )
  * }
  * ```
+ *
+ * @packageDocumentation
  */
 
 export * from './App'

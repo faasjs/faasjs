@@ -6,7 +6,11 @@
 
 Load a packaged FaasJS API file, attach its resolved config, and return the exported handler.
 
-The loaded module is expected to expose an `export()` method that returns an object with a `handler`.
+The API module is loaded through [loadPackage](loadPackage.md), so it must default-export
+a FaasJS API instance. That instance must expose an `export()` method that
+returns an object with a promise-based `handler`. Before the handler is
+returned, [loadPlugins](loadPlugins.md) merges staged config and applies YAML-driven
+plugin instances.
 
 ## Type Parameters
 

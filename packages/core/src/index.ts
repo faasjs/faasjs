@@ -11,6 +11,12 @@
  * ```sh
  * npm install @faasjs/core
  * ```
+ *
+ * The package exports function lifecycle primitives, HTTP API helpers, middleware,
+ * and the local HTTP server. The package default export is the built-in
+ * {@link Http} plugin.
+ *
+ * @packageDocumentation
  */
 
 export * from './define-api'

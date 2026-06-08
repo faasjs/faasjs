@@ -5,7 +5,9 @@
 HTTP server that loads and runs FaasJS API files from an app source root.
 
 A Server resolves API route files on demand, caches loaded handlers, and
-dispatches each request through the matching function lifecycle.
+dispatches each request through the matching function lifecycle. It normalizes the
+source root with a trailing path separator, loads the project `.env`, blocks unsafe
+route traversal, and skips test-only route files.
 
 ## Example
 
@@ -149,6 +151,8 @@ Promise that resolves when middleware processing finishes.
 ### closed
 
 > `protected` **closed**: `boolean` = `false`
+
+Tracks whether shutdown has completed. Subclasses may read this to avoid duplicate cleanup.
 
 ### logger
 

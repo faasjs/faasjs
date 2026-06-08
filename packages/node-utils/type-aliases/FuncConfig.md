@@ -6,6 +6,10 @@
 
 Resolved stage config merged from matching `faas.yaml` files.
 
+Unknown fields are preserved so applications and plugins can store their own
+stage-specific config. `server.root` and `server.base`, when present, must be
+strings.
+
 ## Indexable
 
 > \[`key`: `string`\]: `any`

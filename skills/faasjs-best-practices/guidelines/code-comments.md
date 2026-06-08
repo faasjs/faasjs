@@ -28,6 +28,7 @@ Use for source JSDoc, helper comments, and short intent notes in FaasJS apps or 
 ### 1. Export surface
 
 - Package public functions, classes, hooks, React components, interfaces, type aliases, and public variables MUST have adjacent JSDoc.
+- Treat a package symbol as public when it is exported through a package public entrypoint or package export path. Internal helpers that use `export` only for same-package composition, tests, or file-local organization follow the shared-app or feature-local rules instead.
 - Treat generated API docs as derived artifacts; always edit source comments rather than generated output.
 - Shared app exports SHOULD have JSDoc when they form a reusable boundary or expose non-obvious caller expectations.
 - Feature-local exports MAY omit JSDoc when they are only exported for local composition, routing, or tests and their contract is obvious.

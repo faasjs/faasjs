@@ -108,7 +108,7 @@ export type DescriptionProps<T = any, ExtendItemProps = any> =
   | DescriptionWithFaasProps<any, T, ExtendItemProps>
 
 /**
- * Props passed to the {@link DescriptionItemContent} internal renderer.
+ * Props passed to the internal description item renderer.
  *
  * @template T - Data record shape rendered by the description list.
  */

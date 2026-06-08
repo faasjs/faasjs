@@ -7,8 +7,13 @@
 Generate `src/.faasjs/types.d.ts` for a FaasJS project.
 
 The generator scans the `src/` tree for `.api.ts` files, converts file
-names into routes, and keeps the most specific file when multiple files
-resolve to the same route.
+names into routes, and keeps the most specific file when multiple files resolve to
+the same route. Route precedence is: regular `*.api.ts` files, then `index.api.ts`,
+then fallback `default.api.ts` files. Fallback files emit wildcard routes such as
+`*` and `users/*`, while root and index files emit `/` or the directory route.
+
+Generated route keys omit the leading slash except for `/`; for example,
+`src/users/default.api.ts` becomes `users/*`.
 
 ## Parameters
 

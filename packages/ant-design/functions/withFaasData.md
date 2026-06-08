@@ -12,13 +12,13 @@ Wrap a component with [FaasDataWrapper](FaasDataWrapper.md) and its Ant Design l
 
 `Path` _extends_ `FaasActionPaths`
 
-Action path or response data type used for inference.
+Registered action path used to infer params and response data.
 
 ### TComponentProps
 
 `TComponentProps` _extends_ `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`Path`\>\> = `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`Path`\>\>
 
-Component props including injected Faas data fields.
+Component props including every field from [FaasDataInjection](../type-aliases/FaasDataInjection.md).
 
 ## Parameters
 
@@ -32,22 +32,42 @@ Component that consumes injected Faas data props.
 
 [`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`Path`\>
 
-Request configuration forwarded to [FaasDataWrapper](FaasDataWrapper.md).
+Request configuration forwarded to [FaasDataWrapper](FaasDataWrapper.md); this is the second argument.
 
 ## Returns
 
 `FC`\<`Omit`\<`TComponentProps`, keyof [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`Path`\>\>\>
 
-Higher-order component that injects Faas data props.
+Higher-order component that accepts caller-owned props while `withFaasData` supplies the Faas data props.
 
 ## Example
 
 ```tsx
-import { withFaasData } from '@faasjs/ant-design'
+import { type FaasDataInjection, withFaasData } from '@faasjs/ant-design'
 
-const UserCard = withFaasData(
-  ({ data, error, reload }) =>
-    error ? <a onClick={() => reload()}>Retry</a> : <div>{data.name}</div>,
-  { action: 'user/get', params: { id: 1 } },
-)
+declare module '@faasjs/types' {
+  interface FaasActions {
+    'user/get': {
+      Params: { id: number }
+      Data: { name: string }
+    }
+  }
+}
+
+type GetUserAction = 'user/get'
+type UserCardProps = FaasDataInjection<GetUserAction> & {
+  compact?: boolean
+}
+
+const UserCard = ({ data, error, reload, compact }: UserCardProps) =>
+  error ? (
+    <a onClick={() => reload()}>Retry</a>
+  ) : (
+    <div>{compact ? data.name : `User: ${data.name}`}</div>
+  )
+
+const UserCardWithData = withFaasData<GetUserAction, UserCardProps>(UserCard, {
+  action: 'user/get',
+  params: { id: 1 },
+})
 ```

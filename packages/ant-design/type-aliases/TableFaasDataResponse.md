@@ -4,7 +4,11 @@
 
 > **TableFaasDataResponse**\<`T`\> = `object`
 
-Paginated response shape expected by [Table](../functions/Table.md) when using `faasData`.
+Paginated list response shape expected by [Table](../functions/Table.md) when using `faasData`.
+
+Return this object shape when the table should own remote pagination, filters,
+and sorters. Returning a plain array is supported for simple row rendering,
+but it does not attach the remote pagination/onChange reload contract.
 
 ## Type Parameters
 

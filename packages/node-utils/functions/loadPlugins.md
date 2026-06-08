@@ -7,15 +7,26 @@
 Load staged `faas.yaml`, attach the merged config to a function, and
 instantiate any plugins declared in YAML that are not already injected in code.
 
-Only `http` is treated as a built-in plugin. Other config-driven plugins must
-declare an explicit module `type` whose module exports a class as
-`export default` with `onMount` or `onInvoke` on its prototype.
+YAML plugin config is merged with `func.config.plugins`, with inline function
+config winning. Existing plugin instances with the same `name` receive the
+merged config through `applyConfig()` when available, otherwise their
+`config` object is deep-merged. Missing plugin instances are loaded from the
+resolved plugin `type` and inserted before the handler plugin when one exists.
+
+Only `http` receives a built-in default type. Other config-driven plugins
+must declare an explicit module `type`. Plain names resolve to `@faasjs/<type>`,
+`http` resolves to `@faasjs/core`, and relative, absolute, `file://`, or other
+URL-scheme specifiers are imported directly after path normalization.
+
+Config-driven plugin modules must expose a plugin class as `export default`
+with `onMount` or `onInvoke` on its prototype; named exports are not used as a
+fallback.
 
 ## Type Parameters
 
 ### T
 
-`T` _extends_ `HasExportHandler`
+`T` _extends_ `object`
 
 Function instance type enriched with config-driven plugins.
 

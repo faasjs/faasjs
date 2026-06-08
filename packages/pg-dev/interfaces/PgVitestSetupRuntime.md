@@ -4,6 +4,10 @@
 
 Runtime hooks provided by the Vitest project that `setupPgVitest` wires into.
 
+Pass Vitest's `afterAll` and `beforeEach` functions from the active setup module.
+`projectRoot` should point at the project whose `src/db/migrations` directory should
+be applied to the temporary database.
+
 ## Properties
 
 ### afterAll
@@ -16,7 +20,7 @@ Lifecycle hook called once after all tests in the file finish.
 
 ##### callback
 
-() => `Awaitable`\<`void`\>
+() => `void` \| `Promise`\<`void`\>
 
 #### Returns
 
@@ -32,7 +36,7 @@ Lifecycle hook called before each test in the file.
 
 ##### callback
 
-() => `Awaitable`\<`void`\>
+() => `void` \| `Promise`\<`void`\>
 
 #### Returns
 

@@ -6,6 +6,9 @@
 
 Format a Zod validation error with FaasJS' boundary-validation message style.
 
+Each Zod issue is rendered on its own line with a dot-joined path, or `<root>`
+for root-level issues.
+
 ## Parameters
 
 ### error

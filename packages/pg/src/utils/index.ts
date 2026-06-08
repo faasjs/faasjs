@@ -1,10 +1,16 @@
 /**
  * Trusted SQL fragment marker used to bypass identifier or value escaping.
+ *
+ * Values of this type are produced by {@link rawSql}. Treat them as already-safe
+ * SQL text; the library will embed them without quoting or parameter binding.
  */
 export type RawSql = string & { __raw: true }
 
 /**
  * Escapes a SQL identifier, preserving trusted {@link RawSql} fragments.
+ *
+ * Dotted identifiers are escaped segment by segment, `*` and `COUNT(*)` are preserved
+ * for query-builder output, and non-string values throw before SQL is generated.
  *
  * @param identifier - Table name, column name, dotted identifier, or trusted raw fragment.
  * @returns Escaped identifier string ready to be embedded into SQL text.
@@ -31,7 +37,9 @@ export function escapeIdentifier(identifier: string | RawSql): string {
 /**
  * Escapes a literal value for inline SQL generation.
  *
- * Prefer bound parameters for runtime values whenever possible.
+ * Prefer bound parameters for runtime values whenever possible. This helper exists
+ * for schema generation where PostgreSQL requires inline defaults. Passing a
+ * {@link RawSql} value bypasses escaping.
  *
  * @param value - Value to serialize into SQL text.
  * @returns SQL literal representation of the value.
@@ -77,8 +85,9 @@ export function escapeValue(value: any): string {
 /**
  * Creates a raw SQL value object.
  *
- * This function is used to mark a string as a raw SQL value, which can be useful
- * when you need to include raw SQL in a query without any escaping or processing.
+ * Use this for trusted SQL fragments such as function calls, expressions, or join
+ * operands that should not be quoted as identifiers or serialized as values. Never
+ * wrap user input with `rawSql`; use query parameters instead.
  *
  * @param value - The raw SQL string.
  * @returns An object representing the raw SQL value with a custom `toString` method.
@@ -92,6 +101,9 @@ export function rawSql(value: string): RawSql {
 
 /**
  * Checks whether a value is a `TemplateStringsArray`.
+ *
+ * Used by {@link createTemplateStringsArray} and raw query execution to distinguish
+ * template-literal SQL from string SQL.
  */
 export function isTemplateStringsArray(value: any): value is TemplateStringsArray {
   return Array.isArray(value) && typeof value[0] === 'string' && 'raw' in value
@@ -99,6 +111,9 @@ export function isTemplateStringsArray(value: any): value is TemplateStringsArra
 
 /**
  * Normalizes a SQL string or template input into a `TemplateStringsArray`.
+ *
+ * String input is split on `?`, so each `?` becomes a `postgres.js` parameter gap.
+ * Template-literal input is returned unchanged.
  *
  * @param str - SQL source string or template literal array.
  * @returns Template-strings representation for `postgres.js`.

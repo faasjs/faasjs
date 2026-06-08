@@ -54,7 +54,10 @@ export function stringToStream(text: string): ReadableStream<Uint8Array> {
  * @template T - JSON-serializable value type to encode.
  * @param {T} object - Value to serialize as JSON.
  * @returns {ReadableStream<Uint8Array>} Readable stream containing the JSON payload.
- * @throws {TypeError} If the value cannot be serialized to JSON.
+ * @throws {TypeError} If `JSON.stringify` cannot serialize the value, such as circular objects.
+ *
+ * Values follow native `JSON.stringify` semantics. Unsupported top-level values such as
+ * `undefined` can serialize to an empty stream.
  *
  * @example
  * ```ts

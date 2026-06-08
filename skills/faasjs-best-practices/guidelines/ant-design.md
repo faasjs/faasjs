@@ -19,6 +19,7 @@ Use when building or reviewing `@faasjs/ant-design` feature UI, CRUD surfaces, r
 4. Put feature-local request files under `api/` and keep action paths aligned with file paths.
 5. Model business fields as shared `items` metadata reused by `Form`, `Description`, and `Table`.
 6. Start CRUD with `Table`, `Description`, and `Form`; use `useApp()` for `message`, `notification`, `setModalProps`, and `setDrawerProps`.
+7. Keep component inputs readable as `props.xxx`; do not destructure props in component parameters.
 
 ## Recommended Layout
 
@@ -237,7 +238,7 @@ export function UserDescription(props: { id: number }) {
 
 ### Create and update forms
 
-- Prefer `Form.faas` when the submission flow is a single direct action call.
+- Prefer the `Form` `faas` prop when the submission flow is a single direct action call.
 - Load edit data outside the form and pass it via `initialValues`.
 - Let `useApp` handle success and failure feedback.
 
@@ -436,7 +437,7 @@ import { FaasDataWrapper } from '@faasjs/ant-design'
 export function UserSummary(props: { id: number }) {
   return (
     <FaasDataWrapper action="features/users/api/detail" params={{ id: props.id }}>
-      {({ data }) => <div>{data?.name}</div>}
+      {(result) => <div>{result.data?.name}</div>}
     </FaasDataWrapper>
   )
 }
@@ -520,7 +521,7 @@ export function LocalPreview() {
    }
    ```
 
-6. Use `Form.faas`, `Table.faasData`, `Description.faasData`, and `faas` for straightforward request lifecycles before custom loading/effect plumbing. Lean on built-in request props rather than wiring manual loading state and effect-based glue.
+6. Use the `Form` `faas` prop, `Table` `faasData` prop, `Description` `faasData` prop, and `faas` for straightforward request lifecycles before custom loading/effect plumbing. Lean on built-in request props rather than wiring manual loading state and effect-based glue.
 
 7. Use `useApp()` for shared feedback and overlays. Use `message` for lightweight success/warning feedback, `notification` for persistent feedback with title and description, `setModalProps` for confirmations, and `setDrawerProps` for create/edit/detail panels that should preserve feature context. Prefer drawers for in-context create/edit/detail and modals for confirmations. Use local `useModal` or `useDrawer` only when creating isolated instances outside the shared app shell.
 

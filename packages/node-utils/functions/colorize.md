@@ -6,6 +6,9 @@
 
 Wrap a log message with the ANSI foreground color for a log level.
 
+This low-level helper always emits ANSI escape sequences; use [Logger](../classes/Logger.md)
+when you want environment-aware color decisions.
+
 ## Parameters
 
 ### level

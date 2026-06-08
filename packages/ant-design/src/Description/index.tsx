@@ -117,7 +117,7 @@ export function Description<T extends Record<string, any> = any>(
  * to render item metadata with appropriate display formatting.
  *
  * When `Path` is provided, the `action` and `params` in `faasData` are strongly typed from the
- * {@link FaasActions} type augmentation.
+ * `FaasActions` type augmentation.
  *
  * @template Path - Action path type inferred from `faasData.action` for strong typing.
  * @template T - Data record shape rendered by the component.

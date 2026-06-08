@@ -26,6 +26,9 @@ export type Handler<TEvent = unknown, TContext = unknown, TResult = unknown> = (
 
 /**
  * Continue to the next lifecycle hook in the current plugin chain.
+ *
+ * Each plugin hook should call this at most once. Calling `next()` multiple times
+ * rejects with `Error('next() called multiple times')`.
  */
 export type Next = () => Promise<void>
 
@@ -77,7 +80,7 @@ export type RuntimeContext = {
  *
  * @property {string} type - Stable plugin type identifier.
  * @property {string} name - Instance name used for ordering and logs.
- * @property {(config: { type: string; name: string; config?: Record<string, any> }) => void | Promise<void>} [applyConfig] - Optional hook that receives the resolved config for an already-registered plugin instance.
+ * @property {(config: { type: string; name: string; config?: Record<string, any> }) => void | Promise<void>} [applyConfig] - Optional hook that receives resolved config for an already-registered plugin instance before mount.
  * @property {(data: MountData, next: Next) => Promise<void>} [onMount] - Optional hook that runs once before the first invoke.
  * @property {(data: InvokeData, next: Next) => Promise<void>} [onInvoke] - Optional hook that runs for every invocation.
  */
@@ -483,6 +486,9 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 
   /**
    * Build the exported handler wrapper for the function.
+   *
+   * The wrapper initializes request id/runtime context fields, invokes mount hooks on
+   * first use, and throws any `Error` object stored in `data.response`.
    *
    * @returns {{ handler: ExportedHandler<TEvent, TContext, TResult> }} Object containing the exported handler.
    */

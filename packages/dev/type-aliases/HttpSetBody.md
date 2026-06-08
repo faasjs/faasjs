@@ -12,7 +12,7 @@ Set the outgoing HTTP body payload.
 
 [`HttpResponseBody`](HttpResponseBody.md)
 
-Response body payload.
+Typed response body payload. Return plain values from handlers when you need JSON object wrapping.
 
 ## Returns
 

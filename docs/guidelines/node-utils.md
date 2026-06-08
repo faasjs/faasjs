@@ -18,7 +18,7 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 - Node module bootstrapping: `loadPackage`, `registerNodeModuleHooks`, `resetRuntime`
 - filesystem containment checks: `isPathInsideRoot` (see [Validation Guide](./valid.md))
 - schema parsing: `parseSchemaValue`, `formatSchemaError`, `SchemaOutput` (see [Validation Guide](./valid.md))
-- logging and log shipping: `Logger`, `formatLogger`, `getTransport`, `Transport`, `colorfy`
+- logging and log shipping: `Logger`, `formatLogger`, `getTransport`, `Transport`, `colorize`
 
 ## Default Workflow
 
@@ -26,8 +26,8 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 2. Let `Server` or `viteFaasJsServer()` auto-load the project `.env` when they own bootstrap from a FaasJS app root, and call Node's built-in `loadEnvFile()` yourself in `faas run` entry files, plain Node scripts, tests, or other entrypoints that read env before those helpers start.
 3. Use `loadConfig()` when you only need staged `faas.yaml` data.
 4. Use `parseYaml()` from `@faasjs/utils` when you need the raw FaasJS YAML subset in custom tooling without staged discovery (see [YAML Guide](./yaml.md)).
-5. Use `loadApiHandler()` when you need the final exported handler, or `loadPlugins()` when you already have a `Func` instance.
-6. Prefer the FaasJS TypeScript loader when direct Node execution must understand local TypeScript files or tsconfig aliases, and keep local imports extensionless without `.ts` or `.tsx` suffixes.
+5. Use `loadApiHandler()` when you need the final exported handler from a default-exported FaasJS API module, or `loadPlugins()` when you already have a `Func` instance.
+6. Prefer the FaasJS TypeScript loader when direct Node execution must understand local TypeScript files or tsconfig aliases, keep local imports extensionless without `.ts` or `.tsx` suffixes, and use default exports for modules loaded through `loadPackage()`.
 7. Use `isPathInsideRoot()` before reading or loading root-scoped files from user-controlled or URL-derived paths.
 8. Use `parseSchemaValue()` for custom Node-side boundaries that need the same optional Zod schema parsing and error formatting as FaasJS APIs and jobs.
 9. Reuse `Logger` and the shared transport instead of building a custom logging wrapper.
@@ -62,6 +62,8 @@ try {
 
 - Do not reimplement directory walking or manual deep merging for `faas.yaml`.
 - `loadConfig()` walks from project root to the target API directory, merges nested files, applies `defaults`, and annotates plugin entries with their resolved `name`.
+- Relative plugin `type` values in YAML are resolved from the `faas.yaml` file that declared them, including `./plugin.ts` and `file://./plugin.ts`.
+- `loadConfig()` validates the YAML shape and preserves custom stage fields, but it does not instantiate plugin classes.
 - This keeps runtime behavior consistent with FaasJS plugin loading.
 
 ```ts
@@ -75,9 +77,12 @@ console.log(config.plugins?.http)
 ### 4. Pick the smallest loader for the job
 
 - Use `loadConfig()` when you need staged `faas.yaml` resolution with directory walking and merging.
-- Use `loadApiHandler()` when you need the final handler that a runtime or test will invoke.
+- Use `loadApiHandler()` when you need the final handler that a runtime or test will invoke; the API module must default-export a FaasJS API instance.
 - Use `loadPlugins()` when you already have a `Func` instance and want YAML-driven plugins and config attached before exporting or mounting it.
+- `loadPlugins()` merges YAML plugin config with inline `func.config.plugins`; inline config wins, existing plugin instances are configured in place, and missing YAML plugins are instantiated.
+- Only `http` gets a built-in plugin type. Other YAML plugins need an explicit `type`, and config-driven plugin modules must default-export a plugin class with `onMount` or `onInvoke`.
 - Use `loadPackage()` for default-export dynamic module loading in Node.js, especially when the target is a local TypeScript file or a path-alias-aware module.
+- `loadPackage()` returns only `module.default`; named exports are not fallback values.
 - Prefer these helpers over ad hoc `import()` wrappers so cache busting, tsconfig resolution, and plugin wiring stay consistent.
 
 ```ts
@@ -116,11 +121,16 @@ await import('./scripts/sync-users')
 
 - Use `Logger` for structured levels, labels, timers, and environment-driven verbosity.
 - Use `getTransport()` only when logs must be buffered and forwarded to another sink.
-- `colorfy()` and `formatLogger()` are lower-level helpers; prefer the `Logger` class unless you are implementing logging infrastructure.
+- `Logger` defaults to `info` level, a 1000-character truncation threshold for debug/info output, auto-detected terminal colors, and shared transport forwarding outside Vitest.
+- `colorize()` and `formatLogger()` are lower-level helpers; prefer the `Logger` class unless you are implementing logging infrastructure.
+- `colorize()` always emits ANSI escapes; let `Logger` decide whether output should be colorized.
 
 ### 7. Use schema helpers for custom Node boundaries
 
-See [Validation Guide](./valid.md) for `parseSchemaValue`, `formatSchemaError`, and `SchemaOutput` patterns.
+- Use `parseSchemaValue()` when a boundary has an optional Zod schema and needs consistent fallback and error formatting.
+- Without a schema, it returns `defaultValue` (or `{}`) and ignores the raw value.
+- With a schema, `null` and `undefined` are replaced by `defaultValue` (or `{}`) before `safeParseAsync()`.
+- See [Validation Guide](./valid.md) for `parseSchemaValue`, `formatSchemaError`, and `SchemaOutput` patterns.
 
 ### 8. Validate root-scoped file paths with `isPathInsideRoot()`
 
@@ -131,7 +141,10 @@ See [Validation Guide](./valid.md) for `isPathInsideRoot` patterns.
 - `@faasjs/node-utils` imports stay in Node-only code
 - `faas run` entry files and local scripts load `.env` before env-dependent bootstrap logic unless `Server` or `viteFaasJsServer()` fully owns that bootstrap
 - staged `faas.yaml` is read through `loadConfig()` or `loadApiHandler()`, not custom merge code
+- relative YAML plugin `type` values are left for `loadConfig()`/`loadPlugins()` to normalize
 - loaders use `loadApiHandler()`, `loadPlugins()`, or `loadPackage()` instead of custom dynamic import wrappers
+- modules loaded through `loadPackage()` and config-driven plugin modules use default exports
+- non-`http` YAML plugins declare an explicit `type`
 - module hooks are registered at process startup, not deep inside feature code
 - custom Node-side boundary validation uses `parseSchemaValue()` (see [Validation Guide](./valid.md))
 - root-scoped file access validates resolved paths with `isPathInsideRoot()` (see [Validation Guide](./valid.md))

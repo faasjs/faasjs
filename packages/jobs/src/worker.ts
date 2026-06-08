@@ -59,6 +59,7 @@ async function resolveRetryRunAt(
  * Supports configurable concurrency, polling interval, and lease duration.
  * Failed jobs are retried according to their retry strategy until
  * max attempts are reached.
+ * Handler errors are persisted to the job row instead of being thrown from `poll()`.
  *
  * @example
  * const worker = new JobWorker(registry, {
@@ -68,12 +69,19 @@ async function resolveRetryRunAt(
  * worker.start()
  */
 export class JobWorker {
+  /** Queue name this worker claims from. */
   public readonly queue: string
+  /** Maximum number of jobs claimed in each poll. */
   public readonly concurrency: number
+  /** Milliseconds between automatic poll ticks. */
   public readonly pollInterval: number
+  /** Lease duration in seconds before a running job can be reclaimed. */
   public readonly leaseSeconds: number
+  /** Unique worker id written to claimed rows. */
   public readonly workerId: string
+  /** Loaded job registry keyed by job path. */
   public readonly jobs: JobRegistry
+  /** Worker logger. */
   public readonly logger: Logger
 
   private active = false
@@ -284,6 +292,7 @@ export class JobWorker {
   /**
    * Execute one polling cycle: claim up to `concurrency` pending jobs
    * and run their handlers. No-op if a poll is already in progress.
+   * Handler failures are recorded in PostgreSQL and retried or marked failed.
    *
    * @returns The number of jobs processed in this cycle.
    */

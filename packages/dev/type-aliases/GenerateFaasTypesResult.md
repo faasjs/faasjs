@@ -18,7 +18,8 @@ Whether the generator wrote new content to disk.
 
 > **fileCount**: `number`
 
-Number of `*.api.ts` files discovered under `src/`.
+Number of `*.api.ts` files discovered under `src/`, including files that lose
+route precedence to a more specific file.
 
 ### output
 
@@ -30,4 +31,5 @@ Output path of the generated declaration file.
 
 > **routeCount**: `number`
 
-Number of route entries emitted into the declaration file.
+Number of route entries emitted into the declaration file after duplicate
+routes are resolved by precedence.

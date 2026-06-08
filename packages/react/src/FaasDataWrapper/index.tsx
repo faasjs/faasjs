@@ -8,7 +8,7 @@ import { useEqualEffect, useEqualMemo } from '../equal'
 /**
  * Request state injected by {@link useFaas}, {@link FaasDataWrapper}, and {@link withFaasData}.
  *
- * @template Path - Action path or response data type used for inference.
+ * @template Path - Registered action path used to infer params and response data.
  */
 export type FaasDataInjection<Path extends FaasActionPaths> = {
   /** Action path associated with the current request state. */
@@ -51,7 +51,7 @@ export type FaasDataInjection<Path extends FaasActionPaths> = {
 /**
  * Props for the {@link FaasDataWrapper} render-prop component.
  *
- * @template Path - Action path or response data type used for inference.
+ * @template Path - Registered action path used to infer params and response data.
  */
 export type FaasDataWrapperProps<Path extends FaasActionPaths> = {
   /** Render prop invoked with the resolved request state after the first load completes. */
@@ -81,7 +81,7 @@ export type FaasDataWrapperProps<Path extends FaasActionPaths> = {
 /**
  * Imperative ref shape exposed by {@link FaasDataWrapper}.
  *
- * @template Path - Action path or response data type used for inference.
+ * @template Path - Registered action path used to infer params and response data.
  */
 export type FaasDataWrapperRef<Path extends FaasActionPaths> = FaasDataInjection<Path>
 
@@ -112,13 +112,21 @@ const fixedForwardRef = forwardRef as FixedForwardRef
  * @example
  * ```tsx
  * import { FaasDataWrapper } from '@faasjs/react'
+ * import type { FaasDataInjection } from '@faasjs/react'
  *
- * type User = {
- *   name: string
+ * declare module '@faasjs/types' {
+ *   interface FaasActions {
+ *     'features/users/api/get': {
+ *       Params: { id: number }
+ *       Data: { name: string }
+ *     }
+ *   }
  * }
  *
+ * type GetUserAction = 'features/users/api/get'
+ *
  * function UserView(props: {
- *   data?: User
+ *   data?: FaasDataInjection<GetUserAction>['data']
  *   error?: Error
  *   reload?: () => void
  * }) {
@@ -139,7 +147,7 @@ const fixedForwardRef = forwardRef as FixedForwardRef
  * // Render-prop mode
  * export function UserProfile(props: { id: number }) {
  *   return (
- *     <FaasDataWrapper<User>
+ *     <FaasDataWrapper<GetUserAction>
  *       action="features/users/api/get"
  *       params={{ id: props.id }}
  *       fallback={<div>Loading user...</div>}
@@ -164,7 +172,7 @@ const fixedForwardRef = forwardRef as FixedForwardRef
  * // Children injection mode
  * export function UserProfileWithChildren(props: { id: number }) {
  *   return (
- *     <FaasDataWrapper<User>
+ *     <FaasDataWrapper<GetUserAction>
  *       action="features/users/api/get"
  *       params={{ id: props.id }}
  *       fallback={<div>Loading user...</div>}
@@ -237,28 +245,44 @@ Object.assign(FaasDataWrapper, {
  * preserve an existing component boundary. For new code, prefer `useFaas` or
  * `FaasDataWrapper` when they express the request ownership more directly.
  *
- * @template Path - Action path or response data type used for inference.
- * @template TComponentProps - Component props including injected Faas data fields.
+ * @template Path - Registered action path used to infer params and response data.
+ * @template TComponentProps - Component props including every field from {@link FaasDataInjection}.
  * @param {React.FC<TComponentProps>} Component - Component that consumes injected Faas data props.
- * @param {FaasDataWrapperProps<Path>} faasProps - Request configuration forwarded to `FaasDataWrapper`.
- * @returns {React.FC<Omit<TComponentProps, keyof FaasDataInjection<Path>> & Record<string, any>>} Component that accepts the original props minus the injected Faas data fields.
+ * @param {FaasDataWrapperProps<Path>} faasProps - Request configuration forwarded to `FaasDataWrapper`; this is the second argument.
+ * @returns {React.FC<Omit<TComponentProps, keyof FaasDataInjection<Path>> & Record<string, any>>} Component that accepts caller-owned props while `withFaasData` supplies the Faas data props.
  *
  * @example
  * ```tsx
- * import { withFaasData } from '@faasjs/react'
+ * import { type FaasDataInjection, withFaasData } from '@faasjs/react'
  *
- * const MyComponent = withFaasData(
- *   ({ data, error, reload }) => {
- *     if (error) {
- *       return (
- *         <button type="button" onClick={() => reload()}>
- *           Retry
- *         </button>
- *       )
+ * declare module '@faasjs/types' {
+ *   interface FaasActions {
+ *     'features/users/api/get': {
+ *       Params: { id: number }
+ *       Data: { name: string }
  *     }
+ *   }
+ * }
  *
- *     return <div>{data.name}</div>
- *   },
+ * type GetUserAction = 'features/users/api/get'
+ * type UserCardProps = FaasDataInjection<GetUserAction> & {
+ *   compact?: boolean
+ * }
+ *
+ * const UserCard = ({ data, error, reload, compact }: UserCardProps) => {
+ *   if (error) {
+ *     return (
+ *       <button type="button" onClick={() => reload()}>
+ *         Retry
+ *       </button>
+ *     )
+ *   }
+ *
+ *   return <div>{compact ? data.name : `User: ${data.name}`}</div>
+ * }
+ *
+ * const UserCardWithData = withFaasData<GetUserAction, UserCardProps>(
+ *   UserCard,
  *   { action: 'features/users/api/get', params: { id: 1 } },
  * )
  * ```

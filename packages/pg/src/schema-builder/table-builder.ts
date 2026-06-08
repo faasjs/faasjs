@@ -95,7 +95,8 @@ export type IndexDefs = {
  * Builder for table schema definitions, supporting both CREATE and ALTER TABLE modes.
  *
  * Column definitions and alterations are accumulated and then serialized to SQL
- * via {@link toSQL}.
+ * via {@link toSQL}. Generated identifiers are escaped; raw SQL added with {@link raw}
+ * is emitted unchanged and should only contain trusted schema text.
  */
 export class TableBuilder {
   private tableName: string
@@ -117,6 +118,9 @@ export class TableBuilder {
   /**
    * Defines a column with an explicit PostgreSQL type.
    *
+   * Use this for types not covered by the convenience helpers, such as arrays or
+   * extension-provided types.
+   *
    * @param name - The column name.
    * @param type - The PostgreSQL type string (e.g. `'integer'`, `'varchar(255)'`).
    */
@@ -136,6 +140,8 @@ export class TableBuilder {
 
   /**
    * Defines an `integer` column, or `decimal(precision, scale)` if precision is provided.
+   *
+   * When `precision` is provided and `scale` is omitted, the scale defaults to `0`.
    *
    * @param name - The column name.
    * @param precision - Optional decimal precision.
@@ -294,6 +300,8 @@ export class TableBuilder {
    * Creates an index on one or more columns. The index name is auto-generated as
    * `idx_{tableName}_{columns}`.
    *
+   * Reusing the same generated name replaces the pending in-memory index definition.
+   *
    * @param columns - Single column name or array of column names.
    * @param options - Index options such as `unique` and `indexType`.
    */
@@ -332,6 +340,9 @@ export class TableBuilder {
 
   /**
    * Appends a raw SQL fragment to the generated output.
+   *
+   * The fragment is emitted unchanged after generated table and index SQL. Only pass
+   * static, trusted schema SQL.
    *
    * @param sql - The raw SQL to include.
    */

@@ -14,9 +14,9 @@ Use for `tsconfig.json`, `vite.config.ts`, and shared workspace tooling config i
 
 1. Start from `@faasjs/types/tsconfig/*` instead of hand-writing a TypeScript baseline.
 2. Keep local `tsconfig.json` focused on project-specific `types`, `include`, `exclude`, `baseUrl`, and `paths`.
-3. Start from `viteConfig` for standard FaasJS React + local server apps.
+3. Start from `ViteConfig` for standard FaasJS React + local server apps.
 4. Keep local `vite.config.ts` focused on runtime plugins, aliases, server options, tests, and build behavior.
-5. Reuse `oxfmtConfig` and `oxlintConfig` from `@faasjs/dev`; extend shared config instead of replacing it.
+5. Reuse `OxfmtConfig` and `OxlintConfig` from `@faasjs/dev`; extend shared config instead of replacing it.
 6. Prefer extending shared config over wholesale replacement when adjustments are needed.
 
 ## Rules
@@ -102,7 +102,7 @@ Avoid:
 ### 3. Let Vite config focus on app behavior
 
 - Import `defineConfig` from `vite-plus` when using `fmt` or `lint`.
-- Prefer `viteConfig` from `@faasjs/dev` when the standard stack fits.
+- Prefer `ViteConfig` from `@faasjs/dev` when the standard stack fits.
 - `vite.config.ts` should define project runtime behavior: plugins, aliases, server options, tests, and build settings.
 - Shared format and lint rules should come from `@faasjs/dev`.
 - In mixed Node + UI tests, use separate `test.projects` entries. Treat `*.test.tsx` as UI tests and `*.ui.test.ts` for UI tests without TSX syntax.
@@ -112,7 +112,7 @@ Avoid:
 Example with multi-project Vitest config:
 
 ```ts
-import { viteConfig } from '@faasjs/dev'
+import { ViteConfig } from '@faasjs/dev'
 import { defineConfig } from 'vite-plus'
 
 const tests = ['src/**/*.test.ts']
@@ -120,7 +120,7 @@ const uiTests = ['src/**/*.test.tsx', 'src/**/*.ui.test.ts']
 const typeTests = ['src/**/*.types.test.ts', 'src/**/*.types.test.tsx']
 
 export default defineConfig({
-  ...viteConfig,
+  ...ViteConfig,
   test: {
     projects: [
       {
@@ -160,10 +160,10 @@ export default defineConfig({
 })
 ```
 
-Manual composition for projects that cannot use `viteConfig` directly:
+Manual composition for projects that cannot use `ViteConfig` directly:
 
 ```ts
-import { viteFaasJsServer, oxfmtConfig, oxlintConfig } from '@faasjs/dev'
+import { viteFaasJsServer, OxfmtConfig, OxlintConfig } from '@faasjs/dev'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite-plus'
 
@@ -175,8 +175,8 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
   },
-  fmt: oxfmtConfig,
-  lint: oxlintConfig,
+  fmt: OxfmtConfig,
+  lint: OxlintConfig,
 })
 ```
 
@@ -184,20 +184,20 @@ export default defineConfig({
 
 If only one or two local differences are needed, spread the shared config and add only the delta.
 
-For lint/format overrides, extend `oxfmtConfig` or `oxlintConfig`:
+For lint/format overrides, extend `OxfmtConfig` or `OxlintConfig`:
 
 ```ts
-import { oxfmtConfig, oxlintConfig } from '@faasjs/dev'
+import { OxfmtConfig, OxlintConfig } from '@faasjs/dev'
 import { defineConfig } from 'vite-plus'
 
 export default defineConfig({
   fmt: {
-    ...oxfmtConfig,
+    ...OxfmtConfig,
   },
   lint: {
-    ...oxlintConfig,
+    ...OxlintConfig,
     rules: {
-      ...oxlintConfig.rules,
+      ...OxlintConfig.rules,
       'no-console': 'warn',
     },
   },
@@ -223,7 +223,7 @@ export default defineConfig({
 - `tsconfig.json` inherits shared presets from `@faasjs/types` where possible
 - local TypeScript overrides only keep project-specific settings
 - `vite-plus` is used when `fmt` or `lint` is configured
-- `vite.config.ts` starts from `viteConfig` or reuses shared `fmt`/`lint` rules from `@faasjs/dev`
+- `vite.config.ts` starts from `ViteConfig` or reuses shared `fmt`/`lint` rules from `@faasjs/dev`
 - config does not duplicate FaasJS baseline settings without reason
 - when a project mixes UI and Node tests, UI tests are in a separate project with `environment: 'jsdom'`
 - when a project has type tests, they are in a separate `types` project instead of mixed into runtime tests

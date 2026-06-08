@@ -24,7 +24,7 @@ cookie.headers()
 
 `C` _extends_ `Record`\<`string`, `string`\> = `any`
 
-Cookie value map exposed by `read()` and `content`.
+Caller-declared cookie value map. Runtime parsed content is stored as strings.
 
 ### S
 
@@ -56,7 +56,7 @@ Optional logger used by cookie and session helpers.
 
 ##### options?
 
-Internal template reuse options.
+Internal template reuse options used by `fork()`.
 
 ###### template?
 

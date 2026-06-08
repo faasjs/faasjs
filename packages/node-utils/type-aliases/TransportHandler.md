@@ -6,6 +6,8 @@
 
 Async callback used by [Transport](../classes/Transport.md) to flush buffered log messages.
 
+Handlers receive batches in registration order during each flush.
+
 ## Parameters
 
 ### messages

@@ -9,7 +9,9 @@ export type User = {
 
 declare module '../src/types' {
   interface Tables {
+    /** @ignore */
     query: User
+    /** @ignore */
     mutation: User
   }
 }

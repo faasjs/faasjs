@@ -6,6 +6,10 @@
 
 Creates a new instance of the `Client` class from a PostgreSQL connection string.
 
+The returned client is cached by URL for [getClient](getClient.md). When `options.max` is omitted,
+the pool size is read from `process.env.PG_POOL_MAX`; unset uses `10`. `PG_POOL_MAX`
+must be a positive safe integer.
+
 ## Type Parameters
 
 ### T
@@ -33,6 +37,14 @@ back to `10`.
 [`Client`](../classes/Client.md)
 
 A new `Client` instance.
+
+## Throws
+
+When `url` is not a string.
+
+## Throws
+
+When `PG_POOL_MAX` is invalid.
 
 ## Example
 

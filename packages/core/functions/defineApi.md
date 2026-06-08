@@ -6,7 +6,9 @@
 
 Create an HTTP API function with optional Zod validation.
 
-The `http` plugin must come from `faas.yaml` or explicit code injection.
+The `http` plugin must be loaded before invocation. Server and loader entrypoints
+resolve configured plugins from `faas.yaml`; direct `defineApi().export().handler()`
+tests must inject `new Http()` in code.
 
 ## Type Parameters
 
@@ -46,7 +48,7 @@ Optional Zod schema used to validate `event.params`.
 
 ## Throws
 
-When the required `http` plugin is missing from `faas.yaml` and no plugin was injected in code.
+When the required `http` plugin is missing.
 
 ## Throws
 

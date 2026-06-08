@@ -57,7 +57,7 @@ The component fetches data via `faasData` and applies FaasJS item type normaliza
 to render item metadata with appropriate display formatting.
 
 When `Path` is provided, the `action` and `params` in `faasData` are strongly typed from the
-FaasActions type augmentation.
+`FaasActions` type augmentation.
 
 ### Type Parameters
 

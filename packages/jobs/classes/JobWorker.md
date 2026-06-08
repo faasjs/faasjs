@@ -8,6 +8,7 @@ claims them, executes their handlers, and updates their status.
 Supports configurable concurrency, polling interval, and lease duration.
 Failed jobs are retried according to their retry strategy until
 max attempts are reached.
+Handler errors are persisted to the job row instead of being thrown from `poll()`.
 
 ## Example
 
@@ -47,6 +48,7 @@ worker.start()
 
 Execute one polling cycle: claim up to `concurrency` pending jobs
 and run their handlers. No-op if a poll is already in progress.
+Handler failures are recorded in PostgreSQL and retried or marked failed.
 
 #### Returns
 
@@ -83,26 +85,40 @@ before resolving.
 
 > `readonly` **concurrency**: `number`
 
+Maximum number of jobs claimed in each poll.
+
 ### jobs
 
 > `readonly` **jobs**: [`JobRegistry`](../type-aliases/JobRegistry.md)
+
+Loaded job registry keyed by job path.
 
 ### leaseSeconds
 
 > `readonly` **leaseSeconds**: `number`
 
+Lease duration in seconds before a running job can be reclaimed.
+
 ### logger
 
 > `readonly` **logger**: `Logger`
+
+Worker logger.
 
 ### pollInterval
 
 > `readonly` **pollInterval**: `number`
 
+Milliseconds between automatic poll ticks.
+
 ### queue
 
 > `readonly` **queue**: `string`
 
+Queue name this worker claims from.
+
 ### workerId
 
 > `readonly` **workerId**: `string`
+
+Unique worker id written to claimed rows.

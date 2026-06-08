@@ -18,7 +18,7 @@ Hook used to read values from the splitting context.
 
 ##### NewT
 
-`NewT` _extends_ [`useAppProps`](../interfaces/useAppProps.md) = [`useAppProps`](../interfaces/useAppProps.md)
+`NewT` _extends_ [`useAppProps`](../type-aliases/useAppProps.md) = [`useAppProps`](../type-aliases/useAppProps.md)
 
 #### Parameters
 
@@ -59,7 +59,7 @@ The provider component of the splitting context.
 
 ##### NewT
 
-`NewT` _extends_ [`useAppProps`](../interfaces/useAppProps.md) = [`useAppProps`](../interfaces/useAppProps.md)
+`NewT` _extends_ [`useAppProps`](../type-aliases/useAppProps.md) = [`useAppProps`](../type-aliases/useAppProps.md)
 
 #### Parameters
 
@@ -96,7 +96,7 @@ Each key produces both a state value and its matching setter using the
 
 ###### memo?
 
-`true` \| `any`[]
+`true` \| `Key`[]
 
 Memoization mode for `children`.
 

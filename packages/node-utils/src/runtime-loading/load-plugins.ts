@@ -1,15 +1,6 @@
 import { dirname, isAbsolute, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-interface HasExportHandler {
-  config: Record<string, any>
-  plugins: Array<{
-    name: string
-    type: string
-    readonly [key: string]: any
-  }>
-  export(): { handler: (...args: any[]) => Promise<any> }
-}
 import { deepMerge } from '@faasjs/utils'
 
 import type { Logger } from '../logger'
@@ -36,8 +27,8 @@ type ConfigurablePlugin = PluginInstance & {
 /**
  * Options used by {@link loadPlugins} while resolving staged plugin config.
  *
- * @property {string} root - Project root used to discover `faas.yaml`.
- * @property {string} filename - API filename whose directory scopes nested config lookup.
+ * @property {string} root - Project root used to discover and merge `faas.yaml`.
+ * @property {string} filename - API filename whose directory scopes nested config lookup and relative plugin paths.
  * @property {string} staging - Staging name such as `development` or `production`.
  * @property {Logger} [logger] - Optional logger used for debug output during config and plugin loading.
  */
@@ -137,9 +128,20 @@ async function applyPluginConfig(
  * Load staged `faas.yaml`, attach the merged config to a function, and
  * instantiate any plugins declared in YAML that are not already injected in code.
  *
- * Only `http` is treated as a built-in plugin. Other config-driven plugins must
- * declare an explicit module `type` whose module exports a class as
- * `export default` with `onMount` or `onInvoke` on its prototype.
+ * YAML plugin config is merged with `func.config.plugins`, with inline function
+ * config winning. Existing plugin instances with the same `name` receive the
+ * merged config through `applyConfig()` when available, otherwise their
+ * `config` object is deep-merged. Missing plugin instances are loaded from the
+ * resolved plugin `type` and inserted before the handler plugin when one exists.
+ *
+ * Only `http` receives a built-in default type. Other config-driven plugins
+ * must declare an explicit module `type`. Plain names resolve to `@faasjs/<type>`,
+ * `http` resolves to `@faasjs/core`, and relative, absolute, `file://`, or other
+ * URL-scheme specifiers are imported directly after path normalization.
+ *
+ * Config-driven plugin modules must expose a plugin class as `export default`
+ * with `onMount` or `onInvoke` on its prototype; named exports are not used as a
+ * fallback.
  *
  * @template T - Function instance type enriched with config-driven plugins.
  * @param {T} func - Function instance whose config and plugin list should be updated.
@@ -164,10 +166,17 @@ async function applyPluginConfig(
  * )
  * ```
  */
-export async function loadPlugins<T extends HasExportHandler>(
-  func: T,
-  options: LoadPluginsOptions,
-): Promise<T> {
+export async function loadPlugins<
+  T extends {
+    config: Record<string, any>
+    plugins: Array<{
+      name: string
+      type: string
+      readonly [key: string]: any
+    }>
+    export(): { handler: (...args: any[]) => Promise<any> }
+  },
+>(func: T, options: LoadPluginsOptions): Promise<T> {
   if (!func.config || typeof func.config !== 'object') func.config = Object.create(null)
 
   const loadedConfig = loadConfig(options.root, options.filename, options.staging, options.logger)

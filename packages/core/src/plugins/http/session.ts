@@ -59,6 +59,9 @@ export type SessionOptions = {
 
 /**
  * Allowed payload values stored in the session cookie.
+ *
+ * Object-like payloads are the normal session shape. Direct string payloads can be
+ * encrypted by `encode()` but will not decode successfully unless they contain valid JSON.
  */
 export type SessionContent = string | number | { [key: string]: any } | null | undefined
 
@@ -132,7 +135,7 @@ export class Session<
    * @param {number} [config.iterations] - PBKDF2 iteration count used for key derivation.
    * @param {string} [config.digest] - Hash algorithm used by PBKDF2 and HMAC.
    * @param {string} [config.cipherName] - Cipher name used to encrypt the session payload.
-   * @param {SessionSecrets} [secrets] - Precomputed secrets reused by forked sessions.
+   * @param {SessionSecrets} [secrets] - Internal precomputed secrets reused by forked sessions.
    * @param {Buffer} [secrets.secret] - Derived encryption key reused by forked sessions.
    * @param {Buffer} [secrets.signedSecret] - Derived signing key reused by forked sessions.
    */
@@ -220,7 +223,8 @@ export class Session<
   /**
    * Serialize session content into a signed, encrypted cookie string.
    *
-   * Non-string payloads are JSON serialized before encryption.
+   * Non-string payloads are JSON serialized before encryption. Prefer object payloads
+   * because `decode()` parses decrypted content with `JSON.parse`.
    *
    * @param {SessionContent} text - Session payload to encode.
    * @returns {string} Encoded cookie value.
@@ -249,7 +253,8 @@ export class Session<
    * @template TData - Expected decoded payload shape.
    * @param {string} text - Encoded cookie value.
    * @returns {TData | SessionContent} Decoded session payload.
-   * @throws {Error} When the HMAC signature is invalid or the payload cannot be decrypted.
+   * @throws {Error} When the HMAC signature is invalid, the payload cannot be decrypted,
+   * or decrypted content is not valid JSON.
    */
   public decode<TData = any>(text: string): TData | SessionContent {
     text = decodeURIComponent(text)
@@ -278,7 +283,7 @@ export class Session<
    * Read a session value by key.
    *
    * @param {string} key - Session key.
-   * @returns {string | number | undefined} Stored session value.
+   * @returns {string | number | undefined} Stored session value, or `undefined` when absent.
    */
   public read(key: string) {
     return this.content[key]

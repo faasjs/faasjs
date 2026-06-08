@@ -2,13 +2,13 @@
 
 # Function: useConfigContext()
 
-> **useConfigContext**(): `ConfigContextValue`
+> **useConfigContext**(): [`ConfigContextValue`](../type-aliases/ConfigContextValue.md)
 
 Read the current `@faasjs/ant-design` config context.
 
 ## Returns
 
-`ConfigContextValue`
+[`ConfigContextValue`](../type-aliases/ConfigContextValue.md)
 
 Current config context value containing the resolved theme.
 

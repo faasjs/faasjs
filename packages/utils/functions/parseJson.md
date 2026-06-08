@@ -12,6 +12,8 @@ Parses a JSON string into a JavaScript value.
 
 `T` _extends_ `unknown`
 
+Expected parsed value type. The helper does not validate the parsed shape.
+
 ## Parameters
 
 ### value

@@ -6,6 +6,9 @@
 
 Enqueue a pending job by its `.job.ts` path-derived identifier.
 
+The jobs table is initialized automatically. When `idempotencyKey` is supplied
+and a matching row already exists, the existing row is returned unchanged.
+
 ## Parameters
 
 ### jobPath
@@ -31,6 +34,10 @@ Enqueue options including queue, priority, run time, and idempotency.
 `Promise`\<[`JobRecord`](../type-aliases/JobRecord.md)\>
 
 The persisted job record.
+
+## Throws
+
+When queue, job path, priority, max attempts, or database writes are invalid.
 
 ## Examples
 

@@ -4,7 +4,11 @@
 
 > **TableFaasDataParams** = `object`
 
-Query params shape expected by table-backed FaasJS endpoints.
+Query params shape expected by table-backed FaasJS list endpoints.
+
+The table sends these fields when remote pagination, filters, or sorters
+change. Endpoint-specific params may be included alongside this shape by
+setting `faasData.params`.
 
 ## Properties
 

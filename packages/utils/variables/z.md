@@ -8,8 +8,8 @@ Extended Zod instance with custom helpers.
 
 Currently includes:
 
-- `positiveint()`: A helper that returns a Zod schema for positive integers.
-- `nonemptystring()`: A helper that returns a Zod schema for non-empty strings.
+- `positiveint()`: returns `z.int().gt(0)`.
+- `nonemptystring()`: returns `z.string().min(1)`.
 
 ## Example
 

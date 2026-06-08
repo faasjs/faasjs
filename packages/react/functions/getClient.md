@@ -18,7 +18,7 @@ different base URLs. In normal single-client app code, prefer the default
 
 `string`
 
-Registered base URL to look up. Omit it to use the default client.
+Registered base URL to look up. Omit it to use the first registered client.
 
 ## Returns
 

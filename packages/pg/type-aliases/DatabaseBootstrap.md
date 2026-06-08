@@ -8,7 +8,9 @@ Async bootstrap used by [getClient](../functions/getClient.md) when no default c
 
 The bootstrap is responsible for initializing and caching the default client.
 The built-in bootstrap creates that client from `process.env.DATABASE_URL`, while
-tools such as `@faasjs/pg-dev` can register a lazy async bootstrap for tests.
+tools such as `@faasjs/pg-dev` can register a lazy async bootstrap for tests. A
+custom bootstrap should call [createClient](../functions/createClient.md) exactly once for the default
+connection path so `getClient()` can resolve a single cached client afterwards.
 
 ## Returns
 

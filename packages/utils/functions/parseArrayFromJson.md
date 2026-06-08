@@ -6,11 +6,16 @@
 
 Normalizes JSON-like input into an array.
 
+Existing arrays are returned as-is. JSON strings are parsed and cast to `T`;
+callers should validate untrusted parsed values with a schema when shape matters.
+
 ## Type Parameters
 
 ### T
 
 `T` _extends_ `unknown`[]
+
+Expected array type.
 
 ## Parameters
 
@@ -24,4 +29,4 @@ Existing array or JSON string payload.
 
 `T`
 
-Parsed array
+Existing array or parsed JSON value cast to `T`.

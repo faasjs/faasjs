@@ -10,9 +10,10 @@ import { SchemaBuilder } from '../schema-builder'
  * The `Migrator` class is responsible for handling database migrations.
  * It provides methods to check migration status, apply migrations, and roll back migrations.
  *
- * @param {Object} options - The options for the migrator.
- * @param {Client} options.client - The database client.
- * @param {string} options.folder - The folder containing migration files.
+ * Migration files are loaded from the configured folder with lexical filename ordering.
+ * Each file should export `up(builder)` and optionally `down(builder)` functions that
+ * receive a {@link SchemaBuilder}. Builder changes, including raw SQL statements, are
+ * executed inside `SchemaBuilder.run()` transactions.
  */
 export class Migrator {
   private client: Client
@@ -35,6 +36,8 @@ export class Migrator {
 
   /**
    * Returns all applied migration records from the tracking table.
+   *
+   * Creates `faasjs_pg_migrations` first if needed.
    */
   async status() {
     await this.createMigrationTable()
@@ -46,6 +49,8 @@ export class Migrator {
    *
    * Each migration file is loaded dynamically and its `up` function is invoked
    * with a {@link SchemaBuilder}. Changes are run in a transaction per migration.
+   * Already-recorded migrations are skipped. When the folder has no `.ts` files,
+   * the method logs and returns without throwing.
    */
   async migrate() {
     const files = globSync(join(this.folder, '*.ts'))
@@ -86,6 +91,10 @@ export class Migrator {
 
   /**
    * Runs the next pending migration, if one exists.
+   *
+   * The "next" file is the first lexical filename greater than the latest recorded
+   * migration name. When there are no files or no pending migration, the method logs
+   * and returns without throwing.
    *
    * @returns A rejected promise if the migration fails.
    */
@@ -133,6 +142,9 @@ export class Migrator {
   /**
    * Rolls back the last applied migration by calling its `down` function.
    *
+   * If no migration history exists or the matching migration file is missing, the
+   * method logs and returns without modifying the tracking table.
+   *
    * @returns A rejected promise if the rollback fails.
    */
   async down() {
@@ -179,6 +191,8 @@ export class Migrator {
 
   /**
    * Creates the `faasjs_pg_migrations` tracking table if it does not exist.
+   *
+   * The table uses the migration filename without `.ts` as its primary key.
    */
   async createMigrationTable() {
     return this.client.raw`CREATE TABLE IF NOT EXISTS faasjs_pg_migrations (

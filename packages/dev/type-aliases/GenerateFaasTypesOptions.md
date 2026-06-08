@@ -18,7 +18,10 @@ Logger used to report generation progress.
 
 > `optional` **root?**: `string`
 
-Project root used to resolve `src/` and emit `src/.faasjs/types.d.ts`.
+Project root passed through FaasJS server config resolution.
+
+When `src/faas.yaml` contains `defaults.server.root`, generation runs from that
+resolved project root and emits `src/.faasjs/types.d.ts` beneath it.
 
 #### Default
 

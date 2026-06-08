@@ -51,11 +51,21 @@ export class Job<
   TContext = any,
   TResult = any,
 > extends Func<JobEvent<TSchema>, TContext, TResult> {
+  /**
+   * Marker used by the job loader to recognize job definitions.
+   *
+   * @internal
+   */
   public readonly __faasjsJob = true
+  /** Zod schema used to validate job params before the handler runs. */
   public readonly schema: TSchema | undefined
+  /** Normalized queue name used by default enqueues and workers. */
   public readonly queue: string
+  /** Normalized maximum attempts before a job is marked failed. */
   public readonly maxAttempts: number
+  /** Retry strategy used after failed attempts. */
   public readonly retry: JobRetry | undefined
+  /** Cron rules used by {@link JobScheduler} to enqueue scheduled jobs. */
   public readonly cron: JobCron<DefineJobParams<TSchema>>[]
 
   constructor(options: DefineJobOptions<TSchema, TContext, TResult>) {
@@ -106,6 +116,22 @@ export function isJob(value: unknown): value is Job<any, any, any> {
  * and `startJobScheduler`. When `schema` is provided, handler `params` are
  * inferred from the schema output type. Without `schema`, handler `params` are
  * typed as `Record<string, never>`.
+ *
+ * @param options - Job schema, defaults, cron rules, retry strategy, and handler.
+ * @returns A {@link Job} instance with normalized queue, retry, and cron metadata.
+ *
+ * @example
+ * ```ts
+ * import { defineJob } from '@faasjs/jobs'
+ * import { z } from '@faasjs/utils'
+ *
+ * export default defineJob({
+ *   schema: z.object({ userId: z.string() }),
+ *   async handler({ params, job, attempt, logger }) {
+ *     logger.info('Sync %s from job %s attempt %s', params.userId, job.id, attempt)
+ *   },
+ * })
+ * ```
  */
 export function defineJob<
   TSchema extends ZodType | undefined = undefined,

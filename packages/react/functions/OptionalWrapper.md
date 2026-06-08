@@ -6,6 +6,9 @@
 
 Conditionally wrap children with another component.
 
+`Wrapper` is required for a stable component contract, but it is not rendered
+and does not receive `wrapperProps` when `condition` is `false`.
+
 ## Parameters
 
 ### props
@@ -25,12 +28,12 @@ Wrapped children or the original children when `condition` is false.
 ```tsx
 import { OptionalWrapper } from '@faasjs/react'
 
-const Wrapper = ({ children }: { children: React.ReactNode }) => (
-  <div className="wrapper">{children}</div>
+const Wrapper = ({ children, className }: { children: React.ReactNode; className: string }) => (
+  <div className={className}>{children}</div>
 )
 
 const App = () => (
-  <OptionalWrapper condition={true} Wrapper={Wrapper}>
+  <OptionalWrapper condition={true} Wrapper={Wrapper} wrapperProps={{ className: 'wrapper' }}>
     <span>Test</span>
   </OptionalWrapper>
 )

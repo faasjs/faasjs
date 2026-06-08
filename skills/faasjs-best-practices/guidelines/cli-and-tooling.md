@@ -83,14 +83,16 @@ Available templates:
 After scaffolding, the script automatically runs:
 
 1. `npm install` — Installs dependencies.
-2. `npm run test` — Runs the initial test suite to verify the setup.
+2. `npm run types` — Generates FaasJS action route declarations.
+3. `npm run test` — Runs the initial test suite to verify the setup.
 
 To run these steps manually after creation:
 
 ```bash
 cd <project-name>
 npm install
-npx faas types
+npm run types
+npm run test
 ```
 
 ## Migration Commands
@@ -119,7 +121,7 @@ Example:
 ```bash
 DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg migrate
 DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg sql "SELECT 1"
-DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg new add_users_table
+DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg new add-users-table
 ```
 
 ## Type Generation Workflow
@@ -134,7 +136,7 @@ Keep type declarations in sync with your API routes:
 
 2. The generated file is written to `src/.faasjs/types.d.ts`.
 
-3. The output declares a `FaasActions` interface via module augmentation on `@faasjs/types`, providing typed `InferFaasAction` and `InferFaasApi` for every route.
+3. The output declares a `FaasActions` interface via module augmentation on `@faasjs/types`, using `InferFaasAction` for every route.
 
 4. `faas types` is idempotent: it compares the generated content against the existing file and only writes when something changed.
 
@@ -231,7 +233,7 @@ npx faas types --root /path/to/project
 | ---------------- | ------------------------------------------------------------------------- |
 | `faas.yaml`      | Runtime configuration: server root, base path, staging overrides, plugins |
 | `tsconfig.json`  | TypeScript configuration, extends `@faasjs/types/tsconfig/*` presets      |
-| `vite.config.ts` | Vite/Vitest configuration, uses `viteConfig` from `@faasjs/dev`           |
+| `vite.config.ts` | Vite/Vitest configuration, uses `ViteConfig` from `@faasjs/dev`           |
 | `.env`           | Environment variable overrides for local development                      |
 
 ## Rules

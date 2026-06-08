@@ -5,6 +5,9 @@ import type { Session } from './session'
 /**
  * Common content type aliases used by the HTTP plugin.
  *
+ * Built-in keys include `plain`, `html`, `xml`, `csv`, `css`, `javascript`,
+ * `json`, and `jsonp`. {@link HttpSetContentType} also accepts raw MIME strings.
+ *
  * @example
  * ```ts
  * const contentType = ContentType.json
@@ -92,7 +95,7 @@ export type HttpSetStatusCode = (code: number) => void
 /**
  * Set the outgoing HTTP body payload.
  *
- * @param {HttpResponseBody} body - Response body payload.
+ * @param {HttpResponseBody} body - Typed response body payload. Return plain values from handlers when you need JSON object wrapping.
  * @returns {void} No return value.
  */
 export type HttpSetBody = (body: HttpResponseBody) => void

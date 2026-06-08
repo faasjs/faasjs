@@ -6,6 +6,9 @@
 
 Escapes a SQL identifier, preserving trusted [RawSql](../type-aliases/RawSql.md) fragments.
 
+Dotted identifiers are escaped segment by segment, `*` and `COUNT(*)` are preserved
+for query-builder output, and non-string values throw before SQL is generated.
+
 ## Parameters
 
 ### identifier

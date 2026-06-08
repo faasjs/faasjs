@@ -6,6 +6,9 @@
 
 Generate a random identifier with an optional prefix.
 
+The identifier is built from the current timestamp and `Math.random()`. It is useful for
+local correlation IDs and temporary names, not for secrets or security tokens.
+
 ## Parameters
 
 ### prefix?

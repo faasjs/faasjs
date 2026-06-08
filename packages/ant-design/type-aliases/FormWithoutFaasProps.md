@@ -2,7 +2,7 @@
 
 # Type Alias: FormWithoutFaasProps\<Values, ExtendItemProps\>
 
-> **FormWithoutFaasProps**\<`Values`, `ExtendItemProps`\> = `FormCommonProps`\<`Values`, `ExtendItemProps`\> & `object`
+> **FormWithoutFaasProps**\<`Values`, `ExtendItemProps`\> = [`FormCommonProps`](FormCommonProps.md)\<`Values`, `ExtendItemProps`\> & `object`
 
 Props for the [Form](../functions/Form.md) component when NO FaasJS integration is used.
 

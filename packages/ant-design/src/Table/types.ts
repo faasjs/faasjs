@@ -63,9 +63,20 @@ export type TableProps<T = any, ExtendTypes = any> = {
   extendTypes?: {
     [key: string]: ExtendTableTypeProps
   }
-  /** Request config used to fetch table data before rendering. */
+  /**
+   * Request config used to fetch table data before rendering.
+   *
+   * A plain array response is rendered directly. A paginated list response should
+   * follow {@link TableFaasDataResponse}; that shape enables remote pagination,
+   * filter, and sorter reloads.
+   */
   faasData?: FaasDataWrapperProps<any>
-  /** Change handler that can return rewritten pagination, filter, and sorter state. */
+  /**
+   * Change handler that can return rewritten pagination, filter, and sorter state.
+   *
+   * When `faasData` uses a paginated list response, the returned state is sent
+   * to `reload()`. Without this handler, the raw Ant Design table state is sent.
+   */
   onChange?: (
     pagination: TablePaginationConfig,
     filters: Record<string, FilterValue | null>,
@@ -80,7 +91,11 @@ export type TableProps<T = any, ExtendTypes = any> = {
 } & AntdTableProps<T>
 
 /**
- * Query params shape expected by table-backed FaasJS endpoints.
+ * Query params shape expected by table-backed FaasJS list endpoints.
+ *
+ * The table sends these fields when remote pagination, filters, or sorters
+ * change. Endpoint-specific params may be included alongside this shape by
+ * setting `faasData.params`.
  */
 export type TableFaasDataParams = {
   /** Active filter values keyed by column field. */
@@ -109,7 +124,11 @@ export type TableFaasDataParams = {
 }
 
 /**
- * Paginated response shape expected by {@link Table} when using `faasData`.
+ * Paginated list response shape expected by {@link Table} when using `faasData`.
+ *
+ * Return this object shape when the table should own remote pagination, filters,
+ * and sorters. Returning a plain array is supported for simple row rendering,
+ * but it does not attach the remote pagination/onChange reload contract.
  *
  * @template T - Row record type contained in `rows`.
  */

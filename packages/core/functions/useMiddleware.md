@@ -13,6 +13,7 @@ Create a function that runs one middleware and falls back to `404 Not Found`.
 [`Middleware`](../type-aliases/Middleware.md)
 
 Middleware to execute for each incoming request.
+Middleware errors are logged and converted into an HTTP error response when possible.
 
 ## Returns
 

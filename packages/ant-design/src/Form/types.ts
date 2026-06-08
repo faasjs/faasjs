@@ -15,24 +15,33 @@ export type FormSubmitProps = {
 }
 
 /**
- * Configures FaasJS-backed form submission.
+ * Configures FaasJS-backed form submission for create/update/delete style actions.
+ *
+ * The submitted payload starts from the current form values, optionally passes
+ * through `transformValues`, then merges `params` over the transformed values
+ * before calling `faas(action, payload)`.
  *
  * @template Values - Form values shape.
- * @template Path - Action path type inferred from the registered FaasJS actions.
+ * @template Path - Registered action path used to infer submitted params.
  */
 export type FormFaasProps<
   Values extends Record<string, any> = any,
   Path extends FaasActionPaths = any,
 > = {
-  /** Fully qualified FaasJS action path. */
+  /** FaasJS action path for the write-style request. */
   action: Path
-  /** Static params or a factory that receives the current form values and returns the params payload. */
+  /**
+   * Extra static params or a factory that receives transformed form values.
+   *
+   * Returned keys are merged over the form values, so they can provide IDs or
+   * route metadata for update/delete flows.
+   */
   params?: FaasParams<Path> | ((values: Record<string, any>) => FaasParams<Path>)
-  /** Transformer applied to form values before the FaasJS request is fired. */
+  /** Transformer applied before `params` are merged and before the FaasJS request is fired. */
   transformValues?: (values: Values) => Record<string, any> | Promise<Record<string, any>>
-  /** Called after a successful FaasJS response. */
+  /** Called with the `faas` response and final submitted payload after a successful request. */
   onSuccess?: (result: any, values: Record<string, any>) => void
-  /** Called after a failed FaasJS request. */
+  /** Called with the request error and final submitted payload after a failed request. */
   onError?: (error: any, values: Record<string, any>) => void
   /** Called after the request settles, regardless of success or failure. */
   onFinally?: () => void
@@ -86,9 +95,9 @@ export type FormWithoutFaasProps<
 }
 
 /**
- * Props for the {@link Form} component when FaasJS integration IS used.
+ * Props for the {@link Form} component when FaasJS write-action integration is used.
  *
- * @template Path - Action path type inferred from the registered FaasJS actions.
+ * @template Path - Registered action path used to infer submitted params.
  * @template Values - Form values shape.
  * @template ExtendItemProps - Additional item prop shape accepted by `items`.
  */

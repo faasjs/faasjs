@@ -16,7 +16,7 @@ plus helpers for reloading, background refreshing, updating data, and handling e
 
 `Path` _extends_ `FaasActionPaths`
 
-Action path or response data type used for inference.
+Registered action path used to infer params and response data.
 
 ## Parameters
 
@@ -50,8 +50,19 @@ Request state and helper methods described by [FaasDataInjection](../type-aliase
 ```tsx
 import { useFaas } from '@faasjs/react'
 
+declare module '@faasjs/types' {
+  interface FaasActions {
+    'features/users/api/get': {
+      Params: { id: number }
+      Data: { name: string }
+    }
+  }
+}
+
+type GetUserAction = 'features/users/api/get'
+
 function Profile({ id }: { id: number }) {
-  const { data, error, loading, reload } = useFaas('features/users/api/get', { id })
+  const { data, error, loading, reload } = useFaas<GetUserAction>('features/users/api/get', { id })
 
   if (loading) return <div>Loading...</div>
 

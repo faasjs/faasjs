@@ -6,6 +6,10 @@
 
 Replaces the async bootstrap used by [getClient](getClient.md) for the default client path.
 
+The replacement is process-wide for the current module instance. It is primarily
+intended for test harnesses and local tooling that must lazily start a database
+before the first default `getClient()` call.
+
 ## Parameters
 
 ### bootstrap

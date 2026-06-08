@@ -24,6 +24,10 @@ Custom type renderers keyed by item type.
 
 Request config used to fetch table data before rendering.
 
+A plain array response is rendered directly. A paginated list response should
+follow [TableFaasDataResponse](TableFaasDataResponse.md); that shape enables remote pagination,
+filter, and sorter reloads.
+
 ### items
 
 > **items**: ([`TableItemProps`](../interfaces/TableItemProps.md) \| `ExtendTypes` & [`ExtendTableItemProps`](ExtendTableItemProps.md))[]
@@ -35,6 +39,9 @@ Column definitions rendered by the table.
 > `optional` **onChange?**: (`pagination`, `filters`, `sorter`, `extra`) => `object`
 
 Change handler that can return rewritten pagination, filter, and sorter state.
+
+When `faasData` uses a paginated list response, the returned state is sent
+to `reload()`. Without this handler, the raw Ant Design table state is sent.
 
 #### Parameters
 

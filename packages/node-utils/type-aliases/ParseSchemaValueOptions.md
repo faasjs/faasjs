@@ -6,6 +6,9 @@
 
 Options for parsing an unknown value with an optional Zod schema.
 
+This is useful for runtime boundaries where a schema may be optional, such as
+API params, job payloads, or plugin config.
+
 ## Type Parameters
 
 ### TSchema
@@ -44,7 +47,7 @@ Optional factory for wrapping the formatted validation message.
 
 Value returned without a schema and parsed when the raw value is nullish.
 
-Defaults to an empty object.
+Defaults to an empty object when omitted.
 
 ### errorMessage
 

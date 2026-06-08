@@ -9,29 +9,30 @@ Quick reference for AI agents. See linked guides for details when a rule does no
 
 ### Commands
 
-| Command                         | Purpose                                                  |
-| ------------------------------- | -------------------------------------------------------- |
-| `vp dev`                        | Start dev server                                         |
-| `vp test` / `vp test <pattern>` | Run tests                                                |
-| `vp check --fix`                | Lint + format (oxlint + oxfmt)                           |
-| `npx faas types`                | Regenerate API type declarations after `.api.ts` changes |
-| `npx faasjs-pg migrate`         | Run pending DB migrations (`DATABASE_URL` required)      |
-| `npx faasjs-pg sql "<sql>"`     | Execute SQL and print JSON (`DATABASE_URL` required)     |
-| `npx faasjs-pg new <name>`      | Create timestamped migration file                        |
+| Command                            | Purpose                                                  |
+| ---------------------------------- | -------------------------------------------------------- |
+| `vp dev`                           | Start dev server                                         |
+| `vp test` / `vp test <pattern>`    | Run tests                                                |
+| `vp check --fix`                   | Lint + format (oxlint + oxfmt)                           |
+| `npx create-faas-app --name <app>` | Scaffold a new FaasJS app                                |
+| `npx faas types`                   | Regenerate API type declarations after `.api.ts` changes |
+| `npx faasjs-pg migrate`            | Run pending DB migrations (`DATABASE_URL` required)      |
+| `npx faasjs-pg sql "<sql>"`        | Execute SQL and print JSON (`DATABASE_URL` required)     |
+| `npx faasjs-pg new <name>`         | Create timestamped migration file                        |
 
 ### File Layout
 
-| Layer      | Pattern                                    | Example                      |
-| ---------- | ------------------------------------------ | ---------------------------- |
-| Feature UI | `features/<feature>/index.tsx`             | `features/users/index.tsx`   |
-| Component  | `features/<feature>/components/<Name>.tsx` | `components/UserTable.tsx`   |
-| Hook       | `features/<feature>/hooks/use<Name>.ts`    | `hooks/useUserItems.ts`      |
-| API        | `features/<feature>/api/<action>.api.ts`   | `api/list.api.ts`            |
-| API test   | `…/api/__tests__/<action>.test.ts`         | `__tests__/list.test.ts`     |
-| Job        | `features/<feature>/jobs/<name>.job.ts`    | `jobs/sync.job.ts`           |
-| CLI        | `features/<feature>/cli/<command>.ts`      | `cli/import.ts`              |
-| Table type | `db/tables/<table_name>.ts`                | `db/tables/users.ts`         |
-| Migration  | `db/migrations/<timestamp>_<name>.ts`      | `…/20250101_create_users.ts` |
+| Layer      | Pattern                                    | Example                            |
+| ---------- | ------------------------------------------ | ---------------------------------- |
+| Feature UI | `features/<feature>/index.tsx`             | `features/users/index.tsx`         |
+| Component  | `features/<feature>/components/<Name>.tsx` | `components/UserTable.tsx`         |
+| Hook       | `features/<feature>/hooks/use<Name>.ts`    | `hooks/useUserItems.ts`            |
+| API        | `features/<feature>/api/<action>.api.ts`   | `api/list.api.ts`                  |
+| API test   | `…/api/__tests__/<action>.test.ts`         | `__tests__/list.test.ts`           |
+| Job        | `features/<feature>/jobs/<name>.job.ts`    | `jobs/sync.job.ts`                 |
+| CLI        | `features/<feature>/cli/<command>.ts`      | `cli/import.ts`                    |
+| Table type | `db/tables/<table_name>.ts`                | `db/tables/users.ts`               |
+| Migration  | `db/migrations/<timestamp>-<name>.ts`      | `…/20250101000000-create-users.ts` |
 
 Tests live in `__tests__/` inside the feature folder they protect. Fixtures/mocks go inside `__tests__/` too, not as siblings.
 
@@ -39,15 +40,15 @@ Tests live in `__tests__/` inside the feature folder they protect. Fixtures/mock
 
 - **Validation**: zod for external input (`defineApi` schema). `typeof`/`instanceof`/`=== null` for internal control flow. Do not swap them.
 - **React**: no `useEffect`. Use `useEqualEffect` for side effects. Object/array deps → `useEqualMemo`/`useEqualCallback`.
-- **Data fetching**: `useFaas` for component-owned requests. `faas` for event handlers. `Form.faas` for form submits. `useFaasStream` for streaming.
-- **CRUD**: `Table.faasData` list → `Description.faasData` detail → `Form.faas` create/edit → `faas` + modal for delete. Shared `items` in `use<Feature>Items` drives all three.
+- **Data fetching**: `useFaas` for component-owned requests. `faas` for event handlers. the `Form` `faas` prop for form submits. `useFaasStream` for streaming.
+- **CRUD**: `Table` `faasData` prop list → `Description` `faasData` prop detail → `Form` `faas` prop create/edit → `faas` + modal for delete. Shared `items` in `use<Feature>Items` drives all three.
 - **Types**: rely on inference first. Add explicit types only at API boundaries, shared contracts, or where inference is ambiguous.
 - **Imports**: use tsconfig aliases when configured. Short relative imports for nearby files. No `.ts`/`.tsx` suffix.
 - **Files**: keep under ~500 lines. Extract only at real boundaries (reuse, >20 line body).
 - **Errors**: `HttpError` + explicit status for expected failures (400/401/403/404/409). `throw Error` for internal 500.
 - **Security**: check user/tenant/permission scope before data access. Never log secrets/tokens/passwords.
 - **Return values**: return directly, avoid single-use intermediate variables. Do not destructure function params.
-- **Comments**: JSDoc for package public exports only. No comments on untouched code. Delete dead code, don't mark it.
+- **Comments**: JSDoc for exported package API only. No comments on untouched code. Delete dead code, don't mark it.
 
 ### Gate
 
@@ -68,7 +69,7 @@ Before handoff: `vp check --fix && vp test`. If either can't run, record why.
 - Do not destructure function parameters except the exact FaasJS API handler form `handler({ params })`; access all other function, handler, component, hook, and callback parameters through the parameter object (e.g., `input.xxx`, `props.xxx`, or `data.xxx`) so the source of each value is immediately visible.
 - Do not create standalone type aliases or interfaces when TypeScript can infer the type from the expression, schema, or return statement; rely on inference first and add explicit types only at API boundaries, shared contracts, or where inference is ambiguous.
 - Extract helpers, hooks, components, or abstractions only when they are reused, create a real boundary, or simplify a large block; keep one-off code inline unless the body is over about 20 lines.
-- Document package public exports with JSDoc. Add JSDoc for shared app exports when the caller contract is not obvious. Do not add comments, docstrings, or type annotations to untouched code.
+- Document symbols exported from package public entrypoints with JSDoc. Add JSDoc for shared app exports when the caller contract is not obvious. Do not add comments, docstrings, or type annotations to untouched code.
 - Delete confirmed-dead code directly instead of leaving temporary tricks such as `_unused` renames, type re-exports, or `// removed` markers.
 - Keep files under about 500 lines by splitting along real boundaries before they grow too large.
 - Treat `vp check --fix` and `vp test` as the default acceptance gates before handoff; if either cannot run, record the reason and the narrower validation that was completed.

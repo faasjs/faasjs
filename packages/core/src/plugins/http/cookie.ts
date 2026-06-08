@@ -59,7 +59,7 @@ type CookieConfig = {
 /**
  * Read, write, and serialize cookies for the HTTP plugin.
  *
- * @template C - Cookie value map exposed by `read()` and `content`.
+ * @template C - Caller-declared cookie value map. Runtime parsed content is stored as strings.
  * @template S - Session value map exposed by the nested session helper.
  *
  * @example
@@ -112,7 +112,7 @@ export class Cookie<
    * @param {'Strict' | 'Lax' | 'None'} [config.sameSite] - SameSite attribute applied to written cookies.
    * @param {SessionOptions} [config.session] - Session-cookie encryption and signing settings.
    * @param {Logger} [logger] - Optional logger used by cookie and session helpers.
-   * @param {object} [options] - Internal template reuse options.
+   * @param {object} [options] - Internal template reuse options used by `fork()`.
    * @param {Cookie<C, S>} [options.template] - Existing cookie template reused by `fork()`.
    */
   constructor(

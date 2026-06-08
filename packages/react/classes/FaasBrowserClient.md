@@ -2,21 +2,35 @@
 
 # Class: FaasBrowserClient
 
-Browser client for FaasJS - provides HTTP client functionality for making API requests from web applications.
+Browser client for FaasJS action requests from web applications.
 
 Handles request URL construction, default and per-request option merging,
 before-request hooks, mock resolution for testing, and native fetch dispatching.
+When a global mock is configured with `setMock`, the mock response wins
+over both native `fetch` and a custom `request` option.
 
 ## Example
 
 ```ts
 import { FaasBrowserClient } from '@faasjs/react'
 
+declare module '@faasjs/types' {
+  interface FaasActions {
+    'posts/get': {
+      Params: { id: number }
+      Data: { title: string }
+    }
+  }
+}
+
+type GetPostAction = 'posts/get'
+
 const client = new FaasBrowserClient('https://api.example.com/', {
   headers: { 'X-Custom-Header': 'value' },
 })
 
-const response = await client.action('posts/get', { id: 1 })
+const response = await client.action<GetPostAction>('posts/get', { id: 1 })
+
 console.log(response.data)
 ```
 
@@ -69,7 +83,7 @@ consume the body stream themselves.
 
 `Path` _extends_ `FaasActionPaths`
 
-Action path used to infer the request params and response data types.
+Registered action path used to infer request params and response data.
 
 #### Parameters
 
@@ -108,6 +122,8 @@ When `action` is empty or falsy.
 > **baseUrl**: `` `${string}/` ``
 
 Base URL used to build action request URLs.
+
+The action path is appended directly to this value, so it always ends with `/`.
 
 ### defaultOptions
 

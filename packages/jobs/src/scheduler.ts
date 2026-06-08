@@ -52,6 +52,7 @@ function createCronKey(jobPath: string, rule: JobCron, queue: string, params: un
  * Periodic scheduler that iterates over registered job definitions,
  * evaluates their cron rules, and enqueues matching jobs at the top
  * of each minute.
+ * The scheduler only enqueues rows; workers execute handlers.
  *
  * Deduplicates cron enqueues by computing a hash of the rule configuration
  * (job path, expression, timezone, queue, params) and using it as a
@@ -62,9 +63,13 @@ function createCronKey(jobPath: string, rule: JobCron, queue: string, params: un
  * scheduler.start()
  */
 export class JobScheduler {
+  /** Milliseconds between automatic cron ticks. */
   public readonly pollInterval: number
+  /** Unique scheduler id used in logs. */
   public readonly schedulerId: string
+  /** Loaded job registry keyed by job path. */
   public readonly jobs: JobRegistry
+  /** Scheduler logger. */
   public readonly logger: Logger
 
   private active = false
@@ -131,7 +136,8 @@ export class JobScheduler {
    * already in progress.
    *
    * @param now - The reference time (defaults to the current instant).
-   * @returns The number of jobs enqueued in this tick.
+   * @returns The number of matching cron rules processed in this tick. Existing
+   * deduplicated rows may be returned instead of newly inserted rows.
    */
   public async tick(now = new Date()): Promise<number> {
     if (this.ticking) return 0

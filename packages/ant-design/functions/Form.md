@@ -55,13 +55,15 @@ export function ProfileForm() {
 
 > **Form**\<`Path`, `Values`\>(`props`): `Element`
 
-Render a data-aware Ant Design form with the built-in FaasJS submit handler.
+Render a data-aware Ant Design form with the built-in FaasJS write-action submit handler.
 
 The component normalizes `initialValues` with [transferValue](transferValue.md), renders item definitions
 through [FormItem](FormItem.md), and submits via the built-in FaasJS request flow configured by `faas`.
+Use this overload for create/update/delete style submissions. For list/read
+flows, prefer `Table`, `Description`, `FaasDataWrapper`, or `useFaas`.
 
 When `Path` is provided, the `action` and `params` in `faas` are strongly typed from the
-FaasActions type augmentation.
+`FaasActions` type augmentation.
 
 ### Type Parameters
 
@@ -94,9 +96,18 @@ Form props including items, submit behavior, and FaasJS integration.
 ```tsx
 import { Form } from '@faasjs/ant-design'
 
+declare module '@faasjs/types' {
+  interface FaasActions {
+    'user/create': {
+      Params: { name: string; role: string }
+      Data: { id: number }
+    }
+  }
+}
+
 export function CreateUserForm() {
   return (
-    <Form
+    <Form<'user/create', { name: string; role: string }>
       initialValues={{ role: 'user' }}
       items={[
         { id: 'name', required: true },

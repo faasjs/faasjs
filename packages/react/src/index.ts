@@ -39,6 +39,8 @@
  * ```sh
  * npm install @faasjs/react react
  * ```
+ *
+ * @packageDocumentation
  */
 
 export * from './browser'

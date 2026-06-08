@@ -82,7 +82,9 @@ async function invokeMiddleware(
  * Create a function that runs one middleware and falls back to `404 Not Found`.
  *
  * @param {Middleware} handler - Middleware to execute for each incoming request.
- * @returns {Promise<any>} Promise that resolves to a function wrapper.
+ * Middleware errors are logged and converted into an HTTP error response when possible.
+ *
+ * @returns {Promise<Func<MiddlewareEvent, Pick<MiddlewareContext, 'root'>>>} Promise that resolves to a function wrapper.
  *
  * @example
  * ```ts
@@ -114,7 +116,9 @@ export async function useMiddleware(
  * Create a function that runs middleware handlers in sequence until one ends the response.
  *
  * @param {Middleware[]} handlers - Middleware functions to run in order.
- * @returns {Promise<any>} Promise that resolves to a function wrapper.
+ * Middleware errors are logged and converted into an HTTP error response when possible.
+ *
+ * @returns {Promise<Func<MiddlewareEvent, Pick<MiddlewareContext, 'root'>>>} Promise that resolves to a function wrapper.
  *
  * @example
  * ```ts

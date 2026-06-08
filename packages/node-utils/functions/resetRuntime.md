@@ -6,8 +6,9 @@
 
 Clear cached loader state used by this module.
 
-Installed Node module hooks remain active. This only resets in-memory state used by
-[loadPackage](loadPackage.md).
+Installed Node module hooks remain active. This only resets the in-memory
+root, tsconfig, path-alias, and cache-busting state used by [loadPackage](loadPackage.md)
+and [registerNodeModuleHooks](registerNodeModuleHooks.md).
 
 ## Returns
 

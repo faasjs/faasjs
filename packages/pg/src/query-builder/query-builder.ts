@@ -31,7 +31,12 @@ import type {
  *
  * Supports SELECT, INSERT, UPDATE, DELETE, and upsert operations with strongly-typed
  * WHERE clauses, JOINs, ORDER BY, LIMIT/OFFSET, and result-type inference from the
- * table type map declared via {@link Tables}.
+ * table type map declared via the exported `Tables` interface. Column and table identifiers are escaped
+ * automatically; raw fragments are accepted only through the explicit `*Raw` methods
+ * and should be reserved for trusted SQL controlled by the application.
+ *
+ * UPDATE, JSON UPDATE, and DELETE require at least one WHERE condition and throw
+ * `Missing where conditions` otherwise.
  *
  * @template T - The table name.
  * @template TResult - The inferred result row type.
@@ -64,6 +69,10 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
   /**
    * Selects specific columns for the query.
    *
+   * Calling `select()` with no columns leaves the current selection unchanged. JSONB
+   * field selectors use `jsonb_build_object` and default their alias to the source
+   * JSON column name.
+   *
    * @param {...ColumnNames} columns - The columns to select.
    *
    * @example
@@ -83,6 +92,11 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
 
   /**
    * Applies a WHERE condition to the query builder.
+   *
+   * Passing `(column, value)` uses `=`. Passing `(column, operator, value)` requires
+   * one of the exported `Operators` literals; invalid operators throw before SQL is
+   * generated. `IN` and `NOT IN` expect arrays, and `IS NULL` / `IS NOT NULL` do
+   * not bind a value.
    *
    * @param column - The column to filter on.
    * @param operator - The operator to use for comparison.
@@ -158,6 +172,10 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
 
   /**
    * Applies an OR WHERE condition to the query builder.
+   *
+   * The same operator rules as {@link where} apply, but the condition is joined with
+   * `OR` instead of `AND`.
+   *
    * @param column - The column to filter on.
    * @param operator - The operator to use for comparison.
    * @param value - The value to compare against.
@@ -226,6 +244,9 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
   /**
    * Adds a raw SQL expression to the WHERE clause with parameter bindings.
    *
+   * The SQL fragment is inserted as-is inside parentheses. Use `?` placeholders for
+   * values and pass matching `params`; do not interpolate user input into `sql`.
+   *
    * @param sql - The raw SQL fragment.
    * @param params - Bound parameters for the SQL fragment.
    */
@@ -242,6 +263,9 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
 
   /**
    * Adds a raw SQL expression to the WHERE clause using OR with parameter bindings.
+   *
+   * The SQL fragment is inserted as-is inside parentheses. Use `?` placeholders for
+   * values and pass matching `params`; do not interpolate user input into `sql`.
    *
    * @param sql - The raw SQL fragment.
    * @param params - Bound parameters for the SQL fragment.
@@ -260,6 +284,8 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
   /**
    * Sets the limit value for the query.
    *
+   * The value is bound as a parameter when SQL is generated.
+   *
    * @param value - The maximum number of records to retrieve.
    *
    * @example
@@ -275,6 +301,8 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
   /**
    * Sets the offset value for the query.
    *
+   * The value is bound as a parameter when SQL is generated.
+   *
    * @param value - The number of records to skip.
    *
    * @example
@@ -289,6 +317,9 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
 
   /**
    * Sets the order by column and direction for the query.
+   *
+   * Direction must be one of {@link QueryOrderDirections}; invalid directions throw
+   * before SQL is generated.
    *
    * @param column - The column to order by.
    * @param direction - The direction to order by.
@@ -314,6 +345,9 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
   /**
    * Adds a raw SQL expression to ORDER BY with parameter bindings.
    *
+   * The SQL fragment is inserted as-is. Use `?` placeholders for values and pass
+   * matching `params`; do not interpolate user input into `sql`.
+   *
    * @param sql - The raw SQL fragment.
    * @param params - Bound parameters for the SQL fragment.
    */
@@ -330,10 +364,13 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
   /**
    * Adds an INNER JOIN clause.
    *
+   * Join operands are escaped as identifiers unless provided as trusted `RawSql` fragments.
+   * The three-argument overload uses `=` as the join operator; the four-argument
+   * overload validates that the operator is a normal comparison operator.
+   *
    * @param table - The table to join.
    * @param left - The left operand for the ON condition.
-   * @param operatorOrRight - The comparison operator or right operand if using the default `=` operator.
-   * @param right - The right operand when an explicit operator is provided.
+   * @param right - Right operand, or the third argument when using the default `=` operator.
    */
   join(
     table: string | RawSql,
@@ -358,10 +395,13 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
   /**
    * Adds a LEFT JOIN clause.
    *
+   * Join operands are escaped as identifiers unless provided as trusted `RawSql` fragments.
+   * The three-argument overload uses `=` as the join operator; the four-argument
+   * overload validates that the operator is a normal comparison operator.
+   *
    * @param table - The table to join.
    * @param left - The left operand for the ON condition.
-   * @param operatorOrRight - The comparison operator or right operand if using the default `=` operator.
-   * @param right - The right operand when an explicit operator is provided.
+   * @param right - Right operand, or the third argument when using the default `=` operator.
    */
   leftJoin(
     table: string | RawSql,
@@ -418,6 +458,9 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
 
   /**
    * Serializes the query builder state into a parameterized SQL statement and bound parameters.
+   *
+   * The returned SQL uses `?` placeholders. `Client.raw(sql, ...params)` converts
+   * those placeholders into `postgres.js` template parameters at execution time.
    *
    * @returns An object containing the generated `sql` string and `params` array.
    */
@@ -484,6 +527,9 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
 
   /**
    * Makes the QueryBuilder thenable — calling `await builder` implicitly executes the query.
+   *
+   * This is why `await client.query('users').where('id', id)` returns rows without
+   * an explicit `.run()` call.
    *
    * @param onfulfilled - Callback invoked when the query result resolves successfully.
    * @param onrejected - Callback invoked when the query rejects.
@@ -566,6 +612,10 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
   /**
    * Inserts one or more rows into the table.
    *
+   * For multi-row inserts, the keys of the first row define the inserted columns.
+   * Values are bound as parameters. Use `returning: ['*']` or explicit columns when
+   * inserted rows should be returned.
+   *
    * @template FirstValue - The type of the first value to insert, which must be a partial of the table type.
    * @template Returning - The type of the columns to return, which can be an array of keys of the table type or ['*'].
    *
@@ -611,6 +661,9 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
   /**
    * Updates records in the table with the specified values and returns the updated records.
    *
+   * Values and WHERE operands are parameterized. A WHERE clause is required to
+   * reduce accidental full-table updates.
+   *
    * @template Returning - An array of keys of the table type or ['*'] to return all columns.
    * @param {Partial<TableType<T>>} values - The values to update in the table.
    * @param {Object} [options] - Optional settings for the update operation.
@@ -652,6 +705,9 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
    * Atomically updates a JSON/JSONB column using the `||` merge operator,
    * avoiding read-modify-write race conditions.
    *
+   * A WHERE clause is required to reduce accidental full-table updates. The merge
+   * object is bound as a parameter.
+   *
    * @param column - The JSON/JSONB column to update.
    * @param value - The object to merge into the column.
    *
@@ -680,6 +736,8 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
   /**
    * Deletes records from the specified table based on the provided where conditions.
    *
+   * A WHERE clause is required to reduce accidental full-table deletes.
+   *
    * @throws {Error} If no where conditions are provided.
    * @returns {Promise<any>} The result of the raw SQL execution.
    *
@@ -700,6 +758,9 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
 
   /**
    * Inserts or updates records in the database table.
+   *
+   * Values are parameterized. Conflict and returning columns are escaped as identifiers,
+   * and omitted `update` defaults to every non-conflict column from the first row.
    *
    * @template FirstValue - A partial type of the table's row type.
    *

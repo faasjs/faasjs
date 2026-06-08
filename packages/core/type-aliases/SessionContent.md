@@ -5,3 +5,6 @@
 > **SessionContent** = `string` \| `number` \| \{\[`key`: `string`\]: `any`; \} \| `null` \| `undefined`
 
 Allowed payload values stored in the session cookie.
+
+Object-like payloads are the normal session shape. Direct string payloads can be
+encrypted by `encode()` but will not decode successfully unless they contain valid JSON.

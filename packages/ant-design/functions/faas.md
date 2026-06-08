@@ -15,7 +15,7 @@ client defines `onError`, the hook is invoked before the promise rejects.
 
 `Path` _extends_ `FaasActionPaths`
 
-Action path or response data type used for inference.
+Registered action path used to infer params and response data.
 
 ## Parameters
 
@@ -54,7 +54,16 @@ When the request fails and the active client does not recover inside `onError`.
 ```ts
 import { faas } from '@faasjs/react'
 
-const response = await faas('posts/get', { id: 1 })
+declare module '@faasjs/types' {
+  interface FaasActions {
+    'posts/get': {
+      Params: { id: number }
+      Data: { title: string }
+    }
+  }
+}
+
+const response = await faas<'posts/get'>('posts/get', { id: 1 })
 
 console.log(response.data.title)
 ```

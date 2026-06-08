@@ -18,6 +18,7 @@ Use for React feature UI, components, hooks, dependency handling, derived state,
 4. Use equal memo hooks for object, array, or function dependencies.
 5. Reach for state, context, and rendering helpers only when they solve a specific problem.
 6. Keep data-fetching choices explicit; read [React Data Fetching Guide](./react-data-fetching.md) for request flows.
+7. Receive component inputs as `props` and read `props.xxx`; destructure hook returns or local objects inside the body when it improves readability.
 
 ## Rules
 
@@ -32,8 +33,8 @@ import { useState } from 'react'
 
 type Props = { firstName: string; lastName: string }
 
-export function DisplayName({ firstName, lastName }: Props) {
-  const fullName = `${firstName} ${lastName}`
+export function DisplayName(props: Props) {
+  const fullName = `${props.firstName} ${props.lastName}`
 
   return <div>{fullName}</div>
 }
@@ -46,12 +47,12 @@ import { useEffect, useState } from 'react'
 
 type Props = { firstName: string; lastName: string }
 
-export function DisplayName({ firstName, lastName }: Props) {
+export function DisplayName(props: Props) {
   const [fullName, setFullName] = useState('')
 
   useEffect(() => {
-    setFullName(`${firstName} ${lastName}`)
-  }, [firstName, lastName])
+    setFullName(`${props.firstName} ${props.lastName}`)
+  }, [props.firstName, props.lastName])
 
   return <div>{fullName}</div>
 }
@@ -64,12 +65,12 @@ import { useEqualEffect } from '@faasjs/react'
 
 type Props = { page: number; tags: string[] }
 
-export function Logger({ page, tags }: Props) {
+export function Logger(props: Props) {
   useEqualEffect(() => {
-    logger.info('filters changed', { page, tags })
-  }, [page, tags])
+    logger.info('filters changed', { page: props.page, tags: props.tags })
+  }, [props.page, props.tags])
 
-  return <div>Current page: {page}</div>
+  return <div>Current page: {props.page}</div>
 }
 ```
 
@@ -86,8 +87,8 @@ import { useEqualMemo } from '@faasjs/react'
 
 type Props = { filters: Record<string, any> }
 
-export function QueryPreview({ filters }: Props) {
-  const query = useEqualMemo(() => JSON.stringify(filters), [filters])
+export function QueryPreview(props: Props) {
+  const query = useEqualMemo(() => JSON.stringify(props.filters), [props.filters])
 
   return <div>Query: {query}</div>
 }
@@ -100,10 +101,10 @@ import { useEqualCallback } from '@faasjs/react'
 
 type Props = { onSearch: (query: string) => void; filters: Record<string, any> }
 
-export function SearchButton({ onSearch, filters }: Props) {
+export function SearchButton(props: Props) {
   const handleSearch = useEqualCallback(
-    () => onSearch(JSON.stringify(filters)),
-    [filters, onSearch],
+    () => props.onSearch(JSON.stringify(props.filters)),
+    [props.filters, props.onSearch],
   )
 
   return <button onClick={handleSearch}>Search</button>
@@ -117,8 +118,8 @@ import { useEqualMemoize } from '@faasjs/react'
 
 type Props = { filters: Record<string, any> }
 
-export function SearchPanel({ filters }: Props) {
-  const stableFilters = useEqualMemoize(filters)
+export function SearchPanel(props: Props) {
+  const stableFilters = useEqualMemoize(props.filters)
 
   return <div>Stable: {JSON.stringify(stableFilters)}</div>
 }
@@ -231,10 +232,15 @@ export function Page() {
 
 ```tsx
 import { OptionalWrapper } from '@faasjs/react'
+import { Card } from 'antd'
 
 export function Widget(props: { wrapper?: boolean; children: React.ReactNode }) {
   return (
-    <OptionalWrapper wrapper={props.wrapper} renderWrapper={(children) => <Card>{children}</Card>}>
+    <OptionalWrapper
+      condition={Boolean(props.wrapper)}
+      Wrapper={Card}
+      wrapperProps={{ size: 'small' }}
+    >
       {props.children}
     </OptionalWrapper>
   )
@@ -246,10 +252,10 @@ export function Widget(props: { wrapper?: boolean; children: React.ReactNode }) 
 ```tsx
 import { ErrorBoundary } from '@faasjs/react'
 
-export function SafeWidget({ content }: { content: string }) {
+export function SafeWidget(props: { content: string }) {
   return (
     <ErrorBoundary errorChildren={<div>Something went wrong</div>}>
-      <div>{content}</div>
+      <div>{props.content}</div>
     </ErrorBoundary>
   )
 }

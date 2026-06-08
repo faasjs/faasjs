@@ -4,7 +4,10 @@
  * [![License: MIT](https://img.shields.io/npm/l/create-faas-app.svg)](https://github.com/faasjs/faasjs/blob/main/packages/create-faas-app/LICENSE)
  * [![NPM Version](https://img.shields.io/npm/v/create-faas-app.svg)](https://www.npmjs.com/package/create-faas-app)
  *
- * Quick way to create a FaasJS project.
+ * Curated scaffolder for FaasJS projects. The `admin` template is the default
+ * React + Ant Design + PostgreSQL starter, and `minimal` provides a smaller
+ * React starter. After scaffolding, the CLI runs `npm install`, `npm run types`,
+ * and `npm run test` in the new project.
  *
  * ## Usage
  *
@@ -13,6 +16,8 @@
  * npx create-faas-app --name faasjs-admin --template admin
  * npx create-faas-app --name faasjs-minimal --template minimal
  * ```
+ *
+ * @packageDocumentation
  */
 
 import { Command } from 'commander'
@@ -33,6 +38,12 @@ action(commander as Command)
 
 /**
  * Run the `create-faas-app` CLI with a provided argv array.
+ *
+ * The array should use the same shape as `process.argv`, including executable
+ * and script slots. Parsing may prompt for a project name, create files, install
+ * dependencies, generate FaasJS action types, and run template tests. Commander
+ * help exits are swallowed and return the shared program; unexpected errors are
+ * printed with `console.error` and also return the program.
  *
  * @param {string[]} argv - CLI arguments forwarded to Commander.
  * @returns {Promise<Command>} Commander program instance after parsing.

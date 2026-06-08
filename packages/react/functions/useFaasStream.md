@@ -48,8 +48,22 @@ Streaming request state and helper methods described by [UseFaasStreamResult](..
 ```tsx
 import { useFaasStream } from '@faasjs/react'
 
+declare module '@faasjs/types' {
+  interface FaasActions {
+    'features/chat/api/stream': {
+      Params: { prompt: string }
+      Data: string
+    }
+  }
+}
+
+type ChatStreamAction = 'features/chat/api/stream'
+
 function Chat({ prompt }: { prompt: string }) {
-  const { data, error, loading, reload } = useFaasStream('features/chat/api/stream', { prompt })
+  const { data, error, loading, reload } = useFaasStream<ChatStreamAction>(
+    'features/chat/api/stream',
+    { prompt },
+  )
 
   if (loading) return <div>Streaming...</div>
 

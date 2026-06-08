@@ -2,9 +2,9 @@
 
 # Type Alias: FormWithFaasProps\<Path, Values, ExtendItemProps\>
 
-> **FormWithFaasProps**\<`Path`, `Values`, `ExtendItemProps`\> = `FormCommonProps`\<`Values`, `ExtendItemProps`\> & `object`
+> **FormWithFaasProps**\<`Path`, `Values`, `ExtendItemProps`\> = [`FormCommonProps`](FormCommonProps.md)\<`Values`, `ExtendItemProps`\> & `object`
 
-Props for the [Form](../functions/Form.md) component when FaasJS integration IS used.
+Props for the [Form](../functions/Form.md) component when FaasJS write-action integration is used.
 
 ## Type Declaration
 
@@ -26,7 +26,7 @@ Must not be set when `faas` is provided.
 
 `Path` _extends_ `FaasActionPaths` = `any`
 
-Action path type inferred from the registered FaasJS actions.
+Registered action path used to infer submitted params.
 
 ### Values
 

@@ -11,6 +11,9 @@ import { createTemplateStringsArray } from '../utils'
 /**
  * Options for creating a PostgreSQL client. Extends `postgres.js` options.
  *
+ * When `max` is omitted, `@faasjs/pg` supplies a pool size from `process.env.PG_POOL_MAX`
+ * or falls back to `10`. Set `max` explicitly to bypass the environment default.
+ *
  * @template T - Custom Postgres type parsers map.
  */
 export type ClientOptions<T extends Record<string, PostgresType> = Record<string, never>> =
@@ -53,8 +56,10 @@ function resolveClientOptions(options?: AnyClientOptions): AnyClientOptions {
 /**
  * PostgreSQL client wrapping `postgres.js` with a fluent query builder API.
  *
- * Clients created with the same connection URL are automatically cached and
- * reused via {@link getClient}.
+ * Constructing a client creates a `postgres.js` connection pool and caches the instance
+ * by connection URL. A later client created for the same URL replaces the cached
+ * default for that URL; {@link quit} only removes the cache entry when it still points
+ * at the same instance.
  *
  * @example
  * ```ts
@@ -71,8 +76,9 @@ export class Client {
 
   /**
    * @param url - PostgreSQL connection string.
-   * @param options - Optional `postgres.js` options.
+   * @param options - Optional `postgres.js` options. `options.max` overrides `PG_POOL_MAX`.
    * @throws {TypeError} When `url` is not a string.
+   * @throws {Error} When `PG_POOL_MAX` is set and is not a positive safe integer.
    */
   constructor(url: string, options?: AnyClientOptions) {
     if (typeof url !== 'string') {
@@ -92,6 +98,10 @@ export class Client {
   /**
    * Initiates a query builder for the specified table.
    *
+   * Table and column names are escaped as identifiers by the query builder. Add entries
+   * to the exported `Tables` interface through declaration merging to get typed
+   * table names, columns, values, and selected result rows.
+   *
    * @template T - The type of the table name.
    * @param {T} table - The name of the table to query.
    * @returns {QueryBuilder<T>} A new instance of the QueryBuilder for the specified table.
@@ -107,6 +117,9 @@ export class Client {
 
   /**
    * Executes a function within a database transaction.
+   *
+   * The callback receives a lightweight `Client` facade backed by the transactional
+   * `postgres.js` connection. Do not keep that facade after the callback resolves.
    *
    * @template T - The type of the result returned by the transaction function.
    * @param {function(Client): Promise<T>} fn - A function that takes a `Client` instance and returns a promise.
@@ -144,6 +157,14 @@ export class Client {
 
   /**
    * Executes a raw SQL query and returns the result as an array of objects.
+   *
+   * Template-literal usage delegates placeholders to `postgres.js` with `${value}`.
+   * String usage treats every `?` as a parameter placeholder and converts the string
+   * into a `TemplateStringsArray` before execution. Use placeholders for values; do
+   * not concatenate user input into the SQL string.
+   *
+   * In debug logging mode the SQL template and parameters are timed and query errors
+   * are logged before being rethrown.
    *
    * @template T - The type of the result objects. Defaults to `Record<string, any>`.
    * @param {string | TemplateStringsArray} query - The SQL query to execute. Can be a string or a template string array.
@@ -200,11 +221,17 @@ export class Client {
 /**
  * Creates a new instance of the `Client` class from a PostgreSQL connection string.
  *
+ * The returned client is cached by URL for {@link getClient}. When `options.max` is omitted,
+ * the pool size is read from `process.env.PG_POOL_MAX`; unset uses `10`. `PG_POOL_MAX`
+ * must be a positive safe integer.
+ *
  * @param url - The PostgreSQL connection string.
  * @param options - Optional `postgres.js` options. When `options.max` is omitted,
  * the default pool size is read from `process.env.PG_POOL_MAX` and falls
  * back to `10`.
  * @returns A new `Client` instance.
+ * @throws {TypeError} When `url` is not a string.
+ * @throws {Error} When `PG_POOL_MAX` is invalid.
  *
  * @example
  * ```ts
@@ -242,7 +269,8 @@ function getOnlyCachedClient() {
  * is awaited to initialize the default client. The built-in bootstrap creates
  * that client from `process.env.DATABASE_URL`, while callers such as
  * `@faasjs/pg-dev` can override it for lazy test setup. Throws when no client
- * can be resolved.
+ * can be resolved. The bootstrap path is serialized, so concurrent `getClient()`
+ * calls wait on the same bootstrap promise.
  *
  * @throws {Error} When the requested URL is not cached.
  * @throws {Error} When multiple cached clients exist and `url` is omitted.
@@ -280,6 +308,8 @@ export async function getClient(url?: string): Promise<Client> {
 
 /**
  * Returns all cached clients created by {@link createClient}.
+ *
+ * The returned array is a snapshot; mutating it does not affect the internal cache.
  */
 export function getClients(): Client[] {
   return [...clients.values()]

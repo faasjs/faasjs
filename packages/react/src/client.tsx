@@ -17,7 +17,13 @@ const clients: {
 /**
  * Factory for per-request error handlers used by {@link FaasReactClient}.
  *
- * @param {string} action - Action name that failed.
+ * The first call receives the action path and params that failed. It must return
+ * an async callback that receives the {@link ResponseError}. `faas` rejects
+ * after the callback resolves, or with the callback's thrown error; `useFaas`
+ * stores the handled error in hook state unless the callback throws a replacement
+ * error.
+ *
+ * @param {string} action - Action path that failed.
  * @param {Record<string, any>} params - Params sent with the failed request.
  * @returns {(res: ResponseError) => Promise<void>} Async callback invoked with the resulting {@link ResponseError}.
  */
@@ -30,7 +36,12 @@ export type OnError = (
  * Options for creating a {@link FaasReactClient} instance.
  */
 export type FaasReactClientOptions = {
-  /** @default `/` */
+  /**
+   * Base URL used as the registry key for this client and as the default prefix
+   * for bound `faas` and `useFaas` calls.
+   *
+   * @default `/`
+   */
   baseUrl?: BaseUrl
   /** Default request options forwarded to the underlying browser client. */
   options?: Options
@@ -76,10 +87,13 @@ export type FaasReactClientInstance = {
  * Create and register a FaasReactClient instance.
  *
  * The returned client is stored by `baseUrl` and becomes the default client
- * used by helpers such as {@link faas} and {@link useFaas}.
+ * used by helpers such as {@link faas} and {@link useFaas}. The instance-bound
+ * `faas` and `useFaas` helpers inject this `baseUrl` when request options do
+ * not provide one; the instance-bound `FaasDataWrapper` is always bound to this
+ * `baseUrl`.
  *
  * @param {FaasReactClientOptions} [options] - Client configuration including base URL, default request options, and error hooks.
- * @param {BaseUrl} [options.baseUrl] - Base URL used to register and route the client instance.
+ * @param {BaseUrl} [options.baseUrl] - Base URL used to register and route the client instance. It must end with `/`.
  * @param {Options} [options.options] - Default browser-client request options forwarded to `FaasBrowserClient`.
  * @param {OnError} [options.onError] - Hook factory used to handle failed `faas` and `useFaas` requests.
  * See {@link Options} for supported browser-client request fields such as `headers`,
@@ -89,6 +103,17 @@ export type FaasReactClientInstance = {
  * @example
  * ```ts
  * import { FaasReactClient, ResponseError } from '@faasjs/react'
+ *
+ * declare module '@faasjs/types' {
+ *   interface FaasActions {
+ *     'features/users/api/get': {
+ *       Params: { id: number }
+ *       Data: { name: string }
+ *     }
+ *   }
+ * }
+ *
+ * type GetUserAction = 'features/users/api/get'
  *
  * const client = FaasReactClient({
  *   baseUrl: 'http://localhost:8080/api/',
@@ -101,6 +126,8 @@ export type FaasReactClientInstance = {
  *     }
  *   },
  * })
+ *
+ * const response = await client.faas<GetUserAction>('features/users/api/get', { id: 1 })
  * ```
  */
 export function FaasReactClient(
@@ -155,7 +182,7 @@ export function FaasReactClient(
  * different base URLs. In normal single-client app code, prefer the default
  * `faas`, `useFaas`, or `FaasReactClient` setup directly.
  *
- * @param {string} [host] - Registered base URL to look up. Omit it to use the default client.
+ * @param {string} [host] - Registered base URL to look up. Omit it to use the first registered client.
  * @returns {FaasReactClientInstance} Registered or newly created FaasReactClient instance.
  *
  * @example

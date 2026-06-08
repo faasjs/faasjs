@@ -5,6 +5,13 @@
 Buffer log messages and flush them to registered async handlers on an interval.
 
 Use [getTransport](../functions/getTransport.md) to access the shared singleton that [Logger](Logger.md) writes into by default.
+`Logger` forwarding can be disabled per logger with `disableTransport` or at
+construction time with `FaasLogTransport=false`; Vitest disables forwarding
+unless `FaasLogTransport=true`.
+
+If no handlers are registered when a flush is needed, buffered messages are
+discarded and the transport disables itself until a handler is registered or
+`config()` re-enables it.
 
 ## See
 
@@ -45,6 +52,8 @@ process.on('SIGINT', async () => {
 > **new Transport**(): `Transport`
 
 Create the shared transport and start its flush interval.
+
+Prefer [getTransport](../functions/getTransport.md) so all loggers share one process-level transport.
 
 #### Returns
 
@@ -113,7 +122,8 @@ Log message to buffer.
 
 Register a named flush handler.
 
-Registering the same name again replaces the previous handler.
+Registering the same name again replaces the previous handler and re-enables
+a transport that had been disabled after the last handler was removed.
 
 #### Parameters
 
@@ -139,7 +149,8 @@ Async handler invoked for each flushed batch.
 
 Clear handlers and buffered messages without destroying the singleton instance.
 
-This also clears the interval so tests or setup code can reconfigure the transport from a clean state.
+This also clears the interval so tests or setup code can reconfigure the
+transport from a clean state.
 
 #### Returns
 
@@ -150,6 +161,9 @@ This also clears the interval so tests or setup code can reconfigure the transpo
 > **stop**(): `Promise`\<`void`\>
 
 Stop periodic flushing and drain any buffered messages.
+
+After `stop()`, call `register()` or `config()` before expecting new
+inserted messages to be accepted again.
 
 #### Returns
 

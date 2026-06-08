@@ -13,6 +13,7 @@ Create a function that runs middleware handlers in sequence until one ends the r
 [`Middleware`](../type-aliases/Middleware.md)[]
 
 Middleware functions to run in order.
+Middleware errors are logged and converted into an HTTP error response when possible.
 
 ## Returns
 

@@ -6,6 +6,9 @@
 
 Checks whether a value is a `TemplateStringsArray`.
 
+Used by [createTemplateStringsArray](createTemplateStringsArray.md) and raw query execution to distinguish
+template-literal SQL from string SQL.
+
 ## Parameters
 
 ### value

@@ -4,7 +4,9 @@
 
 Builds and executes schema changes against a [Client](Client.md).
 
-Accumulated statements are executed in a single transaction by [run](#run).
+Accumulated statements are executed in a single transaction by [run](#run). Identifier
+helpers escape table and column names, while [raw](#raw) appends trusted SQL text
+exactly as provided.
 
 ## Constructors
 
@@ -100,6 +102,10 @@ The name of the table to drop.
 
 Appends a raw SQL statement to the change list.
 
+Raw statements are executed one by one in the same transaction as generated schema
+statements. Only pass static, trusted SQL; runtime values should be handled outside
+schema generation.
+
 #### Parameters
 
 ##### sql
@@ -141,6 +147,9 @@ The new table name.
 > **run**(): `Promise`\<`void`\>
 
 Executes all registered schema changes in a single database transaction.
+
+On failure, the thrown error message includes the full generated SQL block to make
+migration failures easier to diagnose. Successful runs clear the pending change list.
 
 #### Returns
 

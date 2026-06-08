@@ -6,7 +6,8 @@
 
 Return the singleton transport used by [Logger](../classes/Logger.md).
 
-The instance is created lazily on first access.
+The instance is created lazily on first access and reused for the lifetime of
+the current process. Calling `reset()` clears state on that same instance.
 
 ## Returns
 

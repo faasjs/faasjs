@@ -2,7 +2,7 @@
 
 # Variable: ConfigContext
 
-> `const` **ConfigContext**: `Context`\<`ConfigContextValue`\>
+> `const` **ConfigContext**: `Context`\<[`ConfigContextValue`](../type-aliases/ConfigContextValue.md)\>
 
 Low-level React context that stores the resolved theme from [ConfigProvider](../functions/ConfigProvider.md).
 

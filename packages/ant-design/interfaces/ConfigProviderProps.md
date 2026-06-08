@@ -4,6 +4,11 @@
 
 Props for the `@faasjs/ant-design` [ConfigProvider](../functions/ConfigProvider.md).
 
+This provider owns FaasJS Ant Design component copy, small component defaults,
+and optional FaasJS client initialization. It does not configure Ant Design's
+token/theme provider; use the `configProviderProps` prop on `App` or Ant
+Design's `ConfigProvider` for that boundary.
+
 ## Properties
 
 ### children
@@ -18,11 +23,17 @@ Descendant components that consume the resolved config context.
 
 Optional FaasJS client options used to initialize [FaasReactClient](../functions/FaasReactClient.md).
 
+Use this for request `baseUrl`, default browser-client options, and the
+shared `onError` hook consumed by `faas` and `useFaas`.
+
 ### theme?
 
 > `optional` **theme?**: `object`
 
-Theme overrides merged with the built-in defaults.
+FaasJS Ant Design theme overrides merged with the built-in defaults.
+
+These values drive copy and small component defaults inside this package;
+they are separate from Ant Design token configuration.
 
 #### Blank?
 

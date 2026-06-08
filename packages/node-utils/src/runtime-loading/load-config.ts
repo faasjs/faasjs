@@ -10,11 +10,18 @@ type YamlConfig = Record<string, FuncConfig>
 
 /**
  * Per-plugin configuration entry resolved from `faas.yaml`.
+ *
+ * Relative `type` values found in YAML are normalized from the directory that
+ * contains that `faas.yaml`. `npm:` prefixes are stripped before the type is
+ * consumed by plugin loading.
  */
 export type FuncPluginConfig = {
   [key: string]: any
   /**
    * Plugin type identifier consumed by the runtime or plugin loader.
+   *
+   * `http` is the only built-in type defaulted by {@link loadPlugins}; other
+   * YAML-driven plugins need an explicit type.
    */
   type?: string
   /**
@@ -25,12 +32,18 @@ export type FuncPluginConfig = {
   }
   /**
    * Plugin key assigned during config resolution.
+   *
+   * This is copied from the plugin map key during config resolution.
    */
   name?: string
 }
 
 /**
  * Resolved stage config merged from matching `faas.yaml` files.
+ *
+ * Unknown fields are preserved so applications and plugins can store their own
+ * stage-specific config. `server.root` and `server.base`, when present, must be
+ * strings.
  */
 export type FuncConfig = {
   [key: string]: any
@@ -109,6 +122,8 @@ function validateFaasYaml(filePath: string, config: unknown): YamlConfig {
 /**
  * Copy each plugin map key onto the corresponding plugin config as `name`.
  *
+ * The update is done in place and skips non-object plugin entries.
+ *
  * @param {FuncConfig} config - Config object whose `plugins` entries are updated in place.
  * @returns {void} No return value.
  * @example
@@ -136,6 +151,9 @@ export function assignPluginNames(config: FuncConfig): void {
  * Read and merge staged `faas.yaml` config for an API file.
  *
  * This helper backs {@link loadConfig} when callers need to inspect multiple stages from one reader.
+ * It walks from `root` toward the API directory, reads each discovered `faas.yaml`,
+ * deep-merges later files over earlier files, and keeps a merged `defaults`
+ * stage for fallback.
  *
  * @example
  * ```ts
@@ -156,6 +174,9 @@ export class Config {
   public readonly filename: string
   /**
    * Raw merged config tree keyed by stage name.
+   *
+   * This contains merged YAML before each requested stage is overlaid with
+   * `defaults`.
    */
   public readonly origin: {
     [key: string]: FuncConfig
@@ -231,7 +252,13 @@ export class Config {
  * Resolve the staged `faas.yaml` config for an API file.
  *
  * This walks from `root` to the API directory, merges every discovered `faas.yaml`,
- * applies the `defaults` stage, and annotates plugin entries with their resolved `name`.
+ * applies the `defaults` stage, annotates plugin entries with their resolved
+ * `name`, and normalizes relative plugin `type` values from the YAML file that
+ * declared them. A missing requested stage returns the resolved `defaults`
+ * config, and an empty YAML file contributes no config.
+ *
+ * `loadConfig` only resolves and validates config; use {@link loadPlugins} when
+ * you also need plugin instances created or existing plugin instances updated.
  *
  * @param {string} root - Project root directory used to scope config discovery.
  * @param {string} filename - API filename whose directory controls nested config lookup.

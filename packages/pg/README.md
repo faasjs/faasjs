@@ -1,5 +1,26 @@
 # @faasjs/pg
 
+# @faasjs/pg
+
+A TypeScript-first PostgreSQL query builder and migration toolkit built on top of `postgres.js`.
+
+The package exposes:
+
+- cached [Client](classes/Client.md) instances created with [createClient](functions/createClient.md) and resolved with [getClient](functions/getClient.md);
+- a fluent [QueryBuilder](classes/QueryBuilder.md) for parameterized SELECT, INSERT, UPDATE, DELETE, and upsert calls;
+- schema and migration helpers for test and application database setup;
+- declaration-merging types such as [Tables](interfaces/Tables.md), [TableName](type-aliases/TableName.md), and [ColumnName](type-aliases/ColumnName.md).
+
+Prefer query-builder methods or `Client.raw` parameters for runtime values. Helpers such as
+[rawSql](functions/rawSql.md), `whereRaw`, `orderByRaw`, and schema `raw()` methods accept trusted SQL text and
+should only be used for fragments controlled by the application.
+
+## Install
+
+```sh
+npm install @faasjs/pg
+```
+
 ## Functions
 
 - [createClient](functions/createClient.md)

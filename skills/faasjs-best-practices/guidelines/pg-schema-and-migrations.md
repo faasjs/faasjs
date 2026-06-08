@@ -44,7 +44,8 @@ export function down(builder: SchemaBuilder) {
 ### 1. Keep migration filenames lexically sortable
 
 - Migration files should remain timestamp-based and sortable by filename.
-- Prefer the generated `faasjs-pg new <name>` naming pattern unless there is a strong reason not to.
+- Prefer the generated `faasjs-pg new <name>` naming pattern, `<timestamp>-<name>.ts`, unless there is a strong reason not to.
+- Prefer hyphenated names such as `create-users` so generated filenames stay readable and match the CLI separator.
 - Avoid custom naming schemes that break lexical ordering.
 
 ### 2. Prefer builder helpers over handwritten DDL
@@ -77,6 +78,7 @@ export function down(builder: SchemaBuilder) {
 - Keep migrations in the project-root `src/db/migrations` folder unless project tooling is configured otherwise.
 - Use `faasjs-pg status` to inspect history, `faasjs-pg migrate` to apply all pending files, `faasjs-pg up` for the next file, and `faasjs-pg down` for the latest rollback.
 - If a project customizes the folder or wrapper commands, document that override explicitly in the project README or contributor guide.
+- Keep migrations focused on application-owned schema. Framework-managed tables such as `faasjs_jobs` are initialized by their owning package and should not be recreated in app migrations.
 
 ## See Also
 
@@ -93,3 +95,4 @@ export function down(builder: SchemaBuilder) {
 - raw DDL does not hide drift with `IF EXISTS` or `IF NOT EXISTS`
 - schema changes expect `SchemaBuilder.run()` to be atomic
 - risky schema changes are covered by focused migration or integration tests
+- framework-owned tables are not duplicated in app migrations

@@ -3,8 +3,9 @@
  *
  * FaasJS utilities for Node.js runtimes and local development workflows.
  *
- * The package bundles logging helpers, transport primitives, `faas.yaml`
- * configuration loaders, and runtime-aware module loading helpers for Node.js.
+ * The package bundles logging helpers, shared transport primitives, `faas.yaml`
+ * configuration loaders, schema parsing helpers, filesystem guards, and
+ * runtime-aware module loading helpers for Node.js.
  *
  * ## Install
  *
@@ -15,13 +16,23 @@
  * ## Usage
  *
  * ```ts
- * import { Logger, loadConfig } from '@faasjs/node-utils'
+ * import { z } from '@faasjs/utils'
+ * import { Logger, loadConfig, parseSchemaValue } from '@faasjs/node-utils'
  *
  * const logger = new Logger('app')
  * const config = loadConfig(process.cwd(), '/project/src/hello.api.ts', 'development')
+ * const params = await parseSchemaValue({
+ *   schema: z.object({
+ *     page: z.coerce.number().default(1),
+ *   }),
+ *   value: { page: '1' },
+ *   errorMessage: 'Invalid params',
+ * })
  *
- * logger.info('Loaded config %o', config)
+ * logger.info('Loaded config %o with params %o', config, params)
  * ```
+ *
+ * @packageDocumentation
  */
 
 export { colorize, Color, LevelColor } from './color'

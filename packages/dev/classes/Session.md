@@ -65,7 +65,7 @@ Session encryption and cookie key options.
 
 `SessionSecrets`
 
-Precomputed secrets reused by forked sessions.
+Internal precomputed secrets reused by forked sessions.
 
 #### Returns
 
@@ -103,7 +103,8 @@ Decoded session payload.
 
 #### Throws
 
-When the HMAC signature is invalid or the payload cannot be decrypted.
+When the HMAC signature is invalid, the payload cannot be decrypted,
+or decrypted content is not valid JSON.
 
 ### encode()
 
@@ -111,7 +112,8 @@ When the HMAC signature is invalid or the payload cannot be decrypted.
 
 Serialize session content into a signed, encrypted cookie string.
 
-Non-string payloads are JSON serialized before encryption.
+Non-string payloads are JSON serialized before encryption. Prefer object payloads
+because `decode()` parses decrypted content with `JSON.parse`.
 
 #### Parameters
 
@@ -191,7 +193,7 @@ Session key.
 
 `string` \| `number`
 
-Stored session value.
+Stored session value, or `undefined` when absent.
 
 ### update()
 

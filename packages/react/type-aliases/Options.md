@@ -15,7 +15,7 @@ customizing request behavior, adding request hooks, and overriding defaults.
 
 > `optional` **baseUrl?**: [`BaseUrl`](BaseUrl.md)
 
-Base URL override for the current request.
+Base URL override for the current request; it also selects the registered React client.
 
 ### beforeRequest?
 
@@ -28,7 +28,8 @@ Base URL override for the current request.
 
 }`) => `Promise`\<`void`\>
 
-Async hook called after request options are merged but before the request is sent.
+Async hook called after default and per-request options are merged, but before
+mock resolution or the final network/custom request dispatch.
 
 #### Parameters
 
@@ -69,7 +70,8 @@ Async hook called after request options are merged but before the request is sen
 
 > `optional` **request?**: (`url`, `options`) => `Promise`\<[`Response`](../classes/Response.md)\>
 
-Custom request implementation used instead of the native `fetch`.
+Custom request implementation used instead of native `fetch` when no global
+mock is active.
 
 #### Parameters
 

@@ -5,7 +5,9 @@
 Wrap a FaasJS API with helpers for mounting and assertion-friendly invocations.
 
 The tester resolves config for the current `FaasEnv` or `development`, mounts lazily, and
-exposes helpers for raw handler calls and HTTP-style JSON assertions.
+exposes helpers for raw handler calls and HTTP-style JSON assertions. When the wrapped
+API has a filename under `src/`, JSON requests infer the pathname from FaasJS API file
+conventions such as `index.api.ts`, `default.api.ts`, and nested `*.api.ts` files.
 
 ## See
 
@@ -15,7 +17,7 @@ exposes helpers for raw handler calls and HTTP-style JSON assertions.
 
 ```ts
 import { ApiTester } from '@faasjs/dev'
-import api from './hello.api.ts'
+import api from './hello.api'
 
 const wrapped = new ApiTester(api)
 
@@ -54,7 +56,7 @@ API instance to wrap.
 
 ```ts
 import { ApiTester } from '@faasjs/dev'
-import api from './hello.api.ts'
+import api from './hello.api'
 
 const wrapped = new ApiTester(api)
 ```
@@ -97,12 +99,19 @@ Handler result.
 
 ### JSONhandler()
 
-> **JSONhandler**\<`TData`\>(`body?`, `options?`): `Promise`\<`JsonHandlerResult`\<`TData`\>\>
+> **JSONhandler**\<`TData`\>(`body?`, `options?`): `Promise`\<[`JsonHandlerResult`](../type-aliases/JsonHandlerResult.md)\<`TData`\>\>
 
 Invoke an HTTP-enabled API with JSON body helpers and decoded cookies.
 
-JSON responses populate `data` and `error`, while `Set-Cookie` headers are
-decoded into the returned `cookie` and `session` objects.
+The helper mounts the API, sends a POST request with `content-type: application/json`,
+stringifies non-string bodies, and leaves string bodies untouched for malformed-JSON
+or raw-payload tests. JSON responses populate `data` and `error`; response
+`Set-Cookie` headers are merged back into the returned `cookie` object and the
+session cookie is decoded into `session`.
+
+ReadableStream response bodies are consumed into strings before JSON parsing. If
+stream decoding fails, the result is normalized to a 500-style JSON error object
+so tests can assert `response.error.message`.
 
 #### Type Parameters
 
@@ -116,19 +125,19 @@ Expected JSON `data` payload returned by the API.
 
 ##### body?
 
-`JsonHandlerBody`\<`TApi`\>
+[`JsonHandlerBody`](../type-aliases/JsonHandlerBody.md)\<`TApi`\>
 
 Request body object or raw JSON string.
 
 ##### options?
 
-`JsonHandlerOptions` = `...`
+[`JsonHandlerOptions`](../type-aliases/JsonHandlerOptions.md) = `...`
 
 Extra headers, request cookies, and session seed values.
 
 #### Returns
 
-`Promise`\<`JsonHandlerResult`\<`TData`\>\>
+`Promise`\<[`JsonHandlerResult`](../type-aliases/JsonHandlerResult.md)\<`TData`\>\>
 
 Normalized HTTP response payload for assertions.
 
@@ -140,7 +149,7 @@ When the wrapped API does not use the HTTP plugin.
 
 ```ts
 import { testApi } from '@faasjs/dev'
-import api from './hello.api.ts'
+import api from './hello.api'
 
 const handler = testApi(api)
 const response = await handler({ name: 'FaasJS' }, { session: { userId: '1' } })

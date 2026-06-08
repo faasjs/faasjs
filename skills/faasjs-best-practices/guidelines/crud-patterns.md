@@ -8,9 +8,9 @@ Apply the [Application Slices Guide](./application-slices.md), [Ant Design Guide
 
 1. Model business fields as shared `items` metadata in a `use<Feature>Items` hook.
 2. Create five API files: `list`, `detail`, `create`, `update`, `remove`.
-3. Build the list page with `Table.faasData`, search/filter controls, and action column.
-4. Add detail view with `Description.faasData` inside a drawer.
-5. Add create/update forms that reuse the same `items` and use `Form.faas`.
+3. Build the list page with the `Table` `faasData` prop, search/filter controls, and action column.
+4. Add detail view with the `Description` `faasData` prop inside a drawer.
+5. Add create/update forms that reuse the same `items` and use the `Form` `faas` prop.
 6. Add delete with a modal confirmation.
 7. Wire mutation feedback (`message.success`, `notification.error`) and surface refresh/close.
 8. Add API tests with `testApi` covering success, validation, and error paths.
@@ -100,7 +100,7 @@ export function useUserItems() {
 
 ## List Page Pattern
 
-Use `Table.faasData` for server-driven list fetches. Add search/filter controls in a row above the table and an actions column for detail/edit/delete.
+Use the `Table` `faasData` prop for server-driven list fetches. Add search/filter controls in a row above the table and an actions column for detail/edit/delete.
 
 ```tsx
 import { Table, Title, useApp } from '@faasjs/ant-design'
@@ -195,13 +195,13 @@ export default defineApi({
 
 ### Search / Filter Trigger
 
-- Use `setSearchParams` to trigger `Table.faasData` re-fetch. The table re-fetches automatically when `faasData.params` changes.
+- Use `setSearchParams` to trigger `Table` `faasData` re-fetch. The table re-fetches automatically when `faasData.params` changes.
 - Use `debounce` via the `useFaas` lifecycle instead of custom timers (see [React Data Fetching Guide](./react-data-fetching.md)).
 - Keep `keyword` local state for the input and only push to `searchParams` on search submit.
 
 ## Detail Pattern
 
-Use `Description.faasData` for detail fetches. Open in a drawer to keep list context visible.
+Use the `Description` `faasData` prop for detail fetches. Open in a drawer to keep list context visible.
 
 ```tsx
 import { Description, useApp } from '@faasjs/ant-design'
@@ -260,7 +260,7 @@ export default defineApi({
 
 ## Create Form Pattern
 
-Use `Form.faas` for form submission with built-in loading, validation, feedback, and error handling.
+Use the `Form` `faas` prop for form submission with built-in loading, validation, feedback, and error handling.
 
 ```tsx
 import { Form, useApp } from '@faasjs/ant-design'
@@ -324,7 +324,7 @@ export default defineApi({
 
 **Rules for create forms:**
 
-- `Form.faas` handles button loading, validation, and error feedback automatically.
+- The `Form` `faas` prop handles button loading, validation, and error feedback automatically.
 - Use `message.success` for success feedback and `notification.error` for failure feedback.
 - Close the drawer/modal on success via `setDrawerProps({ open: false })`.
 - Call `props.onSuccess?.()` so the parent can refresh the list.
@@ -400,7 +400,7 @@ export default defineApi({
 - Use the same `UserForm` component for both create and update — the `id` prop determines the mode.
 - Fetch current values on the page/component that opens the drawer, then pass them as `initialValues`.
 - Make update API fields optional (`z.string().optional()`) so partial updates work.
-- Use `Form.faas` `params` function to conditionally include `id` for updates.
+- Use the `Form` `faas.params` function to conditionally include `id` for updates.
 
 ## Delete Pattern
 
@@ -484,7 +484,7 @@ export default defineApi({
 **Rules for delete:**
 
 - Use `setModalProps` from `useApp()` for modal confirmation.
-- Call `faas` imperatively inside the `onOk` handler — not `Form.faas`.
+- Call `faas` imperatively inside the `onOk` handler — not the `Form` `faas` prop.
 - Always fetch the record first and return `404` if not found.
 - On success, close modal, show `message.success`, and call `onSuccess` to refresh the parent.
 
@@ -687,7 +687,7 @@ The `UserForm` pattern with `id`-based mode switching (create vs update) is reus
 ### 4. Generate list + drawer wiring in one go
 
 ```text
-Prompt: "Create features/products/index.tsx with a Table.faasData list, search button, create button that opens a drawer with ProductForm, and an actions column with detail/edit/delete. Use the shared items from useProductItems."
+Prompt: "Create features/products/index.tsx with a Table faasData list, search button, create button that opens a drawer with ProductForm, and an actions column with detail/edit/delete. Use the shared items from useProductItems."
 ```
 
 One prompt covers the feature entry, table, drawer wiring, and action column.
@@ -712,9 +712,9 @@ Prompt: "Create a full CRUD slice for orders under features/orders/. Include: in
 
 1. Use shared `items` in a `use<Feature>Items` hook as the single source of truth for business fields across `Form`, `Table`, and `Description`.
 2. Name API files with the CRUD action (`list`, `detail`, `create`, `update`, `remove`) and place them under `<feature>/api/`.
-3. Use `Form.faas` for create/update submissions — it handles loading, validation, and error feedback automatically.
-4. Use `Table.faasData` for list fetches — it handles loading, error, and re-fetch on params change.
-5. Use `Description.faasData` for detail fetches.
+3. Use the `Form` `faas` prop for create/update submissions — it handles loading, validation, and error feedback automatically.
+4. Use the `Table` `faasData` prop for list fetches — it handles loading, error, and re-fetch on params change.
+5. Use the `Description` `faasData` prop for detail fetches.
 6. Use a combined `UserForm` component with an `id` prop to switch between create and update modes.
 7. Use `faas` imperatively for delete and other one-off mutations.
 8. Close overlays and refresh the affected surface after every mutation.
@@ -735,9 +735,9 @@ Prompt: "Create a full CRUD slice for orders under features/orders/. Include: in
 - [ ] List API returns `{ rows, total }` shape
 - [ ] Detail/update/remove APIs check for existence and return `404` when not found
 - [ ] Create/update APIs check for duplicates and return `409` on conflict
-- [ ] `Table.faasData` drives the list with search/filter params
-- [ ] `Description.faasData` drives the detail view
-- [ ] `Form.faas` drives create/update with `id`-based mode switching
+- [ ] `Table` `faasData` drives the list with search/filter params
+- [ ] `Description` `faasData` drives the detail view
+- [ ] `Form` `faas` drives create/update with `id`-based mode switching
 - [ ] `faas` + modal confirmation drives delete
 - [ ] Mutations provide feedback (`message.success`, `notification.error`)
 - [ ] Mutations close overlays and call `onSuccess` to refresh the parent

@@ -1,5 +1,22 @@
 # @faasjs/core
 
+# @faasjs/core
+
+FaasJS core package.
+
+[![License: MIT](https://img.shields.io/npm/l/@faasjs/core.svg)](https://github.com/faasjs/faasjs/blob/main/packages/core/LICENSE)
+[![NPM Version](https://img.shields.io/npm/v/@faasjs/core.svg)](https://www.npmjs.com/package/@faasjs/core)
+
+## Install
+
+```sh
+npm install @faasjs/core
+```
+
+The package exports function lifecycle primitives, HTTP API helpers, middleware,
+and the local HTTP server. The package default export is the built-in
+[Http](classes/Http.md) plugin.
+
 ## Functions
 
 - [closeAll](functions/closeAll.md)

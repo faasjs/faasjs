@@ -9,7 +9,7 @@ FaasJS is a Rails-inspired, curated full-stack TypeScript framework for database
 Before starting, make sure your environment meets these requirements:
 
 - **Node.js** >= 26.x — FaasJS relies on modern Node features including native TypeScript module loading.
-- **npm** >= 9.x — used for dependency management and scaffolding.
+- **npm** >= 11.x — used for dependency management and scaffolding.
 - **PostgreSQL** >= 14.x — FaasJS uses PostgreSQL as its relational data store (via `@faasjs/pg`). A running local instance or Docker container is required for database features and integration tests.
 - **Basic TypeScript knowledge** — FaasJS is TypeScript-first. You should be comfortable with types, interfaces, and module imports.
 
@@ -17,7 +17,7 @@ Verify your environment:
 
 ```bash
 node --version   # >= 26.x
-npm --version    # >= 9.x
+npm --version    # >= 11.x
 psql --version   # >= 14.x
 ```
 
@@ -90,7 +90,7 @@ my-app/
       tables/
         <table_name.ts>  # PostgreSQL table type declarations (declaration merging on `Tables`)
       migrations/          # Database migration files (timestamped)
-        20250101000000_create_users.ts
+        20250101000000-create-users.ts
   faas.yaml                # (optional) Root-level config overrides
   tsconfig.json            # TypeScript configuration
   vite.config.ts           # Vite + Vitest configuration
@@ -111,7 +111,7 @@ my-app/
 | ---------------- | ------------------------------------------------------------------------- | ------------------------------------------- |
 | `src/faas.yaml`  | Runtime configuration: server root, base path, staging overrides, plugins | [faas.yaml Specification](./faas-yaml.md)   |
 | `tsconfig.json`  | TypeScript config, extends `@faasjs/types/tsconfig/*` presets             | [Project Config Guide](./project-config.md) |
-| `vite.config.ts` | Vite/Vitest config, uses `viteConfig` from `@faasjs/dev`                  | [Project Config Guide](./project-config.md) |
+| `vite.config.ts` | Vite/Vitest config, uses `ViteConfig` from `@faasjs/dev`                  | [Project Config Guide](./project-config.md) |
 
 ### Zero-Mapping routing
 
@@ -137,7 +137,7 @@ FaasJS features follow a complete vertical slice pattern: database migration →
 
 **Step 3: API endpoints** — Create five `.api.ts` files (`list`, `detail`, `create`, `update`, `remove`) under `src/features/<feature>/api/`, each with inline Zod schema + handler. See [defineApi Guide](./define-api.md) and [CRUD Patterns Guide](./crud-patterns.md).
 
-**Step 4: Frontend page** — Create shared `use<Feature>Items` hook, then compose `Table.faasData` (list), `Description.faasData` (detail), `Form.faas` (create/edit), and `faas` + modal (delete). See [Ant Design Guide](./ant-design.md), [React Guide](./react.md), and [React Data Fetching Guide](./react-data-fetching.md).
+**Step 4: Frontend page** — Create shared `use<Feature>Items` hook, then compose the `Table` `faasData` prop (list), `Description` `faasData` prop (detail), `Form` `faas` prop (create/edit), and `faas` + modal (delete). See [Ant Design Guide](./ant-design.md), [React Guide](./react.md), and [React Data Fetching Guide](./react-data-fetching.md).
 
 **Step 5: Tests** — Place API tests under `api/__tests__/` using `testApi` from `@faasjs/dev`. See [Testing Guide](./testing.md) and [CRUD Patterns Guide](./crud-patterns.md).
 
@@ -195,12 +195,12 @@ See the [faas.yaml Specification](./faas-yaml.md) for the full spec.
 
 The `@faasjs/ant-design` package provides business UI wrappers that handle loading, error, and data-fetching state:
 
-| Component              | Purpose                                                                |
-| ---------------------- | ---------------------------------------------------------------------- |
-| `Table.faasData`       | Server-driven list with automatic re-fetch on params change            |
-| `Form.faas`            | Form submission with built-in loading, validation, and feedback        |
-| `Description.faasData` | Detail view with loading and error states                              |
-| `useApp()`             | Access to `message`, `notification`, `setDrawerProps`, `setModalProps` |
+| Component                     | Purpose                                                                |
+| ----------------------------- | ---------------------------------------------------------------------- |
+| `Table` `faasData` prop       | Server-driven list with automatic re-fetch on params change            |
+| `Form` `faas` prop            | Form submission with built-in loading, validation, and feedback        |
+| `Description` `faasData` prop | Detail view with loading and error states                              |
+| `useApp()`                    | Access to `message`, `notification`, `setDrawerProps`, `setModalProps` |
 
 See the [Ant Design Guide](./ant-design.md) for component patterns.
 
@@ -210,7 +210,7 @@ See the [Ant Design Guide](./ant-design.md) for component patterns.
 | ---------------------------------- | -------------------------------------------------------------------------------- |
 | `useFaas(action, params, options)` | Component-owned request state with loading, error, debounce, polling, and reload |
 | `faas(action, params)`             | Imperative one-off requests (form submit, delete)                                |
-| `Form.faas`                        | Form submissions (preferred over raw `faas`)                                     |
+| `Form` `faas` prop                 | Form submissions (preferred over raw `faas`)                                     |
 
 See the [React Data Fetching Guide](./react-data-fetching.md) for lifecycle controls and patterns.
 
@@ -246,7 +246,7 @@ The FaasJS toolchain uses `vp` (Vite Plus) as the primary entry point for develo
 
 ```bash
 # Create a new migration
-DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg new add_due_date_to_todos
+DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg new add-due-date-to-todos
 
 # Check migration status
 DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg status

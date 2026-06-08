@@ -6,7 +6,12 @@ Builds and executes parameterized PostgreSQL queries through a fluent, chainable
 
 Supports SELECT, INSERT, UPDATE, DELETE, and upsert operations with strongly-typed
 WHERE clauses, JOINs, ORDER BY, LIMIT/OFFSET, and result-type inference from the
-table type map declared via [Tables](../interfaces/Tables.md).
+table type map declared via the exported `Tables` interface. Column and table identifiers are escaped
+automatically; raw fragments are accepted only through the explicit `*Raw` methods
+and should be reserved for trusted SQL controlled by the application.
+
+UPDATE, JSON UPDATE, and DELETE require at least one WHERE condition and throw
+`Missing where conditions` otherwise.
 
 ## Example
 
@@ -79,6 +84,8 @@ const count = await db('users').count() // => 2
 
 Deletes records from the specified table based on the provided where conditions.
 
+A WHERE clause is required to reduce accidental full-table deletes.
+
 #### Returns
 
 `Promise`\<`any`[]\>
@@ -114,6 +121,10 @@ The first row of the result set, or `null`.
 > **insert**\<`FirstValue`, `Returning`\>(`values`, `options?`): `Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 Inserts one or more rows into the table.
+
+For multi-row inserts, the keys of the first row define the inserted columns.
+Values are bound as parameters. Use `returning: ['*']` or explicit columns when
+inserted rows should be returned.
 
 #### Type Parameters
 
@@ -172,6 +183,10 @@ await db('users').insert([
 
 Adds an INNER JOIN clause.
 
+Join operands are escaped as identifiers unless provided as trusted `RawSql` fragments.
+The three-argument overload uses `=` as the join operator; the four-argument
+overload validates that the operator is a normal comparison operator.
+
 ##### Parameters
 
 ###### table
@@ -190,7 +205,7 @@ The left operand for the ON condition.
 
 `string` \| [`RawSql`](../type-aliases/RawSql.md)
 
-The right operand when an explicit operator is provided.
+Right operand, or the third argument when using the default `=` operator.
 
 ##### Returns
 
@@ -201,6 +216,10 @@ The right operand when an explicit operator is provided.
 > **join**(`table`, `left`, `operator`, `right`): `QueryBuilder`\<`T`, `TResult`\>
 
 Adds an INNER JOIN clause.
+
+Join operands are escaped as identifiers unless provided as trusted `RawSql` fragments.
+The three-argument overload uses `=` as the join operator; the four-argument
+overload validates that the operator is a normal comparison operator.
 
 ##### Parameters
 
@@ -224,7 +243,7 @@ The left operand for the ON condition.
 
 `string` \| [`RawSql`](../type-aliases/RawSql.md)
 
-The right operand when an explicit operator is provided.
+Right operand, or the third argument when using the default `=` operator.
 
 ##### Returns
 
@@ -238,6 +257,10 @@ The right operand when an explicit operator is provided.
 
 Adds a LEFT JOIN clause.
 
+Join operands are escaped as identifiers unless provided as trusted `RawSql` fragments.
+The three-argument overload uses `=` as the join operator; the four-argument
+overload validates that the operator is a normal comparison operator.
+
 ##### Parameters
 
 ###### table
@@ -256,7 +279,7 @@ The left operand for the ON condition.
 
 `string` \| [`RawSql`](../type-aliases/RawSql.md)
 
-The right operand when an explicit operator is provided.
+Right operand, or the third argument when using the default `=` operator.
 
 ##### Returns
 
@@ -267,6 +290,10 @@ The right operand when an explicit operator is provided.
 > **leftJoin**(`table`, `left`, `operator`, `right`): `QueryBuilder`\<`T`, `TResult`\>
 
 Adds a LEFT JOIN clause.
+
+Join operands are escaped as identifiers unless provided as trusted `RawSql` fragments.
+The three-argument overload uses `=` as the join operator; the four-argument
+overload validates that the operator is a normal comparison operator.
 
 ##### Parameters
 
@@ -290,7 +317,7 @@ The left operand for the ON condition.
 
 `string` \| [`RawSql`](../type-aliases/RawSql.md)
 
-The right operand when an explicit operator is provided.
+Right operand, or the third argument when using the default `=` operator.
 
 ##### Returns
 
@@ -301,6 +328,8 @@ The right operand when an explicit operator is provided.
 > **limit**(`value`): `QueryBuilder`\<`T`, `TResult`\>
 
 Sets the limit value for the query.
+
+The value is bound as a parameter when SQL is generated.
 
 #### Parameters
 
@@ -326,6 +355,8 @@ await query('users').limit(10) // LIMIT 10
 
 Sets the offset value for the query.
 
+The value is bound as a parameter when SQL is generated.
+
 #### Parameters
 
 ##### value
@@ -349,6 +380,9 @@ await query('users').offset(10) // OFFSET 10
 > **orderBy**\<`C`\>(`column`, `direction?`): `QueryBuilder`\<`T`, `TResult`\>
 
 Sets the order by column and direction for the query.
+
+Direction must be one of [QueryOrderDirections](../type-aliases/QueryOrderDirections.md); invalid directions throw
+before SQL is generated.
 
 #### Type Parameters
 
@@ -386,6 +420,9 @@ await query('users').orderBy('id', 'DESC') // ORDER BY id DESC
 
 Adds a raw SQL expression to ORDER BY with parameter bindings.
 
+The SQL fragment is inserted as-is. Use `?` placeholders for values and pass
+matching `params`; do not interpolate user input into `sql`.
+
 #### Parameters
 
 ##### sql
@@ -411,6 +448,9 @@ Bound parameters for the SQL fragment.
 > **orWhere**\<`C`\>(`column`, `operator`, `value?`): `QueryBuilder`\<`T`, `TResult`\>
 
 Applies an OR WHERE condition to the query builder.
+
+The same operator rules as [where](#where) apply, but the condition is joined with
+`OR` instead of `AND`.
 
 ##### Type Parameters
 
@@ -454,6 +494,9 @@ await query('users').where('id', 1).orWhere('id', 2) // WHERE id = 1 OR id = 2
 
 Applies an OR WHERE condition to the query builder.
 
+The same operator rules as [where](#where) apply, but the condition is joined with
+`OR` instead of `AND`.
+
 ##### Type Parameters
 
 ###### C
@@ -496,6 +539,9 @@ await query('users').where('id', 1).orWhere('id', 2) // WHERE id = 1 OR id = 2
 
 Applies an OR WHERE condition to the query builder.
 
+The same operator rules as [where](#where) apply, but the condition is joined with
+`OR` instead of `AND`.
+
 ##### Type Parameters
 
 ###### C
@@ -531,6 +577,9 @@ await query('users').where('id', 1).orWhere('id', 2) // WHERE id = 1 OR id = 2
 > **orWhere**\<`C`\>(`column`, `operator`, `value`): `QueryBuilder`\<`T`, `TResult`\>
 
 Applies an OR WHERE condition to the query builder.
+
+The same operator rules as [where](#where) apply, but the condition is joined with
+`OR` instead of `AND`.
 
 ##### Type Parameters
 
@@ -574,6 +623,9 @@ await query('users').where('id', 1).orWhere('id', 2) // WHERE id = 1 OR id = 2
 
 Applies an OR WHERE condition to the query builder.
 
+The same operator rules as [where](#where) apply, but the condition is joined with
+`OR` instead of `AND`.
+
 ##### Type Parameters
 
 ###### C
@@ -616,6 +668,9 @@ await query('users').where('id', 1).orWhere('id', 2) // WHERE id = 1 OR id = 2
 
 Applies an OR WHERE condition to the query builder.
 
+The same operator rules as [where](#where) apply, but the condition is joined with
+`OR` instead of `AND`.
+
 ##### Type Parameters
 
 ###### C
@@ -651,6 +706,9 @@ await query('users').where('id', 1).orWhere('id', 2) // WHERE id = 1 OR id = 2
 > **orWhereRaw**(`sql`, ...`params`): `QueryBuilder`\<`T`, `TResult`\>
 
 Adds a raw SQL expression to the WHERE clause using OR with parameter bindings.
+
+The SQL fragment is inserted as-is inside parentheses. Use `?` placeholders for
+values and pass matching `params`; do not interpolate user input into `sql`.
 
 #### Parameters
 
@@ -710,6 +768,10 @@ const names = await db('users').pluck('name') // => ['Alice', 'Bob']
 
 Selects specific columns for the query.
 
+Calling `select()` with no columns leaves the current selection unchanged. JSONB
+field selectors use `jsonb_build_object` and default their alias to the source
+JSON column name.
+
 #### Type Parameters
 
 ##### ColumnNames
@@ -741,6 +803,9 @@ const users = await db('users').select('id', { column: 'data', fields: ['email']
 > **then**\<`TResult1`, `TResult2`\>(`onfulfilled?`, `onrejected?`): `Promise`\<`TResult1` \| `TResult2`\>
 
 Makes the QueryBuilder thenable — calling `await builder` implicitly executes the query.
+
+This is why `await client.query('users').where('id', id)` returns rows without
+an explicit `.run()` call.
 
 #### Type Parameters
 
@@ -778,6 +843,9 @@ A promise for the transformed result.
 
 Serializes the query builder state into a parameterized SQL statement and bound parameters.
 
+The returned SQL uses `?` placeholders. `Client.raw(sql, ...params)` converts
+those placeholders into `postgres.js` template parameters at execution time.
+
 #### Returns
 
 `object`
@@ -797,6 +865,9 @@ An object containing the generated `sql` string and `params` array.
 > **update**\<`Returning`\>(`values`, `options?`): `Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 Updates records in the table with the specified values and returns the updated records.
+
+Values and WHERE operands are parameterized. A WHERE clause is required to
+reduce accidental full-table updates.
 
 #### Type Parameters
 
@@ -845,6 +916,9 @@ await db('users')
 Atomically updates a JSON/JSONB column using the `||` merge operator,
 avoiding read-modify-write race conditions.
 
+A WHERE clause is required to reduce accidental full-table updates. The merge
+object is bound as a parameter.
+
 #### Type Parameters
 
 ##### C
@@ -881,6 +955,9 @@ await db('users').where('id', 1).updateJson('metadata', { age: 30 })
 > **upsert**\<`FirstValue`, `Returning`\>(`values`, `options`): `Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 Inserts or updates records in the database table.
+
+Values are parameterized. Conflict and returning columns are escaped as identifiers,
+and omitted `update` defaults to every non-conflict column from the first row.
 
 #### Type Parameters
 
@@ -944,6 +1021,11 @@ await db('users').upsert({ id: 1, name: 'Alice' }, { conflict: ['id'], update: [
 
 Applies a WHERE condition to the query builder.
 
+Passing `(column, value)` uses `=`. Passing `(column, operator, value)` requires
+one of the exported `Operators` literals; invalid operators throw before SQL is
+generated. `IN` and `NOT IN` expect arrays, and `IS NULL` / `IS NOT NULL` do
+not bind a value.
+
 ##### Type Parameters
 
 ###### C
@@ -991,6 +1073,11 @@ await query('users').where('data', '@>', { email: 'example@example.com' }) // WH
 > **where**\<`C`\>(`column`, `operator`, `value`): `QueryBuilder`\<`T`, `TResult`\>
 
 Applies a WHERE condition to the query builder.
+
+Passing `(column, value)` uses `=`. Passing `(column, operator, value)` requires
+one of the exported `Operators` literals; invalid operators throw before SQL is
+generated. `IN` and `NOT IN` expect arrays, and `IS NULL` / `IS NOT NULL` do
+not bind a value.
 
 ##### Type Parameters
 
@@ -1040,6 +1127,11 @@ await query('users').where('data', '@>', { email: 'example@example.com' }) // WH
 
 Applies a WHERE condition to the query builder.
 
+Passing `(column, value)` uses `=`. Passing `(column, operator, value)` requires
+one of the exported `Operators` literals; invalid operators throw before SQL is
+generated. `IN` and `NOT IN` expect arrays, and `IS NULL` / `IS NOT NULL` do
+not bind a value.
+
 ##### Type Parameters
 
 ###### C
@@ -1081,6 +1173,11 @@ await query('users').where('data', '@>', { email: 'example@example.com' }) // WH
 > **where**\<`C`\>(`column`, `operator`, `value`): `QueryBuilder`\<`T`, `TResult`\>
 
 Applies a WHERE condition to the query builder.
+
+Passing `(column, value)` uses `=`. Passing `(column, operator, value)` requires
+one of the exported `Operators` literals; invalid operators throw before SQL is
+generated. `IN` and `NOT IN` expect arrays, and `IS NULL` / `IS NOT NULL` do
+not bind a value.
 
 ##### Type Parameters
 
@@ -1130,6 +1227,11 @@ await query('users').where('data', '@>', { email: 'example@example.com' }) // WH
 
 Applies a WHERE condition to the query builder.
 
+Passing `(column, value)` uses `=`. Passing `(column, operator, value)` requires
+one of the exported `Operators` literals; invalid operators throw before SQL is
+generated. `IN` and `NOT IN` expect arrays, and `IS NULL` / `IS NOT NULL` do
+not bind a value.
+
 ##### Type Parameters
 
 ###### C
@@ -1178,6 +1280,11 @@ await query('users').where('data', '@>', { email: 'example@example.com' }) // WH
 
 Applies a WHERE condition to the query builder.
 
+Passing `(column, value)` uses `=`. Passing `(column, operator, value)` requires
+one of the exported `Operators` literals; invalid operators throw before SQL is
+generated. `IN` and `NOT IN` expect arrays, and `IS NULL` / `IS NOT NULL` do
+not bind a value.
+
 ##### Type Parameters
 
 ###### C
@@ -1219,6 +1326,9 @@ await query('users').where('data', '@>', { email: 'example@example.com' }) // WH
 > **whereRaw**(`sql`, ...`params`): `QueryBuilder`\<`T`, `TResult`\>
 
 Adds a raw SQL expression to the WHERE clause with parameter bindings.
+
+The SQL fragment is inserted as-is inside parentheses. Use `?` placeholders for
+values and pass matching `params`; do not interpolate user input into `sql`.
 
 #### Parameters
 

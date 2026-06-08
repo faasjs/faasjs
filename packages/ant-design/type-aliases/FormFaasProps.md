@@ -4,7 +4,11 @@
 
 > **FormFaasProps**\<`Values`, `Path`\> = `object`
 
-Configures FaasJS-backed form submission.
+Configures FaasJS-backed form submission for create/update/delete style actions.
+
+The submitted payload starts from the current form values, optionally passes
+through `transformValues`, then merges `params` over the transformed values
+before calling `faas(action, payload)`.
 
 ## Type Parameters
 
@@ -18,7 +22,7 @@ Form values shape.
 
 `Path` _extends_ `FaasActionPaths` = `any`
 
-Action path type inferred from the registered FaasJS actions.
+Registered action path used to infer submitted params.
 
 ## Properties
 
@@ -26,13 +30,13 @@ Action path type inferred from the registered FaasJS actions.
 
 > **action**: `Path`
 
-Fully qualified FaasJS action path.
+FaasJS action path for the write-style request.
 
 ### onError?
 
 > `optional` **onError?**: (`error`, `values`) => `void`
 
-Called after a failed FaasJS request.
+Called with the request error and final submitted payload after a failed request.
 
 #### Parameters
 
@@ -62,7 +66,7 @@ Called after the request settles, regardless of success or failure.
 
 > `optional` **onSuccess?**: (`result`, `values`) => `void`
 
-Called after a successful FaasJS response.
+Called with the `faas` response and final submitted payload after a successful request.
 
 #### Parameters
 
@@ -82,13 +86,16 @@ Called after a successful FaasJS response.
 
 > `optional` **params?**: `FaasParams`\<`Path`\> \| ((`values`) => `FaasParams`\<`Path`\>)
 
-Static params or a factory that receives the current form values and returns the params payload.
+Extra static params or a factory that receives transformed form values.
+
+Returned keys are merged over the form values, so they can provide IDs or
+route metadata for update/delete flows.
 
 ### transformValues?
 
 > `optional` **transformValues?**: (`values`) => `Record`\<`string`, `any`\> \| `Promise`\<`Record`\<`string`, `any`\>\>
 
-Transformer applied to form values before the FaasJS request is fired.
+Transformer applied before `params` are merged and before the FaasJS request is fired.
 
 #### Parameters
 

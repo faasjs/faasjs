@@ -6,6 +6,10 @@
 
 Mock handler function type for testing FaasJS requests.
 
+The handler receives the action path, request params, and fully resolved
+request options. Returning an `Error` makes the request reject with a
+response error; returning nothing creates an empty successful response.
+
 ## Parameters
 
 ### action

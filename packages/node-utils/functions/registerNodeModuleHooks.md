@@ -6,8 +6,11 @@
 
 Install Node module hooks for tsconfig path aliases and TypeScript-friendly local imports.
 
-Calling this function multiple times is safe. Hooks are installed once, while loader state is refreshed
-from the latest options when a root, entry, or tsconfig path can be inferred.
+Calling this function multiple times is safe. Hooks are installed once, while
+loader state is refreshed from the latest options when a root, entry, or
+tsconfig path can be inferred. The hooks resolve tsconfig `paths`,
+extensionless local script imports, and optional cache-busting query strings
+for project-local `file://` URLs.
 
 ## Parameters
 

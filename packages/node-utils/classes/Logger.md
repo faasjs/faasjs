@@ -7,6 +7,10 @@ Write level-filtered log output with optional labels, colors, timers, and transp
 When `process` is available, the constructor reads `FaasLog`, `FaasLogMode`, `FaasLogSize`,
 and `FaasLogTransport` to derive the initial logger behavior.
 
+Defaults are `level = 'info'`, `size = 1000`, shared transport forwarding enabled outside Vitest,
+and colorized output auto-detected from `FORCE_COLOR`, `NO_COLOR`, `TERM`, and `process.stdout.isTTY`.
+Use `FaasLogMode=plain` to force plain output and `FaasLogMode=pretty` to force ANSI colors.
+
 ## See
 
 [getTransport](../functions/getTransport.md)
@@ -34,6 +38,10 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 > **new Logger**(`label?`): `Logger`
 
 Create a logger with an optional label prefix.
+
+Environment variables are read only during construction:
+`FaasLog=debug|info|warn|error`, `FaasLogMode=plain|pretty`,
+`FaasLogSize=<number>`, and `FaasLogTransport=true|false`.
 
 #### Parameters
 
@@ -133,6 +141,9 @@ The current logger for chaining.
 
 Write raw output without adding log level prefixes.
 
+Raw output still respects [Logger.silent](#silent), but it does not apply level
+filtering, colorization, truncation, labels, or transport forwarding.
+
 #### Parameters
 
 ##### message
@@ -191,7 +202,8 @@ The current logger for chaining.
 
 Stop a named timer and log the elapsed duration.
 
-If the timer key does not exist, the logger emits a warning and then writes the provided message at debug level.
+If the timer key does not exist, the logger emits a warning and then writes
+the provided message at debug level.
 
 #### Parameters
 
@@ -253,13 +265,23 @@ The current logger for chaining.
 
 Whether terminal output should use ANSI colors.
 
-Auto-detected from the current environment and can be overridden with `FaasLogMode`.
+The constructor auto-detects this from the current environment and can be
+overridden with `FaasLogMode`.
+
+#### Default
+
+```ts
+false
+```
 
 ### disableTransport
 
 > **disableTransport**: `boolean` = `false`
 
 Disable forwarding log messages to the shared transport.
+
+The constructor sets this to `true` in Vitest unless `FaasLogTransport=true`,
+and also when `FaasLogTransport=false`.
 
 #### Default
 
@@ -279,10 +301,12 @@ Optional label prefix included in log lines.
 
 Minimum level that will be emitted.
 
+The constructor overrides this from `FaasLog` when present.
+
 #### Default
 
 ```ts
-'debug'
+'info'
 ```
 
 ### silent
@@ -301,7 +325,7 @@ false
 
 > **size**: `number` = `1000`
 
-Maximum plain-text payload length before non-error logs are truncated.
+Maximum plain-text payload length before debug and info logs are truncated.
 
 #### Default
 

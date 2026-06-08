@@ -2,32 +2,32 @@ import type { ColumnName, Tables, TableType } from '../types'
 import type { RawSql } from '../utils'
 
 /**
- * Comparison operators for scalar values.
+ * Readonly list of comparison operators for scalar values.
  */
 export const NormalOperators = ['=', '!=', '<', '<=', '>', '>='] as const
 
 /**
- * Array membership operators.
+ * Readonly list of array membership operators.
  */
 export const ArrayOperators = ['IN', 'NOT IN'] as const
 
 /**
- * Null-check operators.
+ * Readonly list of null-check operators.
  */
 export const NullOperators = ['IS NULL', 'IS NOT NULL'] as const
 
 /**
- * JSON containment operators.
+ * Readonly list of JSON containment operators.
  */
 export const JsonOperators = ['@>'] as const
 
 /**
- * Pattern-matching operators.
+ * Readonly list of pattern-matching operators.
  */
 export const PatternOperators = ['LIKE', 'ILIKE', 'NOT LIKE', 'NOT ILIKE'] as const
 
 /**
- * Union of all supported query operators.
+ * Readonly list of all supported query operators.
  */
 export const Operators = [
   ...NormalOperators,
@@ -123,9 +123,20 @@ type JsonbColumns<T extends string, Table = TableType<T>> = {
 type JsonbFields<T extends string, C extends JsonbColumns<T>> = keyof GetTableType<T>[C &
   keyof GetTableType<T>]
 
+/**
+ * Select a subset of fields from a JSON or JSONB column.
+ *
+ * Used by {@link QueryBuilder.select} to emit `jsonb_build_object(...)` for a
+ * typed JSON column while keeping the result row narrowed to the selected keys.
+ *
+ * @template T - Table name used to infer JSON-capable columns and fields.
+ */
 type JsonSelectField<T extends string> = {
+  /** JSON/JSONB column whose fields should be projected. */
   column: JsonbColumns<T>
+  /** Field names to include from the JSON/JSONB column. */
   fields: JsonbFields<T, JsonbColumns<T>>[]
+  /** Optional result alias. Defaults to the source column name. */
   alias?: string
 }
 

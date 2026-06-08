@@ -8,6 +8,7 @@ Resolves the registered async database bootstrap.
 
 Ensures the bootstrap only runs once concurrently — if it is already running
 the pending promise is returned instead of starting a second invocation.
+Failed bootstraps clear the active promise so a later call can retry.
 
 ## Returns
 

@@ -4,4 +4,4 @@
 
 > **JsonOperators** = readonly \[`"@>"`\]
 
-JSON containment operators.
+Readonly list of JSON containment operators.

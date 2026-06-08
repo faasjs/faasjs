@@ -11,7 +11,8 @@ is returned. When the cache is empty, the registered async database bootstrap
 is awaited to initialize the default client. The built-in bootstrap creates
 that client from `process.env.DATABASE_URL`, while callers such as
 `@faasjs/pg-dev` can override it for lazy test setup. Throws when no client
-can be resolved.
+can be resolved. The bootstrap path is serialized, so concurrent `getClient()`
+calls wait on the same bootstrap promise.
 
 ## Parameters
 

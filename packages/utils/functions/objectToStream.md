@@ -30,7 +30,10 @@ Readable stream containing the JSON payload.
 
 ## Throws
 
-If the value cannot be serialized to JSON.
+If `JSON.stringify` cannot serialize the value, such as circular objects.
+
+Values follow native `JSON.stringify` semantics. Unsupported top-level values such as
+`undefined` can serialize to an empty stream.
 
 ## Example
 

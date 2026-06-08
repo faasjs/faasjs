@@ -8,11 +8,11 @@ This spec defines the current public baseline that matches FaasJS runtime behavi
 
 Related references:
 
-- `packages/node-utils/src/load_config.ts`
-- `packages/node-utils/src/parse_yaml/index.ts`
-- `packages/dev/src/server_config.ts`
-- `packages/dev/src/typegen.ts`
-- `@faasjs/node-utils` `parseYaml()`
+- `packages/node-utils/src/runtime-loading/load-config.ts`
+- `packages/utils/src/yaml/index.ts`
+- `packages/dev/src/utils/server-config.ts`
+- `packages/dev/src/typegen/index.ts`
+- `@faasjs/utils` `parseYaml()`
 
 ## Goals
 

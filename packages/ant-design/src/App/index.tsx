@@ -16,14 +16,20 @@ import { AppContext, useApp } from '../useApp'
 /**
  * Props for the root {@link App} shell.
  *
- * `App` composes the Ant Design provider tree, FaasJS config provider, shared modal and drawer
- * state, and optional browser routing into a single wrapper component.
+ * `App` composes Ant Design feedback APIs, the FaasJS Ant Design config layer,
+ * shared modal and drawer state, error handling, and optional browser routing
+ * into a single wrapper component. Use `configProviderProps` for Ant Design's
+ * own `ConfigProvider`; use `faasConfigProviderProps` for the FaasJS
+ * `ConfigProvider` exported by this package.
  */
 export interface AppProps {
   /** Descendant elements rendered inside all configured providers. */
   children: React.ReactNode
   /**
    * Props forwarded to Ant Design's `ConfigProvider`.
+   *
+   * Omit this prop when you do not need Ant Design token, locale, direction, or
+   * component config overrides from this root shell.
    *
    * @see [Ant Design ConfigProvider API](https://ant.design/components/config-provider/#API)
    */
@@ -43,13 +49,26 @@ export interface AppProps {
    */
   errorBoundaryProps?: Omit<ErrorBoundaryProps, 'children'>
   /**
-   * Props forwarded to {@link ConfigProvider}, or `false` to skip the FaasJS config layer.
+   * Props forwarded to the FaasJS Ant Design {@link ConfigProvider}.
+   *
+   * `App` still mounts the FaasJS config layer so descendants can read theme
+   * defaults. Pass `false` to use only the built-in defaults and App's default
+   * `onError` handler.
    *
    * @see [FaasJS Ant Design ConfigProvider docs](https://faasjs.com/doc/ant-design/#configprovider)
    */
   faasConfigProviderProps?: Omit<FaasConfigProviderProps, 'children'> | false
 }
 
+/**
+ * Create the default FaasJS request error handler used by {@link App}.
+ *
+ * The handler ignores aborted requests, logs other failures with the action path,
+ * and shows the normalized message through Ant Design's message API.
+ *
+ * @param messageApi - Ant Design message API subset used to show errors.
+ * @returns Error handler factory compatible with `FaasReactClientOptions.onError`.
+ */
 export function createOnErrorHandler(messageApi: { error: (message: string) => void }) {
   return (action: string) => async (res: any) => {
     if ('message' in res && res.toString().includes('AbortError')) return
@@ -78,7 +97,8 @@ function RoutesApp(props: { children: React.ReactNode }) {
  *
  * `App` initializes Ant Design message and notification APIs, exposes hook-managed modal and
  * drawer state through {@link AppContext}, wraps descendants with {@link ErrorBoundary}, and
- * optionally mounts React Router's `BrowserRouter`.
+ * optionally mounts React Router's `BrowserRouter`. Route changes close the hook-managed modal
+ * and drawer by setting their `open` prop to `false`.
  *
  * @param {AppProps} props - App shell props including providers, routing, and error handling options.
  *

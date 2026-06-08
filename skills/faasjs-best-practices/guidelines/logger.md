@@ -17,7 +17,7 @@ Use this guide when working with `Logger` instances, log levels, timing, and tra
 3. Use `debug` for details, `info` for normal milestones, `warn` for degraded paths, and `error` for failures.
 4. Keep labels short and stable so related logs stay easy to scan.
 5. Use `time()` and `timeEnd()` around slow steps.
-6. Change verbosity with environment variables before changing log call sites.
+6. Change verbosity, color mode, truncation, and transport behavior with environment variables before changing log call sites.
 
 ## Rules
 
@@ -113,11 +113,13 @@ logger.timeEnd('load-user', 'loaded user %s', user.id)
 
 ### 6. Tune output with environment variables
 
-- `FaasLog=debug|info|warn|error` sets the minimum level
-- `FaasLogMode=plain` disables ANSI colors
-- `FaasLogMode=pretty` forces colorized terminal output
-- `FaasLogSize=2000` changes the truncation threshold for long non-error logs
-- `FaasLogTransport=true|false` enables or disables shared transport forwarding
+- Logger defaults are `FaasLog=info`, `FaasLogSize=1000`, auto-detected terminal colors, and shared transport forwarding outside Vitest.
+- `FaasLog=debug|info|warn|error` sets the minimum level.
+- `FaasLogMode=plain` disables ANSI colors.
+- `FaasLogMode=pretty` forces colorized terminal output.
+- Without `FaasLogMode`, color output follows `FORCE_COLOR`, `NO_COLOR`, `TERM`, and whether stdout is a TTY.
+- `FaasLogSize=2000` changes the truncation threshold for long debug/info logs. Warnings and errors are not truncated.
+- `FaasLogTransport=true|false` enables or disables shared transport forwarding. In Vitest, forwarding is disabled unless `FaasLogTransport=true`.
 
 Examples:
 
@@ -130,6 +132,8 @@ FaasLog=debug FaasLogMode=plain node ./scripts/sync-users.ts
 
 - `Logger` forwards messages to the shared transport by default.
 - Reach for `getTransport()` when you want to batch logs into another system.
+- Transport handlers receive batches of formatted log messages on the configured interval.
+- If a flush happens with no registered handlers, buffered messages are discarded and transport disables itself until a handler is registered or config is applied.
 - If you register transport handlers, flush them during shutdown so buffered logs are not lost.
 
 ```ts
@@ -162,6 +166,6 @@ process.on('SIGINT', async () => {
 - `debug` is used for noisy diagnostics instead of `info`
 - caught errors are logged with `logger.error(error)` when possible
 - slow steps use `time()` and `timeEnd()` with matching keys
-- environment variables are used to change verbosity
+- environment variables are used to change verbosity, color mode, truncation, and transport forwarding
 - secrets and sensitive payloads are not logged
 - transport handlers call `stop()` during shutdown when transport is enabled

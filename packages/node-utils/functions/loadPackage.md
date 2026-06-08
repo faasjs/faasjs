@@ -6,8 +6,13 @@
 
 Load a module in the current Node ESM runtime and return its default export.
 
-The loader can install tsconfig-aware hooks and append a version query string to bust Node's
-import cache for project-local files.
+Local file paths are converted to `file://` URLs, tsconfig-aware hooks are
+installed when a project root can be inferred, and project-local file imports
+can receive a version query string for cache busting. Bare package specifiers
+and URL-scheme specifiers are imported as provided.
+
+The target module must provide a `default` export; named exports are not used
+as a fallback.
 
 ## Type Parameters
 

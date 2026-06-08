@@ -4,4 +4,4 @@
 
 > **NullOperators** = readonly \[`"IS NULL"`, `"IS NOT NULL"`\]
 
-Null-check operators.
+Readonly list of null-check operators.

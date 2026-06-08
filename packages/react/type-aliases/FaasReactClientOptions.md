@@ -12,6 +12,9 @@ Options for creating a [FaasReactClient](../functions/FaasReactClient.md) instan
 
 > `optional` **baseUrl?**: [`BaseUrl`](BaseUrl.md)
 
+Base URL used as the registry key for this client and as the default prefix
+for bound `faas` and `useFaas` calls.
+
 #### Default
 
 `/`

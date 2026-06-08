@@ -7,9 +7,10 @@ Use this guide when defining `.job.ts` background jobs, enqueueing asynchronous 
 1. Create feature-owned `.job.ts` files under `src/features/<feature>/jobs/`; use `src/jobs/` for cross-cutting or platform jobs.
 2. Default-export `defineJob(...)` with a schema when the params have a shape.
 3. Enqueue work with `enqueueJob(jobPath, params)` from APIs, scripts, or other jobs.
-4. Run `startJobWorker()` in a worker process for execution.
-5. Run `startJobScheduler()` only when `.job.ts` files include `cron` rules.
-6. Keep handlers idempotent; delivery is at-least-once.
+4. Let `enqueueJob()` initialize the internal `faasjs_jobs` schema; do not duplicate it in app migrations.
+5. Run `startJobWorker()` in a worker process for execution.
+6. Run `startJobScheduler()` only when `.job.ts` files include `cron` rules.
+7. Keep handlers idempotent; delivery is at-least-once.
 
 ## Rules
 
@@ -104,6 +105,7 @@ Run a scheduler process to create pending rows, and run worker processes to clai
 - Prefer idempotent writes, unique keys, and explicit state transitions.
 - Use `maxAttempts` and `retry` to make failure behavior visible instead of looping forever.
 - Missing job files are recorded as job failures and retried according to the row's attempt policy.
+- The jobs package owns the `faasjs_jobs` and `faasjs_jobs_schema_migrations` tables through `ensureJobsSchema()`; application migrations should model business data, not the internal queue schema.
 
 ### 6. Test with real PostgreSQL behavior
 
@@ -232,4 +234,5 @@ describe('features/reports/jobs/daily-report', () => {
 - idempotency and retry behavior are explicit
 - cron rules enqueue jobs instead of doing work directly
 - worker and scheduler startup are separate from HTTP server lifecycle
+- app migrations do not recreate the internal jobs tables
 - tests cover enqueue shape, success, validation, retry/failure, and cron dedupe when relevant

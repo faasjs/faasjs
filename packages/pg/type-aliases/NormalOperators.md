@@ -4,4 +4,4 @@
 
 > **NormalOperators** = readonly \[`"="`, `"!="`, `"<"`, `"<="`, `">"`, `">="`\]
 
-Comparison operators for scalar values.
+Readonly list of comparison operators for scalar values.

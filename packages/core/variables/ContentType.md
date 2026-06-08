@@ -6,6 +6,9 @@
 
 Common content type aliases used by the HTTP plugin.
 
+Built-in keys include `plain`, `html`, `xml`, `csv`, `css`, `javascript`,
+`json`, and `jsonp`. [HttpSetContentType](../type-aliases/HttpSetContentType.md) also accepts raw MIME strings.
+
 ## Index Signature
 
 \[`key`: `string`\]: `string`

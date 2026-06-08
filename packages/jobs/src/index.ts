@@ -3,6 +3,10 @@
  *
  * PostgreSQL-backed background jobs for FaasJS.
  *
+ * Jobs are persisted in PostgreSQL, executed with at-least-once delivery, and split
+ * between enqueueing, worker polling, and scheduler cron enqueueing. Handlers should
+ * be idempotent and use retry options to make failure behavior explicit.
+ *
  * ## Install
  *
  * ```sh
@@ -26,6 +30,8 @@
  *
  * await enqueueJob('features/users/jobs/sync', { userId: 'u_123' })
  * ```
+ *
+ * @packageDocumentation
  */
 
 export type { JobRegistry, LoadJobRegistryOptions } from './discovery'

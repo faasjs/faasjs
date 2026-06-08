@@ -17,7 +17,7 @@ import { isJob, type Job } from './define-job'
 export type JobRegistry = Map<string, Job<any, any, any>>
 
 /**
- * Options for {@link loadJobRegistry}.
+ * Options for loading job definitions from the filesystem.
  */
 export type LoadJobRegistryOptions = {
   /** Root directory for job file discovery. Auto-detected when omitted. */

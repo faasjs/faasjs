@@ -14,7 +14,7 @@ subscribe to the values they access.
 
 ### T
 
-`T` _extends_ `Record`\<`string`, `any`\>
+`T` _extends_ `Record`\<`string`, `unknown`\>
 
 Context value shape exposed by the provider and hook.
 
@@ -40,7 +40,7 @@ Hook used to read values from the splitting context.
 
 ##### NewT
 
-`NewT` _extends_ `Record`\<`string`, `any`\> = `T`
+`NewT` _extends_ `Record`\<`string`, `unknown`\> = `T`
 
 #### Parameters
 
@@ -81,7 +81,7 @@ The provider component of the splitting context.
 
 ##### NewT
 
-`NewT` _extends_ `Record`\<`string`, `any`\> = `T`
+`NewT` _extends_ `Record`\<`string`, `unknown`\> = `T`
 
 #### Parameters
 
@@ -118,7 +118,7 @@ Each key produces both a state value and its matching setter using the
 
 ###### memo?
 
-`true` \| `any`[]
+`true` \| `Key`[]
 
 Memoization mode for `children`.
 

@@ -8,8 +8,14 @@ Wires `@faasjs/pg-dev` into a Vitest setup module without forcing consumers to i
 setup files directly from `node_modules`.
 
 The helper registers a lazy async bootstrap for `await getClient()`. The first default-client
-lookup starts PGlite, runs `./src/db/migrations`, and backfills `process.env.DATABASE_URL`. Later tests
-reuse that database within the current Vitest file while `beforeEach` resets table contents.
+lookup starts PGlite, runs `./src/db/migrations`, backfills `process.env.DATABASE_URL`,
+and creates the cached `@faasjs/pg` client. If startup or migrations fail, the lazy promise is
+cleared so the next lookup can retry.
+
+The registered `beforeEach` hook is intentionally cheap before the database is booted. After
+boot, it closes cached `@faasjs/pg` clients, truncates public tables with identity restart and
+cascade semantics, and preserves `faasjs_pg_migrations`. The `afterAll` hook closes cached
+clients and stops the active PGlite server.
 
 ## Parameters
 

@@ -4,7 +4,7 @@
 
 > **LoadJobRegistryOptions** = `object`
 
-Options for loadJobRegistry.
+Options for loading job definitions from the filesystem.
 
 ## Properties
 

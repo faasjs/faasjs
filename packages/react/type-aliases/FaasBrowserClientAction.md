@@ -12,7 +12,7 @@ Type signature for the [FaasBrowserClient.action](../classes/FaasBrowserClient.m
 
 `Path` _extends_ `FaasActionPaths`
 
-Action path used to infer the request params and response data types.
+Registered action path used to infer request params and response data.
 
 ## Parameters
 

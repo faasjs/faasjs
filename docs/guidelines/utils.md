@@ -6,6 +6,7 @@ Use this guide when you need lightweight helper functions from `@faasjs/utils` i
 
 - Merging config objects recursively
 - Converting text to and from streams
+- Parsing JSON or YAML text in portable code
 - Writing portable helper code that works across Node.js, browsers, and edge runtimes
 
 ## What `@faasjs/utils` Gives You
@@ -91,7 +92,17 @@ console.log(text) // 'hello'
 
 See [JSON Guide](./json.md) for JSON parsing patterns with `parseJson`, `parseObjectFromJson`, and `parseArrayFromJson`.
 
-### 6. Validate data with Zod schemas
+### 6. Parse YAML directly
+
+Use `parseYaml` from `@faasjs/utils` only when code already has YAML text. For staged `faas.yaml` discovery, use `loadConfig()` from `@faasjs/node-utils` instead.
+
+```ts
+import { parseYaml } from '@faasjs/utils'
+
+const value = parseYaml('enabled: true')
+```
+
+### 7. Validate data with Zod schemas
 
 See [Validation Guide](./valid.md) for data validation patterns with `z` and `isObjectRecord`.
 
@@ -100,5 +111,6 @@ See [Validation Guide](./valid.md) for data validation patterns with `z` and `is
 - `deepMerge` is used only when recursive merging is actually needed
 - text payloads use `stringToStream` / `streamToString`
 - JSON payloads use the helpers from [JSON Guide](./json.md)
+- direct YAML text parsing uses `parseYaml` from `@faasjs/utils`; staged `faas.yaml` loading uses `loadConfig`
 - data validation uses the helpers from [Validation Guide](./valid.md)
 - examples and tests choose the smallest helper that keeps intent obvious

@@ -6,6 +6,10 @@
 
 Per-plugin configuration entry resolved from `faas.yaml`.
 
+Relative `type` values found in YAML are normalized from the directory that
+contains that `faas.yaml`. `npm:` prefixes are stripped before the type is
+consumed by plugin loading.
+
 ## Indexable
 
 > \[`key`: `string`\]: `any`
@@ -28,8 +32,13 @@ Plugin-specific configuration payload.
 
 Plugin key assigned during config resolution.
 
+This is copied from the plugin map key during config resolution.
+
 ### type?
 
 > `optional` **type?**: `string`
 
 Plugin type identifier consumed by the runtime or plugin loader.
+
+`http` is the only built-in type defaulted by [loadPlugins](../functions/loadPlugins.md); other
+YAML-driven plugins need an explicit type.

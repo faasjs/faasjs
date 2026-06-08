@@ -4,11 +4,12 @@
 
 > **isObjectRecord**(`value`): `value is Record<string, unknown>`
 
-Type guard that checks whether a value is a plain object record.
+Type guard that checks whether a value is an object record.
 
-Uses Zod's `safeParse` to validate that the value is an object with
-string keys and unknown values. Returns `false` for arrays, null,
-primitives, and other non-plain-object values.
+Uses Zod's `safeParse` to check the coarse object shape. It does not validate
+any required keys or value shapes; use an explicit Zod schema for trusted
+business data. Returns `false` for arrays, null, primitives, and other
+non-object values.
 
 ## Parameters
 
@@ -22,7 +23,7 @@ Value to check.
 
 `value is Record<string, unknown>`
 
-`true` if the value is a plain object record.
+`true` if the value is an object record.
 
 ## Example
 

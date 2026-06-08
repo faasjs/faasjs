@@ -7,7 +7,10 @@
 Provide theme overrides and optional FaasJS client initialization for descendants.
 
 Theme overrides are merged with the built-in defaults. When `theme.lang` is omitted, the
-provider infers a default language from `navigator.language`.
+provider infers a default language from `navigator.language`. This is the
+low-level FaasJS config boundary; the higher-level `App` component wraps it
+together with Ant Design feedback APIs, an error boundary, modal/drawer state,
+and optional routing.
 
 ## Parameters
 

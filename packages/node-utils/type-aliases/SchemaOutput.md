@@ -7,7 +7,8 @@
 Parsed value type for an optional Zod schema.
 
 When a schema is present, the type is the schema's output type. When the
-schema is omitted, the caller-provided fallback type is used instead.
+schema is omitted, the caller-provided fallback type is used instead because
+the raw value is not parsed.
 
 ## Type Parameters
 

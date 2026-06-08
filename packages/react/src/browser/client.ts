@@ -7,20 +7,34 @@ import type { Response } from './response'
 import type { Options, BaseUrl, ParsedFetchResponse } from './types'
 
 /**
- * Browser client for FaasJS - provides HTTP client functionality for making API requests from web applications.
+ * Browser client for FaasJS action requests from web applications.
  *
  * Handles request URL construction, default and per-request option merging,
  * before-request hooks, mock resolution for testing, and native fetch dispatching.
+ * When a global mock is configured with `setMock`, the mock response wins
+ * over both native `fetch` and a custom `request` option.
  *
  * @example
  * ```ts
  * import { FaasBrowserClient } from '@faasjs/react'
  *
+ * declare module '@faasjs/types' {
+ *   interface FaasActions {
+ *     'posts/get': {
+ *       Params: { id: number }
+ *       Data: { title: string }
+ *     }
+ *   }
+ * }
+ *
+ * type GetPostAction = 'posts/get'
+ *
  * const client = new FaasBrowserClient('https://api.example.com/', {
  *   headers: { 'X-Custom-Header': 'value' },
  * })
  *
- * const response = await client.action('posts/get', { id: 1 })
+ * const response = await client.action<GetPostAction>('posts/get', { id: 1 })
+ *
  * console.log(response.data)
  * ```
  */
@@ -31,6 +45,8 @@ export class FaasBrowserClient {
   public readonly id: string
   /**
    * Base URL used to build action request URLs.
+   *
+   * The action path is appended directly to this value, so it always ends with `/`.
    */
   public baseUrl: BaseUrl
   /**
@@ -61,7 +77,7 @@ export class FaasBrowserClient {
    * When `stream` is enabled the raw fetch response is returned so callers can
    * consume the body stream themselves.
    *
-   * @template Path - Action path used to infer the request params and response data types.
+   * @template Path - Registered action path used to infer request params and response data.
    * @param {Path} action - Action path to invoke. Must be non-empty.
    * @param {FaasParams<Path>} [params] - Params sent to the action. Defaults to an empty object.
    * @param {Options} [options] - Per-request overrides on top of client defaults.

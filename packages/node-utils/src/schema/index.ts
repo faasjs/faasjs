@@ -4,7 +4,8 @@ import type { ZodOutput, ZodError, ZodType } from '@faasjs/utils'
  * Parsed value type for an optional Zod schema.
  *
  * When a schema is present, the type is the schema's output type. When the
- * schema is omitted, the caller-provided fallback type is used instead.
+ * schema is omitted, the caller-provided fallback type is used instead because
+ * the raw value is not parsed.
  */
 export type SchemaOutput<
   TSchema extends ZodType | undefined = undefined,
@@ -13,6 +14,9 @@ export type SchemaOutput<
 
 /**
  * Options for parsing an unknown value with an optional Zod schema.
+ *
+ * This is useful for runtime boundaries where a schema may be optional, such as
+ * API params, job payloads, or plugin config.
  *
  * @template TSchema - Zod schema used when present.
  * @template TFallback - Value and output type used when the schema is omitted.
@@ -32,7 +36,7 @@ export type ParseSchemaValueOptions<
   /**
    * Value returned without a schema and parsed when the raw value is nullish.
    *
-   * Defaults to an empty object.
+   * Defaults to an empty object when omitted.
    */
   defaultValue?: TFallback | undefined
   /**
@@ -51,6 +55,9 @@ function normalizeIssueMessage(message: string): string {
 
 /**
  * Format a Zod validation error with FaasJS' boundary-validation message style.
+ *
+ * Each Zod issue is rendered on its own line with a dot-joined path, or `<root>`
+ * for root-level issues.
  *
  * @param {ZodError} error - Zod validation error to format.
  * @param {string} message - First line of the formatted message.
@@ -71,15 +78,30 @@ export function formatSchemaError(error: ZodError, message: string): string {
 /**
  * Parse a value with an optional Zod schema.
  *
- * If `schema` is omitted, `defaultValue` is returned. If `value` is `null` or
- * `undefined`, the same `defaultValue` is passed to the schema parser. When
- * `defaultValue` is omitted, an empty object is used.
+ * If `schema` is omitted, `defaultValue` is returned and `value` is ignored. If
+ * `value` is `null` or `undefined`, `defaultValue` is passed to
+ * `schema.safeParseAsync()`. When `defaultValue` is omitted, an empty object is
+ * used. Validation failures are formatted with {@link formatSchemaError}.
  *
  * @template TSchema - Zod schema type used for parsing.
  * @template TFallback - Fallback type used when no schema is provided.
  * @param {ParseSchemaValueOptions<TSchema, TFallback>} options - Parsing options including the optional schema, raw value, and error formatting.
  * @returns {Promise<SchemaOutput<TSchema, TFallback>>} Parsed (and validated) value matching the schema or fallback type.
  * @throws {Error} If the schema validation fails, using the provided `createError` factory or a plain `Error`.
+ *
+ * @example
+ * ```ts
+ * import { parseSchemaValue } from '@faasjs/node-utils'
+ * import { z } from '@faasjs/utils'
+ *
+ * const params = await parseSchemaValue({
+ *   schema: z.object({
+ *     page: z.coerce.number().default(1),
+ *   }),
+ *   value: { page: '2' },
+ *   errorMessage: 'Invalid params',
+ * })
+ * ```
  */
 export async function parseSchemaValue<
   TSchema extends ZodType | undefined = undefined,

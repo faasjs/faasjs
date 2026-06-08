@@ -2,6 +2,9 @@ import { type Level, Logger } from '../logger'
 
 /**
  * Serialized log entry sent to transport handlers.
+ *
+ * {@link Logger} creates these messages after formatting and before writing to
+ * stdout or stderr.
  */
 export type LoggerMessage = {
   /**
@@ -9,7 +12,9 @@ export type LoggerMessage = {
    */
   level: Level
   /**
-   * Label segments captured from the logger.
+   * Label segments captured from the logger label.
+   *
+   * A label such as `app] [config` becomes `['app', 'config']`.
    */
   labels: string[]
   /**
@@ -21,13 +26,16 @@ export type LoggerMessage = {
    */
   timestamp: number
   /**
-   * Original extra values forwarded alongside the formatted message.
+   * Original extra values forwarded alongside the formatted message, including
+   * hidden metadata such as timer performance data.
    */
   extra?: any[]
 }
 
 /**
  * Async callback used by {@link Transport} to flush buffered log messages.
+ *
+ * Handlers receive batches in registration order during each flush.
  *
  * @param {LoggerMessage[]} messages - Buffered messages being flushed together.
  * @returns {Promise<void>} Promise that resolves when the batch has been processed.
@@ -62,6 +70,13 @@ export type TransportOptions = {
  * Buffer log messages and flush them to registered async handlers on an interval.
  *
  * Use {@link getTransport} to access the shared singleton that {@link Logger} writes into by default.
+ * `Logger` forwarding can be disabled per logger with `disableTransport` or at
+ * construction time with `FaasLogTransport=false`; Vitest disables forwarding
+ * unless `FaasLogTransport=true`.
+ *
+ * If no handlers are registered when a flush is needed, buffered messages are
+ * discarded and the transport disables itself until a handler is registered or
+ * `config()` re-enables it.
  *
  * @see {@link getTransport}
  * @example
@@ -109,6 +124,8 @@ export class Transport {
 
   /**
    * Create the shared transport and start its flush interval.
+   *
+   * Prefer {@link getTransport} so all loggers share one process-level transport.
    */
   constructor() {
     this.logger = new Logger('LoggerTransport')
@@ -119,7 +136,8 @@ export class Transport {
   /**
    * Register a named flush handler.
    *
-   * Registering the same name again replaces the previous handler.
+   * Registering the same name again replaces the previous handler and re-enables
+   * a transport that had been disabled after the last handler was removed.
    *
    * @param {string} name - Transport handler name.
    * @param {TransportHandler} handler - Async handler invoked for each flushed batch.
@@ -208,6 +226,9 @@ export class Transport {
   /**
    * Stop periodic flushing and drain any buffered messages.
    *
+   * After `stop()`, call `register()` or `config()` before expecting new
+   * inserted messages to be accepted again.
+   *
    * @returns {Promise<void>} Promise that resolves when the transport has fully stopped.
    */
   async stop() {
@@ -226,7 +247,8 @@ export class Transport {
   /**
    * Clear handlers and buffered messages without destroying the singleton instance.
    *
-   * This also clears the interval so tests or setup code can reconfigure the transport from a clean state.
+   * This also clears the interval so tests or setup code can reconfigure the
+   * transport from a clean state.
    */
   reset() {
     this.handlers.clear()
@@ -266,7 +288,8 @@ let current: Transport
 /**
  * Return the singleton transport used by {@link Logger}.
  *
- * The instance is created lazily on first access.
+ * The instance is created lazily on first access and reused for the lifetime of
+ * the current process. Calling `reset()` clears state on that same instance.
  *
  * @returns {Transport} Shared transport instance.
  * @example

@@ -4,18 +4,16 @@
 
 > **InferFaasAction**\<`TApi`\> = `TApi` _extends_ `object` ? `object` : `TApi` _extends_ `object` ? `TDefault` _extends_ `object` ? `object` : `never` : `never`
 
-Infer `{ Params, Data }` from a Func, Func-like object, or a
-module whose default export is a Func.
+Infer `{ Params, Data }` from a FaasJS API object or a module whose default
+export is a FaasJS API object.
 
-Peers into the handler signature of an API definition to extract:
+Peers into the exported handler signature to extract:
 
-- `Params` — resolved from the [event](https://faasjs.com/doc/func)
-  argument of the handler via `event.params`.
+- `Params` — resolved from the handler event's `params` field.
 - `Data` — resolved from the handler's return type.
 
-Supports both direct Func exports and default-export patterns
-(ESM `default` / CJS `module.exports`). Returns `never` when
-inference fails.
+Supports direct API objects and module objects with an ESM `default` export.
+Returns `never` when inference fails.
 
 ## Type Parameters
 
@@ -35,7 +33,7 @@ when inference succeeds, otherwise `never`.
 
 ```ts
 import type { InferFaasAction } from '@faasjs/types'
-import type * as loginApi from './user/login.func'
+import type * as loginApi from './user/login.api'
 
 type LoginAction = InferFaasAction<typeof loginApi>
 // → { Params: { email: string }; Data: { token: string } }

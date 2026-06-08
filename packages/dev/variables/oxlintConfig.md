@@ -12,6 +12,7 @@ plugins with type-aware checking. The most opinionated rule is
 with `argsIgnorePattern: '^_'`, while
 [consistent-type-imports](https://oxc.rs/docs/guide/usage/linter/rules/typescript/consistent-type-imports.html)
 enforces `type`-only imports.
+Generated output under `dist/`, `.faasjs/`, and `node_modules/` is ignored by default.
 
 ## Example
 

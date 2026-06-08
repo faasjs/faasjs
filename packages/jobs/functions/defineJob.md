@@ -31,6 +31,24 @@ typed as `Record<string, never>`.
 
 `Omit`\<[`DefineJobOptions`](../type-aliases/DefineJobOptions.md)\<`TSchema`, `TContext`, `Awaited`\<`ReturnType`\<`THandler`\>\>\>, `"handler"`\> & `object`
 
+Job schema, defaults, cron rules, retry strategy, and handler.
+
 ## Returns
 
 [`Job`](../classes/Job.md)\<`TSchema`, `TContext`, `Awaited`\<`ReturnType`\<`THandler`\>\>\>
+
+A [Job](../classes/Job.md) instance with normalized queue, retry, and cron metadata.
+
+## Example
+
+```ts
+import { defineJob } from '@faasjs/jobs'
+import { z } from '@faasjs/utils'
+
+export default defineJob({
+  schema: z.object({ userId: z.string() }),
+  async handler({ params, job, attempt, logger }) {
+    logger.info('Sync %s from job %s attempt %s', params.userId, job.id, attempt)
+  },
+})
+```

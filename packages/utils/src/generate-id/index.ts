@@ -1,6 +1,9 @@
 /**
  * Generate a random identifier with an optional prefix.
  *
+ * The identifier is built from the current timestamp and `Math.random()`. It is useful for
+ * local correlation IDs and temporary names, not for secrets or security tokens.
+ *
  * @param {string} [prefix] - Prefix prepended to the generated identifier.
  * @param {number} [length] - Length of the generated identifier excluding `prefix`. Must be between `8` and `18`.
  * @returns {string} Generated identifier string.

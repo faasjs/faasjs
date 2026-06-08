@@ -7,7 +7,13 @@
 Resolve the staged `faas.yaml` config for an API file.
 
 This walks from `root` to the API directory, merges every discovered `faas.yaml`,
-applies the `defaults` stage, and annotates plugin entries with their resolved `name`.
+applies the `defaults` stage, annotates plugin entries with their resolved
+`name`, and normalizes relative plugin `type` values from the YAML file that
+declared them. A missing requested stage returns the resolved `defaults`
+config, and an empty YAML file contributes no config.
+
+`loadConfig` only resolves and validates config; use [loadPlugins](loadPlugins.md) when
+you also need plugin instances created or existing plugin instances updated.
 
 ## Parameters
 

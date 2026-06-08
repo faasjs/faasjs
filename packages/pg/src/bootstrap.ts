@@ -7,7 +7,9 @@ import { createClient } from './client'
  *
  * The bootstrap is responsible for initializing and caching the default client.
  * The built-in bootstrap creates that client from `process.env.DATABASE_URL`, while
- * tools such as `@faasjs/pg-dev` can register a lazy async bootstrap for tests.
+ * tools such as `@faasjs/pg-dev` can register a lazy async bootstrap for tests. A
+ * custom bootstrap should call {@link createClient} exactly once for the default
+ * connection path so `getClient()` can resolve a single cached client afterwards.
  */
 export type DatabaseBootstrap = () => void | Promise<void>
 
@@ -27,6 +29,10 @@ let activeDatabaseBootstrap: Promise<void> | undefined
 /**
  * Replaces the async bootstrap used by {@link getClient} for the default client path.
  *
+ * The replacement is process-wide for the current module instance. It is primarily
+ * intended for test harnesses and local tooling that must lazily start a database
+ * before the first default `getClient()` call.
+ *
  * @param {DatabaseBootstrap} bootstrap - Function that initializes the default PostgreSQL client
  * cache when `getClient()` is called without an explicit URL and no client is cached yet.
  */
@@ -39,6 +45,7 @@ export function registerDatabaseBootstrap(bootstrap: DatabaseBootstrap) {
  *
  * Ensures the bootstrap only runs once concurrently — if it is already running
  * the pending promise is returned instead of starting a second invocation.
+ * Failed bootstraps clear the active promise so a later call can retry.
  *
  * @returns A promise that resolves when the bootstrap has completed.
  */

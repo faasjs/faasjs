@@ -4,7 +4,7 @@
 
 > `const` **LevelColor**: `object`
 
-Default ANSI color mapping used by [Logger](../classes/Logger.md) for each log level.
+Default ANSI color mapping used by [Logger](../classes/Logger.md) for each log level when colorized output is enabled.
 
 ## Type Declaration
 

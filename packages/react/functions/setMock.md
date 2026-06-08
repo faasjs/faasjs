@@ -7,8 +7,9 @@
 Set the global mock handler used by all [FaasBrowserClient](../classes/FaasBrowserClient.md) instances.
 
 When a mock handler is set, every [FaasBrowserClient.action](../classes/FaasBrowserClient.md#action) call will
-route through the mock instead of making a real network request, which is
-useful for testing and local development.
+route through the mock after `beforeRequest` runs and before any native
+`fetch` or custom `request` implementation is called. The mock is process
+global, so it affects every registered React/browser client until cleared.
 
 ## Parameters
 
@@ -17,8 +18,9 @@ useful for testing and local development.
 [`Response`](../classes/Response.md)\<`any`\> \| [`MockHandler`](../type-aliases/MockHandler.md) \| [`ResponseProps`](../type-aliases/ResponseProps.md) \| `null` \| `undefined`
 
 A mock function that receives `(action, params, options)` and returns a
-response shape, or a static response/value, or `null`/`undefined` to
-disable mocking.
+response shape, a [Response](../classes/Response.md), an `Error`, or nothing. Static
+response shapes and `Response` instances are also accepted. Pass `null` or
+`undefined` to disable mocking.
 
 ## Returns
 

@@ -4,7 +4,9 @@
 
 > `const` **Color**: `object`
 
-ANSI color codes used by the built-in logger formatter.
+ANSI foreground color codes used by [colorize](../functions/colorize.md) and the built-in logger output.
+
+`Color.DEFAULT` resets the foreground color back to the terminal default.
 
 ## Type Declaration
 

@@ -12,7 +12,7 @@ Request state injected by [useFaas](../functions/useFaas.md), [FaasDataWrapper](
 
 `Path` _extends_ `FaasActionPaths`
 
-Action path or response data type used for inference.
+Registered action path used to infer params and response data.
 
 ## Methods
 

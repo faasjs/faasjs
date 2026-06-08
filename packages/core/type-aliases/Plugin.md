@@ -16,7 +16,7 @@ Lifecycle plugin attached to a [Func](../classes/Func.md).
 
 > `optional` **applyConfig?**: (`config`) => `void` \| `Promise`\<`void`\>
 
-Optional hook that receives the resolved config for an already-registered plugin instance.
+Optional hook that receives resolved config for an already-registered plugin instance before mount.
 
 #### Parameters
 

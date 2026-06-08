@@ -4,4 +4,4 @@
 
 > **Operators** = readonly \[`"="`, `"!="`, `"<"`, `"<="`, `">"`, `">="`, `"IN"`, `"NOT IN"`, `"IS NULL"`, `"IS NOT NULL"`, `"LIKE"`, `"ILIKE"`, `"NOT LIKE"`, `"NOT ILIKE"`, `"@>"`\]
 
-Union of all supported query operators.
+Readonly list of all supported query operators.

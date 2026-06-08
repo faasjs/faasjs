@@ -31,12 +31,24 @@ Wrapper props controlling the request and rendered fallback.
 
 ```tsx
 import { FaasDataWrapper } from '@faasjs/react'
+import type { FaasDataInjection } from '@faasjs/react'
 
-type User = {
-  name: string
+declare module '@faasjs/types' {
+  interface FaasActions {
+    'features/users/api/get': {
+      Params: { id: number }
+      Data: { name: string }
+    }
+  }
 }
 
-function UserView(props: { data?: User; error?: Error; reload?: () => void }) {
+type GetUserAction = 'features/users/api/get'
+
+function UserView(props: {
+  data?: FaasDataInjection<GetUserAction>['data']
+  error?: Error
+  reload?: () => void
+}) {
   if (props.error) {
     return (
       <div>
@@ -54,7 +66,7 @@ function UserView(props: { data?: User; error?: Error; reload?: () => void }) {
 // Render-prop mode
 export function UserProfile(props: { id: number }) {
   return (
-    <FaasDataWrapper<User>
+    <FaasDataWrapper<GetUserAction>
       action="features/users/api/get"
       params={{ id: props.id }}
       fallback={<div>Loading user...</div>}
@@ -79,7 +91,7 @@ export function UserProfile(props: { id: number }) {
 // Children injection mode
 export function UserProfileWithChildren(props: { id: number }) {
   return (
-    <FaasDataWrapper<User>
+    <FaasDataWrapper<GetUserAction>
       action="features/users/api/get"
       params={{ id: props.id }}
       fallback={<div>Loading user...</div>}

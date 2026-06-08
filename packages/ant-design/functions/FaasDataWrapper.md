@@ -15,7 +15,7 @@ the wrapped FaasJS request is pending.
 
 `T` _extends_ `FaasActionPaths` = `any`
 
-Action path or response data type used for inference.
+Registered action path used to infer params and response data.
 
 ## Parameters
 
@@ -34,12 +34,24 @@ Wrapper props including loading fallbacks and request configuration.
 ```tsx
 import { Alert, Button } from 'antd'
 import { FaasDataWrapper } from '@faasjs/ant-design'
+import type { FaasDataInjection } from '@faasjs/ant-design'
 
-type User = {
-  name: string
+declare module '@faasjs/types' {
+  interface FaasActions {
+    'user/get': {
+      Params: { id: number }
+      Data: { name: string }
+    }
+  }
 }
 
-function UserView(props: { data?: User; error?: Error; reload?: () => void }) {
+type GetUserAction = 'user/get'
+
+function UserView(props: {
+  data?: FaasDataInjection<GetUserAction>['data']
+  error?: Error
+  reload?: () => void
+}) {
   if (props.error) {
     return (
       <Alert
@@ -60,7 +72,7 @@ function UserView(props: { data?: User; error?: Error; reload?: () => void }) {
 // Render-prop mode
 export function UserProfile(props: { id: number }) {
   return (
-    <FaasDataWrapper<User>
+    <FaasDataWrapper<GetUserAction>
       action="user/get"
       params={{ id: props.id }}
       loading={<div>Loading user...</div>}
@@ -88,7 +100,7 @@ export function UserProfile(props: { id: number }) {
 // Children injection mode
 export function UserProfileWithChildren(props: { id: number }) {
   return (
-    <FaasDataWrapper<User>
+    <FaasDataWrapper<GetUserAction>
       action="user/get"
       params={{ id: props.id }}
       loading={<div>Loading user...</div>}

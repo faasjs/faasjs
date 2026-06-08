@@ -6,8 +6,10 @@
 
 Format logger arguments into a printable string.
 
-Values marked with `__hidden__: true` are skipped so callers can attach transport-only metadata.
-When formatting fails, the formatter returns a fallback error message instead of throwing.
+Values marked with `__hidden__: true` are skipped so callers can attach
+transport-only metadata. `Error` objects include their message and stack.
+When formatting fails, the formatter returns a fallback error message instead
+of throwing.
 
 ## Parameters
 

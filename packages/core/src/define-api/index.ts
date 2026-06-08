@@ -9,7 +9,9 @@ import { HttpError, type Cookie, type Session } from '../plugins/http'
  * Handler data passed to {@link defineApi}.
  *
  * Extends the normal invoke data with validated `params`, `cookie`, `session`,
- * and any plugin-provided fields declared through `DefineApiInject`.
+ * and any plugin-provided fields declared through `DefineApiInject`. The built-in
+ * HTTP plugin augments this type with `headers`, `body`, `setHeader`,
+ * `setContentType`, `setStatusCode`, and `setBody`.
  *
  * @template TSchema - Zod schema used to validate `event.params`.
  */
@@ -43,14 +45,16 @@ export interface DefineApiInject extends Record<never, never> {}
 /**
  * Create an HTTP API function with optional Zod validation.
  *
- * The `http` plugin must come from `faas.yaml` or explicit code injection.
+ * The `http` plugin must be loaded before invocation. Server and loader entrypoints
+ * resolve configured plugins from `faas.yaml`; direct `defineApi().export().handler()`
+ * tests must inject `new Http()` in code.
  *
  * @template TSchema - Zod schema used to validate `event.params`.
  * @template THandler - Handler signature used to infer the response type.
  * @param options - Schema and handler used to build the API function.
  * @param {TSchema} [options.schema] - Optional Zod schema used to validate `event.params`.
  * @param {THandler} options.handler - Async business handler executed after plugins and validation are ready.
- * @throws {Error} When the required `http` plugin is missing from `faas.yaml` and no plugin was injected in code.
+ * @throws {Error} When the required `http` plugin is missing.
  * @throws {HttpError} When `event.params` fails schema validation.
  *
  * @example

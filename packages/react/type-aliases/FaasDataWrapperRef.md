@@ -12,4 +12,4 @@ Imperative ref shape exposed by [FaasDataWrapper](../variables/FaasDataWrapper.m
 
 `Path` _extends_ `FaasActionPaths`
 
-Action path or response data type used for inference.
+Registered action path used to infer params and response data.

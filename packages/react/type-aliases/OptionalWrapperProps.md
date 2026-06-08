@@ -26,16 +26,16 @@ Content rendered directly or inside the wrapper.
 
 > **condition**: `boolean`
 
-When `true`, render `children` inside `Wrapper`.
+When `true`, render `children` inside `Wrapper`; otherwise return `children` unchanged.
 
 ### Wrapper
 
 > **Wrapper**: `TWrapper`
 
-Wrapper component used when `condition` passes.
+Wrapper component used only when `condition` passes.
 
 ### wrapperProps?
 
 > `optional` **wrapperProps?**: `ComponentProps`\<`TWrapper`\>
 
-Props forwarded to `Wrapper` together with `children`.
+Props forwarded to `Wrapper` together with `children` when `condition` is `true`.

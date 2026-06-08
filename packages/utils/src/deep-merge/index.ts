@@ -9,9 +9,10 @@ const shouldMerge = (item: any) => {
  *
  * Later sources override earlier object properties, and nested objects are merged recursively.
  * Array values are deduplicated with `Set`, with items from newer sources appearing first.
- * Non-object and non-array inputs are ignored.
+ * Non-object and non-array inputs are ignored. Non-plain object instances such as `Date`
+ * are treated as replacement values instead of recursively merged.
  *
- * @param sources - Objects or arrays to merge from left to right.
+ * @param a - First object or array to clone into the merged result. Later overload arguments are merged from left to right.
  * @returns A cloned merged value built from the provided sources.
  *
  * @example

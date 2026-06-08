@@ -2,37 +2,6 @@
 
 # Function: deepMerge()
 
-# @faasjs/utils
-
-FaasJS cross-runtime utility helpers.
-
-The package bundles pure utilities that work across Node.js, browsers, and edge runtimes,
-including deep merge helpers, random identifier helpers, and stream conversion helpers.
-
-## Install
-
-```sh
-npm install @faasjs/utils
-```
-
-## Usage
-
-```ts
-import { deepMerge, streamToString } from '@faasjs/utils'
-
-const merged = deepMerge({ a: 1 }, { b: 2 })
-const text = await streamToString(
-  new ReadableStream<Uint8Array>({
-    start(controller) {
-      controller.enqueue(new TextEncoder().encode('hello'))
-      controller.close()
-    },
-  }),
-)
-
-console.log(merged, text)
-```
-
 ## Call Signature
 
 > **deepMerge**\<`A`\>(`a`): `A`
@@ -41,7 +10,8 @@ Deeply clone and merge plain objects or arrays.
 
 Later sources override earlier object properties, and nested objects are merged recursively.
 Array values are deduplicated with `Set`, with items from newer sources appearing first.
-Non-object and non-array inputs are ignored.
+Non-object and non-array inputs are ignored. Non-plain object instances such as `Date`
+are treated as replacement values instead of recursively merged.
 
 ### Type Parameters
 
@@ -54,6 +24,8 @@ Non-object and non-array inputs are ignored.
 #### a
 
 `A`
+
+First object or array to clone into the merged result. Later overload arguments are merged from left to right.
 
 ### Returns
 
@@ -78,7 +50,8 @@ Deeply clone and merge plain objects or arrays.
 
 Later sources override earlier object properties, and nested objects are merged recursively.
 Array values are deduplicated with `Set`, with items from newer sources appearing first.
-Non-object and non-array inputs are ignored.
+Non-object and non-array inputs are ignored. Non-plain object instances such as `Date`
+are treated as replacement values instead of recursively merged.
 
 ### Type Parameters
 
@@ -95,6 +68,8 @@ Non-object and non-array inputs are ignored.
 #### a
 
 `A`
+
+First object or array to clone into the merged result. Later overload arguments are merged from left to right.
 
 #### b
 
@@ -123,7 +98,8 @@ Deeply clone and merge plain objects or arrays.
 
 Later sources override earlier object properties, and nested objects are merged recursively.
 Array values are deduplicated with `Set`, with items from newer sources appearing first.
-Non-object and non-array inputs are ignored.
+Non-object and non-array inputs are ignored. Non-plain object instances such as `Date`
+are treated as replacement values instead of recursively merged.
 
 ### Type Parameters
 
@@ -144,6 +120,8 @@ Non-object and non-array inputs are ignored.
 #### a
 
 `A`
+
+First object or array to clone into the merged result. Later overload arguments are merged from left to right.
 
 #### b
 
@@ -176,7 +154,8 @@ Deeply clone and merge plain objects or arrays.
 
 Later sources override earlier object properties, and nested objects are merged recursively.
 Array values are deduplicated with `Set`, with items from newer sources appearing first.
-Non-object and non-array inputs are ignored.
+Non-object and non-array inputs are ignored. Non-plain object instances such as `Date`
+are treated as replacement values instead of recursively merged.
 
 ### Type Parameters
 
@@ -201,6 +180,8 @@ Non-object and non-array inputs are ignored.
 #### a
 
 `A`
+
+First object or array to clone into the merged result. Later overload arguments are merged from left to right.
 
 #### b
 

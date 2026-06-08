@@ -8,8 +8,9 @@ Infer the params type for a given action path.
 
 When `T` matches a declared [action path](FaasActionPaths.md),
 resolves to `FaasActions[T]['Params']`. Falls back to
-`Record<string, unknown>` for unrecognized string paths.
-Returns `never` when `T` is not a string.
+`Record<string, unknown>` for explicit unrecognized string paths.
+Returns `never` when `T` is not a string; the bare `FaasParams` default uses
+`unknown`, so it also resolves to `never`.
 
 ## Type Parameters
 
@@ -43,6 +44,5 @@ type Invalid = FaasParams<42>
 
 ## See
 
-- FaasActions
 - [FaasActionPaths](FaasActionPaths.md)
 - [FaasData](FaasData.md)

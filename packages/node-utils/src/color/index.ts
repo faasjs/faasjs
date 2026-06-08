@@ -7,7 +7,9 @@ type ColorizeStream = {
 }
 
 /**
- * ANSI color codes used by the built-in logger formatter.
+ * ANSI foreground color codes used by {@link colorize} and the built-in logger output.
+ *
+ * `Color.DEFAULT` resets the foreground color back to the terminal default.
  *
  * @example
  * ```ts
@@ -27,7 +29,7 @@ export const Color = {
 }
 
 /**
- * Default ANSI color mapping used by {@link Logger} for each log level.
+ * Default ANSI color mapping used by {@link Logger} for each log level when colorized output is enabled.
  *
  * @example
  * ```ts
@@ -44,8 +46,9 @@ export const LevelColor = {
 /**
  * Detect whether the current output target should receive ANSI colors.
  *
- * `FORCE_COLOR` forces colors on or off, `NO_COLOR` disables them, and regular
- * local output only enables colors when the target is a TTY.
+ * `FORCE_COLOR` forces colors on or off, `NO_COLOR` disables colors, `TERM=dumb`
+ * disables colors, and regular local output only enables colors when the target
+ * is a TTY. When `env` is omitted, colorized output is disabled.
  *
  * @param {ColorizeStream} [stream] - Output target used by the logger.
  * @param {ColorizeEnv} [env] - Environment variables used to override detection.
@@ -72,6 +75,9 @@ export function supportsColorizeOutput(stream?: ColorizeStream, env?: ColorizeEn
 
 /**
  * Wrap a log message with the ANSI foreground color for a log level.
+ *
+ * This low-level helper always emits ANSI escape sequences; use {@link Logger}
+ * when you want environment-aware color decisions.
  *
  * @param {Level} level - Log level used to select the foreground color.
  * @param {string} message - Plain text message to colorize.

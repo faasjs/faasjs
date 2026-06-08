@@ -4,4 +4,4 @@
 
 > **ArrayOperators** = readonly \[`"IN"`, `"NOT IN"`\]
 
-Array membership operators.
+Readonly list of array membership operators.

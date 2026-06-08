@@ -5,7 +5,8 @@
 Builder for table schema definitions, supporting both CREATE and ALTER TABLE modes.
 
 Column definitions and alterations are accumulated and then serialized to SQL
-via [toSQL](#tosql).
+via [toSQL](#tosql). Generated identifiers are escaped; raw SQL added with [raw](#raw)
+is emitted unchanged and should only contain trusted schema text.
 
 ## Constructors
 
@@ -139,6 +140,8 @@ The same column(s) originally passed to [index](#index).
 Creates an index on one or more columns. The index name is auto-generated as
 `idx_{tableName}_{columns}`.
 
+Reusing the same generated name replaces the pending in-memory index definition.
+
 #### Parameters
 
 ##### columns
@@ -199,6 +202,8 @@ The column name.
 
 Defines an `integer` column, or `decimal(precision, scale)` if precision is provided.
 
+When `precision` is provided and `scale` is omitted, the scale defaults to `0`.
+
 #### Parameters
 
 ##### name
@@ -228,6 +233,9 @@ Optional decimal scale.
 > **raw**(`sql`): `TableBuilder`
 
 Appends a raw SQL fragment to the generated output.
+
+The fragment is emitted unchanged after generated table and index SQL. Only pass
+static, trusted schema SQL.
 
 #### Parameters
 
@@ -271,6 +279,9 @@ The new column name.
 > **specificType**(`name`, `type`): `ColumnBuilder`
 
 Defines a column with an explicit PostgreSQL type.
+
+Use this for types not covered by the convenience helpers, such as arrays or
+extension-provided types.
 
 #### Parameters
 

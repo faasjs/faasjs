@@ -3,7 +3,7 @@ import { format } from '../format'
 import { getTransport } from '../transport'
 
 /**
- * Supported log levels used by {@link Logger} and {@link Transport}.
+ * Supported log levels used by {@link Logger} and {@link Transport}, ordered from lowest to highest severity.
  */
 export type Level = 'debug' | 'info' | 'warn' | 'error'
 
@@ -22,8 +22,10 @@ const LevelPriority = {
 /**
  * Format logger arguments into a printable string.
  *
- * Values marked with `__hidden__: true` are skipped so callers can attach transport-only metadata.
- * When formatting fails, the formatter returns a fallback error message instead of throwing.
+ * Values marked with `__hidden__: true` are skipped so callers can attach
+ * transport-only metadata. `Error` objects include their message and stack.
+ * When formatting fails, the formatter returns a fallback error message instead
+ * of throwing.
  *
  * @param {any} fmt - Format string or first value to log.
  * @param {any[]} args - Additional values passed to the formatter.
@@ -53,6 +55,10 @@ export function formatLogger(fmt: any, ...args: any[]): string {
  * When `process` is available, the constructor reads `FaasLog`, `FaasLogMode`, `FaasLogSize`,
  * and `FaasLogTransport` to derive the initial logger behavior.
  *
+ * Defaults are `level = 'info'`, `size = 1000`, shared transport forwarding enabled outside Vitest,
+ * and colorized output auto-detected from `FORCE_COLOR`, `NO_COLOR`, `TERM`, and `process.stdout.isTTY`.
+ * Use `FaasLogMode=plain` to force plain output and `FaasLogMode=pretty` to force ANSI colors.
+ *
  * @see {@link getTransport}
  * @example
  * ```ts
@@ -79,13 +85,18 @@ export class Logger {
   /**
    * Minimum level that will be emitted.
    *
-   * @default 'debug'
+   * The constructor overrides this from `FaasLog` when present.
+   *
+   * @default 'info'
    */
   public level: Level = 'info'
   /**
    * Whether terminal output should use ANSI colors.
    *
-   * Auto-detected from the current environment and can be overridden with `FaasLogMode`.
+   * The constructor auto-detects this from the current environment and can be
+   * overridden with `FaasLogMode`.
+   *
+   * @default false
    */
   public colorizeOutput = false
   /**
@@ -93,13 +104,16 @@ export class Logger {
    */
   public label?: string
   /**
-   * Maximum plain-text payload length before non-error logs are truncated.
+   * Maximum plain-text payload length before debug and info logs are truncated.
    *
    * @default 1000
    */
   public size = 1000
   /**
    * Disable forwarding log messages to the shared transport.
+   *
+   * The constructor sets this to `true` in Vitest unless `FaasLogTransport=true`,
+   * and also when `FaasLogTransport=false`.
    *
    * @default false
    */
@@ -120,6 +134,10 @@ export class Logger {
 
   /**
    * Create a logger with an optional label prefix.
+   *
+   * Environment variables are read only during construction:
+   * `FaasLog=debug|info|warn|error`, `FaasLogMode=plain|pretty`,
+   * `FaasLogSize=<number>`, and `FaasLogTransport=true|false`.
    *
    * @param {string} [label] - Prefix label shown in log output.
    */
@@ -219,7 +237,8 @@ export class Logger {
   /**
    * Stop a named timer and log the elapsed duration.
    *
-   * If the timer key does not exist, the logger emits a warning and then writes the provided message at debug level.
+   * If the timer key does not exist, the logger emits a warning and then writes
+   * the provided message at debug level.
    *
    * @param {string} key - Unique identifier for the timer.
    * @param {string} message - Message to log alongside the elapsed time.
@@ -254,6 +273,9 @@ export class Logger {
 
   /**
    * Write raw output without adding log level prefixes.
+   *
+   * Raw output still respects {@link Logger.silent}, but it does not apply level
+   * filtering, colorization, truncation, labels, or transport forwarding.
    *
    * @param {string} message - Log message or format string.
    * @param {any[]} args - Additional values forwarded to the formatter.

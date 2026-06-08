@@ -4,4 +4,4 @@
 
 > **PatternOperators** = readonly \[`"LIKE"`, `"ILIKE"`, `"NOT LIKE"`, `"NOT ILIKE"`\]
 
-Pattern-matching operators.
+Readonly list of pattern-matching operators.

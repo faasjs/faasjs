@@ -19,7 +19,7 @@ export { FaasReactClient, type FaasReactClientOptions, faas, useFaas }
 /**
  * Ant Design wrapper props for the underlying `@faasjs/react` data wrapper.
  *
- * @template T - Action path or response data type used for inference.
+ * @template T - Registered action path used to infer params and response data.
  */
 export interface FaasDataWrapperProps<T extends FaasActionPaths = any> extends OriginProps<T> {
   /** Props forwarded to the built-in {@link Loading} fallback. */
@@ -36,20 +36,28 @@ export type { FaasDataInjection, FaasDataWrapperRef } from '@faasjs/react'
  * When `loading` is not provided, the component renders {@link Loading} with `loadingProps` while
  * the wrapped FaasJS request is pending.
  *
- * @template T - Action path or response data type used for inference.
+ * @template T - Registered action path used to infer params and response data.
  * @param {FaasDataWrapperProps<T>} props - Wrapper props including loading fallbacks and request configuration.
  *
  * @example
  * ```tsx
  * import { Alert, Button } from 'antd'
  * import { FaasDataWrapper } from '@faasjs/ant-design'
+ * import type { FaasDataInjection } from '@faasjs/ant-design'
  *
- * type User = {
- *   name: string
+ * declare module '@faasjs/types' {
+ *   interface FaasActions {
+ *     'user/get': {
+ *       Params: { id: number }
+ *       Data: { name: string }
+ *     }
+ *   }
  * }
  *
+ * type GetUserAction = 'user/get'
+ *
  * function UserView(props: {
- *   data?: User
+ *   data?: FaasDataInjection<GetUserAction>['data']
  *   error?: Error
  *   reload?: () => void
  * }) {
@@ -73,7 +81,7 @@ export type { FaasDataInjection, FaasDataWrapperRef } from '@faasjs/react'
  * // Render-prop mode
  * export function UserProfile(props: { id: number }) {
  *   return (
- *     <FaasDataWrapper<User>
+ *     <FaasDataWrapper<GetUserAction>
  *       action="user/get"
  *       params={{ id: props.id }}
  *       loading={<div>Loading user...</div>}
@@ -101,7 +109,7 @@ export type { FaasDataInjection, FaasDataWrapperRef } from '@faasjs/react'
  * // Children injection mode
  * export function UserProfileWithChildren(props: { id: number }) {
  *   return (
- *     <FaasDataWrapper<User>
+ *     <FaasDataWrapper<GetUserAction>
  *       action="user/get"
  *       params={{ id: props.id }}
  *       loading={<div>Loading user...</div>}
@@ -121,23 +129,39 @@ export function FaasDataWrapper<T extends FaasActionPaths = any>(
 /**
  * Wrap a component with {@link FaasDataWrapper} and its Ant Design loading fallback.
  *
- * @template Path - Action path or response data type used for inference.
- * @template TComponentProps - Component props including injected Faas data fields.
+ * @template Path - Registered action path used to infer params and response data.
+ * @template TComponentProps - Component props including every field from {@link FaasDataInjection}.
  * @param {React.FC<TComponentProps & Record<string, any>>} Component - Component that consumes injected Faas data props.
- * @param {FaasDataWrapperProps<Path>} faasProps - Request configuration forwarded to {@link FaasDataWrapper}.
- * @returns Higher-order component that injects Faas data props.
+ * @param {FaasDataWrapperProps<Path>} faasProps - Request configuration forwarded to {@link FaasDataWrapper}; this is the second argument.
+ * @returns Higher-order component that accepts caller-owned props while `withFaasData` supplies the Faas data props.
  *
  * @example
  * ```tsx
- * import { withFaasData } from '@faasjs/ant-design'
+ * import { type FaasDataInjection, withFaasData } from '@faasjs/ant-design'
  *
- * const UserCard = withFaasData(
- *   ({ data, error, reload }) =>
- *     error ? (
- *       <a onClick={() => reload()}>Retry</a>
- *     ) : (
- *       <div>{data.name}</div>
- *     ),
+ * declare module '@faasjs/types' {
+ *   interface FaasActions {
+ *     'user/get': {
+ *       Params: { id: number }
+ *       Data: { name: string }
+ *     }
+ *   }
+ * }
+ *
+ * type GetUserAction = 'user/get'
+ * type UserCardProps = FaasDataInjection<GetUserAction> & {
+ *   compact?: boolean
+ * }
+ *
+ * const UserCard = ({ data, error, reload, compact }: UserCardProps) =>
+ *   error ? (
+ *     <a onClick={() => reload()}>Retry</a>
+ *   ) : (
+ *     <div>{compact ? data.name : `User: ${data.name}`}</div>
+ *   )
+ *
+ * const UserCardWithData = withFaasData<GetUserAction, UserCardProps>(
+ *   UserCard,
  *   { action: 'user/get', params: { id: 1 } },
  * )
  * ```

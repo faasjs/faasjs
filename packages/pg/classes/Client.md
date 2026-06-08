@@ -4,8 +4,10 @@
 
 PostgreSQL client wrapping `postgres.js` with a fluent query builder API.
 
-Clients created with the same connection URL are automatically cached and
-reused via [getClient](../functions/getClient.md).
+Constructing a client creates a `postgres.js` connection pool and caches the instance
+by connection URL. A later client created for the same URL replaces the cached
+default for that URL; [quit](#quit) only removes the cache entry when it still points
+at the same instance.
 
 ## Example
 
@@ -33,7 +35,7 @@ PostgreSQL connection string.
 
 `AnyClientOptions`
 
-Optional `postgres.js` options.
+Optional `postgres.js` options. `options.max` overrides `PG_POOL_MAX`.
 
 #### Returns
 
@@ -43,6 +45,10 @@ Optional `postgres.js` options.
 
 When `url` is not a string.
 
+#### Throws
+
+When `PG_POOL_MAX` is set and is not a positive safe integer.
+
 ## Methods
 
 ### query()
@@ -50,6 +56,10 @@ When `url` is not a string.
 > **query**\<`T`\>(`table`): [`QueryBuilder`](QueryBuilder.md)\<`T`\>
 
 Initiates a query builder for the specified table.
+
+Table and column names are escaped as identifiers by the query builder. Add entries
+to the exported `Tables` interface through declaration merging to get typed
+table names, columns, values, and selected result rows.
 
 #### Type Parameters
 
@@ -94,6 +104,14 @@ Closes the underlying connection pool and removes this client from the cache.
 > **raw**\<`T`\>(`query`, ...`params`): `Promise`\<`T`[]\>
 
 Executes a raw SQL query and returns the result as an array of objects.
+
+Template-literal usage delegates placeholders to `postgres.js` with `${value}`.
+String usage treats every `?` as a parameter placeholder and converts the string
+into a `TemplateStringsArray` before execution. Use placeholders for values; do
+not concatenate user input into the SQL string.
+
+In debug logging mode the SQL template and parameters are timed and query errors
+are logged before being rethrown.
 
 #### Type Parameters
 
@@ -141,6 +159,9 @@ const users = await client.raw<User>('SELECT * FROM users WHERE id = ?', userId)
 > **transaction**\<`T`\>(`fn`): `Promise`\<`UnwrapPromiseArray`\<`T`\>\>
 
 Executes a function within a database transaction.
+
+The callback receives a lightweight `Client` facade backed by the transactional
+`postgres.js` connection. Do not keep that facade after the callback resolves.
 
 #### Type Parameters
 

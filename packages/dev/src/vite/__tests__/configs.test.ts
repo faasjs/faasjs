@@ -51,6 +51,7 @@ describe('configs exports', () => {
           },
         ],
         'react-hooks/exhaustive-deps': ['warn'],
+        'jsdoc/check-tag-names': ['off'],
         'jsdoc/no-defaults': ['off'],
       },
     })

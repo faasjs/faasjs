@@ -1,5 +1,8 @@
 /**
  * Options for preloading Node module hooks that resolve tsconfig paths and local TypeScript files.
+ *
+ * These options are used by {@link registerNodeModuleHooks}. `loadPackage()` can
+ * infer equivalent state for local files before it imports them.
  */
 export type RegisterNodeModuleHooksOptions = {
   /**
@@ -10,6 +13,9 @@ export type RegisterNodeModuleHooksOptions = {
   entry?: string
   /**
    * Project root used to scope tsconfig path alias resolution.
+   *
+   * When omitted, the root is inferred from `entry`, `tsconfigPath`, or the
+   * nearest project marker around a loaded local file.
    */
   root?: string
   /**
@@ -20,6 +26,8 @@ export type RegisterNodeModuleHooksOptions = {
   tsconfigPath?: string
   /**
    * Version token appended to ESM file URLs to bypass Node's module cache.
+   *
+   * When omitted, `FAASJS_MODULE_VERSION` is used if present.
    */
   version?: string
 }

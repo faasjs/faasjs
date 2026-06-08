@@ -13,6 +13,11 @@ const Name = 'http'
 /**
  * HTTP lifecycle plugin that enriches invoke data with cookies, sessions, and response helpers.
  *
+ * The plugin skips non-`api` runtimes, parses JSON request bodies into params,
+ * removes the `_` query param, turns invalid JSON into `400`, persists session
+ * changes automatically, and wraps handler results in the FaasJS JSON response
+ * envelope. Session use requires `cookie.session.secret` in config or environment.
+ *
  * @template TParams - Parsed HTTP params type injected into invoke data.
  * @template TCookie - Cookie map exposed by the cookie helper.
  * @template TSession - Session map exposed by the session helper.
@@ -186,7 +191,9 @@ export class Http<
    * Attach HTTP helpers, cookies, sessions, and response handling to invoke data.
    *
    * The HTTP plugin also injects runtime helpers such as `headers`, `body`, `params`, `cookie`,
-   * and `session` before invoking the next handler in the chain.
+   * and `session` before invoking the next handler in the chain. Successful values default
+   * to status `200`, missing bodies default to `204`, and response headers include
+   * JSON content type, no-cache, request id, and queued cookies.
    *
    * @param {InvokeData} data - Invocation data for the current request.
    * @param {any} data.event - Raw request event payload before HTTP params are normalized.

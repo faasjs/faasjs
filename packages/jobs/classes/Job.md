@@ -54,6 +54,9 @@ Executable job definition returned by [defineJob](../functions/defineJob.md).
 
 Build the exported handler wrapper for the function.
 
+The wrapper initializes request id/runtime context fields, invokes mount hooks on
+first use, and throws any `Error` object stored in `data.response`.
+
 #### Returns
 
 `object`
@@ -144,6 +147,10 @@ Promise that resolves after mount hooks complete.
 
 > `readonly` **\_\_faasjsJob**: `true` = `true`
 
+**`Internal`**
+
+Marker used by the job loader to recognize job definitions.
+
 ### config
 
 > **config**: `Config`
@@ -157,6 +164,8 @@ Mutable runtime configuration used by the function.
 ### cron
 
 > `readonly` **cron**: [`JobCron`](../type-aliases/JobCron.md)\<`SchemaOutput`\<`TSchema`, `Record`\<`string`, `never`\>\>\>[]
+
+Cron rules used by [JobScheduler](JobScheduler.md) to enqueue scheduled jobs.
 
 ### filename?
 
@@ -182,6 +191,8 @@ Final business handler invoked after plugins finish.
 
 > `readonly` **maxAttempts**: `number`
 
+Normalized maximum attempts before a job is marked failed.
+
 ### mounted
 
 > **mounted**: `boolean` = `false`
@@ -206,9 +217,13 @@ Ordered plugin instances attached to this function.
 
 > `readonly` **queue**: `string`
 
+Normalized queue name used by default enqueues and workers.
+
 ### retry
 
 > `readonly` **retry**: [`JobRetry`](../type-aliases/JobRetry.md) \| `undefined`
+
+Retry strategy used after failed attempts.
 
 ### runtime
 
@@ -224,3 +239,5 @@ provide one.
 ### schema
 
 > `readonly` **schema**: `TSchema` \| `undefined`
+
+Zod schema used to validate job params before the handler runs.

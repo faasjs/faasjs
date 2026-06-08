@@ -7,7 +7,10 @@
 Create and register a FaasReactClient instance.
 
 The returned client is stored by `baseUrl` and becomes the default client
-used by helpers such as [faas](faas.md) and [useFaas](useFaas.md).
+used by helpers such as [faas](faas.md) and [useFaas](useFaas.md). The instance-bound
+`faas` and `useFaas` helpers inject this `baseUrl` when request options do
+not provide one; the instance-bound `FaasDataWrapper` is always bound to this
+`baseUrl`.
 
 ## Parameters
 
@@ -28,6 +31,17 @@ Registered FaasReactClient instance.
 ```ts
 import { FaasReactClient, ResponseError } from '@faasjs/react'
 
+declare module '@faasjs/types' {
+  interface FaasActions {
+    'features/users/api/get': {
+      Params: { id: number }
+      Data: { name: string }
+    }
+  }
+}
+
+type GetUserAction = 'features/users/api/get'
+
 const client = FaasReactClient({
   baseUrl: 'http://localhost:8080/api/',
   onError: (action, params) => async (res) => {
@@ -39,4 +53,6 @@ const client = FaasReactClient({
     }
   },
 })
+
+const response = await client.faas<GetUserAction>('features/users/api/get', { id: 1 })
 ```

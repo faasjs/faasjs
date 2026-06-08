@@ -2,13 +2,14 @@
 
 # Function: testApi()
 
-> **testApi**\<`TApi`\>(`api`): `TestApiHandler`\<`TApi`\>
+> **testApi**\<`TApi`\>(`api`): [`TestApiHandler`](../type-aliases/TestApiHandler.md)\<`TApi`\>
 
 Create a callable JSON test handler around a FaasJS API.
 
 The returned function forwards to [ApiTester.JSONhandler](../classes/ApiTester.md#jsonhandler) so it keeps
 the same `(body, options?)` calling style while still exposing bound tester
-methods for advanced cases.
+methods for advanced cases. Detached `handler`, `JSONhandler`, and `mount`
+references remain bound to the underlying tester instance.
 
 ## Type Parameters
 
@@ -28,7 +29,7 @@ API instance to wrap.
 
 ## Returns
 
-`TestApiHandler`\<`TApi`\>
+[`TestApiHandler`](../type-aliases/TestApiHandler.md)\<`TApi`\>
 
 Callable JSON test helper with bound tester methods attached.
 
@@ -40,7 +41,7 @@ Callable JSON test helper with bound tester methods attached.
 
 ```ts
 import { testApi } from '@faasjs/dev'
-import api from './hello.api.ts'
+import api from './hello.api'
 
 const handler = testApi(api)
 const response = await handler({ name: 'FaasJS' }, { session: { userId: '1' } })

@@ -2,7 +2,7 @@
 
 # Interface: DescriptionItemContentProps\<T\>
 
-Props passed to the DescriptionItemContent internal renderer.
+Props passed to the internal description item renderer.
 
 ## Type Parameters
 

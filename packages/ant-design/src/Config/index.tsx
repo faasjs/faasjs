@@ -44,19 +44,38 @@ export type ResolvedTheme = {
   }
 }
 
-type ConfigContextValue = {
+/**
+ * Value exposed by {@link ConfigContext}.
+ */
+export type ConfigContextValue = {
+  /** Fully resolved FaasJS Ant Design theme. */
   theme: ResolvedTheme
 }
 
 /**
  * Props for the `@faasjs/ant-design` {@link ConfigProvider}.
+ *
+ * This provider owns FaasJS Ant Design component copy, small component defaults,
+ * and optional FaasJS client initialization. It does not configure Ant Design's
+ * token/theme provider; use the `configProviderProps` prop on `App` or Ant
+ * Design's `ConfigProvider` for that boundary.
  */
 export interface ConfigProviderProps {
-  /** Optional FaasJS client options used to initialize {@link FaasReactClient}. */
+  /**
+   * Optional FaasJS client options used to initialize {@link FaasReactClient}.
+   *
+   * Use this for request `baseUrl`, default browser-client options, and the
+   * shared `onError` hook consumed by `faas` and `useFaas`.
+   */
   faasClientOptions?: FaasReactClientOptions
   /** Descendant components that consume the resolved config context. */
   children: React.ReactNode
-  /** Theme overrides merged with the built-in defaults. */
+  /**
+   * FaasJS Ant Design theme overrides merged with the built-in defaults.
+   *
+   * These values drive copy and small component defaults inside this package;
+   * they are separate from Ant Design token configuration.
+   */
   theme?: {
     /** Language code used to select localized defaults. */
     lang?: string
@@ -183,7 +202,10 @@ export const ConfigContext = createContext<ConfigContextValue>({
  * Provide theme overrides and optional FaasJS client initialization for descendants.
  *
  * Theme overrides are merged with the built-in defaults. When `theme.lang` is omitted, the
- * provider infers a default language from `navigator.language`.
+ * provider infers a default language from `navigator.language`. This is the
+ * low-level FaasJS config boundary; the higher-level `App` component wraps it
+ * together with Ant Design feedback APIs, an error boundary, modal/drawer state,
+ * and optional routing.
  *
  * @param {ConfigProviderProps} props - Theme overrides and optional FaasJS client configuration.
  *

@@ -29,3 +29,5 @@ Job metadata. Defaults are filled when omitted, which keeps direct job tests sma
 ### params?
 
 > `optional` **params?**: `TSchema` _extends_ `ZodType` ? `ZodInfer`\<`TSchema`\> : `Record`\<`string`, `any`\>
+
+Raw params passed to the job. They are validated before `handler` receives `params`.

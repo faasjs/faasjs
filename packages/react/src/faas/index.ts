@@ -9,7 +9,7 @@ import { getClient } from '../client'
  * This helper forwards the request to `getClient`. When the registered
  * client defines `onError`, the hook is invoked before the promise rejects.
  *
- * @template Path - Action path or response data type used for inference.
+ * @template Path - Registered action path used to infer params and response data.
  *
  * @param {Path} action - Action path to invoke.
  * @param {FaasParams<Path>} params - Parameters sent to the action.
@@ -23,7 +23,16 @@ import { getClient } from '../client'
  * ```ts
  * import { faas } from '@faasjs/react'
  *
- * const response = await faas('posts/get', { id: 1 })
+ * declare module '@faasjs/types' {
+ *   interface FaasActions {
+ *     'posts/get': {
+ *       Params: { id: number }
+ *       Data: { title: string }
+ *     }
+ *   }
+ * }
+ *
+ * const response = await faas<'posts/get'>('posts/get', { id: 1 })
  *
  * console.log(response.data.title)
  * ```

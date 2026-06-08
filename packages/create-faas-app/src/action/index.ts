@@ -90,7 +90,7 @@ function scaffold(
  * @param {object} [options] - Optional CLI arguments used to choose the project name and template.
  * @param {string} [options.name] - Target folder name for the generated app.
  * @param {string} [options.template] - Template name such as `admin` or `minimal`.
- * @returns {Promise<void>} Resolves after the project is scaffolded, dependencies are installed, and tests pass.
+ * @returns {Promise<void>} Resolves after the project is scaffolded, dependencies are installed, action types are generated, and tests pass.
  * @throws {Error} When the selected template is unknown.
  * @example
  * ```ts

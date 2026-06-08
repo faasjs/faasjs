@@ -21,25 +21,45 @@ export type JobStatus = 'pending' | 'running' | 'completed' | 'failed'
  * Persisted row from the `faasjs_jobs` table.
  */
 export type JobRecord = {
+  /** Unique job row id. */
   id: string
+  /** Path-derived `.job.ts` identifier. */
   job_path: string
+  /** Queue this row is claimed from. */
   queue: string
+  /** Serialized params passed to the job handler. */
   params: unknown
+  /** Current lifecycle status. */
   status: JobStatus
+  /** Earliest time this row may be claimed. */
   run_at: Date | string
+  /** Higher priority rows are claimed before lower priority rows. */
   priority: number
+  /** Number of attempts already claimed. */
   attempts: number
+  /** Maximum attempts before permanent failure. */
   max_attempts: number
+  /** Worker id currently holding the lease. */
   locked_by: string | null
+  /** Lease id used to complete or fail the claimed row. */
   lease_id: string | null
+  /** Time when the current lease expires. */
   locked_until: Date | string | null
+  /** Last failure message or stack. */
   last_error: string | null
+  /** Optional idempotency key used to deduplicate manual enqueues. */
   idempotency_key: string | null
+  /** Optional cron hash used to deduplicate scheduler rows by minute. */
   cron_key: string | null
+  /** Minute timestamp associated with a scheduler enqueue. */
   scheduled_at: Date | string | null
+  /** Row creation timestamp. */
   created_at: Date | string
+  /** Row update timestamp. */
   updated_at: Date | string
+  /** Completion timestamp. */
   completed_at: Date | string | null
+  /** Final failure timestamp. */
   failed_at: Date | string | null
 }
 
@@ -101,6 +121,7 @@ export type JobCron<TParams = Record<string, never>> = {
  * Runtime event passed to the underlying job function.
  */
 export type JobEvent<TSchema extends ZodType | undefined = undefined> = {
+  /** Raw params passed to the job. They are validated before `handler` receives `params`. */
   params?: TSchema extends ZodType ? ZodInfer<TSchema> : Record<string, any>
   /**
    * Job metadata. Defaults are filled when omitted, which keeps direct job tests small.
@@ -132,7 +153,13 @@ export type DefineJobData<
    * Params validated by the optional Zod schema.
    */
   params: DefineJobParams<TSchema>
+  /**
+   * Persisted job row. Direct tests receive deterministic defaults when omitted.
+   */
   job: JobRecord
+  /**
+   * Current execution attempt, starting at `1`.
+   */
   attempt: number
 } & DefineJobInject
 

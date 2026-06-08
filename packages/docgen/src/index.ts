@@ -1,7 +1,14 @@
 /**
  * # @faasjs/docgen
  *
- * Documentation generation utilities for FaasJS, including API docs from TypeScript types and best practice guidelines.
+ * Documentation generation utilities for the FaasJS monorepo.
+ *
+ * The generator builds package API Markdown from source JSDoc, mirrors public
+ * best-practices guides from `skills/faasjs-best-practices/**`, prepares the
+ * docs site content under `docs/**`, and exposes the manifest used by the docs
+ * navigation.
+ *
+ * @packageDocumentation
  */
 
 import { execSync } from 'node:child_process'
@@ -16,32 +23,52 @@ import {
 } from 'node:fs'
 import { dirname, join } from 'node:path'
 
+/**
+ * Options shared by docgen entrypoints.
+ */
 export type DocgenOptions = {
+  /** Repository root. Defaults to auto-detecting the nearest directory with `packages/` and `package.json` from `process.cwd()`. */
   root?: string
 }
 
+/** Kind of page represented in the docs manifest. Current manifest generation emits guideline pages. */
 export type ManifestPageKind = 'guideline' | 'spec'
+
+/** Locale identifier for generated docs pages. */
 export type ManifestLocale = 'en'
 
+/**
+ * Manifest record for one source Markdown page.
+ */
 export type ManifestPage = {
+  /** Page category. */
   kind: ManifestPageKind
+  /** Page locale. */
   locale: ManifestLocale
+  /** URL-friendly slug derived from the source filename. */
   slug: string
+  /** Page title, usually read from the first Markdown heading. */
   title: string
+  /** Short summary read from the page body or configured override. */
   summary: string
+  /** Source Markdown path relative to the repository root. */
   sourcePath: string
+  /** Generated Markdown path relative to the repository root. */
   outputPath: string
+  /** Docs-site route derived from the generated output path. */
   routePath: string
+  /** Raw source Markdown content. */
   sourceContent: string
 }
 
+/**
+ * Docs site manifest generated from source guides and package metadata.
+ */
 export type DocsManifest = {
+  /** Source pages included in the generated docs site. */
   pages: ManifestPage[]
+  /** Sorted package slugs included in the API docs index; `docgen` is intentionally excluded. */
   packages: string[]
-}
-
-type BuildApiOptions = DocgenOptions & {
-  packagePath?: string
 }
 
 const guidelineOrder = [
@@ -199,6 +226,12 @@ function createPages(
   )
 }
 
+/**
+ * Build the docs manifest without writing generated files.
+ *
+ * @param {DocgenOptions} [options] - Repository root override.
+ * @returns {DocsManifest} Manifest with guideline pages and package slugs.
+ */
 export function buildManifest(options: DocgenOptions = {}): DocsManifest {
   const root = repoRoot(options)
   const enGuidelines = createPages(
@@ -302,7 +335,17 @@ function writeGeneratedGuideIndex(root: string, manifest: DocsManifest) {
   writeFileSync(join(root, 'docs/guidelines/README.md'), renderGuideIndex(manifest))
 }
 
-export function buildApiDocs(options: BuildApiOptions = {}) {
+/**
+ * Generate package API Markdown from source JSDoc using TypeDoc.
+ *
+ * By default this regenerates API docs for packages with a `types` entry, excluding
+ * `create-faas-app` and `docgen`. Pass `packagePath` to target one package. Existing
+ * generated API folders are removed before TypeDoc runs.
+ *
+ * @param {BuildApiOptions} [options] - Repository root and optional target package path.
+ * @throws {Error} When TypeDoc or filesystem operations fail.
+ */
+export function buildApiDocs(options: DocgenOptions & { packagePath?: string } = {}) {
   const root = repoRoot(options)
   const packageJsons = options.packagePath
     ? [`${options.packagePath.replace(/\/$/, '')}/package.json`]
@@ -344,6 +387,14 @@ export function buildApiDocs(options: BuildApiOptions = {}) {
   }
 }
 
+/**
+ * Prepare generated docs-site Markdown from source guides and package API docs.
+ *
+ * This rewrites generated content under `docs/guidelines`, `docs/zh`, and `docs/doc`,
+ * copies package Markdown except `packages/docgen/**`, and refreshes guide indexes.
+ *
+ * @param {DocgenOptions} [options] - Repository root override.
+ */
 export function prepareDocsSite(options: DocgenOptions = {}) {
   const root = repoRoot(options)
   const docsRoot = join(root, 'docs')
@@ -423,6 +474,14 @@ export function prepareDocsSite(options: DocgenOptions = {}) {
   }
 }
 
+/**
+ * Run the full docs sync workflow for the repository.
+ *
+ * The workflow runs package API generation, prepares the docs site content, then runs
+ * `vp check --fix`, which may format generated and source files.
+ *
+ * @param {DocgenOptions} [options] - Repository root override.
+ */
 export function buildAllDocs(options: DocgenOptions = {}) {
   const root = repoRoot(options)
 

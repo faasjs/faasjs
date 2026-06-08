@@ -5,6 +5,7 @@
 Periodic scheduler that iterates over registered job definitions,
 evaluates their cron rules, and enqueues matching jobs at the top
 of each minute.
+The scheduler only enqueues rows; workers execute handlers.
 
 Deduplicates cron enqueues by computing a hash of the rule configuration
 (job path, expression, timezone, queue, params) and using it as a
@@ -82,7 +83,8 @@ The reference time (defaults to the current instant).
 
 `Promise`\<`number`\>
 
-The number of jobs enqueued in this tick.
+The number of matching cron rules processed in this tick. Existing
+deduplicated rows may be returned instead of newly inserted rows.
 
 ## Properties
 
@@ -90,14 +92,22 @@ The number of jobs enqueued in this tick.
 
 > `readonly` **jobs**: [`JobRegistry`](../type-aliases/JobRegistry.md)
 
+Loaded job registry keyed by job path.
+
 ### logger
 
 > `readonly` **logger**: `Logger`
+
+Scheduler logger.
 
 ### pollInterval
 
 > `readonly` **pollInterval**: `number`
 
+Milliseconds between automatic cron ticks.
+
 ### schedulerId
 
 > `readonly` **schedulerId**: `string`
+
+Unique scheduler id used in logs.

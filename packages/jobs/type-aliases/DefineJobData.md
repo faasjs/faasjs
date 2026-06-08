@@ -12,9 +12,13 @@ Handler data passed to [defineJob](../functions/defineJob.md).
 
 > **attempt**: `number`
 
+Current execution attempt, starting at `1`.
+
 ### job
 
 > **job**: [`JobRecord`](JobRecord.md)
+
+Persisted job row. Direct tests receive deterministic defaults when omitted.
 
 ### params
 

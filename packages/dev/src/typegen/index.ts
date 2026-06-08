@@ -17,7 +17,10 @@ type RouteTypeItem = {
  */
 export type GenerateFaasTypesOptions = {
   /**
-   * Project root used to resolve `src/` and emit `src/.faasjs/types.d.ts`.
+   * Project root passed through FaasJS server config resolution.
+   *
+   * When `src/faas.yaml` contains `defaults.server.root`, generation runs from that
+   * resolved project root and emits `src/.faasjs/types.d.ts` beneath it.
    *
    * @default process.cwd()
    */
@@ -41,11 +44,13 @@ export type GenerateFaasTypesResult = {
    */
   changed: boolean
   /**
-   * Number of `*.api.ts` files discovered under `src/`.
+   * Number of `*.api.ts` files discovered under `src/`, including files that lose
+   * route precedence to a more specific file.
    */
   fileCount: number
   /**
-   * Number of route entries emitted into the declaration file.
+   * Number of route entries emitted into the declaration file after duplicate
+   * routes are resolved by precedence.
    */
   routeCount: number
 }
@@ -149,6 +154,10 @@ ${actionLines.length ? `${actionLines.join('\n')}\n` : ''}  }
 /**
  * Determine whether a file change should trigger Faas type generation.
  *
+ * API files affect route declarations directly. `faas.yaml` and `faas.yml` files
+ * can affect the resolved server root, so watchers should treat them as typegen
+ * inputs as well.
+ *
  * @param {string} filePath - Absolute or relative path reported by a file watcher.
  * @returns `true` when the changed file can affect generated route declarations.
  * @example
@@ -167,8 +176,13 @@ export function isTypegenInputFile(filePath: string): boolean {
  * Generate `src/.faasjs/types.d.ts` for a FaasJS project.
  *
  * The generator scans the `src/` tree for `.api.ts` files, converts file
- * names into routes, and keeps the most specific file when multiple files
- * resolve to the same route.
+ * names into routes, and keeps the most specific file when multiple files resolve to
+ * the same route. Route precedence is: regular `*.api.ts` files, then `index.api.ts`,
+ * then fallback `default.api.ts` files. Fallback files emit wildcard routes such as
+ * `*` and `users/*`, while root and index files emit `/` or the directory route.
+ *
+ * Generated route keys omit the leading slash except for `/`; for example,
+ * `src/users/default.api.ts` becomes `users/*`.
  *
  * @param {GenerateFaasTypesOptions} [options] - Project root and logger overrides.
  * @param {string} [options.root] - Project root used to resolve `src/` and the output file.
