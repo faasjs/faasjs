@@ -27,7 +27,7 @@ jobs:
           npm run pack
           npm run lint
           npm run ci
-      - uses: codecov/codecov-action@v6
+      - uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
       - uses: codecov/test-results-action@v1
