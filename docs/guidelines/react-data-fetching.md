@@ -21,6 +21,7 @@ Use for FaasJS requests in React: `useFaas`, `useFaasStream`, `faas`, `FaasDataW
 6. Configure `FaasReactClient` once at app setup; use `getClient` only for multiple-client scenarios.
 7. Always handle loading, error, and retry states in user-facing code.
 8. Keep component props visible as `props.xxx`; avoid destructuring props in the component parameter list.
+9. Destructure React hook returns such as `useFaas`, `useFaasStream`, and `useStates` at the call site.
 
 ## Rules
 
@@ -52,10 +53,10 @@ export function Profile(props: { id: number }) {
 ### 2. Lifecycle controls beat custom effects
 
 ```tsx
-import { useFaas } from '@faasjs/react'
+import { useFaas, useStates } from '@faasjs/react'
 
 export function UserSearch() {
-  const [keyword, setKeyword] = React.useState('')
+  const { keyword, setKeyword } = useStates({ keyword: '' })
 
   const { data, error, loading, reload } = useFaas(
     'features/users/api/search',
@@ -154,12 +155,13 @@ export function Chat() {
 ### 5. Imperative requests use `faas`
 
 ```tsx
-import { useState } from 'react'
-import { faas } from '@faasjs/react'
+import { faas, useStates } from '@faasjs/react'
 
 export function UserForm() {
-  const [saving, setSaving] = useState(false)
-  const [submitError, setSubmitError] = useState<string | null>(null)
+  const { saving, setSaving, submitError, setSubmitError } = useStates({
+    saving: false,
+    submitError: null as string | null,
+  })
 
   const handleSubmit = async (values: any) => {
     setSaving(true)
@@ -300,5 +302,6 @@ await otherClient.faas('external/endpoint', { key: 'value' })
 - built-in lifecycle options replace custom effects, intervals, and ad hoc debounce logic
 - wrapper-style composition is used only when structurally beneficial
 - mutations provide feedback and refresh, close, or invalidate affected data intentionally
+- React hook return values are destructured at the call site
 - client setup is centralized; `getClient` is only for multiple-client scenarios
 - `getClient` is not used in single-client apps

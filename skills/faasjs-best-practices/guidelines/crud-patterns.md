@@ -103,17 +103,19 @@ export function useUserItems() {
 Use the `Table` `faasData` prop for server-driven list fetches. Add search/filter controls in a row above the table and an actions column for detail/edit/delete.
 
 ```tsx
+import { useStates } from '@faasjs/react'
 import { Table, Title, useApp } from '@faasjs/ant-design'
 import { Input, Button, Space } from 'antd'
-import { useState } from 'react'
 
 import { UserActions } from './components/UserActions'
 import { useUserItems, type UserField } from './hooks/useUserItems'
 
 export default function UsersPage() {
   const { setDrawerProps } = useApp()
-  const [keyword, setKeyword] = useState('')
-  const [searchParams, setSearchParams] = useState<{ keyword?: string }>({})
+  const { keyword, setKeyword, searchParams, setSearchParams } = useStates({
+    keyword: '',
+    searchParams: {} as { keyword?: string },
+  })
 
   const items = useUserItems()
 

@@ -15,10 +15,12 @@ Use for React feature UI, components, hooks, dependency handling, derived state,
 1. Keep render logic pure and derive values inline when possible.
 2. Use event handlers for user-driven updates.
 3. Avoid native `useEffect` by default; use `useEqualEffect` only for real side effects.
-4. Use equal memo hooks for object, array, or function dependencies.
-5. Reach for state, context, and rendering helpers only when they solve a specific problem.
-6. Keep data-fetching choices explicit; read [React Data Fetching Guide](./react-data-fetching.md) for request flows.
-7. Receive component inputs as `props` and read `props.xxx`; destructure hook returns or local objects inside the body when it improves readability.
+4. Use `useStates` for component-local state instead of React `useState`.
+5. Use `useStatesRef` when component-local state also needs latest-value refs.
+6. Use equal memo hooks for object, array, or function dependencies.
+7. Reach for state, context, and rendering helpers only when they solve a specific problem.
+8. Keep data-fetching choices explicit; read [React Data Fetching Guide](./react-data-fetching.md) for request flows.
+9. Receive component inputs as `props` and read `props.xxx`; destructure React hook returns at the call site.
 
 ## Rules
 
@@ -29,8 +31,6 @@ Prefer derived values in render instead of mirroring props or state through `use
 Prefer:
 
 ```tsx
-import { useState } from 'react'
-
 type Props = { firstName: string; lastName: string }
 
 export function DisplayName(props: Props) {
@@ -127,7 +127,30 @@ export function SearchPanel(props: Props) {
 
 - If dependencies are primitives and computation is cheap, inline it.
 
-### 4. Use state helpers only for their specific jobs
+### 4. Use `useStates` for component-local state
+
+`useStates`: default local state with matching setters.
+
+```tsx
+import { useStates } from '@faasjs/react'
+
+export function SearchBox() {
+  const { keyword, setKeyword, setPage } = useStates({ keyword: '', page: 1 })
+
+  return (
+    <div>
+      <input value={keyword} onChange={(e) => setKeyword(e.target.value)} />
+      <button onClick={() => setPage((page) => page + 1)}>Next page</button>
+    </div>
+  )
+}
+```
+
+- Prefer `useStates` over React `useState` for component-local state.
+- Destructure the fields used from `useStates` at the call site.
+- Group related local fields in one `useStates` call.
+
+### 5. Use other state helpers only for their specific jobs
 
 `useConstant`: create one value per component instance.
 
@@ -157,13 +180,13 @@ export function CountDisplay(props: { count: number }) {
 }
 ```
 
-`useStateRef`: async callbacks, timers, or subscriptions need both state and latest-value ref.
+`useStatesRef`: async callbacks, timers, subscriptions, or other delayed work need both state and latest-value refs.
 
 ```tsx
-import { useStateRef } from '@faasjs/react'
+import { useStatesRef } from '@faasjs/react'
 
 export function AsyncCounter() {
-  const [count, setCount, countRef] = useStateRef(0)
+  const { count, setCount, countRef } = useStatesRef({ count: 0 })
 
   const logLater = () => {
     setTimeout(() => {
@@ -181,11 +204,12 @@ export function AsyncCounter() {
 }
 ```
 
-- Do not replace normal `useState` with `useStateRef` unless the live ref is needed.
+- Prefer `useStatesRef` over pairing `useStates` with separate refs when the same local fields need current state and latest-value refs.
+- Destructure the fields and refs used from `useStatesRef` at the call site.
 
-### 5. Split multi-field shared state deliberately
+### 6. Split shared state deliberately
 
-Use `createSplittingContext` when one context object has fields that change independently. Use `useStates` to build a small object state container with matching setters. Use `useStatesRef` when the same state fields also need latest-value refs. Prefer this over putting a large mutable object into one normal context.
+Use `createSplittingContext` when one state object is shared and its fields change independently. Use `useStates` to build the provider value with matching setters. Use `useStatesRef` only when the same provider state also needs latest-value refs. Prefer this over putting a large mutable object into one normal context.
 
 ```tsx
 import { createSplittingContext, useStates } from '@faasjs/react'
@@ -215,10 +239,10 @@ function Count() {
 }
 
 export function Page() {
-  const states = useStates({ count: 0, keyword: '' })
+  const { count, setCount, keyword, setKeyword } = useStates({ count: 0, keyword: '' })
 
   return (
-    <CounterContext.Provider value={states}>
+    <CounterContext.Provider value={{ count, setCount, keyword, setKeyword }}>
       <Filters />
       <Count />
     </CounterContext.Provider>
@@ -226,7 +250,7 @@ export function Page() {
 }
 ```
 
-### 6. Use rendering helpers at composition boundaries
+### 7. Use rendering helpers at composition boundaries
 
 `OptionalWrapper`: same children sometimes need a wrapper and sometimes render directly.
 
@@ -263,7 +287,7 @@ export function SafeWidget(props: { content: string }) {
 
 - Keep fallbacks simple and user-facing.
 
-### 7. Keep request/client choices explicit
+### 8. Keep request/client choices explicit
 
 - Use `useFaas`, `useFaasStream`, `faas`, `FaasDataWrapper`, and `withFaasData` intentionally.
 - Configure `FaasReactClient` centrally.
@@ -274,6 +298,9 @@ export function SafeWidget(props: { content: string }) {
 
 - native `useEffect` is not used for normal React logic
 - derived state is computed inline instead of mirrored through effects
+- component-local state uses `useStates` instead of React `useState`
+- component-local state with latest-value refs uses `useStatesRef`
+- React hook return values are destructured at the call site
 - object or array dependencies use equal hook variants
 - memoization solves real stability or performance needs
 - state, context, rendering, request, and client helpers are used for their specific purposes

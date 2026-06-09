@@ -39,7 +39,7 @@ Tests live in `__tests__/` inside the feature folder they protect. Fixtures/mock
 ### Core Rules
 
 - **Validation**: zod for external input (`defineApi` schema). `typeof`/`instanceof`/`=== null` for internal control flow. Do not swap them.
-- **React**: no `useEffect`. Use `useEqualEffect` for side effects. Object/array deps → `useEqualMemo`/`useEqualCallback`.
+- **React**: no `useEffect`. Use `useStates` instead of `useState`; use `useStatesRef` when the same state also needs refs. Use `useEqualEffect` for side effects. Object/array deps → `useEqualMemo`/`useEqualCallback`.
 - **Data fetching**: `useFaas` for component-owned requests. `faas` for event handlers. the `Form` `faas` prop for form submits. `useFaasStream` for streaming.
 - **CRUD**: `Table` `faasData` prop list → `Description` `faasData` prop detail → `Form` `faas` prop create/edit → `faas` + modal for delete. Shared `items` in `use<Feature>Items` drives all three.
 - **Types**: rely on inference first. Add explicit types only at API boundaries, shared contracts, or where inference is ambiguous.
@@ -47,7 +47,7 @@ Tests live in `__tests__/` inside the feature folder they protect. Fixtures/mock
 - **Files**: keep under ~500 lines. Extract only at real boundaries (reuse, >20 line body).
 - **Errors**: `HttpError` + explicit status for expected failures (400/401/403/404/409). `throw Error` for internal 500.
 - **Security**: check user/tenant/permission scope before data access. Never log secrets/tokens/passwords.
-- **Return values**: return directly, avoid single-use intermediate variables. Do not destructure function params.
+- **Return values**: return directly, avoid single-use intermediate variables. Destructure React hook returns; do not destructure function params.
 - **Comments**: JSDoc for exported package API only. No comments on untouched code. Delete dead code, don't mark it.
 
 ### Gate
@@ -67,6 +67,7 @@ Before handoff: `vp check --fix && vp test`. If either can't run, record why.
 - Keep code direct: validate at system boundaries, fail fast on invalid internal data, and do not add silent fallbacks or impossible-case handling.
 - Avoid unnecessary intermediate variables: return or pass values directly instead of assigning to a single-use variable. An intermediate variable is justified when it documents a non-trivial condition, is referenced more than once, or breaks a long chain for readability.
 - Do not destructure function parameters except the exact FaasJS API handler form `handler({ params })`; access all other function, handler, component, hook, and callback parameters through the parameter object (e.g., `input.xxx`, `props.xxx`, or `data.xxx`) so the source of each value is immediately visible.
+- Destructure React hook return values at the call site, including object and tuple returns from `useFaas`, `useFaasStream`, `useStates`, `useStatesRef`, and similar helpers. Use `const { data, loading } = useFaas(...)`, `const { keyword, setKeyword } = useStates(...)`, and `const { count, setCount, countRef } = useStatesRef({ count: 0 })` instead of keeping a `result` or `states` object and reading `result.xxx` or `states.xxx`.
 - Do not create standalone type aliases or interfaces when TypeScript can infer the type from the expression, schema, or return statement; rely on inference first and add explicit types only at API boundaries, shared contracts, or where inference is ambiguous.
 - Extract helpers, hooks, components, or abstractions only when they are reused, create a real boundary, or simplify a large block; keep one-off code inline unless the body is over about 20 lines.
 - Document symbols exported from package public entrypoints with JSDoc. Add JSDoc for shared app exports when the caller contract is not obvious. Do not add comments, docstrings, or type annotations to untouched code.

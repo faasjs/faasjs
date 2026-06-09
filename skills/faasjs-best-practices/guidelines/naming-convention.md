@@ -37,7 +37,7 @@ See [File Conventions](./file-conventions.md) for file placement rules (where to
 | `create*`            | Factory: `createClient`, `createSplittingContext`                    |
 | `get*` / `set*`      | Accessors: `getClient`, `setMock`                                    |
 | `parse*` / `format*` | Parsing / formatting: `parseSchemaValue`, `formatSchemaError`        |
-| `use*`               | React hooks: `useFaas`, `useStateRef`                                |
+| `use*`               | React hooks: `useFaas`, `useStatesRef`                               |
 | `is*`                | Type guards / predicates: `isOperator`, `isTypegenInputFile`         |
 | `*Options`           | Config types: `ServerOptions`, `EnqueueJobOptions`                   |
 | `*Props`             | React prop types: `FaasDataWrapperProps`                             |
