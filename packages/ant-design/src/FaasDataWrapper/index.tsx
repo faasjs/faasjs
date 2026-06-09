@@ -1,20 +1,141 @@
 import {
-  FaasReactClient,
+  FaasReactClient as OriginFaasReactClient,
   type FaasReactClientOptions,
-  faas,
+  faas as originFaas,
   FaasDataWrapper as Origin,
   type FaasDataInjection,
   type FaasDataWrapperProps as OriginProps,
+  type Options,
+  type Response,
   withFaasData as OriginWithFaasData,
-  useFaas,
+  useFaas as originUseFaas,
+  type UseFaasOptions,
+  useFaasStream as originUseFaasStream,
+  type UseFaasStreamOptions,
+  type UseFaasStreamResult,
 } from '@faasjs/react'
-import type { FaasActionPaths } from '@faasjs/types'
+import type { FaasActionPaths, FaasData, FaasParams } from '@faasjs/types'
 import type { JSX } from 'react'
 
 import type { LoadingProps } from '../Loading'
 import { Loading } from '../Loading'
 
-export { FaasReactClient, type FaasReactClientOptions, faas, useFaas }
+export type { FaasReactClientOptions, UseFaasOptions, UseFaasStreamOptions, UseFaasStreamResult }
+
+/**
+ * Create and register a FaasReactClient for an Ant Design app.
+ *
+ * Use this entrypoint in apps that also use {@link App} so `faas`, `useFaas`, and
+ * `useFaasStream` share the same configured client and error feedback behavior.
+ *
+ * @param {FaasReactClientOptions} [options] - Client configuration including base URL, default request options, and error hooks.
+ * @returns Registered FaasReactClient instance.
+ *
+ * @example
+ * ```ts
+ * import { FaasReactClient } from '@faasjs/ant-design'
+ *
+ * FaasReactClient({ baseUrl: '/api/' })
+ * ```
+ */
+export function FaasReactClient(options?: FaasReactClientOptions) {
+  return OriginFaasReactClient(options)
+}
+
+/**
+ * Call the currently configured FaasReactClient.
+ *
+ * In Ant Design apps, import this helper from `@faasjs/ant-design` so failed requests use the
+ * same configured feedback behavior as the rest of the UI.
+ *
+ * @template Path - Registered action path used to infer params and response data.
+ * @param {Path} action - Action path to invoke.
+ * @param {FaasParams<Path>} params - Parameters sent to the action.
+ * @param {Options} [options] - Optional per-request overrides such as headers or base URL.
+ * @returns Response returned by the active browser client.
+ *
+ * @example
+ * ```ts
+ * import { faas } from '@faasjs/ant-design'
+ *
+ * const response = await faas('features/users/api/get', { id: 1 })
+ * ```
+ */
+export function faas<Path extends FaasActionPaths>(
+  action: Path,
+  params: FaasParams<Path>,
+  options?: Options,
+): Promise<Response<FaasData<Path>>> {
+  return originFaas(action, params, options)
+}
+
+/**
+ * Request FaasJS data and keep request state in React state.
+ *
+ * In Ant Design apps, import this hook from `@faasjs/ant-design` so failed requests use the same
+ * configured feedback behavior as `App`, `Form`, `Table`, and `Description`.
+ *
+ * @template Path - Registered action path used to infer params and response data.
+ * @param {Path} action - Action path to invoke.
+ * @param {FaasParams<Path>} defaultParams - Params used for the initial request and future reloads.
+ * @param {UseFaasOptions<Path>} [options] - Optional hook configuration such as skip, debounce, polling, controlled data, or base URL overrides.
+ * @returns Request state and helper methods.
+ *
+ * @example
+ * ```tsx
+ * import { useFaas } from '@faasjs/ant-design'
+ *
+ * export function Profile(props: { id: number }) {
+ *   const { data, loading, reload } = useFaas('features/users/api/get', { id: props.id })
+ *
+ *   if (loading) return <div>Loading...</div>
+ *
+ *   return <button onClick={() => reload()}>{data?.name}</button>
+ * }
+ * ```
+ */
+export function useFaas<Path extends FaasActionPaths>(
+  action: Path,
+  defaultParams: FaasParams<Path>,
+  options: UseFaasOptions<Path> = {},
+): FaasDataInjection<Path> {
+  return originUseFaas(action, defaultParams, options)
+}
+
+/**
+ * Stream a FaasJS response into React state.
+ *
+ * In Ant Design apps, import this hook from `@faasjs/ant-design` so streaming failures use the
+ * same configured feedback behavior as other FaasJS requests.
+ *
+ * @template Path - Registered action path used to infer params and response data.
+ * @param {Path} action - Action path to invoke.
+ * @param {FaasParams<Path>} defaultParams - Params used for the initial request and future reloads.
+ * @param {UseFaasStreamOptions} [options] - Optional stream lifecycle configuration such as skip, debounce, polling, controlled text, or base URL overrides.
+ * @returns Streaming request state and helper methods.
+ *
+ * @example
+ * ```tsx
+ * import { useFaasStream } from '@faasjs/ant-design'
+ *
+ * export function Chat(props: { prompt: string }) {
+ *   const { data, loading, reload } = useFaasStream('features/chat/api/stream', {
+ *     prompt: props.prompt,
+ *   })
+ *
+ *   if (loading) return <div>Streaming...</div>
+ *
+ *   return <pre onClick={() => reload()}>{data}</pre>
+ * }
+ * ```
+ */
+export function useFaasStream<Path extends FaasActionPaths>(
+  action: Path,
+  defaultParams: FaasParams<Path>,
+  options: UseFaasStreamOptions = {},
+): UseFaasStreamResult<Path> {
+  return originUseFaasStream(action, defaultParams, options)
+}
 
 /**
  * Ant Design wrapper props for the underlying `@faasjs/react` data wrapper.

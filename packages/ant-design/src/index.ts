@@ -16,7 +16,7 @@
  *
  * - Use {@link App} to wire Ant Design feedback APIs, routing, and FaasJS config providers.
  * - Use {@link Form}, {@link Description}, and {@link Table} with shared FaasJS item metadata.
- * - Use {@link FaasDataWrapper} or {@link withFaasData} to bind components to FaasJS actions.
+ * - Use {@link faas}, {@link useFaas}, {@link useFaasStream}, {@link FaasDataWrapper}, or {@link withFaasData} to bind UI to FaasJS actions.
  *
  * ## Usage
  *

@@ -22,8 +22,11 @@ Use for FaasJS requests in React: `useFaas`, `useFaasStream`, `faas`, `FaasDataW
 7. Always handle loading, error, and retry states in user-facing code.
 8. Keep component props visible as `props.xxx`; avoid destructuring props in the component parameter list.
 9. Destructure React hook returns such as `useFaas`, `useFaasStream`, and `useStates` at the call site.
+10. In apps using `@faasjs/ant-design`, import re-exported request helpers from `@faasjs/ant-design`, including `faas`, `useFaas`, `useFaasStream`, `FaasReactClient`, `FaasDataWrapper`, and `withFaasData`.
 
 ## Rules
+
+Examples in this guide use `@faasjs/react` for plain React apps. When the UI uses `@faasjs/ant-design`, keep request-helper imports on `@faasjs/ant-design` so failed request feedback follows the shared Ant Design app configuration.
 
 ### 1. Standard requests use `useFaas`
 

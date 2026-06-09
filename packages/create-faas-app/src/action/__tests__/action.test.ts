@@ -227,7 +227,10 @@ describe('action', () => {
     )
     expect(read(rootPath, 'src/main.tsx')).toContain("import { App } from '@faasjs/ant-design'")
     expect(read(rootPath, 'src/features/users/index.tsx')).toContain(
-      "import { faas, useApp } from '@faasjs/ant-design'",
+      "import { faas, useApp, useFaas } from '@faasjs/ant-design'",
+    )
+    expect(read(rootPath, 'src/features/users/index.tsx')).not.toContain(
+      "import { useFaas } from '@faasjs/react'",
     )
     expect(read(rootPath, 'src/features/users/index.tsx')).toContain(
       "useFaas('features/users/api/list'",

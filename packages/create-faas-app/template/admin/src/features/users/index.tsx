@@ -1,5 +1,4 @@
-import { faas, useApp } from '@faasjs/ant-design'
-import { useFaas } from '@faasjs/react'
+import { faas, useApp, useFaas } from '@faasjs/ant-design'
 import { toErrorMessage } from '@faasjs/utils'
 import { Button, Card, Input, Space, Table, Typography } from 'antd'
 import { useState } from 'react'

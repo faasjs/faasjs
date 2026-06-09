@@ -4,19 +4,16 @@
 
 > **FaasReactClient**(`options?`): `FaasReactClientInstance`
 
-Create and register a FaasReactClient instance.
+Create and register a FaasReactClient for an Ant Design app.
 
-The returned client is stored by `baseUrl` and becomes the default client
-used by helpers such as [faas](faas.md) and [useFaas](useFaas.md). The instance-bound
-`faas` and `useFaas` helpers inject this `baseUrl` when request options do
-not provide one; the instance-bound `FaasDataWrapper` is always bound to this
-`baseUrl`.
+Use this entrypoint in apps that also use [App](App.md) so `faas`, `useFaas`, and
+`useFaasStream` share the same configured client and error feedback behavior.
 
 ## Parameters
 
 ### options?
 
-[`FaasReactClientOptions`](../type-aliases/FaasReactClientOptions.md) = `...`
+[`FaasReactClientOptions`](../type-aliases/FaasReactClientOptions.md)
 
 Client configuration including base URL, default request options, and error hooks.
 
@@ -29,30 +26,7 @@ Registered FaasReactClient instance.
 ## Example
 
 ```ts
-import { FaasReactClient, ResponseError } from '@faasjs/react'
+import { FaasReactClient } from '@faasjs/ant-design'
 
-declare module '@faasjs/types' {
-  interface FaasActions {
-    'features/users/api/get': {
-      Params: { id: number }
-      Data: { name: string }
-    }
-  }
-}
-
-type GetUserAction = 'features/users/api/get'
-
-const client = FaasReactClient({
-  baseUrl: 'http://localhost:8080/api/',
-  onError: (action, params) => async (res) => {
-    if (res instanceof ResponseError) {
-      reportErrorToSentry(res, {
-        tags: { action },
-        extra: { params },
-      })
-    }
-  },
-})
-
-const response = await client.faas<GetUserAction>('features/users/api/get', { id: 1 })
+FaasReactClient({ baseUrl: '/api/' })
 ```

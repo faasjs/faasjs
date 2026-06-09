@@ -13,5 +13,8 @@ describe('index', () => {
     expect(antDesign.Routes).toBeDefined()
     expect(antDesign.PageNotFound).toBeDefined()
     expect(antDesign.useThemeToken).toBeDefined()
+    expect(antDesign.faas).toBeDefined()
+    expect(antDesign.useFaas).toBeDefined()
+    expect(antDesign.useFaasStream).toBeDefined()
   })
 })

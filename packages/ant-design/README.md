@@ -17,7 +17,7 @@ npm install @faasjs/ant-design
 
 - Use [App](functions/App.md) to wire Ant Design feedback APIs, routing, and FaasJS config providers.
 - Use [Form](functions/Form.md), [Description](functions/Description.md), and [Table](functions/Table.md) with shared FaasJS item metadata.
-- Use [FaasDataWrapper](functions/FaasDataWrapper.md) or [withFaasData](functions/withFaasData.md) to bind components to FaasJS actions.
+- Use [faas](functions/faas.md), [useFaas](functions/useFaas.md), [useFaasStream](functions/useFaasStream.md), [FaasDataWrapper](functions/FaasDataWrapper.md), or [withFaasData](functions/withFaasData.md) to bind UI to FaasJS actions.
 
 ## Usage
 
@@ -62,6 +62,7 @@ export default function Page() {
 - [useConfigContext](functions/useConfigContext.md)
 - [useDrawer](functions/useDrawer.md)
 - [useFaas](functions/useFaas.md)
+- [useFaasStream](functions/useFaasStream.md)
 - [useModal](functions/useModal.md)
 - [useThemeToken](functions/useThemeToken.md)
 - [withFaasData](functions/withFaasData.md)
@@ -127,6 +128,9 @@ export default function Page() {
 - [UnionFaasItemRender](type-aliases/UnionFaasItemRender.md)
 - [UnionScene](type-aliases/UnionScene.md)
 - [useAppProps](type-aliases/useAppProps.md)
+- [UseFaasOptions](type-aliases/UseFaasOptions.md)
+- [UseFaasStreamOptions](type-aliases/UseFaasStreamOptions.md)
+- [UseFaasStreamResult](type-aliases/UseFaasStreamResult.md)
 
 ## Variables
 

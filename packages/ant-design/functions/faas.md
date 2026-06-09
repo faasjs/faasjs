@@ -6,8 +6,8 @@
 
 Call the currently configured FaasReactClient.
 
-This helper forwards the request to `getClient`. When the registered
-client defines `onError`, the hook is invoked before the promise rejects.
+In Ant Design apps, import this helper from `@faasjs/ant-design` so failed requests use the
+same configured feedback behavior as the rest of the UI.
 
 ## Type Parameters
 
@@ -36,8 +36,6 @@ Parameters sent to the action.
 `Options`
 
 Optional per-request overrides such as headers or base URL.
-See the browser-client `Options` type for supported fields such as `headers`, `beforeRequest`,
-`request`, `baseUrl`, and `stream`.
 
 ## Returns
 
@@ -45,25 +43,10 @@ See the browser-client `Options` type for supported fields such as `headers`, `b
 
 Response returned by the active browser client.
 
-## Throws
-
-When the request fails and the active client does not recover inside `onError`.
-
 ## Example
 
 ```ts
-import { faas } from '@faasjs/react'
+import { faas } from '@faasjs/ant-design'
 
-declare module '@faasjs/types' {
-  interface FaasActions {
-    'posts/get': {
-      Params: { id: number }
-      Data: { title: string }
-    }
-  }
-}
-
-const response = await faas<'posts/get'>('posts/get', { id: 1 })
-
-console.log(response.data.title)
+const response = await faas('features/users/api/get', { id: 1 })
 ```

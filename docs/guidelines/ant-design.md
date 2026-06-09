@@ -8,7 +8,7 @@ Use when building or reviewing `@faasjs/ant-design` feature UI, CRUD surfaces, r
 - Configuring routes with `Routes` and `lazy`
 - Building list, detail, create, update, or delete flows
 - Deciding how to split feature frontend files
-- Choosing between `faas`, `faasData`, and custom hooks for requests
+- Choosing between `faas`, `useFaas`, `useFaasStream`, `faasData`, and custom hooks for requests
 - Implementing message prompts, notifications, confirmation modals, or drawer workflows
 
 ## Default Workflow
@@ -19,7 +19,8 @@ Use when building or reviewing `@faasjs/ant-design` feature UI, CRUD surfaces, r
 4. Put feature-local request files under `api/` and keep action paths aligned with file paths.
 5. Model business fields as shared `items` metadata reused by `Form`, `Description`, and `Table`.
 6. Start CRUD with `Table`, `Description`, and `Form`; use `useApp()` for `message`, `notification`, `setModalProps`, and `setDrawerProps`.
-7. Keep component inputs readable as `props.xxx`; do not destructure props in component parameters.
+7. Import re-exported request helpers from `@faasjs/ant-design`, including `faas`, `useFaas`, `useFaasStream`, `FaasReactClient`, `FaasDataWrapper`, and `withFaasData`.
+8. Keep component inputs readable as `props.xxx`; do not destructure props in component parameters.
 
 ## Recommended Layout
 
@@ -525,7 +526,9 @@ export function LocalPreview() {
 
 7. Use `useApp()` for shared feedback and overlays. Use `message` for lightweight success/warning feedback, `notification` for persistent feedback with title and description, `setModalProps` for confirmations, and `setDrawerProps` for create/edit/detail panels that should preserve feature context. Prefer drawers for in-context create/edit/detail and modals for confirmations. Use local `useModal` or `useDrawer` only when creating isolated instances outside the shared app shell.
 
-8. Promote repeated custom field behavior into `extendTypes`; keep one-off customization on the item itself.
+8. Import request helpers that `@faasjs/ant-design` re-exports from `@faasjs/ant-design`, not `@faasjs/react`, including `faas`, `useFaas`, `useFaasStream`, `FaasReactClient`, `FaasDataWrapper`, and `withFaasData`. This keeps failed request feedback aligned with the shared `App` configuration.
+
+9. Promote repeated custom field behavior into `extendTypes`; keep one-off customization on the item itself.
 
    ```tsx
    import { Form, type ExtendFormItemProps, type FormProps } from '@faasjs/ant-design'
@@ -549,7 +552,7 @@ export function LocalPreview() {
    }
    ```
 
-9. Use `formRender`, `descriptionRender`, or `tableRender` only when a field truly differs by surface; do not fork fake field ids. `children` and `render` are general overrides, while `formRender`, `descriptionRender`, and `tableRender` are surface-specific. Maintain shared metadata until presentation genuinely diverges.
+10. Use `formRender`, `descriptionRender`, or `tableRender` only when a field truly differs by surface; do not fork fake field ids. `children` and `render` are general overrides, while `formRender`, `descriptionRender`, and `tableRender` are surface-specific. Maintain shared metadata until presentation genuinely diverges.
 
 ## Review Checklist
 
@@ -559,6 +562,7 @@ export function LocalPreview() {
 - feature entry composes feature components instead of containing all logic inline
 - shared `items` metadata drives `Form`, `Description`, and `Table`
 - wrappers and `faas`/`faasData` cover straightforward request flows
+- re-exported request helpers are imported from `@faasjs/ant-design`, not `@faasjs/react`
 - CRUD feature UI primarily uses `Table`, `Description`, and `Form`
 - FaasJS wrapper components are preferred over raw Ant Design primitives where they fit
 - custom `div`-based UI is not written unless existing components are insufficient
