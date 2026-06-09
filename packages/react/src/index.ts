@@ -23,7 +23,6 @@
  *     - `useEqualCallback`: Memoize a callback with deep equality.
  *     - `useConstant`: Create a constant value with hooks.
  *     - `usePrevious`: Get the previous value of a state.
- *     - `useStateRef`: Create a state with a ref.
  *   - Components:
  *     - `OptionalWrapper`: Render a component optionally.
  *     - `ErrorBoundary`: Catch errors in the component tree.
@@ -56,4 +55,3 @@ export * from './useStates'
 export * from './useFaas'
 export * from './useFaasStream'
 export * from './usePrevious'
-export * from './useStateRef'

@@ -24,7 +24,6 @@ Includes browser client utilities (`FaasBrowserClient`, `ResponseError`, `setMoc
     - `useEqualCallback`: Memoize a callback with deep equality.
     - `useConstant`: Create a constant value with hooks.
     - `usePrevious`: Get the previous value of a state.
-    - `useStateRef`: Create a state with a ref.
   - Components:
     - `OptionalWrapper`: Render a component optionally.
     - `ErrorBoundary`: Catch errors in the component tree.
@@ -58,7 +57,6 @@ npm install @faasjs/react react
 - [useFaas](functions/useFaas.md)
 - [useFaasStream](functions/useFaasStream.md)
 - [usePrevious](functions/usePrevious.md)
-- [useStateRef](functions/useStateRef.md)
 - [useStates](functions/useStates.md)
 - [useStatesRef](functions/useStatesRef.md)
 - [withFaasData](functions/withFaasData.md)

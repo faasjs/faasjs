@@ -2,6 +2,11 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+Unreleased
+
+- `@faasjs/react`
+  - [Break] Remove the `useStateRef` export while keeping `useStatesRef` for object-based state refs.
+
 [`v8.0.0-beta.37 (2026-06-09)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.36...v8.0.0-beta.37)
 
 - `@faasjs/pg`
