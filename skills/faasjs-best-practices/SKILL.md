@@ -39,7 +39,7 @@ Tests live in `__tests__/` inside the feature folder they protect. Fixtures/mock
 ### Core Rules
 
 - **Validation**: zod for external input (`defineApi` schema). `typeof`/`instanceof`/`=== null` for internal control flow. Do not swap them.
-- **React**: no `useEffect`. Use `useStates` instead of `useState`; use `useStatesRef` when the same state also needs refs. Use `useEqualEffect` for side effects. Object/array deps → `useEqualMemo`/`useEqualCallback`.
+- **React**: no `useEffect`. Use `useStates` instead of `useState`; use `useStatesRef` when the same state also needs refs. Use `useEqualEffect` for side effects. Object/array deps → `useEqualMemo`/`useEqualCallback`. Keep React event handlers inline by default, even when non-trivial; extract only for reuse or real boundaries.
 - **Data fetching**: `useFaas` for component-owned requests. `faas` for event handlers. the `Form` `faas` prop for form submits. `useFaasStream` for streaming.
 - **CRUD**: `Table` `faasData` prop list → `Description` `faasData` prop detail → `Form` `faas` prop create/edit → `faas` + modal for delete. Shared `items` in `use<Feature>Items` drives all three.
 - **Types**: rely on inference first. Add explicit types only at API boundaries, shared contracts, or where inference is ambiguous.
