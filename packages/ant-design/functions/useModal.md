@@ -6,9 +6,9 @@
 
 Create a hook-managed Ant Design modal instance.
 
-The returned setter shallow-merges partial updates into the modal props instead
-of replacing the entire state object. The updater form is also merged after it
-returns, so omitted keys stay unchanged.
+The returned setter shallow-merges partial updates into the modal props. When
+an update sets `open` to `false`, previous modal props are discarded and the
+modal resets to its initial props.
 
 ## Parameters
 

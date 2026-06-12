@@ -2,7 +2,7 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-[`v8.0.0-beta.38 (2026-06-12)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.37...v8.0.0-beta.38)
+[`v8.0.0-beta.39 (2026-06-12)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.37...v8.0.0-beta.39)
 
 - `@faasjs/ant-design`
   - [Break] Add `destroyOnHidden: true` as default option to `useModal` and `useDrawer`.

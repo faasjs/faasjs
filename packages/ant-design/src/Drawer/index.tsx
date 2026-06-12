@@ -1,6 +1,6 @@
 import { useEqualCallback } from '@faasjs/react'
 import { type DrawerProps as AntdDrawerProps, Drawer } from 'antd'
-import { type Dispatch, type JSX, type SetStateAction, useState } from 'react'
+import { type Dispatch, type JSX, type SetStateAction, useRef, useState } from 'react'
 
 export { Drawer }
 
@@ -16,17 +16,18 @@ export interface DrawerProps extends AntdDrawerProps {
  * State setter used to update hook-managed drawer props.
  *
  * Each call shallow-merges the provided object, or the object returned by an
- * updater function, into the existing drawer props. Omitted keys are preserved;
- * set a key to `undefined` or a new value when you need to clear or replace it.
+ * updater function, into the existing drawer props. When `open` is set to
+ * `false`, previous drawer props are discarded and the drawer resets to its
+ * initial props.
  */
 export type setDrawerProps = Dispatch<SetStateAction<DrawerProps>>
 
 /**
  * Create a hook-managed Ant Design drawer instance.
  *
- * The returned setter shallow-merges partial updates into the drawer props instead
- * of replacing the entire state object. The updater form is also merged after it
- * returns, so omitted keys stay unchanged.
+ * The returned setter shallow-merges partial updates into the drawer props. When
+ * an update sets `open` to `false`, previous drawer props are discarded and the
+ * drawer resets to its initial props.
  *
  * @param {DrawerProps} [init] - Initial drawer props.
  * @returns Hook-managed drawer element, current props, and a state-merging setter.
@@ -51,17 +52,20 @@ export type setDrawerProps = Dispatch<SetStateAction<DrawerProps>>
  * ```
  */
 export function useDrawer(init?: DrawerProps) {
-  const [props, setProps] = useState<DrawerProps>({
-    open: false,
-    destroyOnHidden: true,
-    ...init,
-  })
+  const defaultProps = { open: false, destroyOnHidden: true, ...init }
+  const defaultPropsRef = useRef<DrawerProps>(defaultProps)
+  defaultPropsRef.current = defaultProps
+  const [props, setProps] = useState<DrawerProps>(defaultProps)
 
   const setDrawerProps: setDrawerProps = useEqualCallback(
     (changes) => {
-      const changed = typeof changes === 'function' ? changes(props) : changes
+      setProps((prev) => {
+        const changed = typeof changes === 'function' ? changes(prev) : changes
 
-      setProps((prev) => ({ ...prev, ...changed }))
+        if (changed.open === false) return { ...defaultPropsRef.current, open: false }
+
+        return { ...prev, ...changed }
+      })
     },
     [setProps],
   )
@@ -70,10 +74,10 @@ export function useDrawer(init?: DrawerProps) {
     drawer: (
       <Drawer
         onClose={() =>
-          setProps((prev) => ({
-            ...prev,
+          setProps({
+            ...defaultPropsRef.current,
             open: false,
-          }))
+          })
         }
         {...props}
       />

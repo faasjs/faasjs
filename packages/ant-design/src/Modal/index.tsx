@@ -1,6 +1,6 @@
 import { useEqualCallback } from '@faasjs/react'
 import { type ModalProps as AntdModalProps, Modal } from 'antd'
-import { type Dispatch, type JSX, type SetStateAction, useState } from 'react'
+import { type Dispatch, type JSX, type SetStateAction, useRef, useState } from 'react'
 
 export { Modal }
 
@@ -16,17 +16,18 @@ export interface ModalProps extends AntdModalProps {
  * State setter used to update hook-managed modal props.
  *
  * Each call shallow-merges the provided object, or the object returned by an
- * updater function, into the existing modal props. Omitted keys are preserved;
- * set a key to `undefined` or a new value when you need to clear or replace it.
+ * updater function, into the existing modal props. When `open` is set to
+ * `false`, previous modal props are discarded and the modal resets to its
+ * initial props.
  */
 export type setModalProps = Dispatch<SetStateAction<ModalProps>>
 
 /**
  * Create a hook-managed Ant Design modal instance.
  *
- * The returned setter shallow-merges partial updates into the modal props instead
- * of replacing the entire state object. The updater form is also merged after it
- * returns, so omitted keys stay unchanged.
+ * The returned setter shallow-merges partial updates into the modal props. When
+ * an update sets `open` to `false`, previous modal props are discarded and the
+ * modal resets to its initial props.
  *
  * @param {ModalProps} [init] - Initial modal props.
  * @returns Hook-managed modal element, current props, and a state-merging setter.
@@ -51,13 +52,20 @@ export type setModalProps = Dispatch<SetStateAction<ModalProps>>
  * ```
  */
 export function useModal(init?: ModalProps) {
-  const [props, setProps] = useState<ModalProps>({ open: false, destroyOnHidden: true, ...init })
+  const defaultProps = { open: false, destroyOnHidden: true, ...init }
+  const defaultPropsRef = useRef<ModalProps>(defaultProps)
+  defaultPropsRef.current = defaultProps
+  const [props, setProps] = useState<ModalProps>(defaultProps)
 
   const setModalProps: setModalProps = useEqualCallback(
     (changes) => {
-      const changed = typeof changes === 'function' ? changes(props) : changes
+      setProps((prev) => {
+        const changed = typeof changes === 'function' ? changes(prev) : changes
 
-      setProps((prev) => ({ ...prev, ...changed }))
+        if (changed.open === false) return { ...defaultPropsRef.current, open: false }
+
+        return { ...prev, ...changed }
+      })
     },
     [setProps],
   )
@@ -66,10 +74,10 @@ export function useModal(init?: ModalProps) {
     modal: (
       <Modal
         onCancel={() =>
-          setProps((prev) => ({
-            ...prev,
+          setProps({
+            ...defaultPropsRef.current,
             open: false,
-          }))
+          })
         }
         {...props}
       />
