@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/docgen",
-  "version": "8.0.0-beta.37",
+  "version": "8.0.0-beta.38",
   "description": "Documentation generator for FaasJS monorepos.",
   "homepage": "https://faasjs.com/doc/docgen",
   "bugs": {
