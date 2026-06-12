@@ -122,6 +122,7 @@ export default defineConfig({
         'packages/**/fixtures/**',
         'packages/**/template/**',
         'packages/**/__tests__/**',
+        'packages/docgen/**',
       ],
       reporter: ['text', 'lcov', 'html'],
     },
