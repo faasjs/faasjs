@@ -53,6 +53,7 @@ export type setDrawerProps = Dispatch<SetStateAction<DrawerProps>>
 export function useDrawer(init?: DrawerProps) {
   const [props, setProps] = useState<DrawerProps>({
     open: false,
+    destroyOnHidden: true,
     ...init,
   })
 

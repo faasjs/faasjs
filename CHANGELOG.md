@@ -5,6 +5,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 Unreleased
 
 - `@faasjs/ant-design`
+  - [Break] Add `destroyOnHidden: true` as default option to `useModal` and `useDrawer`.
   - [Feature] Re-export `useFaasStream` and request helper types so Ant Design apps can keep FaasJS request imports on `@faasjs/ant-design`.
 
 - `@faasjs/create-faas-app`

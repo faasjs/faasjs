@@ -51,7 +51,7 @@ export type setModalProps = Dispatch<SetStateAction<ModalProps>>
  * ```
  */
 export function useModal(init?: ModalProps) {
-  const [props, setProps] = useState<ModalProps>({ open: false, ...init })
+  const [props, setProps] = useState<ModalProps>({ open: false, destroyOnHidden: true, ...init })
 
   const setModalProps: setModalProps = useEqualCallback(
     (changes) => {
