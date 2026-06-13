@@ -8,7 +8,7 @@ It covers syncing best-practices content under `skills/faasjs-best-practices/**`
 
 Use this guide after any FaasJS code or behavior change to decide which docs must be updated in the same change.
 
-`@faasjs/docgen` is the documentation update and sync tool. In this repo it is invoked through `npm run doc`, which regenerates API Markdown, mirrors package references into skills, generates published English guide/spec pages, and refreshes generated guide indexes.
+`@faasjs/docgen` is the documentation update and sync tool. In this repo it is invoked through `npm run doc`, which regenerates API Markdown, mirrors package references into skills, generates published English guide/spec pages, and refreshes generated guide indexes. The docs site build also generates `docs/guidelines/**` from the skill source before rendering HTML, so that generated copy is not committed.
 
 Keep source-of-truth docs, generated published docs, generated API docs, and docs site navigation aligned before handoff.
 
@@ -52,6 +52,7 @@ If you are unsure, assume docs are affected and follow the workflow below before
    - run `npm run doc` after API docs, guides, specs, or generated guide indexes need refreshing
    - never edit Markdown under `packages/*/{classes,functions,interfaces,type-aliases,variables}` directly
    - never edit generated published docs under `docs/guidelines/**`, `docs/specs/**`, or `docs/guidelines/README.md` directly
+   - never commit `docs/guidelines/**`; it is recreated by `cd docs && npm run build`
    - update JSDoc or `skills/**` source first, then run `npm run doc`
    - do not hand-edit `docs/dist/**`
 6. Validate the smallest meaningful scope.

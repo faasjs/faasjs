@@ -15,6 +15,7 @@ import hljs from 'highlight.js'
 import MarkdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
 
+import { prepareDocsSite } from '../../packages/docgen/src/index.ts'
 import {
   type LocaleConfig,
   type NavbarItem,
@@ -674,6 +675,8 @@ function writeSitemapAndRoutes(pages: Page[]): void {
 }
 
 function buildSite(): void {
+  prepareDocsSite()
+
   rmSync(distRoot, { recursive: true, force: true })
   mkdirSync(distRoot, { recursive: true })
 

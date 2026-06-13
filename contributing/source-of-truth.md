@@ -25,6 +25,7 @@ Use this guide when developing or maintaining the FaasJS framework in this monor
 - Do not directly edit generated API Markdown under `packages/*/{classes,functions,interfaces,type-aliases,variables}`.
 - Update JSDoc in `packages/*/src` first, then run `npm run doc` to refresh generated package API Markdown.
 - Update guide/spec source under `skills/**` first, then run `npm run doc` to refresh generated published docs.
+- `docs/guidelines/**` is generated during the docs site build from `skills/faasjs-best-practices/guidelines/**`; do not commit it.
 - Do not hand-edit generated docs output such as `docs/guidelines/**`, `docs/specs/**`, `docs/guidelines/README.md`, or `docs/dist/**`.
 
 ## Codebase Conventions

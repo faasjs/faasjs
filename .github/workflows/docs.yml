@@ -9,6 +9,7 @@ on:
       - 'docs/**'
       - '.github/workflows/docs.yml'
       - 'packages/**/*.md'
+      - 'skills/faasjs-best-practices/guidelines/**'
       - '.mise.toml'
 
 jobs:

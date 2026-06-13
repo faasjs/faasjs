@@ -15,6 +15,7 @@ dist
 .turbo
 .swc
 docs/doc
+docs/guidelines
 docs/*.md
 !docs/README.md
 !docs/zh/*

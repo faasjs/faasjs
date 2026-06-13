@@ -20,6 +20,7 @@ This file is the entry point for contributors and agents developing the FaasJS f
 
 - Edit source-of-truth content first: JSDoc in `packages/*/src`, English guides in `skills/faasjs-best-practices/guidelines/**`, and specs in `skills/*/references/specs/**`.
 - Run `npm run doc` to invoke `@faasjs/docgen`, which refreshes API Markdown, skill references, generated English published docs, and generated guide indexes.
+- The docs site build also generates `docs/guidelines/**` from `skills/faasjs-best-practices/guidelines/**`; do not edit or commit that generated copy.
 - Do not hand-edit generated docs under `packages/*/{classes,functions,interfaces,type-aliases,variables}`, `docs/guidelines/**`, `docs/specs/**`, or `docs/guidelines/README.md`.
 
 ## Standard Flow

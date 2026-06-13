@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build:ssg": "node scripts/build-site.ts",
-    "build": "node prepare.ts && npm run build:ssg"
+    "build": "npm run build:ssg"
   },
   "devDependencies": {
     "@faasjs/node-utils": "file:../packages/node-utils",
