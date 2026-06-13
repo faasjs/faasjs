@@ -48,6 +48,8 @@ export default defineJob({
 
 When a job needs database access, use `getClient()` from `@faasjs/pg` inside the handler. Job handlers do not receive an externally provided database client, so tests and callers cannot silently swap the default database path.
 
+Destructure only the top-level handler context as `handler({ params, logger, job })`; do not further destructure fields from `params`. Use `params.userId` and similar property access so the source of each business value stays visible, like `props.id` in React components.
+
 If a job has no business input, omit `schema`; `params` will be typed as `Record<string, never>`.
 
 ### 3. Enqueue asynchronous work explicitly

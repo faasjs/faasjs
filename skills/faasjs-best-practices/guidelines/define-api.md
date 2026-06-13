@@ -68,6 +68,7 @@ Instead of extracting `schema` early without a reuse reason.
 - `params` is the parsed, validated view of `event.params`.
 - `event` keeps the raw request payload; reach for it only when you need transport-level details or unparsed input.
 - Prefer `params` over raw request fields for business logic.
+- Destructure only the top-level handler context as `handler({ params })`; do not further destructure fields from `params`. Use `params.id`, `params.title`, and similar property access so the source of each business value stays visible, like `props.id` in React components.
 - Read `event`, `headers`, or `body` only when transport-level behavior matters.
 - Let `schema` cover request-shape validation at the boundary, then fail fast inside `handler` when domain state is invalid instead of layering extra fallback branches.
 
