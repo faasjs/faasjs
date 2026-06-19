@@ -1,15 +1,12 @@
-import { Http, Func } from '@faasjs/core'
 import { describe, expect, it } from 'vitest'
+
+import { createHttpHandler } from './helpers'
 
 describe('setHeader', () => {
   it('should work', async () => {
-    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
-    const handler = new Func({
-      plugins: [http],
-      async handler({ setHeader }) {
-        setHeader('key', 'value')
-      },
-    }).export().handler
+    const handler = createHttpHandler(({ setHeader }) => {
+      setHeader('key', 'value')
+    })
 
     const res = await handler({})
 

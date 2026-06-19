@@ -1,31 +1,23 @@
-import { Http, Func, type InvokeData } from '@faasjs/core'
-import { streamToString } from '@faasjs/utils'
 import { describe, expect, it } from 'vitest'
+
+import { createHttpFunc, createHttpHandler, expectBody } from './helpers'
 
 describe('cookie', () => {
   describe('read', () => {
-    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
-    const handler = new Func({
-      plugins: [http],
-      async handler(data: InvokeData) {
-        return data.cookie.read(data.event.key)
-      },
-    }).export().handler
+    const handler = createHttpHandler((data) => data.cookie.read(data.event.key))
 
     it('should work', async () => {
       let res = await handler({
         headers: { cookie: 'a=1; b=2' },
         key: 'a',
       })
-      expect(res.body).toBeInstanceOf(ReadableStream)
-      expect(await streamToString(res.body)).toEqual('{"data":"1"}')
+      await expectBody(res, '{"data":"1"}')
 
       res = await handler({
         headers: { cookie: 'a=1; b=2' },
         key: 'b',
       })
-      expect(res.body).toBeInstanceOf(ReadableStream)
-      expect(await streamToString(res.body)).toEqual('{"data":"2"}')
+      await expectBody(res, '{"data":"2"}')
 
       res = await handler({
         headers: { cookie: 'a=1; b=2' },
@@ -46,17 +38,14 @@ describe('cookie', () => {
   })
 
   describe('write', () => {
-    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
-    const func = new Func({
-      plugins: [http],
-      async handler(data: InvokeData) {
+    const handler = createHttpFunc(
+      (data) => {
         data.cookie.write(data.event.key, data.event.value)
       },
-    })
-    func.config = {
-      plugins: { http: { type: 'http' } },
-    }
-    const handler = func.export().handler
+      {
+        config: { plugins: { http: { type: 'http' } } },
+      },
+    ).export().handler
 
     it('base', async () => {
       const res = await handler({
@@ -83,14 +72,10 @@ describe('cookie', () => {
     })
 
     it('write multi keys', async () => {
-      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
-      const handler = new Func({
-        plugins: [http],
-        async handler({ cookie }) {
-          cookie.write('k1', 'v1')
-          cookie.write('k2', 'v2')
-        },
-      }).export().handler
+      const handler = createHttpHandler(({ cookie }) => {
+        cookie.write('k1', 'v1')
+        cookie.write('k2', 'v2')
+      })
 
       const res = await handler({})
 
@@ -102,135 +87,65 @@ describe('cookie', () => {
   })
 
   describe('cookie options', () => {
-    it('domain', async () => {
-      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
-      const func = new Func({
-        plugins: [http],
-        async handler({ cookie }) {
-          cookie.write('key', null)
+    it.each([
+      {
+        name: 'domain',
+        config: { domain: 'domain.com' },
+        value: null,
+        expected: [
+          'key=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/;domain=domain.com;Secure;HttpOnly;',
+        ],
+      },
+      {
+        name: 'path',
+        config: { path: '/path' },
+        value: null,
+        expected: ['key=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/path;Secure;HttpOnly;'],
+      },
+      {
+        name: 'sameSite',
+        config: { sameSite: 'Lex' },
+        value: null,
+        expected: [
+          'key=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/;Secure;HttpOnly;SameSite=Lex;',
+        ],
+      },
+      {
+        name: 'expires number',
+        config: { expires: 1 },
+        value: '1',
+        expected: ['key=1;max-age=1;path=/;Secure;HttpOnly;'],
+      },
+      {
+        name: 'expires string',
+        config: { expires: '1' },
+        value: '1',
+        expected: ['key=1;expires=1;path=/;Secure;HttpOnly;'],
+      },
+    ])('$name', async ({ config, expected, value }) => {
+      const handler = createHttpFunc(
+        ({ cookie }) => {
+          cookie.write('key', value)
         },
-      })
-      func.config = {
-        plugins: {
-          http: {
-            type: 'http',
-            config: { cookie: { domain: 'domain.com' } },
+        {
+          config: {
+            plugins: {
+              http: {
+                type: 'http',
+                config: { cookie: config },
+              },
+            },
           },
         },
-      }
-      const res = await func.export().handler({
+      ).export().handler
+
+      const res = await handler({
         headers: {},
         key: 'key',
         value: null,
       })
 
-      expect(res.headers['Set-Cookie']).toEqual([
-        'key=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/;domain=domain.com;Secure;HttpOnly;',
-      ])
-    })
-
-    it('path', async () => {
-      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
-      const func = new Func({
-        plugins: [http],
-        async handler({ cookie }) {
-          cookie.write('key', null)
-        },
-      })
-      func.config = {
-        plugins: {
-          http: {
-            type: 'http',
-            config: { cookie: { path: '/path' } },
-          },
-        },
-      }
-      const res = await func.export().handler({
-        headers: {},
-        key: 'key',
-        value: null,
-      })
-
-      expect(res.headers['Set-Cookie']).toEqual([
-        'key=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/path;Secure;HttpOnly;',
-      ])
-    })
-
-    it('sameSite', async () => {
-      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
-      const func = new Func({
-        plugins: [http],
-        async handler({ cookie }) {
-          cookie.write('key', null)
-        },
-      })
-      func.config = {
-        plugins: {
-          http: {
-            type: 'http',
-            config: { cookie: { sameSite: 'Lex' } },
-          },
-        },
-      }
-      const res = await func.export().handler({
-        headers: {},
-        key: 'key',
-        value: null,
-      })
-
-      expect(res.headers['Set-Cookie']).toEqual([
-        'key=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/;Secure;HttpOnly;SameSite=Lex;',
-      ])
-    })
-
-    it('expires number', async () => {
-      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
-      const func = new Func({
-        plugins: [http],
-        async handler({ cookie }) {
-          cookie.write('key', '1')
-        },
-      })
-      func.config = {
-        plugins: {
-          http: {
-            type: 'http',
-            config: { cookie: { expires: 1 } },
-          },
-        },
-      }
-      const res = await func.export().handler({
-        headers: {},
-        key: 'key',
-        value: null,
-      })
-
-      expect(res.headers['Set-Cookie']).toEqual(['key=1;max-age=1;path=/;Secure;HttpOnly;'])
-    })
-
-    it('expires string', async () => {
-      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
-      const func = new Func({
-        plugins: [http],
-        async handler({ cookie }) {
-          cookie.write('key', '1')
-        },
-      })
-      func.config = {
-        plugins: {
-          http: {
-            type: 'http',
-            config: { cookie: { expires: '1' } },
-          },
-        },
-      }
-      const res = await func.export().handler({
-        headers: {},
-        key: 'key',
-        value: null,
-      })
-
-      expect(res.headers['Set-Cookie']).toEqual(['key=1;expires=1;path=/;Secure;HttpOnly;'])
+      expect(res.headers['Set-Cookie']).toEqual(expected)
     })
   })
 })

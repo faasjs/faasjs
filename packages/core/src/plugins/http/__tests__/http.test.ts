@@ -1,16 +1,12 @@
-import { Http, HttpError, type Response, Func } from '@faasjs/core'
+import { Func, Http, HttpError, type Response } from '@faasjs/core'
 import { streamToString } from '@faasjs/utils'
 import { describe, expect, it } from 'vitest'
 
+import { createHttpFunc, createHttpHandler, expectBody } from './helpers'
+
 describe('http', () => {
   it('should work', async () => {
-    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
-    const handler = new Func({
-      plugins: [http],
-      async handler() {
-        return 1
-      },
-    }).export().handler
+    const handler = createHttpHandler(() => 1)
 
     const res = await handler({
       headers: {},
@@ -18,54 +14,31 @@ describe('http', () => {
     })
 
     expect(res.statusCode).toEqual(200)
-    expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":1}')
+    await expectBody(res, '{"data":1}')
   })
 
-  it('should preserve falsy handler responses', async () => {
-    const cases = [
-      { value: 0, body: '{"data":0}' },
-      { value: false, body: '{"data":false}' },
-      { value: '', body: '{"data":""}' },
-      { value: null, body: '{"data":null}' },
-    ]
+  it.each([
+    { value: 0, body: '{"data":0}' },
+    { value: false, body: '{"data":false}' },
+    { value: '', body: '{"data":""}' },
+    { value: null, body: '{"data":null}' },
+  ])('should preserve falsy handler response $value', async (item) => {
+    const handler = createHttpHandler(() => item.value)
 
-    for (const item of cases) {
-      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
-      const handler = new Func({
-        plugins: [http],
-        async handler() {
-          return item.value
-        },
-      }).export().handler
+    const res = await handler({
+      headers: {},
+      body: null,
+    })
 
-      const res = await handler({
-        headers: {},
-        body: null,
-      })
-
-      expect(res.statusCode).toEqual(200)
-      expect(res.body).toBeInstanceOf(ReadableStream)
-      expect(await streamToString(res.body as ReadableStream)).toEqual(item.body)
-    }
+    expect(res.statusCode).toEqual(200)
+    await expectBody(res, item.body)
   })
 
   it('with config name', async () => {
-    const http = new Http({
-      name: 'name',
-      config: { cookie: { session: { secret: 'test-secret' } } },
-    })
-    const func = new Func({
-      plugins: [http],
-      async handler() {
-        return 1
-      },
-    })
-
-    func.config = {
-      plugins: { name: { type: 'name' } },
-    }
-    const handler = func.export().handler
+    const handler = createHttpFunc(() => 1, {
+      config: { plugins: { name: { type: 'name' } } },
+      http: { name: 'name' },
+    }).export().handler
 
     const res = await handler({
       headers: {},
@@ -73,47 +46,32 @@ describe('http', () => {
     })
 
     expect(res.statusCode).toEqual(200)
-    expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":1}')
+    await expectBody(res, '{"data":1}')
   })
 
   it('throw error', async () => {
-    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
-    const handler = new Func({
-      plugins: [http],
-      async handler() {
-        throw Error('wrong')
-      },
-    }).export().handler
+    const handler = createHttpHandler(() => {
+      throw Error('wrong')
+    })
 
     const res = await handler({})
 
     expect(res.statusCode).toEqual(500)
-    expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body as ReadableStream)).toEqual(
-      '{"error":{"message":"wrong"}}',
-    )
+    await expectBody(res, '{"error":{"message":"wrong"}}')
   })
 
   it('HttpError', async () => {
-    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
-    const handler = new Func({
-      plugins: [http],
-      async handler() {
-        throw new HttpError({
-          statusCode: 400,
-          message: 'wrong',
-        })
-      },
-    }).export().handler
+    const handler = createHttpHandler(() => {
+      throw new HttpError({
+        statusCode: 400,
+        message: 'wrong',
+      })
+    })
 
     const res = await handler({})
 
     expect(res.statusCode).toEqual(400)
-    expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body as ReadableStream)).toEqual(
-      '{"error":{"message":"wrong"}}',
-    )
+    await expectBody(res, '{"error":{"message":"wrong"}}')
   })
 
   it('typed Http plugin', async () => {
@@ -195,13 +153,7 @@ describe('http', () => {
     }
 
     try {
-      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
-      const handler = new Func({
-        plugins: [http],
-        async handler() {
-          return 1
-        },
-      }).export().handler
+      const handler = createHttpHandler(() => 1)
 
       const res = await handler({
         headers: {},
