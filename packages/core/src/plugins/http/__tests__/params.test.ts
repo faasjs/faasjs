@@ -1,6 +1,7 @@
+import { streamToString } from '@faasjs/utils'
 import { describe, expect, it } from 'vitest'
 
-import { createHttpHandler, expectBody } from './helpers'
+import { createHttpHandler } from './helpers'
 
 describe('params', () => {
   const handler = createHttpHandler((data) => data.params)
@@ -43,7 +44,7 @@ describe('params', () => {
     const res = await handler(event)
 
     expect(res.statusCode).toEqual(200)
-    await expectBody(res, body)
+    expect(await streamToString(res.body)).toEqual(body)
   })
 
   it('should return 400 when json body parse fails', async () => {
@@ -54,7 +55,9 @@ describe('params', () => {
     })
 
     expect(res.statusCode).toEqual(400)
-    await expectBody(res, '{"error":{"message":"Invalid JSON request body"}}')
+    expect(await streamToString(res.body)).toEqual(
+      '{"error":{"message":"Invalid JSON request body"}}',
+    )
   })
 
   it('skips params parsing outside api runtime', async () => {
@@ -117,6 +120,8 @@ describe('params', () => {
     )
 
     expect(res.statusCode).toEqual(200)
-    await expectBody(res, '{"data":{"params":{"message":"parsed"},"runtime":"api"}}')
+    expect(await streamToString(res.body)).toEqual(
+      '{"data":{"params":{"message":"parsed"},"runtime":"api"}}',
+    )
   })
 })

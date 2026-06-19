@@ -1,6 +1,7 @@
+import { streamToString } from '@faasjs/utils'
 import { describe, expect, it } from 'vitest'
 
-import { createHttpHandler, expectBody } from './helpers'
+import { createHttpHandler } from './helpers'
 
 describe('setBody', () => {
   it('should work', async () => {
@@ -10,7 +11,7 @@ describe('setBody', () => {
 
     const res = await handler({})
 
-    await expectBody(res, '{"data":"body"}')
+    expect(await streamToString(res.body)).toEqual('{"data":"body"}')
   })
 
   it.each([
@@ -26,6 +27,6 @@ describe('setBody', () => {
     const res = await handler({})
 
     expect(res.statusCode).toEqual(200)
-    await expectBody(res, item.body)
+    expect(await streamToString(res.body)).toEqual(item.body)
   })
 })

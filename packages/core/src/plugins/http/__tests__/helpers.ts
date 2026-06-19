@@ -5,10 +5,7 @@ import {
   type Handler,
   type HttpConfig,
   type InvokeData,
-  type Response,
 } from '@faasjs/core'
-import { streamToString } from '@faasjs/utils'
-import { expect } from 'vitest'
 
 type TestHandler<TEvent, TContext, TResult> = (
   data: InvokeData<TEvent, TContext, TResult>,
@@ -58,11 +55,6 @@ export function createHttpHandler<TEvent = any, TContext = any, TResult = any>(
   options?: TestHttpFuncOptions<TEvent, TContext, TResult>,
 ) {
   return createHttpFunc(handler, options).export().handler as (...args: any[]) => Promise<any>
-}
-
-export async function expectBody(response: Response, body: string) {
-  expect(response.body).toBeInstanceOf(ReadableStream)
-  expect(await streamToString(response.body as ReadableStream)).toEqual(body)
 }
 
 export function createStream(chunk: string) {

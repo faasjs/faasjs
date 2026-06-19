@@ -2,7 +2,7 @@ import { Func, Http, HttpError, type Response } from '@faasjs/core'
 import { streamToString } from '@faasjs/utils'
 import { describe, expect, it } from 'vitest'
 
-import { createHttpFunc, createHttpHandler, expectBody } from './helpers'
+import { createHttpFunc, createHttpHandler } from './helpers'
 
 describe('http', () => {
   it('should work', async () => {
@@ -14,7 +14,7 @@ describe('http', () => {
     })
 
     expect(res.statusCode).toEqual(200)
-    await expectBody(res, '{"data":1}')
+    expect(await streamToString(res.body)).toEqual('{"data":1}')
   })
 
   it.each([
@@ -31,7 +31,7 @@ describe('http', () => {
     })
 
     expect(res.statusCode).toEqual(200)
-    await expectBody(res, item.body)
+    expect(await streamToString(res.body)).toEqual(item.body)
   })
 
   it('with config name', async () => {
@@ -46,7 +46,7 @@ describe('http', () => {
     })
 
     expect(res.statusCode).toEqual(200)
-    await expectBody(res, '{"data":1}')
+    expect(await streamToString(res.body)).toEqual('{"data":1}')
   })
 
   it('throw error', async () => {
@@ -57,7 +57,7 @@ describe('http', () => {
     const res = await handler({})
 
     expect(res.statusCode).toEqual(500)
-    await expectBody(res, '{"error":{"message":"wrong"}}')
+    expect(await streamToString(res.body)).toEqual('{"error":{"message":"wrong"}}')
   })
 
   it('HttpError', async () => {
@@ -71,7 +71,7 @@ describe('http', () => {
     const res = await handler({})
 
     expect(res.statusCode).toEqual(400)
-    await expectBody(res, '{"error":{"message":"wrong"}}')
+    expect(await streamToString(res.body)).toEqual('{"error":{"message":"wrong"}}')
   })
 
   it('typed Http plugin', async () => {
@@ -145,7 +145,6 @@ describe('http', () => {
 
   it('should emit stream error when TextEncoder fails', async () => {
     const TextEncoderBackup = globalThis.TextEncoder
-
     ;(globalThis as any).TextEncoder = class {
       encode() {
         throw Error('encode failed')

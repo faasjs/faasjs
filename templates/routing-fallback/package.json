@@ -14,9 +14,6 @@
     "@faasjs/types": "file:../../packages/types"
   },
   "devDependencies": {
-    "@faasjs/dev": "file:../../packages/dev",
-    "@types/node": "*",
-    "typescript": "*",
-    "vitest": "*"
+    "@faasjs/dev": "file:../../packages/dev"
   }
 }

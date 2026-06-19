@@ -1,6 +1,7 @@
+import { streamToString } from '@faasjs/utils'
 import { describe, expect, it } from 'vitest'
 
-import { createHttpFunc, createHttpHandler, expectBody } from './helpers'
+import { createHttpFunc, createHttpHandler } from './helpers'
 
 describe('cookie', () => {
   describe('read', () => {
@@ -11,13 +12,13 @@ describe('cookie', () => {
         headers: { cookie: 'a=1; b=2' },
         key: 'a',
       })
-      await expectBody(res, '{"data":"1"}')
+      expect(await streamToString(res.body)).toEqual('{"data":"1"}')
 
       res = await handler({
         headers: { cookie: 'a=1; b=2' },
         key: 'b',
       })
-      await expectBody(res, '{"data":"2"}')
+      expect(await streamToString(res.body)).toEqual('{"data":"2"}')
 
       res = await handler({
         headers: { cookie: 'a=1; b=2' },

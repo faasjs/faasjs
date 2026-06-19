@@ -20,13 +20,16 @@
     "clean": "rimraf packages/*/node_modules packages/*/dist coverage packages/*/*.log tmp *.log",
     "prepare": "vp config"
   },
+  "devDependencies": {
+    "@vitest/coverage-v8": ">=4.1.9",
+    "vite-plus": ">=0.2.1"
+  },
   "overrides": {
-    "vite": "npm:@voidzero-dev/vite-plus-core",
-    "vitest": "npm:@voidzero-dev/vite-plus-test"
+    "vite": "npm:@voidzero-dev/vite-plus-core"
   },
   "engines": {
     "node": ">=26.0.0",
     "npm": ">=11.0.0"
   },
-  "packageManager": "npm@11.14.1"
+  "packageManager": "npm@11.17.0"
 }
