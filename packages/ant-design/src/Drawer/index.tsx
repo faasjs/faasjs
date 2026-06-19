@@ -1,6 +1,7 @@
-import { useEqualCallback } from '@faasjs/react'
 import { type DrawerProps as AntdDrawerProps, Drawer } from 'antd'
-import { type Dispatch, type JSX, type SetStateAction, useRef, useState } from 'react'
+import { type Dispatch, type JSX, type SetStateAction } from 'react'
+
+import { useDialogProps } from '../utils/use-dialog-props'
 
 export { Drawer }
 
@@ -52,37 +53,11 @@ export type setDrawerProps = Dispatch<SetStateAction<DrawerProps>>
  * ```
  */
 export function useDrawer(init?: DrawerProps) {
-  const defaultProps = { open: false, destroyOnHidden: true, ...init }
-  const defaultPropsRef = useRef<DrawerProps>(defaultProps)
-  defaultPropsRef.current = defaultProps
-  const [props, setProps] = useState<DrawerProps>(defaultProps)
-
-  const setDrawerProps: setDrawerProps = useEqualCallback(
-    (changes) => {
-      setProps((prev) => {
-        const changed = typeof changes === 'function' ? changes(prev) : changes
-
-        if (changed.open === false) return { ...defaultPropsRef.current, open: false }
-
-        return { ...prev, ...changed }
-      })
-    },
-    [setProps],
-  )
+  const [drawerProps, setDrawerProps] = useDialogProps(init)
 
   return {
-    drawer: (
-      <Drawer
-        onClose={() =>
-          setProps({
-            ...defaultPropsRef.current,
-            open: false,
-          })
-        }
-        {...props}
-      />
-    ),
-    drawerProps: props,
+    drawer: <Drawer onClose={() => setDrawerProps({ open: false })} {...drawerProps} />,
+    drawerProps,
     setDrawerProps,
   }
 }

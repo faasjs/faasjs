@@ -1,6 +1,7 @@
-import { useEqualCallback } from '@faasjs/react'
 import { type ModalProps as AntdModalProps, Modal } from 'antd'
-import { type Dispatch, type JSX, type SetStateAction, useRef, useState } from 'react'
+import { type Dispatch, type JSX, type SetStateAction } from 'react'
+
+import { useDialogProps } from '../utils/use-dialog-props'
 
 export { Modal }
 
@@ -52,37 +53,11 @@ export type setModalProps = Dispatch<SetStateAction<ModalProps>>
  * ```
  */
 export function useModal(init?: ModalProps) {
-  const defaultProps = { open: false, destroyOnHidden: true, ...init }
-  const defaultPropsRef = useRef<ModalProps>(defaultProps)
-  defaultPropsRef.current = defaultProps
-  const [props, setProps] = useState<ModalProps>(defaultProps)
-
-  const setModalProps: setModalProps = useEqualCallback(
-    (changes) => {
-      setProps((prev) => {
-        const changed = typeof changes === 'function' ? changes(prev) : changes
-
-        if (changed.open === false) return { ...defaultPropsRef.current, open: false }
-
-        return { ...prev, ...changed }
-      })
-    },
-    [setProps],
-  )
+  const [modalProps, setModalProps] = useDialogProps(init)
 
   return {
-    modal: (
-      <Modal
-        onCancel={() =>
-          setProps({
-            ...defaultPropsRef.current,
-            open: false,
-          })
-        }
-        {...props}
-      />
-    ),
-    modalProps: props,
+    modal: <Modal onCancel={() => setModalProps({ open: false })} {...modalProps} />,
+    modalProps,
     setModalProps,
   }
 }

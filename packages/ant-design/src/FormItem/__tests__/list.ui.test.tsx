@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest'
 import type { FaasItemType } from '../../data'
 import { Form } from '../../Form'
 import { FormItem } from '../../FormItem'
+import type { FormItemProps } from '../types'
 
 type ListCase = {
   inputClassName: string
@@ -25,126 +26,118 @@ const cases: ListCase[] = [
   },
 ]
 
+function renderListItem(props: Omit<FormItemProps, 'id'>) {
+  const user = userEvent.setup()
+  const view = render(
+    <Form>
+      <FormItem id="test" {...props} />
+    </Form>,
+  )
+  const count = (className: string) => view.container.getElementsByClassName(className).length
+  const clickByClassName = (className: string) =>
+    user.click(view.container.getElementsByClassName(className)[0])
+
+  return {
+    ...view,
+    clickAdd: () => clickByClassName('ant-btn-dashed'),
+    clickRemove: () => clickByClassName('anticon-minus-circle'),
+    clickSelect: () => clickByClassName('ant-select'),
+    count,
+  }
+}
+
 describe('FormItem list types', () => {
   it.each(cases)('$type with object options', async ({ type }) => {
-    const user = userEvent.setup()
-    const { container } = render(
-      <Form>
-        <FormItem
-          id="test"
-          type={type}
-          options={[
-            {
-              label: 'label',
-              value: 'value',
-            },
-          ]}
-        />
-      </Form>,
-    )
+    const { clickSelect, count } = renderListItem({
+      options: [
+        {
+          label: 'label',
+          value: 'value',
+        },
+      ],
+      type,
+    })
 
-    expect(container.getElementsByClassName('ant-select').length).toEqual(1)
+    expect(count('ant-select')).toEqual(1)
 
-    await user.click(container.getElementsByClassName('ant-select')[0])
+    await clickSelect()
 
     expect(await screen.findByText('label')).toBeDefined()
   })
 
   it.each(cases)('$type with $primitiveName options', async ({ type }) => {
-    const user = userEvent.setup()
-    const { container } = render(
-      <Form>
-        <FormItem id="test" type={type} options={['value']} />
-      </Form>,
-    )
+    const { clickSelect, count } = renderListItem({
+      options: ['value'],
+      type,
+    })
 
-    expect(container.getElementsByClassName('ant-select').length).toEqual(1)
+    expect(count('ant-select')).toEqual(1)
 
-    await user.click(container.getElementsByClassName('ant-select')[0])
+    await clickSelect()
 
     expect(await screen.findByText('Value')).toBeDefined()
   })
 
   describe('can add', () => {
-    it.each(cases)('$type without maxCount', async ({ inputClassName, type }) => {
-      const user = userEvent.setup()
-      const { container } = render(
-        <Form>
-          <FormItem id="test" type={type} />
-        </Form>,
-      )
+    it.each(
+      cases.flatMap((item) => [
+        { ...item, expectedAddButtonCount: 1, name: 'without maxCount', props: {} },
+        { ...item, expectedAddButtonCount: 0, name: 'with maxCount', props: { maxCount: 2 } },
+      ]),
+    )('$type $name', async ({ expectedAddButtonCount, inputClassName, props, type }) => {
+      const { clickAdd, count } = renderListItem({
+        ...props,
+        type,
+      })
 
-      await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
+      await clickAdd()
 
-      expect(container.getElementsByClassName(inputClassName).length).toEqual(1)
+      expect(count(inputClassName)).toEqual(1)
 
-      await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
+      await clickAdd()
 
-      expect(container.getElementsByClassName(inputClassName).length).toEqual(2)
-      expect(container.getElementsByClassName('ant-btn-dashed').length).toEqual(1)
-    })
-
-    it.each(cases)('$type with maxCount', async ({ inputClassName, type }) => {
-      const user = userEvent.setup()
-      const { container } = render(
-        <Form>
-          <FormItem id="test" type={type} maxCount={2} />
-        </Form>,
-      )
-
-      await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
-
-      expect(container.getElementsByClassName(inputClassName).length).toEqual(1)
-
-      await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
-
-      expect(container.getElementsByClassName(inputClassName).length).toEqual(2)
-      expect(container.getElementsByClassName('ant-btn-dashed').length).toEqual(0)
+      expect(count(inputClassName)).toEqual(2)
+      expect(count('ant-btn-dashed')).toEqual(expectedAddButtonCount)
     })
   })
 
   describe('can delete', () => {
     it.each(cases)('$type without required', async ({ inputClassName, type }) => {
-      const user = userEvent.setup()
-      const { container } = render(
-        <Form>
-          <FormItem id="test" type={type} />
-        </Form>,
-      )
+      const { clickAdd, clickRemove, count } = renderListItem({
+        type,
+      })
 
-      await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
+      await clickAdd()
 
-      expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(1)
-      expect(container.getElementsByClassName(inputClassName).length).toEqual(1)
+      expect(count('anticon-minus-circle')).toEqual(1)
+      expect(count(inputClassName)).toEqual(1)
 
-      await user.click(container.getElementsByClassName('anticon-minus-circle')[0])
+      await clickRemove()
 
-      expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(0)
-      expect(container.getElementsByClassName(inputClassName).length).toEqual(0)
+      expect(count('anticon-minus-circle')).toEqual(0)
+      expect(count(inputClassName)).toEqual(0)
     })
 
     it.each(cases)('$type with required', async ({ inputClassName, type }) => {
-      const user = userEvent.setup()
-      const { container } = render(
-        <Form>
-          <FormItem id="test" type={type} required />
-        </Form>,
-      )
+      const { clickAdd, clickRemove, count } = renderListItem({
+        required: true,
+        type,
+      })
 
-      await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
+      await clickAdd()
 
-      expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(0)
-      expect(container.getElementsByClassName(inputClassName).length).toEqual(1)
+      expect(count('anticon-minus-circle')).toEqual(0)
+      expect(count(inputClassName)).toEqual(1)
 
-      await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
+      await clickAdd()
 
-      expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(1)
-      expect(container.getElementsByClassName(inputClassName).length).toEqual(2)
+      expect(count('anticon-minus-circle')).toEqual(1)
+      expect(count(inputClassName)).toEqual(2)
 
-      await user.click(container.getElementsByClassName('anticon-minus-circle')[0])
+      await clickRemove()
 
-      expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(0)
-      expect(container.getElementsByClassName(inputClassName).length).toEqual(1)
+      expect(count('anticon-minus-circle')).toEqual(0)
+      expect(count(inputClassName)).toEqual(1)
     })
   })
 })
