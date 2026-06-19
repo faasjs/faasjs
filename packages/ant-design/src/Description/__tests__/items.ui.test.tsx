@@ -4,6 +4,8 @@ import { describe, expect, it } from 'vitest'
 
 import { Description } from '../../Description'
 
+const dateTimeValue = dayjs('2024-01-02 03:04:05')
+
 describe('Description/items', () => {
   it('should work', () => {
     render(<Description items={[{ id: 'test' }, null]} dataSource={{ test: 'value' }} />)
@@ -94,145 +96,29 @@ describe('Description/items', () => {
     })
   })
 
-  describe('time', () => {
-    it('undefined', async () => {
+  describe.each([
+    ['time', 'YYYY-MM-DD HH:mm:ss'],
+    ['date', 'YYYY-MM-DD'],
+  ] as const)('%s', (type, format) => {
+    it.each([
+      ['undefined', undefined, 'Empty'],
+      ['number', dateTimeValue.unix(), dateTimeValue.format(format)],
+      ['dayjs', dateTimeValue, dateTimeValue.format(format)],
+      ['string', dateTimeValue.format(), dateTimeValue.format(format)],
+    ] as const)('%s', (_, value, expected) => {
       render(
         <Description
           items={[
             {
               id: 'test',
-              type: 'time',
+              type,
             },
           ]}
-          dataSource={{
-            id: 'undefined',
-            test: undefined,
-          }}
+          dataSource={{ test: value }}
         />,
       )
       expect(screen.getByText('Test')).toBeDefined()
-    })
-    it('number', async () => {
-      const now = dayjs()
-      render(
-        <Description
-          items={[
-            {
-              id: 'test',
-              type: 'time',
-            },
-          ]}
-          dataSource={{ test: now.unix() }}
-        />,
-      )
-      expect(screen.getByText('Test')).toBeDefined()
-      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
-    })
-    it('dayjs', () => {
-      const now = dayjs()
-      render(
-        <Description
-          items={[
-            {
-              id: 'test',
-              type: 'time',
-            },
-          ]}
-          dataSource={{ test: now }}
-        />,
-      )
-      expect(screen.getByText('Test')).toBeDefined()
-      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
-    })
-    it('string', () => {
-      const now = dayjs()
-      render(
-        <Description
-          items={[
-            {
-              id: 'test',
-              type: 'time',
-            },
-          ]}
-          dataSource={{ test: now.format() }}
-        />,
-      )
-      expect(screen.getByText('Test')).toBeDefined()
-      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
-    })
-  })
-
-  describe('date', () => {
-    it('undefined', async () => {
-      render(
-        <Description
-          items={[
-            {
-              id: 'test',
-              type: 'date',
-            },
-          ]}
-          dataSource={{ test: undefined }}
-        />,
-      )
-      expect(screen.getByText('Test')).toBeDefined()
-    })
-    it('number', async () => {
-      const now = dayjs()
-      render(
-        <Description
-          items={[
-            {
-              id: 'test',
-              type: 'date',
-            },
-          ]}
-          dataSource={{
-            id: 'number',
-            test: now.unix(),
-          }}
-        />,
-      )
-      expect(screen.getByText('Test')).toBeDefined()
-      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()
-    })
-    it('dayjs', () => {
-      const now = dayjs()
-      render(
-        <Description
-          items={[
-            {
-              id: 'test',
-              type: 'date',
-            },
-          ]}
-          dataSource={{
-            id: 'dayjs',
-            test: now,
-          }}
-        />,
-      )
-      expect(screen.getByText('Test')).toBeDefined()
-      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()
-    })
-    it('string', () => {
-      const now = dayjs()
-      render(
-        <Description
-          items={[
-            {
-              id: 'test',
-              type: 'date',
-            },
-          ]}
-          dataSource={{
-            id: 'string',
-            test: now.format(),
-          }}
-        />,
-      )
-      expect(screen.getByText('Test')).toBeDefined()
-      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()
+      expect(screen.getByText(expected)).toBeDefined()
     })
   })
 

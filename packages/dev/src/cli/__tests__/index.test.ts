@@ -41,21 +41,45 @@ afterEach(async () => {
 })
 
 describe('faas cli', () => {
-  it('should print help text', async () => {
+  it.each([
+    [
+      'help text',
+      ['node', 'faas', '--help'],
+      ['Usage:', 'run [options] <file>'],
+      ['lint [options]'],
+    ],
+    [
+      'types help text',
+      ['node', 'faas', 'types', '--help'],
+      ['Generate FaasJS API type declarations.'],
+      [],
+    ],
+    [
+      'run help text',
+      ['node', 'faas', 'run', '--help'],
+      ['Run a TypeScript file with FaasJS Node module hooks.'],
+      [],
+    ],
+  ] as const)('should print %s', async (_, argv, expectedMessages, unexpectedMessages) => {
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
 
-    const code = await main(['node', 'faas', '--help'])
+    const code = await main(Array.from(argv))
 
     expect(code).toBe(0)
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Usage:'))
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('run [options] <file>'))
-    expect(logSpy).toHaveBeenCalledWith(expect.not.stringContaining('lint [options]'))
+
+    for (const message of expectedMessages)
+      expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(message))
+    for (const message of unexpectedMessages)
+      expect(logSpy).toHaveBeenCalledWith(expect.not.stringContaining(message))
   })
 
-  it('should print version text', async () => {
+  it.each([
+    ['version text', ['node', 'faas', '--version']],
+    ['types version text', ['node', 'faas', 'types', '--version']],
+  ] as const)('should print %s', async (_, argv) => {
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
 
-    const code = await main(['node', 'faas', '--version'])
+    const code = await main(Array.from(argv))
 
     expect(code).toBe(0)
     expect(logSpy).toHaveBeenCalledWith(expect.stringMatching(/^v?\d+/))
@@ -93,55 +117,6 @@ describe('faas cli', () => {
 
     expect(secondCode).toBe(0)
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('[faas types] Up to date'))
-  })
-
-  it('should return error code for unknown options', async () => {
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
-
-    const code = await main(['node', 'faas', 'types', '--unknown'])
-
-    expect(code).toBe(1)
-    expect(errorSpy).toHaveBeenCalledWith('[faas types] Unknown option: --unknown')
-  })
-
-  it('should return error code for unexpected positional argument in types command', async () => {
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
-
-    const code = await main(['node', 'faas', 'types', 'unexpected'])
-
-    expect(code).toBe(1)
-    expect(errorSpy).toHaveBeenCalledWith('[faas types] Unknown option: unexpected')
-  })
-
-  it('should print types help text', async () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
-
-    const code = await main(['node', 'faas', 'types', '--help'])
-
-    expect(code).toBe(0)
-    expect(logSpy).toHaveBeenCalledWith(
-      expect.stringContaining('Generate FaasJS API type declarations.'),
-    )
-  })
-
-  it('should print types version text', async () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
-
-    const code = await main(['node', 'faas', 'types', '--version'])
-
-    expect(code).toBe(0)
-    expect(logSpy).toHaveBeenCalledWith(expect.stringMatching(/^v?\d+/))
-  })
-
-  it('should print run help text', async () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
-
-    const code = await main(['node', 'faas', 'run', '--help'])
-
-    expect(code).toBe(0)
-    expect(logSpy).toHaveBeenCalledWith(
-      expect.stringContaining('Run a TypeScript file with FaasJS Node module hooks.'),
-    )
   })
 
   it('should run a ts file with register hooks and forwarded args without auto-loading .env', async () => {
@@ -191,30 +166,26 @@ writeFileSync(${JSON.stringify(outputPath)}, JSON.stringify({
     }
   })
 
-  it('should return error code when run command is missing file name', async () => {
+  it.each([
+    [
+      'unknown options',
+      ['node', 'faas', 'types', '--unknown'],
+      '[faas types] Unknown option: --unknown',
+    ],
+    [
+      'unexpected positional argument in types command',
+      ['node', 'faas', 'types', 'unexpected'],
+      '[faas types] Unknown option: unexpected',
+    ],
+    ['missing run file name', ['node', 'faas', 'run'], '[faas run] Missing file name'],
+    ['unknown command', ['node', 'faas', 'unknown'], '[faas] Unknown command: unknown'],
+    ['lint command', ['node', 'faas', 'lint'], '[faas] Unknown command: lint'],
+  ] as const)('should return error code for %s', async (_, argv, message) => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
 
-    const code = await main(['node', 'faas', 'run'])
+    const code = await main(Array.from(argv))
 
     expect(code).toBe(1)
-    expect(errorSpy).toHaveBeenCalledWith('[faas run] Missing file name')
-  })
-
-  it('should return error code for unknown command', async () => {
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
-
-    const code = await main(['node', 'faas', 'unknown'])
-
-    expect(code).toBe(1)
-    expect(errorSpy).toHaveBeenCalledWith('[faas] Unknown command: unknown')
-  })
-
-  it('should return error code for lint command', async () => {
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
-
-    const code = await main(['node', 'faas', 'lint'])
-
-    expect(code).toBe(1)
-    expect(errorSpy).toHaveBeenCalledWith('[faas] Unknown command: lint')
+    expect(errorSpy).toHaveBeenCalledWith(message)
   })
 })

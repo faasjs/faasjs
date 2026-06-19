@@ -4,7 +4,9 @@ import dayjs from 'dayjs'
 import { beforeEach, describe, expect, it } from 'vitest'
 
 import type { UnionFaasItemElement, UnionFaasItemRender } from '../../data'
-import { Table } from '../../Table'
+import { Table, type TableItemProps } from '../../Table'
+
+const dateTimeValue = dayjs('2024-01-02 03:04:05')
 
 describe('Table/items', () => {
   it('should work', () => {
@@ -177,216 +179,82 @@ describe('Table/items', () => {
       )
     })
 
+    async function selectBooleanFilter(optionIndex: number) {
+      const user = userEvent.setup({ pointerEventsCheck: 0, delay: 0 })
+      const filterButton = screen.getAllByRole('img', { name: 'filter' })[1]
+
+      await user.click(filterButton)
+      await user.click(screen.getAllByRole('radio')[optionIndex])
+    }
+
     it('no filter', () => {
       expect(screen.getAllByRole('cell').length).toBe(6)
     })
 
-    it('filter true', async () => {
-      const user = userEvent.setup({ pointerEventsCheck: 0, delay: 0 })
-      const filterButton = screen.getAllByRole('img', { name: 'filter' })[1]
-
-      await user.click(filterButton)
-      await user.click(screen.getAllByRole('radio')[1])
-
-      expect(screen.getAllByRole('cell').length).toBe(2)
-    })
-
-    it('filter false', async () => {
-      const user = userEvent.setup({ pointerEventsCheck: 0, delay: 0 })
-      const filterButton = screen.getAllByRole('img', { name: 'filter' })[1]
-
-      await user.click(filterButton)
-      await user.click(screen.getAllByRole('radio')[2])
-
+    it.each([
+      ['true', 1],
+      ['false', 2],
+    ] as const)('filter %s', async (_, optionIndex) => {
+      await selectBooleanFilter(optionIndex)
       expect(screen.getAllByRole('cell').length).toBe(2)
     })
 
     it('filter empty and all', async () => {
-      const user = userEvent.setup({ pointerEventsCheck: 0, delay: 0 })
-      const filterButton = screen.getAllByRole('img', { name: 'filter' })[1]
-
-      await user.click(filterButton)
-      await user.click(screen.getAllByRole('radio')[3])
+      await selectBooleanFilter(3)
       expect(screen.getAllByRole('cell').length).toBe(2)
 
-      await user.click(filterButton)
-      await user.click(screen.getAllByRole('radio')[0])
+      await selectBooleanFilter(0)
       expect(screen.getAllByRole('cell').length).toBe(6)
     })
   })
 
-  describe('time', () => {
-    it('number', async () => {
-      const now = dayjs()
+  describe.each([
+    ['time', 'YYYY-MM-DD HH:mm:ss'],
+    ['date', 'YYYY-MM-DD'],
+  ] as const)('%s', (type, format) => {
+    it.each([
+      ['number', dateTimeValue.unix()],
+      ['dayjs', dateTimeValue],
+      ['string', dateTimeValue.format()],
+    ] as const)('%s', (id, value) => {
       render(
         <Table
           items={[
             {
               id: 'test',
-              type: 'time',
+              type,
             },
           ]}
           dataSource={[
             {
-              id: 'number',
-              test: now.unix(),
+              id,
+              test: value,
             },
           ]}
         />,
       )
       expect(screen.getByText('Test')).toBeDefined()
-      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
-    })
-
-    it('dayjs', () => {
-      const now = dayjs()
-      render(
-        <Table
-          items={[
-            {
-              id: 'test',
-              type: 'time',
-            },
-          ]}
-          dataSource={[
-            {
-              id: 'dayjs',
-              test: now,
-            },
-          ]}
-        />,
-      )
-      expect(screen.getByText('Test')).toBeDefined()
-      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
-    })
-
-    it('string', () => {
-      const now = dayjs()
-      render(
-        <Table
-          items={[
-            {
-              id: 'test',
-              type: 'time',
-            },
-          ]}
-          dataSource={[
-            {
-              id: 'string',
-              test: now.format(),
-            },
-          ]}
-        />,
-      )
-      expect(screen.getByText('Test')).toBeDefined()
-      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
+      expect(screen.getByText(dateTimeValue.format(format))).toBeDefined()
     })
   })
 
-  describe('date', () => {
-    it('number', async () => {
-      const now = dayjs()
-      render(
-        <Table
-          items={[
-            {
-              id: 'test',
-              type: 'date',
-            },
-          ]}
-          dataSource={[
-            {
-              id: 'number',
-              test: now.unix(),
-            },
-          ]}
-        />,
-      )
-      expect(screen.getByText('Test')).toBeDefined()
-      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()
-    })
-
-    it('dayjs', () => {
-      const now = dayjs()
-      render(
-        <Table
-          items={[
-            {
-              id: 'test',
-              type: 'date',
-            },
-          ]}
-          dataSource={[
-            {
-              id: 'dayjs',
-              test: now,
-            },
-          ]}
-        />,
-      )
-      expect(screen.getByText('Test')).toBeDefined()
-      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()
-    })
-
-    it('string', () => {
-      const now = dayjs()
-      render(
-        <Table
-          items={[
-            {
-              id: 'test',
-              type: 'date',
-            },
-          ]}
-          dataSource={[
-            {
-              id: 'string',
-              test: now.format(),
-            },
-          ]}
-        />,
-      )
-      expect(screen.getByText('Test')).toBeDefined()
-      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()
-    })
-  })
-
-  it('object', () => {
+  it.each([
+    ['object', { key: 'value' }],
+    ['object[]', [{ key: 'value' }]],
+  ] as const)('%s', (type, value) => {
     render(
       <Table
         items={[
           {
             id: 'test',
-            type: 'object',
+            type,
             object: [{ id: 'key' }],
           },
         ]}
         dataSource={[
           {
             id: 'id',
-            test: { key: 'value' },
-          },
-        ]}
-      />,
-    )
-
-    expect(screen.getByText('value')).toBeDefined()
-  })
-
-  it('object[]', () => {
-    render(
-      <Table
-        items={[
-          {
-            id: 'test',
-            type: 'object[]',
-            object: [{ id: 'key' }],
-          },
-        ]}
-        dataSource={[
-          {
-            id: 'id',
-            test: [{ key: 'value' }],
+            test: value,
           },
         ]}
       />,
@@ -396,13 +264,13 @@ describe('Table/items', () => {
   })
 
   describe('render', () => {
-    it('pure render', () => {
+    function renderUppercaseTable(item: Partial<TableItemProps>) {
       render(
         <Table
           items={[
             {
               id: 'test',
-              render: (value) => value.toUpperCase(),
+              ...item,
             },
           ]}
           dataSource={[
@@ -413,159 +281,38 @@ describe('Table/items', () => {
           ]}
         />,
       )
+    }
 
+    const tableRender: UnionFaasItemRender = (value, _values, _index, scene) =>
+      scene === 'table' && <span>{value.toUpperCase()}</span>
+
+    const tableElement: UnionFaasItemElement = ({ scene, value }) => {
+      return scene === 'table' ? <span>{value.toUpperCase()}</span> : null
+    }
+
+    const UppercaseItem = ({ value = '' }: { value?: string }) => {
+      return <span>{value.toUpperCase()}</span>
+    }
+
+    it.each([
+      ['pure render', { render: (value: string) => value.toUpperCase() }],
+      ['union render', { render: tableRender }],
+      ['union element', { children: tableElement }],
+      ['children', { children: UppercaseItem }],
+      ['tableChildren', { tableChildren: UppercaseItem }],
+      ['tableRender', { tableRender: (value: string) => value.toUpperCase() }],
+    ] satisfies [string, Partial<TableItemProps>][])('%s', (_, item) => {
+      renderUppercaseTable(item)
       expect(screen.getByText('VALUE')).toBeDefined()
     })
 
-    it('union render', () => {
-      const renderItem: UnionFaasItemRender = (value, _values, _index, scene) =>
-        scene === 'table' && <span>{value.toUpperCase()}</span>
-
+    it.each(['children', 'tableChildren'] as const)('%s is null', (property) => {
       render(
         <Table
           items={[
             {
               id: 'test',
-              render: renderItem,
-            },
-          ]}
-          dataSource={[
-            {
-              id: 'id',
-              test: 'value',
-            },
-          ]}
-        />,
-      )
-
-      expect(screen.getByText('VALUE')).toBeDefined()
-    })
-
-    it('union element', () => {
-      const Item: UnionFaasItemElement = ({ scene, value }) => {
-        return scene === 'table' ? <span>{value.toUpperCase()}</span> : null
-      }
-
-      render(
-        <Table
-          items={[
-            {
-              id: 'test',
-              children: Item,
-            },
-          ]}
-          dataSource={[
-            {
-              id: 'id',
-              test: 'value',
-            },
-          ]}
-        />,
-      )
-
-      expect(screen.getByText('VALUE')).toBeDefined()
-    })
-
-    it('children', () => {
-      const Item = ({ value = '' }: { value?: string }) => {
-        return <span>{value.toUpperCase()}</span>
-      }
-
-      render(
-        <Table
-          items={[
-            {
-              id: 'test',
-              children: Item,
-            },
-          ]}
-          dataSource={[
-            {
-              id: 'id',
-              test: 'value',
-            },
-          ]}
-        />,
-      )
-
-      expect(screen.getByText('VALUE')).toBeDefined()
-    })
-
-    it('tableChildren', () => {
-      const Item = ({ value = '' }: { value?: string }) => {
-        return <span>{value.toUpperCase()}</span>
-      }
-
-      render(
-        <Table
-          items={[
-            {
-              id: 'test',
-              tableChildren: Item,
-            },
-          ]}
-          dataSource={[
-            {
-              id: 'id',
-              test: 'value',
-            },
-          ]}
-        />,
-      )
-
-      expect(screen.getByText('VALUE')).toBeDefined()
-    })
-
-    it('tableRender', () => {
-      render(
-        <Table
-          items={[
-            {
-              id: 'test',
-              tableRender: (value) => value.toUpperCase(),
-            },
-          ]}
-          dataSource={[
-            {
-              id: 'id',
-              test: 'value',
-            },
-          ]}
-        />,
-      )
-
-      expect(screen.getByText('VALUE')).toBeDefined()
-    })
-
-    it('children is null', () => {
-      render(
-        <Table
-          items={[
-            {
-              id: 'test',
-              children: null,
-            },
-          ]}
-          dataSource={[
-            {
-              id: 'id',
-              test: 'value',
-            },
-          ]}
-        />,
-      )
-
-      expect(screen.queryByText('test')).toBeNull()
-      expect(screen.queryByText('value')).toBeNull()
-    })
-
-    it('tableChildren is null', () => {
-      render(
-        <Table
-          items={[
-            {
-              id: 'test',
-              tableChildren: null,
+              [property]: null,
             },
           ]}
           dataSource={[

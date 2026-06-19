@@ -5,6 +5,7 @@ import {
   Description,
   type DescriptionProps,
   type ExtendDescriptionItemProps,
+  type ExtendDescriptionTypeProps,
 } from '../../Description'
 
 type ExtendTypes = ExtendDescriptionItemProps & {
@@ -12,30 +13,12 @@ type ExtendTypes = ExtendDescriptionItemProps & {
 }
 
 describe('Description/extend', () => {
-  it('children', () => {
+  it.each([
+    ['children', { children: <>***</> }],
+    ['render', { render: () => <>***</> }],
+  ] satisfies [string, ExtendDescriptionTypeProps][])('%s', (_, passwordType) => {
     function ExtendedDescription(props: DescriptionProps<any, ExtendTypes>) {
-      return <Description {...props} extendTypes={{ password: { children: <>***</> } }} />
-    }
-
-    render(
-      <ExtendedDescription
-        items={[
-          {
-            id: 'test',
-            type: 'password',
-          },
-        ]}
-        dataSource={{ test: 'value' }}
-      />,
-    )
-
-    expect(screen.getByText('Test')).toBeDefined()
-    expect(screen.getByText('***')).toBeDefined()
-  })
-
-  it('render', () => {
-    function ExtendedDescription(props: DescriptionProps<any, ExtendTypes>) {
-      return <Description {...props} extendTypes={{ password: { render: () => <>***</> } }} />
+      return <Description {...props} extendTypes={{ password: passwordType }} />
     }
 
     render(
