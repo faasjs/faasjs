@@ -1,11 +1,10 @@
 # Ant Design Guide
 
-Use when building or reviewing `@faasjs/ant-design` feature UI, CRUD surfaces, routes, app feedback, modals, and drawers.
+Use when building or reviewing `@faasjs/ant-design` feature UI, CRUD surfaces, app feedback, modals, and drawers.
 
 ## Applicable Scenarios
 
 - Creating feature UI under `features/`
-- Configuring routes with `Routes` and `lazy`
 - Building list, detail, create, update, or delete flows
 - Deciding how to split feature frontend files
 - Choosing between `faas`, `useFaas`, `useFaasStream`, `faasData`, and custom hooks for requests
@@ -14,7 +13,7 @@ Use when building or reviewing `@faasjs/ant-design` feature UI, CRUD surfaces, r
 ## Default Workflow
 
 1. Follow [File Conventions](./file-conventions.md) and place features under `features/<feature-name>/`.
-2. Use `App` once near the frontend root, then `Routes` plus `lazy` for feature UI entries.
+2. Use `App` once near the frontend root.
 3. Keep feature entries mostly compositional; move concrete UI to `components/` only when it earns a boundary.
 4. Put feature-local request files under `api/` and keep action paths aligned with file paths.
 5. Model business fields as shared `items` metadata reused by `Form`, `Description`, and `Table`.
@@ -58,26 +57,7 @@ Actions map directly to:
 
 ## Core Patterns
 
-### Routes and feature entries
-
-Root routes should stay minimal, letting each feature lazy-load its own entry:
-
-```tsx
-import { Routes, lazy } from '@faasjs/ant-design'
-
-export default function Pages() {
-  return (
-    <Routes
-      routes={[
-        {
-          path: 'users',
-          page: lazy(() => import('./users')),
-        },
-      ]}
-    />
-  )
-}
-```
+### Feature entries
 
 Feature entry files should focus on composing existing components and triggering shared app interactions through `useApp`:
 
@@ -352,22 +332,6 @@ export function UserTabs() {
 }
 ```
 
-### `Link`
-
-Use for internal navigation, external links, and button-style navigation. Prefer over raw anchor tags, manual `navigate`, or button + router glue code.
-
-```tsx
-import { Link } from '@faasjs/ant-design'
-
-export function Actions() {
-  return (
-    <Link href="/users/create" button={{ type: 'primary' }}>
-      Create User
-    </Link>
-  )
-}
-```
-
 ### `Blank`
 
 Use for empty field display instead of scattering `'-'`, `'N/A'`, or empty fragments through templates.
@@ -484,13 +448,13 @@ export function LocalPreview() {
 
 ## Rules
 
-1. Follow the `features/`, `components/`, `hooks/`, `api/` structure and routing-mapping for feature-local APIs. Feature UI lives under `features/<feature>/`, entry files use `index.tsx`, components go in `components/`, hooks in `hooks/`, request handlers in `api/`.
+1. Follow the `features/`, `components/`, `hooks/`, `api/` structure and action-path mapping for feature-local APIs. Feature UI lives under `features/<feature>/`, entry files use `index.tsx`, components go in `components/`, hooks in `hooks/`, request handlers in `api/`.
 
 2. Use `App` once as the application shell; do not scatter independent app shells through features. `App` owns shared `message`, `notification`, `modal`, and `drawer` behavior. Only drop down to `ConfigProvider` when a smaller boundary is intentional.
 
 3. Treat `items` as the source of truth for business fields across `Form`, `Description`, and `Table`. Start with `id`, `type`, `title`, `options`, and nested `object` definitions. Reuse the same metadata across surfaces unless domain semantics truly diverge.
 
-4. Prefer FaasJS wrappers over raw Ant Design primitives when the wrapper fits common CRUD, loading, empty, route, or feedback surfaces. Start from `Table`, `Description`, `Form`, `Title`, `Tabs`, `Link`, `Blank`, `Loading`, `ErrorBoundary`, and `FaasDataWrapper` before reaching for raw primitives.
+4. Prefer FaasJS wrappers over raw Ant Design primitives when the wrapper fits common CRUD, loading, empty, or feedback surfaces. Start from `Table`, `Description`, `Form`, `Title`, `Tabs`, `Blank`, `Loading`, `ErrorBoundary`, and `FaasDataWrapper` before reaching for raw primitives.
 
 5. If custom layout is necessary, read visual values from `useThemeToken()` instead of hardcoding tokens.
 
@@ -557,8 +521,7 @@ export function LocalPreview() {
 ## Review Checklist
 
 - feature layout and action paths follow the `features/`, `components/`, `hooks/`, `api/` structure
-- routes use `Routes` and `lazy`
-- API files align with routing-mapping conventions
+- API files align with action-path mapping conventions
 - feature entry composes feature components instead of containing all logic inline
 - shared `items` metadata drives `Form`, `Description`, and `Table`
 - wrappers and `faas`/`faasData` cover straightforward request flows

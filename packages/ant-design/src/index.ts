@@ -3,8 +3,8 @@
  *
  * React UI primitives and data-aware helpers for building FaasJS applications with Ant Design.
  *
- * `@faasjs/ant-design` combines FaasJS request helpers, Ant Design components, and optional
- * React Router integration behind a single public entrypoint.
+ * `@faasjs/ant-design` combines FaasJS request helpers and Ant Design components behind a
+ * single public entrypoint.
  *
  * ## Install
  *
@@ -14,7 +14,7 @@
  *
  * ## Highlights
  *
- * - Use {@link App} to wire Ant Design feedback APIs, routing, and FaasJS config providers.
+ * - Use {@link App} to wire Ant Design feedback APIs and FaasJS config providers.
  * - Use {@link Form}, {@link Description}, and {@link Table} with shared FaasJS item metadata.
  * - Use {@link faas}, {@link useFaas}, {@link useFaasStream}, {@link FaasDataWrapper}, or {@link withFaasData} to bind UI to FaasJS actions.
  *
@@ -45,10 +45,8 @@ export * from './ErrorBoundary'
 export * from './FaasDataWrapper'
 export * from './Form'
 export * from './FormItem'
-export * from './Link'
 export * from './Loading'
 export * from './Modal'
-export * from './Routers'
 export * from './Table'
 export * from './Tabs'
 export * from './Title'

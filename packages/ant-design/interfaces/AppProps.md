@@ -5,24 +5,12 @@
 Props for the root [App](../functions/App.md) shell.
 
 `App` composes Ant Design feedback APIs, the FaasJS Ant Design config layer,
-shared modal and drawer state, error handling, and optional browser routing
-into a single wrapper component. Use `configProviderProps` for Ant Design's
-own `ConfigProvider`; use `faasConfigProviderProps` for the FaasJS
-`ConfigProvider` exported by this package.
+shared modal and drawer state, and error handling into a single wrapper
+component. Use `configProviderProps` for Ant Design's own `ConfigProvider`;
+use `faasConfigProviderProps` for the FaasJS `ConfigProvider` exported by
+this package.
 
 ## Properties
-
-### browserRouterProps?
-
-> `optional` **browserRouterProps?**: `false` \| `BrowserRouterProps`
-
-Props forwarded to React Router's `BrowserRouter`, or `false` to disable browser routing.
-
-Routing is enabled automatically when running in a browser and this prop is not `false`.
-
-#### See
-
-[React Router BrowserRouterProps](https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html)
 
 ### children
 

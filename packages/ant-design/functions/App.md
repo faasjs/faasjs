@@ -7,9 +7,7 @@
 Render the root provider shell for a FaasJS Ant Design application.
 
 `App` initializes Ant Design message and notification APIs, exposes hook-managed modal and
-drawer state through [AppContext](../variables/AppContext.md), wraps descendants with [ErrorBoundary](ErrorBoundary.md), and
-optionally mounts React Router's `BrowserRouter`. Route changes close the hook-managed modal
-and drawer by setting their `open` prop to `false`.
+drawer state through [AppContext](../variables/AppContext.md), and wraps descendants with [ErrorBoundary](ErrorBoundary.md).
 
 ## Parameters
 
@@ -17,7 +15,7 @@ and drawer by setting their `open` prop to `false`.
 
 [`AppProps`](../interfaces/AppProps.md)
 
-App shell props including providers, routing, and error handling options.
+App shell props including providers and error handling options.
 
 ## Returns
 
@@ -30,12 +28,7 @@ import { App } from '@faasjs/ant-design'
 
 export default function Page() {
   return (
-    <App
-      configProviderProps={{}}
-      browserRouterProps={{}}
-      errorBoundaryProps={{}}
-      faasConfigProviderProps={{}}
-    >
+    <App configProviderProps={{}} errorBoundaryProps={{}} faasConfigProviderProps={{}}>
       <div>content</div>
     </App>
   )

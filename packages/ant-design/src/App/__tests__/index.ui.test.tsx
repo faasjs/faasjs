@@ -2,7 +2,6 @@ import { setMock } from '@faasjs/react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 
 import { App } from '../../App'
@@ -187,34 +186,6 @@ describe('App', () => {
 
     expect(screen.getByText('Hi Drawer')).toBeDefined()
     expect(renderComponentCount).toBe(1)
-  })
-
-  it('should work without BrowserRouter', () => {
-    function Nav() {
-      const navigate = useNavigate()
-
-      return (
-        <button type="button" onClick={() => navigate('/')}>
-          Nav
-        </button>
-      )
-    }
-
-    render(
-      <App browserRouterProps={false}>
-        <Nav />
-      </App>,
-    )
-
-    expect(screen.getByText(/useNavigate\(\) may be used only in the context/)).toBeDefined()
-
-    render(
-      <App browserRouterProps={false}>
-        <div>OK</div>
-      </App>,
-    )
-
-    expect(screen.getByText('OK')).toBeDefined()
   })
 
   it('error notification should work', async () => {

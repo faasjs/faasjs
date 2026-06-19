@@ -10,8 +10,6 @@ describe('index', () => {
     expect(antDesign.FormItem).toBeDefined()
     expect(antDesign.Description).toBeDefined()
     expect(antDesign.Table).toBeDefined()
-    expect(antDesign.Routes).toBeDefined()
-    expect(antDesign.PageNotFound).toBeDefined()
     expect(antDesign.useThemeToken).toBeDefined()
     expect(antDesign.faas).toBeDefined()
     expect(antDesign.useFaas).toBeDefined()

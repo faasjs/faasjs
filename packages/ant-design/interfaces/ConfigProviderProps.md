@@ -67,10 +67,6 @@ Common shared copy and labels used across components.
 
 > `optional` **delete?**: `string`
 
-##### common.pageNotFound?
-
-> `optional` **pageNotFound?**: `string`
-
 ##### common.required?
 
 > `optional` **required?**: `string`
@@ -106,30 +102,6 @@ Form-component theme overrides.
 > `optional` **lang?**: `string`
 
 Language code used to select localized defaults.
-
-#### Link?
-
-> `optional` **Link?**: `object`
-
-Link-component theme overrides.
-
-##### Link.style?
-
-> `optional` **style?**: `CSSProperties`
-
-Default inline styles merged into every `Link`.
-
-##### Link.target?
-
-> `optional` **target?**: `string`
-
-Default target used by the `Link` component when `props.target` is omitted.
-
-###### Default
-
-```ts
-'_blank'
-```
 
 #### Title?
 

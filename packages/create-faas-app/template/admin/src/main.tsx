@@ -5,7 +5,6 @@ import UsersPage from './features/users'
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <App
-    browserRouterProps={false}
     configProviderProps={{
       theme: {
         token: {

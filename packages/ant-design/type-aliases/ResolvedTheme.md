@@ -40,10 +40,6 @@ Shared copy used by multiple components.
 
 > **delete**: `string`
 
-#### pageNotFound
-
-> **pageNotFound**: `string`
-
 #### required
 
 > **required**: `string`
@@ -79,20 +75,6 @@ Theme values consumed by the `Form` component.
 > **lang**: `string`
 
 Current language code used for built-in copy.
-
-### Link
-
-> **Link**: `object`
-
-Theme values consumed by the `Link` component.
-
-#### style
-
-> **style**: `CSSProperties`
-
-#### target?
-
-> `optional` **target?**: `string`
 
 ### Title
 

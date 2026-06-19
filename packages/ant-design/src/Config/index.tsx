@@ -1,6 +1,6 @@
 import { useEqualEffect } from '@faasjs/react'
 import { defaultsDeep } from 'lodash-es'
-import { type CSSProperties, createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 
 import { FaasReactClient, type FaasReactClientOptions } from '../FaasDataWrapper'
 
@@ -15,7 +15,6 @@ export type ResolvedTheme = {
     blank: string
     all: string
     submit: string
-    pageNotFound: string
     add: string
     delete: string
     required: string
@@ -36,11 +35,6 @@ export type ResolvedTheme = {
   Title: {
     separator: string
     suffix: string
-  }
-  /** Theme values consumed by the `Link` component. */
-  Link: {
-    target?: string
-    style: CSSProperties
   }
 }
 
@@ -84,7 +78,6 @@ export interface ConfigProviderProps {
       blank?: string
       all?: string
       submit?: string
-      pageNotFound?: string
       add?: string
       delete?: string
       required?: string
@@ -112,17 +105,6 @@ export interface ConfigProviderProps {
       /** Suffix appended to generated page titles. */
       suffix?: string
     }
-    /** Link-component theme overrides. */
-    Link?: {
-      /**
-       * Default target used by the `Link` component when `props.target` is omitted.
-       *
-       * @default '_blank'
-       */
-      target?: string
-      /** Default inline styles merged into every `Link`. */
-      style?: CSSProperties
-    }
   }
 }
 
@@ -131,7 +113,6 @@ const zh = {
   blank: '空',
   all: '全部',
   submit: '提交',
-  pageNotFound: '页面未找到',
   add: '添加',
   delete: '删除',
   required: '必填',
@@ -144,7 +125,6 @@ const en = {
   blank: 'Empty',
   all: 'All',
   submit: 'Submit',
-  pageNotFound: 'Page Not Found',
   add: 'Add',
   delete: 'Delete',
   required: 'is required',
@@ -161,7 +141,6 @@ const baseTheme: ResolvedTheme = {
     separator: ' - ',
     suffix: '',
   },
-  Link: { style: {} },
 }
 
 /**
@@ -204,8 +183,7 @@ export const ConfigContext = createContext<ConfigContextValue>({
  * Theme overrides are merged with the built-in defaults. When `theme.lang` is omitted, the
  * provider infers a default language from `navigator.language`. This is the
  * low-level FaasJS config boundary; the higher-level `App` component wraps it
- * together with Ant Design feedback APIs, an error boundary, modal/drawer state,
- * and optional routing.
+ * together with Ant Design feedback APIs, an error boundary, and modal/drawer state.
  *
  * @param {ConfigProviderProps} props - Theme overrides and optional FaasJS client configuration.
  *

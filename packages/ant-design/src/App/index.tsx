@@ -1,8 +1,6 @@
-import { OptionalWrapper, useEqualEffect } from '@faasjs/react'
+import { OptionalWrapper } from '@faasjs/react'
 import { toErrorMessage } from '@faasjs/utils'
 import { ConfigProvider, type ConfigProviderProps, message, notification } from 'antd'
-import type { BrowserRouterProps } from 'react-router-dom'
-import { BrowserRouter, useLocation } from 'react-router-dom'
 
 import {
   ConfigProvider as FaasConfigProvider,
@@ -11,16 +9,16 @@ import {
 import { useDrawer } from '../Drawer'
 import { ErrorBoundary, type ErrorBoundaryProps } from '../ErrorBoundary'
 import { useModal } from '../Modal'
-import { AppContext, useApp } from '../useApp'
+import { AppContext } from '../useApp'
 
 /**
  * Props for the root {@link App} shell.
  *
  * `App` composes Ant Design feedback APIs, the FaasJS Ant Design config layer,
- * shared modal and drawer state, error handling, and optional browser routing
- * into a single wrapper component. Use `configProviderProps` for Ant Design's
- * own `ConfigProvider`; use `faasConfigProviderProps` for the FaasJS
- * `ConfigProvider` exported by this package.
+ * shared modal and drawer state, and error handling into a single wrapper
+ * component. Use `configProviderProps` for Ant Design's own `ConfigProvider`;
+ * use `faasConfigProviderProps` for the FaasJS `ConfigProvider` exported by
+ * this package.
  */
 export interface AppProps {
   /** Descendant elements rendered inside all configured providers. */
@@ -34,14 +32,6 @@ export interface AppProps {
    * @see [Ant Design ConfigProvider API](https://ant.design/components/config-provider/#API)
    */
   configProviderProps?: ConfigProviderProps
-  /**
-   * Props forwarded to React Router's `BrowserRouter`, or `false` to disable browser routing.
-   *
-   * Routing is enabled automatically when running in a browser and this prop is not `false`.
-   *
-   * @see [React Router BrowserRouterProps](https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html)
-   */
-  browserRouterProps?: BrowserRouterProps | false
   /**
    * Props forwarded to {@link ErrorBoundary}.
    *
@@ -79,28 +69,13 @@ export function createOnErrorHandler(messageApi: { error: (message: string) => v
   }
 }
 
-function RoutesApp(props: { children: React.ReactNode }) {
-  const location = useLocation()
-  const { drawerProps, setDrawerProps, modalProps, setModalProps } = useApp()
-
-  useEqualEffect(() => {
-    if (drawerProps.open) setDrawerProps({ open: false })
-
-    if (modalProps.open) setModalProps({ open: false })
-  }, [location])
-
-  return <>{props.children}</>
-}
-
 /**
  * Render the root provider shell for a FaasJS Ant Design application.
  *
  * `App` initializes Ant Design message and notification APIs, exposes hook-managed modal and
- * drawer state through {@link AppContext}, wraps descendants with {@link ErrorBoundary}, and
- * optionally mounts React Router's `BrowserRouter`. Route changes close the hook-managed modal
- * and drawer by setting their `open` prop to `false`.
+ * drawer state through {@link AppContext}, and wraps descendants with {@link ErrorBoundary}.
  *
- * @param {AppProps} props - App shell props including providers, routing, and error handling options.
+ * @param {AppProps} props - App shell props including providers and error handling options.
  *
  * @example
  * ```tsx
@@ -110,7 +85,6 @@ function RoutesApp(props: { children: React.ReactNode }) {
  *   return (
  *     <App
  *       configProviderProps={{}}
- *       browserRouterProps={{}}
  *       errorBoundaryProps={{}}
  *       faasConfigProviderProps={{}}
  *     >
@@ -156,21 +130,11 @@ export function App(props: AppProps) {
           }}
         >
           <ErrorBoundary {...props.errorBoundaryProps}>
-            <OptionalWrapper
-              condition={typeof document !== 'undefined' && props.browserRouterProps !== false}
-              Wrapper={BrowserRouter}
-              wrapperProps={props.browserRouterProps}
-            >
-              {messageContextHolder}
-              {notificationContextHolder}
-              {modal}
-              {drawer}
-              {props.browserRouterProps !== false ? (
-                <RoutesApp>{props.children}</RoutesApp>
-              ) : (
-                props.children
-              )}
-            </OptionalWrapper>
+            {messageContextHolder}
+            {notificationContextHolder}
+            {modal}
+            {drawer}
+            {props.children}
           </ErrorBoundary>
         </FaasConfigProvider>
       </AppContext.Provider>

@@ -30,11 +30,11 @@ Hook-managed modal element, current props, and a state-merging setter.
 
 ### modalProps
 
-> **modalProps**: [`ModalProps`](../interfaces/ModalProps.md) = `props`
+> **modalProps**: [`ModalProps`](../interfaces/ModalProps.md)
 
 ### setModalProps
 
-> **setModalProps**: [`setModalProps`](../type-aliases/setModalProps.md)
+> **setModalProps**: `Dispatch`\<`SetStateAction`\<[`ModalProps`](../interfaces/ModalProps.md)\>\>
 
 ## Example
 

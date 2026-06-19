@@ -4,8 +4,8 @@
 
 React UI primitives and data-aware helpers for building FaasJS applications with Ant Design.
 
-`@faasjs/ant-design` combines FaasJS request helpers, Ant Design components, and optional
-React Router integration behind a single public entrypoint.
+`@faasjs/ant-design` combines FaasJS request helpers and Ant Design components behind a
+single public entrypoint.
 
 ## Install
 
@@ -15,7 +15,7 @@ npm install @faasjs/ant-design
 
 ## Highlights
 
-- Use [App](functions/App.md) to wire Ant Design feedback APIs, routing, and FaasJS config providers.
+- Use [App](functions/App.md) to wire Ant Design feedback APIs and FaasJS config providers.
 - Use [Form](functions/Form.md), [Description](functions/Description.md), and [Table](functions/Table.md) with shared FaasJS item metadata.
 - Use [faas](functions/faas.md), [useFaas](functions/useFaas.md), [useFaasStream](functions/useFaasStream.md), [FaasDataWrapper](functions/FaasDataWrapper.md), or [withFaasData](functions/withFaasData.md) to bind UI to FaasJS actions.
 
@@ -48,11 +48,8 @@ export default function Page() {
 - [Form](functions/Form.md)
 - [FormItem](functions/FormItem.md)
 - [idToTitle](functions/idToTitle.md)
-- [Link](functions/Link.md)
 - [Loading](functions/Loading.md)
-- [PageNotFound](functions/PageNotFound.md)
 - [renderDisplayValue](functions/renderDisplayValue.md)
-- [Routes](functions/Routes.md)
 - [Table](functions/Table.md)
 - [Tabs](functions/Tabs.md)
 - [Title](functions/Title.md)
@@ -84,9 +81,7 @@ export default function Page() {
 - [FaasDataWrapperProps](interfaces/FaasDataWrapperProps.md)
 - [FaasItemProps](interfaces/FaasItemProps.md)
 - [FormItemProps](interfaces/FormItemProps.md)
-- [LinkProps](interfaces/LinkProps.md)
 - [ModalProps](interfaces/ModalProps.md)
-- [RoutesProps](interfaces/RoutesProps.md)
 - [TableItemProps](interfaces/TableItemProps.md)
 - [TabProps](interfaces/TabProps.md)
 - [TabsProps](interfaces/TabsProps.md)
