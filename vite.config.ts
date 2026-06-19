@@ -1,7 +1,7 @@
 import { join } from 'node:path'
 
 import react from '@vitejs/plugin-react'
-import { defineConfig, type UserConfig } from 'vite-plus'
+import { defineConfig } from 'vite-plus'
 import type { PackUserConfig } from 'vite-plus/pack'
 
 import { OxfmtConfig } from './packages/dev/src/vite/oxfmt.ts'
@@ -101,7 +101,7 @@ const pack: PackUserConfig[] = [
 }))
 
 export default defineConfig({
-  plugins: react(),
+  plugins: [...react()],
   staged: {
     '*': 'vp check --fix',
   },
@@ -194,4 +194,4 @@ export default defineConfig({
       },
     ],
   },
-} satisfies UserConfig)
+})

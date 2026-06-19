@@ -40,12 +40,13 @@
     "@types/react": "*",
     "@types/react-dom": "*",
     "@vitejs/plugin-react": "*",
-    "@vitest/coverage-v8": "*",
-    "@voidzero-dev/vite-plus-core": "*",
-    "@voidzero-dev/vite-plus-test": "*",
+    "@vitest/coverage-v8": "4.1.8",
+    "@voidzero-dev/vite-plus-core": "0.1.24",
+    "@voidzero-dev/vite-plus-test": "0.1.24",
     "jsdom": "*",
     "typescript": "*",
-    "vite-plus": "*"
+    "vite-plus": "0.1.24",
+    "vitest": "4.1.8"
   },
   "peerDependencies": {
     "@faasjs/core": ">=8.0.0-beta.39",
@@ -58,12 +59,13 @@
     "@types/react": "*",
     "@types/react-dom": "*",
     "@vitejs/plugin-react": "*",
-    "@vitest/coverage-v8": "*",
-    "@voidzero-dev/vite-plus-core": "*",
-    "@voidzero-dev/vite-plus-test": "*",
+    "@vitest/coverage-v8": "4.1.8",
+    "@voidzero-dev/vite-plus-core": "0.1.24",
+    "@voidzero-dev/vite-plus-test": "0.1.24",
     "jsdom": "*",
     "typescript": "*",
-    "vite-plus": "*"
+    "vite-plus": "0.1.24",
+    "vitest": "4.1.8"
   },
   "engines": {
     "node": ">=26.0.0",

@@ -55,7 +55,7 @@ export const ViteConfig: {
   staged: {
     '*': 'vp check --fix',
   },
-  plugins: [react(), viteFaasJsServer()],
+  plugins: [...react(), viteFaasJsServer()] as NonNullable<UserConfig['plugins']>,
   server: {
     host: '0.0.0.0',
     strictPort: false,

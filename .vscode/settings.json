@@ -34,5 +34,8 @@
     "zfben"
   ],
   "oxc.fmt.configPath": "./vite.config.ts",
-  "editor.formatOnSaveMode": "file"
+  "editor.formatOnSaveMode": "file",
+  "[json]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  }
 }

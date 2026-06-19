@@ -73,6 +73,6 @@ describe('configs exports', () => {
     })
     expect(ViteConfig.fmt).toBe(OxfmtConfig)
     expect(ViteConfig.lint).toBe(OxlintConfig)
-    expect(ViteConfig.plugins).toHaveLength(2)
+    expect(ViteConfig.plugins).toHaveLength(7)
   })
 })
