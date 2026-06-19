@@ -34,6 +34,8 @@
  * @packageDocumentation
  */
 
+export { parseCronExpression } from './cron'
+export type { CronMatcher } from './cron'
 export type { JobRegistry, LoadJobRegistryOptions } from './discovery'
 export { defineJob, Job } from './define-job'
 export { enqueueJob } from './queue'

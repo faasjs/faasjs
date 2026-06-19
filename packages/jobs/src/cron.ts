@@ -5,7 +5,13 @@ type CronField = {
   normalize?: (value: number) => number
 }
 
-type CronMatcher = (value: number) => boolean
+/**
+ * Matcher generated for one cron expression field.
+ *
+ * @param value - Field value to test.
+ * @returns `true` when the value matches the parsed cron field.
+ */
+export type CronMatcher = (value: number) => boolean
 
 const CronFields: CronField[] = [
   { name: 'minute', min: 0, max: 59 },

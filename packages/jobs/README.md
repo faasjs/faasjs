@@ -36,6 +36,7 @@ await enqueueJob('features/users/jobs/sync', { userId: 'u_123' })
 
 - [defineJob](functions/defineJob.md)
 - [enqueueJob](functions/enqueueJob.md)
+- [parseCronExpression](functions/parseCronExpression.md)
 - [startJobScheduler](functions/startJobScheduler.md)
 - [startJobWorker](functions/startJobWorker.md)
 
@@ -51,6 +52,7 @@ await enqueueJob('features/users/jobs/sync', { userId: 'u_123' })
 
 ## Type Aliases
 
+- [CronMatcher](type-aliases/CronMatcher.md)
 - [DefineJobData](type-aliases/DefineJobData.md)
 - [DefineJobOptions](type-aliases/DefineJobOptions.md)
 - [DefineJobParams](type-aliases/DefineJobParams.md)
