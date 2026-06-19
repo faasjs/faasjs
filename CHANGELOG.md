@@ -2,7 +2,7 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-[`Unreleased`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.39...HEAD)
+[`v8.0.0-beta.40 (2026-06-19)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.39...v8.0.0-beta.40)
 
 - `@faasjs/ant-design`
   - [Break] Remove built-in React Router integration, including `App`'s `browserRouterProps`, `Link`, `Routes`, `RoutesProps`, `PageNotFound`, `lazy`, and the `react-router-dom` peer dependency.
