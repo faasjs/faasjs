@@ -39,7 +39,7 @@
     "@types/node": "*",
     "@types/react": "*",
     "@types/react-dom": "*",
-    "@vitejs/plugin-react": "*",
+    "@vitejs/plugin-react": "^6.0.3",
     "@vitest/coverage-v8": "*",
     "jsdom": "*",
     "typescript": "*",
