@@ -18,10 +18,11 @@ This file is the entry point for contributors and agents developing the FaasJS f
 
 ## Documentation Flow
 
-- Edit source-of-truth content first: JSDoc in `packages/*/src`, English guides in `skills/faasjs-best-practices/guidelines/**`, and specs in `skills/*/references/specs/**`.
+- Edit source-of-truth content first: JSDoc in `packages/*/src`, English guides in `skills/*/references/guidelines/**`, and specs in `skills/*/references/specs/**`.
+- Keep skill source links within the same skill. Use plain guide/spec names for cross-skill references; `@faasjs/docgen` injects public docs-site links when generating `docs/**`.
 - Run `npm run doc` to invoke `@faasjs/docgen`, which refreshes API Markdown, skill references, generated English published docs, and generated guide indexes.
-- The docs site build also generates `docs/guidelines/**` from `skills/faasjs-best-practices/guidelines/**`; do not edit or commit that generated copy.
-- Do not hand-edit generated docs under `packages/*/{classes,functions,interfaces,type-aliases,variables}`, `docs/guidelines/**`, `docs/specs/**`, or `docs/guidelines/README.md`.
+- The docs site build generates `docs/guidelines/**` and `docs/specs/**` from `skills/*/references/**`; do not edit generated docs directly. `docs/guidelines/**` is not committed, while `docs/specs/**` is refreshed through `npm run doc` when specs change.
+- Do not hand-edit generated docs under `packages/*/{classes,functions,interfaces,type-aliases,variables}`, `docs/guidelines/**`, `docs/specs/**`, `docs/guidelines/README.md`, or `docs/specs/README.md`.
 
 ## Standard Flow
 

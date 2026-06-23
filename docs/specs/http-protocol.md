@@ -23,7 +23,7 @@ FaasJS request/response guidance is spread across multiple locations. This spec 
 1. API requests MUST use `POST` as the default method.
 2. Request body MUST be encoded as JSON text (`application/json; charset=UTF-8`) and SHOULD be a JSON object.
 3. Query parameters SHOULD be avoided for business input; clients SHOULD send input in JSON body.
-4. Request path MUST follow [routing-mapping.md](./routing-mapping.md).
+4. Request path MUST follow [routing-mapping.md](/specs/routing-mapping.html).
 5. Clients SHOULD include `X-FaasJS-Request-Id` for traceability when possible.
 
 ### 2. Response (transport layer)

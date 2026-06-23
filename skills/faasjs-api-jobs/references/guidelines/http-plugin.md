@@ -239,7 +239,7 @@ This is resolved at plugin mount time and merged into the config object.
 
 ## See Also
 
-- [HTTP Protocol Specification](./http-protocol.md) — normative specification for request/response transport behavior
+- HTTP Protocol Specification — normative specification for request/response transport behavior
 - [defineApi Guide](./define-api.md) — building API endpoints that receive these injected fields
 
 ## Review Checklist

@@ -2,6 +2,11 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[`Unreleased`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.40...HEAD)
+
+- `faasjs`
+  - [Feature] Split the FaasJS agent skills into focused workflow skills and generate public guides/specs from the new skill reference layout.
+
 [`v8.0.0-beta.40 (2026-06-19)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.39...v8.0.0-beta.40)
 
 - `@faasjs/ant-design`

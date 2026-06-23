@@ -12,7 +12,7 @@ Use when building or reviewing `@faasjs/ant-design` feature UI, CRUD surfaces, a
 
 ## Default Workflow
 
-1. Follow [File Conventions](./file-conventions.md) and place features under `features/<feature-name>/`.
+1. Follow File Conventions and place features under `features/<feature-name>/`.
 2. Use `App` once near the frontend root.
 3. Keep feature entries mostly compositional; move concrete UI to `components/` only when it earns a boundary.
 4. Put feature-local request files under `api/` and keep action paths aligned with file paths.

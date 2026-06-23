@@ -109,7 +109,7 @@ my-app/
 
 | File             | Purpose                                                                   | See                                         |
 | ---------------- | ------------------------------------------------------------------------- | ------------------------------------------- |
-| `src/faas.yaml`  | Runtime configuration: server root, base path, staging overrides, plugins | [faas.yaml Specification](./faas-yaml.md)   |
+| `src/faas.yaml`  | Runtime configuration: server root, base path, staging overrides, plugins | faas.yaml Specification                     |
 | `tsconfig.json`  | TypeScript config, extends `@faasjs/types/tsconfig/*` presets             | [Project Config Guide](./project-config.md) |
 | `vite.config.ts` | Vite/Vitest config, uses `ViteConfig` from `@faasjs/dev`                  | [Project Config Guide](./project-config.md) |
 
@@ -123,23 +123,23 @@ API routes map directly to file paths under `src/`. No routing registry needed.
 | `src/features/todo/api/index.api.ts`   | `POST /features/todo/api`           |
 | `src/features/todo/api/default.api.ts` | Fallback for `/features/todo/api/*` |
 
-See the [Routing Mapping Specification](./routing-mapping.md) for the full route resolution order.
+See the Routing Mapping Specification for the full route resolution order.
 
 ## Your First Feature
 
-FaasJS features follow a complete vertical slice pattern: database migration → table types → API endpoints → feature UI → tests. Below is a quick overview; for full code examples and patterns, read the [CRUD Patterns Guide](./crud-patterns.md).
+FaasJS features follow a complete vertical slice pattern: database migration → table types → API endpoints → feature UI → tests. Below is a quick overview; for full code examples and patterns, read the CRUD Patterns Guide.
 
 ### Quick Walkthrough
 
-**Step 1: Database migration** — Create a timestamped migration with `npx faasjs-pg new <name>`, define the table with `SchemaBuilder`/`TableBuilder`, run with `npx faasjs-pg migrate`. See [PG Schema and Migrations Guide](./pg-schema-and-migrations.md).
+**Step 1: Database migration** — Create a timestamped migration with `npx faasjs-pg new <name>`, define the table with `SchemaBuilder`/`TableBuilder`, run with `npx faasjs-pg migrate`. See PG Schema and Migrations Guide.
 
-**Step 2: Table types** — Add declaration merging on `Tables` in `src/db/tables/<table_name>.ts`. See [PG Table Types Guide](./pg-table-types.md).
+**Step 2: Table types** — Add declaration merging on `Tables` in `src/db/tables/<table_name>.ts`. See PG Table Types Guide.
 
-**Step 3: API endpoints** — Create five `.api.ts` files (`list`, `detail`, `create`, `update`, `remove`) under `src/features/<feature>/api/`, each with inline Zod schema + handler. See [defineApi Guide](./define-api.md) and [CRUD Patterns Guide](./crud-patterns.md).
+**Step 3: API endpoints** — Create five `.api.ts` files (`list`, `detail`, `create`, `update`, `remove`) under `src/features/<feature>/api/`, each with inline Zod schema + handler. See defineApi Guide and CRUD Patterns Guide.
 
-**Step 4: Frontend page** — Create shared `use<Feature>Items` hook, then compose the `Table` `faasData` prop (list), `Description` `faasData` prop (detail), `Form` `faas` prop (create/edit), and `faas` + modal (delete). See [Ant Design Guide](./ant-design.md), [React Guide](./react.md), and [React Data Fetching Guide](./react-data-fetching.md).
+**Step 4: Frontend page** — Create shared `use<Feature>Items` hook, then compose the `Table` `faasData` prop (list), `Description` `faasData` prop (detail), `Form` `faas` prop (create/edit), and `faas` + modal (delete). See Ant Design Guide, React Guide, and React Data Fetching Guide.
 
-**Step 5: Tests** — Place API tests under `api/__tests__/` using `testApi` from `@faasjs/dev`. See [Testing Guide](./testing.md) and [CRUD Patterns Guide](./crud-patterns.md).
+**Step 5: Tests** — Place API tests under `api/__tests__/` using `testApi` from `@faasjs/dev`. See [Testing Guide](./testing.md) and CRUD Patterns Guide.
 
 **Step 6: Type generation** — After creating/modifying `.api.ts` files, run `npx faas types` to update `src/.faasjs/types.d.ts`. Then run `vp test` to verify.
 
@@ -166,11 +166,11 @@ export default defineApi({
 })
 ```
 
-See the [defineApi Guide](./define-api.md) for detailed rules.
+See the defineApi Guide for detailed rules.
 
 ### Zero-Mapping routing
 
-API file paths map directly to request paths — no routing configuration needed. A file at `src/features/todos/api/list.api.ts` responds to `POST /features/todos/api/list`. See the [Routing Mapping Specification](./routing-mapping.md) for the full resolution order.
+API file paths map directly to request paths — no routing configuration needed. A file at `src/features/todos/api/list.api.ts` responds to `POST /features/todos/api/list`. See the Routing Mapping Specification for the full resolution order.
 
 ### `faas.yaml` configuration hierarchy
 
@@ -189,7 +189,7 @@ defaults:
           secure: false
 ```
 
-See the [faas.yaml Specification](./faas-yaml.md) for the full spec.
+See the faas.yaml Specification for the full spec.
 
 ### `@faasjs/ant-design` components
 
@@ -202,7 +202,7 @@ The `@faasjs/ant-design` package provides business UI wrappers that handle loadi
 | `Description` `faasData` prop | Detail view with loading and error states                              |
 | `useApp()`                    | Access to `message`, `notification`, `setDrawerProps`, `setModalProps` |
 
-See the [Ant Design Guide](./ant-design.md) for component patterns.
+See the Ant Design Guide for component patterns.
 
 ### `useFaas` / `faas` data fetching
 
@@ -212,13 +212,13 @@ See the [Ant Design Guide](./ant-design.md) for component patterns.
 | `faas(action, params)`             | Imperative one-off requests (form submit, delete)                                |
 | `Form` `faas` prop                 | Form submissions (preferred over raw `faas`)                                     |
 
-See the [React Data Fetching Guide](./react-data-fetching.md) for lifecycle controls and patterns.
+See the React Data Fetching Guide for lifecycle controls and patterns.
 
 ### Plugin mechanism
 
 Plugins inject cross-cutting concerns (auth, tenant context, request metadata) into the request lifecycle. They are configured in `faas.yaml` under the `plugins` key and can extend the `defineApi` handler context with typed fields.
 
-See the [Plugin Specification](./plugin.md) for plugin authoring.
+See the Plugin Specification for plugin authoring.
 
 ## Development Workflow
 
@@ -261,26 +261,26 @@ See the [CLI and Tooling Guide](./cli-and-tooling.md) for all commands and troub
 
 Now that you have a working project, explore the detailed guides:
 
-| Guide                                                           | What it covers                                               |
-| --------------------------------------------------------------- | ------------------------------------------------------------ |
-| [Application Slices Guide](./application-slices.md)             | Vertical feature structure and recommended layout            |
-| [CRUD Patterns Guide](./crud-patterns.md)                       | Complete CRUD implementation from API to feature UI          |
-| [defineApi Guide](./define-api.md)                              | API endpoint schema, validation, and error handling          |
-| [Ant Design Guide](./ant-design.md)                             | Page structure, routes, CRUD composition, and UI feedback    |
-| [React Data Fetching Guide](./react-data-fetching.md)           | `useFaas`, `faas`, lifecycle controls, polling, and retry    |
-| [PG Schema and Migrations Guide](./pg-schema-and-migrations.md) | Database migration authoring rules                           |
-| [PG Table Types Guide](./pg-table-types.md)                     | Declaration merging on `Tables` for type-safe queries        |
-| [PG Query Builder and Raw SQL Guide](./pg-query-builder.md)     | Query building with `@faasjs/pg`                             |
-| [Testing Guide](./testing.md)                                   | Testing principles and practices                             |
-| [React Testing Guide](./react-testing.md)                       | React component and request-flow testing                     |
-| [PG Testing Guide](./pg-testing.md)                             | PostgreSQL integration testing                               |
-| [CLI and Tooling Guide](./cli-and-tooling.md)                   | All CLI commands, environment variables, and troubleshooting |
-| [Project Config Guide](./project-config.md)                     | TypeScript, Vite, and tooling configuration                  |
-| [File Conventions](./file-conventions.md)                       | File placement and naming conventions                        |
-| [Jobs Guide](./jobs.md)                                         | Background jobs with `@faasjs/jobs`                          |
-| [Logger Guide](./logger.md)                                     | Logging patterns and log levels                              |
-| [Code Comments Guide](./code-comments.md)                       | JSDoc and comment conventions                                |
-| [faas.yaml Specification](./faas-yaml.md)                       | Full faas.yaml configuration reference                       |
-| [Routing Mapping Specification](./routing-mapping.md)           | Zero-Mapping route resolution                                |
-| [Plugin Specification](./plugin.md)                             | Plugin authoring and configuration                           |
-| [Http Protocol Specification](./http-protocol.md)               | HTTP request/response protocol details                       |
+| Guide                                               | What it covers                                               |
+| --------------------------------------------------- | ------------------------------------------------------------ |
+| [Application Slices Guide](./application-slices.md) | Vertical feature structure and recommended layout            |
+| CRUD Patterns Guide                                 | Complete CRUD implementation from API to feature UI          |
+| defineApi Guide                                     | API endpoint schema, validation, and error handling          |
+| Ant Design Guide                                    | Page structure, routes, CRUD composition, and UI feedback    |
+| React Data Fetching Guide                           | `useFaas`, `faas`, lifecycle controls, polling, and retry    |
+| PG Schema and Migrations Guide                      | Database migration authoring rules                           |
+| PG Table Types Guide                                | Declaration merging on `Tables` for type-safe queries        |
+| PG Query Builder and Raw SQL Guide                  | Query building with `@faasjs/pg`                             |
+| [Testing Guide](./testing.md)                       | Testing principles and practices                             |
+| React Testing Guide                                 | React component and request-flow testing                     |
+| PG Testing Guide                                    | PostgreSQL integration testing                               |
+| [CLI and Tooling Guide](./cli-and-tooling.md)       | All CLI commands, environment variables, and troubleshooting |
+| [Project Config Guide](./project-config.md)         | TypeScript, Vite, and tooling configuration                  |
+| [File Conventions](./file-conventions.md)           | File placement and naming conventions                        |
+| Jobs Guide                                          | Background jobs with `@faasjs/jobs`                          |
+| Logger Guide                                        | Logging patterns and log levels                              |
+| [Code Comments Guide](./code-comments.md)           | JSDoc and comment conventions                                |
+| faas.yaml Specification                             | Full faas.yaml configuration reference                       |
+| Routing Mapping Specification                       | Zero-Mapping route resolution                                |
+| Plugin Specification                                | Plugin authoring and configuration                           |
+| Http Protocol Specification                         | HTTP request/response protocol details                       |

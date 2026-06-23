@@ -123,7 +123,7 @@ describe('users query', () => {
 
 ## See Also
 
-- [Testing Guide](./testing.md) — shared testing principles (apply first)
+- Testing Guide — shared testing principles (apply first)
 - [PG Query Builder and Raw SQL Guide](./pg-query-builder.md) — building queries under test
 - [PG Table Types Guide](./pg-table-types.md) — table type definitions for typed assertions
 - [PG Schema and Migrations Guide](./pg-schema-and-migrations.md) — migrations run by the plugin

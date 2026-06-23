@@ -188,11 +188,11 @@ Do this before handing off the change, so route-to-type mappings stay in sync.
 
 - [HTTP Plugin Guide](./http-plugin.md) — cookie, session, and response helpers available in handlers
 - [Jobs Guide](./jobs.md) — `defineJob` for background work
-- [Testing Guide](./testing.md) — testing API endpoints with `testApi`
+- Testing Guide — testing API endpoints with `testApi`
 
 ## Testing Checklist
 
-Follow the shared [Testing Guide](./testing.md) first, then use `@faasjs/dev` and cover:
+Follow the shared Testing Guide first, then use `@faasjs/dev` and cover:
 
 - success path
 - invalid params -> `400`

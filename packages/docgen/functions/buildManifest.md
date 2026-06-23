@@ -18,4 +18,4 @@ Repository root override.
 
 [`DocsManifest`](../type-aliases/DocsManifest.md)
 
-Manifest with guideline pages and package slugs.
+Manifest with guideline/spec pages and package slugs.

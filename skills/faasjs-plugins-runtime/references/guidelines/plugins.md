@@ -393,7 +393,7 @@ describe('create with auth plugin', () => {
 
 ## See Also
 
-- [Plugin Specification](./plugin.md) — normative specification for plugin identity, lifecycle, and config layering
+- Plugin Specification — normative specification for plugin identity, lifecycle, and config layering
 
 ## Review Checklist
 

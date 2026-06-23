@@ -4,9 +4,9 @@
  * Documentation generation utilities for the FaasJS monorepo.
  *
  * The generator builds package API Markdown from source JSDoc, mirrors public
- * best-practices guides from `skills/faasjs-best-practices/**`, prepares the
- * docs site content under `docs/**`, and exposes the manifest used by the docs
- * navigation.
+ * best-practices guides from split skill reference directories, injects public
+ * guide/spec links from plain source references, prepares the docs site content
+ * under `docs/**`, and exposes the manifest used by the docs navigation.
  *
  * @packageDocumentation
  */
@@ -31,7 +31,7 @@ export type DocgenOptions = {
   root?: string
 }
 
-/** Kind of page represented in the docs manifest. Current manifest generation emits guideline pages. */
+/** Kind of page represented in the docs manifest. Current manifest generation emits guideline and spec pages. */
 export type ManifestPageKind = 'guideline' | 'spec'
 
 /** Locale identifier for generated docs pages. */
@@ -73,24 +73,64 @@ export type DocsManifest = {
 
 const guidelineOrder = [
   'curated-stack',
+  'getting-started',
   'application-slices',
   'project-config',
   'file-conventions',
+  'naming-convention',
   'code-comments',
+  'cli-and-tooling',
   'define-api',
   'jobs',
+  'http-plugin',
+  'middleware',
   'testing',
   'react',
   'react-data-fetching',
   'react-testing',
   'ant-design',
+  'crud-patterns',
+  'pg-table-types',
+  'pg-query-builder',
+  'pg-schema-and-migrations',
+  'pg-testing',
+  'plugins',
   'node-utils',
   'logger',
   'utils',
-  'pg-query-builder',
-  'pg-table-types',
-  'pg-schema-and-migrations',
-  'pg-testing',
+  'json',
+  'valid',
+  'yaml',
+]
+
+const specOrder = ['faas-yaml', 'routing-mapping', 'http-protocol', 'plugin']
+
+const plainDocReferenceAliases: [string, string][] = [
+  ['PG Query Builder and Raw SQL Guide', 'pg-query-builder'],
+  ['PG Schema and Migrations Guide', 'pg-schema-and-migrations'],
+  ['React Data Fetching Guide', 'react-data-fetching'],
+  ['HTTP Protocol Specification', 'http-protocol'],
+  ['Routing Mapping Specification', 'routing-mapping'],
+  ['routing-mapping specification', 'routing-mapping'],
+  ['Application Slices Guide', 'application-slices'],
+  ['faas.yaml Specification', 'faas-yaml'],
+  ['faas.yaml specification', 'faas-yaml'],
+  ['Http Protocol Specification', 'http-protocol'],
+  ['React Testing Guide', 'react-testing'],
+  ['PG Table Types Guide', 'pg-table-types'],
+  ['CRUD Patterns Guide', 'crud-patterns'],
+  ['Plugin Specification', 'plugin'],
+  ['Validation Guide', 'valid'],
+  ['Node Utils Guide', 'node-utils'],
+  ['File Conventions', 'file-conventions'],
+  ['Ant Design Guide', 'ant-design'],
+  ['PG Testing Guide', 'pg-testing'],
+  ['defineApi Guide', 'define-api'],
+  ['Testing Guide', 'testing'],
+  ['Logger Guide', 'logger'],
+  ['React Guide', 'react'],
+  ['YAML Guide', 'yaml'],
+  ['Jobs Guide', 'jobs'],
 ]
 
 const pageSummaries: Record<string, string> = {}
@@ -230,7 +270,7 @@ function createPages(
  * Build the docs manifest without writing generated files.
  *
  * @param {DocgenOptions} [options] - Repository root override.
- * @returns {DocsManifest} Manifest with guideline pages and package slugs.
+ * @returns {DocsManifest} Manifest with guideline/spec pages and package slugs.
  */
 export function buildManifest(options: DocgenOptions = {}): DocsManifest {
   const root = repoRoot(options)
@@ -238,13 +278,21 @@ export function buildManifest(options: DocgenOptions = {}): DocsManifest {
     root,
     'guideline',
     'en',
-    'skills/faasjs-best-practices/guidelines/*.md',
+    'skills/*/references/guidelines/*.md',
     'docs/guidelines',
     guidelineOrder,
   )
+  const enSpecs = createPages(
+    root,
+    'spec',
+    'en',
+    'skills/*/references/specs/*.md',
+    'docs/specs',
+    specOrder,
+  )
 
   return {
-    pages: enGuidelines,
+    pages: [...enGuidelines, ...enSpecs],
     packages: sortByOrder(
       globSync('packages/*/package.json', { cwd: root })
         .map(packagePathFromPackageJson)
@@ -256,7 +304,9 @@ export function buildManifest(options: DocgenOptions = {}): DocsManifest {
   }
 }
 
-function rewriteSkillLinksForDocs(content: string) {
+function rewriteSkillLinksForDocs(content: string, page: ManifestPage, pages: ManifestPage[]) {
+  const pageBySource = new Map(pages.map((item) => [item.sourcePath, item]))
+
   return content
     .replaceAll(
       /\.\.\/references\/packages\/([^/)]+)\/README\.md/g,
@@ -266,12 +316,78 @@ function rewriteSkillLinksForDocs(content: string) {
       /\.\.\/references\/packages\/([^/)]+)\/([^/)]+)\/([^/)]+)\.md/g,
       (_match, packageName, group, name) => `/doc/${packageName}/${group}/${name}.html`,
     )
+    .replaceAll(/\]\(([^)\s]+\.md)(#[^)]+)?\)/g, (match, linkPath, anchor = '') => {
+      if (/^(?:https?:)?\/\//.test(linkPath) || linkPath.startsWith('/')) return match
+
+      const targetPath = normalizePath(join(dirname(page.sourcePath), linkPath))
+      const target = pageBySource.get(targetPath)
+
+      if (!target) return match
+
+      return match.replace(`${linkPath}${anchor}`, `${target.routePath}${anchor}`)
+    })
 }
 
-function writeGeneratedPage(root: string, page: ManifestPage) {
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function linkTextSegment(
+  segment: string,
+  page: ManifestPage,
+  pagesBySlug: Map<string, ManifestPage>,
+) {
+  const aliases = plainDocReferenceAliases
+    .map(([alias, slug]) => ({ alias, page: pagesBySlug.get(slug) }))
+    .filter((item): item is { alias: string; page: ManifestPage } => Boolean(item.page))
+    .sort((a, b) => b.alias.length - a.alias.length)
+
+  if (!aliases.length) return segment
+
+  const aliasPattern = new RegExp(aliases.map((item) => escapeRegExp(item.alias)).join('|'), 'g')
+  const aliasByText = new Map<string, ManifestPage>(aliases.map((item) => [item.alias, item.page]))
+
+  return segment.replaceAll(aliasPattern, (alias) => {
+    const target = aliasByText.get(alias)
+
+    if (!target || target.slug === page.slug) return alias
+
+    return `[${alias}](${target.routePath})`
+  })
+}
+
+function linkPlainDocRefsForDocs(content: string, page: ManifestPage, pages: ManifestPage[]) {
+  const pagesBySlug = new Map(pages.map((item) => [item.slug, item]))
+  const fencedCodePattern = /(```[\s\S]*?```|~~~[\s\S]*?~~~)/g
+  const protectedMarkdownPattern = /(!?\[[^\]]*]\([^)]*\)|`+[^`]*`+)/g
+
+  return content
+    .split(fencedCodePattern)
+    .map((block, index) => {
+      if (index % 2 === 1) return block
+
+      return block
+        .split(protectedMarkdownPattern)
+        .map((segment, segmentIndex) => {
+          if (segmentIndex % 2 === 1) return segment
+
+          return linkTextSegment(segment, page, pagesBySlug)
+        })
+        .join('')
+    })
+    .join('')
+}
+
+function writeGeneratedPage(root: string, page: ManifestPage, pages: ManifestPage[]) {
   const outputPath = join(root, page.outputPath)
+  const content = linkPlainDocRefsForDocs(
+    rewriteSkillLinksForDocs(page.sourceContent, page, pages),
+    page,
+    pages,
+  )
+
   mkdirSync(dirname(outputPath), { recursive: true })
-  writeFileSync(outputPath, rewriteSkillLinksForDocs(page.sourceContent))
+  writeFileSync(outputPath, content)
 }
 
 function renderPackageName(name: string) {
@@ -335,6 +451,42 @@ function writeGeneratedGuideIndex(root: string, manifest: DocsManifest) {
   writeFileSync(join(root, 'docs/guidelines/README.md'), renderGuideIndex(manifest))
 }
 
+function renderSpecIndex(manifest: DocsManifest) {
+  const specs = manifest.pages.filter((page) => page.kind === 'spec' && page.locale === 'en')
+  const specList = specs
+    .map((page) => `- [${page.title}](${page.routePath}): ${page.summary}`)
+    .join('\n')
+
+  return `# Specifications
+
+Use these normative specifications as the current runtime contracts for FaasJS.
+
+These pages use MUST, SHOULD, and MAY language for compatibility-sensitive behavior.
+
+## Specs
+
+${specList}
+`
+}
+
+function writeGeneratedSpecIndex(root: string, manifest: DocsManifest) {
+  writeFileSync(join(root, 'docs/specs/README.md'), renderSpecIndex(manifest))
+}
+
+function writeSpecCompatibilityPages(root: string, manifest: DocsManifest) {
+  const specs = manifest.pages.filter((page) => page.kind === 'spec' && page.locale === 'en')
+
+  for (const page of specs) {
+    writeFileSync(
+      join(root, `docs/guidelines/${page.slug}.md`),
+      `# ${page.title}
+
+This specification moved to [${page.title}](${page.routePath}).
+`,
+    )
+  }
+}
+
 /**
  * Generate package API Markdown from source JSDoc using TypeDoc.
  *
@@ -391,7 +543,8 @@ export function buildApiDocs(options: DocgenOptions & { packagePath?: string } =
  * Prepare generated docs-site Markdown from source guides and package API docs.
  *
  * This rewrites generated content under `docs/guidelines`, `docs/zh`, and `docs/doc`,
- * copies package Markdown except `packages/docgen/**`, and refreshes guide indexes.
+ * injects public guide/spec links from plain source references, copies package Markdown
+ * except `packages/docgen/**`, and refreshes guide and spec indexes.
  *
  * @param {DocgenOptions} [options] - Repository root override.
  */
@@ -401,10 +554,13 @@ export function prepareDocsSite(options: DocgenOptions = {}) {
   const manifest = buildManifest({ root })
 
   rmSync(join(docsRoot, 'guidelines'), { recursive: true, force: true })
+  rmSync(join(docsRoot, 'specs'), { recursive: true, force: true })
   rmSync(join(docsRoot, 'zh'), { recursive: true, force: true })
 
-  for (const page of manifest.pages) writeGeneratedPage(root, page)
+  for (const page of manifest.pages) writeGeneratedPage(root, page, manifest.pages)
   writeGeneratedGuideIndex(root, manifest)
+  writeGeneratedSpecIndex(root, manifest)
+  writeSpecCompatibilityPages(root, manifest)
 
   rmSync(join(docsRoot, 'doc'), { recursive: true, force: true })
   mkdirSync(join(docsRoot, 'doc'), { recursive: true })

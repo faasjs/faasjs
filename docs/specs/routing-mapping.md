@@ -6,9 +6,9 @@ FaasJS API route resolution is file-based. This spec standardizes backend route
 mapping so Zero-Mapping remains explicit: file path and request path stay in
 one-to-one alignment by default.
 
-Feature UI components commonly live under `src/features/<feature>`, but FaasJS
-does not auto-discover webpage routes for React applications anymore. Browser
-routing is an application concern and is out of scope for this spec.
+Feature UI components commonly live under `src/features`, but FaasJS does not
+auto-discover webpage routes for React applications. Browser routing is an
+application concern and is out of scope for this spec.
 
 Related references:
 

@@ -2,9 +2,9 @@
 
 Use this guide when writing or reviewing React tests that exercise FaasJS request flows in hooks or components.
 
-Apply the shared [Testing Guide](./testing.md) first, then use the React-specific rules below.
+Apply the shared Testing Guide first, then use the React-specific rules below.
 
-For pure presentational components or hooks that do not touch FaasJS request flows, follow the shared [Testing Guide](./testing.md) and [React Guide](./react.md) instead.
+For pure presentational components or hooks that do not touch FaasJS request flows, follow the shared Testing Guide and [React Guide](./react.md) instead.
 
 In this guide, "UI tests" means tests routed to the Vitest `ui` project with `environment: 'jsdom'`.
 
@@ -18,7 +18,7 @@ In this guide, "UI tests" means tests routed to the Vitest `ui` project with `en
 
 ## Default Workflow
 
-1. Start with the shared [Testing Guide](./testing.md).
+1. Start with the shared Testing Guide.
 2. Name React hook and component UI tests with `.test.tsx` when the file uses TSX, or `.ui.test.ts` when the test does not use TSX syntax.
 3. Clear the global mock in shared Vitest setup with `afterEach(() => setMock(null))`.
 4. Set the specific mock for each test or `beforeEach`.
@@ -153,7 +153,7 @@ setMock({
 
 ### 3. Keep mock boundaries at the request layer when possible
 
-- Follow the shared [Testing Guide](./testing.md) rule against unnecessary mocks.
+- Follow the shared Testing Guide rule against unnecessary mocks.
 - When React request behavior can be exercised through `setMock`, prefer that over mocking local hooks, components, or helpers.
 - Keep child components and local helpers real unless a clear external boundary forces isolation.
 - Use `setMock` to model the request contract, not to recreate component internals.
@@ -232,13 +232,13 @@ describe('useFaas', () => {
 
 ## See Also
 
-- [Testing Guide](./testing.md) — shared testing principles (apply first)
+- Testing Guide — shared testing principles (apply first)
 - [React Data Fetching Guide](./react-data-fetching.md) — request flow patterns under test
 - [React Guide](./react.md) — component and hook patterns
 
 ## Review Checklist
 
-- shared [Testing Guide](./testing.md) rules are followed first
+- shared Testing Guide rules are followed first
 - UI tests use `.test.tsx` when they contain TSX, or `.ui.test.ts` when they do not
 - request-related tests use `setMock` instead of real network calls
 - shared Vitest setup clears mocks with `setMock(null)`

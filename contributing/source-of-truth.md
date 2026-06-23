@@ -10,6 +10,7 @@ Use this guide when developing or maintaining the FaasJS framework in this monor
 - User-facing skills and guidance: `skills/**`
 - Framework contribution guides and maintainer workflows: `contributing/**`
 - Docker image definitions and related assets: `images/**`
+- Public guides: `skills/*/references/guidelines/**`
 - Framework specifications: `skills/*/references/specs/**`
 
 ## Guide Boundaries
@@ -17,6 +18,7 @@ Use this guide when developing or maintaining the FaasJS framework in this monor
 - `skills/**` is for public guidance aimed at people building with FaasJS.
 - `contributing/**` is for framework contribution workflows and maintainer-facing rules.
 - Keep repo-specific maintainer workflows, release steps, and validation requirements out of user-facing `skills/**`.
+- Skill source Markdown may link only to files inside the same skill. For cross-skill guide/spec references, write the plain guide/spec name and let `@faasjs/docgen` inject the public docs-site link.
 
 ## Generated And Derived Files
 
@@ -25,8 +27,9 @@ Use this guide when developing or maintaining the FaasJS framework in this monor
 - Do not directly edit generated API Markdown under `packages/*/{classes,functions,interfaces,type-aliases,variables}`.
 - Update JSDoc in `packages/*/src` first, then run `npm run doc` to refresh generated package API Markdown.
 - Update guide/spec source under `skills/**` first, then run `npm run doc` to refresh generated published docs.
-- `docs/guidelines/**` is generated during the docs site build from `skills/faasjs-best-practices/guidelines/**`; do not commit it.
-- Do not hand-edit generated docs output such as `docs/guidelines/**`, `docs/specs/**`, `docs/guidelines/README.md`, or `docs/dist/**`.
+- Do not add cross-skill local links under `skills/faasjs-*`; generated public docs links come from `@faasjs/docgen`, not from source-level skill links.
+- `docs/guidelines/**` and `docs/specs/**` are generated from `skills/*/references/**`; do not edit them directly. Do not commit `docs/guidelines/**`; commit refreshed `docs/specs/**` when spec sources change.
+- Do not hand-edit generated docs output such as `docs/guidelines/**`, `docs/specs/**`, `docs/guidelines/README.md`, `docs/specs/README.md`, or `docs/dist/**`.
 
 ## Codebase Conventions
 

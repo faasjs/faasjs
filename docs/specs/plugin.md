@@ -15,7 +15,8 @@ Related references:
 
 - `packages/core/src/func/index.ts`
 - `packages/core/src/index.ts`
-- `packages/node-utils/src/load_config.ts`
+- `packages/node-utils/src/runtime-loading/load-config.ts`
+- `packages/node-utils/src/runtime-loading/load-plugins.ts`
 - `packages/core/src/plugins/http/index.ts`
 
 ## Goals
@@ -23,7 +24,7 @@ Related references:
 - Keep plugin authoring and loading behavior predictable.
 - Define how plugin identity, ordering, config precedence, and deduplication work.
 - Make code registration and `faas.yaml` config play together without ambiguous ownership.
-- Align config-driven loading with current `defineApi()` behavior.
+- Align config-driven loading with current `defineApi()` endpoint behavior.
 
 ## Non-goals
 
@@ -39,7 +40,7 @@ Related references:
 3. Plugin `type` MUST identify the plugin source, family, or module specifier rather than the runtime instance id.
 4. Plugin `name` SHOULD stay stable within the same function because ordering, deduplication, logs, and config lookup rely on it.
 5. A plugin MAY implement `onMount`, `onInvoke`, or both.
-6. Plugins auto-loaded by `defineApi()` MUST be created from a constructor whose prototype implements at least one lifecycle method: `onMount` or `onInvoke`.
+6. Plugins loaded from config for a `defineApi()` endpoint MUST be created from a constructor whose prototype implements at least one lifecycle method: `onMount` or `onInvoke`.
 7. Plugins registered in code MAY implement `applyConfig(resolvedConfig)` to receive the final merged config for their plugin id before first mount.
 
 ### 2. Lifecycle Execution Model
@@ -51,6 +52,9 @@ Related references:
 5. Calling `next()` multiple times from the same lifecycle hook MUST reject with `next() called multiple times`.
 6. Plugins MAY mutate mount or invoke data to inject fields, prepare context, or control the final response.
 7. Errors thrown by a plugin or downstream handler MUST stop the current chain and propagate to the caller.
+8. Runtime adapters SHOULD set `data.context.runtime` to `api` or `job`; `defineApi()` uses `api`, and `defineJob()`/job workers use `job`.
+9. Plugins MAY inspect `data.context.runtime` to decide whether their behavior applies to the current runtime.
+10. A plugin that skips work because of `data.context.runtime` MUST still call `await next()` unless it intentionally stops the lifecycle chain.
 
 ### 3. Configuration Layering And Precedence
 
@@ -68,9 +72,9 @@ Related references:
 3. When code registers a plugin instance, that instance remains the source of runtime behavior; config resolution MAY augment its settings but MUST NOT silently replace it with another instance from YAML.
 4. When a pre-registered plugin instance implements `applyConfig`, the loader SHOULD call it with the final merged config for that plugin id.
 
-### 5. Config-Driven Loading In `defineApi()`
+### 5. Config-Driven Loading For `defineApi()` Endpoints
 
-1. `defineApi()` MUST resolve staged `faas.yaml` config and `func.config.plugins` before the first mount or invoke.
+1. A loader that invokes a `defineApi()` endpoint MUST resolve staged `faas.yaml` config and `func.config.plugins` before the first mount or invoke.
 2. The loader MUST inspect only own enumerable keys on `config.plugins`.
 3. Plugin config entries in `func.config.plugins` MUST be keyed by plugin id.
 4. For config-driven loading, resolved plugin `name` MUST default to the entry key and therefore represent the plugin id.
@@ -92,8 +96,9 @@ Related references:
 
 1. A `defineApi()` function MUST have an `http` plugin available after plugin resolution.
 2. If the `http` plugin is missing, invocation MUST fail with an error that indicates the required `http` plugin is missing.
-3. Additional plugins MAY inject fields into the handler data by mutating invoke data before the business handler runs.
-4. Plugin packages that inject extra handler fields SHOULD provide TypeScript module augmentation for `DefineApiInject`.
+3. A `defineApi()` function MUST set `data.context.runtime` to `api` when the caller did not provide a runtime.
+4. Additional plugins MAY inject fields into the handler data by mutating invoke data before the business handler runs.
+5. Plugin packages that inject extra handler fields SHOULD provide TypeScript module augmentation for `DefineApiInject`.
 
 ## Examples
 

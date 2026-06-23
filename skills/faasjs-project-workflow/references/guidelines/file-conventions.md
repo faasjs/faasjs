@@ -122,7 +122,7 @@ Feature organization under `src/features` is a project convention, not an implic
 
 ### 4. Follow routing-mapping for backend files
 
-- Backend route files MUST follow the [routing-mapping specification](./routing-mapping.md).
+- Backend route files MUST follow the routing-mapping specification.
 - API entry files MUST end with `.api.ts`.
 - API files SHOULD be placed under the owning feature's `api/` directory.
 - Route paths and file paths MUST keep direct Zero-Mapping alignment.

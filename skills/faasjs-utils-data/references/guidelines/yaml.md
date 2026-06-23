@@ -16,7 +16,7 @@ Use this guide when you need to parse YAML text directly in FaasJS projects usin
 
 1. Use `parseYaml()` for direct YAML text parsing in custom tooling or scripts.
 2. Use `parseYaml(raw, schema)` when you want Zod validation and a schema-derived output type.
-3. For `faas.yaml` config with staged discovery and merging, use `loadConfig()` from `@faasjs/node-utils` instead (see [Node Utils Guide](./node-utils.md)).
+3. For `faas.yaml` config with staged discovery and merging, use `loadConfig()` from `@faasjs/node-utils` instead (see Node Utils Guide).
 4. Validate the parsed YAML shape with Zod schemas from `@faasjs/utils`.
 5. Do not import `parseYaml` from `@faasjs/node-utils`; the public parser entrypoint is `@faasjs/utils`.
 

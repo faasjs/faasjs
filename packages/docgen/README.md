@@ -5,9 +5,9 @@
 Documentation generation utilities for the FaasJS monorepo.
 
 The generator builds package API Markdown from source JSDoc, mirrors public
-best-practices guides from `skills/faasjs-best-practices/**`, prepares the
-docs site content under `docs/**`, and exposes the manifest used by the docs
-navigation.
+best-practices guides from split skill reference directories, injects public
+guide/spec links from plain source references, prepares the docs site content
+under `docs/**`, and exposes the manifest used by the docs navigation.
 
 ## Functions
 

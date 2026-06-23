@@ -294,7 +294,7 @@ await otherClient.faas('external/endpoint', { key: 'value' })
 
 - [React Guide](./react.md) — component and hook patterns
 - [Ant Design Guide](./ant-design.md) — `Form` `faas`, `Table` `faasData`, and `Description` `faasData` props
-- [defineApi Guide](./define-api.md) — building the API endpoints that these hooks call
+- defineApi Guide — building the API endpoints that these hooks call
 - [React Testing Guide](./react-testing.md) — testing request flows with `setMock`
 
 ## Review Checklist

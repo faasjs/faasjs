@@ -2,7 +2,7 @@
 
 Use this guide when implementing or reviewing a standard CRUD feature — list, detail, create, update, delete — in a FaasJS application. It covers the full vertical slice from API endpoints to feature UI.
 
-Apply the [Application Slices Guide](./application-slices.md), [Ant Design Guide](./ant-design.md), [defineApi Guide](./define-api.md), and [React Data Fetching Guide](./react-data-fetching.md) for deeper rules. This guide focuses on composing those patterns into a complete CRUD cycle.
+Apply the Application Slices Guide, [Ant Design Guide](./ant-design.md), defineApi Guide, and [React Data Fetching Guide](./react-data-fetching.md) for deeper rules. This guide focuses on composing those patterns into a complete CRUD cycle.
 
 ## Default Workflow
 
@@ -656,7 +656,7 @@ describe('users/api/remove', () => {
 
 **Rules for CRUD tests:**
 
-- Follow the shared [Testing Guide](./testing.md) and [defineApi Guide](./define-api.md).
+- Follow the shared Testing Guide and defineApi Guide.
 - For each endpoint, test: success path, validation failure (400), and business errors (404, 409).
 - Use `testApi(api)` to get a typed handler.
 - Assert both `statusCode` and `data`/`error` shape.

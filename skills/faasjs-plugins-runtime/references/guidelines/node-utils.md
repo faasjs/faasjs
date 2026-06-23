@@ -16,8 +16,8 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 - config loading: `loadConfig`
 - API loading: `loadApiHandler`, `loadPlugins`
 - Node module bootstrapping: `loadPackage`, `registerNodeModuleHooks`, `resetRuntime`
-- filesystem containment checks: `isPathInsideRoot` (see [Validation Guide](./valid.md))
-- schema parsing: `parseSchemaValue`, `formatSchemaError`, `SchemaOutput` (see [Validation Guide](./valid.md))
+- filesystem containment checks: `isPathInsideRoot` (see Validation Guide)
+- schema parsing: `parseSchemaValue`, `formatSchemaError`, `SchemaOutput` (see Validation Guide)
 - logging and log shipping: `Logger`, `formatLogger`, `getTransport`, `Transport`, `colorize`
 
 ## Default Workflow
@@ -25,7 +25,7 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 1. Keep `@faasjs/node-utils` imports in Node-only entrypoints, tests, CLIs, or adapters.
 2. Let `Server` or `viteFaasJsServer()` auto-load the project `.env` when they own bootstrap from a FaasJS app root, and call Node's built-in `loadEnvFile()` yourself in `faas run` entry files, plain Node scripts, tests, or other entrypoints that read env before those helpers start.
 3. Use `loadConfig()` when you only need staged `faas.yaml` data.
-4. Use `parseYaml()` from `@faasjs/utils` when you need the raw FaasJS YAML subset in custom tooling without staged discovery (see [YAML Guide](./yaml.md)).
+4. Use `parseYaml()` from `@faasjs/utils` when you need the raw FaasJS YAML subset in custom tooling without staged discovery (see YAML Guide).
 5. Use `loadApiHandler()` when you need the final exported handler from a default-exported FaasJS API module, or `loadPlugins()` when you already have a `Func` instance.
 6. Prefer the FaasJS TypeScript loader when direct Node execution must understand local TypeScript files or tsconfig aliases, keep local imports extensionless without `.ts` or `.tsx` suffixes, and use default exports for modules loaded through `loadPackage()`.
 7. Use `isPathInsideRoot()` before reading or loading root-scoped files from user-controlled or URL-derived paths.
@@ -130,11 +130,11 @@ await import('./scripts/sync-users')
 - Use `parseSchemaValue()` when a boundary has an optional Zod schema and needs consistent fallback and error formatting.
 - Without a schema, it returns `defaultValue` (or `{}`) and ignores the raw value.
 - With a schema, `null` and `undefined` are replaced by `defaultValue` (or `{}`) before `safeParseAsync()`.
-- See [Validation Guide](./valid.md) for `parseSchemaValue`, `formatSchemaError`, and `SchemaOutput` patterns.
+- See Validation Guide for `parseSchemaValue`, `formatSchemaError`, and `SchemaOutput` patterns.
 
 ### 8. Validate root-scoped file paths with `isPathInsideRoot()`
 
-See [Validation Guide](./valid.md) for `isPathInsideRoot` patterns.
+See Validation Guide for `isPathInsideRoot` patterns.
 
 ## Review Checklist
 
@@ -146,7 +146,7 @@ See [Validation Guide](./valid.md) for `isPathInsideRoot` patterns.
 - modules loaded through `loadPackage()` and config-driven plugin modules use default exports
 - non-`http` YAML plugins declare an explicit `type`
 - module hooks are registered at process startup, not deep inside feature code
-- custom Node-side boundary validation uses `parseSchemaValue()` (see [Validation Guide](./valid.md))
-- root-scoped file access validates resolved paths with `isPathInsideRoot()` (see [Validation Guide](./valid.md))
+- custom Node-side boundary validation uses `parseSchemaValue()` (see Validation Guide)
+- root-scoped file access validates resolved paths with `isPathInsideRoot()` (see Validation Guide)
 - tests that depend on fresh loader state use `resetRuntime()`
 - logging uses `Logger` or the shared transport instead of raw `console` wrappers
