@@ -14,6 +14,7 @@
  *   - Utils:
  *     - `equal`: Compare two values for deep equality.
  *     - `createSplittingContext`: Create a context for code splitting.
+ *     - `createWindowStates`: Create window-backed shared states.
  *     - `useStates`: Create splitting states.
  *     - `useStatesRef`: Create splitting states with refs.
  *   - Hooks:
@@ -45,6 +46,7 @@
 export * from './browser'
 export * from './client'
 export * from './constants'
+export * from './createWindowStates'
 export * from './ErrorBoundary'
 export * from './equal'
 export * from './FaasDataWrapper'
