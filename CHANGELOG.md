@@ -2,14 +2,13 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+[`v8.0.0-beta.42 (2026-06-27)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.41...v8.0.0-beta.42)
 
 - `@faasjs/dev`
   - [Break] Stop re-exporting `@faasjs/core`; import core runtime APIs from `@faasjs/core` directly.
 
 - `@faasjs/workflow`
   - [Feature] Add PostgreSQL-backed persistent workflows with explicit definitions, step-by-step execution, full workflow runs, fork branches, and recoverable failure transitions.
-  - [Feature] Add Zod schema validation and inferred step params to `defineWorkflow`.
 
 [`v8.0.0-beta.41 (2026-06-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.40...v8.0.0-beta.41)
 

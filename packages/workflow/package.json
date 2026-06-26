@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/workflow",
-  "version": "8.0.0-beta.41",
+  "version": "8.0.0-beta.42",
   "description": "PostgreSQL-backed persistent workflows for FaasJS.",
   "keywords": [
     "faasjs",
@@ -33,14 +33,14 @@
     }
   },
   "devDependencies": {
-    "@faasjs/node-utils": ">=8.0.0-beta.41",
-    "@faasjs/pg": ">=8.0.0-beta.41",
-    "@faasjs/utils": ">=8.0.0-beta.41"
+    "@faasjs/node-utils": ">=8.0.0-beta.42",
+    "@faasjs/pg": ">=8.0.0-beta.42",
+    "@faasjs/utils": ">=8.0.0-beta.42"
   },
   "peerDependencies": {
-    "@faasjs/node-utils": ">=8.0.0-beta.41",
-    "@faasjs/pg": ">=8.0.0-beta.41",
-    "@faasjs/utils": ">=8.0.0-beta.41"
+    "@faasjs/node-utils": ">=8.0.0-beta.42",
+    "@faasjs/pg": ">=8.0.0-beta.42",
+    "@faasjs/utils": ">=8.0.0-beta.42"
   },
   "engines": {
     "node": ">=26.0.0",
