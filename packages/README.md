@@ -27,6 +27,12 @@
 | [@faasjs/pg](https://github.com/faasjs/faasjs/tree/main/packages/pg)         | [![NPM Version](https://img.shields.io/npm/v/@faasjs/pg.svg)](https://www.npmjs.com/package/@faasjs/pg)         |
 | [@faasjs/pg-dev](https://github.com/faasjs/faasjs/tree/main/packages/pg-dev) | [![NPM Version](https://img.shields.io/npm/v/@faasjs/pg-dev.svg)](https://www.npmjs.com/package/@faasjs/pg-dev) |
 
+## Workflows
+
+| Name                                                                             | Version                                                                                                             |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| [@faasjs/workflow](https://github.com/faasjs/faasjs/tree/main/packages/workflow) | [![NPM Version](https://img.shields.io/npm/v/@faasjs/workflow.svg)](https://www.npmjs.com/package/@faasjs/workflow) |
+
 ## Browsers
 
 | Name                                                                                 | Version                                                                                                                 |

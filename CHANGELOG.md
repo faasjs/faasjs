@@ -7,6 +7,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/dev`
   - [Break] Stop re-exporting `@faasjs/core`; import core runtime APIs from `@faasjs/core` directly.
 
+- `@faasjs/workflow`
+  - [Feature] Add PostgreSQL-backed persistent workflows with explicit definitions, step-by-step execution, full workflow runs, fork branches, and recoverable failure transitions.
+
 [`v8.0.0-beta.41 (2026-06-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.40...v8.0.0-beta.41)
 
 - `faasjs`

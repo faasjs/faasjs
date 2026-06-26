@@ -30,6 +30,7 @@ const workspacePackageAliases = Object.fromEntries(
     'pg-dev',
     'react',
     'utils',
+    'workflow',
   ].map((packageName) => [
     `@faasjs/${packageName}`,
     join(process.cwd(), 'packages', packageName, 'src/index.ts'),
@@ -62,6 +63,9 @@ const packEntries: Record<string, Record<string, string>> = {
   react: {
     index: './src/index.ts',
   },
+  workflow: {
+    index: './src/index.ts',
+  },
 }
 
 const pack: PackUserConfig[] = [
@@ -76,6 +80,7 @@ const pack: PackUserConfig[] = [
   'utils',
   'node-utils',
   'react',
+  'workflow',
 ].map((p) => ({
   platform: ['react', 'ant-design', 'utils'].includes(p) ? 'browser' : 'node',
   cwd: join(process.cwd(), 'packages', p),

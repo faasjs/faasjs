@@ -140,6 +140,7 @@ const packageOrder = [
   'ant-design',
   'node-utils',
   'jobs',
+  'workflow',
   'pg',
   'pg-dev',
   'types',
