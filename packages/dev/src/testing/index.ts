@@ -1,8 +1,7 @@
 /**
- * Testing helpers and test-oriented re-exports for FaasJS packages.
+ * Testing helpers for FaasJS packages.
  *
- * This entrypoint re-exports `@faasjs/core`, `testApi`, and `ApiTester` so
- * tests can load, mount, and invoke APIs without booting a full server.
+ * This entrypoint exports `testApi` and `ApiTester` so tests can load, mount,
+ * and invoke APIs without booting a full server.
  */
-export * from '@faasjs/core'
 export * from './api-tester.ts'

@@ -10,4 +10,4 @@ Callable helper returned by [testApi](../functions/testApi.md).
 
 ### TApi
 
-`TApi` _extends_ [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
+`TApi` _extends_ `Func`\<`any`, `any`, `any`\>

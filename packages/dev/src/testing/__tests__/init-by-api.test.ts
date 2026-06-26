@@ -1,4 +1,5 @@
-import { ApiTester, Func } from '@faasjs/dev'
+import { Func } from '@faasjs/core'
+import { ApiTester } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
 
 describe('init by api', () => {

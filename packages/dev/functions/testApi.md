@@ -15,7 +15,7 @@ references remain bound to the underlying tester instance.
 
 ### TApi
 
-`TApi` _extends_ [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
+`TApi` _extends_ `Func`\<`any`, `any`, `any`\>
 
 Wrapped FaasJS API type.
 
