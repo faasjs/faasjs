@@ -29,6 +29,20 @@ function createStepTarget(name: string, params?: unknown): WorkflowStepTarget {
  * Mark the current step as done.
  *
  * @param data - Optional JSON-serializable data to persist on the step.
+ *
+ * @example
+ * ```ts
+ * import { done } from '@faasjs/workflow'
+ *
+ * async function sendReceipt({ params }) {
+ *   await emailReceipt(params.orderId)
+ *
+ *   return done({
+ *     orderId: params.orderId,
+ *     emailed: true,
+ *   })
+ * }
+ * ```
  */
 export function done<TData = unknown>(data?: TData): DoneWorkflowInstruction<TData> {
   const instruction: DoneWorkflowInstruction<TData> = {
@@ -46,6 +60,19 @@ export function done<TData = unknown>(data?: TData): DoneWorkflowInstruction<TDa
  *
  * @param name - Target step name.
  * @param params - Params passed to the target step.
+ *
+ * @example
+ * ```ts
+ * import { next } from '@faasjs/workflow'
+ *
+ * async function reserveInventory({ params }) {
+ *   await reserveInventoryForOrder(params.orderId)
+ *
+ *   return next('capturePayment', {
+ *     orderId: params.orderId,
+ *   })
+ * }
+ * ```
  */
 export function next(name: string, params?: unknown): NextWorkflowInstruction {
   return {
@@ -58,6 +85,28 @@ export function next(name: string, params?: unknown): NextWorkflowInstruction {
  * Mark the current step as waiting and create parallel child branch steps.
  *
  * @param children - Child steps to create.
+ *
+ * @example
+ * ```ts
+ * import { fork } from '@faasjs/workflow'
+ *
+ * async function notifyTeams({ params }) {
+ *   return fork([
+ *     {
+ *       name: 'notifyWarehouse',
+ *       params: {
+ *         orderId: params.orderId,
+ *       },
+ *     },
+ *     {
+ *       name: 'notifyCustomer',
+ *       params: {
+ *         orderId: params.orderId,
+ *       },
+ *     },
+ *   ])
+ * }
+ * ```
  */
 export function fork(children: WorkflowStepTarget[]): ForkWorkflowInstruction {
   if (!Array.isArray(children) || children.length === 0) {
@@ -76,6 +125,28 @@ export function fork(children: WorkflowStepTarget[]): ForkWorkflowInstruction {
  *
  * @param error - Failure reason to persist.
  * @param options - Optional recoverable-failure continuation.
+ *
+ * @example
+ * ```ts
+ * import { done, fail } from '@faasjs/workflow'
+ *
+ * async function capturePayment({ params }) {
+ *   try {
+ *     await capturePaymentForOrder(params.orderId)
+ *
+ *     return done()
+ *   } catch (error) {
+ *     return fail(error, {
+ *       next: {
+ *         name: 'releaseInventory',
+ *         params: {
+ *           orderId: params.orderId,
+ *         },
+ *       },
+ *     })
+ *   }
+ * }
+ * ```
  */
 export function fail(
   error: unknown,

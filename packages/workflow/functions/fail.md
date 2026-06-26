@@ -26,3 +26,26 @@ Optional recoverable-failure continuation.
 ## Returns
 
 [`FailWorkflowInstruction`](../type-aliases/FailWorkflowInstruction.md)
+
+## Example
+
+```ts
+import { done, fail } from '@faasjs/workflow'
+
+async function capturePayment({ params }) {
+  try {
+    await capturePaymentForOrder(params.orderId)
+
+    return done()
+  } catch (error) {
+    return fail(error, {
+      next: {
+        name: 'releaseInventory',
+        params: {
+          orderId: params.orderId,
+        },
+      },
+    })
+  }
+}
+```

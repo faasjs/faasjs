@@ -23,3 +23,17 @@ Params passed to the target step.
 ## Returns
 
 [`NextWorkflowInstruction`](../type-aliases/NextWorkflowInstruction.md)
+
+## Example
+
+```ts
+import { next } from '@faasjs/workflow'
+
+async function reserveInventory({ params }) {
+  await reserveInventoryForOrder(params.orderId)
+
+  return next('capturePayment', {
+    orderId: params.orderId,
+  })
+}
+```

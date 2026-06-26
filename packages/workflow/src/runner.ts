@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto'
 
+import { parseSchemaValue } from '@faasjs/node-utils'
 import { getClient, type Client } from '@faasjs/pg'
 
 import { fail } from './instructions'
@@ -20,7 +21,10 @@ import type {
   WorkflowRecord,
   WorkflowStatus,
   WorkflowStepRecord,
+  WorkflowStepParams,
+  WorkflowStepSchemas,
   WorkflowStepTarget,
+  WorkflowSteps,
 } from './types'
 
 const DEFAULT_LEASE_SECONDS = 60
@@ -76,6 +80,22 @@ function normalizeJsonValue(value: unknown): unknown {
 
 function normalizeParams(params: unknown): unknown {
   return params === undefined ? {} : params
+}
+
+async function parseWorkflowStepParams(
+  workflow: WorkflowDefinition,
+  name: string,
+  params: unknown,
+): Promise<unknown> {
+  const schema = workflow.schemas?.[name]
+
+  if (!schema) return normalizeParams(params)
+
+  return parseSchemaValue({
+    schema,
+    value: params,
+    errorMessage: `Invalid workflow step "${name}" params`,
+  })
 }
 
 function normalizeError(error: unknown): WorkflowError {
@@ -142,6 +162,51 @@ function assertInstruction(
   }
 }
 
+async function parseWorkflowStepTarget(
+  workflow: WorkflowDefinition,
+  target: WorkflowStepTarget,
+): Promise<WorkflowStepTarget> {
+  assertStepTarget(workflow, target)
+
+  const schema = workflow.schemas?.[target.name]
+
+  if (!schema) return target
+
+  return {
+    name: target.name,
+    params: await parseWorkflowStepParams(workflow, target.name, target.params),
+  }
+}
+
+async function parseInstructionStepParams(
+  workflow: WorkflowDefinition,
+  instruction: WorkflowInstruction,
+): Promise<WorkflowInstruction> {
+  switch (instruction.type) {
+    case 'done':
+      return instruction
+    case 'next':
+      return {
+        ...instruction,
+        step: await parseWorkflowStepTarget(workflow, instruction.step),
+      }
+    case 'fork':
+      return {
+        ...instruction,
+        children: await Promise.all(
+          instruction.children.map((child) => parseWorkflowStepTarget(workflow, child)),
+        ),
+      }
+    case 'fail':
+      return instruction.next
+        ? {
+            ...instruction,
+            next: await parseWorkflowStepTarget(workflow, instruction.next),
+          }
+        : instruction
+  }
+}
+
 async function getWorkflowStatus(
   client: Client,
   workflow: WorkflowDefinition,
@@ -163,7 +228,7 @@ async function getWorkflowStatus(
 async function insertStep(
   client: Client,
   workflowId: string,
-  workflowType: string,
+  workflow: WorkflowDefinition,
   target: WorkflowStepTarget,
   parentId: string | null,
 ): Promise<string> {
@@ -178,7 +243,7 @@ async function insertStep(
     `,
     id,
     workflowId,
-    workflowType,
+    workflow.type,
     target.name,
     parentId,
     normalizeParams(target.params),
@@ -416,13 +481,14 @@ async function commitDoneInstruction(
 
 async function commitNextInstruction(
   client: Client,
+  workflow: WorkflowDefinition,
   step: WorkflowStepRecord,
   instruction: NextWorkflowInstruction,
 ): Promise<void> {
   const nextStepId = await insertStep(
     client,
     step.workflow_id,
-    step.workflow_type,
+    workflow,
     instruction.step,
     step.parent_id,
   )
@@ -450,6 +516,7 @@ async function commitNextInstruction(
 
 async function commitFailInstruction(
   client: Client,
+  workflow: WorkflowDefinition,
   step: WorkflowStepRecord,
   instruction: FailWorkflowInstruction,
 ): Promise<void> {
@@ -459,7 +526,7 @@ async function commitFailInstruction(
     const nextStepId = await insertStep(
       client,
       step.workflow_id,
-      step.workflow_type,
+      workflow,
       instruction.next,
       step.parent_id,
     )
@@ -511,13 +578,14 @@ async function commitFailInstruction(
 
 async function commitForkInstruction(
   client: Client,
+  workflow: WorkflowDefinition,
   step: WorkflowStepRecord,
   instruction: ForkWorkflowInstruction,
 ): Promise<void> {
   const childIds: string[] = []
 
   for (const child of instruction.children) {
-    childIds.push(await insertStep(client, step.workflow_id, step.workflow_type, child, step.id))
+    childIds.push(await insertStep(client, step.workflow_id, workflow, child, step.id))
   }
 
   await client.raw(
@@ -565,13 +633,13 @@ async function commitInstruction(
         await commitDoneInstruction(trx, step, instruction)
         break
       case 'next':
-        await commitNextInstruction(trx, step, instruction)
+        await commitNextInstruction(trx, workflow, step, instruction)
         break
       case 'fork':
-        await commitForkInstruction(trx, step, instruction)
+        await commitForkInstruction(trx, workflow, step, instruction)
         break
       case 'fail':
-        await commitFailInstruction(trx, step, instruction)
+        await commitFailInstruction(trx, workflow, step, instruction)
         break
     }
 
@@ -620,13 +688,33 @@ async function sleep(ms: number, signal: AbortSignal | undefined): Promise<void>
  *
  * @param workflow - Workflow definition.
  * @param options - Root step params.
+ *
+ * @example
+ * ```ts
+ * import { startWorkflow } from '@faasjs/workflow'
+ *
+ * import { orderWorkflow } from './workflows/order'
+ *
+ * const { workflowId } = await startWorkflow(orderWorkflow, {
+ *   params: {
+ *     orderId: 'order_001',
+ *   },
+ * })
+ *
+ * console.log(`Started workflow ${workflowId}`)
+ * ```
  */
-export async function startWorkflow(
-  workflow: WorkflowDefinition,
-  options: StartWorkflowOptions = {},
+export async function startWorkflow<
+  TSteps extends WorkflowSteps,
+  TRoot extends Extract<keyof TSteps, string>,
+  TSchemas extends WorkflowStepSchemas | undefined = undefined,
+>(
+  workflow: WorkflowDefinition<TSteps, TRoot, TSchemas>,
+  options: StartWorkflowOptions<WorkflowStepParams<TSchemas, TRoot>> = {},
 ): Promise<StartWorkflowResult> {
-  assertStepTarget(workflow, {
+  const rootTarget = await parseWorkflowStepTarget(workflow, {
     name: workflow.root,
+    params: options.params,
   })
 
   const client = await getClient()
@@ -657,7 +745,7 @@ export async function startWorkflow(
       workflowId,
       workflow.type,
       workflow.root,
-      normalizeParams(options.params),
+      normalizeParams(rootTarget.params),
     )
 
     await trx.raw(
@@ -684,6 +772,27 @@ export async function startWorkflow(
  *
  * @param workflow - Workflow definition.
  * @param options - Optional claim restrictions and lease settings.
+ *
+ * @example
+ * ```ts
+ * import { defineJob } from '@faasjs/jobs'
+ * import { runWorkflowStep } from '@faasjs/workflow'
+ *
+ * import { orderWorkflow } from '../workflows/order'
+ *
+ * export default defineJob({
+ *   async handler() {
+ *     const result = await runWorkflowStep(orderWorkflow, {
+ *       workerId: 'order-worker',
+ *       leaseSeconds: 60,
+ *     })
+ *
+ *     if (!result.claimed) return
+ *
+ *     console.log(`Ran step ${result.stepId} for workflow ${result.workflowId}`)
+ *   },
+ * })
+ * ```
  */
 export async function runWorkflowStep(
   workflow: WorkflowDefinition,
@@ -737,16 +846,19 @@ export async function runWorkflowStep(
       )
     }
 
-    instruction = assertInstruction(
+    instruction = await parseInstructionStepParams(
       workflow,
-      await handler({
-        workflowId: record.workflow_id,
-        workflowType: record.workflow_type,
-        stepId: record.id,
-        stepName: record.name,
-        params: record.params,
-        step: record,
-      }),
+      assertInstruction(
+        workflow,
+        await handler({
+          workflowId: record.workflow_id,
+          workflowType: record.workflow_type,
+          stepId: record.id,
+          stepName: record.name,
+          params: await parseWorkflowStepParams(workflow, record.name, record.params),
+          step: record,
+        }),
+      ),
     )
   } catch (error) {
     instruction = fail(error)
@@ -768,24 +880,52 @@ export async function runWorkflowStep(
  * @param workflow - Workflow definition.
  * @param input - Params for a new workflow or workflow id to resume.
  * @param options - Loop limits and lease settings.
+ *
+ * @example
+ * ```ts
+ * import { runWorkflow } from '@faasjs/workflow'
+ *
+ * import { orderWorkflow } from './workflows/order'
+ *
+ * const result = await runWorkflow(
+ *   orderWorkflow,
+ *   {
+ *     params: {
+ *       orderId: 'order_001',
+ *     },
+ *   },
+ *   {
+ *     maxSteps: 20,
+ *     timeoutMs: 30_000,
+ *   },
+ * )
+ *
+ * console.log(`Workflow ${result.workflowId} finished as ${result.status}`)
+ * ```
  */
-export async function runWorkflow(
-  workflow: WorkflowDefinition,
-  input: RunWorkflowInput,
+export async function runWorkflow<
+  TSteps extends WorkflowSteps,
+  TRoot extends Extract<keyof TSteps, string>,
+  TSchemas extends WorkflowStepSchemas | undefined = undefined,
+>(
+  workflow: WorkflowDefinition<TSteps, TRoot, TSchemas>,
+  input: RunWorkflowInput<WorkflowStepParams<TSchemas, TRoot>>,
   options: RunWorkflowOptions = {},
 ): Promise<RunWorkflowResult> {
   const client = await getClient()
 
   await ensureWorkflowSchema(client)
 
+  const startOptions: StartWorkflowOptions<WorkflowStepParams<TSchemas, TRoot>> = {}
+
+  if ('params' in input && input.params !== undefined) {
+    startOptions.params = input.params
+  }
+
   const workflowId =
     'workflowId' in input
       ? input.workflowId
-      : (
-          await startWorkflow(workflow, {
-            params: input.params,
-          })
-        ).workflowId
+      : (await startWorkflow(workflow, startOptions)).workflowId
 
   if (typeof workflowId !== 'string' || !workflowId.trim()) {
     throw Error('[workflow] workflowId must not be empty.')

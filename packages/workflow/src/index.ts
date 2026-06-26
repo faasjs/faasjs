@@ -17,10 +17,19 @@
  *
  * ```ts
  * import { defineWorkflow, done, next, runWorkflow } from '@faasjs/workflow'
+ * import { z } from '@faasjs/utils'
  *
  * const workflow = defineWorkflow({
  *   type: 'agent_workflow',
  *   root: 'plan',
+ *   schemas: {
+ *     plan: z.object({
+ *       taskId: z.string(),
+ *     }),
+ *     run: z.object({
+ *       taskId: z.string(),
+ *     }),
+ *   },
  *   steps: {
  *     async plan(ctx) {
  *       return next('run', { taskId: ctx.params.taskId })
@@ -40,8 +49,10 @@
 export { defineWorkflow } from './definition'
 export { done, fail, fork, next } from './instructions'
 export { runWorkflow, runWorkflowStep, startWorkflow } from './runner'
+export { defineWorkflowOptionsSchema } from './types'
 export type {
   DefineWorkflowOptions,
+  DefineWorkflowOptionsInput,
   DoneWorkflowInstruction,
   FailWorkflowInstruction,
   ForkWorkflowInstruction,
@@ -59,8 +70,11 @@ export type {
   WorkflowStatus,
   WorkflowStepContext,
   WorkflowStepHandler,
+  WorkflowStepParams,
   WorkflowStepRecord,
+  WorkflowStepSchemas,
   WorkflowStepStatus,
+  WorkflowSchemaSteps,
   WorkflowSteps,
   WorkflowStepTarget,
 } from './types'

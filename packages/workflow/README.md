@@ -18,10 +18,19 @@ npm install @faasjs/workflow @faasjs/pg
 
 ```ts
 import { defineWorkflow, done, next, runWorkflow } from '@faasjs/workflow'
+import { z } from '@faasjs/utils'
 
 const workflow = defineWorkflow({
   type: 'agent_workflow',
   root: 'plan',
+  schemas: {
+    plan: z.object({
+      taskId: z.string(),
+    }),
+    run: z.object({
+      taskId: z.string(),
+    }),
+  },
   steps: {
     async plan(ctx) {
       return next('run', { taskId: ctx.params.taskId })
@@ -49,6 +58,7 @@ await runWorkflow(workflow, { params: { taskId: 'task_001' } })
 ## Type Aliases
 
 - [DefineWorkflowOptions](type-aliases/DefineWorkflowOptions.md)
+- [DefineWorkflowOptionsInput](type-aliases/DefineWorkflowOptionsInput.md)
 - [DoneWorkflowInstruction](type-aliases/DoneWorkflowInstruction.md)
 - [FailWorkflowInstruction](type-aliases/FailWorkflowInstruction.md)
 - [ForkWorkflowInstruction](type-aliases/ForkWorkflowInstruction.md)
@@ -63,10 +73,17 @@ await runWorkflow(workflow, { params: { taskId: 'task_001' } })
 - [WorkflowDefinition](type-aliases/WorkflowDefinition.md)
 - [WorkflowInstruction](type-aliases/WorkflowInstruction.md)
 - [WorkflowRecord](type-aliases/WorkflowRecord.md)
+- [WorkflowSchemaSteps](type-aliases/WorkflowSchemaSteps.md)
 - [WorkflowStatus](type-aliases/WorkflowStatus.md)
 - [WorkflowStepContext](type-aliases/WorkflowStepContext.md)
 - [WorkflowStepHandler](type-aliases/WorkflowStepHandler.md)
+- [WorkflowStepParams](type-aliases/WorkflowStepParams.md)
 - [WorkflowStepRecord](type-aliases/WorkflowStepRecord.md)
 - [WorkflowSteps](type-aliases/WorkflowSteps.md)
+- [WorkflowStepSchemas](type-aliases/WorkflowStepSchemas.md)
 - [WorkflowStepStatus](type-aliases/WorkflowStepStatus.md)
 - [WorkflowStepTarget](type-aliases/WorkflowStepTarget.md)
+
+## Variables
+
+- [defineWorkflowOptionsSchema](variables/defineWorkflowOptionsSchema.md)

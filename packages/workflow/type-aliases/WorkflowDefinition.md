@@ -1,8 +1,8 @@
 [@faasjs/workflow](../README.md) / WorkflowDefinition
 
-# Type Alias: WorkflowDefinition\<TSteps\>
+# Type Alias: WorkflowDefinition\<TSteps, TRoot, TSchemas\>
 
-> **WorkflowDefinition**\<`TSteps`\> = `Readonly`\<\{ `root`: `Extract`\<keyof `TSteps`, `string`\>; `steps`: `TSteps`; `type`: `string`; \}\>
+> **WorkflowDefinition**\<`TSteps`, `TRoot`, `TSchemas`\> = `Readonly`\<\{ `root`: `TRoot`; `schemas?`: `TSchemas`; `steps`: `TSteps`; `type`: `string`; \}\>
 
 Workflow definition returned by [defineWorkflow](../functions/defineWorkflow.md).
 
@@ -11,3 +11,11 @@ Workflow definition returned by [defineWorkflow](../functions/defineWorkflow.md)
 ### TSteps
 
 `TSteps` _extends_ [`WorkflowSteps`](WorkflowSteps.md) = [`WorkflowSteps`](WorkflowSteps.md)
+
+### TRoot
+
+`TRoot` _extends_ `Extract`\<keyof `TSteps`, `string`\> = `Extract`\<keyof `TSteps`, `string`\>
+
+### TSchemas
+
+`TSchemas` _extends_ [`WorkflowStepSchemas`](WorkflowStepSchemas.md) \| `undefined` = [`WorkflowStepSchemas`](WorkflowStepSchemas.md) \| `undefined`

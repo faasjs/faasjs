@@ -1,4 +1,5 @@
 import { getClient, getClients, type Client } from '@faasjs/pg'
+import { z } from '@faasjs/utils'
 import { afterAll, beforeEach, describe, expect, it } from 'vitest'
 
 import {
@@ -52,6 +53,68 @@ describe('workflow', () => {
         },
       } as any),
     ).toThrow('root step "missing" is missing')
+
+    expect(() =>
+      defineWorkflow({
+        type: 'agent_workflow',
+        root: 'start',
+        schemas: {
+          start: {} as any,
+        },
+        steps: {
+          async start() {
+            return done()
+          },
+        },
+      }),
+    ).toThrow('step schema must be a Zod schema')
+  })
+
+  it('validates workflow params with step schemas', async () => {
+    const visited: number[] = []
+    const workflow = defineWorkflow({
+      type: 'schema_workflow',
+      root: 'start',
+      schemas: {
+        start: z.object({
+          count: z.coerce.number(),
+        }),
+        finish: z.object({
+          count: z.number().int().min(2),
+        }),
+      },
+      steps: {
+        async start(ctx) {
+          visited.push(ctx.params.count)
+
+          return next('finish', {
+            count: ctx.params.count + 1,
+          })
+        },
+        async finish(ctx) {
+          visited.push(ctx.params.count)
+
+          return done()
+        },
+      },
+    })
+
+    const result = await runWorkflow(workflow, {
+      params: {
+        count: '1',
+      } as any,
+    })
+
+    expect(result.status).toEqual('completed')
+    expect(visited).toEqual([1, 2])
+
+    await expect(
+      runWorkflow(workflow, {
+        params: {
+          count: 'invalid',
+        } as any,
+      }),
+    ).rejects.toThrow('Invalid workflow step "start" params')
   })
 
   it('starts a workflow and persists workflow_type on the root step', async () => {

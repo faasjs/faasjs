@@ -1,47 +1,88 @@
-import type { DefineWorkflowOptions, WorkflowDefinition, WorkflowSteps } from './types'
+import { formatSchemaError } from '@faasjs/node-utils'
+
+import {
+  defineWorkflowOptionsSchema,
+  type DefineWorkflowOptions,
+  type WorkflowDefinition,
+  type WorkflowSchemaSteps,
+  type WorkflowStepSchemas,
+  type WorkflowSteps,
+} from './types'
 
 /**
  * Define a workflow. The definition is explicit and is not registered globally.
+ * When `schemas` is provided, each step's params are validated with its Zod
+ * schema before the handler runs, and `context.params` is inferred from that
+ * schema's output type.
  *
  * @param options - Workflow type, root step name, and step handlers.
+ *
+ * @example
+ * ```ts
+ * import { defineWorkflow, done, next } from '@faasjs/workflow'
+ * import { z } from '@faasjs/utils'
+ *
+ * export const orderWorkflow = defineWorkflow({
+ *   type: 'order_fulfillment',
+ *   root: 'reserveInventory',
+ *   schemas: {
+ *     reserveInventory: z.object({
+ *       orderId: z.string(),
+ *     }),
+ *     capturePayment: z.object({
+ *       orderId: z.string(),
+ *     }),
+ *   },
+ *   steps: {
+ *     async reserveInventory({ params }) {
+ *       await orders.reserveInventory(params.orderId)
+ *
+ *       return next('capturePayment', {
+ *         orderId: params.orderId,
+ *       })
+ *     },
+ *     async capturePayment({ params }) {
+ *       await payments.capture(params.orderId)
+ *
+ *       return done({
+ *         orderId: params.orderId,
+ *       })
+ *     },
+ *   },
+ * })
+ * ```
  */
-export function defineWorkflow<TSteps extends WorkflowSteps>(
-  options: DefineWorkflowOptions<TSteps>,
-): WorkflowDefinition<TSteps> {
-  if (!options || typeof options !== 'object') {
-    throw Error('[workflow] options must be an object.')
+export function defineWorkflow<
+  const TSchemas extends WorkflowStepSchemas,
+  const TRoot extends Extract<keyof TSchemas, string>,
+>(
+  options: DefineWorkflowOptions<WorkflowSchemaSteps<TSchemas>, TRoot, TSchemas>,
+): WorkflowDefinition<WorkflowSchemaSteps<TSchemas>, TRoot, TSchemas>
+export function defineWorkflow<
+  const TSteps extends WorkflowSteps,
+  const TRoot extends Extract<keyof TSteps, string>,
+>(options: DefineWorkflowOptions<TSteps, TRoot>): WorkflowDefinition<TSteps, TRoot>
+export function defineWorkflow(
+  options: DefineWorkflowOptions<WorkflowSteps, string, WorkflowStepSchemas | undefined>,
+): WorkflowDefinition<WorkflowSteps, string, WorkflowStepSchemas | undefined> {
+  const result = defineWorkflowOptionsSchema.safeParse(options)
+
+  if (!result.success) {
+    throw Error(formatSchemaError(result.error, '[workflow] Invalid workflow definition.'))
   }
 
-  if (typeof options.type !== 'string' || !options.type.trim()) {
-    throw Error('[workflow] type must not be empty.')
-  }
-
-  if (typeof options.root !== 'string' || !options.root.trim()) {
-    throw Error('[workflow] root must not be empty.')
-  }
-
-  if (!options.steps || typeof options.steps !== 'object') {
-    throw Error('[workflow] steps must be an object.')
-  }
-
-  if (!Object.keys(options.steps).length) {
-    throw Error('[workflow] steps must not be empty.')
-  }
-
-  if (typeof options.steps[options.root] !== 'function') {
-    throw Error(`[workflow] root step "${options.root}" is missing.`)
-  }
-
-  for (const [name, handler] of Object.entries(options.steps)) {
-    if (!name.trim()) throw Error('[workflow] step name must not be empty.')
-    if (typeof handler !== 'function') {
-      throw Error(`[workflow] step "${name}" handler must be a function.`)
-    }
-  }
-
-  return Object.freeze({
-    type: options.type,
-    root: options.root,
-    steps: options.steps,
-  })
+  return Object.freeze(
+    result.data.schemas
+      ? {
+          type: result.data.type,
+          root: result.data.root,
+          steps: result.data.steps,
+          schemas: result.data.schemas,
+        }
+      : {
+          type: result.data.type,
+          root: result.data.root,
+          steps: result.data.steps,
+        },
+  )
 }

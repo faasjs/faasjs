@@ -17,3 +17,26 @@ Child steps to create.
 ## Returns
 
 [`ForkWorkflowInstruction`](../type-aliases/ForkWorkflowInstruction.md)
+
+## Example
+
+```ts
+import { fork } from '@faasjs/workflow'
+
+async function notifyTeams({ params }) {
+  return fork([
+    {
+      name: 'notifyWarehouse',
+      params: {
+        orderId: params.orderId,
+      },
+    },
+    {
+      name: 'notifyCustomer',
+      params: {
+        orderId: params.orderId,
+      },
+    },
+  ])
+}
+```

@@ -1,3 +1,6 @@
+import type { SchemaOutput } from '@faasjs/node-utils'
+import { z, type ZodOutput, type ZodType } from '@faasjs/utils'
+
 /**
  * Terminal and active workflow lifecycle states.
  */
@@ -92,27 +95,153 @@ export type WorkflowStepHandler<TParams = any> = (
 export type WorkflowSteps = Record<string, WorkflowStepHandler<any>>
 
 /**
+ * Zod schema map keyed by step name.
+ */
+export type WorkflowStepSchemas = Record<string, ZodType>
+
+/**
+ * Params inferred from a step's Zod schema.
+ */
+export type WorkflowStepParams<
+  TSchemas extends WorkflowStepSchemas | undefined = undefined,
+  TName extends string = string,
+> = TSchemas extends WorkflowStepSchemas
+  ? TName extends keyof TSchemas
+    ? SchemaOutput<TSchemas[TName], Record<string, never>>
+    : Record<string, never>
+  : any
+
+/**
+ * Step handlers inferred from a Zod schema map.
+ */
+export type WorkflowSchemaSteps<TSchemas extends WorkflowStepSchemas> = {
+  [TName in Extract<keyof TSchemas, string>]: WorkflowStepHandler<
+    WorkflowStepParams<TSchemas, TName>
+  >
+}
+
+function isWorkflowStepHandler(value: unknown): value is WorkflowStepHandler {
+  return typeof value === 'function'
+}
+
+function isZodSchema(value: unknown): value is ZodType {
+  return Boolean(
+    value &&
+    typeof value === 'object' &&
+    typeof (value as { safeParseAsync?: unknown }).safeParseAsync === 'function',
+  )
+}
+
+const nonEmptyStringSchema = (message: string) =>
+  z.string().refine((value) => value.trim().length > 0, message)
+
+const workflowStepNameSchema = nonEmptyStringSchema('[workflow] step name must not be empty.')
+
+const workflowStepHandlerSchema = z.custom<WorkflowStepHandler>(
+  isWorkflowStepHandler,
+  '[workflow] step handler must be a function.',
+)
+
+const workflowStepSchemaSchema = z.custom<ZodType>(
+  isZodSchema,
+  '[workflow] step schema must be a Zod schema.',
+)
+
+/**
+ * Zod schema used to validate {@link defineWorkflow} options.
+ */
+export const defineWorkflowOptionsSchema = z
+  .object({
+    type: nonEmptyStringSchema('[workflow] type must not be empty.'),
+    root: nonEmptyStringSchema('[workflow] root must not be empty.'),
+    steps: z.record(workflowStepNameSchema, workflowStepHandlerSchema),
+    schemas: z.record(workflowStepNameSchema, workflowStepSchemaSchema).optional(),
+  })
+  .superRefine((options, context) => {
+    const stepNames = Object.keys(options.steps)
+
+    if (!stepNames.length) {
+      context.addIssue({
+        code: 'custom',
+        path: ['steps'],
+        message: '[workflow] steps must not be empty.',
+      })
+    }
+
+    if (!Object.hasOwn(options.steps, options.root)) {
+      context.addIssue({
+        code: 'custom',
+        path: ['root'],
+        message: `[workflow] root step "${options.root}" is missing.`,
+      })
+    }
+
+    if (!options.schemas) return
+
+    for (const name of stepNames) {
+      if (Object.hasOwn(options.schemas, name)) continue
+
+      context.addIssue({
+        code: 'custom',
+        path: ['schemas', name],
+        message: `[workflow] step "${name}" schema is missing.`,
+      })
+    }
+
+    for (const name of Object.keys(options.schemas)) {
+      if (Object.hasOwn(options.steps, name)) continue
+
+      context.addIssue({
+        code: 'custom',
+        path: ['schemas', name],
+        message: `[workflow] schema step "${name}" is missing.`,
+      })
+    }
+  })
+
+/**
+ * Base options shape inferred from {@link defineWorkflowOptionsSchema}.
+ */
+export type DefineWorkflowOptionsInput = ZodOutput<typeof defineWorkflowOptionsSchema>
+
+/**
  * Options for {@link defineWorkflow}.
  */
-export type DefineWorkflowOptions<TSteps extends WorkflowSteps = WorkflowSteps> = {
-  /** Business workflow type, for example `agent_workflow`. */
-  type: string
+export type DefineWorkflowOptions<
+  TSteps extends WorkflowSteps = WorkflowSteps,
+  TRoot extends Extract<keyof TSteps, string> = Extract<keyof TSteps, string>,
+  TSchemas extends WorkflowStepSchemas | undefined = undefined,
+> = Omit<DefineWorkflowOptionsInput, 'root' | 'steps' | 'schemas'> & {
   /** Root step name. */
-  root: Extract<keyof TSteps, string>
+  root: TRoot
   /** Step handlers keyed by step name. */
   steps: TSteps
-}
+} & (TSchemas extends WorkflowStepSchemas
+    ? {
+        /** Zod schemas keyed by step name. Each schema validates and types that step's params. */
+        schemas: TSchemas
+      }
+    : {
+        /** Zod schemas keyed by step name. Each schema validates and types that step's params. */
+        schemas?: undefined
+      })
 
 /**
  * Workflow definition returned by {@link defineWorkflow}.
  */
-export type WorkflowDefinition<TSteps extends WorkflowSteps = WorkflowSteps> = Readonly<{
+export type WorkflowDefinition<
+  TSteps extends WorkflowSteps = WorkflowSteps,
+  TRoot extends Extract<keyof TSteps, string> = Extract<keyof TSteps, string>,
+  TSchemas extends WorkflowStepSchemas | undefined = WorkflowStepSchemas | undefined,
+> = Readonly<{
   /** Business workflow type, for example `agent_workflow`. */
   type: string
   /** Root step name. */
-  root: Extract<keyof TSteps, string>
+  root: TRoot
   /** Step handlers keyed by step name. */
   steps: TSteps
+  /** Zod schemas keyed by step name. */
+  schemas?: TSchemas
 }>
 
 /**
@@ -157,9 +286,9 @@ export type WorkflowStepRecord = {
 /**
  * Options for {@link startWorkflow}.
  */
-export type StartWorkflowOptions = {
+export type StartWorkflowOptions<TParams = unknown> = {
   /** Params passed to the root step. Defaults to `{}`. */
-  params?: unknown
+  params?: TParams
 }
 
 /**
@@ -194,10 +323,10 @@ export type RunWorkflowStepResult = {
 /**
  * Input for {@link runWorkflow}.
  */
-export type RunWorkflowInput =
+export type RunWorkflowInput<TParams = unknown> =
   | {
       /** Params used to create a new workflow. */
-      params?: unknown
+      params?: TParams
       workflowId?: never
     }
   | {

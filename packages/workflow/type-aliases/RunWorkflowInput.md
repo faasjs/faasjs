@@ -1,20 +1,26 @@
 [@faasjs/workflow](../README.md) / RunWorkflowInput
 
-# Type Alias: RunWorkflowInput
+# Type Alias: RunWorkflowInput\<TParams\>
 
-> **RunWorkflowInput** = \{ `params?`: `unknown`; `workflowId?`: `never`; \} \| \{ `params?`: `never`; `workflowId`: `string`; \}
+> **RunWorkflowInput**\<`TParams`\> = \{ `params?`: `TParams`; `workflowId?`: `never`; \} \| \{ `params?`: `never`; `workflowId`: `string`; \}
 
 Input for [runWorkflow](../functions/runWorkflow.md).
+
+## Type Parameters
+
+### TParams
+
+`TParams` = `unknown`
 
 ## Union Members
 
 ### Type Literal
 
-\{ `params?`: `unknown`; `workflowId?`: `never`; \}
+\{ `params?`: `TParams`; `workflowId?`: `never`; \}
 
 #### params?
 
-> `optional` **params?**: `unknown`
+> `optional` **params?**: `TParams`
 
 Params used to create a new workflow.
 

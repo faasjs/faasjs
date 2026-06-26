@@ -23,3 +23,18 @@ Optional JSON-serializable data to persist on the step.
 ## Returns
 
 [`DoneWorkflowInstruction`](../type-aliases/DoneWorkflowInstruction.md)\<`TData`\>
+
+## Example
+
+```ts
+import { done } from '@faasjs/workflow'
+
+async function sendReceipt({ params }) {
+  await emailReceipt(params.orderId)
+
+  return done({
+    orderId: params.orderId,
+    emailed: true,
+  })
+}
+```

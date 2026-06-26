@@ -2,24 +2,136 @@
 
 # Function: defineWorkflow()
 
-> **defineWorkflow**\<`TSteps`\>(`options`): [`WorkflowDefinition`](../type-aliases/WorkflowDefinition.md)\<`TSteps`\>
+## Call Signature
+
+> **defineWorkflow**\<`TSchemas`, `TRoot`\>(`options`): [`WorkflowDefinition`](../type-aliases/WorkflowDefinition.md)\<[`WorkflowSchemaSteps`](../type-aliases/WorkflowSchemaSteps.md)\<`TSchemas`\>, `TRoot`, `TSchemas`\>
 
 Define a workflow. The definition is explicit and is not registered globally.
+When `schemas` is provided, each step's params are validated with its Zod
+schema before the handler runs, and `context.params` is inferred from that
+schema's output type.
 
-## Type Parameters
+### Type Parameters
 
-### TSteps
+#### TSchemas
 
-`TSteps` _extends_ [`WorkflowSteps`](../type-aliases/WorkflowSteps.md)
+`TSchemas` _extends_ [`WorkflowStepSchemas`](../type-aliases/WorkflowStepSchemas.md)
 
-## Parameters
+#### TRoot
 
-### options
+`TRoot` _extends_ `string`
 
-[`DefineWorkflowOptions`](../type-aliases/DefineWorkflowOptions.md)\<`TSteps`\>
+### Parameters
+
+#### options
+
+[`DefineWorkflowOptions`](../type-aliases/DefineWorkflowOptions.md)\<[`WorkflowSchemaSteps`](../type-aliases/WorkflowSchemaSteps.md)\<`TSchemas`\>, `TRoot`, `TSchemas`\>
 
 Workflow type, root step name, and step handlers.
 
-## Returns
+### Returns
 
-[`WorkflowDefinition`](../type-aliases/WorkflowDefinition.md)\<`TSteps`\>
+[`WorkflowDefinition`](../type-aliases/WorkflowDefinition.md)\<[`WorkflowSchemaSteps`](../type-aliases/WorkflowSchemaSteps.md)\<`TSchemas`\>, `TRoot`, `TSchemas`\>
+
+### Example
+
+```ts
+import { defineWorkflow, done, next } from '@faasjs/workflow'
+import { z } from '@faasjs/utils'
+
+export const orderWorkflow = defineWorkflow({
+  type: 'order_fulfillment',
+  root: 'reserveInventory',
+  schemas: {
+    reserveInventory: z.object({
+      orderId: z.string(),
+    }),
+    capturePayment: z.object({
+      orderId: z.string(),
+    }),
+  },
+  steps: {
+    async reserveInventory({ params }) {
+      await orders.reserveInventory(params.orderId)
+
+      return next('capturePayment', {
+        orderId: params.orderId,
+      })
+    },
+    async capturePayment({ params }) {
+      await payments.capture(params.orderId)
+
+      return done({
+        orderId: params.orderId,
+      })
+    },
+  },
+})
+```
+
+## Call Signature
+
+> **defineWorkflow**\<`TSteps`, `TRoot`\>(`options`): [`WorkflowDefinition`](../type-aliases/WorkflowDefinition.md)\<`TSteps`, `TRoot`\>
+
+Define a workflow. The definition is explicit and is not registered globally.
+When `schemas` is provided, each step's params are validated with its Zod
+schema before the handler runs, and `context.params` is inferred from that
+schema's output type.
+
+### Type Parameters
+
+#### TSteps
+
+`TSteps` _extends_ [`WorkflowSteps`](../type-aliases/WorkflowSteps.md)
+
+#### TRoot
+
+`TRoot` _extends_ `string`
+
+### Parameters
+
+#### options
+
+[`DefineWorkflowOptions`](../type-aliases/DefineWorkflowOptions.md)\<`TSteps`, `TRoot`\>
+
+Workflow type, root step name, and step handlers.
+
+### Returns
+
+[`WorkflowDefinition`](../type-aliases/WorkflowDefinition.md)\<`TSteps`, `TRoot`\>
+
+### Example
+
+```ts
+import { defineWorkflow, done, next } from '@faasjs/workflow'
+import { z } from '@faasjs/utils'
+
+export const orderWorkflow = defineWorkflow({
+  type: 'order_fulfillment',
+  root: 'reserveInventory',
+  schemas: {
+    reserveInventory: z.object({
+      orderId: z.string(),
+    }),
+    capturePayment: z.object({
+      orderId: z.string(),
+    }),
+  },
+  steps: {
+    async reserveInventory({ params }) {
+      await orders.reserveInventory(params.orderId)
+
+      return next('capturePayment', {
+        orderId: params.orderId,
+      })
+    },
+    async capturePayment({ params }) {
+      await payments.capture(params.orderId)
+
+      return done({
+        orderId: params.orderId,
+      })
+    },
+  },
+})
+```

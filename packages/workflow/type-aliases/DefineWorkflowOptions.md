@@ -1,22 +1,16 @@
 [@faasjs/workflow](../README.md) / DefineWorkflowOptions
 
-# Type Alias: DefineWorkflowOptions\<TSteps\>
+# Type Alias: DefineWorkflowOptions\<TSteps, TRoot, TSchemas\>
 
-> **DefineWorkflowOptions**\<`TSteps`\> = `object`
+> **DefineWorkflowOptions**\<`TSteps`, `TRoot`, `TSchemas`\> = `Omit`\<[`DefineWorkflowOptionsInput`](DefineWorkflowOptionsInput.md), `"root"` \| `"steps"` \| `"schemas"`\> & `object` & `TSchemas` _extends_ [`WorkflowStepSchemas`](WorkflowStepSchemas.md) ? `object` : `object`
 
 Options for [defineWorkflow](../functions/defineWorkflow.md).
 
-## Type Parameters
-
-### TSteps
-
-`TSteps` _extends_ [`WorkflowSteps`](WorkflowSteps.md) = [`WorkflowSteps`](WorkflowSteps.md)
-
-## Properties
+## Type Declaration
 
 ### root
 
-> **root**: `Extract`\<keyof `TSteps`, `string`\>
+> **root**: `TRoot`
 
 Root step name.
 
@@ -26,8 +20,16 @@ Root step name.
 
 Step handlers keyed by step name.
 
-### type
+## Type Parameters
 
-> **type**: `string`
+### TSteps
 
-Business workflow type, for example `agent_workflow`.
+`TSteps` _extends_ [`WorkflowSteps`](WorkflowSteps.md) = [`WorkflowSteps`](WorkflowSteps.md)
+
+### TRoot
+
+`TRoot` _extends_ `Extract`\<keyof `TSteps`, `string`\> = `Extract`\<keyof `TSteps`, `string`\>
+
+### TSchemas
+
+`TSchemas` _extends_ [`WorkflowStepSchemas`](WorkflowStepSchemas.md) \| `undefined` = `undefined`

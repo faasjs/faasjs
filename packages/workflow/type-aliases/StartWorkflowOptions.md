@@ -1,15 +1,21 @@
 [@faasjs/workflow](../README.md) / StartWorkflowOptions
 
-# Type Alias: StartWorkflowOptions
+# Type Alias: StartWorkflowOptions\<TParams\>
 
-> **StartWorkflowOptions** = `object`
+> **StartWorkflowOptions**\<`TParams`\> = `object`
 
 Options for [startWorkflow](../functions/startWorkflow.md).
+
+## Type Parameters
+
+### TParams
+
+`TParams` = `unknown`
 
 ## Properties
 
 ### params?
 
-> `optional` **params?**: `unknown`
+> `optional` **params?**: `TParams`
 
 Params passed to the root step. Defaults to `{}`.

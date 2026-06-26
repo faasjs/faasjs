@@ -2,24 +2,54 @@
 
 # Function: startWorkflow()
 
-> **startWorkflow**(`workflow`, `options?`): `Promise`\<[`StartWorkflowResult`](../type-aliases/StartWorkflowResult.md)\>
+> **startWorkflow**\<`TSteps`, `TRoot`, `TSchemas`\>(`workflow`, `options?`): `Promise`\<[`StartWorkflowResult`](../type-aliases/StartWorkflowResult.md)\>
 
 Create a workflow row and its root runnable step.
+
+## Type Parameters
+
+### TSteps
+
+`TSteps` _extends_ [`WorkflowSteps`](../type-aliases/WorkflowSteps.md)
+
+### TRoot
+
+`TRoot` _extends_ `string`
+
+### TSchemas
+
+`TSchemas` _extends_ [`WorkflowStepSchemas`](../type-aliases/WorkflowStepSchemas.md) \| `undefined` = `undefined`
 
 ## Parameters
 
 ### workflow
 
-[`WorkflowDefinition`](../type-aliases/WorkflowDefinition.md)
+[`WorkflowDefinition`](../type-aliases/WorkflowDefinition.md)\<`TSteps`, `TRoot`, `TSchemas`\>
 
 Workflow definition.
 
 ### options?
 
-[`StartWorkflowOptions`](../type-aliases/StartWorkflowOptions.md) = `{}`
+[`StartWorkflowOptions`](../type-aliases/StartWorkflowOptions.md)\<[`WorkflowStepParams`](../type-aliases/WorkflowStepParams.md)\<`TSchemas`, `TRoot`\>\> = `{}`
 
 Root step params.
 
 ## Returns
 
 `Promise`\<[`StartWorkflowResult`](../type-aliases/StartWorkflowResult.md)\>
+
+## Example
+
+```ts
+import { startWorkflow } from '@faasjs/workflow'
+
+import { orderWorkflow } from './workflows/order'
+
+const { workflowId } = await startWorkflow(orderWorkflow, {
+  params: {
+    orderId: 'order_001',
+  },
+})
+
+console.log(`Started workflow ${workflowId}`)
+```
