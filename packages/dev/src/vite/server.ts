@@ -54,6 +54,30 @@ function stripBase(url: string, base: string): string {
   return url
 }
 
+function createDebouncedTask(task: () => Promise<void>, delay: number) {
+  let timer: ReturnType<typeof setTimeout> | undefined
+  let chain = Promise.resolve()
+
+  return {
+    schedule() {
+      if (timer) clearTimeout(timer)
+
+      timer = setTimeout(() => {
+        timer = undefined
+        chain = chain.then(task)
+      }, delay)
+    },
+    async wait() {
+      if (timer) {
+        clearTimeout(timer)
+        timer = undefined
+      }
+
+      await chain
+    },
+  }
+}
+
 /**
  * Create a Vite plugin that forwards POST requests to an in-process FaasJS server.
  *
@@ -150,33 +174,15 @@ export function viteFaasJsServer(): Plugin {
         }
       }
 
-      let timer: ReturnType<typeof setTimeout> | undefined
-      let typegenChain = Promise.resolve()
-      let restartTimer: ReturnType<typeof setTimeout> | undefined
-      let restartChain = Promise.resolve()
-
-      const scheduleTypegen = () => {
-        if (timer) clearTimeout(timer)
-
-        timer = setTimeout(() => {
-          typegenChain = typegenChain.then(runTypegen)
-        }, TYPEGEN_DEBOUNCE)
-      }
-
-      const scheduleRestart = () => {
-        if (restartTimer) clearTimeout(restartTimer)
-
-        restartTimer = setTimeout(() => {
-          restartChain = restartChain.then(restartFaasServer)
-        }, TYPEGEN_DEBOUNCE)
-      }
+      const typegenTask = createDebouncedTask(runTypegen, TYPEGEN_DEBOUNCE)
+      const restartTask = createDebouncedTask(restartFaasServer, TYPEGEN_DEBOUNCE)
 
       await runTypegen()
 
       const handleWatcherChange = (_eventName: string, filePath: string) => {
-        if (isTypegenInputFile(filePath)) scheduleTypegen()
+        if (isTypegenInputFile(filePath)) typegenTask.schedule()
 
-        if (isFaasServerSourceFile(filePath)) scheduleRestart()
+        if (isFaasServerSourceFile(filePath)) restartTask.schedule()
       }
 
       watcher.on('all', handleWatcherChange)
@@ -215,14 +221,10 @@ export function viteFaasJsServer(): Plugin {
       let disposePromise: Promise<void> | undefined
       const dispose = () => {
         disposePromise ||= (async () => {
-          if (timer) clearTimeout(timer)
-
-          if (restartTimer) clearTimeout(restartTimer)
-
           watcher.off('all', handleWatcherChange)
 
-          await typegenChain
-          await restartChain
+          await typegenTask.wait()
+          await restartTask.wait()
 
           const currentServer = server
           server = null

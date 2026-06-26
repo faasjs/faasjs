@@ -31,17 +31,10 @@ export function isMappingValue(value: unknown): value is Record<string, unknown>
   return !!value && typeof value === 'object' && !Array.isArray(value)
 }
 
-/**
- * Strip inline comments from a YAML line.
- *
- * A `#` character is treated as a comment start only when preceded by
- * whitespace (or at the beginning of the content). Comments inside
- * quoted strings are preserved.
- *
- * @param {string} content - Line content (without leading indentation).
- * @returns {string} Content with the trailing inline comment removed and trimmed.
- */
-export function stripInlineComment(content: string): string {
+function findUnquotedIndex(
+  content: string,
+  predicate: (char: string, index: number) => boolean,
+): number {
   let inSingleQuote = false
   let inDoubleQuote = false
   let escaped = false
@@ -88,10 +81,29 @@ export function stripInlineComment(content: string): string {
       continue
     }
 
-    if (char === '#' && (i === 0 || /\s/.test(content[i - 1]))) return content.slice(0, i).trimEnd()
+    if (predicate(char, i)) return i
   }
 
-  return content.trimEnd()
+  return -1
+}
+
+/**
+ * Strip inline comments from a YAML line.
+ *
+ * A `#` character is treated as a comment start only when preceded by
+ * whitespace (or at the beginning of the content). Comments inside
+ * quoted strings are preserved.
+ *
+ * @param {string} content - Line content (without leading indentation).
+ * @returns {string} Content with the trailing inline comment removed and trimmed.
+ */
+export function stripInlineComment(content: string): string {
+  const commentIndex = findUnquotedIndex(
+    content,
+    (char, index) => char === '#' && (index === 0 || /\s/.test(content[index - 1])),
+  )
+
+  return commentIndex === -1 ? content.trimEnd() : content.slice(0, commentIndex).trimEnd()
 }
 
 /**
@@ -146,57 +158,10 @@ export function normalizeLines(content: string): ParsedLine[] {
  * @returns Index of the separator `":"`, or `-1` if no valid separator is found.
  */
 export function findMappingSeparator(content: string): number {
-  let inSingleQuote = false
-  let inDoubleQuote = false
-  let escaped = false
+  return findUnquotedIndex(content, (char, index) => {
+    if (char !== ':') return false
 
-  for (let i = 0; i < content.length; i++) {
-    const char = content[i]
-
-    if (inDoubleQuote) {
-      if (escaped) {
-        escaped = false
-        continue
-      }
-
-      if (char === '\\') {
-        escaped = true
-        continue
-      }
-
-      if (char === '"') inDoubleQuote = false
-
-      continue
-    }
-
-    if (inSingleQuote) {
-      if (char === "'") {
-        if (content[i + 1] === "'") {
-          i++
-          continue
-        }
-
-        inSingleQuote = false
-      }
-
-      continue
-    }
-
-    if (char === '"') {
-      inDoubleQuote = true
-      continue
-    }
-
-    if (char === "'") {
-      inSingleQuote = true
-      continue
-    }
-
-    if (char !== ':') continue
-
-    const next = content[i + 1]
-    if (typeof next === 'undefined' || /\s/.test(next)) return i
-  }
-
-  return -1
+    const next = content[index + 1]
+    return typeof next === 'undefined' || /\s/.test(next)
+  })
 }

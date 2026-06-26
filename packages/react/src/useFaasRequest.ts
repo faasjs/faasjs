@@ -187,10 +187,7 @@ export function useFaasRequest<Path extends FaasActionPaths>({
 
     const handleOffline = () => {
       isOnlineRef.current = false
-      if (pollingTimerRef.current) {
-        clearTimeout(pollingTimerRef.current)
-        pollingTimerRef.current = null
-      }
+      clearPollingTimer()
     }
 
     if (typeof window !== 'undefined') {
@@ -278,26 +275,8 @@ export function useFaasRequest<Path extends FaasActionPaths>({
         })
     }
 
-    if (options.debounce) {
-      const timeout = setTimeout(run, options.debounce)
-
-      return () => {
-        clearTimeout(timeout)
-        clearPollingTimer()
-        if (typeof window !== 'undefined') {
-          window.removeEventListener('online', handleOnline)
-          window.removeEventListener('offline', handleOffline)
-        }
-        if (controllerRef.current === controller) controllerRef.current = null
-        controller.abort()
-        setLoading(false)
-        setRefreshing(false)
-      }
-    }
-
-    run()
-
-    return () => {
+    const cleanup = (debounceTimer?: ReturnType<typeof setTimeout>) => {
+      if (debounceTimer) clearTimeout(debounceTimer)
       clearPollingTimer()
       if (typeof window !== 'undefined') {
         window.removeEventListener('online', handleOnline)
@@ -308,6 +287,16 @@ export function useFaasRequest<Path extends FaasActionPaths>({
       setLoading(false)
       setRefreshing(false)
     }
+
+    if (options.debounce) {
+      const timeout = setTimeout(run, options.debounce)
+
+      return () => cleanup(timeout)
+    }
+
+    run()
+
+    return () => cleanup()
   }, [
     action,
     options.params || params,

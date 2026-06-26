@@ -5,6 +5,7 @@ import { getClient, type Client } from '@faasjs/pg'
 
 import { type Job } from './define-job'
 import { loadJobRegistry, type JobRegistry, type LoadJobRegistryOptions } from './discovery'
+import { LoopRunner } from './loop-runner'
 import { resolvePositiveInteger, resolveQueue } from './options'
 import { ensureJobsSchema } from './queue'
 import type { JobRecord, JobRetry } from './types'
@@ -84,10 +85,8 @@ export class JobWorker {
   /** Worker logger. */
   public readonly logger: Logger
 
-  private active = false
   private polling = false
-  private timer: NodeJS.Timeout | undefined
-  private currentPoll: Promise<number> | undefined
+  private readonly loop: LoopRunner
 
   constructor(jobs: JobRegistry, options: JobWorkerOptions = {}) {
     this.jobs = jobs
@@ -97,6 +96,11 @@ export class JobWorker {
     this.leaseSeconds = resolvePositiveInteger(options.leaseSeconds, 60, 'leaseSeconds')
     this.workerId = options.workerId || `worker-${randomUUID()}`
     this.logger = options.logger || new Logger('@faasjs/jobs')
+    this.loop = new LoopRunner({
+      interval: this.pollInterval,
+      logger: this.logger,
+      task: () => this.poll(),
+    })
   }
 
   /**
@@ -105,10 +109,7 @@ export class JobWorker {
    * @returns The worker instance (for chaining).
    */
   public start(): this {
-    if (this.active) return this
-
-    this.active = true
-    this.schedule(0)
+    this.loop.start()
 
     return this
   }
@@ -118,31 +119,7 @@ export class JobWorker {
    * before resolving.
    */
   public async stop(): Promise<void> {
-    this.active = false
-
-    if (this.timer) {
-      clearTimeout(this.timer)
-      this.timer = undefined
-    }
-
-    if (this.currentPoll) await this.currentPoll
-  }
-
-  private schedule(delay: number): void {
-    if (!this.active) return
-
-    this.timer = setTimeout(() => {
-      this.currentPoll = this.poll()
-        .catch((error) => {
-          this.logger.error(error)
-
-          return 0
-        })
-        .finally(() => {
-          this.currentPoll = undefined
-          this.schedule(this.pollInterval)
-        })
-    }, delay)
+    await this.loop.stop()
   }
 
   private async claim(client: Client): Promise<JobRecord | undefined> {

@@ -32,6 +32,47 @@ export function hasUrlScheme(specifier: string): boolean {
 }
 
 /**
+ * Strip the `npm:` prefix used by some runtimes before resolving a plugin type.
+ *
+ * @param {string} specifier - Plugin type specifier to normalize.
+ * @returns {string} Specifier without a leading `npm:` prefix.
+ */
+export function stripNpmPrefix(specifier: string): string {
+  return specifier.startsWith('npm:') ? specifier.slice(4) : specifier
+}
+
+/**
+ * Normalize a plugin type specifier from a known base directory.
+ *
+ * Relative `file://./...`, `file://../...`, `./...`, and `../...` values become
+ * file URLs from `baseDir`. Absolute paths are converted only for callers that
+ * opt in, preserving `loadConfig()` output for absolute YAML values.
+ *
+ * @param {string} pluginType - Plugin type specifier to normalize.
+ * @param {string} baseDir - Directory used to resolve relative specifiers.
+ * @param {{ resolveAbsolute?: boolean }} [options] - Optional absolute-path behavior.
+ * @returns {string} Normalized plugin type specifier.
+ */
+export function normalizePluginTypeSpecifier(
+  pluginType: string,
+  baseDir: string,
+  options: { resolveAbsolute?: boolean } = {},
+): string {
+  const normalizedType = stripNpmPrefix(pluginType)
+
+  if (normalizedType.startsWith('file://./') || normalizedType.startsWith('file://../'))
+    return pathToFileURL(resolve(baseDir, normalizedType.slice('file://'.length))).href
+
+  if (normalizedType.startsWith('./') || normalizedType.startsWith('../'))
+    return pathToFileURL(resolve(baseDir, normalizedType)).href
+
+  if (options.resolveAbsolute && isAbsolute(normalizedType))
+    return pathToFileURL(resolve(normalizedType)).href
+
+  return normalizedType
+}
+
+/**
  * Convert a `file://` URL or absolute path to a normalised filesystem path.
  *
  * @param {string} value - File URL or absolute path to convert.

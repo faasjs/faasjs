@@ -23,14 +23,18 @@ describe.sequential('routing fallback', () => {
     await closeAll()
   })
 
-  it('matches index.api.ts', async () => {
-    const response = await fetch(`http://127.0.0.1:${port}/blog/api`, {
+  function postJson(path: string, body: Record<string, unknown> = {}) {
+    return fetch(`http://127.0.0.1:${port}${path}`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
       },
-      body: '{}',
+      body: JSON.stringify(body),
     })
+  }
+
+  it('matches index.api.ts', async () => {
+    const response = await postJson('/blog/api')
 
     const body = await response.json()
 
@@ -41,13 +45,7 @@ describe.sequential('routing fallback', () => {
   })
 
   it('falls back to blog/api/default.api.ts', async () => {
-    const response = await fetch(`http://127.0.0.1:${port}/blog/api/unknown`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: '{}',
-    })
+    const response = await postJson('/blog/api/unknown')
 
     const body = await response.json()
 
@@ -59,13 +57,7 @@ describe.sequential('routing fallback', () => {
   })
 
   it('matches exact file first, then nested default fallback', async () => {
-    const hitCreate = await fetch(`http://127.0.0.1:${port}/blog/api/post/create`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: '{}',
-    })
+    const hitCreate = await postJson('/blog/api/post/create', { title: 'Post title' })
 
     const createBody = await hitCreate.json()
 
@@ -75,13 +67,7 @@ describe.sequential('routing fallback', () => {
       created: true,
     })
 
-    const hitNestedDefault = await fetch(`http://127.0.0.1:${port}/blog/api/post/not-found`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: '{}',
-    })
+    const hitNestedDefault = await postJson('/blog/api/post/not-found')
 
     const nestedBody = await hitNestedDefault.json()
 

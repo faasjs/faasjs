@@ -1,6 +1,33 @@
 import { escapeIdentifier } from '../utils'
 import type { WhereCondition, JoinCondition } from './types'
 
+type ReturningColumns = (keyof any)[] | ['*']
+
+function getInsertColumns(values: Record<string, any>[]): string[] {
+  return Object.keys(values[0])
+}
+
+function buildValuesPlaceholders(values: Record<string, any>[]): string {
+  return values
+    .map(
+      (value) =>
+        `(${Object.keys(value)
+          .map(() => '?')
+          .join(',')})`,
+    )
+    .join(',')
+}
+
+function buildMutationParams(values: Record<string, any>[]): any[] {
+  return values.map((value) => Object.values(value)).flat()
+}
+
+function buildReturningSql(returning?: ReturningColumns): string {
+  if (!returning?.length) return ''
+
+  return `RETURNING ${returning.map((column) => escapeIdentifier(column as string)).join(',')}`
+}
+
 /**
  * Builds a parameterized WHERE clause from an array of conditions.
  *
@@ -83,30 +110,23 @@ export function buildJoinSql(joinConditions: JoinCondition[]): string {
 export function buildInsertSql<T extends string>(
   table: T,
   values: Record<string, any>[],
-  returning?: (keyof any)[] | ['*'],
+  returning?: ReturningColumns,
 ): { sql: string; params: any[] } {
+  const returningSql = buildReturningSql(returning)
   const sql: string[] = [
     'INSERT INTO',
     escapeIdentifier(table),
     '(',
-    Object.keys(values[0]).map(escapeIdentifier).join(','),
+    getInsertColumns(values).map(escapeIdentifier).join(','),
     ') VALUES',
-    values
-      .map(
-        (v) =>
-          `(${Object.keys(v)
-            .map(() => '?')
-            .join(',')})`,
-      )
-      .join(','),
+    buildValuesPlaceholders(values),
   ]
 
-  if (returning?.length)
-    sql.push('RETURNING', returning.map((column) => escapeIdentifier(column as string)).join(','))
+  if (returningSql) sql.push(returningSql)
 
   return {
     sql: sql.join(' '),
-    params: values.map((v) => Object.values(v)).flat(),
+    params: buildMutationParams(values),
   }
 }
 
@@ -125,9 +145,10 @@ export function buildUpdateSql<T extends string>(
   values: Record<string, any>,
   whereSql: string,
   whereParams: any[],
-  returning?: (keyof any)[] | ['*'],
+  returning?: ReturningColumns,
 ): { sql: string; params: any[] } {
   const params: any[] = Object.values(values)
+  const returningSql = buildReturningSql(returning)
 
   const sql: string[] = [
     'UPDATE',
@@ -141,8 +162,7 @@ export function buildUpdateSql<T extends string>(
   if (whereSql) sql.push(whereSql)
   params.push(...whereParams)
 
-  if (returning?.length)
-    sql.push('RETURNING', returning.map((column) => escapeIdentifier(column as string)).join(','))
+  if (returningSql) sql.push(returningSql)
 
   return {
     sql: sql.join(' '),
@@ -213,26 +233,21 @@ export function buildUpsertSql<T extends string>(
   values: Record<string, any>[],
   conflict: string[],
   update?: string[],
-  returning?: (keyof any)[] | ['*'],
+  returning?: ReturningColumns,
 ): { sql: string; params: any[] } {
+  const columns = getInsertColumns(values)
+  const returningSql = buildReturningSql(returning)
   const sql: string[] = [
     'INSERT INTO',
     escapeIdentifier(table),
     '(',
-    Object.keys(values[0]).map(escapeIdentifier).join(','),
+    columns.map(escapeIdentifier).join(','),
     ') VALUES',
-    values
-      .map(
-        (v) =>
-          `(${Object.keys(v)
-            .map(() => '?')
-            .join(',')})`,
-      )
-      .join(','),
+    buildValuesPlaceholders(values),
     'ON CONFLICT',
     `(${conflict.map(escapeIdentifier).join(',')})`,
     'DO UPDATE SET',
-    Object.keys(values[0])
+    columns
       .filter(
         (column) =>
           !conflict.includes(column as string) &&
@@ -240,13 +255,11 @@ export function buildUpsertSql<T extends string>(
       )
       .map((column) => `${escapeIdentifier(column)} = EXCLUDED.${escapeIdentifier(column)}`)
       .join(','),
-    returning?.length
-      ? `RETURNING ${returning.map((c) => escapeIdentifier(c as string)).join(',')}`
-      : '',
+    returningSql,
   ].filter(Boolean)
 
   return {
     sql: sql.join(' '),
-    params: values.map((v) => Object.values(v)).flat(),
+    params: buildMutationParams(values),
   }
 }

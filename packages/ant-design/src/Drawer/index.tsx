@@ -1,7 +1,7 @@
 import { type DrawerProps as AntdDrawerProps, Drawer } from 'antd'
 import { type Dispatch, type JSX, type SetStateAction } from 'react'
 
-import { useDialogProps } from '../utils/use-dialog-props'
+import { useDialog } from '../utils/use-dialog-props'
 
 export { Drawer }
 
@@ -53,10 +53,10 @@ export type setDrawerProps = Dispatch<SetStateAction<DrawerProps>>
  * ```
  */
 export function useDrawer(init?: DrawerProps) {
-  const [drawerProps, setDrawerProps] = useDialogProps(init)
+  const [drawerProps, setDrawerProps, closeProps] = useDialog(init, 'onClose')
 
   return {
-    drawer: <Drawer onClose={() => setDrawerProps({ open: false })} {...drawerProps} />,
+    drawer: <Drawer {...closeProps} {...drawerProps} />,
     drawerProps,
     setDrawerProps,
   }

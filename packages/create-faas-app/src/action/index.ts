@@ -104,7 +104,7 @@ export async function action(options: { name?: string; template?: string } = {})
   const templateName = resolveTemplateName(options.template)
   const answers: {
     name?: string
-  } = Object.assign(options, {})
+  } = options
 
   if (!options.name || Validator.name(options.name) !== true)
     answers.name = await prompt<{ value: string }>({

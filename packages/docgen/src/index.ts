@@ -133,8 +133,6 @@ const plainDocReferenceAliases: [string, string][] = [
   ['Jobs Guide', 'jobs'],
 ]
 
-const pageSummaries: Record<string, string> = {}
-
 const packageOrder = [
   'core',
   'dev',
@@ -147,6 +145,15 @@ const packageOrder = [
   'types',
   'utils',
   'create-faas-app',
+]
+
+const typedocOutputDirectories = [
+  'classes',
+  'functions',
+  'interfaces',
+  'type-aliases',
+  'modules',
+  'variables',
 ]
 
 function repoRoot(options: DocgenOptions = {}) {
@@ -196,8 +203,6 @@ function humanizeSlug(slug: string) {
       word.length <= 3 ? word.toUpperCase() : `${word[0]?.toUpperCase()}${word.slice(1)}`,
     )
     .join(' ')
-    .replace('PG', 'PG')
-    .replace('API', 'API')
 }
 
 function createPage(
@@ -215,14 +220,13 @@ function createPage(
     paragraphs.find(
       (paragraph) => paragraph && !paragraph.startsWith('#') && !paragraph.includes('\n'),
     ) ?? ''
-  const pageSummary = pageSummaries[slug] ?? summary
 
   return {
     kind,
     locale,
     slug,
     title,
-    summary: pageSummary,
+    summary,
     sourcePath,
     outputPath,
     routePath: routeFromOutputPath(outputPath),
@@ -514,12 +518,9 @@ export function buildApiDocs(options: DocgenOptions & { packagePath?: string } =
 
     const packagePath = packagePathFromPackageJson(path)
 
-    rmSync(join(root, packagePath, 'classes'), { recursive: true, force: true })
-    rmSync(join(root, packagePath, 'functions'), { recursive: true, force: true })
-    rmSync(join(root, packagePath, 'interfaces'), { recursive: true, force: true })
-    rmSync(join(root, packagePath, 'type-aliases'), { recursive: true, force: true })
-    rmSync(join(root, packagePath, 'modules'), { recursive: true, force: true })
-    rmSync(join(root, packagePath, 'variables'), { recursive: true, force: true })
+    for (const directory of typedocOutputDirectories) {
+      rmSync(join(root, packagePath, directory), { recursive: true, force: true })
+    }
 
     const intentionallyNotExportedArgs =
       packagePath === 'packages/types' ? ' --intentionallyNotExported FaasActions' : ''

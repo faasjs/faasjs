@@ -1,9 +1,9 @@
 import { existsSync, readFileSync } from 'node:fs'
-import { dirname, join, resolve, sep } from 'node:path'
-import { pathToFileURL } from 'node:url'
+import { dirname, join, sep } from 'node:path'
 
 import { deepMerge, parseYaml, z } from '@faasjs/utils'
 
+import { normalizePluginTypeSpecifier } from '../load-package/resolver'
 import { Logger } from '../logger'
 
 type YamlConfig = Record<string, FuncConfig>
@@ -74,18 +74,6 @@ function formatIssuePath(path: PropertyKey[]): string {
   return path.map((value) => String(value)).join('.')
 }
 
-function normalizePluginTypeFromYaml(filePath: string, pluginType: string): string {
-  const normalizedType = pluginType.startsWith('npm:') ? pluginType.slice(4) : pluginType
-
-  if (normalizedType.startsWith('file://./') || normalizedType.startsWith('file://../'))
-    return pathToFileURL(resolve(dirname(filePath), normalizedType.slice('file://'.length))).href
-
-  if (normalizedType.startsWith('./') || normalizedType.startsWith('../'))
-    return pathToFileURL(resolve(dirname(filePath), normalizedType)).href
-
-  return normalizedType
-}
-
 function validateFaasYaml(filePath: string, config: unknown): YamlConfig {
   if (typeof config === 'undefined') return Object.create(null)
 
@@ -112,7 +100,7 @@ function validateFaasYaml(filePath: string, config: unknown): YamlConfig {
       const plugin = stage.plugins[pluginName]
 
       if (typeof plugin?.type === 'string')
-        plugin.type = normalizePluginTypeFromYaml(filePath, plugin.type)
+        plugin.type = normalizePluginTypeSpecifier(plugin.type, dirname(filePath))
     }
   }
 

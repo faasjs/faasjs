@@ -4,6 +4,7 @@ import { dirname, join, relative } from 'node:path'
 
 import { Logger } from '@faasjs/node-utils'
 
+import { resolveApiRouteFromFile } from '../utils/api-route.ts'
 import { resolveServerConfig } from '../utils/server-config.ts'
 
 type RouteTypeItem = {
@@ -55,44 +56,16 @@ export type GenerateFaasTypesResult = {
   routeCount: number
 }
 
-function normalizeRoute(path: string): string {
-  const normalized = path.replace(/\\/g, '/').replace(/\/+/g, '/')
-
-  if (!normalized.length || normalized === '/') return '/'
-
-  return normalized.endsWith('/') ? normalized.slice(0, -1) : normalized
-}
-
 function toTypegenRoute(route: string): string {
   return route === '/' ? '/' : route.replace(/^\/+/, '')
 }
 
 function toRoute(srcRoot: string, file: string): { route: string; priority: number } {
-  const noTsPath = relative(srcRoot, file).replace(/\\/g, '/').replace(/\.ts$/, '')
+  const route = resolveApiRouteFromFile(srcRoot, file)
 
-  if (noTsPath === 'index.api') return { route: '/', priority: 2 }
+  if (!route) throw Error(`[faas types] Invalid API filename: ${file}`)
 
-  if (noTsPath === 'default.api') return { route: '/*', priority: 1 }
-
-  if (noTsPath.endsWith('/index.api'))
-    return {
-      route: normalizeRoute(`/${noTsPath.slice(0, -'/index.api'.length)}`),
-      priority: 2,
-    }
-
-  if (noTsPath.endsWith('/default.api'))
-    return {
-      route: normalizeRoute(`/${noTsPath.slice(0, -'/default.api'.length)}/*`),
-      priority: 1,
-    }
-
-  if (noTsPath.endsWith('.api'))
-    return {
-      route: normalizeRoute(`/${noTsPath.slice(0, -'.api'.length)}`),
-      priority: 3,
-    }
-
-  throw Error(`[faas types] Invalid API filename: ${file}`)
+  return route
 }
 
 function toImportPath(fromFile: string, targetFile: string): string {

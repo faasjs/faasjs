@@ -92,7 +92,7 @@ Child element cloned with injected request state after the first load completes.
 
 ### data?
 
-> `optional` **data?**: `FaasData`\<`T`\>
+> `optional` **data?**: `FaasActionValue`\<`T`, `"Data"`\>
 
 Controlled data value used instead of internal state.
 
@@ -124,7 +124,7 @@ Props forwarded to the built-in [Loading](../functions/Loading.md) fallback.
 
 ### params?
 
-> `optional` **params?**: `FaasParams`\<`T`\>
+> `optional` **params?**: `FaasActionValue`\<`T`, `"Params"`\>
 
 Params sent to the action.
 
@@ -154,7 +154,7 @@ Imperative ref exposing the current injected request state.
 
 ### setData?
 
-> `optional` **setData?**: `Dispatch`\<`SetStateAction`\<`FaasData`\<`T`\>\>\>
+> `optional` **setData?**: `Dispatch`\<`SetStateAction`\<`FaasActionValue`\<`T`, `"Data"`\>\>\>
 
 Controlled setter used instead of internal state.
 

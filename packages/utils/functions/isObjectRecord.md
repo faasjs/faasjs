@@ -6,10 +6,9 @@
 
 Type guard that checks whether a value is an object record.
 
-Uses Zod's `safeParse` to check the coarse object shape. It does not validate
-any required keys or value shapes; use an explicit Zod schema for trusted
-business data. Returns `false` for arrays, null, primitives, and other
-non-object values.
+Checks the coarse object shape without validating any required keys or value
+shapes; use an explicit Zod schema for trusted business data. Returns `false`
+for arrays, null, primitives, and other non-object values.
 
 ## Parameters
 

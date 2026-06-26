@@ -5,6 +5,7 @@ import { getClient } from '@faasjs/pg'
 
 import { cronMatches, truncateToMinute } from './cron'
 import { loadJobRegistry, type JobRegistry, type LoadJobRegistryOptions } from './discovery'
+import { LoopRunner } from './loop-runner'
 import { resolveMaxAttempts, resolvePositiveInteger, resolveQueue } from './options'
 import { ensureJobsSchema, enqueueJobInternal } from './queue'
 import type { JobCron } from './types'
@@ -72,16 +73,19 @@ export class JobScheduler {
   /** Scheduler logger. */
   public readonly logger: Logger
 
-  private active = false
   private ticking = false
-  private timer: NodeJS.Timeout | undefined
-  private currentTick: Promise<number> | undefined
+  private readonly loop: LoopRunner
 
   constructor(jobs: JobRegistry, options: JobSchedulerOptions = {}) {
     this.jobs = jobs
     this.pollInterval = resolvePositiveInteger(options.pollInterval, 30_000, 'pollInterval')
     this.schedulerId = options.schedulerId || `scheduler-${randomUUID()}`
     this.logger = options.logger || new Logger('@faasjs/jobs')
+    this.loop = new LoopRunner({
+      interval: this.pollInterval,
+      logger: this.logger,
+      task: () => this.tick(),
+    })
   }
 
   /**
@@ -90,10 +94,7 @@ export class JobScheduler {
    * @returns The scheduler instance (for chaining).
    */
   public start(): this {
-    if (this.active) return this
-
-    this.active = true
-    this.schedule(0)
+    this.loop.start()
 
     return this
   }
@@ -103,31 +104,7 @@ export class JobScheduler {
    * before resolving.
    */
   public async stop(): Promise<void> {
-    this.active = false
-
-    if (this.timer) {
-      clearTimeout(this.timer)
-      this.timer = undefined
-    }
-
-    if (this.currentTick) await this.currentTick
-  }
-
-  private schedule(delay: number): void {
-    if (!this.active) return
-
-    this.timer = setTimeout(() => {
-      this.currentTick = this.tick()
-        .catch((error) => {
-          this.logger.error(error)
-
-          return 0
-        })
-        .finally(() => {
-          this.currentTick = undefined
-          this.schedule(this.pollInterval)
-        })
-    }, delay)
+    await this.loop.stop()
   }
 
   /**

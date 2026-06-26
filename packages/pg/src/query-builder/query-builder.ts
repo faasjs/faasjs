@@ -139,6 +139,15 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
   ): QueryBuilder<T, TResult>
   where<C extends ColumnName<T>>(column: C, value: ColumnValue<T, C>): QueryBuilder<T, TResult>
   where(column: ColumnName<T>, operatorOrValue: unknown, value?: unknown) {
+    return this.addWhere('AND', column, operatorOrValue, value)
+  }
+
+  private addWhere(
+    type: 'AND' | 'OR',
+    column: ColumnName<T>,
+    operatorOrValue: unknown,
+    value?: unknown,
+  ) {
     if (
       typeof value === 'undefined' &&
       !isNormalOperator(operatorOrValue) &&
@@ -147,7 +156,7 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
     ) {
       this.whereConditions.push({
         kind: 'column',
-        type: 'AND',
+        type,
         column,
         operator: '=',
         value: operatorOrValue,
@@ -161,7 +170,7 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
 
     this.whereConditions.push({
       kind: 'column',
-      type: 'AND',
+      type,
       column,
       operator: operatorOrValue,
       value,
@@ -210,35 +219,7 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
   ): QueryBuilder<T, TResult>
   orWhere<C extends ColumnName<T>>(column: C, value: ColumnValue<T, C>): QueryBuilder<T, TResult>
   orWhere(column: ColumnName<T>, operatorOrValue: unknown, value?: unknown) {
-    if (
-      typeof value === 'undefined' &&
-      !isNormalOperator(operatorOrValue) &&
-      operatorOrValue !== 'IS NULL' &&
-      operatorOrValue !== 'IS NOT NULL'
-    ) {
-      this.whereConditions.push({
-        kind: 'column',
-        type: 'OR',
-        column,
-        operator: '=',
-        value: operatorOrValue,
-      })
-
-      return this
-    }
-
-    if (!isOperator(operatorOrValue))
-      throw new Error(`Invalid operator: ${String(operatorOrValue)}`)
-
-    this.whereConditions.push({
-      kind: 'column',
-      type: 'OR',
-      column,
-      operator: operatorOrValue,
-      value,
-    })
-
-    return this
+    return this.addWhere('OR', column, operatorOrValue, value)
   }
 
   /**
@@ -686,9 +667,7 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
         ? Pick<TableType<T>, Returning[number]>[]
         : Record<string, any>[]
   > {
-    const { sql: whereSql, params: whereParams } = buildWhereSql(this.whereConditions, 'update')
-
-    if (!whereSql) throw new Error('Missing where conditions')
+    const { sql: whereSql, params: whereParams } = this.buildRequiredWhere('update')
 
     const { sql, params } = buildUpdateSql(
       this.table,
@@ -718,9 +697,7 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
    * ```
    */
   async updateJson<C extends ColumnName<T>>(column: C, value: Partial<ColumnValue<T, C>>) {
-    const { sql: whereSql, params: whereParams } = buildWhereSql(this.whereConditions, 'update')
-
-    if (!whereSql) throw new Error('Missing where conditions')
+    const { sql: whereSql, params: whereParams } = this.buildRequiredWhere('update')
 
     const { sql, params } = buildUpdateJsonSql(
       this.table,
@@ -747,13 +724,19 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
    * ```
    */
   async delete() {
-    const { sql: whereSql, params: whereParams } = buildWhereSql(this.whereConditions)
-
-    if (!whereSql) throw new Error('Missing where conditions')
+    const { sql: whereSql, params: whereParams } = this.buildRequiredWhere()
 
     const { sql, params } = buildDeleteSql(this.table, whereSql, whereParams)
 
     return this.client.raw(sql, ...params)
+  }
+
+  private buildRequiredWhere(mode: 'query' | 'update' = 'query') {
+    const where = buildWhereSql(this.whereConditions, mode)
+
+    if (!where.sql) throw new Error('Missing where conditions')
+
+    return where
   }
 
   /**

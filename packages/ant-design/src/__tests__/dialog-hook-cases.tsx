@@ -1,6 +1,6 @@
 import { act, render, screen } from '@testing-library/react'
 import type { Dispatch, JSX, ReactNode, SetStateAction } from 'react'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 type DialogProps = {
   children?: ReactNode
@@ -11,6 +11,7 @@ type DialogProps = {
 type DialogHookOptions<TProps extends DialogProps, TResult> = {
   clearedPropNames: (keyof TProps)[]
   children: TProps['children']
+  closePropName: 'onCancel' | 'onClose'
   getElement: (result: TResult) => JSX.Element
   getProps: (result: TResult) => TProps
   getSetProps: (result: TResult) => Dispatch<SetStateAction<TProps>>
@@ -22,6 +23,7 @@ type DialogHookOptions<TProps extends DialogProps, TResult> = {
 export function describeDialogHook<TProps extends DialogProps, TResult>({
   clearedPropNames,
   children,
+  closePropName,
   getElement,
   getProps,
   getSetProps,
@@ -150,6 +152,29 @@ export function describeDialogHook<TProps extends DialogProps, TResult>({
 
       for (const propName of clearedPropNames.filter((propName) => propName !== 'title'))
         expect(getProps(result!)[propName]).toBeUndefined()
+    })
+
+    it('should let custom close handler override default close handler', () => {
+      let result: TResult
+      const onClose = vi.fn<() => void>()
+
+      function App() {
+        result = useHook({
+          [closePropName]: onClose,
+          open: true,
+          title: 'title',
+        } as TProps)
+
+        return getElement(result)
+      }
+
+      render(<App />)
+
+      const element = getElement(result!) as any
+      element.props[closePropName]()
+
+      expect(onClose).toHaveBeenCalledTimes(1)
+      expect(getProps(result!).open).toBe(true)
     })
   })
 }

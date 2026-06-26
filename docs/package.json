@@ -8,7 +8,7 @@
     "build": "npm run build:ssg"
   },
   "devDependencies": {
-    "@faasjs/node-utils": "file:../packages/node-utils",
+    "@faasjs/utils": "file:../packages/utils",
     "highlight.js": "*",
     "markdown-it": "*",
     "markdown-it-anchor": "*"

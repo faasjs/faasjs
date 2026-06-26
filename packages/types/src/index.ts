@@ -79,6 +79,12 @@ export interface FaasActions {}
  */
 export type FaasActionPaths = Extract<keyof FaasActions, string>
 
+type FaasActionValue<T, TField extends 'Params' | 'Data'> = T extends FaasActionPaths
+  ? FaasActions[T][TField]
+  : T extends string
+    ? Record<string, unknown>
+    : never
+
 /**
  * Infer the params type for a given action path.
  *
@@ -111,11 +117,7 @@ export type FaasActionPaths = Extract<keyof FaasActions, string>
  * @see {@link FaasActionPaths}
  * @see {@link FaasData}
  */
-export type FaasParams<T = unknown> = T extends FaasActionPaths
-  ? FaasActions[T]['Params']
-  : T extends string
-    ? Record<string, unknown>
-    : never
+export type FaasParams<T = unknown> = FaasActionValue<T, 'Params'>
 
 /**
  * Infer the response data type for a given action path.
@@ -149,11 +151,30 @@ export type FaasParams<T = unknown> = T extends FaasActionPaths
  * @see {@link FaasActionPaths}
  * @see {@link FaasParams}
  */
-export type FaasData<T = unknown> = T extends FaasActionPaths
-  ? FaasActions[T]['Data']
-  : T extends string
-    ? Record<string, unknown>
-    : never
+export type FaasData<T = unknown> = FaasActionValue<T, 'Data'>
+
+type InferFaasActionParams<TEvent> =
+  NonNullable<TEvent> extends { params?: infer TParams }
+    ? NonNullable<TParams>
+    : Record<string, unknown>
+
+type InferFaasActionFromHandler<THandler> = THandler extends (
+  event?: infer TEvent,
+  ...args: any[]
+) => Promise<infer TData>
+  ? {
+      Params: InferFaasActionParams<TEvent>
+      Data: TData
+    }
+  : never
+
+type InferFaasActionFromApi<TApi> = TApi extends {
+  export: () => {
+    handler: infer THandler
+  }
+}
+  ? InferFaasActionFromHandler<THandler>
+  : never
 
 /**
  * Infer `{ Params, Data }` from a FaasJS API object or a module whose default
@@ -183,28 +204,9 @@ export type FaasData<T = unknown> = T extends FaasActionPaths
  * @see {@link FaasParams}
  * @see {@link FaasData}
  */
-export type InferFaasAction<TApi> = TApi extends {
-  export: () => {
-    handler: (event?: infer TEvent, ...args: any[]) => Promise<infer TData>
-  }
-}
-  ? {
-      Params: NonNullable<TEvent> extends { params?: infer TParams }
-        ? NonNullable<TParams>
-        : Record<string, unknown>
-      Data: TData
-    }
-  : TApi extends { default: infer TDefault }
-    ? TDefault extends {
-        export: () => {
-          handler: (event?: infer TEvent, ...args: any[]) => Promise<infer TData>
-        }
-      }
-      ? {
-          Params: NonNullable<TEvent> extends { params?: infer TParams }
-            ? NonNullable<TParams>
-            : Record<string, unknown>
-          Data: TData
-        }
+export type InferFaasAction<TApi> =
+  InferFaasActionFromApi<TApi> extends never
+    ? TApi extends { default: infer TDefault }
+      ? InferFaasActionFromApi<TDefault>
       : never
-    : never
+    : InferFaasActionFromApi<TApi>

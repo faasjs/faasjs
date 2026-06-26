@@ -4,6 +4,7 @@ import { type ModalProps, useModal } from '../../Modal'
 describeDialogHook<ModalProps, ReturnType<typeof useModal>>({
   children: 'content',
   clearedPropNames: ['children', 'confirmLoading', 'title'],
+  closePropName: 'onCancel',
   getElement: (result) => result.modal,
   getProps: (result) => result.modalProps,
   getSetProps: (result) => result.setModalProps,

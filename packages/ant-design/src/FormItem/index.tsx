@@ -168,33 +168,50 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
     return null
 
   const children = computedProps.formChildren || computedProps.children
+  const renderFormItem = (inputElement: React.ReactNode) => (
+    <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
+      {inputElement}
+    </AntdForm.Item>
+  )
 
-  if (children)
-    return (
-      <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-        {cloneUnionFaasItemElement(children, { scene: 'form' })}
-      </AntdForm.Item>
-    )
+  if (children) return renderFormItem(cloneUnionFaasItemElement(children, { scene: 'form' }))
 
   const render = computedProps.formRender || computedProps.render
 
   if (render)
-    return (
-      <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-        {render(undefined as unknown as T, Object.create(null), 0, 'form')}
-      </AntdForm.Item>
-    )
+    return renderFormItem(render(undefined as unknown as T, Object.create(null), 0, 'form'))
 
   const extendType = extendTypes?.[itemType]
 
   if (extendType?.children)
-    return (
-      <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-        {cloneUnionFaasItemElement(extendType.children, {
-          scene: 'form',
-        })}
-      </AntdForm.Item>
+    return renderFormItem(
+      cloneUnionFaasItemElement(extendType.children, {
+        scene: 'form',
+      }),
     )
+
+  const renderSingleOptionsInput = (item: OptionsProps) =>
+    item.options.length > 10 ? (
+      <Select {...(item.input as SelectProps)} />
+    ) : (
+      <Radio.Group {...(item.input as RadioProps)} />
+    )
+
+  const renderMultipleOptionsInput = (item: OptionsProps) => (
+    <Select mode="multiple" {...(item.input as SelectProps)} />
+  )
+
+  const renderInputNumber = () => (
+    <InputNumber style={{ width: '100%' }} {...(computedProps.input as InputNumberProps)} />
+  )
+
+  const renderSwitch = () => <Switch {...(computedProps.input as SwitchProps)} />
+
+  const renderDatePicker = () => <DatePicker {...(computedProps.input as DatePickerProps)} />
+
+  const renderTimePicker = () => (
+    <DatePicker {...{ ...(computedProps.input as DatePickerProps), showTime: true }} />
+  )
 
   const renderFormItemList = (inputElement: React.ReactNode) => (
     <AntdForm.List
@@ -255,79 +272,40 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
     </AntdForm.List>
   )
 
+  const renderInputList = () =>
+    renderFormItemList(<Input {...(computedProps.input as InputProps)} />)
+
+  const renderInputNumberList = () => renderFormItemList(renderInputNumber())
+
   switch (itemType) {
     case 'string':
-      if (isOptionsProps(computedProps))
-        return (
-          <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-            {computedProps.options.length > 10 ? (
-              <Select {...(computedProps.input as SelectProps)} />
-            ) : (
-              <Radio.Group {...(computedProps.input as RadioProps)} />
-            )}
-          </AntdForm.Item>
-        )
-
-      return (
-        <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
+      return renderFormItem(
+        isOptionsProps(computedProps) ? (
+          renderSingleOptionsInput(computedProps)
+        ) : (
           <Input {...(computedProps.input as InputProps)} />
-        </AntdForm.Item>
+        ),
       )
     case 'string[]':
-      if (isOptionsProps(computedProps))
-        return (
-          <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-            <Select mode="multiple" {...(computedProps.input as SelectProps)} />
-          </AntdForm.Item>
-        )
-
-      return renderFormItemList(<Input {...(computedProps.input as InputProps)} />)
+      return isOptionsProps(computedProps)
+        ? renderFormItem(renderMultipleOptionsInput(computedProps))
+        : renderInputList()
     case 'number':
-      if (isOptionsProps(computedProps))
-        return (
-          <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-            {computedProps.options.length > 10 ? (
-              <Select {...(computedProps.input as SelectProps)} />
-            ) : (
-              <Radio.Group {...(computedProps.input as RadioProps)} />
-            )}
-          </AntdForm.Item>
-        )
-
-      return (
-        <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-          <InputNumber style={{ width: '100%' }} {...(computedProps.input as InputNumberProps)} />
-        </AntdForm.Item>
+      return renderFormItem(
+        isOptionsProps(computedProps)
+          ? renderSingleOptionsInput(computedProps)
+          : renderInputNumber(),
       )
     case 'number[]':
-      if (isOptionsProps(computedProps))
-        return (
-          <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-            <Select mode="multiple" {...(computedProps.input as SelectProps)} />
-          </AntdForm.Item>
-        )
-
-      return renderFormItemList(
-        <InputNumber style={{ width: '100%' }} {...(computedProps.input as InputNumberProps)} />,
-      )
+      return isOptionsProps(computedProps)
+        ? renderFormItem(renderMultipleOptionsInput(computedProps))
+        : renderInputNumberList()
     case 'boolean':
-      return (
-        <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-          <Switch {...(computedProps.input as SwitchProps)} />
-        </AntdForm.Item>
-      )
+      return renderFormItem(renderSwitch())
     case 'date':
-      return (
-        <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-          <DatePicker {...(computedProps.input as DatePickerProps)} />
-        </AntdForm.Item>
-      )
+      return renderFormItem(renderDatePicker())
     case 'time':
-      return (
-        <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-          <DatePicker {...{ ...(computedProps.input as DatePickerProps), showTime: true }} />
-        </AntdForm.Item>
-      )
+      return renderFormItem(renderTimePicker())
     case 'object': {
       const objectItems = computedProps.object || []
 

@@ -1,7 +1,7 @@
 import { type ModalProps as AntdModalProps, Modal } from 'antd'
 import { type Dispatch, type JSX, type SetStateAction } from 'react'
 
-import { useDialogProps } from '../utils/use-dialog-props'
+import { useDialog } from '../utils/use-dialog-props'
 
 export { Modal }
 
@@ -53,10 +53,10 @@ export type setModalProps = Dispatch<SetStateAction<ModalProps>>
  * ```
  */
 export function useModal(init?: ModalProps) {
-  const [modalProps, setModalProps] = useDialogProps(init)
+  const [modalProps, setModalProps, closeProps] = useDialog(init, 'onCancel')
 
   return {
-    modal: <Modal onCancel={() => setModalProps({ open: false })} {...modalProps} />,
+    modal: <Modal {...closeProps} {...modalProps} />,
     modalProps,
     setModalProps,
   }

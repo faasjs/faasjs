@@ -158,32 +158,24 @@ export function Description<T extends Record<string, any> = any>(props: Descript
   const { faasData, dataSource, renderTitle, extendTypes, ...descriptionProps } = props
 
   if (faasData && !dataSource) {
-    const faasDataProps: FaasDataWrapperProps<any> = {
-      action: faasData.action as FaasDataWrapperProps<any>['action'],
-      render: ({ data }) => (
-        <Description
-          {...descriptionProps}
-          dataSource={data as T}
-          {...(renderTitle ? { renderTitle } : {})}
-          {...(extendTypes ? { extendTypes } : {})}
-        />
-      ),
-    }
+    const faasDataProps = { ...(faasData as FaasDataWrapperProps<any>) }
 
-    if (faasData.baseUrl !== undefined) faasDataProps.baseUrl = faasData.baseUrl
-    if (faasData.data !== undefined)
-      faasDataProps.data = faasData.data as NonNullable<FaasDataWrapperProps<any>['data']>
-    if (faasData.fallback !== undefined) faasDataProps.fallback = faasData.fallback
-    if (faasData.onDataChange !== undefined)
-      faasDataProps.onDataChange = (args) => faasData.onDataChange?.(args)
-    if (faasData.params !== undefined)
-      faasDataProps.params = faasData.params as NonNullable<FaasDataWrapperProps<any>['params']>
-    if (faasData.ref !== undefined)
-      faasDataProps.ref = faasData.ref as NonNullable<FaasDataWrapperProps<any>['ref']>
-    if (faasData.setData !== undefined)
-      faasDataProps.setData = faasData.setData as NonNullable<FaasDataWrapperProps<any>['setData']>
+    delete faasDataProps.children
+    delete faasDataProps.render
 
-    return <FaasDataWrapper<any> {...faasDataProps} />
+    return (
+      <FaasDataWrapper<any>
+        {...faasDataProps}
+        render={({ data }) => (
+          <Description
+            {...descriptionProps}
+            dataSource={data as T}
+            {...(renderTitle ? { renderTitle } : {})}
+            {...(extendTypes ? { extendTypes } : {})}
+          />
+        )}
+      />
+    )
   }
 
   return (

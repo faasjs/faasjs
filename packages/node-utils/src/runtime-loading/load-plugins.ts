@@ -1,8 +1,8 @@
-import { dirname, isAbsolute, resolve } from 'node:path'
-import { pathToFileURL } from 'node:url'
+import { dirname } from 'node:path'
 
 import { deepMerge } from '@faasjs/utils'
 
+import { hasUrlScheme, normalizePluginTypeSpecifier } from '../load-package/resolver'
 import type { Logger } from '../logger'
 import {
   assignPluginNames,
@@ -37,28 +37,6 @@ export type LoadPluginsOptions = {
   filename: string
   staging: string
   logger?: Logger
-}
-
-function stripNpmPrefix(specifier: string): string {
-  return specifier.startsWith('npm:') ? specifier.slice(4) : specifier
-}
-
-function hasUrlScheme(specifier: string): boolean {
-  return /^[a-zA-Z][a-zA-Z\d+.-]*:/.test(specifier)
-}
-
-function normalizePluginType(pluginType: string, filename: string): string {
-  const normalizedType = stripNpmPrefix(pluginType)
-
-  if (normalizedType.startsWith('file://./') || normalizedType.startsWith('file://../'))
-    return pathToFileURL(resolve(dirname(filename), normalizedType.slice('file://'.length))).href
-
-  if (normalizedType.startsWith('./') || normalizedType.startsWith('../'))
-    return pathToFileURL(resolve(dirname(filename), normalizedType)).href
-
-  if (isAbsolute(normalizedType)) return pathToFileURL(resolve(normalizedType)).href
-
-  return normalizedType
 }
 
 function resolvePluginModuleSpecifier(pluginType: string): string {
@@ -97,7 +75,9 @@ function normalizeMergedPluginConfig(
   normalizedConfig.name = pluginId
 
   if (typeof normalizedConfig.type === 'string' && normalizedConfig.type.length)
-    normalizedConfig.type = normalizePluginType(normalizedConfig.type, filename)
+    normalizedConfig.type = normalizePluginTypeSpecifier(normalizedConfig.type, dirname(filename), {
+      resolveAbsolute: true,
+    })
 
   return normalizedConfig
 }

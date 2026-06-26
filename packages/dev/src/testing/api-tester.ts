@@ -3,42 +3,7 @@ import type { Config, ExportedHandler, FuncEventType, Func } from '@faasjs/core'
 import { loadPlugins, Logger } from '@faasjs/node-utils'
 import { streamToString, z } from '@faasjs/utils'
 
-function normalizeInferredPath(path: string): string {
-  const normalized = path.replace(/\\/g, '/').replace(/\/+/g, '/')
-
-  if (!normalized.length || normalized === '/') return '/'
-
-  return normalized.endsWith('/') ? normalized.slice(0, -1) : normalized
-}
-
-function inferPathFromFilename(filename: string): string | undefined {
-  if (!filename) return undefined
-
-  const normalized = filename.replace(/\\/g, '/')
-  const srcIndex = normalized.lastIndexOf('/src/')
-
-  if (srcIndex === -1) return undefined
-
-  const relativeFile = normalized.slice(srcIndex + '/src/'.length)
-
-  if (!relativeFile.endsWith('.api.ts')) return undefined
-  if (/(^|\/)__tests__(\/|$)/.test(relativeFile)) return undefined
-
-  const noTsPath = relativeFile.slice(0, -'.ts'.length)
-
-  if (noTsPath === 'index.api' || noTsPath === 'default.api') return '/'
-
-  if (noTsPath.endsWith('/index.api'))
-    return normalizeInferredPath(`/${noTsPath.slice(0, -'/index.api'.length)}`)
-
-  if (noTsPath.endsWith('/default.api'))
-    return normalizeInferredPath(`/${noTsPath.slice(0, -'/default.api'.length)}`)
-
-  if (noTsPath.endsWith('.api'))
-    return normalizeInferredPath(`/${noTsPath.slice(0, -'.api'.length)}`)
-
-  return undefined
-}
+import { inferApiRequestPathFromFilename } from '../utils/api-route.ts'
 
 /**
  * Request body accepted by {@link ApiTester.JSONhandler} and {@link testApi}.
@@ -188,7 +153,7 @@ export class ApiTester<TApi extends Func<any, any, any> = Func<any, any, any>> {
 
     this.file = this.api.filename || ''
     this.config = this.api.config
-    this.inferredPath = inferPathFromFilename(this.file)
+    this.inferredPath = inferApiRequestPathFromFilename(this.file)
 
     this._handler = this.api.export().handler
   }

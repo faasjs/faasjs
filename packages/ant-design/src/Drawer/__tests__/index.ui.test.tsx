@@ -4,6 +4,7 @@ import { type DrawerProps, useDrawer } from '../../Drawer'
 describeDialogHook<DrawerProps, ReturnType<typeof useDrawer>>({
   children: <div>content</div>,
   clearedPropNames: ['children', 'className', 'title'],
+  closePropName: 'onClose',
   getElement: (result) => result.drawer,
   getProps: (result) => result.drawerProps,
   getSetProps: (result) => result.setDrawerProps,

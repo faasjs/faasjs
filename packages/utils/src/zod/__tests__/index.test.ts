@@ -25,6 +25,10 @@ describe('zod helpers', () => {
   it('should correctly identify object records', () => {
     expect(isObjectRecord({})).toBe(true)
     expect(isObjectRecord({ key: 'value' })).toBe(true)
+    expect(isObjectRecord(new Date())).toBe(true)
+    expect(isObjectRecord(new Map())).toBe(true)
+    expect(isObjectRecord(/pattern/)).toBe(true)
+    expect(isObjectRecord(Object.create(null))).toBe(true)
     expect(isObjectRecord([])).toBe(false)
     expect(isObjectRecord('string')).toBe(false)
     expect(isObjectRecord(123)).toBe(false)
