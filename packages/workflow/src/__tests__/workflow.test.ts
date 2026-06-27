@@ -68,6 +68,19 @@ describe('workflow', () => {
         },
       }),
     ).toThrow('step schema must be a Zod schema')
+
+    expect(() =>
+      defineWorkflow({
+        type: 'agent_workflow',
+        root: 'start',
+        metadataSchema: {} as any,
+        steps: {
+          async start() {
+            return done()
+          },
+        },
+      }),
+    ).toThrow('metadata schema must be a Zod schema')
   })
 
   it('validates workflow params with step schemas', async () => {
@@ -117,6 +130,97 @@ describe('workflow', () => {
     ).rejects.toThrow('Invalid workflow step "start" params')
   })
 
+  it('starts a workflow with parsed metadata', async () => {
+    const workflow = defineWorkflow({
+      type: 'metadata_start_workflow',
+      root: 'start',
+      metadataSchema: z.object({
+        tenantId: z.string(),
+        priority: z.coerce.number().default(1),
+      }),
+      steps: {
+        async start() {
+          return done()
+        },
+      },
+    })
+
+    const { workflowId } = await startWorkflow(workflow, {
+      metadata: {
+        tenantId: 'tenant_001',
+        priority: '2',
+      } as any,
+    })
+
+    const [record] = await client.raw<WorkflowRecord>`
+      SELECT * FROM faasjs_workflows WHERE id = ${workflowId}
+    `
+
+    expect(record.metadata).toEqual({
+      tenantId: 'tenant_001',
+      priority: 2,
+    })
+  })
+
+  it('passes workflow metadata to step handlers', async () => {
+    const seen: Array<{
+      tenantId: string
+      enabled: boolean
+    }> = []
+    const workflow = defineWorkflow({
+      type: 'metadata_context_workflow',
+      root: 'start',
+      metadataSchema: z.object({
+        tenantId: z.string(),
+        enabled: z.boolean().default(true),
+      }),
+      steps: {
+        async start(ctx) {
+          seen.push(ctx.metadata)
+
+          return done()
+        },
+      },
+    })
+
+    const result = await runWorkflow(workflow, {
+      metadata: {
+        tenantId: 'tenant_001',
+      } as any,
+    })
+
+    expect(result.status).toEqual('completed')
+    expect(seen).toEqual([
+      {
+        tenantId: 'tenant_001',
+        enabled: true,
+      },
+    ])
+  })
+
+  it('rejects invalid workflow metadata before startup', async () => {
+    const workflow = defineWorkflow({
+      type: 'metadata_validation_workflow',
+      root: 'start',
+      metadataSchema: z.object({
+        tenantId: z.string().min(1),
+      }),
+      steps: {
+        async start() {
+          return done()
+        },
+      },
+    })
+
+    await expect(
+      startWorkflow(workflow, {
+        metadata: {
+          tenantId: '',
+        },
+      }),
+    ).rejects.toThrow('Invalid workflow metadata')
+  })
+
   it('starts a workflow and persists workflow_type on the root step', async () => {
     const workflow = defineWorkflow({
       type: 'agent_workflow',
@@ -146,6 +250,7 @@ describe('workflow', () => {
       type: 'agent_workflow',
       status: 'running',
       root_step_id: step.id,
+      metadata: {},
     })
     expect(step).toMatchObject({
       workflow_id: workflowId,

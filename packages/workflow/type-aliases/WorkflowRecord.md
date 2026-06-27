@@ -28,6 +28,10 @@ Persisted row from `faasjs_workflows`.
 
 > **id**: `string`
 
+### metadata
+
+> **metadata**: `unknown`
+
 ### root_step_id
 
 > **root_step_id**: `string` \| `null`

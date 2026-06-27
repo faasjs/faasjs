@@ -2,7 +2,7 @@
 
 # Function: runWorkflow()
 
-> **runWorkflow**\<`TSteps`, `TRoot`, `TSchemas`\>(`workflow`, `input`, `options?`): `Promise`\<[`RunWorkflowResult`](../type-aliases/RunWorkflowResult.md)\>
+> **runWorkflow**\<`TSteps`, `TRoot`, `TSchemas`, `TMetadataSchema`\>(`workflow`, `input`, `options?`): `Promise`\<[`RunWorkflowResult`](../type-aliases/RunWorkflowResult.md)\>
 
 Run a workflow until it completes, fails, or is cancelled.
 
@@ -20,19 +20,23 @@ Run a workflow until it completes, fails, or is cancelled.
 
 `TSchemas` _extends_ [`WorkflowStepSchemas`](../type-aliases/WorkflowStepSchemas.md) \| `undefined` = `undefined`
 
+### TMetadataSchema
+
+`TMetadataSchema` _extends_ `ZodType`\<`unknown`, `unknown`, `$ZodTypeInternals`\<`unknown`, `unknown`\>\> \| `undefined` = `undefined`
+
 ## Parameters
 
 ### workflow
 
-[`WorkflowDefinition`](../type-aliases/WorkflowDefinition.md)\<`TSteps`, `TRoot`, `TSchemas`\>
+[`WorkflowDefinition`](../type-aliases/WorkflowDefinition.md)\<`TSteps`, `TRoot`, `TSchemas`, `TMetadataSchema`\>
 
 Workflow definition.
 
 ### input
 
-[`RunWorkflowInput`](../type-aliases/RunWorkflowInput.md)\<[`WorkflowStepParams`](../type-aliases/WorkflowStepParams.md)\<`TSchemas`, `TRoot`\>\>
+[`RunWorkflowInput`](../type-aliases/RunWorkflowInput.md)\<[`WorkflowStepParams`](../type-aliases/WorkflowStepParams.md)\<`TSchemas`, `TRoot`\>, [`WorkflowMetadata`](../type-aliases/WorkflowMetadata.md)\<`TMetadataSchema`\>\>
 
-Params for a new workflow or workflow id to resume.
+Params and metadata for a new workflow, or workflow id to resume.
 
 ### options?
 
@@ -56,6 +60,9 @@ const result = await runWorkflow(
   {
     params: {
       orderId: 'order_001',
+    },
+    metadata: {
+      tenantId: 'tenant_001',
     },
   },
   {

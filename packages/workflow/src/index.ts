@@ -30,9 +30,16 @@
  *       taskId: z.string(),
  *     }),
  *   },
+ *   metadataSchema: z.object({
+ *     tenantId: z.string(),
+ *   }),
  *   steps: {
  *     async plan(ctx) {
- *       return next('run', { taskId: ctx.params.taskId })
+ *       await reserveTenantCapacity(ctx.metadata.tenantId)
+ *
+ *       return next('run', {
+ *         taskId: ctx.params.taskId,
+ *       })
  *     },
  *     async run() {
  *       return done()
@@ -40,7 +47,10 @@
  *   },
  * })
  *
- * await runWorkflow(workflow, { params: { taskId: 'task_001' } })
+ * await runWorkflow(workflow, {
+ *   params: { taskId: 'task_001' },
+ *   metadata: { tenantId: 'tenant_001' },
+ * })
  * ```
  *
  * @packageDocumentation
@@ -66,6 +76,7 @@ export type {
   StartWorkflowResult,
   WorkflowDefinition,
   WorkflowInstruction,
+  WorkflowMetadata,
   WorkflowRecord,
   WorkflowStatus,
   WorkflowStepContext,

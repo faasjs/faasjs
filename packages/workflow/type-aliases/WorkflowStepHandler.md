@@ -1,8 +1,8 @@
 [@faasjs/workflow](../README.md) / WorkflowStepHandler
 
-# Type Alias: WorkflowStepHandler\<TParams\>
+# Type Alias: WorkflowStepHandler\<TParams, TMetadata\>
 
-> **WorkflowStepHandler**\<`TParams`\> = (`context`) => [`WorkflowInstruction`](WorkflowInstruction.md) \| `Promise`\<[`WorkflowInstruction`](WorkflowInstruction.md)\>
+> **WorkflowStepHandler**\<`TParams`, `TMetadata`\> = (`context`) => [`WorkflowInstruction`](WorkflowInstruction.md) \| `Promise`\<[`WorkflowInstruction`](WorkflowInstruction.md)\>
 
 A workflow step handler.
 
@@ -12,11 +12,15 @@ A workflow step handler.
 
 `TParams` = `any`
 
+### TMetadata
+
+`TMetadata` = `any`
+
 ## Parameters
 
 ### context
 
-[`WorkflowStepContext`](WorkflowStepContext.md)\<`TParams`\>
+[`WorkflowStepContext`](WorkflowStepContext.md)\<`TParams`, `TMetadata`\>
 
 ## Returns
 

@@ -1,8 +1,8 @@
 [@faasjs/workflow](../README.md) / WorkflowSchemaSteps
 
-# Type Alias: WorkflowSchemaSteps\<TSchemas\>
+# Type Alias: WorkflowSchemaSteps\<TSchemas, TMetadata\>
 
-> **WorkflowSchemaSteps**\<`TSchemas`\> = `{ [TName in Extract<keyof TSchemas, string>]: WorkflowStepHandler<WorkflowStepParams<TSchemas, TName>> }`
+> **WorkflowSchemaSteps**\<`TSchemas`, `TMetadata`\> = `{ [TName in Extract<keyof TSchemas, string>]: WorkflowStepHandler<WorkflowStepParams<TSchemas, TName>, TMetadata> }`
 
 Step handlers inferred from a Zod schema map.
 
@@ -11,3 +11,7 @@ Step handlers inferred from a Zod schema map.
 ### TSchemas
 
 `TSchemas` _extends_ [`WorkflowStepSchemas`](WorkflowStepSchemas.md)
+
+### TMetadata
+
+`TMetadata` = `any`

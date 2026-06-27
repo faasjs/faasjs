@@ -1,8 +1,8 @@
 [@faasjs/workflow](../README.md) / WorkflowStepContext
 
-# Type Alias: WorkflowStepContext\<TParams\>
+# Type Alias: WorkflowStepContext\<TParams, TMetadata\>
 
-> **WorkflowStepContext**\<`TParams`\> = `object`
+> **WorkflowStepContext**\<`TParams`, `TMetadata`\> = `object`
 
 Context passed to each workflow step handler.
 
@@ -12,7 +12,17 @@ Context passed to each workflow step handler.
 
 `TParams` = `any`
 
+### TMetadata
+
+`TMetadata` = `any`
+
 ## Properties
+
+### metadata
+
+> **metadata**: `TMetadata`
+
+Metadata persisted on the workflow.
 
 ### params
 

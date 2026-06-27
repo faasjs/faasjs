@@ -20,6 +20,7 @@ const workflowSchemaMigrations: WorkflowSchemaMigration[] = [
           type text NOT NULL,
           status text NOT NULL,
           root_step_id uuid,
+          metadata jsonb NOT NULL DEFAULT '{}',
           version integer NOT NULL DEFAULT 0,
           created_at timestamptz NOT NULL DEFAULT NOW(),
           updated_at timestamptz NOT NULL DEFAULT NOW(),
@@ -60,6 +61,30 @@ const workflowSchemaMigrations: WorkflowSchemaMigration[] = [
         CREATE INDEX IF NOT EXISTS faasjs_workflow_steps_claim_idx
           ON faasjs_workflow_steps (workflow_type, status, locked_until, seq)
           WHERE status IN ('runnable', 'running')
+      `
+    },
+  },
+  {
+    version: 2,
+    name: 'add_faasjs_workflows_metadata',
+    async up(client) {
+      const [column] = await client.raw<{
+        exists: boolean
+      }>`
+        SELECT EXISTS (
+          SELECT 1
+          FROM information_schema.columns
+          WHERE table_schema = current_schema()
+            AND table_name = 'faasjs_workflows'
+            AND column_name = 'metadata'
+        ) AS exists
+      `
+
+      if (column?.exists) return
+
+      await client.raw`
+        ALTER TABLE faasjs_workflows
+        ADD COLUMN metadata jsonb NOT NULL DEFAULT '{}'
       `
     },
   },

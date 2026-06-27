@@ -1,8 +1,8 @@
 [@faasjs/workflow](../README.md) / DefineWorkflowOptions
 
-# Type Alias: DefineWorkflowOptions\<TSteps, TRoot, TSchemas\>
+# Type Alias: DefineWorkflowOptions\<TSteps, TRoot, TSchemas, TMetadataSchema\>
 
-> **DefineWorkflowOptions**\<`TSteps`, `TRoot`, `TSchemas`\> = `Omit`\<[`DefineWorkflowOptionsInput`](DefineWorkflowOptionsInput.md), `"root"` \| `"steps"` \| `"schemas"`\> & `object` & `TSchemas` _extends_ [`WorkflowStepSchemas`](WorkflowStepSchemas.md) ? `object` : `object`
+> **DefineWorkflowOptions**\<`TSteps`, `TRoot`, `TSchemas`, `TMetadataSchema`\> = `Omit`\<[`DefineWorkflowOptionsInput`](DefineWorkflowOptionsInput.md), `"root"` \| `"steps"` \| `"schemas"` \| `"metadataSchema"`\> & `object` & `TSchemas` _extends_ [`WorkflowStepSchemas`](WorkflowStepSchemas.md) ? `object` : `object` & `TMetadataSchema` _extends_ `ZodType` ? `object` : `object`
 
 Options for [defineWorkflow](../functions/defineWorkflow.md).
 
@@ -33,3 +33,7 @@ Step handlers keyed by step name.
 ### TSchemas
 
 `TSchemas` _extends_ [`WorkflowStepSchemas`](WorkflowStepSchemas.md) \| `undefined` = `undefined`
+
+### TMetadataSchema
+
+`TMetadataSchema` _extends_ `ZodType` \| `undefined` = `undefined`

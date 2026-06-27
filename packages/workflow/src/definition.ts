@@ -1,10 +1,13 @@
 import { formatSchemaError } from '@faasjs/node-utils'
+import type { ZodType } from '@faasjs/utils'
 
 import {
   defineWorkflowOptionsSchema,
   type DefineWorkflowOptions,
   type WorkflowDefinition,
+  type WorkflowMetadata,
   type WorkflowSchemaSteps,
+  type WorkflowStepHandler,
   type WorkflowStepSchemas,
   type WorkflowSteps,
 } from './types'
@@ -13,7 +16,9 @@ import {
  * Define a workflow. The definition is explicit and is not registered globally.
  * When `schemas` is provided, each step's params are validated with its Zod
  * schema before the handler runs, and `context.params` is inferred from that
- * schema's output type.
+ * schema's output type. When `metadataSchema` is provided, workflow metadata is
+ * validated when the workflow starts, and `context.metadata` is inferred from
+ * that schema's output type.
  *
  * @param options - Workflow type, root step name, and step handlers.
  *
@@ -33,9 +38,12 @@ import {
  *       orderId: z.string(),
  *     }),
  *   },
+ *   metadataSchema: z.object({
+ *     tenantId: z.string(),
+ *   }),
  *   steps: {
- *     async reserveInventory({ params }) {
- *       await orders.reserveInventory(params.orderId)
+ *     async reserveInventory({ params, metadata }) {
+ *       await orders.reserveInventory(params.orderId, metadata.tenantId)
  *
  *       return next('capturePayment', {
  *         orderId: params.orderId,
@@ -55,34 +63,80 @@ import {
 export function defineWorkflow<
   const TSchemas extends WorkflowStepSchemas,
   const TRoot extends Extract<keyof TSchemas, string>,
+  const TMetadataSchema extends ZodType,
+>(
+  options: DefineWorkflowOptions<
+    WorkflowSchemaSteps<TSchemas, WorkflowMetadata<TMetadataSchema>>,
+    TRoot,
+    TSchemas,
+    TMetadataSchema
+  >,
+): WorkflowDefinition<
+  WorkflowSchemaSteps<TSchemas, WorkflowMetadata<TMetadataSchema>>,
+  TRoot,
+  TSchemas,
+  TMetadataSchema
+>
+export function defineWorkflow<
+  const TSchemas extends WorkflowStepSchemas,
+  const TRoot extends Extract<keyof TSchemas, string>,
 >(
   options: DefineWorkflowOptions<WorkflowSchemaSteps<TSchemas>, TRoot, TSchemas>,
 ): WorkflowDefinition<WorkflowSchemaSteps<TSchemas>, TRoot, TSchemas>
+export function defineWorkflow<
+  const TMetadataSchema extends ZodType,
+  const TStepNames extends string,
+  const TRoot extends Extract<TStepNames, string>,
+>(
+  options: DefineWorkflowOptions<
+    Record<TStepNames, WorkflowStepHandler<any, WorkflowMetadata<TMetadataSchema>>>,
+    TRoot,
+    undefined,
+    TMetadataSchema
+  >,
+): WorkflowDefinition<
+  Record<TStepNames, WorkflowStepHandler<any, WorkflowMetadata<TMetadataSchema>>>,
+  TRoot,
+  undefined,
+  TMetadataSchema
+>
 export function defineWorkflow<
   const TSteps extends WorkflowSteps,
   const TRoot extends Extract<keyof TSteps, string>,
 >(options: DefineWorkflowOptions<TSteps, TRoot>): WorkflowDefinition<TSteps, TRoot>
 export function defineWorkflow(
-  options: DefineWorkflowOptions<WorkflowSteps, string, WorkflowStepSchemas | undefined>,
-): WorkflowDefinition<WorkflowSteps, string, WorkflowStepSchemas | undefined> {
+  options: DefineWorkflowOptions<
+    WorkflowSteps,
+    string,
+    WorkflowStepSchemas | undefined,
+    ZodType | undefined
+  >,
+): WorkflowDefinition<WorkflowSteps, string, WorkflowStepSchemas | undefined, ZodType | undefined> {
   const result = defineWorkflowOptionsSchema.safeParse(options)
 
   if (!result.success) {
     throw Error(formatSchemaError(result.error, '[workflow] Invalid workflow definition.'))
   }
 
-  return Object.freeze(
-    result.data.schemas
-      ? {
-          type: result.data.type,
-          root: result.data.root,
-          steps: result.data.steps,
-          schemas: result.data.schemas,
-        }
-      : {
-          type: result.data.type,
-          root: result.data.root,
-          steps: result.data.steps,
-        },
-  )
+  const definition: {
+    type: string
+    root: string
+    steps: WorkflowSteps
+    schemas?: WorkflowStepSchemas
+    metadataSchema?: ZodType
+  } = {
+    type: result.data.type,
+    root: result.data.root,
+    steps: result.data.steps,
+  }
+
+  if (result.data.schemas) definition.schemas = result.data.schemas
+  if (result.data.metadataSchema) definition.metadataSchema = result.data.metadataSchema
+
+  return Object.freeze(definition) as WorkflowDefinition<
+    WorkflowSteps,
+    string,
+    WorkflowStepSchemas | undefined,
+    ZodType | undefined
+  >
 }

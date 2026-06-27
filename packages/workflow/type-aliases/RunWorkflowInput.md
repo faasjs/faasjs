@@ -1,8 +1,8 @@
 [@faasjs/workflow](../README.md) / RunWorkflowInput
 
-# Type Alias: RunWorkflowInput\<TParams\>
+# Type Alias: RunWorkflowInput\<TParams, TMetadata\>
 
-> **RunWorkflowInput**\<`TParams`\> = \{ `params?`: `TParams`; `workflowId?`: `never`; \} \| \{ `params?`: `never`; `workflowId`: `string`; \}
+> **RunWorkflowInput**\<`TParams`, `TMetadata`\> = \{ `metadata?`: `TMetadata`; `params?`: `TParams`; `workflowId?`: `never`; \} \| \{ `metadata?`: `never`; `params?`: `never`; `workflowId`: `string`; \}
 
 Input for [runWorkflow](../functions/runWorkflow.md).
 
@@ -12,11 +12,21 @@ Input for [runWorkflow](../functions/runWorkflow.md).
 
 `TParams` = `unknown`
 
+### TMetadata
+
+`TMetadata` = `unknown`
+
 ## Union Members
 
 ### Type Literal
 
-\{ `params?`: `TParams`; `workflowId?`: `never`; \}
+\{ `metadata?`: `TMetadata`; `params?`: `TParams`; `workflowId?`: `never`; \}
+
+#### metadata?
+
+> `optional` **metadata?**: `TMetadata`
+
+Metadata persisted on the workflow. Defaults to `{}`.
 
 #### params?
 
@@ -30,7 +40,11 @@ Params used to create a new workflow.
 
 ### Type Literal
 
-\{ `params?`: `never`; `workflowId`: `string`; \}
+\{ `metadata?`: `never`; `params?`: `never`; `workflowId`: `string`; \}
+
+#### metadata?
+
+> `optional` **metadata?**: `never`
 
 #### params?
 

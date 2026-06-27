@@ -24,7 +24,7 @@ export type WorkflowStepTarget = {
 /**
  * Context passed to each workflow step handler.
  */
-export type WorkflowStepContext<TParams = any> = {
+export type WorkflowStepContext<TParams = any, TMetadata = any> = {
   /** Persisted workflow id. */
   workflowId: string
   /** Workflow type from the definition. */
@@ -35,6 +35,8 @@ export type WorkflowStepContext<TParams = any> = {
   stepName: string
   /** Params persisted for this step. */
   params: TParams
+  /** Metadata persisted on the workflow. */
+  metadata: TMetadata
   /** Persisted current step row. */
   step: WorkflowStepRecord
 }
@@ -85,14 +87,14 @@ export type WorkflowInstruction =
 /**
  * A workflow step handler.
  */
-export type WorkflowStepHandler<TParams = any> = (
-  context: WorkflowStepContext<TParams>,
+export type WorkflowStepHandler<TParams = any, TMetadata = any> = (
+  context: WorkflowStepContext<TParams, TMetadata>,
 ) => WorkflowInstruction | Promise<WorkflowInstruction>
 
 /**
  * Step handler map keyed by step name.
  */
-export type WorkflowSteps = Record<string, WorkflowStepHandler<any>>
+export type WorkflowSteps = Record<string, WorkflowStepHandler<any, any>>
 
 /**
  * Zod schema map keyed by step name.
@@ -112,11 +114,18 @@ export type WorkflowStepParams<
   : any
 
 /**
+ * Metadata inferred from a workflow metadata Zod schema.
+ */
+export type WorkflowMetadata<TMetadataSchema extends ZodType | undefined = undefined> =
+  TMetadataSchema extends ZodType ? SchemaOutput<TMetadataSchema, Record<string, never>> : any
+
+/**
  * Step handlers inferred from a Zod schema map.
  */
-export type WorkflowSchemaSteps<TSchemas extends WorkflowStepSchemas> = {
+export type WorkflowSchemaSteps<TSchemas extends WorkflowStepSchemas, TMetadata = any> = {
   [TName in Extract<keyof TSchemas, string>]: WorkflowStepHandler<
-    WorkflowStepParams<TSchemas, TName>
+    WorkflowStepParams<TSchemas, TName>,
+    TMetadata
   >
 }
 
@@ -147,6 +156,11 @@ const workflowStepSchemaSchema = z.custom<ZodType>(
   '[workflow] step schema must be a Zod schema.',
 )
 
+const workflowMetadataSchemaSchema = z.custom<ZodType>(
+  isZodSchema,
+  '[workflow] metadata schema must be a Zod schema.',
+)
+
 /**
  * Zod schema used to validate {@link defineWorkflow} options.
  */
@@ -156,6 +170,7 @@ export const defineWorkflowOptionsSchema = z
     root: nonEmptyStringSchema('[workflow] root must not be empty.'),
     steps: z.record(workflowStepNameSchema, workflowStepHandlerSchema),
     schemas: z.record(workflowStepNameSchema, workflowStepSchemaSchema).optional(),
+    metadataSchema: workflowMetadataSchemaSchema.optional(),
   })
   .superRefine((options, context) => {
     const stepNames = Object.keys(options.steps)
@@ -211,7 +226,8 @@ export type DefineWorkflowOptions<
   TSteps extends WorkflowSteps = WorkflowSteps,
   TRoot extends Extract<keyof TSteps, string> = Extract<keyof TSteps, string>,
   TSchemas extends WorkflowStepSchemas | undefined = undefined,
-> = Omit<DefineWorkflowOptionsInput, 'root' | 'steps' | 'schemas'> & {
+  TMetadataSchema extends ZodType | undefined = undefined,
+> = Omit<DefineWorkflowOptionsInput, 'root' | 'steps' | 'schemas' | 'metadataSchema'> & {
   /** Root step name. */
   root: TRoot
   /** Step handlers keyed by step name. */
@@ -224,6 +240,15 @@ export type DefineWorkflowOptions<
     : {
         /** Zod schemas keyed by step name. Each schema validates and types that step's params. */
         schemas?: undefined
+      }) &
+  (TMetadataSchema extends ZodType
+    ? {
+        /** Zod schema used to validate and type workflow metadata. */
+        metadataSchema: TMetadataSchema
+      }
+    : {
+        /** Zod schema used to validate and type workflow metadata. */
+        metadataSchema?: undefined
       })
 
 /**
@@ -233,6 +258,7 @@ export type WorkflowDefinition<
   TSteps extends WorkflowSteps = WorkflowSteps,
   TRoot extends Extract<keyof TSteps, string> = Extract<keyof TSteps, string>,
   TSchemas extends WorkflowStepSchemas | undefined = WorkflowStepSchemas | undefined,
+  TMetadataSchema extends ZodType | undefined = ZodType | undefined,
 > = Readonly<{
   /** Business workflow type, for example `agent_workflow`. */
   type: string
@@ -242,6 +268,8 @@ export type WorkflowDefinition<
   steps: TSteps
   /** Zod schemas keyed by step name. */
   schemas?: TSchemas
+  /** Zod schema used to validate and type workflow metadata. */
+  metadataSchema?: TMetadataSchema
 }>
 
 /**
@@ -252,6 +280,7 @@ export type WorkflowRecord = {
   type: string
   status: WorkflowStatus
   root_step_id: string | null
+  metadata: unknown
   version: number
   created_at: Date | string
   updated_at: Date | string
@@ -286,9 +315,11 @@ export type WorkflowStepRecord = {
 /**
  * Options for {@link startWorkflow}.
  */
-export type StartWorkflowOptions<TParams = unknown> = {
+export type StartWorkflowOptions<TParams = unknown, TMetadata = unknown> = {
   /** Params passed to the root step. Defaults to `{}`. */
   params?: TParams
+  /** Metadata persisted on the workflow. Defaults to `{}`. */
+  metadata?: TMetadata
 }
 
 /**
@@ -323,16 +354,19 @@ export type RunWorkflowStepResult = {
 /**
  * Input for {@link runWorkflow}.
  */
-export type RunWorkflowInput<TParams = unknown> =
+export type RunWorkflowInput<TParams = unknown, TMetadata = unknown> =
   | {
       /** Params used to create a new workflow. */
       params?: TParams
+      /** Metadata persisted on the workflow. Defaults to `{}`. */
+      metadata?: TMetadata
       workflowId?: never
     }
   | {
       /** Existing workflow id to resume. */
       workflowId: string
       params?: never
+      metadata?: never
     }
 
 /**

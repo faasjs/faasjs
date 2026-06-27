@@ -31,9 +31,16 @@ const workflow = defineWorkflow({
       taskId: z.string(),
     }),
   },
+  metadataSchema: z.object({
+    tenantId: z.string(),
+  }),
   steps: {
     async plan(ctx) {
-      return next('run', { taskId: ctx.params.taskId })
+      await reserveTenantCapacity(ctx.metadata.tenantId)
+
+      return next('run', {
+        taskId: ctx.params.taskId,
+      })
     },
     async run() {
       return done()
@@ -41,7 +48,10 @@ const workflow = defineWorkflow({
   },
 })
 
-await runWorkflow(workflow, { params: { taskId: 'task_001' } })
+await runWorkflow(workflow, {
+  params: { taskId: 'task_001' },
+  metadata: { tenantId: 'tenant_001' },
+})
 ```
 
 ## Functions
@@ -72,6 +82,7 @@ await runWorkflow(workflow, { params: { taskId: 'task_001' } })
 - [StartWorkflowResult](type-aliases/StartWorkflowResult.md)
 - [WorkflowDefinition](type-aliases/WorkflowDefinition.md)
 - [WorkflowInstruction](type-aliases/WorkflowInstruction.md)
+- [WorkflowMetadata](type-aliases/WorkflowMetadata.md)
 - [WorkflowRecord](type-aliases/WorkflowRecord.md)
 - [WorkflowSchemaSteps](type-aliases/WorkflowSchemaSteps.md)
 - [WorkflowStatus](type-aliases/WorkflowStatus.md)

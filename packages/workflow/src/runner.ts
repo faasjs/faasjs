@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto'
 
 import { parseSchemaValue } from '@faasjs/node-utils'
 import { getClient, type Client } from '@faasjs/pg'
+import type { ZodType } from '@faasjs/utils'
 
 import { fail } from './instructions'
 import { ensureWorkflowSchema } from './schema'
@@ -18,6 +19,7 @@ import type {
   StartWorkflowResult,
   WorkflowDefinition,
   WorkflowInstruction,
+  WorkflowMetadata,
   WorkflowRecord,
   WorkflowStatus,
   WorkflowStepRecord,
@@ -34,6 +36,10 @@ type WorkflowError = {
   name?: string
   message: string
   stack?: string
+}
+
+type ClaimedWorkflowStepRecord = WorkflowStepRecord & {
+  workflow_metadata: unknown
 }
 
 function resolvePositiveInteger(
@@ -82,6 +88,10 @@ function normalizeParams(params: unknown): unknown {
   return params === undefined ? {} : params
 }
 
+function normalizeMetadata(metadata: unknown): unknown {
+  return metadata == null ? {} : metadata
+}
+
 async function parseWorkflowStepParams(
   workflow: WorkflowDefinition,
   name: string,
@@ -96,6 +106,21 @@ async function parseWorkflowStepParams(
     value: params,
     errorMessage: `Invalid workflow step "${name}" params`,
   })
+}
+
+async function parseWorkflowMetadata(
+  workflow: WorkflowDefinition,
+  metadata: unknown,
+): Promise<unknown> {
+  if (!workflow.metadataSchema) return normalizeMetadata(metadata)
+
+  return normalizeMetadata(
+    await parseSchemaValue({
+      schema: workflow.metadataSchema,
+      value: metadata,
+      errorMessage: 'Invalid workflow metadata',
+    }),
+  )
 }
 
 function normalizeError(error: unknown): WorkflowError {
@@ -388,14 +413,16 @@ async function claimWorkflowStep(
   workflow: WorkflowDefinition,
   options: Required<Pick<RunWorkflowStepOptions, 'leaseSeconds' | 'workerId'>> &
     Pick<RunWorkflowStepOptions, 'workflowId'>,
-): Promise<WorkflowStepRecord | undefined> {
+): Promise<ClaimedWorkflowStepRecord | undefined> {
   const leaseId = randomUUID()
   const workflowId = options.workflowId ?? null
   const [record] = await client.transaction((trx) =>
-    trx.raw<WorkflowStepRecord>(
+    trx.raw<ClaimedWorkflowStepRecord>(
       `
         WITH picked AS (
-          SELECT s.id
+          SELECT
+            s.id,
+            w.metadata AS workflow_metadata
           FROM faasjs_workflow_steps s
           INNER JOIN faasjs_workflows w
             ON w.id = s.workflow_id
@@ -419,7 +446,13 @@ async function claimWorkflowStep(
           locked_until = NOW() + ?::interval,
           updated_at = NOW()
         WHERE s.id IN (SELECT id FROM picked)
-        RETURNING s.*
+        RETURNING
+          s.*,
+          (
+            SELECT picked.workflow_metadata
+            FROM picked
+            WHERE picked.id = s.id
+          ) AS workflow_metadata
       `,
       workflow.type,
       workflowId,
@@ -687,7 +720,7 @@ async function sleep(ms: number, signal: AbortSignal | undefined): Promise<void>
  * Create a workflow row and its root runnable step.
  *
  * @param workflow - Workflow definition.
- * @param options - Root step params.
+ * @param options - Root step params and workflow metadata.
  *
  * @example
  * ```ts
@@ -699,6 +732,9 @@ async function sleep(ms: number, signal: AbortSignal | undefined): Promise<void>
  *   params: {
  *     orderId: 'order_001',
  *   },
+ *   metadata: {
+ *     tenantId: 'tenant_001',
+ *   },
  * })
  *
  * console.log(`Started workflow ${workflowId}`)
@@ -708,14 +744,19 @@ export async function startWorkflow<
   TSteps extends WorkflowSteps,
   TRoot extends Extract<keyof TSteps, string>,
   TSchemas extends WorkflowStepSchemas | undefined = undefined,
+  TMetadataSchema extends ZodType | undefined = undefined,
 >(
-  workflow: WorkflowDefinition<TSteps, TRoot, TSchemas>,
-  options: StartWorkflowOptions<WorkflowStepParams<TSchemas, TRoot>> = {},
+  workflow: WorkflowDefinition<TSteps, TRoot, TSchemas, TMetadataSchema>,
+  options: StartWorkflowOptions<
+    WorkflowStepParams<TSchemas, TRoot>,
+    WorkflowMetadata<TMetadataSchema>
+  > = {},
 ): Promise<StartWorkflowResult> {
   const rootTarget = await parseWorkflowStepTarget(workflow, {
     name: workflow.root,
     params: options.params,
   })
+  const metadata = await parseWorkflowMetadata(workflow, options.metadata)
 
   const client = await getClient()
 
@@ -727,11 +768,12 @@ export async function startWorkflow<
   await client.transaction(async (trx) => {
     await trx.raw(
       `
-        INSERT INTO faasjs_workflows (id, type, status)
-        VALUES (?::uuid, ?, 'running')
+        INSERT INTO faasjs_workflows (id, type, status, metadata)
+        VALUES (?::uuid, ?, 'running', ?::jsonb)
       `,
       workflowId,
       workflow.type,
+      metadata,
     )
 
     await trx.raw(
@@ -856,6 +898,7 @@ export async function runWorkflowStep(
           stepId: record.id,
           stepName: record.name,
           params: await parseWorkflowStepParams(workflow, record.name, record.params),
+          metadata: await parseWorkflowMetadata(workflow, record.workflow_metadata),
           step: record,
         }),
       ),
@@ -878,7 +921,7 @@ export async function runWorkflowStep(
  * Run a workflow until it completes, fails, or is cancelled.
  *
  * @param workflow - Workflow definition.
- * @param input - Params for a new workflow or workflow id to resume.
+ * @param input - Params and metadata for a new workflow, or workflow id to resume.
  * @param options - Loop limits and lease settings.
  *
  * @example
@@ -892,6 +935,9 @@ export async function runWorkflowStep(
  *   {
  *     params: {
  *       orderId: 'order_001',
+ *     },
+ *     metadata: {
+ *       tenantId: 'tenant_001',
  *     },
  *   },
  *   {
@@ -907,19 +953,27 @@ export async function runWorkflow<
   TSteps extends WorkflowSteps,
   TRoot extends Extract<keyof TSteps, string>,
   TSchemas extends WorkflowStepSchemas | undefined = undefined,
+  TMetadataSchema extends ZodType | undefined = undefined,
 >(
-  workflow: WorkflowDefinition<TSteps, TRoot, TSchemas>,
-  input: RunWorkflowInput<WorkflowStepParams<TSchemas, TRoot>>,
+  workflow: WorkflowDefinition<TSteps, TRoot, TSchemas, TMetadataSchema>,
+  input: RunWorkflowInput<WorkflowStepParams<TSchemas, TRoot>, WorkflowMetadata<TMetadataSchema>>,
   options: RunWorkflowOptions = {},
 ): Promise<RunWorkflowResult> {
   const client = await getClient()
 
   await ensureWorkflowSchema(client)
 
-  const startOptions: StartWorkflowOptions<WorkflowStepParams<TSchemas, TRoot>> = {}
+  const startOptions: StartWorkflowOptions<
+    WorkflowStepParams<TSchemas, TRoot>,
+    WorkflowMetadata<TMetadataSchema>
+  > = {}
 
   if ('params' in input && input.params !== undefined) {
     startOptions.params = input.params
+  }
+
+  if ('metadata' in input && input.metadata !== undefined) {
+    startOptions.metadata = input.metadata
   }
 
   const workflowId =

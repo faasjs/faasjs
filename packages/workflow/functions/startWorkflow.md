@@ -2,7 +2,7 @@
 
 # Function: startWorkflow()
 
-> **startWorkflow**\<`TSteps`, `TRoot`, `TSchemas`\>(`workflow`, `options?`): `Promise`\<[`StartWorkflowResult`](../type-aliases/StartWorkflowResult.md)\>
+> **startWorkflow**\<`TSteps`, `TRoot`, `TSchemas`, `TMetadataSchema`\>(`workflow`, `options?`): `Promise`\<[`StartWorkflowResult`](../type-aliases/StartWorkflowResult.md)\>
 
 Create a workflow row and its root runnable step.
 
@@ -20,19 +20,23 @@ Create a workflow row and its root runnable step.
 
 `TSchemas` _extends_ [`WorkflowStepSchemas`](../type-aliases/WorkflowStepSchemas.md) \| `undefined` = `undefined`
 
+### TMetadataSchema
+
+`TMetadataSchema` _extends_ `ZodType`\<`unknown`, `unknown`, `$ZodTypeInternals`\<`unknown`, `unknown`\>\> \| `undefined` = `undefined`
+
 ## Parameters
 
 ### workflow
 
-[`WorkflowDefinition`](../type-aliases/WorkflowDefinition.md)\<`TSteps`, `TRoot`, `TSchemas`\>
+[`WorkflowDefinition`](../type-aliases/WorkflowDefinition.md)\<`TSteps`, `TRoot`, `TSchemas`, `TMetadataSchema`\>
 
 Workflow definition.
 
 ### options?
 
-[`StartWorkflowOptions`](../type-aliases/StartWorkflowOptions.md)\<[`WorkflowStepParams`](../type-aliases/WorkflowStepParams.md)\<`TSchemas`, `TRoot`\>\> = `{}`
+[`StartWorkflowOptions`](../type-aliases/StartWorkflowOptions.md)\<[`WorkflowStepParams`](../type-aliases/WorkflowStepParams.md)\<`TSchemas`, `TRoot`\>, [`WorkflowMetadata`](../type-aliases/WorkflowMetadata.md)\<`TMetadataSchema`\>\> = `{}`
 
-Root step params.
+Root step params and workflow metadata.
 
 ## Returns
 
@@ -48,6 +52,9 @@ import { orderWorkflow } from './workflows/order'
 const { workflowId } = await startWorkflow(orderWorkflow, {
   params: {
     orderId: 'order_001',
+  },
+  metadata: {
+    tenantId: 'tenant_001',
   },
 })
 
