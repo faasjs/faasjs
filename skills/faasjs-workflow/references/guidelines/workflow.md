@@ -33,10 +33,18 @@ export const orderWorkflow = defineWorkflow({
   },
   metadataSchema: z.object({
     tenantId: z.string(),
+    progress: z.object({
+      reserved: z.boolean().optional(),
+    }),
   }),
   steps: {
-    async reserveInventory({ params, metadata }) {
+    async reserveInventory({ params, metadata, patchMetadata }) {
       await reserveInventoryForOrder(params.orderId, metadata.tenantId)
+      await patchMetadata({
+        progress: {
+          reserved: true,
+        },
+      })
 
       return next('capturePayment', {
         orderId: params.orderId,
@@ -93,7 +101,31 @@ Use `metadataSchema` for workflow-level context that every step may need, such a
 
 Inside handlers, destructure only the top-level workflow context. Keep business values visible as `params.orderId` and `metadata.tenantId`.
 
-### 4. Use the right execution entrypoint
+### 4. Update metadata through the workflow context
+
+Use `ctx.updateMetadata(...)` to replace workflow metadata and `ctx.patchMetadata(...)` to deep-merge small patches into metadata:
+
+```ts
+async reserveInventory({ params, metadata, patchMetadata }) {
+  await reserveInventoryForOrder(params.orderId, metadata.tenantId)
+
+  await patchMetadata({
+    progress: {
+      reserved: true,
+    },
+  })
+
+  return next('capturePayment', {
+    orderId: params.orderId,
+  })
+}
+```
+
+Both methods write immediately, validate the final metadata with `metadataSchema`, and update `ctx.metadata` with the persisted value. `patchMetadata()` locks the workflow row, reads the latest metadata, deep-merges the patch, and writes the result in one transaction so concurrent patches do not overwrite unrelated keys. `updateMetadata()` replaces the full metadata value and is last-write-wins after acquiring the workflow row lock.
+
+Metadata updates are still persisted if the handler later throws or returns `fail(...)`. Keep metadata small and workflow-scoped. Use feature-owned business tables for large, high-frequency, audited, or query-heavy state.
+
+### 5. Use the right execution entrypoint
 
 Start a durable run from an API, command, script, or job:
 
@@ -154,7 +186,7 @@ const result = await runWorkflow(
 
 Pass `{ workflowId }` to `runWorkflow()` to resume an existing workflow. Do not include `params` or `metadata` when resuming; those are creation-time inputs.
 
-### 5. Return instructions instead of editing internal rows
+### 6. Return instructions instead of editing internal rows
 
 - `done(data?)` marks the current step done and optionally stores JSON-serializable step data.
 - `next(name, params?)` marks the current step done and creates one runnable next step.
@@ -162,9 +194,9 @@ Pass `{ workflowId }` to `runWorkflow()` to resume an existing workflow. Do not 
 - `fail(error)` marks the current step failed and fails the workflow when no recovery step is attached.
 - `fail(error, { next })` records the failed step and creates a recovery step, allowing the workflow to continue.
 
-Do not write directly to `faasjs_workflows` or `faasjs_workflow_steps` from application code. The workflow runner owns status transitions, leases, fork branch heads, and terminal-state resolution.
+Do not write directly to `faasjs_workflows` or `faasjs_workflow_steps` from application code. The workflow runner owns status transitions, leases, fork branch heads, terminal-state resolution, and metadata updates exposed through the step context.
 
-### 6. Design for at-least-once execution
+### 7. Design for at-least-once execution
 
 `runWorkflowStep()` uses PostgreSQL row claiming, worker IDs, leases, and `SKIP LOCKED` to coordinate concurrent workers. A step can run again after process crashes, lease expiry, retry overlap, database interruption, or worker replacement.
 
@@ -173,16 +205,17 @@ Do not write directly to `faasjs_workflows` or `faasjs_workflow_steps` from appl
 - Choose `leaseSeconds` long enough for normal step duration but short enough to recover abandoned work.
 - Provide stable `workerId` values when logs or debugging need to identify worker processes.
 - Use `workflowId` when a worker or script must restrict claiming to one workflow; omit it for pooled workers processing any runnable workflow of that `type`.
+- Treat metadata updates like any other at-least-once side effect; patch only idempotent fields or make the patch conditional through business data.
 
-### 7. Keep fork branches independent
+### 8. Keep fork branches independent
 
 Use `fork(...)` for parallel child branches that can complete independently. The parent waits until all current branch heads are done or failed.
 
 If a branch returns `next(...)`, the parent tracks the replacement branch head. If a branch returns `fail(error, { next })`, the failed branch is recorded and the recovery step becomes the branch head. If any branch head fails without recovery, the fork parent fails.
 
-Keep branch params self-contained. Do not require branch handlers to read sibling branch step data unless the workflow explicitly persists shared state in business tables.
+Keep branch params self-contained. Do not require branch handlers to read sibling branch step data unless the workflow explicitly persists shared state in metadata or business tables. Concurrent `patchMetadata()` calls serialize through the workflow row lock, but high-volume branch state still belongs in business tables.
 
-### 8. Bound local full-run loops
+### 9. Bound local full-run loops
 
 `runWorkflow()` repeatedly calls `runWorkflowStep()` until the workflow is completed, failed, or cancelled. Always use limits in tests, scripts, and local orchestration where a stuck waiting workflow should not loop forever:
 
@@ -195,7 +228,7 @@ Keep branch params self-contained. Do not require branch handlers to read siblin
 
 The package initializes its own internal schema through `ensureWorkflowSchema()` when workflows start or run. Application migrations should model business data, not recreate `faasjs_workflows`, `faasjs_workflow_steps`, or `faasjs_workflow_schema_migrations`.
 
-Use `@faasjs/pg` and PostgreSQL transactions for business tables that steps mutate. Keep workflow metadata small and stable; store large or frequently changing business state in feature-owned tables.
+Use `@faasjs/pg` and PostgreSQL transactions for business tables that steps mutate. Keep workflow metadata small and workflow-scoped; store large, frequently changing, searchable, or audited business state in feature-owned tables.
 
 ## Testing
 
@@ -207,6 +240,7 @@ Use PostgreSQL-backed tests for lifecycle behavior:
 - root params and metadata parsing
 - one-step processing with `runWorkflowStep()`
 - full completion or failure with `runWorkflow()`
+- metadata replacement and patch updates when handlers mutate workflow metadata
 - recovery through `fail(error, { next })`
 - fork joins, branch replacement, and failed branch behavior
 - lease expiry and concurrent worker claiming when that behavior matters
@@ -222,6 +256,7 @@ Use type tests with `expectTypeOf(...)` or `assertType(...)` when step schemas o
 - workers call `runWorkflowStep()` and understand it processes at most one step
 - `runWorkflow()` calls are bounded with `maxSteps`, `timeoutMs`, or `signal` where appropriate
 - step handlers are idempotent and do not directly mutate internal workflow tables
+- workflow metadata updates use `updateMetadata()` or `patchMetadata()` and remain small, schema-valid, and idempotent
 - recoverable failures use `fail(error, { next })` intentionally
 - fork branches have self-contained params and clear join behavior
 - tests cover PostgreSQL lifecycle behavior and type inference when relevant

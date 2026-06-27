@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto'
 
 import { parseSchemaValue } from '@faasjs/node-utils'
 import { getClient, type Client } from '@faasjs/pg'
-import type { ZodType } from '@faasjs/utils'
+import { deepMerge, type ZodType } from '@faasjs/utils'
 
 import { fail } from './instructions'
 import { ensureWorkflowSchema } from './schema'
@@ -20,8 +20,10 @@ import type {
   WorkflowDefinition,
   WorkflowInstruction,
   WorkflowMetadata,
+  WorkflowMetadataUpdate,
   WorkflowRecord,
   WorkflowStatus,
+  WorkflowStepContext,
   WorkflowStepRecord,
   WorkflowStepParams,
   WorkflowStepSchemas,
@@ -41,6 +43,8 @@ type WorkflowError = {
 type ClaimedWorkflowStepRecord = WorkflowStepRecord & {
   workflow_metadata: unknown
 }
+
+type WorkflowMetadataUpdateMode = 'replace' | 'patch'
 
 function resolvePositiveInteger(
   value: number | undefined,
@@ -121,6 +125,92 @@ async function parseWorkflowMetadata(
       errorMessage: 'Invalid workflow metadata',
     }),
   )
+}
+
+async function writeWorkflowMetadata(
+  client: Client,
+  workflow: WorkflowDefinition,
+  step: WorkflowStepRecord,
+  mode: WorkflowMetadataUpdateMode,
+  update: unknown,
+): Promise<unknown> {
+  if (!step.lease_id) {
+    throw Error('[workflow] Cannot update workflow metadata because the step lease is not active.')
+  }
+
+  return client.transaction(async (trx) => {
+    const [activeStep] = await trx.raw<Pick<WorkflowStepRecord, 'id'>>(
+      `
+        SELECT id
+        FROM faasjs_workflow_steps
+        WHERE id = ?::uuid
+          AND workflow_id = ?::uuid
+          AND workflow_type = ?
+          AND lease_id = ?::uuid
+        FOR UPDATE
+      `,
+      step.id,
+      step.workflow_id,
+      workflow.type,
+      step.lease_id,
+    )
+
+    if (!activeStep) {
+      throw Error(
+        '[workflow] Cannot update workflow metadata because the step lease is not active.',
+      )
+    }
+
+    const [workflowRecord] = await trx.raw<Pick<WorkflowRecord, 'metadata' | 'status'>>(
+      `
+        SELECT metadata, status
+        FROM faasjs_workflows
+        WHERE id = ?::uuid
+          AND type = ?
+        FOR UPDATE
+      `,
+      step.workflow_id,
+      workflow.type,
+    )
+
+    if (!workflowRecord) {
+      throw Error(
+        `[workflow] Workflow "${step.workflow_id}" of type "${workflow.type}" was not found.`,
+      )
+    }
+
+    if (workflowRecord.status !== 'running') {
+      throw Error('[workflow] Cannot update workflow metadata for a non-running workflow.')
+    }
+
+    const currentMetadata = await parseWorkflowMetadata(workflow, workflowRecord.metadata)
+    const updateValue = typeof update === 'function' ? update(currentMetadata) : update
+    const nextMetadata =
+      mode === 'patch'
+        ? deepMerge(
+            normalizeMetadata(currentMetadata) as object,
+            normalizeMetadata(updateValue) as object,
+          )
+        : updateValue
+    const parsedMetadata = await parseWorkflowMetadata(workflow, nextMetadata)
+
+    await trx.raw(
+      `
+        UPDATE faasjs_workflows
+        SET
+          metadata = ?::jsonb,
+          version = version + 1,
+          updated_at = NOW()
+        WHERE id = ?::uuid
+          AND type = ?
+      `,
+      parsedMetadata,
+      step.workflow_id,
+      workflow.type,
+    )
+
+    return parsedMetadata
+  })
 }
 
 function normalizeError(error: unknown): WorkflowError {
@@ -888,20 +978,33 @@ export async function runWorkflowStep(
       )
     }
 
+    const context: WorkflowStepContext = {
+      workflowId: record.workflow_id,
+      workflowType: record.workflow_type,
+      stepId: record.id,
+      stepName: record.name,
+      params: await parseWorkflowStepParams(workflow, record.name, record.params),
+      metadata: await parseWorkflowMetadata(workflow, record.workflow_metadata),
+      updateMetadata: async (update: WorkflowMetadataUpdate<any>) => {
+        const metadata = await writeWorkflowMetadata(client, workflow, record, 'replace', update)
+
+        context.metadata = metadata
+
+        return metadata
+      },
+      patchMetadata: async (patch) => {
+        const metadata = await writeWorkflowMetadata(client, workflow, record, 'patch', patch)
+
+        context.metadata = metadata
+
+        return metadata
+      },
+      step: record,
+    }
+
     instruction = await parseInstructionStepParams(
       workflow,
-      assertInstruction(
-        workflow,
-        await handler({
-          workflowId: record.workflow_id,
-          workflowType: record.workflow_type,
-          stepId: record.id,
-          stepName: record.name,
-          params: await parseWorkflowStepParams(workflow, record.name, record.params),
-          metadata: await parseWorkflowMetadata(workflow, record.workflow_metadata),
-          step: record,
-        }),
-      ),
+      assertInstruction(workflow, await handler(context)),
     )
   } catch (error) {
     instruction = fail(error)

@@ -1,6 +1,6 @@
 ---
 name: faasjs-workflow
-description: 'Use when building or reviewing @faasjs/workflow persistent workflows: defineWorkflow, startWorkflow, runWorkflowStep, runWorkflow, done, next, fork, fail, workflow metadata, step schemas, leases, worker IDs, recoverable failures, fork branches, workflow tests, and PostgreSQL-backed workflow lifecycle behavior.'
+description: 'Use when building or reviewing @faasjs/workflow persistent workflows: defineWorkflow, startWorkflow, runWorkflowStep, runWorkflow, done, next, fork, fail, workflow metadata, updateMetadata, patchMetadata, step schemas, leases, worker IDs, recoverable failures, fork branches, workflow tests, and PostgreSQL-backed workflow lifecycle behavior.'
 ---
 
 # FaasJS Workflow
@@ -11,7 +11,8 @@ description: 'Use when building or reviewing @faasjs/workflow persistent workflo
 2. Use `schemas` for step params and `metadataSchema` for workflow-level context whenever the shape is known.
 3. Start durable runs with `startWorkflow()` and execute them from workers with `runWorkflowStep()`.
 4. Use `runWorkflow()` for bounded local execution, tests, scripts, or controlled resume flows.
-5. Keep step handlers idempotent and return workflow instructions instead of mutating workflow rows directly.
+5. Use `ctx.updateMetadata()` or `ctx.patchMetadata()` for small workflow-level metadata changes; never mutate workflow rows directly.
+6. Keep step handlers idempotent and return workflow instructions instead of mutating workflow rows directly.
 
 ## Load These References
 
@@ -23,6 +24,7 @@ description: 'Use when building or reviewing @faasjs/workflow persistent workflo
 - A thrown step handler error is recorded as a failed step. Use `fail(error, { next })` only when the failure has an explicit recovery path.
 - Step execution is at-least-once after crashes, lease expiry, or worker overlap; external side effects need idempotency.
 - The package owns `faasjs_workflows`, `faasjs_workflow_steps`, and workflow schema migration tables.
+- `patchMetadata()` deep-merges in a transaction from the latest persisted metadata; keep patches small and schema-valid.
 
 ## Validation
 

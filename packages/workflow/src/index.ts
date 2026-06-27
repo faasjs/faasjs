@@ -32,10 +32,18 @@
  *   },
  *   metadataSchema: z.object({
  *     tenantId: z.string(),
+ *     progress: z.object({
+ *       planned: z.boolean().optional(),
+ *     }).default({}),
  *   }),
  *   steps: {
  *     async plan(ctx) {
  *       await reserveTenantCapacity(ctx.metadata.tenantId)
+ *       await ctx.patchMetadata({
+ *         progress: {
+ *           planned: true,
+ *         },
+ *       })
  *
  *       return next('run', {
  *         taskId: ctx.params.taskId,
@@ -77,6 +85,8 @@ export type {
   WorkflowDefinition,
   WorkflowInstruction,
   WorkflowMetadata,
+  WorkflowMetadataPatch,
+  WorkflowMetadataUpdate,
   WorkflowRecord,
   WorkflowStatus,
   WorkflowStepContext,

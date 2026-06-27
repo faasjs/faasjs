@@ -221,6 +221,368 @@ describe('workflow', () => {
     ).rejects.toThrow('Invalid workflow metadata')
   })
 
+  it('updates workflow metadata from step handlers', async () => {
+    const workflow = defineWorkflow({
+      type: 'metadata_update_workflow',
+      root: 'start',
+      metadataSchema: z.object({
+        tenantId: z.string(),
+        state: z.object({
+          count: z.number(),
+          labels: z.array(z.string()),
+        }),
+      }),
+      steps: {
+        async start(ctx) {
+          const metadata = await ctx.updateMetadata({
+            tenantId: 'tenant_002',
+            state: {
+              count: 2,
+              labels: ['updated'],
+            },
+          })
+
+          expect(metadata).toEqual({
+            tenantId: 'tenant_002',
+            state: {
+              count: 2,
+              labels: ['updated'],
+            },
+          })
+          expect(ctx.metadata).toEqual(metadata)
+
+          return done()
+        },
+      },
+    })
+
+    const result = await runWorkflow(workflow, {
+      metadata: {
+        tenantId: 'tenant_001',
+        state: {
+          count: 1,
+          labels: ['initial'],
+        },
+      },
+    })
+    const [record] = await client.raw<WorkflowRecord>`
+      SELECT * FROM faasjs_workflows WHERE id = ${result.workflowId}
+    `
+
+    expect(result.status).toEqual('completed')
+    expect(record.metadata).toEqual({
+      tenantId: 'tenant_002',
+      state: {
+        count: 2,
+        labels: ['updated'],
+      },
+    })
+  })
+
+  it('patches workflow metadata and passes it to the next step', async () => {
+    const seen: unknown[] = []
+    const workflow = defineWorkflow({
+      type: 'metadata_patch_workflow',
+      root: 'start',
+      metadataSchema: z.object({
+        tenantId: z.string(),
+        state: z.object({
+          nested: z.object({
+            a: z.string().optional(),
+            b: z.string().optional(),
+          }),
+          tags: z.array(z.string()),
+        }),
+      }),
+      steps: {
+        async start(ctx) {
+          const metadata = await ctx.patchMetadata({
+            state: {
+              nested: {
+                b: 'B',
+              },
+              tags: ['new'],
+            },
+          })
+
+          seen.push(metadata, ctx.metadata)
+
+          return next('finish')
+        },
+        async finish(ctx) {
+          seen.push(ctx.metadata)
+
+          return done()
+        },
+      },
+    })
+
+    const result = await runWorkflow(workflow, {
+      metadata: {
+        tenantId: 'tenant_001',
+        state: {
+          nested: {
+            a: 'A',
+          },
+          tags: ['old'],
+        },
+      },
+    })
+    const expected = {
+      tenantId: 'tenant_001',
+      state: {
+        nested: {
+          a: 'A',
+          b: 'B',
+        },
+        tags: ['new', 'old'],
+      },
+    }
+
+    expect(result.status).toEqual('completed')
+    expect(seen).toEqual([expected, expected, expected])
+  })
+
+  it('rejects invalid metadata updates without changing persisted metadata', async () => {
+    let error: unknown
+    const workflow = defineWorkflow({
+      type: 'metadata_update_validation_workflow',
+      root: 'start',
+      metadataSchema: z.object({
+        tenantId: z.string().min(1),
+      }),
+      steps: {
+        async start(ctx) {
+          try {
+            await ctx.updateMetadata({
+              tenantId: '',
+            })
+          } catch (caught) {
+            error = caught
+          }
+
+          return done()
+        },
+      },
+    })
+
+    const result = await runWorkflow(workflow, {
+      metadata: {
+        tenantId: 'tenant_001',
+      },
+    })
+    const [record] = await client.raw<WorkflowRecord>`
+      SELECT * FROM faasjs_workflows WHERE id = ${result.workflowId}
+    `
+
+    expect(result.status).toEqual('completed')
+    expect(error).toBeInstanceOf(Error)
+    expect((error as Error).message).toContain('Invalid workflow metadata')
+    expect(record.metadata).toEqual({
+      tenantId: 'tenant_001',
+    })
+  })
+
+  it('does not update workflow metadata with a stale step lease', async () => {
+    let calls = 0
+    let staleError: unknown
+    let firstStarted: (() => void) | undefined
+    let releaseFirst: (() => void) | undefined
+    let secondUpdated: (() => void) | undefined
+    let releaseSecond: (() => void) | undefined
+    const firstStartedPromise = new Promise<void>((resolve) => {
+      firstStarted = resolve
+    })
+    const releaseFirstPromise = new Promise<void>((resolve) => {
+      releaseFirst = resolve
+    })
+    const secondUpdatedPromise = new Promise<void>((resolve) => {
+      secondUpdated = resolve
+    })
+    const releaseSecondPromise = new Promise<void>((resolve) => {
+      releaseSecond = resolve
+    })
+    const workflow = defineWorkflow({
+      type: 'metadata_stale_lease_workflow',
+      root: 'start',
+      metadataSchema: z.object({
+        count: z.number(),
+      }),
+      steps: {
+        async start(ctx) {
+          calls += 1
+
+          if (calls === 1) {
+            firstStarted?.()
+            await releaseFirstPromise
+
+            try {
+              await ctx.updateMetadata({
+                count: 1,
+              })
+            } catch (error) {
+              staleError = error
+            }
+
+            return done('old')
+          }
+
+          await ctx.updateMetadata({
+            count: 2,
+          })
+          secondUpdated?.()
+          await releaseSecondPromise
+
+          return done('new')
+        },
+      },
+    })
+    const { workflowId } = await startWorkflow(workflow, {
+      metadata: {
+        count: 0,
+      },
+    })
+
+    const firstRun = runWorkflowStep(workflow, {
+      workflowId,
+      leaseSeconds: 1,
+      workerId: 'old-worker',
+    })
+
+    await firstStartedPromise
+    await new Promise((resolve) => setTimeout(resolve, 1100))
+
+    const secondRun = runWorkflowStep(workflow, {
+      workflowId,
+      workerId: 'new-worker',
+    })
+
+    await secondUpdatedPromise
+    releaseFirst?.()
+    await firstRun
+    releaseSecond?.()
+    await secondRun
+
+    const [record] = await client.raw<WorkflowRecord>`
+      SELECT * FROM faasjs_workflows WHERE id = ${workflowId}
+    `
+
+    expect(staleError).toBeInstanceOf(Error)
+    expect((staleError as Error).message).toContain('step lease is not active')
+    expect(record.metadata).toEqual({
+      count: 2,
+    })
+  })
+
+  it('persists workflow metadata updates when the handler later fails', async () => {
+    const workflow = defineWorkflow({
+      type: 'metadata_immediate_update_workflow',
+      root: 'start',
+      metadataSchema: z.object({
+        events: z.object({
+          failed: z.boolean().optional(),
+        }),
+      }),
+      steps: {
+        async start(ctx) {
+          await ctx.patchMetadata({
+            events: {
+              failed: true,
+            },
+          })
+
+          throw Error('boom')
+        },
+      },
+    })
+
+    const result = await runWorkflow(workflow, {
+      metadata: {
+        events: {},
+      },
+    })
+    const [record] = await client.raw<WorkflowRecord>`
+      SELECT * FROM faasjs_workflows WHERE id = ${result.workflowId}
+    `
+
+    expect(result.status).toEqual('failed')
+    expect(record.metadata).toEqual({
+      events: {
+        failed: true,
+      },
+    })
+  })
+
+  it('serializes concurrent metadata patches against the latest metadata', async () => {
+    const workflow = defineWorkflow({
+      type: 'metadata_concurrent_patch_workflow',
+      root: 'start',
+      metadataSchema: z.object({
+        state: z.object({
+          a: z.boolean().optional(),
+          b: z.boolean().optional(),
+        }),
+      }),
+      steps: {
+        async start() {
+          return fork([
+            {
+              name: 'branch',
+              params: {
+                key: 'a',
+              },
+            },
+            {
+              name: 'branch',
+              params: {
+                key: 'b',
+              },
+            },
+          ])
+        },
+        async branch(ctx) {
+          await ctx.patchMetadata({
+            state: {
+              [(ctx.params as any).key]: true,
+            },
+          })
+
+          return done()
+        },
+      },
+    })
+    const { workflowId } = await startWorkflow(workflow, {
+      metadata: {
+        state: {},
+      },
+    })
+
+    await runWorkflowStep(workflow, {
+      workflowId,
+    })
+    await Promise.all([
+      runWorkflowStep(workflow, {
+        workflowId,
+        workerId: 'branch-worker-a',
+      }),
+      runWorkflowStep(workflow, {
+        workflowId,
+        workerId: 'branch-worker-b',
+      }),
+    ])
+
+    const [record] = await client.raw<WorkflowRecord>`
+      SELECT * FROM faasjs_workflows WHERE id = ${workflowId}
+    `
+
+    expect(record.metadata).toEqual({
+      state: {
+        a: true,
+        b: true,
+      },
+    })
+  })
+
   it('starts a workflow and persists workflow_type on the root step', async () => {
     const workflow = defineWorkflow({
       type: 'agent_workflow',

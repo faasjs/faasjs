@@ -30,6 +30,22 @@ Metadata persisted on the workflow.
 
 Params persisted for this step.
 
+### patchMetadata
+
+> **patchMetadata**: (`patch`) => `Promise`\<`TMetadata`\>
+
+Deep-merge a patch into workflow metadata and persist the new value immediately.
+
+#### Parameters
+
+##### patch
+
+[`WorkflowMetadataPatch`](WorkflowMetadataPatch.md)\<`TMetadata`\> \| ((`metadata`) => [`WorkflowMetadataPatch`](WorkflowMetadataPatch.md)\<`TMetadata`\>)
+
+#### Returns
+
+`Promise`\<`TMetadata`\>
+
 ### step
 
 > **step**: [`WorkflowStepRecord`](WorkflowStepRecord.md)
@@ -47,6 +63,22 @@ Current step id.
 > **stepName**: `string`
 
 Current step name.
+
+### updateMetadata
+
+> **updateMetadata**: (`update`) => `Promise`\<`TMetadata`\>
+
+Replace workflow metadata and persist the new value immediately.
+
+#### Parameters
+
+##### update
+
+[`WorkflowMetadataUpdate`](WorkflowMetadataUpdate.md)\<`TMetadata`\>
+
+#### Returns
+
+`Promise`\<`TMetadata`\>
 
 ### workflowId
 

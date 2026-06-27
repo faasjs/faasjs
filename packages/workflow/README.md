@@ -33,10 +33,20 @@ const workflow = defineWorkflow({
   },
   metadataSchema: z.object({
     tenantId: z.string(),
+    progress: z
+      .object({
+        planned: z.boolean().optional(),
+      })
+      .default({}),
   }),
   steps: {
     async plan(ctx) {
       await reserveTenantCapacity(ctx.metadata.tenantId)
+      await ctx.patchMetadata({
+        progress: {
+          planned: true,
+        },
+      })
 
       return next('run', {
         taskId: ctx.params.taskId,
@@ -83,6 +93,8 @@ await runWorkflow(workflow, {
 - [WorkflowDefinition](type-aliases/WorkflowDefinition.md)
 - [WorkflowInstruction](type-aliases/WorkflowInstruction.md)
 - [WorkflowMetadata](type-aliases/WorkflowMetadata.md)
+- [WorkflowMetadataPatch](type-aliases/WorkflowMetadataPatch.md)
+- [WorkflowMetadataUpdate](type-aliases/WorkflowMetadataUpdate.md)
 - [WorkflowRecord](type-aliases/WorkflowRecord.md)
 - [WorkflowSchemaSteps](type-aliases/WorkflowSchemaSteps.md)
 - [WorkflowStatus](type-aliases/WorkflowStatus.md)

@@ -40,10 +40,14 @@ import {
  *   },
  *   metadataSchema: z.object({
  *     tenantId: z.string(),
+ *     reserved: z.boolean().optional(),
  *   }),
  *   steps: {
- *     async reserveInventory({ params, metadata }) {
+ *     async reserveInventory({ params, metadata, patchMetadata }) {
  *       await orders.reserveInventory(params.orderId, metadata.tenantId)
+ *       await patchMetadata({
+ *         reserved: true,
+ *       })
  *
  *       return next('capturePayment', {
  *         orderId: params.orderId,

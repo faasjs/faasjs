@@ -22,6 +22,30 @@ export type WorkflowStepTarget = {
 }
 
 /**
+ * Metadata replacement accepted by {@link WorkflowStepContext.updateMetadata}.
+ */
+export type WorkflowMetadataUpdate<TMetadata> = TMetadata | ((metadata: TMetadata) => TMetadata)
+
+/**
+ * Deep metadata patch accepted by {@link WorkflowStepContext.patchMetadata}.
+ */
+export type WorkflowMetadataPatch<TMetadata> = 0 extends 1 & TMetadata
+  ? any
+  : TMetadata extends readonly unknown[]
+    ? never
+    : TMetadata extends object
+      ? {
+          [TKey in keyof TMetadata]?: 0 extends 1 & TMetadata[TKey]
+            ? any
+            : TMetadata[TKey] extends readonly unknown[]
+              ? TMetadata[TKey]
+              : TMetadata[TKey] extends object
+                ? WorkflowMetadataPatch<TMetadata[TKey]>
+                : TMetadata[TKey]
+        }
+      : never
+
+/**
  * Context passed to each workflow step handler.
  */
 export type WorkflowStepContext<TParams = any, TMetadata = any> = {
@@ -37,6 +61,14 @@ export type WorkflowStepContext<TParams = any, TMetadata = any> = {
   params: TParams
   /** Metadata persisted on the workflow. */
   metadata: TMetadata
+  /** Replace workflow metadata and persist the new value immediately. */
+  updateMetadata: (update: WorkflowMetadataUpdate<TMetadata>) => Promise<TMetadata>
+  /** Deep-merge a patch into workflow metadata and persist the new value immediately. */
+  patchMetadata: (
+    patch:
+      | WorkflowMetadataPatch<TMetadata>
+      | ((metadata: TMetadata) => WorkflowMetadataPatch<TMetadata>),
+  ) => Promise<TMetadata>
   /** Persisted current step row. */
   step: WorkflowStepRecord
 }

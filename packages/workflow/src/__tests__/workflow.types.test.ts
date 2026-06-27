@@ -22,6 +22,13 @@ it('defineWorkflow infers step params from schemas', () => {
   }
   const metadataSchema = z.object({
     tenantId: z.string(),
+    state: z.object({
+      retries: z.number(),
+      flags: z.object({
+        enabled: z.boolean(),
+      }),
+      tags: z.array(z.string()),
+    }),
   })
 
   const workflow = defineWorkflow({
@@ -30,12 +37,47 @@ it('defineWorkflow infers step params from schemas', () => {
     schemas,
     metadataSchema,
     steps: {
-      async plan({ params, metadata }) {
+      async plan({ params, metadata, patchMetadata, updateMetadata }) {
         expectTypeOf(params).toEqualTypeOf<{
           taskId: string
           count: number
         }>()
         assertType<string>(metadata.tenantId)
+        assertType<number>(metadata.state.retries)
+        void updateMetadata({
+          tenantId: 'tenant_001',
+          state: {
+            retries: 1,
+            flags: {
+              enabled: true,
+            },
+            tags: [],
+          },
+        })
+        void patchMetadata({
+          state: {
+            flags: {
+              enabled: false,
+            },
+          },
+        })
+        void patchMetadata((current) => ({
+          state: {
+            retries: current.state.retries + 1,
+          },
+        }))
+        // @ts-expect-error updateMetadata requires full workflow metadata
+        void updateMetadata({
+          tenantId: 'tenant_001',
+        })
+        void patchMetadata({
+          state: {
+            flags: {
+              // @ts-expect-error enabled must remain boolean
+              enabled: 'false',
+            },
+          },
+        })
 
         // @ts-expect-error missing is not defined by the plan schema
         assertType<never>(params.missing)
@@ -65,6 +107,13 @@ it('defineWorkflow infers step params from schemas', () => {
       },
       metadata: {
         tenantId: 'tenant_001',
+        state: {
+          retries: 0,
+          flags: {
+            enabled: true,
+          },
+          tags: [],
+        },
       },
     })
 
@@ -76,6 +125,13 @@ it('defineWorkflow infers step params from schemas', () => {
       },
       metadata: {
         tenantId: 'tenant_001',
+        state: {
+          retries: 0,
+          flags: {
+            enabled: true,
+          },
+          tags: [],
+        },
       },
     })
 
@@ -86,6 +142,13 @@ it('defineWorkflow infers step params from schemas', () => {
       },
       metadata: {
         tenantId: 'tenant_001',
+        state: {
+          retries: 0,
+          flags: {
+            enabled: true,
+          },
+          tags: [],
+        },
       },
     })
 
@@ -162,4 +225,26 @@ it('defineWorkflow infers metadata from metadataSchema', () => {
       },
     )
   }
+})
+
+it('patchMetadata is not available for primitive metadata', () => {
+  const metadataSchema = z.string()
+  const workflow = defineWorkflow({
+    type: 'typed_primitive_metadata_workflow',
+    root: 'start',
+    metadataSchema,
+    steps: {
+      async start({ metadata, patchMetadata, updateMetadata }) {
+        assertType<string>(metadata)
+        void updateMetadata('updated')
+
+        // @ts-expect-error primitive metadata cannot be patched
+        void patchMetadata({})
+
+        return done()
+      },
+    },
+  })
+
+  expectTypeOf(workflow.metadataSchema).toEqualTypeOf<typeof metadataSchema | undefined>()
 })
