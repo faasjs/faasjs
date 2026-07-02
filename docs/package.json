@@ -10,7 +10,7 @@
   "devDependencies": {
     "@faasjs/utils": "file:../packages/utils",
     "highlight.js": "*",
-    "markdown-it": "*",
+    "markdown-it": "^14.3.0",
     "markdown-it-anchor": "*"
   }
 }
