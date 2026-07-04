@@ -10,7 +10,6 @@ Install this repository's skills to give agents focused FaasJS workflow guidance
 - `faasjs-project-workflow`: Project setup, file layout, config, CLI, naming, comments, and shared testing.
 - `faasjs-react-ant-design`: React, `@faasjs/ant-design`, request flows, CRUD screens, and React tests.
 - `faasjs-api-jobs`: `.api.ts`, `defineApi`, HTTP helpers, middleware, jobs, schedulers, and workers.
-- `faasjs-workflow`: `@faasjs/workflow`, persistent definitions, step execution, recovery, leases, and workflow tests.
 - `faasjs-pg`: `@faasjs/pg`, table types, `QueryBuilder`, migrations, and PostgreSQL tests.
 - `faasjs-plugins-runtime`: Plugins, injected fields, logger usage, runtime config, and Node utilities.
 - `faasjs-utils-data`: `@faasjs/utils`, JSON, YAML, streams, validation helpers, and path guards.

@@ -7,6 +7,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/utils`
   - [Feature] Support literal and folded YAML block scalars in `parseYaml`.
 
+- `@faasjs/workflow`
+  - [Break] Remove `@faasjs/workflow` from the monorepo, including package builds, API docs, and workflow-specific agent guidance.
+
 [`v8.0.0-beta.42 (2026-06-27)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.41...v8.0.0-beta.42)
 
 - `@faasjs/dev`

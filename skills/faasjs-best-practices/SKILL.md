@@ -1,6 +1,6 @@
 ---
 name: faasjs-best-practices
-description: 'Use when working in any FaasJS repo and no narrower FaasJS skill is already selected, or when a task spans project conventions, validation gates, security boundaries, and multiple FaasJS subsystems. For focused work, also load the relevant FaasJS skill: faasjs-project-workflow, faasjs-react-ant-design, faasjs-api-jobs, faasjs-workflow, faasjs-pg, faasjs-plugins-runtime, faasjs-utils-data, or faasjs-specs.'
+description: 'Use when working in any FaasJS repo and no narrower FaasJS skill is already selected, or when a task spans project conventions, validation gates, security boundaries, and multiple FaasJS subsystems. For focused work, also load the relevant FaasJS skill: faasjs-project-workflow, faasjs-react-ant-design, faasjs-api-jobs, faasjs-pg, faasjs-plugins-runtime, faasjs-utils-data, or faasjs-specs.'
 ---
 
 # FaasJS Best Practices
@@ -18,7 +18,6 @@ description: 'Use when working in any FaasJS repo and no narrower FaasJS skill i
 - New project, feature layout, config, CLI, comments, naming, or shared testing: use `faasjs-project-workflow`.
 - React UI, `@faasjs/ant-design`, `useFaas`, forms, tables, drawers, CRUD screens, or React tests: use `faasjs-react-ant-design`.
 - `.api.ts`, `defineApi`, HTTP plugin helpers, middleware, `.job.ts`, or `defineJob`: use `faasjs-api-jobs`.
-- `@faasjs/workflow`, `defineWorkflow`, persistent workflow steps, metadata, fork branches, leases, or workflow tests: use `faasjs-workflow`.
 - `@faasjs/pg`, `QueryBuilder`, table declarations, migrations, or PostgreSQL tests: use `faasjs-pg`.
 - Plugin lifecycle, injected fields, logger usage, Node bootstrapping, or runtime config loading: use `faasjs-plugins-runtime`.
 - `@faasjs/utils`, JSON, YAML, stream helpers, or validation helpers: use `faasjs-utils-data`.
