@@ -1,4 +1,14 @@
 /**
+ * A raw YAML source line after newline normalization.
+ */
+export type SourceLine = {
+  /** Raw line content without its trailing line break. */
+  content: string
+  /** 1-indexed line number in the original source. */
+  line: number
+}
+
+/**
  * A normalized YAML line after preprocessing.
  */
 export type ParsedLine = {
@@ -26,6 +36,8 @@ export type ParseResult = {
 export type ParseContext = {
   /** Map of anchor name to resolved value. */
   anchors: Map<string, unknown>
+  /** Raw source lines used when parsing block scalars. */
+  sourceLines: SourceLine[]
 }
 
 /**

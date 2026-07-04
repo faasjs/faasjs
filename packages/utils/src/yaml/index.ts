@@ -1,9 +1,9 @@
 import type { ZodOutput, ZodType } from '../zod'
 import { parseNode } from './nodes'
-import { createParseError, normalizeLines } from './scanner'
+import { createParseError, normalizeLines, normalizeSourceLines } from './scanner'
 import type { ParseContext } from './types'
 
-export type { ParsedLine, ParseResult, ParseContext, ParsedValueToken } from './types'
+export type { ParsedLine, ParseResult, ParseContext, ParsedValueToken, SourceLine } from './types'
 
 export {
   createParseError,
@@ -11,6 +11,7 @@ export {
   isMappingValue,
   stripInlineComment,
   normalizeLines,
+  normalizeSourceLines,
   findMappingSeparator,
 } from './scanner'
 
@@ -31,8 +32,9 @@ export { parseNode, parseMapping, parseSequence } from './nodes'
  * Parse the FaasJS-supported YAML subset into JavaScript values.
  *
  * Supports the YAML subset used by `faas.yaml`: mappings, sequences, plain and quoted
- * scalars, inline comments, anchors, aliases, booleans, numbers, nulls, arrays, and objects.
- * Unsupported syntax throws an `Error` whose message is prefixed with `[parseYaml]`.
+ * scalars, literal and folded block scalars, inline comments, anchors, aliases,
+ * booleans, numbers, nulls, arrays, and objects. Unsupported syntax throws an
+ * `Error` whose message is prefixed with `[parseYaml]`.
  *
  * Prefer `loadConfig()` from `@faasjs/node-utils` when you want FaasJS to resolve
  * layered config files for a function.
@@ -73,12 +75,14 @@ export function parseYaml<Schema extends ZodType>(
   schema: Schema,
 ): ZodOutput<Schema>
 export function parseYaml(content: string, schema?: ZodType): unknown {
+  const sourceLines = normalizeSourceLines(content)
   const lines = normalizeLines(content)
 
   if (!lines.length) return schema ? schema.parse(undefined) : undefined
 
   const context: ParseContext = {
     anchors: new Map(),
+    sourceLines,
   }
   const parsed = parseNode(lines, 0, lines[0].indent, context)
 

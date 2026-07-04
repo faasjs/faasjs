@@ -69,12 +69,13 @@ Related references:
 
 1. The parser MUST support indentation-based mappings and sequences.
 2. The parser MUST support plain, single-quoted, and double-quoted scalars.
-3. The parser MUST support scalar values: `null`, `boolean`, `number`, and `string`.
-4. The parser MUST support anchors (`&`), aliases (`*`), and merge key (`<<`) for mappings.
-5. The parser MUST NOT allow tabs for indentation.
-6. The parser MUST NOT allow multiple YAML documents (`---`, `...`).
-7. The parser MUST NOT allow block scalars (`|`, `>`), YAML tags (`!`), or non-empty flow collections (`[a]`, `{a: 1}`).
-8. Empty flow collections `[]` and `{}` MAY be used.
+3. The parser MUST support literal (`|`) and folded (`>`) block scalars, including `-`/`+` chomping and explicit indentation indicators `1` through `9`.
+4. The parser MUST support scalar values: `null`, `boolean`, `number`, and `string`.
+5. The parser MUST support anchors (`&`), aliases (`*`), and merge key (`<<`) for mappings.
+6. The parser MUST NOT allow tabs for indentation.
+7. The parser MUST NOT allow multiple YAML documents (`---`, `...`).
+8. The parser MUST NOT allow YAML tags (`!`) or non-empty flow collections (`[a]`, `{a: 1}`).
+9. Empty flow collections `[]` and `{}` MAY be used.
 
 ### 7. Error handling
 

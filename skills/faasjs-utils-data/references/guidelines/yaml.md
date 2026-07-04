@@ -43,14 +43,18 @@ console.log(config)
 
 const frontmatter = parseYaml(
   `title: Docs
+description: >
+  Generated reference pages
+  for FaasJS users.
 priority: 1
 `,
   z.object({
+    description: z.string(),
     priority: z.number().default(0),
     title: z.string(),
   }),
 )
-// frontmatter is { priority: number; title: string }
+// frontmatter is { description: string; priority: number; title: string }
 ```
 
 ## Review Checklist

@@ -1,4 +1,5 @@
 import { setAnchor, parseValueToken } from './anchor'
+import { isBlockScalarHeader, parseBlockScalar } from './block'
 import { parseInlineValue, parseKey } from './scalar'
 import { createParseError, isMappingValue, isSequenceLine, findMappingSeparator } from './scanner'
 import type { ParsedLine, ParseContext, ParseResult } from './types'
@@ -128,6 +129,17 @@ function parseMappingEntry(
     }
   }
 
+  if (isBlockScalarHeader(token.raw)) {
+    const block = parseBlockScalar(lines, index, entryIndent, token.raw, context)
+    setAnchor(context, token.anchorName, block.value)
+
+    return {
+      key,
+      value: block.value,
+      nextIndex: block.nextIndex,
+    }
+  }
+
   const inlineValue = parseInlineValue(token.raw, line)
   setAnchor(context, token.anchorName, inlineValue)
 
@@ -237,6 +249,13 @@ function parseSequenceItem(
     setAnchor(context, parsedToken.anchorName, nested.value)
 
     return nested
+  }
+
+  if (isBlockScalarHeader(parsedToken.raw)) {
+    const block = parseBlockScalar(lines, index, indent, parsedToken.raw, context)
+    setAnchor(context, parsedToken.anchorName, block.value)
+
+    return block
   }
 
   if (findMappingSeparator(parsedToken.raw) < 0) {

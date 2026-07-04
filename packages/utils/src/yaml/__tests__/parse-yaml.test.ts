@@ -180,13 +180,116 @@ target:
     ).toThrow('Invalid input: expected number, received string')
   })
 
-  it('should throw for unsupported block scalar', () => {
+  it('should parse literal and folded block scalars', () => {
+    const result = parseYaml(`literal: |
+  a
+  b
+literalStrip: |-
+  a
+  b
+literalKeep: |+
+  a
+  b
+
+folded: >
+  a
+  b
+foldedStrip: >-
+  a
+  b
+foldedKeep: >+
+  a
+  b
+
+blank: >
+  a
+
+  b
+moreIndented: >
+  a
+    b
+  c
+`) as Record<string, any>
+
+    expect(result.literal).toBe('a\nb\n')
+    expect(result.literalStrip).toBe('a\nb')
+    expect(result.literalKeep).toBe('a\nb\n\n')
+    expect(result.folded).toBe('a b\n')
+    expect(result.foldedStrip).toBe('a b')
+    expect(result.foldedKeep).toBe('a b\n\n')
+    expect(result.blank).toBe('a\nb\n')
+    expect(result.moreIndented).toBe('a\n  b\nc\n')
+  })
+
+  it('should parse block scalars in frontmatter-shaped YAML', () => {
+    const result = parseYaml(`name: cavecrew
+description: >
+  Decision guide for delegating to caveman-style subagents. Tells the main
+  thread WHEN to spawn \`cavecrew-investigator\` (locate code), \`cavecrew-builder\`
+  (1-2 file edit), or \`cavecrew-reviewer\` (diff review) instead of doing the
+  work inline or using vanilla \`Explore\`. Subagent output is compressed
+  so the tool-result injected back into main context is about 60% smaller.
+  Trigger: "delegate to subagent", "use cavecrew", "spawn investigator/builder/reviewer".
+`) as Record<string, any>
+
+    expect(result.name).toBe('cavecrew')
+    expect(result.description).toBe(
+      'Decision guide for delegating to caveman-style subagents. Tells the main thread WHEN to spawn `cavecrew-investigator` (locate code), `cavecrew-builder` (1-2 file edit), or `cavecrew-reviewer` (diff review) instead of doing the work inline or using vanilla `Explore`. Subagent output is compressed so the tool-result injected back into main context is about 60% smaller. Trigger: "delegate to subagent", "use cavecrew", "spawn investigator/builder/reviewer".\n',
+    )
+  })
+
+  it('should parse block scalars in sequences, inline mappings, and aliases', () => {
+    const result = parseYaml(`items:
+  - |
+    one
+    two
+  - >-
+    three
+    four
+  - text: >
+      five
+      six
+desc: &desc >
+  shared
+  value
+copy: *desc
+`) as Record<string, any>
+
+    expect(result.items).toEqual(['one\ntwo\n', 'three four', { text: 'five six\n' }])
+    expect(result.desc).toBe('shared value\n')
+    expect(result.copy).toBe('shared value\n')
+  })
+
+  it('should parse block scalars with explicit indentation indicators', () => {
+    const result = parseYaml(`literal: |2-
+    indented
+folded: >2-
+    a
+    b
+`) as Record<string, any>
+
+    expect(result.literal).toBe('  indented')
+    expect(result.folded).toBe('  a\n  b')
+  })
+
+  it('should throw for invalid block scalar syntax', () => {
     expect(() =>
-      parseYaml(`defaults:
-  message: |
-    hello
+      parseYaml(`value: |0
+  a
 `),
-    ).toThrow('Block scalar is not supported')
+    ).toThrow('Invalid block scalar header')
+
+    expect(() =>
+      parseYaml(`value: |--
+  a
+`),
+    ).toThrow('Invalid block scalar header')
+
+    expect(() =>
+      parseYaml(`value: |2
+ a
+`),
+    ).toThrow('Block scalar content indentation is less than expected 2 spaces')
   })
 
   it('should throw for unknown alias', () => {

@@ -1,4 +1,4 @@
-import type { ParsedLine } from './types'
+import type { ParsedLine, SourceLine } from './types'
 
 /**
  * Create a parse error with a line-numbered message.
@@ -107,6 +107,29 @@ export function stripInlineComment(content: string): string {
 }
 
 /**
+ * Normalize raw YAML text into source lines.
+ *
+ * Converts CRLF/CR newlines to LF and drops the artificial trailing empty item
+ * produced by `String.split()` when the document ends with a newline.
+ *
+ * @param {string} content - Raw YAML source text.
+ * @returns {SourceLine[]} Source lines with stable 1-indexed line numbers.
+ */
+export function normalizeSourceLines(content: string): SourceLine[] {
+  const lines = content.replace(/\r\n?/g, '\n').split('\n')
+  const lineCount = lines.length > 1 && lines.at(-1) === '' ? lines.length - 1 : lines.length
+  const sourceLines: SourceLine[] = []
+
+  for (let i = 0; i < lineCount; i++)
+    sourceLines.push({
+      content: lines[i],
+      line: i + 1,
+    })
+
+  return sourceLines
+}
+
+/**
  * Normalize raw YAML text into an array of parsed lines.
  *
  * Handles newline normalization, indentation validation (tabs are rejected),
@@ -118,30 +141,28 @@ export function stripInlineComment(content: string): string {
  * @throws {Error} If tabs are used for indentation or multiple documents are detected.
  */
 export function normalizeLines(content: string): ParsedLine[] {
-  const lines = content.replace(/\r\n?/g, '\n').split('\n')
+  const lines = normalizeSourceLines(content)
   const normalized: ParsedLine[] = []
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i]
-    const lineNumber = i + 1
-    const leading = line.match(/^[ \t]*/)?.[0] || ''
+  for (const line of lines) {
+    const leading = line.content.match(/^[ \t]*/)?.[0] || ''
 
     if (leading.includes('\t'))
-      throw createParseError(lineNumber, 'Tabs are not supported for indentation')
+      throw createParseError(line.line, 'Tabs are not supported for indentation')
 
     const indent = leading.length
-    const withoutIndent = line.slice(indent)
+    const withoutIndent = line.content.slice(indent)
     const contentWithoutComment = stripInlineComment(withoutIndent)
 
     if (!contentWithoutComment.trim()) continue
 
-    if (contentWithoutComment === '---' || contentWithoutComment === '...')
-      throw createParseError(lineNumber, 'Multiple YAML documents are not supported')
+    if (indent === 0 && (contentWithoutComment === '---' || contentWithoutComment === '...'))
+      throw createParseError(line.line, 'Multiple YAML documents are not supported')
 
     normalized.push({
       content: contentWithoutComment,
       indent,
-      line: lineNumber,
+      line: line.line,
     })
   }
 
