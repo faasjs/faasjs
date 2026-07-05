@@ -2,7 +2,7 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+[`v8.0.0-beta.43 (2026-07-05)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.42...v8.0.0-beta.43)
 
 - `@faasjs/utils`
   - [Feature] Support literal and folded YAML block scalars in `parseYaml`.

@@ -1,6 +1,6 @@
 {
   "name": "faasjs-mono",
-  "version": "8.0.0-beta.42",
+  "version": "8.0.0-beta.43",
   "private": true,
   "description": "A Rails-inspired, curated full-stack TypeScript framework for database-driven React business applications.",
   "workspaces": [
@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@vitest/coverage-v8": ">=4.1.9",
-    "vite-plus": ">=0.2.1"
+    "vite-plus": ">=0.2.2"
   },
   "overrides": {
     "vite": "npm:@voidzero-dev/vite-plus-core"
@@ -31,5 +31,5 @@
     "node": ">=26.0.0",
     "npm": ">=11.0.0"
   },
-  "packageManager": "npm@11.17.0"
+  "packageManager": "npm@11.18.0"
 }
