@@ -30,7 +30,7 @@
     }
   },
   "dependencies": {
-    "typedoc": "*",
+    "typedoc": "^0.28.20",
     "typedoc-plugin-markdown": "*"
   },
   "engines": {
