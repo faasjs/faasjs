@@ -21,7 +21,7 @@
     "prepare": "vp config"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": ">=4.1.9",
+    "@vitest/coverage-v8": ">=4.1.10",
     "vite-plus": ">=0.2.2"
   },
   "overrides": {
