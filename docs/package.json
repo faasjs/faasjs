@@ -11,6 +11,6 @@
     "@faasjs/utils": "file:../packages/utils",
     "highlight.js": "*",
     "markdown-it": "*",
-    "markdown-it-anchor": "*"
+    "markdown-it-anchor": "^9.2.1"
   }
 }
