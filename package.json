@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@vitest/coverage-v8": ">=4.1.9",
-    "vite-plus": ">=0.2.2"
+    "vite-plus": ">=0.2.3"
   },
   "overrides": {
     "vite": "npm:@voidzero-dev/vite-plus-core"
