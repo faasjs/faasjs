@@ -42,7 +42,7 @@
     "@vitejs/plugin-react": "*",
     "@vitest/coverage-v8": "*",
     "jsdom": "*",
-    "typescript": "*",
+    "typescript": "^7.0.2",
     "vite-plus": "*"
   },
   "peerDependencies": {
