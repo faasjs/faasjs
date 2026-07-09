@@ -3,6 +3,25 @@ import { describe, expect, it } from 'vitest'
 
 import { Loading } from '../../Loading'
 
+function styleToReactCSS(cssDeclaration: CSSStyleDeclaration): React.CSSProperties {
+  const reactStyle: Record<string, unknown> = {}
+
+  for (let i = 0; i < cssDeclaration.length; i++) {
+    const kebabKey = cssDeclaration[i]
+    const value = cssDeclaration.getPropertyValue(kebabKey)
+
+    if (!value) continue
+
+    const camelCaseKey = kebabKey.startsWith('--')
+      ? kebabKey
+      : kebabKey.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())
+
+    reactStyle[camelCaseKey] = value
+  }
+
+  return reactStyle as React.CSSProperties
+}
+
 describe('Loading', () => {
   it('should work', () => {
     const { container } = render(<Loading />)
@@ -16,19 +35,15 @@ describe('Loading', () => {
     expect(screen.getByText('children')).toBeDefined()
   })
 
-  it('should keep large layout when size is explicitly large', () => {
-    const { container } = render(<Loading size="large" />)
-
+  it('should work with full', () => {
+    const { container } = render(<Loading full />)
     const wrapper = container.firstElementChild as HTMLDivElement
-    expect(wrapper.style.margin).toBe('20vh auto')
-    expect(wrapper.style.textAlign).toBe('center')
-  })
 
-  it('should skip large layout when size is small', () => {
-    const { container } = render(<Loading size="small" />)
-
-    const wrapper = container.firstElementChild as HTMLDivElement
-    expect(wrapper.style.margin).toBe('')
-    expect(wrapper.style.textAlign).toBe('')
+    expect(styleToReactCSS(wrapper.style)).toMatchObject({
+      alignItems: 'center',
+      display: 'flex',
+      flex: '1 1 0%',
+      justifyContent: 'center',
+    })
   })
 })
