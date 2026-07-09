@@ -6,6 +6,8 @@ import { Spin } from 'antd'
 export type LoadingProps = {
   /** Inline styles applied to the loading wrapper. */
   style?: React.CSSProperties
+  /** Whether the loading wrapper should fill the surrounding flex container. */
+  full?: boolean
   /**
    * Ant Design spinner size.
    *
@@ -49,13 +51,15 @@ export function Loading(props: LoadingProps) {
   return (
     <div
       style={{
-        ...props.style,
-        ...(!props.size || props.size === 'large'
+        ...(props.full
           ? {
-              margin: '20vh auto',
-              textAlign: 'center',
+              alignItems: 'center',
+              display: 'flex',
+              flex: 1,
+              justifyContent: 'center',
             }
           : {}),
+        ...props.style,
       }}
     >
       <Spin size={props.size || 'large'} />
