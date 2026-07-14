@@ -15,7 +15,7 @@ Includes browser client utilities (`FaasBrowserClient`, `ResponseError`, `setMoc
   - Utils:
     - `equal`: Compare two values for deep equality.
     - `createSplittingContext`: Create a context for code splitting.
-    - `createWindowStates`: Create window-backed shared states.
+    - `createProxyStates`: Create Proxy-backed shared states.
     - `useStates`: Create splitting states.
     - `useStatesRef`: Create splitting states with refs.
   - Hooks:
@@ -43,8 +43,8 @@ npm install @faasjs/react react
 
 ## Functions
 
+- [createProxyStates](functions/createProxyStates.md)
 - [createSplittingContext](functions/createSplittingContext.md)
-- [createWindowStates](functions/createWindowStates.md)
 - [equal](functions/equal.md)
 - [faas](functions/faas.md)
 - [FaasReactClient](functions/FaasReactClient.md)
@@ -88,6 +88,11 @@ npm install @faasjs/react react
 - [OnError](type-aliases/OnError.md)
 - [OptionalWrapperProps](type-aliases/OptionalWrapperProps.md)
 - [Options](type-aliases/Options.md)
+- [ProxyStateHooks](type-aliases/ProxyStateHooks.md)
+- [ProxyStateRef](type-aliases/ProxyStateRef.md)
+- [ProxyStateRefs](type-aliases/ProxyStateRefs.md)
+- [ProxyStates](type-aliases/ProxyStates.md)
+- [ProxyStateSetters](type-aliases/ProxyStateSetters.md)
 - [ResponseErrorProps](type-aliases/ResponseErrorProps.md)
 - [ResponseHeaders](type-aliases/ResponseHeaders.md)
 - [ResponseProps](type-aliases/ResponseProps.md)
@@ -98,11 +103,6 @@ npm install @faasjs/react react
 - [UseFaasOptions](type-aliases/UseFaasOptions.md)
 - [UseFaasStreamOptions](type-aliases/UseFaasStreamOptions.md)
 - [UseFaasStreamResult](type-aliases/UseFaasStreamResult.md)
-- [WindowStateHooks](type-aliases/WindowStateHooks.md)
-- [WindowStateRef](type-aliases/WindowStateRef.md)
-- [WindowStateRefs](type-aliases/WindowStateRefs.md)
-- [WindowStates](type-aliases/WindowStates.md)
-- [WindowStateSetters](type-aliases/WindowStateSetters.md)
 
 ## Variables
 
