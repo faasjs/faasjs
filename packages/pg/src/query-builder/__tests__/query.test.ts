@@ -133,12 +133,28 @@ describe('QueryBuilder/query', () => {
         expect(result).toEqual([1])
       })
 
+      it('IN with an empty array matches no rows', async () => {
+        const result = await new QueryBuilder(client, 'query')
+          .where('id', 'IN', [])
+          .pluck('id')
+
+        expect(result).toEqual([])
+      })
+
       it('NOT IN', async () => {
         const result = await new QueryBuilder(client, 'query')
           .where('name', 'NOT IN', ['Alice'])
           .pluck('id')
 
         expect(result).toEqual([2])
+      })
+
+      it('NOT IN with an empty array matches all rows', async () => {
+        const result = await new QueryBuilder(client, 'query')
+          .where('id', 'NOT IN', [])
+          .pluck('id')
+
+        expect(result).toEqual([1, 2])
       })
 
       it('>', async () => {
@@ -306,6 +322,12 @@ describe('QueryBuilder/query', () => {
 
       expect(result).toEqual([1])
     })
+
+    it('supports a zero limit', async () => {
+      const result = await new QueryBuilder(client, 'query').limit(0).pluck('id')
+
+      expect(result).toEqual([])
+    })
   })
 
   describe('offset', () => {
@@ -357,6 +379,12 @@ describe('QueryBuilder/query', () => {
 
       expect(result).toEqual({ name: 'Alice' })
       expectTypeOf(result).toEqualTypeOf<Pick<User, 'name'> | null>()
+    })
+
+    it('returns null when no row matches', async () => {
+      const result = await new QueryBuilder(client, 'query').where('id', -1).first()
+
+      expect(result).toBeNull()
     })
   })
 
