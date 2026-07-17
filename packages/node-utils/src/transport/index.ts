@@ -130,7 +130,20 @@ export class Transport {
   constructor() {
     this.logger = new Logger('LoggerTransport')
     this.logger.level = 'info'
-    this.interval = setInterval(this.flush.bind(this), this.intervalTime)
+    this.startInterval()
+  }
+
+  private startInterval() {
+    if (this.interval) return
+
+    this.interval = setInterval(() => void this.flush(), this.intervalTime)
+  }
+
+  private stopInterval() {
+    if (!this.interval) return
+
+    clearInterval(this.interval)
+    this.interval = undefined
   }
 
   /**
@@ -148,6 +161,8 @@ export class Transport {
     this.handlers.set(name, handler)
 
     if (!this.enabled) this.enabled = true
+
+    this.startInterval()
   }
 
   /**
@@ -162,7 +177,10 @@ export class Transport {
 
     this.handlers.delete(name)
 
-    if (this.handlers.size === 0) this.enabled = false
+    if (this.handlers.size === 0) {
+      this.enabled = false
+      this.stopInterval()
+    }
   }
 
   /**
@@ -203,7 +221,7 @@ export class Transport {
       this.logger.warn('no handlers to flush, disable transport')
       this.messages.splice(0, this.messages.length)
       this.enabled = false
-      clearInterval(this.interval)
+      this.stopInterval()
       return
     }
 
@@ -234,10 +252,7 @@ export class Transport {
   async stop() {
     this.logger.debug('stopping')
 
-    if (this.interval) {
-      clearInterval(this.interval)
-      this.interval = undefined
-    }
+    this.stopInterval()
 
     await this.flush()
 
@@ -255,10 +270,7 @@ export class Transport {
     this.messages.splice(0, this.messages.length)
     this.enabled = true
 
-    if (this.interval) {
-      clearInterval(this.interval)
-      this.interval = undefined
-    }
+    this.stopInterval()
   }
 
   /**
@@ -275,11 +287,12 @@ export class Transport {
 
     if (options.interval && options.interval !== this.intervalTime) {
       this.intervalTime = options.interval
-      clearInterval(this.interval)
-      this.interval = setInterval(this.flush.bind(this), this.intervalTime)
+      this.stopInterval()
     }
 
     if (!this.enabled) this.enabled = true
+
+    this.startInterval()
   }
 }
 

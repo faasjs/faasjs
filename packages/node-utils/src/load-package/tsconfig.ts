@@ -1,5 +1,6 @@
-import { readFileSync } from 'node:fs'
-import { dirname, resolve } from 'node:path'
+import { existsSync, readFileSync, realpathSync } from 'node:fs'
+import { createRequire } from 'node:module'
+import { dirname, isAbsolute, resolve } from 'node:path'
 
 import type { TsconfigData, TsconfigPathRule } from './types'
 
@@ -116,12 +117,122 @@ function parseJSONWithComments(content: string): any {
   return JSON.parse(normalized)
 }
 
+type ParsedCompilerOptions = {
+  baseUrl?: string
+  paths?: {
+    sourceDir: string
+    value: Record<string, unknown>
+  }
+}
+
+function canonicalConfigPath(path: string): string {
+  const absolutePath = resolve(path)
+
+  try {
+    return realpathSync.native(absolutePath)
+  } catch {
+    return absolutePath
+  }
+}
+
+function resolveRelativeConfigPath(specifier: string, configDir: string): string {
+  const candidate = isAbsolute(specifier) ? specifier : resolve(configDir, specifier)
+
+  if (existsSync(candidate)) return resolve(candidate)
+  if (!candidate.endsWith('.json') && existsSync(`${candidate}.json`))
+    return resolve(`${candidate}.json`)
+
+  throw new Error(`Cannot resolve tsconfig extends "${specifier}" from "${configDir}"`)
+}
+
+function resolvePackageConfigPath(specifier: string, configPath: string): string {
+  const require = createRequire(configPath)
+  const candidates = [specifier]
+
+  if (!specifier.endsWith('.json')) {
+    candidates.push(`${specifier}.json`)
+    candidates.push(`${specifier}/tsconfig.json`)
+  }
+
+  for (const candidate of candidates)
+    try {
+      return resolve(require.resolve(candidate))
+    } catch {}
+
+  throw new Error(`Cannot resolve tsconfig extends "${specifier}" from "${dirname(configPath)}"`)
+}
+
+function resolveExtendedConfigPath(specifier: string, configPath: string): string {
+  if (isAbsolute(specifier) || specifier.startsWith('./') || specifier.startsWith('../'))
+    return resolveRelativeConfigPath(specifier, dirname(configPath))
+
+  return resolvePackageConfigPath(specifier, configPath)
+}
+
+function parseCompilerOptions(
+  configPath: string,
+  stack: string[],
+  cache: Map<string, ParsedCompilerOptions>,
+): ParsedCompilerOptions {
+  const absolutePath = resolve(configPath)
+  const canonicalPath = canonicalConfigPath(absolutePath)
+  const cycleIndex = stack.indexOf(canonicalPath)
+
+  if (cycleIndex !== -1) {
+    const cycle = stack.slice(cycleIndex).concat(canonicalPath)
+    throw new Error(`Circular tsconfig extends: ${cycle.join(' -> ')}`)
+  }
+
+  const cached = cache.get(canonicalPath)
+  if (cached) return cached
+
+  const configDir = dirname(absolutePath)
+  const parsed = parseJSONWithComments(readFileSync(absolutePath, 'utf8')) as Record<string, any>
+  const nextStack = stack.concat(canonicalPath)
+  const extendedConfigs = Array.isArray(parsed?.extends) ? parsed.extends : [parsed?.extends]
+  let merged: ParsedCompilerOptions = {}
+
+  for (const specifier of extendedConfigs) {
+    if (typeof specifier !== 'string' || !specifier.length) continue
+
+    const extendedPath = resolveExtendedConfigPath(specifier, absolutePath)
+    merged = {
+      ...merged,
+      ...parseCompilerOptions(extendedPath, nextStack, cache),
+    }
+  }
+
+  const compilerOptions =
+    parsed && typeof parsed.compilerOptions === 'object' && !Array.isArray(parsed.compilerOptions)
+      ? (parsed.compilerOptions as Record<string, any>)
+      : undefined
+
+  if (compilerOptions) {
+    if (typeof compilerOptions.baseUrl === 'string')
+      merged.baseUrl = resolve(configDir, compilerOptions.baseUrl)
+
+    if (
+      compilerOptions.paths &&
+      typeof compilerOptions.paths === 'object' &&
+      !Array.isArray(compilerOptions.paths)
+    )
+      merged.paths = {
+        sourceDir: configDir,
+        value: compilerOptions.paths as Record<string, unknown>,
+      }
+  }
+
+  cache.set(canonicalPath, merged)
+
+  return merged
+}
+
 /**
  * Parse a `tsconfig.json` file into path-alias resolution data.
  *
- * Strips JSON comments, resolves `baseUrl` relative to the config directory,
- * extracts `compilerOptions.paths` entries, and sorts rules so longer prefixes
- * are attempted first during resolution.
+ * Strips JSON comments, follows relative or package-based `extends` chains,
+ * resolves inherited `baseUrl` and `paths` from their effective source,
+ * and sorts path rules so longer prefixes are attempted first during resolution.
  *
  * @param {string} tsconfigPath - Absolute path to the `tsconfig.json` file.
  * @returns {TsconfigData} Parsed base URL and ordered path-alias rules.
@@ -135,23 +246,11 @@ function parseJSONWithComments(content: string): any {
  * ```
  */
 export function parseTsconfig(tsconfigPath: string): TsconfigData {
-  const tsconfigDir = dirname(tsconfigPath)
-  const parsed = parseJSONWithComments(readFileSync(tsconfigPath, 'utf8')) as Record<string, any>
-
-  const compilerOptions =
-    parsed && typeof parsed.compilerOptions === 'object'
-      ? (parsed.compilerOptions as Record<string, any>)
-      : Object.create(null)
-
+  const absolutePath = resolve(tsconfigPath)
+  const compilerOptions = parseCompilerOptions(absolutePath, [], new Map())
   const baseUrl =
-    typeof compilerOptions.baseUrl === 'string' && compilerOptions.baseUrl.length
-      ? resolve(tsconfigDir, compilerOptions.baseUrl)
-      : tsconfigDir
-
-  const paths =
-    compilerOptions.paths && typeof compilerOptions.paths === 'object'
-      ? (compilerOptions.paths as Record<string, unknown>)
-      : Object.create(null)
+    compilerOptions.baseUrl || compilerOptions.paths?.sourceDir || dirname(absolutePath)
+  const paths = compilerOptions.paths?.value || Object.create(null)
 
   const rules: TsconfigPathRule[] = []
 

@@ -9,6 +9,7 @@ describe('transport', () => {
   })
 
   afterEach(() => {
+    vi.useRealTimers()
     process.env.FaasLogTransport = 'false'
     getTransport().reset()
   })
@@ -201,7 +202,75 @@ describe('transport', () => {
     vi.advanceTimersByTime(1000)
 
     expect(transport.messages).toHaveLength(0)
+  })
 
-    vi.useRealTimers()
+  it('should restart periodic flushing after being disabled without handlers', async () => {
+    vi.useFakeTimers()
+
+    const transport = getTransport()
+    const handler = vi.fn<TransportHandler>(async () => {})
+
+    transport.reset()
+    transport.config({ interval: 1000 })
+    transport.insert({
+      level: 'info',
+      labels: [],
+      message: 'discarded',
+      timestamp: Date.now(),
+    })
+
+    await vi.advanceTimersByTimeAsync(1000)
+
+    expect((transport as any).enabled).toBe(false)
+    expect((transport as any).interval).toBeUndefined()
+
+    transport.config({})
+    transport.config({})
+    expect((transport as any).enabled).toBe(true)
+    expect(vi.getTimerCount()).toBe(1)
+
+    transport.register('test', handler)
+    transport.insert({
+      level: 'info',
+      labels: [],
+      message: 'delivered',
+      timestamp: Date.now(),
+    })
+
+    await vi.advanceTimersByTimeAsync(1000)
+
+    expect(handler).toHaveBeenCalledWith([
+      expect.objectContaining({
+        message: 'delivered',
+      }),
+    ])
+  })
+
+  it('should start and stop only one interval as handlers change', async () => {
+    vi.useFakeTimers()
+
+    const transport = getTransport()
+    const handler: TransportHandler = async () => {}
+
+    transport.reset()
+    expect(vi.getTimerCount()).toBe(0)
+
+    transport.register('a', handler)
+    transport.register('b', handler)
+    transport.config({})
+    expect(vi.getTimerCount()).toBe(1)
+
+    transport.unregister('a')
+    expect(vi.getTimerCount()).toBe(1)
+
+    transport.unregister('b')
+    expect(vi.getTimerCount()).toBe(0)
+
+    transport.config({})
+    transport.config({})
+    expect(vi.getTimerCount()).toBe(1)
+
+    await transport.stop()
+    expect(vi.getTimerCount()).toBe(0)
   })
 })
