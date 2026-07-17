@@ -324,7 +324,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
    * Indicates whether mount hooks have already run.
    */
   public mounted = false
-  private mounting?: Promise<void>
+  private mounting: Promise<void> | undefined
   /**
    * Resolved source filename inferred from the constructor call stack.
    */
