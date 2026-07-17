@@ -7,7 +7,8 @@ claims them, executes their handlers, and updates their status.
 
 Supports configurable concurrency, polling interval, and lease duration.
 Failed jobs are retried according to their retry strategy until
-max attempts are reached.
+max attempts are reached. Expired leases are reclaimed only while attempts
+remain; an expired lease at the attempt limit is marked failed.
 Handler errors are persisted to the job row instead of being thrown from `poll()`.
 
 ## Example

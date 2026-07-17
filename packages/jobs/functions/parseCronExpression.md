@@ -8,6 +8,7 @@ Parse a cron expression into an array of field matchers.
 
 Accepts the standard 5-field format: `minute hour dayOfMonth month dayOfWeek`.
 Supports comma-separated values, ranges (`-`), steps (`/`), and wildcards (`*`).
+A single-value step such as `5/10` starts at 5 and continues to the field maximum.
 Day-of-week accepts both numeric (0–7) and abbreviated names (SUN–SAT).
 
 ## Parameters

@@ -14,6 +14,12 @@ Props for the [Loading](../functions/Loading.md) component.
 
 Content rendered when `loading` is `false`.
 
+### full?
+
+> `optional` **full?**: `boolean`
+
+Whether the loading wrapper should fill the surrounding flex container.
+
 ### loading?
 
 > `optional` **loading?**: `boolean`
