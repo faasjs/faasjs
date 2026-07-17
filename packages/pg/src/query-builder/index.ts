@@ -13,6 +13,9 @@ export type {
   JsonOperators,
   Operators,
   QueryOrderDirections,
+  AliasedSelectField,
+  SelectField,
   JsonSelectField,
+  ForUpdateOptions,
 } from './types'
 export { isOperator, isNormalOperator } from './types'

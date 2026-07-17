@@ -124,6 +124,18 @@ type JsonbFields<T extends string, C extends JsonbColumns<T>> = keyof GetTableTy
   keyof GetTableType<T>]
 
 /**
+ * Selects a column under a different result key.
+ *
+ * @template T - Table name used to infer valid columns.
+ */
+type AliasedSelectField<T extends string> = {
+  /** Column to select. */
+  column: ColumnName<T>
+  /** Result key for the selected column. */
+  alias: string
+}
+
+/**
  * Select a subset of fields from a JSON or JSONB column.
  *
  * Used by {@link QueryBuilder.select} to emit `jsonb_build_object(...)` for a
@@ -140,19 +152,33 @@ type JsonSelectField<T extends string> = {
   alias?: string
 }
 
-type InferJsonFields<
-  T extends string,
-  C extends JsonbColumns<T>,
-  Fields extends JsonbFields<T, C>[],
-> = {
-  [K in C & keyof GetTableType<T>]: Pick<GetTableType<T>[K], Fields[number]>
-}
+type SelectField<T extends string> = ColumnName<T> | AliasedSelectField<T> | JsonSelectField<T>
 
-type InferColumnType<T extends string, C extends ColumnName<T> | JsonSelectField<T>> =
-  C extends JsonSelectField<T>
-    ? InferJsonFields<T, C['column'], C['fields']>
-    : C extends keyof GetTableType<T>
-      ? { [K in C]: GetTableType<T>[K] }
+type SelectAlias<Field, Fallback extends string> = Field extends {
+  alias: infer Alias extends string
+}
+  ? Alias
+  : Fallback
+
+type InferColumnType<T extends string, Field extends SelectField<T>> = Field extends {
+  column: infer C extends JsonbColumns<T>
+  fields: infer Fields
+}
+  ? Fields extends JsonbFields<T, C>[]
+    ? {
+        [K in SelectAlias<Field, C & string>]: Pick<
+          GetTableType<T>[C & keyof GetTableType<T>],
+          Fields[number]
+        >
+      }
+    : never
+  : Field extends {
+        column: infer C extends keyof GetTableType<T> & string
+        alias: infer Alias extends string
+      }
+    ? { [K in Alias]: GetTableType<T>[C] }
+    : Field extends keyof GetTableType<T>
+      ? { [K in Field]: GetTableType<T>[K] }
       : never
 
 type Flatten<T> = { [K in keyof T]: T[K] }
@@ -171,11 +197,23 @@ type MergeTypes<T> = T extends any[] ? Flatten<UnionToIntersection<T[number]>> :
  */
 export type InferTResult<
   TName extends string,
-  ColumnNames extends (ColumnName<TName> | JsonSelectField<TName>)[] = ColumnName<TName>[],
+  ColumnNames extends SelectField<TName>[] = ColumnName<TName>[],
 > = ColumnNames extends ['*']
   ? TableType<TName>
   : MergeTypes<{
       [K in keyof ColumnNames]: InferColumnType<TName, ColumnNames[K]>
     }>
 
-export type { JsonSelectField }
+/**
+ * Options for a `SELECT ... FOR UPDATE` locking clause.
+ */
+export type ForUpdateOptions = {
+  /** Tables or aliases whose selected rows should be locked. */
+  of?: string | readonly string[]
+  /** Fail immediately instead of waiting for a conflicting row lock. */
+  noWait?: boolean
+  /** Skip rows that cannot be locked immediately. */
+  skipLocked?: boolean
+}
+
+export type { AliasedSelectField, JsonSelectField, SelectField }

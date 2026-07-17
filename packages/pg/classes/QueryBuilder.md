@@ -24,7 +24,7 @@ const users = await db('users').select('id', 'name').where('id', '>', 5).limit(1
 
 ### T
 
-`T` _extends_ `string` = `string`
+`T` *extends* `string` = `string`
 
 The table name.
 
@@ -104,7 +104,7 @@ await db('users').where('id', 1).delete() // DELETE FROM users WHERE id = 1
 
 ### first()
 
-> **first**(): `Promise`\<`TResult` _extends_ `U`[] ? `U` : `TResult` \| `null`\>
+> **first**(): `Promise`\<`TResult` *extends* `U`[] ? `U` : `TResult` \| `null`\>
 
 Executes the query and returns the first matching row, or `null` if no rows match.
 
@@ -112,13 +112,46 @@ Automatically applies `LIMIT 1` to the query.
 
 #### Returns
 
-`Promise`\<`TResult` _extends_ `U`[] ? `U` : `TResult` \| `null`\>
+`Promise`\<`TResult` *extends* `U`[] ? `U` : `TResult` \| `null`\>
 
 The first row of the result set, or `null`.
 
+### forUpdate()
+
+> **forUpdate**(`options?`): `QueryBuilder`\<`T`, `TResult`\>
+
+Locks selected rows with `FOR UPDATE` until the current transaction ends.
+
+`of` identifiers are escaped. `noWait` fails immediately when a row is already
+locked, while `skipLocked` omits locked rows; the two modes cannot be combined.
+Use this method inside [Client.transaction](Client.md#transaction) so the lock remains scoped to
+an explicit transaction.
+
+#### Parameters
+
+##### options?
+
+[`ForUpdateOptions`](../type-aliases/ForUpdateOptions.md) = `{}`
+
+Optional lock targets and wait behavior.
+
+#### Returns
+
+`QueryBuilder`\<`T`, `TResult`\>
+
+#### Example
+
+```ts
+const job = await trx
+  .query('jobs')
+  .where('status', 'pending')
+  .forUpdate({ skipLocked: true })
+  .first()
+```
+
 ### insert()
 
-> **insert**\<`FirstValue`, `Returning`\>(`values`, `options?`): `Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+> **insert**\<`FirstValue`, `Returning`\>(`values`, `options?`): `Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 Inserts one or more rows into the table.
 
@@ -130,13 +163,13 @@ inserted rows should be returned.
 
 ##### FirstValue
 
-`FirstValue` _extends_ `Partial`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>\>
+`FirstValue` *extends* `Partial`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>\>
 
 The type of the first value to insert, which must be a partial of the table type.
 
 ##### Returning
 
-`Returning` _extends_ \[`"*"`\] \| keyof [`TableType`](../type-aliases/TableType.md)\<`T`\>[]
+`Returning` *extends* \[`"*"`\] \| keyof [`TableType`](../type-aliases/TableType.md)\<`T`\>[]
 
 The type of the columns to return, which can be an array of keys of the table type or ['*'].
 
@@ -160,7 +193,7 @@ An array of columns to return, or ['*'] to return all columns.
 
 #### Returns
 
-`Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+`Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 #### Example
 
@@ -169,10 +202,7 @@ await db('users').insert({ id: 3, name: 'Charlie' }) // => []
 
 await db('users').insert({ id: 3, name: 'Charlie' }, { returning: ['name'] }) // => [{ name: 'Charlie' }]
 
-await db('users').insert([
-  { id: 4, name: 'David' },
-  { id: 5, name: 'Eve' },
-]) // => []
+await db('users').insert([{ id: 4, name: 'David' }, { id: 5, name: 'Eve' }]) // => []
 ```
 
 ### join()
@@ -388,7 +418,7 @@ before SQL is generated.
 
 ##### C
 
-`C` _extends_ `string`
+`C` *extends* `string`
 
 #### Parameters
 
@@ -456,7 +486,7 @@ The same operator rules as [where](#where) apply, but the condition is joined wi
 
 ###### C
 
-`C` _extends_ `string`
+`C` *extends* `string`
 
 ##### Parameters
 
@@ -501,7 +531,7 @@ The same operator rules as [where](#where) apply, but the condition is joined wi
 
 ###### C
 
-`C` _extends_ `string`
+`C` *extends* `string`
 
 ##### Parameters
 
@@ -546,7 +576,7 @@ The same operator rules as [where](#where) apply, but the condition is joined wi
 
 ###### C
 
-`C` _extends_ `string`
+`C` *extends* `string`
 
 ##### Parameters
 
@@ -585,7 +615,7 @@ The same operator rules as [where](#where) apply, but the condition is joined wi
 
 ###### C
 
-`C` _extends_ `string`
+`C` *extends* `string`
 
 ##### Parameters
 
@@ -630,7 +660,7 @@ The same operator rules as [where](#where) apply, but the condition is joined wi
 
 ###### C
 
-`C` _extends_ `string`
+`C` *extends* `string`
 
 ##### Parameters
 
@@ -675,7 +705,7 @@ The same operator rules as [where](#where) apply, but the condition is joined wi
 
 ###### C
 
-`C` _extends_ `string`
+`C` *extends* `string`
 
 ##### Parameters
 
@@ -738,7 +768,7 @@ Asynchronously retrieves the values of a specified column from the database.
 
 ##### C
 
-`C` _extends_ `string`
+`C` *extends* `string`
 
 The type of the column name.
 
@@ -768,15 +798,15 @@ const names = await db('users').pluck('name') // => ['Alice', 'Bob']
 
 Selects specific columns for the query.
 
-Calling `select()` with no columns leaves the current selection unchanged. JSONB
-field selectors use `jsonb_build_object` and default their alias to the source
-JSON column name.
+Calling `select()` with no columns leaves the current selection unchanged. A
+`{ column, alias }` selector renames a scalar result key. JSONB field selectors
+use `jsonb_build_object` and default their alias to the source JSON column name.
 
 #### Type Parameters
 
 ##### ColumnNames
 
-`ColumnNames` _extends_ ([`JsonSelectField`](../type-aliases/JsonSelectField.md)\<`T`\> \| [`ColumnName`](../type-aliases/ColumnName.md)\<`T`\>)[]
+`ColumnNames` *extends* [`SelectField`](../type-aliases/SelectField.md)\<`T`\>[]
 
 #### Parameters
 
@@ -794,6 +824,8 @@ The columns to select.
 
 ```ts
 const users = await db('users').select('id', 'name') // SELECT id, name FROM users
+
+const users = await db('users').select({ column: 'id', alias: 'userId' }) // SELECT id AS userId FROM users
 
 const users = await db('users').select('id', { column: 'data', fields: ['email'] }) // SELECT id, jsonb_build_object('email', data->'email') AS data FROM users
 ```
@@ -862,7 +894,7 @@ An object containing the generated `sql` string and `params` array.
 
 ### update()
 
-> **update**\<`Returning`\>(`values`, `options?`): `Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+> **update**\<`Returning`\>(`values`, `options?`): `Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 Updates records in the table with the specified values and returns the updated records.
 
@@ -873,7 +905,7 @@ reduce accidental full-table updates.
 
 ##### Returning
 
-`Returning` _extends_ \[`"*"`\] \| keyof [`TableType`](../type-aliases/TableType.md)\<`T`\>[]
+`Returning` *extends* \[`"*"`\] \| keyof [`TableType`](../type-aliases/TableType.md)\<`T`\>[]
 
 An array of keys of the table type or ['*'] to return all columns.
 
@@ -881,9 +913,9 @@ An array of keys of the table type or ['*'] to return all columns.
 
 ##### values
 
-`Partial`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>\>
+\{ \[C in string \| number \| symbol\]?: SqlExpression \| TableType\<T\>\[C\] \}
 
-The values to update in the table.
+Column values or parameterized [SqlExpression](../type-aliases/SqlExpression.md) values to update.
 
 ##### options?
 
@@ -897,16 +929,14 @@ An array of columns to return after the update.
 
 #### Returns
 
-`Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+`Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 #### Example
 
 ```ts
 await db('users').where('id', 1).update({ name: 'Alice' }) // => []
 
-await db('users')
-  .where('id', 1)
-  .update({ name: 'Alice' }, { returning: ['name'] }) // => [{ name: 'Alice' }]
+await db('users').where('id', 1).update({ name: 'Alice' }, { returning: ['name'] }) // => [{ name: 'Alice' }]
 ```
 
 ### updateJson()
@@ -923,7 +953,7 @@ object is bound as a parameter.
 
 ##### C
 
-`C` _extends_ `string`
+`C` *extends* `string`
 
 #### Parameters
 
@@ -952,7 +982,7 @@ await db('users').where('id', 1).updateJson('metadata', { age: 30 })
 
 ### upsert()
 
-> **upsert**\<`FirstValue`, `Returning`\>(`values`, `options`): `Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+> **upsert**\<`FirstValue`, `Returning`\>(`values`, `options`): `Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 Inserts or updates records in the database table.
 
@@ -963,13 +993,13 @@ and omitted `update` defaults to every non-conflict column from the first row.
 
 ##### FirstValue
 
-`FirstValue` _extends_ `Partial`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>\>
+`FirstValue` *extends* `Partial`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>\>
 
 A partial type of the table's row type.
 
 ##### Returning
 
-`Returning` _extends_ \[`"*"`\] \| keyof `FirstValue`[]
+`Returning` *extends* \[`"*"`\] \| keyof `FirstValue`[]
 
 #### Parameters
 
@@ -1003,7 +1033,7 @@ The columns to update if a conflict occurs.
 
 #### Returns
 
-`Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+`Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 - A promise that resolves to the result of the upsert operation.
 
@@ -1030,7 +1060,7 @@ not bind a value.
 
 ###### C
 
-`C` _extends_ `string`
+`C` *extends* `string`
 
 ##### Parameters
 
@@ -1083,7 +1113,7 @@ not bind a value.
 
 ###### C
 
-`C` _extends_ `string`
+`C` *extends* `string`
 
 ##### Parameters
 
@@ -1136,7 +1166,7 @@ not bind a value.
 
 ###### C
 
-`C` _extends_ `string`
+`C` *extends* `string`
 
 ##### Parameters
 
@@ -1183,7 +1213,7 @@ not bind a value.
 
 ###### C
 
-`C` _extends_ `string`
+`C` *extends* `string`
 
 ##### Parameters
 
@@ -1236,7 +1266,7 @@ not bind a value.
 
 ###### C
 
-`C` _extends_ `string`
+`C` *extends* `string`
 
 ##### Parameters
 
@@ -1289,7 +1319,7 @@ not bind a value.
 
 ###### C
 
-`C` _extends_ `string`
+`C` *extends* `string`
 
 ##### Parameters
 

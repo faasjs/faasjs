@@ -2,6 +2,7 @@ import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest'
 
 import { type Client, createClient } from '../../client'
 import { QueryBuilder } from '../../query-builder'
+import { sql } from '../../sql'
 
 describe('QueryBuilder/mutation', () => {
   let client: Client
@@ -105,6 +106,43 @@ describe('QueryBuilder/mutation', () => {
       const result = await new QueryBuilder(client, 'mutation').orderBy('id', 'ASC').pluck('name')
 
       expect(result).toEqual(['Alice', 'David'])
+    })
+
+    it('updates a column with an atomic parameterized expression', async () => {
+      const returning = await new QueryBuilder(client, 'mutation').where('id', 1).update(
+        {
+          id: sql`${sql.ref('id')} + ${10}`,
+        },
+        { returning: ['id'] },
+      )
+
+      expect(returning).toEqual([{ id: 11 }])
+    })
+
+    it('uses SQL functions in update expressions', async () => {
+      const returning = await new QueryBuilder(client, 'mutation').where('id', 1).update(
+        {
+          name: sql`UPPER(${sql.ref('name')})`,
+        },
+        { returning: ['name'] },
+      )
+
+      expect(returning).toEqual([{ name: 'ALICE' }])
+    })
+
+    it('binds expression interpolations as values', async () => {
+      const suffix = "', name = 'Mallory"
+      const returning = await new QueryBuilder(client, 'mutation').where('id', 1).update(
+        {
+          name: sql`${sql.ref('name')} || ${suffix}`,
+        },
+        { returning: ['name'] },
+      )
+
+      expect(returning).toEqual([{ name: `Alice${suffix}` }])
+      await expect(
+        new QueryBuilder(client, 'mutation').where('id', 2).first(),
+      ).resolves.toMatchObject({ name: 'Bob' })
     })
   })
 

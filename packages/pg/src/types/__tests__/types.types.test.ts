@@ -3,7 +3,16 @@ import { describe, it, expectTypeOf } from 'vitest'
 
 import type { User } from '../../../test-utils/tables'
 import { type DatabaseBootstrap } from '../../bootstrap'
-import { Client, createClient, getClient, getClients, type ClientOptions } from '../../client'
+import {
+  Client,
+  createClient,
+  getClient,
+  getClients,
+  type ClientOptions,
+  type TransactionIsolationLevel,
+  type TransactionOptions,
+} from '../../client'
+import { sql, type SqlExpression } from '../../sql'
 import type { ColumnName, ColumnValue, TableName, Tables, TableType } from '../../types'
 
 describe('types', () => {
@@ -70,6 +79,22 @@ describe('types', () => {
     const options: ClientOptions<Record<string, never>> = { logger: false }
 
     expectTypeOf(options).toEqualTypeOf<ClientOptions<Record<string, never>>>()
+  })
+
+  it('TransactionOptions', () => {
+    expectTypeOf<TransactionIsolationLevel>().toEqualTypeOf<
+      'read uncommitted' | 'read committed' | 'repeatable read' | 'serializable'
+    >()
+    expectTypeOf<TransactionOptions>().toEqualTypeOf<{
+      isolation?: TransactionIsolationLevel
+      readOnly?: boolean
+    }>()
+  })
+
+  it('SqlExpression', () => {
+    const expression = sql`${sql.ref('id')} + ${1}`
+
+    expectTypeOf(expression).toEqualTypeOf<SqlExpression>()
   })
 
   it('getClient', () => {

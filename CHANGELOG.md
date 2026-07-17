@@ -28,6 +28,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Fix] Make transport start and stop lifecycle cleanup idempotent, restore runtime configuration correctly, and resolve chained or package-based `tsconfig` extensions.
 
 - `@faasjs/pg`
+  - [Feature] Add configurable transaction isolation and access modes, `FOR UPDATE` row locking, parameterized update expressions, and typed select aliases.
   - [Fix] Handle zero limits, nullable first rows, empty `IN` and `NOT IN` filters, and conflict-only upserts correctly in the query builder.
   - [Fix] Generate executable foreign-key and unique-constraint alterations with escaped identifiers and preserved referential actions.
 

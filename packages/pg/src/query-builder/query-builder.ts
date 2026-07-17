@@ -1,4 +1,5 @@
 import type { Client } from '../client'
+import type { SqlExpression } from '../sql'
 import type { ColumnName, ColumnValue, TableType } from '../types'
 import type { RawSql } from '../utils'
 import { escapeIdentifier } from '../utils'
@@ -16,8 +17,9 @@ import type {
   WhereCondition,
   OrderByCondition,
   JoinCondition,
-  JsonSelectField,
+  SelectField,
   InferTResult,
+  ForUpdateOptions,
   QueryOrderDirection,
   NormalOperators,
   ArrayOperators,
@@ -50,12 +52,13 @@ import type {
 export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]> {
   private client: Client
   private table: T
-  private selectColumns: (ColumnName<T> | JsonSelectField<T>)[] = []
+  private selectColumns: SelectField<T>[] = []
   private whereConditions: WhereCondition<T>[] = []
   private limitValue?: number
   private offsetValue?: number
   private orderByConditions: OrderByCondition<T>[] = []
   private joinConditions: JoinCondition[] = []
+  private forUpdateOptions?: ForUpdateOptions
 
   /**
    * @param client - The database client to execute queries against.
@@ -69,9 +72,9 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
   /**
    * Selects specific columns for the query.
    *
-   * Calling `select()` with no columns leaves the current selection unchanged. JSONB
-   * field selectors use `jsonb_build_object` and default their alias to the source
-   * JSON column name.
+   * Calling `select()` with no columns leaves the current selection unchanged. A
+   * `{ column, alias }` selector renames a scalar result key. JSONB field selectors
+   * use `jsonb_build_object` and default their alias to the source JSON column name.
    *
    * @param {...ColumnNames} columns - The columns to select.
    *
@@ -79,10 +82,12 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
    * ```ts
    * const users = await db('users').select('id', 'name') // SELECT id, name FROM users
    *
+   * const users = await db('users').select({ column: 'id', alias: 'userId' }) // SELECT id AS userId FROM users
+   *
    * const users = await db('users').select('id', { column: 'data', fields: ['email'] }) // SELECT id, jsonb_build_object('email', data->'email') AS data FROM users
    * ```
    */
-  select<ColumnNames extends (ColumnName<T> | JsonSelectField<T>)[]>(
+  select<const ColumnNames extends SelectField<T>[]>(
     ...columns: ColumnNames
   ): QueryBuilder<T, InferTResult<T, ColumnNames>[]> {
     if (columns?.length > 0) this.selectColumns = columns
@@ -297,6 +302,56 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
   }
 
   /**
+   * Locks selected rows with `FOR UPDATE` until the current transaction ends.
+   *
+   * `of` identifiers are escaped. `noWait` fails immediately when a row is already
+   * locked, while `skipLocked` omits locked rows; the two modes cannot be combined.
+   * Use this method inside {@link Client.transaction} so the lock remains scoped to
+   * an explicit transaction.
+   *
+   * @param options - Optional lock targets and wait behavior.
+   *
+   * @example
+   * ```ts
+   * const job = await trx
+   *   .query('jobs')
+   *   .where('status', 'pending')
+   *   .forUpdate({ skipLocked: true })
+   *   .first()
+   * ```
+   */
+  forUpdate(options: ForUpdateOptions = {}) {
+    if (typeof options !== 'object' || options === null || Array.isArray(options))
+      throw new TypeError('FOR UPDATE options must be an object')
+
+    if (options.noWait !== undefined && typeof options.noWait !== 'boolean')
+      throw new TypeError('FOR UPDATE noWait must be a boolean')
+
+    if (options.skipLocked !== undefined && typeof options.skipLocked !== 'boolean')
+      throw new TypeError('FOR UPDATE skipLocked must be a boolean')
+
+    if (options.noWait && options.skipLocked)
+      throw new Error('FOR UPDATE cannot combine noWait and skipLocked')
+
+    if (options.of !== undefined && typeof options.of !== 'string' && !Array.isArray(options.of))
+      throw new TypeError('FOR UPDATE of must be a string or an array of strings')
+
+    const lockTargets = typeof options.of === 'string' ? [options.of] : options.of
+
+    if (lockTargets?.some((target) => typeof target !== 'string'))
+      throw new TypeError('FOR UPDATE of must contain only strings')
+
+    this.forUpdateOptions = lockTargets
+      ? {
+          ...options,
+          of: [...lockTargets],
+        }
+      : { ...options }
+
+    return this
+  }
+
+  /**
    * Sets the order by column and direction for the query.
    *
    * Direction must be one of {@link QueryOrderDirections}; invalid directions throw
@@ -452,11 +507,14 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
     // Add columns
     sql.push(
       this.selectColumns
-        .map((c) =>
-          typeof c === 'string'
-            ? escapeIdentifier(c)
-            : `jsonb_build_object(${c.fields.map((f) => `'${f as string}', ${escapeIdentifier(c.column as string)}->'${f as string}'`).join(',')}) AS ${escapeIdentifier(c.alias || (c.column as string))}`,
-        )
+        .map((c) => {
+          if (typeof c === 'string') return escapeIdentifier(c)
+
+          if ('fields' in c)
+            return `jsonb_build_object(${c.fields.map((f) => `'${f as string}', ${escapeIdentifier(c.column as string)}->'${f as string}'`).join(',')}) AS ${escapeIdentifier(c.alias || (c.column as string))}`
+
+          return `${escapeIdentifier(c.column)} AS ${escapeIdentifier(c.alias)}`
+        })
         .join(',') || '*',
     )
 
@@ -469,7 +527,7 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
 
     // Add where conditions
     const { sql: whereSql, params: whereParams } = buildWhereSql(this.whereConditions)
-    sql.push(whereSql)
+    if (whereSql) sql.push(whereSql)
     params.push(...whereParams)
 
     // Add order by
@@ -498,6 +556,18 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
     if (this.offsetValue) {
       sql.push('OFFSET ?')
       params.push(this.offsetValue)
+    }
+
+    if (this.forUpdateOptions) {
+      sql.push('FOR UPDATE')
+
+      const lockTargets = this.forUpdateOptions.of
+      const targets = typeof lockTargets === 'string' ? [lockTargets] : lockTargets
+
+      if (targets?.length) sql.push('OF', targets.map(escapeIdentifier).join(','))
+
+      if (this.forUpdateOptions.noWait) sql.push('NOWAIT')
+      else if (this.forUpdateOptions.skipLocked) sql.push('SKIP LOCKED')
     }
 
     return {
@@ -552,6 +622,8 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
    * ```
    */
   async count() {
+    if (this.forUpdateOptions) throw new Error('FOR UPDATE is not supported by count()')
+
     const sql = ['SELECT COUNT(*) AS count']
     const params: any[] = []
 
@@ -646,7 +718,7 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
    * reduce accidental full-table updates.
    *
    * @template Returning - An array of keys of the table type or ['*'] to return all columns.
-   * @param {Partial<TableType<T>>} values - The values to update in the table.
+   * @param values - Column values or parameterized {@link SqlExpression} values to update.
    * @param {Object} [options] - Optional settings for the update operation.
    * @param {Returning} [options.returning] - An array of columns to return after the update.
    *
@@ -658,7 +730,9 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
    * ```
    */
   async update<Returning extends (keyof TableType<T>)[] | ['*']>(
-    values: Partial<TableType<T>>,
+    values: {
+      [C in keyof TableType<T>]?: TableType<T>[C] | SqlExpression
+    },
     options: { returning?: Returning } = {},
   ): Promise<
     Returning extends ['*']

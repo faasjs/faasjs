@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto'
 
 import { Logger } from '@faasjs/node-utils'
-import postgres, { type PostgresType, type Sql } from 'postgres'
+import postgres, { type PostgresType, type Sql, type TransactionSql } from 'postgres'
 
 import { resolveDatabaseBootstrap } from '../bootstrap'
 import { QueryBuilder } from '../query-builder'
@@ -19,12 +19,62 @@ import { createTemplateStringsArray } from '../utils'
 export type ClientOptions<T extends Record<string, PostgresType> = Record<string, never>> =
   postgres.Options<T>
 
+/**
+ * PostgreSQL transaction isolation levels accepted by {@link Client.transaction}.
+ */
+export type TransactionIsolationLevel =
+  | 'read uncommitted'
+  | 'read committed'
+  | 'repeatable read'
+  | 'serializable'
+
+/**
+ * Options for {@link Client.transaction}.
+ */
+export type TransactionOptions = {
+  /** Isolation level for the transaction. */
+  isolation?: TransactionIsolationLevel
+  /** Whether the transaction is explicitly read-only or read-write. */
+  readOnly?: boolean
+}
+
 type PostgresTypes = Record<string, PostgresType>
 type AnyClientOptions = ClientOptions<PostgresTypes>
 
 const DEFAULT_POOL_MAX = 10
 const PG_POOL_MAX_ENV_NAME = 'PG_POOL_MAX'
 const clients = new Map<string, Client>()
+const TRANSACTION_ISOLATION_SQL: Record<TransactionIsolationLevel, string> = {
+  'read uncommitted': 'READ UNCOMMITTED',
+  'read committed': 'READ COMMITTED',
+  'repeatable read': 'REPEATABLE READ',
+  serializable: 'SERIALIZABLE',
+}
+
+function resolveTransactionOptions(options: TransactionOptions): string {
+  if (typeof options !== 'object' || options === null || Array.isArray(options))
+    throw new TypeError('Transaction options must be an object')
+
+  const modes: string[] = []
+
+  if (options.isolation !== undefined) {
+    if (!Object.hasOwn(TRANSACTION_ISOLATION_SQL, options.isolation))
+      throw new TypeError(`Invalid transaction isolation level: ${String(options.isolation)}`)
+
+    const isolation = TRANSACTION_ISOLATION_SQL[options.isolation]
+
+    modes.push(`ISOLATION LEVEL ${isolation}`)
+  }
+
+  if (options.readOnly !== undefined) {
+    if (typeof options.readOnly !== 'boolean')
+      throw new TypeError('Transaction readOnly must be a boolean')
+
+    modes.push(options.readOnly ? 'READ ONLY' : 'READ WRITE')
+  }
+
+  return modes.join(' ')
+}
 
 function resolvePoolMax() {
   const configuredPoolMax = process.env[PG_POOL_MAX_ENV_NAME]?.trim()
@@ -116,13 +166,14 @@ export class Client {
   }
 
   /**
-   * Executes a function within a database transaction.
+   * Executes a function within a database transaction, optionally with an isolation
+   * level and explicit read-only/read-write mode.
    *
    * The callback receives a lightweight `Client` facade backed by the transactional
    * `postgres.js` connection. Do not keep that facade after the callback resolves.
    *
    * @template T - The type of the result returned by the transaction function.
-   * @param {function(Client): Promise<T>} fn - A function that takes a `Client` instance and returns a promise.
+   * @param fn - A function that takes a transaction-scoped `Client` and returns a promise.
    * @returns {Promise<T>} - A promise that resolves to the result of the transaction function.
    *
    * @example
@@ -130,10 +181,33 @@ export class Client {
    * const result = await client.transaction(async (trx) => {
    *   return await trx.query('users').insert({ name: 'Alice' })
    * })
+   *
+   * const snapshot = await client.transaction(
+   *   { isolation: 'repeatable read', readOnly: true },
+   *   async (trx) => trx.query('users'),
+   * )
    * ```
    */
-  async transaction<T>(fn: (client: Client) => Promise<T>) {
-    return this.postgres.begin(async (sql) => {
+  async transaction<T>(fn: (client: Client) => Promise<T>): Promise<T>
+  /**
+   * Executes a function within a database transaction using explicit transaction modes.
+   *
+   * @template T - The type of the result returned by the transaction function.
+   * @param options - Transaction isolation and access-mode settings.
+   * @param fn - A function that takes a transaction-scoped `Client` and returns a promise.
+   * @returns A promise that resolves to the result of the transaction function.
+   */
+  async transaction<T>(options: TransactionOptions, fn: (client: Client) => Promise<T>): Promise<T>
+  async transaction<T>(
+    optionsOrFn: TransactionOptions | ((client: Client) => Promise<T>),
+    maybeFn?: (client: Client) => Promise<T>,
+  ): Promise<T> {
+    const fn = typeof optionsOrFn === 'function' ? optionsOrFn : maybeFn
+
+    if (typeof fn !== 'function') throw new TypeError('Transaction callback must be a function')
+
+    const modes = typeof optionsOrFn === 'function' ? '' : resolveTransactionOptions(optionsOrFn)
+    const run = async (sql: TransactionSql) => {
       const client = Object.create(Client.prototype)
 
       Object.defineProperties(client, {
@@ -152,7 +226,9 @@ export class Client {
       })
 
       return fn(client)
-    })
+    }
+
+    return (modes ? this.postgres.begin(modes, run) : this.postgres.begin(run)) as Promise<T>
   }
 
   /**

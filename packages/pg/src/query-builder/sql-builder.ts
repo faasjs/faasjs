@@ -1,3 +1,4 @@
+import { isSqlExpression } from '../sql'
 import { escapeIdentifier } from '../utils'
 import type { WhereCondition, JoinCondition } from './types'
 
@@ -149,15 +150,23 @@ export function buildUpdateSql<T extends string>(
   whereParams: any[],
   returning?: ReturningColumns,
 ): { sql: string; params: any[] } {
-  const params: any[] = Object.values(values)
+  const params: any[] = []
   const returningSql = buildReturningSql(returning)
 
   const sql: string[] = [
     'UPDATE',
     escapeIdentifier(table),
     'SET',
-    Object.keys(values)
-      .map((column) => `${escapeIdentifier(column)} = ?`)
+    Object.entries(values)
+      .map(([column, value]) => {
+        if (isSqlExpression(value)) {
+          params.push(...value.params)
+          return `${escapeIdentifier(column)} = ${value.text}`
+        }
+
+        params.push(value)
+        return `${escapeIdentifier(column)} = ?`
+      })
       .join(','),
   ]
 

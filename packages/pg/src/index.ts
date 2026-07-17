@@ -7,6 +7,7 @@
  *
  * - cached {@link Client} instances created with {@link createClient} and resolved with {@link getClient};
  * - a fluent {@link QueryBuilder} for parameterized SELECT, INSERT, UPDATE, DELETE, and upsert calls;
+ * - parameterized {@link sql} expressions for atomic updates;
  * - schema and migration helpers for test and application database setup;
  * - declaration-merging types such as {@link Tables}, {@link TableName}, and {@link ColumnName}.
  *
@@ -29,3 +30,4 @@ export * from './query-builder'
 export * from './types'
 export * from './schema-builder'
 export * from './utils'
+export { sql, type SqlExpression, type SqlReference } from './sql'

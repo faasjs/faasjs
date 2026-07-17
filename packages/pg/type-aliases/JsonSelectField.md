@@ -13,7 +13,7 @@ typed JSON column while keeping the result row narrowed to the selected keys.
 
 ### T
 
-`T` _extends_ `string`
+`T` *extends* `string`
 
 Table name used to infer JSON-capable columns and fields.
 

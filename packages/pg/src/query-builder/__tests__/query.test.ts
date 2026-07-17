@@ -77,6 +77,18 @@ describe('QueryBuilder/query', () => {
       expectTypeOf(result).toEqualTypeOf<Pick<User, 'name' | 'metadata'>[]>()
     })
 
+    it('selects a scalar column with an alias', async () => {
+      const result = await new QueryBuilder(client, 'query')
+        .select('name', { column: 'id', alias: 'userId' })
+        .orderBy('id', 'ASC')
+
+      expect(result).toEqual([
+        { name: 'Alice', userId: 1 },
+        { name: 'Bob', userId: 2 },
+      ])
+      expectTypeOf(result).toEqualTypeOf<{ name: string; userId: number }[]>()
+    })
+
     it('select jsonb', async () => {
       const result = await new QueryBuilder(client, 'query')
         .select({
@@ -89,6 +101,23 @@ describe('QueryBuilder/query', () => {
       expectTypeOf(result).toEqualTypeOf<
         {
           metadata: Pick<User['metadata'], 'age'>
+        }[]
+      >()
+    })
+
+    it('selects jsonb fields with an alias', async () => {
+      const result = await new QueryBuilder(client, 'query')
+        .select({
+          column: 'metadata',
+          fields: ['age'],
+          alias: 'details',
+        })
+        .orderBy('id', 'ASC')
+
+      expect(result).toEqual([{ details: { age: 100 } }, { details: { age: null } }])
+      expectTypeOf(result).toEqualTypeOf<
+        {
+          details: Pick<User['metadata'], 'age'>
         }[]
       >()
     })
@@ -439,6 +468,50 @@ describe('QueryBuilder/query', () => {
         .pluck('name')
 
       expect(result).toEqual(['Bob'])
+    })
+  })
+
+  describe('forUpdate', () => {
+    it('serializes lock targets and SKIP LOCKED after pagination', () => {
+      expect(
+        new QueryBuilder(client, 'query')
+          .where('id', '>', 0)
+          .orderBy('id')
+          .limit(1)
+          .offset(1)
+          .forUpdate({ of: ['query'], skipLocked: true })
+          .toSql(),
+      ).toEqual({
+        sql: 'SELECT * FROM "query" WHERE "id" > ? ORDER BY "id" ASC LIMIT ? OFFSET ? FOR UPDATE OF "query" SKIP LOCKED',
+        params: [0, 1, 1],
+      })
+    })
+
+    it('serializes NOWAIT', () => {
+      expect(new QueryBuilder(client, 'query').forUpdate({ noWait: true }).toSql()).toEqual({
+        sql: 'SELECT * FROM "query" FOR UPDATE NOWAIT',
+        params: [],
+      })
+    })
+
+    it('rejects incompatible wait options', () => {
+      expect(() =>
+        new QueryBuilder(client, 'query').forUpdate({ noWait: true, skipLocked: true }),
+      ).toThrow('FOR UPDATE cannot combine noWait and skipLocked')
+    })
+
+    it('rejects count queries', async () => {
+      await expect(new QueryBuilder(client, 'query').forUpdate().count()).rejects.toThrow(
+        'FOR UPDATE is not supported by count()',
+      )
+    })
+
+    it('executes SKIP LOCKED inside a transaction', async () => {
+      const row = await client.transaction(async (trx) =>
+        trx.query('query').orderBy('id').forUpdate({ skipLocked: true }).first(),
+      )
+
+      expect(row).toMatchObject({ id: 1 })
     })
   })
 

@@ -65,7 +65,7 @@ table names, columns, values, and selected result rows.
 
 ##### T
 
-`T` _extends_ [`TableName`](../type-aliases/TableName.md)
+`T` *extends* [`TableName`](../type-aliases/TableName.md)
 
 The type of the table name.
 
@@ -117,7 +117,7 @@ are logged before being rethrown.
 
 ##### T
 
-`T` _extends_ `Record`\<`string`, `any`\> = `any`
+`T` *extends* `Record`\<`string`, `any`\> = `any`
 
 The type of the result objects. Defaults to `Record<string, any>`.
 
@@ -156,42 +156,84 @@ const users = await client.raw<User>('SELECT * FROM users WHERE id = ?', userId)
 
 ### transaction()
 
-> **transaction**\<`T`\>(`fn`): `Promise`\<`UnwrapPromiseArray`\<`T`\>\>
+#### Call Signature
 
-Executes a function within a database transaction.
+> **transaction**\<`T`\>(`fn`): `Promise`\<`T`\>
+
+Executes a function within a database transaction, optionally with an isolation
+level and explicit read-only/read-write mode.
 
 The callback receives a lightweight `Client` facade backed by the transactional
 `postgres.js` connection. Do not keep that facade after the callback resolves.
 
-#### Type Parameters
+##### Type Parameters
 
-##### T
+###### T
 
 `T`
 
 The type of the result returned by the transaction function.
 
-#### Parameters
+##### Parameters
 
-##### fn
+###### fn
 
 (`client`) => `Promise`\<`T`\>
 
-A function that takes a `Client` instance and returns a promise.
+A function that takes a transaction-scoped `Client` and returns a promise.
 
-#### Returns
+##### Returns
 
-`Promise`\<`UnwrapPromiseArray`\<`T`\>\>
+`Promise`\<`T`\>
 
 - A promise that resolves to the result of the transaction function.
 
-#### Example
+##### Example
 
 ```ts
 const result = await client.transaction(async (trx) => {
   return await trx.query('users').insert({ name: 'Alice' })
 })
+
+const snapshot = await client.transaction(
+  { isolation: 'repeatable read', readOnly: true },
+  async (trx) => trx.query('users'),
+)
 ```
+
+#### Call Signature
+
+> **transaction**\<`T`\>(`options`, `fn`): `Promise`\<`T`\>
+
+Executes a function within a database transaction using explicit transaction modes.
+
+##### Type Parameters
+
+###### T
+
+`T`
+
+The type of the result returned by the transaction function.
+
+##### Parameters
+
+###### options
+
+[`TransactionOptions`](../type-aliases/TransactionOptions.md)
+
+Transaction isolation and access-mode settings.
+
+###### fn
+
+(`client`) => `Promise`\<`T`\>
+
+A function that takes a transaction-scoped `Client` and returns a promise.
+
+##### Returns
+
+`Promise`\<`T`\>
+
+A promise that resolves to the result of the transaction function.
 
 ## Properties
 

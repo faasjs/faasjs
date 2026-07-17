@@ -12,18 +12,21 @@ Use this guide when building SQL queries with `@faasjs/pg` in FaasJS apps.
 ## Default Workflow
 
 1. Prefer `await getClient()` for the default client path. The built-in bootstrap reads `DATABASE_URL`, and tests can override that bootstrap lazily.
-2. Start from `client.query('<table>')` and keep `select`, `where`, `join`, `orderBy`, `limit`, `offset`, and `returning` in builder methods when available.
+2. Start from `client.query('<table>')` and keep `select`, `where`, `join`, `orderBy`, `limit`, `offset`, row locking, and `returning` in builder methods when available.
 3. Narrow results with `select(...)`, `first()`, `pluck(...)`, or explicit `returning` columns when the caller does not need full rows.
 4. Use `whereRaw`, `orWhereRaw`, `orderByRaw`, or `client.raw(...)` only for expressions or statements the builder cannot represent directly.
 5. Keep runtime values parameterized, and use `rawSql(...)` or `escapeIdentifier(...)` only for trusted SQL fragments or identifiers.
-6. Wrap multi-step read-write flows in `client.transaction(...)` when atomicity matters.
+6. Wrap multi-step read-write flows in `client.transaction(...)` when atomicity matters, and declare isolation or read-only mode when the workflow depends on it.
 
 ## Builder-First Example
 
 ```ts
 const rows = await client
   .query('users')
-  .select('id', 'name', { column: 'metadata', fields: ['age'] })
+  .select({ column: 'id', alias: 'userId' }, 'name', {
+    column: 'metadata',
+    fields: ['age'],
+  })
   .leftJoin('profiles', 'users.id', 'profiles.user_id')
   .where('name', 'ILIKE', 'a%')
   .orderBy('id', 'ASC')
@@ -42,11 +45,41 @@ await client.transaction(async (trx) => {
 })
 ```
 
+## Transaction and Row-lock Example
+
+```ts
+const job = await client.transaction(
+  { isolation: 'repeatable read', readOnly: false },
+  async (trx) =>
+    trx
+      .query('jobs')
+      .where('status', 'pending')
+      .orderBy('id')
+      .forUpdate({ skipLocked: true })
+      .first(),
+)
+```
+
+## Parameterized Update-expression Example
+
+```ts
+import { sql } from '@faasjs/pg'
+
+await client
+  .query('jobs')
+  .where('id', jobId)
+  .update({
+    attempts: sql`${sql.ref('attempts')} + ${1}`,
+    updated_at: sql`NOW()`,
+  })
+```
+
 ## Rules
 
 ### 1. Keep query shape and result shape aligned
 
 - `select(...)`, `first()`, `pluck(...)`, and `returning` define what downstream code can safely assume.
+- Use `{ column, alias }` when a scalar result key differs from its database column; JSON field selectors support the same `alias` behavior.
 - If you extract a shared query helper, keep the narrowed result shape explicit instead of widening back to full rows.
 - When contributing to `@faasjs/pg` itself, update runtime coverage and type coverage together.
 
@@ -76,20 +109,28 @@ await client.transaction(async (trx) => {
 - Treat an unbounded mutation as a bug unless it is a deliberate migration or maintenance action.
 - Do not remove or bypass the package's missing-where protection.
 - Use `client.transaction(...)` for multi-step DML or mixed read-write flows that must succeed or fail together.
+- Use transaction `isolation` and `readOnly` options only when the workflow requires explicit PostgreSQL semantics; omit them to keep the database defaults.
+- Run `forUpdate()` inside an explicit transaction. Use `skipLocked` for competing workers or `noWait` for fail-fast behavior, but never combine them.
 
-### 6. Use `returning` only when the caller needs changed rows
+### 6. Keep update expressions parameterized
+
+- Use the exported `sql` tag for atomic updates such as counters or database functions.
+- Insert identifiers with `sql.ref(...)`; other interpolations are always bound values.
+- Treat the static template text as trusted application SQL and never concatenate runtime input into it.
+
+### 7. Use `returning` only when the caller needs changed rows
 
 - `insert`, `update`, and `upsert` return an empty result shape unless `returning` is requested.
 - Keep `returning` columns explicit so the result type stays narrow and predictable.
 - Prefer the minimum set of returned columns instead of `['*']` unless the caller truly needs the whole row.
 
-### 7. Move repeated raw SQL back toward shared helpers or the builder
+### 8. Move repeated raw SQL back toward shared helpers or the builder
 
 - If a raw query becomes common or reusable, consider whether it belongs in a shared helper or in the fluent query surface instead.
 - Prefer one reviewed abstraction over many near-duplicate raw SQL snippets.
 - When `@faasjs/pg` grows a clause helper that covers the same case, update app code to leave raw SQL behind.
 
-### 8. Use query logging selectively
+### 9. Use query logging selectively
 
 - The client logger is optional.
 - Debug logging is appropriate for query timing, troubleshooting, or temporary diagnostics.
@@ -109,4 +150,5 @@ await client.transaction(async (trx) => {
 - the default client bootstrap goes through `await getClient()` and the registered async bootstrap (`process.env.DATABASE_URL` by default)
 - `select`, `first`, `pluck`, or explicit `returning` narrow rows when appropriate
 - `update` and `delete` stay guarded by `where`, and multi-step writes use `transaction(...)` when atomicity matters
+- row locks stay inside transactions, and update-expression values remain parameterized
 - shared query helpers or package changes keep runtime and type coverage aligned

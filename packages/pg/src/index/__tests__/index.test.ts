@@ -5,6 +5,7 @@ import * as Pg from '../../index'
 describe('Pg', () => {
   it('should be defined', () => {
     expect(Object.keys(Pg)).toEqual([
+      'sql',
       'Migrator',
       'registerDatabaseBootstrap',
       'resolveDatabaseBootstrap',
