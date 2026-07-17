@@ -10,6 +10,8 @@ import { resolvePositiveInteger, resolveQueue } from './options'
 import { ensureJobsSchema } from './queue'
 import type { JobRecord, JobRetry } from './types'
 
+const EXPIRED_LEASE_ERROR = '[jobs] Job lease expired after reaching max attempts.'
+
 /**
  * Options for {@link startJobWorker}.
  */
@@ -59,7 +61,8 @@ async function resolveRetryRunAt(
  *
  * Supports configurable concurrency, polling interval, and lease duration.
  * Failed jobs are retried according to their retry strategy until
- * max attempts are reached.
+ * max attempts are reached. Expired leases are reclaimed only while attempts
+ * remain; an expired lease at the attempt limit is marked failed.
  * Handler errors are persisted to the job row instead of being thrown from `poll()`.
  *
  * @example
@@ -124,14 +127,35 @@ export class JobWorker {
 
   private async claim(client: Client): Promise<JobRecord | undefined> {
     const leaseId = randomUUID()
-    const [record] = await client.transaction((trx) =>
-      trx.raw<JobRecord>(
+    const [record] = await client.transaction(async (trx) => {
+      await trx.raw(
+        `
+          UPDATE faasjs_jobs
+          SET
+            status = 'failed',
+            locked_by = NULL,
+            lease_id = NULL,
+            locked_until = NULL,
+            last_error = ?,
+            updated_at = NOW(),
+            failed_at = NOW()
+          WHERE queue = ?
+            AND status = 'running'
+            AND locked_until < NOW()
+            AND attempts >= max_attempts
+        `,
+        EXPIRED_LEASE_ERROR,
+        this.queue,
+      )
+
+      return trx.raw<JobRecord>(
         `
           WITH picked AS (
             SELECT id
             FROM faasjs_jobs
             WHERE queue = ?
               AND run_at <= NOW()
+              AND attempts < max_attempts
               AND (
                 status = 'pending'
                 OR (status = 'running' AND locked_until < NOW())
@@ -155,8 +179,8 @@ export class JobWorker {
         this.workerId,
         leaseId,
         `${this.leaseSeconds} seconds`,
-      ),
-    )
+      )
+    })
 
     return record
   }

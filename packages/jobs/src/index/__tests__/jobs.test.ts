@@ -300,6 +300,107 @@ export default defineJob({
     await worker.stop()
   })
 
+  it('marks an expired final-attempt lease as failed without reclaiming it', async () => {
+    const record = await enqueueJob(
+      'jobs/success',
+      {
+        message: 'must not run',
+      },
+      {
+        maxAttempts: 2,
+      },
+    )
+
+    await client.raw(
+      `
+        UPDATE faasjs_jobs
+        SET
+          status = 'running',
+          attempts = max_attempts,
+          locked_by = 'crashed-worker',
+          lease_id = id,
+          locked_until = NOW() - INTERVAL '1 second'
+        WHERE id = ?::uuid
+      `,
+      record.id,
+    )
+
+    const registry = await loadJobRegistry({ root })
+    const workers = [
+      new JobWorker(registry, { workerId: 'lease-worker-a' }),
+      new JobWorker(registry, { workerId: 'lease-worker-b' }),
+    ]
+
+    expect(await Promise.all(workers.map((worker) => worker.poll()))).toEqual([0, 0])
+    expect(await workers[0].poll()).toEqual(0)
+
+    const [updated] = await client.raw<JobRecord>`SELECT * FROM faasjs_jobs WHERE id = ${record.id}`
+    const events = await client.raw`SELECT * FROM job_events WHERE job_id = ${record.id}`
+
+    expect(updated).toMatchObject({
+      status: 'failed',
+      attempts: 2,
+      locked_by: null,
+      lease_id: null,
+      locked_until: null,
+    })
+    expect(updated.last_error).toContain('lease expired after reaching max attempts')
+    expect(updated.failed_at).toBeTruthy()
+    expect(events).toHaveLength(0)
+
+    await Promise.all(workers.map((worker) => worker.stop()))
+  })
+
+  it('reclaims an expired retryable lease without exceeding max attempts', async () => {
+    const record = await enqueueJob(
+      'jobs/success',
+      {
+        message: 'reclaimed',
+      },
+      {
+        maxAttempts: 2,
+      },
+    )
+
+    await client.raw(
+      `
+        UPDATE faasjs_jobs
+        SET
+          status = 'running',
+          attempts = 1,
+          locked_by = 'crashed-worker',
+          lease_id = id,
+          locked_until = NOW() - INTERVAL '1 second'
+        WHERE id = ?::uuid
+      `,
+      record.id,
+    )
+
+    const worker = new JobWorker(await loadJobRegistry({ root }))
+
+    expect(await worker.poll()).toEqual(1)
+    expect(await worker.poll()).toEqual(0)
+
+    const [updated] = await client.raw<JobRecord>`SELECT * FROM faasjs_jobs WHERE id = ${record.id}`
+    const events = await client.raw<{
+      attempt: number
+      message: string
+    }>`SELECT attempt, message FROM job_events WHERE job_id = ${record.id}`
+
+    expect(updated).toMatchObject({
+      status: 'completed',
+      attempts: 2,
+    })
+    expect(events).toEqual([
+      {
+        attempt: 2,
+        message: 'reclaimed',
+      },
+    ])
+
+    await worker.stop()
+  })
+
   it('records a missing job handler as a job failure', async () => {
     const record = await enqueueJob('jobs/missing', {}, { maxAttempts: 1 })
     const worker = new JobWorker(await loadJobRegistry({ root }))

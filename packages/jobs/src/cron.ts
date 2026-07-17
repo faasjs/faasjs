@@ -76,15 +76,17 @@ function collectRangeValues(segment: string, field: CronField): number[] {
     if (range.length === 1) {
       const value = parseCronValue(range[0], field)
 
-      return [value]
+      if (stepPart === undefined) return [value]
+
+      start = value
+    } else {
+      if (range.length !== 2) throw Error(`[jobs] Invalid ${field.name} segment "${segment}".`)
+
+      start = parseCronValue(range[0], field)
+      end = parseCronValue(range[1], field)
+
+      if (start > end) throw Error(`[jobs] Invalid ${field.name} range "${rangePart}".`)
     }
-
-    if (range.length !== 2) throw Error(`[jobs] Invalid ${field.name} segment "${segment}".`)
-
-    start = parseCronValue(range[0], field)
-    end = parseCronValue(range[1], field)
-
-    if (start > end) throw Error(`[jobs] Invalid ${field.name} range "${rangePart}".`)
   }
 
   const values: number[] = []
@@ -108,11 +110,24 @@ function createCronMatcher(segment: string, field: CronField): CronMatcher {
   return (value: number): boolean => values.has(value)
 }
 
+function parseCronSegments(expression: string): string[] {
+  const trimmed = expression.trim()
+
+  if (!trimmed) throw Error('[jobs] cron expression is required.')
+
+  const segments = trimmed.split(/\s+/)
+
+  if (segments.length !== 5) throw invalidExpressionError(expression)
+
+  return segments
+}
+
 /**
  * Parse a cron expression into an array of field matchers.
  *
  * Accepts the standard 5-field format: `minute hour dayOfMonth month dayOfWeek`.
  * Supports comma-separated values, ranges (`-`), steps (`/`), and wildcards (`*`).
+ * A single-value step such as `5/10` starts at 5 and continues to the field maximum.
  * Day-of-week accepts both numeric (0–7) and abbreviated names (SUN–SAT).
  *
  * @param expression - A cron expression string.
@@ -127,13 +142,7 @@ function createCronMatcher(segment: string, field: CronField): CronMatcher {
  * ```
  */
 export function parseCronExpression(expression: string): CronMatcher[] {
-  const trimmed = expression.trim()
-
-  if (!trimmed) throw Error('[jobs] cron expression is required.')
-
-  const segments = trimmed.split(/\s+/)
-
-  if (segments.length !== 5) throw invalidExpressionError(expression)
+  const segments = parseCronSegments(expression)
 
   return CronFields.map((field, index) => createCronMatcher(segments[index], field))
 }
@@ -174,15 +183,28 @@ function getZonedDateParts(now: Date, timezone?: string): number[] {
  * @param timezone - Optional IANA timezone (e.g. `'America/New_York'`).
  * @returns `true` if the expression matches the instant.
  *
+ * When both day-of-month and day-of-week are restricted, either field may
+ * match. When one is `*`, the other field determines whether the day matches.
+ *
  * @example
  * cronMatches('0 9 * * 1-5', new Date())
  * // true if the current time is a weekday at 9:00
  */
 export function cronMatches(expression: string, now: Date, timezone?: string): boolean {
-  const matchers = parseCronExpression(expression)
+  const segments = parseCronSegments(expression)
+  const matchers = CronFields.map((field, index) => createCronMatcher(segments[index], field))
   const values = getZonedDateParts(now, timezone)
+  const otherFieldsMatch = [0, 1, 3].every((index) => matchers[index](values[index]))
 
-  return matchers.every((matcher, index) => matcher(values[index]))
+  if (!otherFieldsMatch) return false
+
+  const dayOfMonthMatches = matchers[2](values[2])
+  const dayOfWeekMatches = matchers[4](values[4])
+
+  if (segments[2] === '*') return dayOfWeekMatches
+  if (segments[4] === '*') return dayOfMonthMatches
+
+  return dayOfMonthMatches || dayOfWeekMatches
 }
 
 /**
