@@ -478,7 +478,11 @@ export class TableBuilder {
  * Fluent builder for configuring a single column definition.
  */
 class ColumnBuilder {
-  constructor(private definition: ColumnDefinition) {}
+  private definition: ColumnDefinition
+
+  constructor(definition: ColumnDefinition) {
+    this.definition = definition
+  }
 
   /**
    * Sets whether the column is nullable.

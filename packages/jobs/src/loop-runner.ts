@@ -7,11 +7,14 @@ type LoopRunnerOptions = {
 }
 
 export class LoopRunner {
+  private readonly options: LoopRunnerOptions
   private active = false
   private timer: NodeJS.Timeout | undefined
   private currentTask: Promise<void> | undefined
 
-  constructor(private readonly options: LoopRunnerOptions) {}
+  constructor(options: LoopRunnerOptions) {
+    this.options = options
+  }
 
   public start(): void {
     if (this.active) return

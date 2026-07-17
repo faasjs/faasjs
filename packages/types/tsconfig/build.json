@@ -1,25 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./react.json",
   "compilerOptions": {
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "target": "ESNext",
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "moduleDetection": "force",
-    "isolatedModules": true,
-    "verbatimModuleSyntax": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "noImplicitOverride": true,
-    "forceConsistentCasingInFileNames": true,
-    "exactOptionalPropertyTypes": true,
-    "allowImportingTsExtensions": true,
-    "jsx": "react-jsx",
     "declaration": true,
     "declarationMap": true,
     "module": "ESNext",
-    "moduleResolution": "bundler",
     "sourceMap": true,
     "noEmit": true
   }
