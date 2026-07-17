@@ -221,7 +221,7 @@ describe('SchemaBuilder', () => {
         'missing',
         'two@example.com',
       ),
-    ).rejects.toThrow()
+    ).rejects.toThrow(/foreign key constraint/i)
     await expect(
       client.raw(
         'INSERT INTO alters (id, creator_id, email) VALUES (?, ?, ?)',
@@ -229,7 +229,7 @@ describe('SchemaBuilder', () => {
         'creator-1',
         'one@example.com',
       ),
-    ).rejects.toThrow()
+    ).rejects.toThrow(/unique constraint/i)
 
     builder.alterTable('alters', (table) => {
       table.alterColumn('email', { unique: false })
