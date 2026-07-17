@@ -104,6 +104,7 @@ export function useFaas<Path extends FaasActionPaths>(
     },
     send: async ({ action, params, signal, client, setPromise }) => {
       const promise = client.faas<Path>(action, params, {
+        ...(options.baseUrl ? { baseUrl: options.baseUrl } : {}),
         signal,
       })
 
