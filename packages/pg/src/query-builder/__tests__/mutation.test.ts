@@ -222,6 +222,23 @@ describe('QueryBuilder/mutation', () => {
       expect(result?.name).toEqual('Alice')
       expect(result?.metadata).toEqual({ age: 50 })
     })
+
+    it('does nothing when only conflict columns are provided', async () => {
+      const returning = await new QueryBuilder(client, 'mutation').upsert(
+        { id: 1 },
+        {
+          conflict: ['id'],
+          returning: ['id'],
+        },
+      )
+
+      expect(returning).toEqual([])
+      await expect(new QueryBuilder(client, 'mutation').where('id', 1).first()).resolves.toEqual({
+        id: 1,
+        name: 'Alice',
+        metadata: { age: 100 },
+      })
+    })
   })
 
   describe('updateJson', () => {

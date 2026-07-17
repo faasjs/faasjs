@@ -60,6 +60,8 @@ export function buildWhereSql(
             return `${prefix}${escapeIdentifier(column)} ${operator}`
 
           if (operator === 'IN' || operator === 'NOT IN') {
+            if (value.length === 0) return `${prefix}${operator === 'IN' ? 'FALSE' : 'TRUE'}`
+
             if (mode === 'update') {
               params.push(value)
               const arrayOperator = operator === 'IN' ? '= ANY(?)' : '<> ALL(?)'
@@ -219,12 +221,12 @@ export function buildDeleteSql<T extends string>(
 }
 
 /**
- * Builds an upsert (INSERT … ON CONFLICT … DO UPDATE) SQL statement.
+ * Builds an upsert (INSERT … ON CONFLICT) SQL statement.
  *
  * @param table - The target table name.
  * @param values - The array of records to upsert.
  * @param conflict - The conflict columns for the ON CONFLICT clause.
- * @param update - Optional columns to update on conflict. If omitted, all non-conflict columns are updated.
+ * @param update - Optional columns to update on conflict. If omitted, all non-conflict columns are updated. When no columns remain, the conflict action is `DO NOTHING`.
  * @param returning - Optional columns to return after the upsert.
  * @returns The upsert SQL string and bound parameters.
  */
@@ -237,6 +239,16 @@ export function buildUpsertSql<T extends string>(
 ): { sql: string; params: any[] } {
   const columns = getInsertColumns(values)
   const returningSql = buildReturningSql(returning)
+  const updateAssignments = columns
+    .filter(
+      (column) =>
+        !conflict.includes(column as string) &&
+        (update ? update.includes(column as keyof (typeof values)[0]) : true),
+    )
+    .map((column) => `${escapeIdentifier(column)} = EXCLUDED.${escapeIdentifier(column)}`)
+  const conflictAction = updateAssignments.length
+    ? `DO UPDATE SET ${updateAssignments.join(',')}`
+    : 'DO NOTHING'
   const sql: string[] = [
     'INSERT INTO',
     escapeIdentifier(table),
@@ -246,15 +258,7 @@ export function buildUpsertSql<T extends string>(
     buildValuesPlaceholders(values),
     'ON CONFLICT',
     `(${conflict.map(escapeIdentifier).join(',')})`,
-    'DO UPDATE SET',
-    columns
-      .filter(
-        (column) =>
-          !conflict.includes(column as string) &&
-          (update ? update.includes(column as keyof (typeof values)[0]) : true),
-      )
-      .map((column) => `${escapeIdentifier(column)} = EXCLUDED.${escapeIdentifier(column)}`)
-      .join(','),
+    conflictAction,
     returningSql,
   ].filter(Boolean)
 
