@@ -63,7 +63,19 @@ describe('TableBuilder', () => {
 
     const sql = table.toSQL().join('\n')
 
-    expect(sql).toContain('"role_id" varchar NULL REFERENCES roles(id)')
+    expect(sql).toContain('"role_id" varchar NULL REFERENCES "roles" ("id")')
+  })
+
+  it('escapes reference identifiers in create mode', () => {
+    const table = new TableBuilder('tenant.users', 'create')
+
+    table.string('role"id').references('identity.roles"archive', 'external"id')
+
+    expect(table.toSQL().filter(Boolean)).toEqual([
+      'CREATE TABLE "tenant"."users" (\n' +
+        '"role""id" varchar NOT NULL REFERENCES "identity"."roles""archive" ("external""id")\n' +
+        ');\n',
+    ])
   })
 
   it('supports dropping existing in-memory index definitions', () => {
@@ -112,8 +124,29 @@ describe('TableBuilder', () => {
     const sql = table.toSQL().join('\n')
 
     expect(sql).toContain('ALTER COLUMN "email" DROP NOT NULL;')
-    expect(sql).toContain('DROP CONSTRAINT IF EXISTS "users_email_unique";')
-    expect(sql).toContain('ALTER COLUMN "email" ADD REFERENCES accounts(id);')
+    expect(sql).toContain('DROP CONSTRAINT IF EXISTS "users_email_key";')
+    expect(sql).toContain(
+      'ADD CONSTRAINT "users_email_fkey" FOREIGN KEY ("email") REFERENCES "accounts" ("id");',
+    )
     expect(sql).toContain('ALTER COLUMN "email" SET COLLATE "en_US";')
+  })
+
+  it('uses escaped and stable constraint names for alter operations', () => {
+    const table = new TableBuilder('tenant.user"accounts', 'alter')
+
+    table.alterColumn('email"address', { unique: true })
+    table.alterColumn('email"address', { unique: false })
+    table.alterColumn('owner"id', {
+      references: {
+        table: 'identity.user"accounts',
+        column: 'external"id',
+      },
+    })
+
+    expect(table.toSQL().filter(Boolean)).toEqual([
+      'ALTER TABLE "tenant"."user""accounts" ADD CONSTRAINT "user""accounts_email""address_key" UNIQUE ("email""address");',
+      'ALTER TABLE "tenant"."user""accounts" DROP CONSTRAINT IF EXISTS "user""accounts_email""address_key";',
+      'ALTER TABLE "tenant"."user""accounts" ADD CONSTRAINT "user""accounts_owner""id_fkey" FOREIGN KEY ("owner""id") REFERENCES "identity"."user""accounts" ("external""id");',
+    ])
   })
 })
