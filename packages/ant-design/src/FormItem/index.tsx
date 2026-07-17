@@ -21,7 +21,7 @@ import {
 } from 'antd'
 import type { RuleObject } from 'antd/es/form'
 import { cloneDeep } from 'lodash-es'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { type ResolvedTheme, useConfigContext } from '../Config'
 import { cloneUnionFaasItemElement, idToTitle, transferOptions } from '../data'
@@ -144,6 +144,11 @@ function createComputedProps<T>(
 export function FormItem<T = any>(props: FormItemProps<T>) {
   const { theme } = useConfigContext()
   const [hidden, setHidden] = useState(props.hidden || false)
+
+  useEffect(() => {
+    setHidden(Boolean(props.hidden))
+  }, [props.hidden])
+
   const computedProps = useEqualMemo(
     () => createComputedProps(props, theme.common, hidden, setHidden),
     [hidden, props, theme.common],
