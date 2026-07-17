@@ -2,7 +2,7 @@
 
 # Type Alias: FaasBrowserClientAction
 
-> **FaasBrowserClientAction** = \<`Path`\>(`action`, `params?`, `options?`) => `Promise`\<[`Response`](../classes/Response.md)\<`FaasData`\<`Path`\>\> \| [`Response`](../classes/Response.md)\>
+> **FaasBrowserClientAction** = \<`Path`>>>>\>(`action`, `params?`, `options?`) => `Promise`\<[`Response`](../classes/Response.md)\<`FaasData`\<`Path`>> >> >> >> \>\> \| [`Response`](../classes/Response.md)>>>>\>
 
 Type signature for the [FaasBrowserClient.action](../classes/FaasBrowserClient.md#action) method.
 

@@ -2,7 +2,7 @@
 
 # Function: loadPackage()
 
-> **loadPackage**\<`T`\>(`name`): `Promise`\<`T`\>
+> **loadPackage**\<`T`>>>>\>(`name`): `Promise`\<`T`>>>>\>
 
 Load a module in the current Node ESM runtime and return its default export.
 

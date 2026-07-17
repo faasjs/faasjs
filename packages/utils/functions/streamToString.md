@@ -2,7 +2,7 @@
 
 # Function: streamToString()
 
-> **streamToString**(`stream`): `Promise`\<`string`\>
+> **streamToString**(`stream`): `Promise`\<`string`>>>>\>
 
 Read a byte stream into a UTF-8 string.
 

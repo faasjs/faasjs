@@ -24,7 +24,7 @@ const users = await db('users').select('id', 'name').where('id', '>', 5).limit(1
 
 ### T
 
-`T` *extends* `string` = `string`
+`T` _extends_ `string` = `string`
 
 The table name.
 
@@ -38,7 +38,7 @@ The inferred result row type.
 
 ### Constructor
 
-> **new QueryBuilder**\<`T`, `TResult`\>(`client`, `table`): `QueryBuilder`\<`T`, `TResult`\>
+> **new QueryBuilder**\<`T`, `TResult`>>>>\>(`client`, `table`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 #### Parameters
 
@@ -62,7 +62,7 @@ The table name to target.
 
 ### count()
 
-> **count**(): `Promise`\<`number`\>
+> **count**(): `Promise`\<`number`>>>>\>
 
 Executes a SQL query to count the number of rows in the specified table.
 
@@ -104,7 +104,7 @@ await db('users').where('id', 1).delete() // DELETE FROM users WHERE id = 1
 
 ### first()
 
-> **first**(): `Promise`\<`TResult` *extends* `U`[] ? `U` : `TResult` \| `null`\>
+> **first**(): `Promise`\<`TResult` _extends_ `U`[] ? `U` : `TResult` \| `null`>>>>\>
 
 Executes the query and returns the first matching row, or `null` if no rows match.
 
@@ -112,13 +112,13 @@ Automatically applies `LIMIT 1` to the query.
 
 #### Returns
 
-`Promise`\<`TResult` *extends* `U`[] ? `U` : `TResult` \| `null`\>
+`Promise`\<`TResult` _extends_ `U`[] ? `U` : `TResult` \| `null`\>
 
 The first row of the result set, or `null`.
 
 ### forUpdate()
 
-> **forUpdate**(`options?`): `QueryBuilder`\<`T`, `TResult`\>
+> **forUpdate**(`options?`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Locks selected rows with `FOR UPDATE` until the current transaction ends.
 
@@ -151,7 +151,7 @@ const job = await trx
 
 ### insert()
 
-> **insert**\<`FirstValue`, `Returning`\>(`values`, `options?`): `Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+> **insert**\<`FirstValue`, `Returning`>>>>\>(`values`, `options?`): `Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`>>>>\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`> > > > \> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`>>>>\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`>>>>\>[]\>
 
 Inserts one or more rows into the table.
 
@@ -163,13 +163,13 @@ inserted rows should be returned.
 
 ##### FirstValue
 
-`FirstValue` *extends* `Partial`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>\>
+`FirstValue` _extends_ `Partial`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>\>
 
 The type of the first value to insert, which must be a partial of the table type.
 
 ##### Returning
 
-`Returning` *extends* \[`"*"`\] \| keyof [`TableType`](../type-aliases/TableType.md)\<`T`\>[]
+`Returning` _extends_ \[`"*"`\] \| keyof [`TableType`](../type-aliases/TableType.md)\<`T`\>[]
 
 The type of the columns to return, which can be an array of keys of the table type or ['*'].
 
@@ -193,7 +193,7 @@ An array of columns to return, or ['*'] to return all columns.
 
 #### Returns
 
-`Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+`Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 #### Example
 
@@ -202,14 +202,17 @@ await db('users').insert({ id: 3, name: 'Charlie' }) // => []
 
 await db('users').insert({ id: 3, name: 'Charlie' }, { returning: ['name'] }) // => [{ name: 'Charlie' }]
 
-await db('users').insert([{ id: 4, name: 'David' }, { id: 5, name: 'Eve' }]) // => []
+await db('users').insert([
+  { id: 4, name: 'David' },
+  { id: 5, name: 'Eve' },
+]) // => []
 ```
 
 ### join()
 
 #### Call Signature
 
-> **join**(`table`, `left`, `right`): `QueryBuilder`\<`T`, `TResult`\>
+> **join**(`table`, `left`, `right`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Adds an INNER JOIN clause.
 
@@ -243,7 +246,7 @@ Right operand, or the third argument when using the default `=` operator.
 
 #### Call Signature
 
-> **join**(`table`, `left`, `operator`, `right`): `QueryBuilder`\<`T`, `TResult`\>
+> **join**(`table`, `left`, `operator`, `right`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Adds an INNER JOIN clause.
 
@@ -283,7 +286,7 @@ Right operand, or the third argument when using the default `=` operator.
 
 #### Call Signature
 
-> **leftJoin**(`table`, `left`, `right`): `QueryBuilder`\<`T`, `TResult`\>
+> **leftJoin**(`table`, `left`, `right`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Adds a LEFT JOIN clause.
 
@@ -317,7 +320,7 @@ Right operand, or the third argument when using the default `=` operator.
 
 #### Call Signature
 
-> **leftJoin**(`table`, `left`, `operator`, `right`): `QueryBuilder`\<`T`, `TResult`\>
+> **leftJoin**(`table`, `left`, `operator`, `right`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Adds a LEFT JOIN clause.
 
@@ -355,7 +358,7 @@ Right operand, or the third argument when using the default `=` operator.
 
 ### limit()
 
-> **limit**(`value`): `QueryBuilder`\<`T`, `TResult`\>
+> **limit**(`value`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Sets the limit value for the query.
 
@@ -381,7 +384,7 @@ await query('users').limit(10) // LIMIT 10
 
 ### offset()
 
-> **offset**(`value`): `QueryBuilder`\<`T`, `TResult`\>
+> **offset**(`value`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Sets the offset value for the query.
 
@@ -407,7 +410,7 @@ await query('users').offset(10) // OFFSET 10
 
 ### orderBy()
 
-> **orderBy**\<`C`\>(`column`, `direction?`): `QueryBuilder`\<`T`, `TResult`\>
+> **orderBy**\<`C`>>>>\>(`column`, `direction?`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Sets the order by column and direction for the query.
 
@@ -418,7 +421,7 @@ before SQL is generated.
 
 ##### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 #### Parameters
 
@@ -446,7 +449,7 @@ await query('users').orderBy('id', 'DESC') // ORDER BY id DESC
 
 ### orderByRaw()
 
-> **orderByRaw**(`sql`, ...`params`): `QueryBuilder`\<`T`, `TResult`\>
+> **orderByRaw**(`sql`, ...`params`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Adds a raw SQL expression to ORDER BY with parameter bindings.
 
@@ -475,7 +478,7 @@ Bound parameters for the SQL fragment.
 
 #### Call Signature
 
-> **orWhere**\<`C`\>(`column`, `operator`, `value?`): `QueryBuilder`\<`T`, `TResult`\>
+> **orWhere**\<`C`>>>>\>(`column`, `operator`, `value?`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Applies an OR WHERE condition to the query builder.
 
@@ -486,7 +489,7 @@ The same operator rules as [where](#where) apply, but the condition is joined wi
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -520,7 +523,7 @@ await query('users').where('id', 1).orWhere('id', 2) // WHERE id = 1 OR id = 2
 
 #### Call Signature
 
-> **orWhere**\<`C`\>(`column`, `operator`, `value`): `QueryBuilder`\<`T`, `TResult`\>
+> **orWhere**\<`C`>>>>\>(`column`, `operator`, `value`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Applies an OR WHERE condition to the query builder.
 
@@ -531,7 +534,7 @@ The same operator rules as [where](#where) apply, but the condition is joined wi
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -565,7 +568,7 @@ await query('users').where('id', 1).orWhere('id', 2) // WHERE id = 1 OR id = 2
 
 #### Call Signature
 
-> **orWhere**\<`C`\>(`column`, `operator`): `QueryBuilder`\<`T`, `TResult`\>
+> **orWhere**\<`C`>>>>\>(`column`, `operator`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Applies an OR WHERE condition to the query builder.
 
@@ -576,7 +579,7 @@ The same operator rules as [where](#where) apply, but the condition is joined wi
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -604,7 +607,7 @@ await query('users').where('id', 1).orWhere('id', 2) // WHERE id = 1 OR id = 2
 
 #### Call Signature
 
-> **orWhere**\<`C`\>(`column`, `operator`, `value`): `QueryBuilder`\<`T`, `TResult`\>
+> **orWhere**\<`C`>>>>\>(`column`, `operator`, `value`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Applies an OR WHERE condition to the query builder.
 
@@ -615,7 +618,7 @@ The same operator rules as [where](#where) apply, but the condition is joined wi
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -649,7 +652,7 @@ await query('users').where('id', 1).orWhere('id', 2) // WHERE id = 1 OR id = 2
 
 #### Call Signature
 
-> **orWhere**\<`C`\>(`column`, `operator`, `value`): `QueryBuilder`\<`T`, `TResult`\>
+> **orWhere**\<`C`>>>>\>(`column`, `operator`, `value`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Applies an OR WHERE condition to the query builder.
 
@@ -660,7 +663,7 @@ The same operator rules as [where](#where) apply, but the condition is joined wi
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -694,7 +697,7 @@ await query('users').where('id', 1).orWhere('id', 2) // WHERE id = 1 OR id = 2
 
 #### Call Signature
 
-> **orWhere**\<`C`\>(`column`, `value`): `QueryBuilder`\<`T`, `TResult`\>
+> **orWhere**\<`C`>>>>\>(`column`, `value`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Applies an OR WHERE condition to the query builder.
 
@@ -705,7 +708,7 @@ The same operator rules as [where](#where) apply, but the condition is joined wi
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -733,7 +736,7 @@ await query('users').where('id', 1).orWhere('id', 2) // WHERE id = 1 OR id = 2
 
 ### orWhereRaw()
 
-> **orWhereRaw**(`sql`, ...`params`): `QueryBuilder`\<`T`, `TResult`\>
+> **orWhereRaw**(`sql`, ...`params`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Adds a raw SQL expression to the WHERE clause using OR with parameter bindings.
 
@@ -760,7 +763,7 @@ Bound parameters for the SQL fragment.
 
 ### pluck()
 
-> **pluck**\<`C`\>(`column`): `Promise`\<[`ColumnValue`](../type-aliases/ColumnValue.md)\<`T`, `C`\>[]\>
+> **pluck**\<`C`>>>>\>(`column`): `Promise`\<[`ColumnValue`](../type-aliases/ColumnValue.md)\<`T`, `C`>>>>\>[]\>
 
 Asynchronously retrieves the values of a specified column from the database.
 
@@ -768,7 +771,7 @@ Asynchronously retrieves the values of a specified column from the database.
 
 ##### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 The type of the column name.
 
@@ -794,7 +797,7 @@ const names = await db('users').pluck('name') // => ['Alice', 'Bob']
 
 ### select()
 
-> **select**\<`ColumnNames`\>(...`columns`): `QueryBuilder`\<`T`, [`InferTResult`](../type-aliases/InferTResult.md)\<`T`, `ColumnNames`\>[]\>
+> **select**\<`ColumnNames`>>>>\>(...`columns`): `QueryBuilder`\<`T`, [`InferTResult`](../type-aliases/InferTResult.md)\<`T`, `ColumnNames`>>>>\>[]\>
 
 Selects specific columns for the query.
 
@@ -806,7 +809,7 @@ use `jsonb_build_object` and default their alias to the source JSON column name.
 
 ##### ColumnNames
 
-`ColumnNames` *extends* [`SelectField`](../type-aliases/SelectField.md)\<`T`\>[]
+`ColumnNames` _extends_ [`SelectField`](../type-aliases/SelectField.md)\<`T`\>[]
 
 #### Parameters
 
@@ -832,7 +835,7 @@ const users = await db('users').select('id', { column: 'data', fields: ['email']
 
 ### then()
 
-> **then**\<`TResult1`, `TResult2`\>(`onfulfilled?`, `onrejected?`): `Promise`\<`TResult1` \| `TResult2`\>
+> **then**\<`TResult1`, `TResult2`>>>>\>(`onfulfilled?`, `onrejected?`): `Promise`\<`TResult1` \| `TResult2`>>>>\>
 
 Makes the QueryBuilder thenable — calling `await builder` implicitly executes the query.
 
@@ -894,7 +897,7 @@ An object containing the generated `sql` string and `params` array.
 
 ### update()
 
-> **update**\<`Returning`\>(`values`, `options?`): `Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+> **update**\<`Returning`>>>>\>(`values`, `options?`): `Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`>>>>\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`> > > > \> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`>>>>\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`>>>>\>[]\>
 
 Updates records in the table with the specified values and returns the updated records.
 
@@ -905,7 +908,7 @@ reduce accidental full-table updates.
 
 ##### Returning
 
-`Returning` *extends* \[`"*"`\] \| keyof [`TableType`](../type-aliases/TableType.md)\<`T`\>[]
+`Returning` _extends_ \[`"*"`\] \| keyof [`TableType`](../type-aliases/TableType.md)\<`T`\>[]
 
 An array of keys of the table type or ['*'] to return all columns.
 
@@ -929,19 +932,21 @@ An array of columns to return after the update.
 
 #### Returns
 
-`Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+`Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 #### Example
 
 ```ts
 await db('users').where('id', 1).update({ name: 'Alice' }) // => []
 
-await db('users').where('id', 1).update({ name: 'Alice' }, { returning: ['name'] }) // => [{ name: 'Alice' }]
+await db('users')
+  .where('id', 1)
+  .update({ name: 'Alice' }, { returning: ['name'] }) // => [{ name: 'Alice' }]
 ```
 
 ### updateJson()
 
-> **updateJson**\<`C`\>(`column`, `value`): `Promise`\<`any`[]\>
+> **updateJson**\<`C`>>>>\>(`column`, `value`): `Promise`\<`any`[]\>
 
 Atomically updates a JSON/JSONB column using the `||` merge operator,
 avoiding read-modify-write race conditions.
@@ -953,7 +958,7 @@ object is bound as a parameter.
 
 ##### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 #### Parameters
 
@@ -982,7 +987,7 @@ await db('users').where('id', 1).updateJson('metadata', { age: 30 })
 
 ### upsert()
 
-> **upsert**\<`FirstValue`, `Returning`\>(`values`, `options`): `Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+> **upsert**\<`FirstValue`, `Returning`>>>>\>(`values`, `options`): `Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`>>>>\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`> > > > \> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`>>>>\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`>>>>\>[]\>
 
 Inserts or updates records in the database table.
 
@@ -993,13 +998,13 @@ and omitted `update` defaults to every non-conflict column from the first row.
 
 ##### FirstValue
 
-`FirstValue` *extends* `Partial`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>\>
+`FirstValue` _extends_ `Partial`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>\>
 
 A partial type of the table's row type.
 
 ##### Returning
 
-`Returning` *extends* \[`"*"`\] \| keyof `FirstValue`[]
+`Returning` _extends_ \[`"*"`\] \| keyof `FirstValue`[]
 
 #### Parameters
 
@@ -1033,7 +1038,7 @@ The columns to update if a conflict occurs.
 
 #### Returns
 
-`Promise`\<`Returning` *extends* \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] *extends* keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
+`Promise`\<`Returning` _extends_ \[`"*"`\] ? [`TableType`](../type-aliases/TableType.md)\<`T`\>[] : `Returning`\[`number`\] _extends_ keyof [`TableType`](../type-aliases/TableType.md)\<`T`\> ? `Pick`\<[`TableType`](../type-aliases/TableType.md)\<`T`\>, `any`\[`any`\]\>[] : `Record`\<`string`, `any`\>[]\>
 
 - A promise that resolves to the result of the upsert operation.
 
@@ -1047,7 +1052,7 @@ await db('users').upsert({ id: 1, name: 'Alice' }, { conflict: ['id'], update: [
 
 #### Call Signature
 
-> **where**\<`C`\>(`column`, `operator`, `value?`): `QueryBuilder`\<`T`, `TResult`\>
+> **where**\<`C`>>>>\>(`column`, `operator`, `value?`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Applies a WHERE condition to the query builder.
 
@@ -1060,7 +1065,7 @@ not bind a value.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -1100,7 +1105,7 @@ await query('users').where('data', '@>', { email: 'example@example.com' }) // WH
 
 #### Call Signature
 
-> **where**\<`C`\>(`column`, `operator`, `value`): `QueryBuilder`\<`T`, `TResult`\>
+> **where**\<`C`>>>>\>(`column`, `operator`, `value`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Applies a WHERE condition to the query builder.
 
@@ -1113,7 +1118,7 @@ not bind a value.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -1153,7 +1158,7 @@ await query('users').where('data', '@>', { email: 'example@example.com' }) // WH
 
 #### Call Signature
 
-> **where**\<`C`\>(`column`, `operator`): `QueryBuilder`\<`T`, `TResult`\>
+> **where**\<`C`>>>>\>(`column`, `operator`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Applies a WHERE condition to the query builder.
 
@@ -1166,7 +1171,7 @@ not bind a value.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -1200,7 +1205,7 @@ await query('users').where('data', '@>', { email: 'example@example.com' }) // WH
 
 #### Call Signature
 
-> **where**\<`C`\>(`column`, `operator`, `value`): `QueryBuilder`\<`T`, `TResult`\>
+> **where**\<`C`>>>>\>(`column`, `operator`, `value`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Applies a WHERE condition to the query builder.
 
@@ -1213,7 +1218,7 @@ not bind a value.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -1253,7 +1258,7 @@ await query('users').where('data', '@>', { email: 'example@example.com' }) // WH
 
 #### Call Signature
 
-> **where**\<`C`\>(`column`, `operator`, `value`): `QueryBuilder`\<`T`, `TResult`\>
+> **where**\<`C`>>>>\>(`column`, `operator`, `value`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Applies a WHERE condition to the query builder.
 
@@ -1266,7 +1271,7 @@ not bind a value.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -1306,7 +1311,7 @@ await query('users').where('data', '@>', { email: 'example@example.com' }) // WH
 
 #### Call Signature
 
-> **where**\<`C`\>(`column`, `value`): `QueryBuilder`\<`T`, `TResult`\>
+> **where**\<`C`>>>>\>(`column`, `value`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Applies a WHERE condition to the query builder.
 
@@ -1319,7 +1324,7 @@ not bind a value.
 
 ###### C
 
-`C` *extends* `string`
+`C` _extends_ `string`
 
 ##### Parameters
 
@@ -1353,7 +1358,7 @@ await query('users').where('data', '@>', { email: 'example@example.com' }) // WH
 
 ### whereRaw()
 
-> **whereRaw**(`sql`, ...`params`): `QueryBuilder`\<`T`, `TResult`\>
+> **whereRaw**(`sql`, ...`params`): `QueryBuilder`\<`T`, `TResult`>>>>\>
 
 Adds a raw SQL expression to the WHERE clause with parameter bindings.
 

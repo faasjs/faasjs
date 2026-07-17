@@ -11,7 +11,7 @@
  * @packageDocumentation
  */
 
-import { execSync } from 'node:child_process'
+import { execFileSync, execSync } from 'node:child_process'
 import {
   copyFileSync,
   existsSync,
@@ -175,6 +175,11 @@ function repoRoot(options: DocgenOptions = {}) {
 function run(cmd: string, cwd: string) {
   console.log(cmd)
   execSync(cmd, { cwd, stdio: 'inherit' })
+}
+
+function runCommand(command: string, args: string[], cwd: string) {
+  console.log(`${command} ${args.join(' ')}`)
+  execFileSync(command, args, { cwd, stdio: 'inherit' })
 }
 
 function normalizePath(path: string) {
@@ -524,11 +529,25 @@ export function buildApiDocs(options: DocgenOptions & { packagePath?: string } =
 
     const intentionallyNotExportedArgs =
       packagePath === 'packages/types'
-        ? ' --intentionallyNotExported FaasActions --intentionallyNotExported FaasJobs'
-        : ''
+        ? ['--intentionallyNotExported', 'FaasActions', '--intentionallyNotExported', 'FaasJobs']
+        : []
 
-    run(
-      `vp exec typedoc ${packagePath}/src/index.ts --tsconfig ${packagePath}/tsconfig.json --out ${packagePath}/${intentionallyNotExportedArgs}`,
+    runCommand(
+      'npm',
+      [
+        'exec',
+        '--workspace=@faasjs/docgen',
+        'typedoc',
+        '--',
+        join(root, packagePath, 'src/index.ts'),
+        '--options',
+        join(root, 'typedoc.json'),
+        '--tsconfig',
+        join(root, packagePath, 'tsconfig.json'),
+        '--out',
+        join(root, packagePath),
+        ...intentionallyNotExportedArgs,
+      ],
       root,
     )
 

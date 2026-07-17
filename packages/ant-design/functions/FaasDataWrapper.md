@@ -2,7 +2,7 @@
 
 # Function: FaasDataWrapper()
 
-> **FaasDataWrapper**\<`T`\>(`props`): `Element`
+> **FaasDataWrapper**\<`T`>>>>\>(`props`): `Element`
 
 Render the `@faasjs/react` data wrapper with an Ant Design loading fallback.
 

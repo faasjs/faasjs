@@ -2,7 +2,7 @@
 
 # Function: main()
 
-> **main**(`argv`): `Promise`\<`Command`\>
+> **main**(`argv`): `Promise`\<`Command`>>>>>>>>>>>>\>
 
 Run the `create-faas-app` CLI with a provided argv array.
 

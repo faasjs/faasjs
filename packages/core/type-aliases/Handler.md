@@ -2,7 +2,7 @@
 
 # Type Alias: Handler\<TEvent, TContext, TResult\>
 
-> **Handler**\<`TEvent`, `TContext`, `TResult`\> = (`data`) => `Promise`\<`TResult`\>
+> **Handler**\<`TEvent`, `TContext`, `TResult`> > > > \> = (`data`) => `Promise`\<`TResult`>>>>\>
 
 User-defined handler executed after plugins have prepared invoke data.
 

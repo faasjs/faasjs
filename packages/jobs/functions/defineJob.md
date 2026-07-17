@@ -2,7 +2,7 @@
 
 # Function: defineJob()
 
-> **defineJob**\<`TSchema`, `TContext`, `THandler`\>(`options`): [`Job`](../classes/Job.md)\<`TSchema`, `TContext`, `Awaited`\<`ReturnType`\<`THandler`\>\>\>
+> **defineJob**\<`TSchema`, `TContext`, `THandler`>>>>\>(`options`): [`Job`](../classes/Job.md)\<`TSchema`, `TContext`, `Awaited`\<`ReturnType`\<`THandler`>>>>>>>>>>>>\>\>\>
 
 Define a PostgreSQL-backed background job.
 

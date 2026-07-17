@@ -272,11 +272,10 @@ export type InferFaasAction<TApi> =
  * @see {@link FaasJobParams}
  * @see {@link FaasJobPaths}
  */
-export type InferFaasJob<TJob> =
-  TJob extends { readonly __faasjsJobParams: infer TParams }
-    ? { Params: TParams }
-    : TJob extends { default: infer TDefault }
-      ? TDefault extends { readonly __faasjsJobParams: infer TParams }
-        ? { Params: TParams }
-        : never
+export type InferFaasJob<TJob> = TJob extends { readonly __faasjsJobParams: infer TParams }
+  ? { Params: TParams }
+  : TJob extends { default: infer TDefault }
+    ? TDefault extends { readonly __faasjsJobParams: infer TParams }
+      ? { Params: TParams }
       : never
+    : never

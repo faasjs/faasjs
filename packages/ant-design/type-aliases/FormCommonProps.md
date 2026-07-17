@@ -2,7 +2,7 @@
 
 # Type Alias: FormCommonProps\<Values, ExtendItemProps\>
 
-> **FormCommonProps**\<`Values`, `ExtendItemProps`\> = `Omit`\<`AntdFormProps`\<`Values`\>, `"onFinish"` \| `"children"` \| `"initialValues"`\> & `object`
+> **FormCommonProps**\<`Values`, `ExtendItemProps`> > > > \> = `Omit`\<`AntdFormProps`\<`Values`>>>>\>, `"onFinish"` \| `"children"` \| `"initialValues"`> > > > \> & `object`
 
 Shared props used by both Faas-backed and manually-submitted forms.
 
@@ -34,7 +34,7 @@ Elements rendered after the submit button.
 
 ### initialValues?
 
-> `optional` **initialValues?**: `Partial`\<`Values`\>
+> `optional` **initialValues?**: `Partial`\<`Values`>>>>\>
 
 Initial field values for the form.
 

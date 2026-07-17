@@ -14,8 +14,6 @@ Options for generating `@faasjs/types` API and job declarations.
 
 Logger used to report generation progress.
 
-***
-
 ### root?
 
 > `optional` **root?**: `string`

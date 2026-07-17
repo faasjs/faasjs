@@ -2,7 +2,7 @@
 
 # Type Alias: ExtendFormTypeProps\<T\>
 
-> **ExtendFormTypeProps**\<`T`\> = [`BaseExtendTypeProps`](BaseExtendTypeProps.md)\<`T`\>
+> **ExtendFormTypeProps**\<`T`> > > > \> = [`BaseExtendTypeProps`](BaseExtendTypeProps.md)\<`T`>>>>\>
 
 Type-level extension payload for custom form item types.
 

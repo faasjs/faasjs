@@ -4,7 +4,7 @@
 
 ## Call Signature
 
-> **Description**\<`T`\>(`props`): `Element`
+> **Description**\<`T`>>>>\>(`props`): `Element`
 
 Render an Ant Design description list from a local data source.
 
@@ -49,7 +49,7 @@ export function Detail() {
 
 ## Call Signature
 
-> **Description**\<`Path`, `T`\>(`props`): `Element`
+> **Description**\<`Path`, `T`>>>>\>(`props`): `Element`
 
 Render an Ant Design description list with fetched FaasJS data.
 
@@ -106,7 +106,7 @@ export function Detail() {
 
 ## Call Signature
 
-> **Description**\<`T`\>(`props`): `Element`
+> **Description**\<`T`>>>>\>(`props`): `Element`
 
 Render an Ant Design description list (catch-all overload for backward compatibility).
 

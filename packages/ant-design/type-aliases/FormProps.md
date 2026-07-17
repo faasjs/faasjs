@@ -2,7 +2,7 @@
 
 # Type Alias: FormProps\<Values, Path, ExtendItemProps\>
 
-> **FormProps**\<`Values`, `Path`, `ExtendItemProps`\> = [`FormWithoutFaasProps`](FormWithoutFaasProps.md)\<`Values`, `ExtendItemProps`\> \| [`FormWithFaasProps`](FormWithFaasProps.md)\<`Path`, `Values`, `ExtendItemProps`\>
+> **FormProps**\<`Values`, `Path`, `ExtendItemProps`> > > > \> = [`FormWithoutFaasProps`](FormWithoutFaasProps.md)\<`Values`, `ExtendItemProps`> > > > \> \| [`FormWithFaasProps`](FormWithFaasProps.md)\<`Path`, `Values`, `ExtendItemProps`>>>>\>
 
 Full props union accepted by the [Form](../functions/Form.md) component.
 

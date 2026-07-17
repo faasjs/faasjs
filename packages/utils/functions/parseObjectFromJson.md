@@ -2,7 +2,7 @@
 
 # Function: parseObjectFromJson()
 
-> **parseObjectFromJson**\<`T`\>(`value`): `T`
+> **parseObjectFromJson**\<`T`>>>>\>(`value`): `T`
 
 Normalizes JSON-like input into an object record.
 

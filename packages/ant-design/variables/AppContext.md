@@ -10,7 +10,7 @@ Shared context storing message, notification, modal, and drawer helpers.
 
 ### use
 
-> **use**: \<`NewT`\>(`this`) => `Readonly`\<`NewT`\>
+> **use**: \<`NewT`>>>>\>(`this`) => `Readonly`\<`NewT`>>>>\>
 
 Hook used to read values from the splitting context.
 
@@ -51,7 +51,7 @@ function ChildComponent() {
 
 ### Provider()
 
-> **Provider**\<`NewT`\>(`this`, `props`): `ReactNode`
+> **Provider**\<`NewT`>>>>\>(`this`, `props`): `ReactNode`
 
 The provider component of the splitting context.
 

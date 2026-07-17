@@ -2,7 +2,7 @@
 
 # Type Alias: DefineApiData\<TSchema\>
 
-> **DefineApiData**\<`TSchema`\> = [`InvokeData`](InvokeData.md)\<`Record`\<`string`, `unknown`\>, `unknown`, `unknown`\> & `object` & `DefineApiInject`
+> **DefineApiData**\<`TSchema`> > > > \> = [`InvokeData`](InvokeData.md)\<`Record`\<`string`, `unknown`>>>>\>, `unknown`, `unknown`> > > > \> & `object` & `DefineApiInject`
 
 Handler data passed to [defineApi](../functions/defineApi.md).
 
@@ -21,7 +21,7 @@ Cookie helper injected by the HTTP plugin.
 
 ### params
 
-> **params**: `SchemaOutput`\<`TSchema`, `Record`\<`string`, `never`\>\>
+> **params**: `SchemaOutput`\<`TSchema`, `Record`\<`string`, `never`>>>>>>>>\>\>
 
 Params validated by the optional Zod schema.
 

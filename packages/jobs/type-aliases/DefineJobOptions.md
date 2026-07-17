@@ -2,7 +2,7 @@
 
 # Type Alias: DefineJobOptions\<TSchema, TContext, TResult\>
 
-> **DefineJobOptions**\<`TSchema`, `TContext`, `TResult`\> = `object`
+> **DefineJobOptions**\<`TSchema`, `TContext`, `TResult`> > > > \> = `object`
 
 Options for [defineJob](../functions/defineJob.md).
 
@@ -24,13 +24,13 @@ Options for [defineJob](../functions/defineJob.md).
 
 ### cron?
 
-> `optional` **cron?**: [`JobCron`](JobCron.md)\<[`DefineJobParams`](DefineJobParams.md)\<`TSchema`\>\>[]
+> `optional` **cron?**: [`JobCron`](JobCron.md)\<[`DefineJobParams`](DefineJobParams.md)\<`TSchema`>>>>>>>>\>\>[]
 
 Cron rules that trigger scheduled invocations of this job.
 
 ### handler
 
-> **handler**: (`data`) => `TResult` \| `Promise`\<`TResult`\>
+> **handler**: (`data`) => `TResult` \| `Promise`\<`TResult`>>>>\>
 
 The job handler function.
 

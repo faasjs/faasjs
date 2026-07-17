@@ -2,7 +2,7 @@
 
 # Type Alias: UseFaasOptions\<Path\>
 
-> **UseFaasOptions**\<`Path`\> = `object`
+> **UseFaasOptions**\<`Path`> > > > \> = `object`
 
 Options that customize the [useFaas](../functions/useFaas.md) request lifecycle.
 
@@ -24,7 +24,7 @@ Base URL override used for this request lifecycle.
 
 ### data?
 
-> `optional` **data?**: `FaasData`\<`Path`\>
+> `optional` **data?**: `FaasData`\<`Path`>>>>\>
 
 Controlled data value used instead of internal hook state.
 
@@ -36,7 +36,7 @@ Milliseconds to wait before sending the latest request.
 
 ### params?
 
-> `optional` **params?**: `FaasParams`\<`Path`\>
+> `optional` **params?**: `FaasParams`\<`Path`>>>>\>
 
 Controlled params override sent with the request without mutating local params state.
 
@@ -48,7 +48,7 @@ Milliseconds to wait after each completed request before refreshing data in the 
 
 ### setData?
 
-> `optional` **setData?**: `React.Dispatch`\<`React.SetStateAction`\<`FaasData`\<`Path`\>\>\>
+> `optional` **setData?**: `React.Dispatch`\<`React.SetStateAction`\<`FaasData`\<`Path`>>>>>>>>>>>>\>\>\>
 
 Controlled setter paired with `data`.
 

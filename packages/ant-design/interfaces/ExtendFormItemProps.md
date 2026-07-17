@@ -12,7 +12,7 @@ Extensible form item props that accept any string `type`.
 
 ### children?
 
-> `optional` **children?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\> \| `null`
+> `optional` **children?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`> > > > \> \| `null`
 
 Generic custom element rendered when no form-specific child overrides it.
 
@@ -52,7 +52,7 @@ Custom type renderers keyed by item type.
 
 ### formChildren?
 
-> `optional` **formChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\> \| `null`
+> `optional` **formChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`> > > > \> \| `null`
 
 Form-specific custom element.
 
@@ -62,7 +62,7 @@ Form-specific custom element.
 
 ### formRender?
 
-> `optional` **formRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\> \| `null`
+> `optional` **formRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`> > > > \> \| `null`
 
 Form-specific custom render callback.
 
@@ -100,7 +100,7 @@ Conditional visibility predicate. When `false`, the field is hidden and rendered
 
 ### input?
 
-> `optional` **input?**: `InputProps` \| `RadioProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps` \| `SelectProps`\<`any`, `DefaultOptionType`\>
+> `optional` **input?**: `InputProps` \| `RadioProps` \| `InputNumberProps`\<`ValueType`> > > > \> \| `SwitchProps` \| `DatePickerProps` \| `SelectProps`\<`any`, `DefaultOptionType`>>>>\>
 
 Props forwarded to the Ant Design input component used for this field.
 
@@ -130,7 +130,7 @@ Maximum number of entries allowed in a list item.
 
 ### object?
 
-> `optional` **object?**: [`FormItemProps`](FormItemProps.md)\<`any`\>[]
+> `optional` **object?**: [`FormItemProps`](FormItemProps.md)\<`any`>>>>\>[]
 
 Nested item definitions used by `object` and `object[]` item types.
 
@@ -176,7 +176,7 @@ Called when the field value changes.
 
 ### render?
 
-> `optional` **render?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\> \| `null`
+> `optional` **render?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`> > > > \> \| `null`
 
 Generic custom render callback.
 

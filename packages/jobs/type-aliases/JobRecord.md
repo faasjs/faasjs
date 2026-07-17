@@ -14,27 +14,27 @@ Persisted row from the `faasjs_jobs` table.
 
 Number of attempts already claimed.
 
-### completed_at
+### completed\_at
 
-> **completed_at**: `Date` \| `string` \| `null`
+> **completed\_at**: `Date` \| `string` \| `null`
 
 Completion timestamp.
 
-### created_at
+### created\_at
 
-> **created_at**: `Date` \| `string`
+> **created\_at**: `Date` \| `string`
 
 Row creation timestamp.
 
-### cron_key
+### cron\_key
 
-> **cron_key**: `string` \| `null`
+> **cron\_key**: `string` \| `null`
 
 Optional cron hash used to deduplicate scheduler rows by minute.
 
-### failed_at
+### failed\_at
 
-> **failed_at**: `Date` \| `string` \| `null`
+> **failed\_at**: `Date` \| `string` \| `null`
 
 Final failure timestamp.
 
@@ -44,45 +44,45 @@ Final failure timestamp.
 
 Unique job row id.
 
-### idempotency_key
+### idempotency\_key
 
-> **idempotency_key**: `string` \| `null`
+> **idempotency\_key**: `string` \| `null`
 
 Optional idempotency key used to deduplicate manual enqueues.
 
-### job_path
+### job\_path
 
-> **job_path**: `string`
+> **job\_path**: `string`
 
 Path-derived `.job.ts` identifier.
 
-### last_error
+### last\_error
 
-> **last_error**: `string` \| `null`
+> **last\_error**: `string` \| `null`
 
 Last failure message or stack.
 
-### lease_id
+### lease\_id
 
-> **lease_id**: `string` \| `null`
+> **lease\_id**: `string` \| `null`
 
 Lease id used to complete or fail the claimed row.
 
-### locked_by
+### locked\_by
 
-> **locked_by**: `string` \| `null`
+> **locked\_by**: `string` \| `null`
 
 Worker id currently holding the lease.
 
-### locked_until
+### locked\_until
 
-> **locked_until**: `Date` \| `string` \| `null`
+> **locked\_until**: `Date` \| `string` \| `null`
 
 Time when the current lease expires.
 
-### max_attempts
+### max\_attempts
 
-> **max_attempts**: `number`
+> **max\_attempts**: `number`
 
 Maximum attempts before permanent failure.
 
@@ -104,15 +104,15 @@ Higher priority rows are claimed before lower priority rows.
 
 Queue this row is claimed from.
 
-### run_at
+### run\_at
 
-> **run_at**: `Date` \| `string`
+> **run\_at**: `Date` \| `string`
 
 Earliest time this row may be claimed.
 
-### scheduled_at
+### scheduled\_at
 
-> **scheduled_at**: `Date` \| `string` \| `null`
+> **scheduled\_at**: `Date` \| `string` \| `null`
 
 Minute timestamp associated with a scheduler enqueue.
 
@@ -122,8 +122,8 @@ Minute timestamp associated with a scheduler enqueue.
 
 Current lifecycle status.
 
-### updated_at
+### updated\_at
 
-> **updated_at**: `Date` \| `string`
+> **updated\_at**: `Date` \| `string`
 
 Row update timestamp.

@@ -2,7 +2,7 @@
 
 # Function: enqueueJob()
 
-> **enqueueJob**\<`Path`\>(`jobPath`, `params`, `options?`): `Promise`\<[`JobRecord`](../type-aliases/JobRecord.md)\>
+> **enqueueJob**\<`Path`>>>>\>(`jobPath`, `params`, `options?`): `Promise`\<[`JobRecord`](../type-aliases/JobRecord.md)>>>>\>
 
 Enqueue a pending job by its `.job.ts` path-derived identifier.
 
@@ -13,7 +13,7 @@ and a matching row already exists, the existing row is returned unchanged.
 
 ### Path
 
-`Path` *extends* `FaasJobPaths`
+`Path` _extends_ `FaasJobPaths`
 
 ## Parameters
 
@@ -52,18 +52,26 @@ await enqueueJob('features/users/jobs/sync', { userId: 'u_123' })
 ```
 
 ```ts
-await enqueueJob('features/reports/jobs/daily', {}, {
-  queue: 'reports',
-  priority: 10,
-  idempotencyKey: 'report-2025-01-01',
-})
+await enqueueJob(
+  'features/reports/jobs/daily',
+  {},
+  {
+    queue: 'reports',
+    priority: 10,
+    idempotencyKey: 'report-2025-01-01',
+  },
+)
 ```
 
 ```ts
 await client.transaction(async (trx) => {
   await updateBusinessState(trx)
-  await enqueueJob('features/users/jobs/sync', { userId: 'u_123' }, {
-    client: trx,
-  })
+  await enqueueJob(
+    'features/users/jobs/sync',
+    { userId: 'u_123' },
+    {
+      client: trx,
+    },
+  )
 })
 ```

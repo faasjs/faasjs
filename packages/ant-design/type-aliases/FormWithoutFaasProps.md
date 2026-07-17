@@ -2,7 +2,7 @@
 
 # Type Alias: FormWithoutFaasProps\<Values, ExtendItemProps\>
 
-> **FormWithoutFaasProps**\<`Values`, `ExtendItemProps`\> = [`FormCommonProps`](FormCommonProps.md)\<`Values`, `ExtendItemProps`\> & `object`
+> **FormWithoutFaasProps**\<`Values`, `ExtendItemProps`> > > > \> = [`FormCommonProps`](FormCommonProps.md)\<`Values`, `ExtendItemProps`> > > > \> & `object`
 
 Props for the [Form](../functions/Form.md) component when NO FaasJS integration is used.
 
@@ -16,7 +16,7 @@ Must not be set when using a custom `onFinish` handler.
 
 ### onFinish?
 
-> `optional` **onFinish?**: (`values`) => `void` \| `Promise`\<`void`\>
+> `optional` **onFinish?**: (`values`) => `void` \| `Promise`\<`void`>>>>\>
 
 Custom submit handler that replaces the built-in FaasJS flow.
 

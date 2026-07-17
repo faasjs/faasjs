@@ -2,7 +2,7 @@
 
 # Type Alias: JsonSelectField\<T\>
 
-> **JsonSelectField**\<`T`\> = `object`
+> **JsonSelectField**\<`T`> > > > \> = `object`
 
 Select a subset of fields from a JSON or JSONB column.
 
@@ -13,7 +13,7 @@ typed JSON column while keeping the result row narrowed to the selected keys.
 
 ### T
 
-`T` *extends* `string`
+`T` _extends_ `string`
 
 Table name used to infer JSON-capable columns and fields.
 
@@ -27,12 +27,12 @@ Optional result alias. Defaults to the source column name.
 
 ### column
 
-> **column**: `JsonbColumns`\<`T`\>
+> **column**: `JsonbColumns`\<`T`>>>>\>
 
 JSON/JSONB column whose fields should be projected.
 
 ### fields
 
-> **fields**: `JsonbFields`\<`T`, `JsonbColumns`\<`T`\>\>[]
+> **fields**: `JsonbFields`\<`T`, `JsonbColumns`\<`T`>>>>>>>>\>\>[]
 
 Field names to include from the JSON/JSONB column.

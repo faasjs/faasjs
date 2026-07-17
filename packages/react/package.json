@@ -33,7 +33,8 @@
   },
   "peerDependencies": {
     "@faasjs/types": ">=8.0.0-beta.43",
-    "@faasjs/utils": ">=8.0.0-beta.43"
+    "@faasjs/utils": ">=8.0.0-beta.43",
+    "react": "^19.0.0"
   },
   "engines": {
     "node": ">=26.0.0",

@@ -53,7 +53,7 @@ When `PG_POOL_MAX` is set and is not a positive safe integer.
 
 ### query()
 
-> **query**\<`T`\>(`table`): [`QueryBuilder`](QueryBuilder.md)\<`T`\>
+> **query**\<`T`>>>>\>(`table`): [`QueryBuilder`](QueryBuilder.md)\<`T`>>>>\>
 
 Initiates a query builder for the specified table.
 
@@ -65,7 +65,7 @@ table names, columns, values, and selected result rows.
 
 ##### T
 
-`T` *extends* [`TableName`](../type-aliases/TableName.md)
+`T` _extends_ [`TableName`](../type-aliases/TableName.md)
 
 The type of the table name.
 
@@ -91,7 +91,7 @@ const users = await client.query('users').where('id', userId)
 
 ### quit()
 
-> **quit**(): `Promise`\<`void`\>
+> **quit**(): `Promise`\<`void`>>>>\>
 
 Closes the underlying connection pool and removes this client from the cache.
 
@@ -101,7 +101,7 @@ Closes the underlying connection pool and removes this client from the cache.
 
 ### raw()
 
-> **raw**\<`T`\>(`query`, ...`params`): `Promise`\<`T`[]\>
+> **raw**\<`T`>>>>\>(`query`, ...`params`): `Promise`\<`T`[]\>
 
 Executes a raw SQL query and returns the result as an array of objects.
 
@@ -117,7 +117,7 @@ are logged before being rethrown.
 
 ##### T
 
-`T` *extends* `Record`\<`string`, `any`\> = `any`
+`T` _extends_ `Record`\<`string`, `any`\> = `any`
 
 The type of the result objects. Defaults to `Record<string, any>`.
 
@@ -158,7 +158,7 @@ const users = await client.raw<User>('SELECT * FROM users WHERE id = ?', userId)
 
 #### Call Signature
 
-> **transaction**\<`T`\>(`fn`): `Promise`\<`T`\>
+> **transaction**\<`T`>>>>\>(`fn`): `Promise`\<`T`>>>>\>
 
 Executes a function within a database transaction, optionally with an isolation
 level and explicit read-only/read-write mode.
@@ -203,7 +203,7 @@ const snapshot = await client.transaction(
 
 #### Call Signature
 
-> **transaction**\<`T`\>(`options`, `fn`): `Promise`\<`T`\>
+> **transaction**\<`T`>>>>\>(`options`, `fn`): `Promise`\<`T`>>>>\>
 
 Executes a function within a database transaction using explicit transaction modes.
 
@@ -243,7 +243,7 @@ A promise that resolves to the result of the transaction function.
 
 ### options
 
-> `readonly` **options**: [`ClientOptions`](../type-aliases/ClientOptions.md)\<`Record`\<`string`, `PostgresType`\<`any`\>\>\>
+> `readonly` **options**: [`ClientOptions`](../type-aliases/ClientOptions.md)\<`Record`\<`string`, `PostgresType`\<`any`>>>>>>>>>>>>\>\>\>
 
 ### postgres
 

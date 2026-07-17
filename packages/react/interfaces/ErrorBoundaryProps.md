@@ -14,7 +14,7 @@ Descendant elements protected by the boundary.
 
 ### errorChildren?
 
-> `optional` **errorChildren?**: `ReactElement`\<[`ErrorChildrenProps`](../type-aliases/ErrorChildrenProps.md), `string` \| `JSXElementConstructor`\<`any`\>\>
+> `optional` **errorChildren?**: `ReactElement`\<[`ErrorChildrenProps`](../type-aliases/ErrorChildrenProps.md), `string` \| `JSXElementConstructor`\<`any`>>>>>>>>\>\>
 
 Custom fallback element cloned with captured error details.
 

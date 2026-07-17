@@ -2,7 +2,7 @@
 
 # Type Alias: JobCron\<TParams\>
 
-> **JobCron**\<`TParams`\> = `object`
+> **JobCron**\<`TParams`> > > > \> = `object`
 
 Cron rule that enqueues a job with optional schema-typed params.
 

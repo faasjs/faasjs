@@ -2,7 +2,7 @@
 
 # Type Alias: DefineJobParams\<TSchema\>
 
-> **DefineJobParams**\<`TSchema`\> = `SchemaOutput`\<`TSchema`, `Record`\<`string`, `never`\>\>
+> **DefineJobParams**\<`TSchema`> > > > \> = `SchemaOutput`\<`TSchema`, `Record`\<`string`, `never`>>>>>>>>\>\>
 
 Params validated by the optional Zod schema.
 

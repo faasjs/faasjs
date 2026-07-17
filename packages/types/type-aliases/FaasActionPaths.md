@@ -2,7 +2,7 @@
 
 # Type Alias: FaasActionPaths
 
-> **FaasActionPaths** = `Extract`\<keyof `FaasActions`, `string`\>
+> **FaasActionPaths** = `Extract`\<keyof `FaasActions`, `string`>>>>\>
 
 Union of all declared action path string literals.
 

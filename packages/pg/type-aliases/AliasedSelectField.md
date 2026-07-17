@@ -2,7 +2,7 @@
 
 # Type Alias: AliasedSelectField\<T\>
 
-> **AliasedSelectField**\<`T`\> = `object`
+> **AliasedSelectField**\<`T`> > > > \> = `object`
 
 Selects a column under a different result key.
 
@@ -10,7 +10,7 @@ Selects a column under a different result key.
 
 ### T
 
-`T` *extends* `string`
+`T` _extends_ `string`
 
 Table name used to infer valid columns.
 
@@ -24,6 +24,6 @@ Result key for the selected column.
 
 ### column
 
-> **column**: [`ColumnName`](ColumnName.md)\<`T`\>
+> **column**: [`ColumnName`](ColumnName.md)\<`T`>>>>\>
 
 Column to select.

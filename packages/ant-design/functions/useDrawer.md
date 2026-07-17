@@ -34,7 +34,7 @@ Hook-managed drawer element, current props, and a state-merging setter.
 
 ### setDrawerProps
 
-> **setDrawerProps**: `Dispatch`\<`SetStateAction`\<[`DrawerProps`](../interfaces/DrawerProps.md)\>\>
+> **setDrawerProps**: `Dispatch`\<`SetStateAction`\<[`DrawerProps`](../interfaces/DrawerProps.md)>>>>>>>>\>\>
 
 ## Example
 

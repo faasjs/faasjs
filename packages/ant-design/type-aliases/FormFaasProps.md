@@ -2,7 +2,7 @@
 
 # Type Alias: FormFaasProps\<Values, Path\>
 
-> **FormFaasProps**\<`Values`, `Path`\> = `object`
+> **FormFaasProps**\<`Values`, `Path`> > > > \> = `object`
 
 Configures FaasJS-backed form submission for create/update/delete style actions.
 
@@ -84,7 +84,7 @@ Called with the `faas` response and final submitted payload after a successful r
 
 ### params?
 
-> `optional` **params?**: `FaasParams`\<`Path`\> \| ((`values`) => `FaasParams`\<`Path`\>)
+> `optional` **params?**: `FaasParams`\<`Path`> > > > \> \| ((`values`) => `FaasParams`\<`Path`>>>>\>)
 
 Extra static params or a factory that receives transformed form values.
 
@@ -93,7 +93,7 @@ route metadata for update/delete flows.
 
 ### transformValues?
 
-> `optional` **transformValues?**: (`values`) => `Record`\<`string`, `any`\> \| `Promise`\<`Record`\<`string`, `any`\>\>
+> `optional` **transformValues?**: (`values`) => `Record`\<`string`, `any`> > > > \> \| `Promise`\<`Record`\<`string`, `any`>>>>>>>>\>\>
 
 Transformer applied before `params` are merged and before the FaasJS request is fired.
 

@@ -12,15 +12,15 @@ Framework-managed context fields shared with plugins and handlers.
 
 ## Properties
 
-### request_at?
+### request\_at?
 
-> `optional` **request_at?**: `string`
+> `optional` **request\_at?**: `string`
 
 Request creation marker used by logs and plugin labels.
 
-### request_id?
+### request\_id?
 
-> `optional` **request_id?**: `string`
+> `optional` **request\_id?**: `string`
 
 Request-scoped id used by logs and plugin labels.
 

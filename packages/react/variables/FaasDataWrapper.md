@@ -2,7 +2,7 @@
 
 # Variable: FaasDataWrapper
 
-> `const` **FaasDataWrapper**: \<`Path`\>(`props`) => `ReactElement`\<`unknown`, `string` \| `JSXElementConstructor`\<`any`\>\> \| `null`
+> `const` **FaasDataWrapper**: \<`Path`>>>>\>(`props`) => `ReactElement`\<`unknown`, `string` \| `JSXElementConstructor`\<`any`>> >> >> >> \>\> \| `null`
 
 Fetch FaasJS data and inject the result into a render prop or child element.
 

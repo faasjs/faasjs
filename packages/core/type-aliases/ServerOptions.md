@@ -33,7 +33,7 @@ const server = new Server(join(process.cwd(), 'src'), {
 
 ### onClose?
 
-> `optional` **onClose?**: (`context`) => `Promise`\<`void`\>
+> `optional` **onClose?**: (`context`) => `Promise`\<`void`>>>>\>
 
 Async hook invoked after the server closes.
 
@@ -72,7 +72,7 @@ const server = new Server(join(process.cwd(), 'src'), {
 
 ### onError?
 
-> `optional` **onError?**: (`error`, `context`) => `Promise`\<`void`\>
+> `optional` **onError?**: (`error`, `context`) => `Promise`\<`void`>>>>\>
 
 Async hook invoked when server-level errors occur.
 
@@ -117,7 +117,7 @@ const server = new Server(join(process.cwd(), 'src'), {
 
 ### onStart?
 
-> `optional` **onStart?**: (`context`) => `Promise`\<`void`\>
+> `optional` **onStart?**: (`context`) => `Promise`\<`void`>>>>\>
 
 Async hook invoked after the server starts listening.
 

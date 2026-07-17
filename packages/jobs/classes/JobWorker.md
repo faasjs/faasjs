@@ -45,7 +45,7 @@ worker.start()
 
 ### poll()
 
-> **poll**(): `Promise`\<`number`\>
+> **poll**(): `Promise`\<`number`>>>>\>
 
 Execute one polling cycle: claim up to `concurrency` pending jobs
 and run their handlers. No-op if a poll is already in progress.
@@ -71,7 +71,7 @@ The worker instance (for chaining).
 
 ### stop()
 
-> **stop**(): `Promise`\<`void`\>
+> **stop**(): `Promise`\<`void`>>>>\>
 
 Stop the polling loop. Waits for the current poll to complete
 before resolving.

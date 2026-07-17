@@ -30,8 +30,11 @@ Creates an escaped SQL identifier reference for interpolation into sql.
 ## Example
 
 ```ts
-await client.query('jobs').where('id', id).update({
-  attempts: sql`${sql.ref('attempts')} + ${1}`,
-  updated_at: sql`NOW()`,
-})
+await client
+  .query('jobs')
+  .where('id', id)
+  .update({
+    attempts: sql`${sql.ref('attempts')} + ${1}`,
+    updated_at: sql`NOW()`,
+  })
 ```

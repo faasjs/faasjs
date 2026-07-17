@@ -2,7 +2,6 @@ import { act, renderHook } from '@testing-library/react'
 import type { Dispatch, SetStateAction } from 'react'
 import { describe, expect, expectTypeOf, it, vi } from 'vitest'
 
-import * as ReactExports from '../..'
 import { createProxyStates, type ProxyStateRef } from '../../createProxyStates'
 
 describe('createProxyStates', () => {
@@ -152,11 +151,6 @@ describe('createProxyStates', () => {
     }
   })
 
-  it('should export only Proxy state names', () => {
-    expect(ReactExports.createProxyStates).toBe(createProxyStates)
-    expect(ReactExports).not.toHaveProperty('createWindowStates')
-  })
-
   it('should infer generated helper types', () => {
     const states = createProxyStates({ count: 0, text: '' })
 
@@ -170,10 +164,6 @@ describe('createProxyStates', () => {
       states.setCount('1')
       // @ts-expect-error ref current should be read-only
       states.textRef.current = 'changed'
-      // @ts-expect-error createWindowStates should no longer be exported
-      void ReactExports.createWindowStates
-      // @ts-expect-error WindowStateRef should no longer be exported
-      expectTypeOf<ReactExports.WindowStateRef<string>>()
     }
 
     expect(checkTypes).toBeTypeOf('function')

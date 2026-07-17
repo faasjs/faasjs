@@ -2,7 +2,7 @@
 
 # Function: useEqualMemo()
 
-> **useEqualMemo**\<`T`\>(`callback`, `dependencies`): `T`
+> **useEqualMemo**\<`T`>>>>\>(`callback`, `dependencies`): `T`
 
 Custom hook that works like `useMemo` but uses deep comparison on dependencies.
 

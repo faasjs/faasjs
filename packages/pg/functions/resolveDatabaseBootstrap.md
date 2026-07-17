@@ -2,7 +2,7 @@
 
 # Function: resolveDatabaseBootstrap()
 
-> **resolveDatabaseBootstrap**(): `Promise`\<`void`\>
+> **resolveDatabaseBootstrap**(): `Promise`\<`void`>>>>\>
 
 Resolves the registered async database bootstrap.
 

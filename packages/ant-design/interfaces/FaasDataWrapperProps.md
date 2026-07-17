@@ -82,7 +82,7 @@ Base URL override used for this wrapper instance.
 
 ### children?
 
-> `optional` **children?**: `ReactElement`\<`Partial`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`T`\>\>, `string` \| `JSXElementConstructor`\<`any`\>\>
+> `optional` **children?**: `ReactElement`\<`Partial`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`T`>>>>>>>>\>\>, `string` \| `JSXElementConstructor`\<`any`>>>>>>>>\>\>
 
 Child element cloned with injected request state after the first load completes.
 
@@ -92,7 +92,7 @@ Child element cloned with injected request state after the first load completes.
 
 ### data?
 
-> `optional` **data?**: `FaasActionValue`\<`T`, `"Data"`\>
+> `optional` **data?**: `FaasActionValue`\<`T`, `"Data"`>>>>\>
 
 Controlled data value used instead of internal state.
 
@@ -124,7 +124,7 @@ Props forwarded to the built-in [Loading](../functions/Loading.md) fallback.
 
 ### params?
 
-> `optional` **params?**: `FaasActionValue`\<`T`, `"Params"`\>
+> `optional` **params?**: `FaasActionValue`\<`T`, `"Params"`>>>>\>
 
 Params sent to the action.
 
@@ -144,7 +144,7 @@ Milliseconds to wait after each completed request before refreshing data in the 
 
 ### ref?
 
-> `optional` **ref?**: `Ref`\<[`FaasDataWrapperRef`](../type-aliases/FaasDataWrapperRef.md)\<`T`\>\>
+> `optional` **ref?**: `Ref`\<[`FaasDataWrapperRef`](../type-aliases/FaasDataWrapperRef.md)\<`T`>>>>>>>>\>\>
 
 Imperative ref exposing the current injected request state.
 
@@ -154,7 +154,7 @@ Imperative ref exposing the current injected request state.
 
 ### setData?
 
-> `optional` **setData?**: `Dispatch`\<`SetStateAction`\<`FaasActionValue`\<`T`, `"Data"`\>\>\>
+> `optional` **setData?**: `Dispatch`\<`SetStateAction`\<`FaasActionValue`\<`T`, `"Data"`>>>>>>>>>>>>\>\>\>
 
 Controlled setter used instead of internal state.
 

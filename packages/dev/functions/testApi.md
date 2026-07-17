@@ -2,7 +2,7 @@
 
 # Function: testApi()
 
-> **testApi**\<`TApi`\>(`api`): [`TestApiHandler`](../type-aliases/TestApiHandler.md)\<`TApi`\>
+> **testApi**\<`TApi`>>>>\>(`api`): [`TestApiHandler`](../type-aliases/TestApiHandler.md)\<`TApi`>>>>\>
 
 Create a callable JSON test handler around a FaasJS API.
 

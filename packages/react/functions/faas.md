@@ -2,7 +2,7 @@
 
 # Function: faas()
 
-> **faas**\<`Path`\>(`action`, `params`, `options?`): `Promise`\<[`Response`](../classes/Response.md)\<`FaasData`\<`Path`\>\>\>
+> **faas**\<`Path`>>>>\>(`action`, `params`, `options?`): `Promise`\<[`Response`](../classes/Response.md)\<`FaasData`\<`Path`>>>>>>>>>>>>\>\>\>
 
 Call the currently configured FaasReactClient.
 

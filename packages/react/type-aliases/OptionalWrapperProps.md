@@ -2,7 +2,7 @@
 
 # Type Alias: OptionalWrapperProps\<TWrapper\>
 
-> **OptionalWrapperProps**\<`TWrapper`\> = `object`
+> **OptionalWrapperProps**\<`TWrapper`> > > > \> = `object`
 
 Props for the [OptionalWrapper](../functions/OptionalWrapper.md) helper component.
 
@@ -36,6 +36,6 @@ Wrapper component used only when `condition` passes.
 
 ### wrapperProps?
 
-> `optional` **wrapperProps?**: `ComponentProps`\<`TWrapper`\>
+> `optional` **wrapperProps?**: `ComponentProps`\<`TWrapper`>>>>\>
 
 Props forwarded to `Wrapper` together with `children` when `condition` is `true`.

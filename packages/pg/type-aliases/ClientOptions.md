@@ -2,7 +2,7 @@
 
 # Type Alias: ClientOptions\<T\>
 
-> **ClientOptions**\<`T`\> = `postgres.Options`\<`T`\>
+> **ClientOptions**\<`T`> > > > \> = `postgres.Options`\<`T`>>>>\>
 
 Options for creating a PostgreSQL client. Extends `postgres.js` options.
 

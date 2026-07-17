@@ -2,7 +2,7 @@
 
 # Function: defineApi()
 
-> **defineApi**\<`TSchema`, `THandler`\>(`options`): [`Func`](../classes/Func.md)\<`Record`\<`string`, `unknown`\>, `unknown`, `Awaited`\<`ReturnType`\<`THandler`\>\>\>
+> **defineApi**\<`TSchema`, `THandler`>>>>\>(`options`): [`Func`](../classes/Func.md)\<`Record`\<`string`, `unknown`>>>>\>, `unknown`, `Awaited`\<`ReturnType`\<`THandler`>>>>>>>>>>>>\>\>\>
 
 Create an HTTP API function with optional Zod validation.
 

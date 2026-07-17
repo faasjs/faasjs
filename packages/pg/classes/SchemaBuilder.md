@@ -144,7 +144,7 @@ The new table name.
 
 ### run()
 
-> **run**(): `Promise`\<`void`\>
+> **run**(): `Promise`\<`void`>>>>\>
 
 Executes all registered schema changes in a single database transaction.
 

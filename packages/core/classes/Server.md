@@ -56,7 +56,7 @@ When `onStart`, `onError`, or `onClose` is not an async function.
 
 ### close()
 
-> **close**(): `Promise`\<`void`\>
+> **close**(): `Promise`\<`void`>>>>\>
 
 Close the server and wait for active requests to finish.
 
@@ -68,7 +68,7 @@ Promise that resolves after sockets, requests, and transports stop.
 
 ### handle()
 
-> **handle**(`req`, `res`, `options?`): `Promise`\<`void`\>
+> **handle**(`req`, `res`, `options?`): `Promise`\<`void`>>>>\>
 
 Handle a single incoming HTTP request.
 
@@ -116,7 +116,7 @@ When the server is already running.
 
 ### middleware()
 
-> **middleware**(`req`, `res`, `next`): `Promise`\<`void`\>
+> **middleware**(`req`, `res`, `next`): `Promise`\<`void`>>>>\>
 
 Express-style middleware wrapper that delegates to [Server.handle](#handle).
 
