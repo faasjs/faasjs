@@ -1,9 +1,56 @@
 import type { FuncEventType } from '@faasjs/core'
+import type { Client } from '@faasjs/pg'
+import type { InferFaasJob } from '@faasjs/types'
 import { z } from '@faasjs/utils'
 import { assertType, expectTypeOf, it } from 'vitest'
 
-import type { DefineJobParams } from '..'
+import type { DefineJobParams, JobRecord } from '..'
 import { defineJob } from '../../define-job'
+import { enqueueJob } from '../../queue'
+
+const typedJob = defineJob({
+  schema: z.object({
+    userId: z.string(),
+    count: z.number().optional(),
+  }),
+  async handler({ params }) {
+    return params.userId
+  },
+})
+
+const emptyJob = defineJob({
+  async handler() {},
+})
+
+declare module '@faasjs/types' {
+  interface FaasJobs {
+    'jobs/empty': InferFaasJob<typeof emptyJob>
+    'jobs/typed': InferFaasJob<{
+      default: typeof typedJob
+    }>
+  }
+}
+
+it('enqueueJob should use registered job paths and params', () => {
+  expectTypeOf(enqueueJob('jobs/typed', { userId: 'u_123' })).toEqualTypeOf<Promise<JobRecord>>()
+  void enqueueJob('jobs/typed', {
+    userId: 'u_123',
+    count: 1,
+  })
+  void enqueueJob('jobs/empty', {})
+  void enqueueJob('jobs/typed', { userId: 'u_123' }, { client: {} as Client })
+
+  // @ts-expect-error unknown job path
+  void enqueueJob('jobs/unknown', {})
+  // @ts-expect-error params are required
+  void enqueueJob('jobs/typed')
+  // @ts-expect-error userId is required
+  void enqueueJob('jobs/typed', {})
+  // @ts-expect-error userId must be a string
+  void enqueueJob('jobs/typed', { userId: 1 })
+  // @ts-expect-error jobs without a schema only accept empty params
+  void enqueueJob('jobs/empty', { userId: 'u_123' })
+})
 
 it('defineJob should infer params from schema', () => {
   const schema = z.object({

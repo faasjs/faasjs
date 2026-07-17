@@ -2,7 +2,7 @@
 
 # @faasjs/dev
 
-FaasJS development toolkit for local servers, generated route types, and test helpers.
+FaasJS development toolkit for local servers, generated API/job types, and test helpers.
 
 [![License: MIT](https://img.shields.io/npm/l/@faasjs/dev.svg)](https://github.com/faasjs/faasjs/blob/main/packages/dev/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/@faasjs/dev.svg)](https://www.npmjs.com/package/@faasjs/dev)
@@ -18,7 +18,7 @@ npm install -D @faasjs/dev
 - `viteFaasJsServer()` runs a FaasJS server inside Vite during local development.
 - `ViteConfig` bundles the standard FaasJS React and Vite Plus defaults.
 - `OxfmtConfig` and `OxlintConfig` expose the shared FaasJS formatting and lint rules.
-- `generateFaasTypes()` emits route declarations for `@faasjs/types`.
+- `generateFaasTypes()` emits API route and job declarations for `@faasjs/types`.
 - `testApi()` and [ApiTester](classes/ApiTester.md) help invoke and assert FaasJS APIs in tests.
 
 ## Usage: Shared Vite Preset

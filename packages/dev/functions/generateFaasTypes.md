@@ -6,11 +6,11 @@
 
 Generate `src/.faasjs/types.d.ts` for a FaasJS project.
 
-The generator scans the `src/` tree for `.api.ts` files, converts file
-names into routes, and keeps the most specific file when multiple files resolve to
-the same route. Route precedence is: regular `*.api.ts` files, then `index.api.ts`,
-then fallback `default.api.ts` files. Fallback files emit wildcard routes such as
-`*` and `users/*`, while root and index files emit `/` or the directory route.
+The generator scans the `src/` tree for `.api.ts` and `.job.ts` files. API
+names become routes, while job names become path identifiers with `.job.ts`
+removed and trailing `/index` collapsed. Duplicate job paths are rejected.
+API route precedence is: regular `*.api.ts` files, then `index.api.ts`, then
+fallback `default.api.ts` files.
 
 Generated route keys omit the leading slash except for `/`; for example,
 `src/users/default.api.ts` becomes `users/*`.
@@ -27,7 +27,7 @@ Project root and logger overrides.
 
 `Promise`\<[`GenerateFaasTypesResult`](../type-aliases/GenerateFaasTypesResult.md)\>
 
-Summary describing the generated file and discovered routes.
+Summary describing the generated file, routes, and jobs.
 
 ## Throws
 
@@ -42,5 +42,5 @@ const result = await generateFaasTypes({
   root: process.cwd(),
 })
 
-console.log(result.output, result.routeCount)
+console.log(result.output, result.routeCount, result.jobCount)
 ```

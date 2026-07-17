@@ -14,6 +14,7 @@ function resetMockImplementations(): void {
   mocks.generateFaasTypes.mockImplementation(async () => ({
     changed: true,
     fileCount: 3,
+    jobCount: 1,
     output: '/tmp/faas-project/src/.faasjs/types.d.ts',
     routeCount: 2,
   }))
@@ -36,7 +37,7 @@ describe('faas types cli', () => {
 
     expect(code).toBe(0)
     expect(logSpy).toHaveBeenCalledWith(
-      expect.stringContaining('Generate FaasJS API type declarations.'),
+      expect.stringContaining('Generate FaasJS API and job type declarations.'),
     )
     expect(mocks.generateFaasTypes).not.toHaveBeenCalled()
   })
@@ -59,7 +60,7 @@ describe('faas types cli', () => {
     expect(code).toBe(0)
     expect(mocks.generateFaasTypes).toHaveBeenCalledWith({})
     expect(logSpy).toHaveBeenCalledWith(
-      '[faas types] Generated /tmp/faas-project/src/.faasjs/types.d.ts (2 routes from 3 files)',
+      '[faas types] Generated /tmp/faas-project/src/.faasjs/types.d.ts (2 routes from 3 API files, 1 jobs)',
     )
   })
 
@@ -70,6 +71,7 @@ describe('faas types cli', () => {
     mocks.generateFaasTypes.mockImplementation(async () => ({
       changed: false,
       fileCount: 1,
+      jobCount: 0,
       output: `${root}/src/.faasjs/types.d.ts`,
       routeCount: 1,
     }))
@@ -81,7 +83,7 @@ describe('faas types cli', () => {
       root,
     })
     expect(logSpy).toHaveBeenCalledWith(
-      `[faas types] Up to date ${root}/src/.faasjs/types.d.ts (1 routes from 1 files)`,
+      `[faas types] Up to date ${root}/src/.faasjs/types.d.ts (1 routes from 1 API files, 0 jobs)`,
     )
   })
 

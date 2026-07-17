@@ -1,5 +1,6 @@
 import type { InvokeData } from '@faasjs/core'
 import type { SchemaOutput } from '@faasjs/node-utils'
+import type { Client } from '@faasjs/pg'
 import type { ZodInfer, ZodType } from '@faasjs/utils'
 
 /**
@@ -195,6 +196,11 @@ export type DefineJobOptions<
  * Options for {@link enqueueJob}.
  */
 export type EnqueueJobOptions = {
+  /**
+   * Database client used for this enqueue. Pass a transaction client to make
+   * the job insert atomic with surrounding business writes.
+   */
+  client?: Client
   /** Queue name. Defaults to `'default'`. */
   queue?: string
   /** Earliest time the job should run. Defaults to now. */

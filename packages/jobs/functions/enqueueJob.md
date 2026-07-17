@@ -2,24 +2,30 @@
 
 # Function: enqueueJob()
 
-> **enqueueJob**(`jobPath`, `params?`, `options?`): `Promise`\<[`JobRecord`](../type-aliases/JobRecord.md)\>
+> **enqueueJob**\<`Path`\>(`jobPath`, `params`, `options?`): `Promise`\<[`JobRecord`](../type-aliases/JobRecord.md)\>
 
 Enqueue a pending job by its `.job.ts` path-derived identifier.
 
 The jobs table is initialized automatically. When `idempotencyKey` is supplied
 and a matching row already exists, the existing row is returned unchanged.
 
+## Type Parameters
+
+### Path
+
+`Path` *extends* `FaasJobPaths`
+
 ## Parameters
 
 ### jobPath
 
-`string`
+`Path`
 
 The job path identifier derived from the `.job.ts` file location.
 
-### params?
+### params
 
-`unknown` = `{}`
+`FaasJobParams`\<`Path`\>
 
 The parameters to pass to the job handler.
 
@@ -27,7 +33,7 @@ The parameters to pass to the job handler.
 
 [`EnqueueJobOptions`](../type-aliases/EnqueueJobOptions.md) = `{}`
 
-Enqueue options including queue, priority, run time, and idempotency.
+Enqueue options including client, queue, priority, run time, and idempotency.
 
 ## Returns
 
@@ -46,13 +52,18 @@ await enqueueJob('features/users/jobs/sync', { userId: 'u_123' })
 ```
 
 ```ts
-await enqueueJob(
-  'features/reports/jobs/daily',
-  {},
-  {
-    queue: 'reports',
-    priority: 10,
-    idempotencyKey: 'report-2025-01-01',
-  },
-)
+await enqueueJob('features/reports/jobs/daily', {}, {
+  queue: 'reports',
+  priority: 10,
+  idempotencyKey: 'report-2025-01-01',
+})
+```
+
+```ts
+await client.transaction(async (trx) => {
+  await updateBusinessState(trx)
+  await enqueueJob('features/users/jobs/sync', { userId: 'u_123' }, {
+    client: trx,
+  })
+})
 ```

@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto'
 
 import { type Client, getClient } from '@faasjs/pg'
+import type { FaasJobParams, FaasJobPaths } from '@faasjs/types'
 
 import { resolveMaxAttempts, resolveQueue } from './options'
 import { type EnqueueJobOptions, type InternalEnqueueJobOptions, type JobRecord } from './types'
@@ -65,6 +66,31 @@ const jobsSchemaMigrations: JobsSchemaMigration[] = [
   },
 ]
 
+function isTransactionClient(client: Client): boolean {
+  return typeof (client.postgres as { savepoint?: unknown }).savepoint === 'function'
+}
+
+async function hasCurrentJobsSchema(client: Client): Promise<boolean> {
+  const [migrationTable] = await client.raw<{
+    exists: boolean
+  }>`SELECT to_regclass('faasjs_jobs_schema_migrations') IS NOT NULL AS exists`
+
+  if (!migrationTable?.exists) return false
+
+  const latestVersion = jobsSchemaMigrations.at(-1)?.version
+
+  if (!latestVersion) return true
+
+  const [migration] = await client.raw<{
+    exists: boolean
+  }>(
+    'SELECT EXISTS (SELECT 1 FROM faasjs_jobs_schema_migrations WHERE version = ?) AS exists',
+    latestVersion,
+  )
+
+  return Boolean(migration?.exists)
+}
+
 async function runJobsSchemaMigrations(client: Client): Promise<void> {
   await client.raw`
     CREATE TABLE IF NOT EXISTS faasjs_jobs_schema_migrations (
@@ -74,7 +100,7 @@ async function runJobsSchemaMigrations(client: Client): Promise<void> {
     )
   `
 
-  await client.transaction(async (trx) => {
+  const migrate = async (trx: Client) => {
     await trx.raw`SELECT pg_advisory_xact_lock(802201, 1)`
 
     const appliedRows = await trx.raw<{
@@ -93,7 +119,10 @@ async function runJobsSchemaMigrations(client: Client): Promise<void> {
       )
       appliedVersions.add(migration.version)
     }
-  })
+  }
+
+  if (isTransactionClient(client)) await migrate(client)
+  else await client.transaction(migrate)
 }
 
 /**
@@ -115,6 +144,11 @@ export async function ensureJobsSchema(client?: Client): Promise<void> {
   if (existingInitialization) return existingInitialization
 
   const initializing = (async () => {
+    if (await hasCurrentJobsSchema(targetClient)) {
+      initializedClients.add(targetClient)
+      return
+    }
+
     await runJobsSchemaMigrations(targetClient)
     initializedClients.add(targetClient)
   })()
@@ -234,7 +268,7 @@ export async function enqueueJobInternal(
   params: unknown = {},
   options: InternalEnqueueJobOptions = {},
 ): Promise<JobRecord> {
-  const client = await getClient()
+  const client = options.client ?? (await getClient())
 
   await ensureJobsSchema(client)
 
@@ -257,7 +291,7 @@ export async function enqueueJobInternal(
  *
  * @param jobPath - The job path identifier derived from the `.job.ts` file location.
  * @param params - The parameters to pass to the job handler.
- * @param options - Enqueue options including queue, priority, run time, and idempotency.
+ * @param options - Enqueue options including client, queue, priority, run time, and idempotency.
  * @returns The persisted job record.
  * @throws When queue, job path, priority, max attempts, or database writes are invalid.
  *
@@ -270,10 +304,18 @@ export async function enqueueJobInternal(
  *   priority: 10,
  *   idempotencyKey: 'report-2025-01-01',
  * })
+ *
+ * @example
+ * await client.transaction(async (trx) => {
+ *   await updateBusinessState(trx)
+ *   await enqueueJob('features/users/jobs/sync', { userId: 'u_123' }, {
+ *     client: trx,
+ *   })
+ * })
  */
-export async function enqueueJob(
-  jobPath: string,
-  params: unknown = {},
+export async function enqueueJob<Path extends FaasJobPaths>(
+  jobPath: Path,
+  params: FaasJobParams<Path>,
   options: EnqueueJobOptions = {},
 ): Promise<JobRecord> {
   return enqueueJobInternal(jobPath, params, options)

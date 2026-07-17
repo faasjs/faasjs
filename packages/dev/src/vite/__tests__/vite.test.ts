@@ -50,10 +50,14 @@ vi.mock('../../typegen', () => ({
     output: '/tmp/types.d.ts',
     changed: false,
     fileCount: 0,
+    jobCount: 0,
     routeCount: 0,
   })),
   isTypegenInputFile: vi.fn<(filePath: string) => boolean>(
-    (filePath: string) => filePath.endsWith('.api.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath),
+    (filePath: string) =>
+      filePath.endsWith('.api.ts') ||
+      filePath.endsWith('.job.ts') ||
+      /(^|[\\/])faas\.ya?ml$/.test(filePath),
   ),
 }))
 

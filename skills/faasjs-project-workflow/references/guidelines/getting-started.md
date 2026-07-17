@@ -141,7 +141,7 @@ FaasJS features follow a complete vertical slice pattern: database migration →
 
 **Step 5: Tests** — Place API tests under `api/__tests__/` using `testApi` from `@faasjs/dev`. See [Testing Guide](./testing.md) and CRUD Patterns Guide.
 
-**Step 6: Type generation** — After creating/modifying `.api.ts` files, run `npx faas types` to update `src/.faasjs/types.d.ts`. Then run `vp test` to verify.
+**Step 6: Type generation** — After adding, moving, or removing `.api.ts` or `.job.ts` files, run `npx faas types` to update `src/.faasjs/types.d.ts`. Then run `vp test` to verify.
 
 The `admin` template also includes a users slice with the same pattern — copy it as a reference. See the [Application Slices Guide](./application-slices.md) for the recommended slice layout.
 
@@ -224,21 +224,21 @@ See the Plugin Specification for plugin authoring.
 
 The FaasJS toolchain uses `vp` (Vite Plus) as the primary entry point for development tasks.
 
-| Command                    | Purpose                                                      |
-| -------------------------- | ------------------------------------------------------------ |
-| `vp dev`                   | Start the development server with hot reload                 |
-| `vp test`                  | Run all tests with Vitest                                    |
-| `vp test <pattern>`        | Run tests matching a file-name pattern                       |
-| `vp check --fix`           | Run linting and formatting (oxlint + oxfmt)                  |
-| `npx faas types`           | Regenerate API type declarations in `src/.faasjs/types.d.ts` |
-| `npx faasjs-pg migrate`    | Run pending database migrations                              |
-| `npx faasjs-pg new <name>` | Create a new timestamped migration file                      |
+| Command                    | Purpose                                                         |
+| -------------------------- | --------------------------------------------------------------- |
+| `vp dev`                   | Start the development server with hot reload                    |
+| `vp test`                  | Run all tests with Vitest                                       |
+| `vp test <pattern>`        | Run tests matching a file-name pattern                          |
+| `vp check --fix`           | Run linting and formatting (oxlint + oxfmt)                     |
+| `npx faas types`           | Regenerate API and job declarations in `src/.faasjs/types.d.ts` |
+| `npx faasjs-pg migrate`    | Run pending database migrations                                 |
+| `npx faasjs-pg new <name>` | Create a new timestamped migration file                         |
 
 ### Daily iteration loop
 
 1. Start the dev server: `vp dev`
 2. Edit API files (`*.api.ts`) and feature UI (`*.tsx`)
-3. After creating, renaming, or moving `.api.ts` files, regenerate types: `npx faas types`
+3. After creating, renaming, moving, or removing `.api.ts` or `.job.ts` files, regenerate types: `npx faas types`
 4. Run focused tests: `vp test src/features/todos/api/__tests__/list.test.ts`
 5. Before committing: `vp check --fix && vp test`
 

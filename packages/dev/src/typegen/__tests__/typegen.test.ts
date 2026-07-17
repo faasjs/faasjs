@@ -77,6 +77,11 @@ describe('typegen', () => {
     )
     await writeFixture(join(root, 'src', 'users', 'default.api.ts'), 'export default {} as any\n')
     await writeFixture(join(root, 'src', 'users', 'profile.api.ts'), 'export default {} as any\n')
+    await writeFixture(join(root, 'src', 'jobs', 'send.job.ts'), 'export default {} as any\n')
+    await writeFixture(
+      join(root, 'src', 'features', 'reports', 'jobs', 'index.job.ts'),
+      'export default {} as any\n',
+    )
 
     const result = await generateFaasTypes({
       root,
@@ -87,6 +92,7 @@ describe('typegen', () => {
     expect(result.output).toBe(join(root, 'src', '.faasjs', 'types.d.ts'))
     expect(result.fileCount).toBe(6)
     expect(result.routeCount).toBe(5)
+    expect(result.jobCount).toBe(2)
 
     const content = await readFile(result.output, 'utf8')
 
@@ -98,6 +104,10 @@ describe('typegen', () => {
       '"users/profile": InferFaasAction<typeof import("../users/profile.api")>',
     )
     expect(content).not.toContain('import("../posts/index.api")')
+    expect(content).toContain(
+      '"features/reports/jobs": InferFaasJob<typeof import("../features/reports/jobs/index.job")>',
+    )
+    expect(content).toContain('"jobs/send": InferFaasJob<typeof import("../jobs/send.job")>')
 
     const second = await generateFaasTypes({
       root,
@@ -107,6 +117,7 @@ describe('typegen', () => {
     expect(second.changed).toBe(false)
     expect(second.fileCount).toBe(6)
     expect(second.routeCount).toBe(5)
+    expect(second.jobCount).toBe(2)
   })
 
   it('should throw when source directory does not exist', async () => {
@@ -144,10 +155,31 @@ describe('typegen', () => {
     expect(result.output).toBe(join(root, 'app', 'src', '.faasjs', 'types.d.ts'))
     expect(result.fileCount).toBe(1)
     expect(result.routeCount).toBe(1)
+    expect(result.jobCount).toBe(0)
+  })
+
+  it('should reject duplicate job paths', async () => {
+    const root = await createTempProject()
+    const logger = new Logger('typegen:test')
+    logger.silent = true
+
+    await writeFixture(join(root, 'src', 'jobs', 'reports.job.ts'), 'export default {} as any\n')
+    await writeFixture(
+      join(root, 'src', 'jobs', 'reports', 'index.job.ts'),
+      'export default {} as any\n',
+    )
+
+    await expect(
+      generateFaasTypes({
+        root,
+        logger,
+      }),
+    ).rejects.toThrow('[faas types] Duplicate job path "jobs/reports"')
   })
 
   it('should detect typegen input files', () => {
     expect(isTypegenInputFile('/tmp/app/src/demo.api.ts')).toBe(true)
+    expect(isTypegenInputFile('/tmp/app/src/demo.job.ts')).toBe(true)
     expect(isTypegenInputFile('/tmp/app/src/faas.yaml')).toBe(true)
     expect(isTypegenInputFile('C:\\repo\\src\\faas.yml')).toBe(true)
     expect(isTypegenInputFile('/tmp/app/src/demo.ts')).toBe(false)

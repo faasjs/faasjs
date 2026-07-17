@@ -6,7 +6,7 @@ Use this guide when defining `.job.ts` background jobs, enqueueing asynchronous 
 
 1. Create feature-owned `.job.ts` files under `src/features/<feature>/jobs/`; use `src/jobs/` for cross-cutting or platform jobs.
 2. Default-export `defineJob(...)` with a schema when the params have a shape.
-3. Enqueue work with `enqueueJob(jobPath, params)` from APIs, scripts, or other jobs.
+3. Enqueue work with the generated path and params types through `enqueueJob(jobPath, params)`.
 4. Let `enqueueJob()` initialize the internal `faasjs_jobs` schema; do not duplicate it in app migrations.
 5. Run `startJobWorker()` in a worker process for execution.
 6. Run `startJobScheduler()` only when `.job.ts` files include `cron` rules.
@@ -71,6 +71,34 @@ await enqueueJob(
 ```
 
 Use `idempotencyKey` for enqueue-side dedupe. It does not make the handler exactly-once, so database writes and external calls should still tolerate retries.
+
+When a business write and its job must commit atomically, pass the surrounding transaction
+client through the enqueue options:
+
+```ts
+import { enqueueJob } from '@faasjs/jobs'
+import { getClient } from '@faasjs/pg'
+
+const client = await getClient()
+
+await client.transaction(async (trx) => {
+  await trx.query('users').where('id', userId).update({ status: 'syncing' })
+  await enqueueJob(
+    'features/users/jobs/sync',
+    {
+      userId,
+    },
+    {
+      client: trx,
+      idempotencyKey: `users:sync:${userId}`,
+    },
+  )
+})
+```
+
+The `client` option only selects the database context for that enqueue. Omitting it keeps
+the default `getClient()` behavior. The jobs package still initializes and owns its internal
+tables; application code should not insert into or declare `faasjs_jobs` directly.
 
 ### 4. Separate scheduler from worker execution
 
@@ -163,6 +191,7 @@ Model queue behavior as an enqueue, worker, or scheduler scenario:
 - validation case: enqueue invalid params with `maxAttempts: 1`, run `worker.poll()`, and assert the row failed with an `Invalid job params` error
 - retry/failure case: make the handler fail through a controlled external boundary, then assert `attempts`, `status`, `last_error`, and next `run_at`
 - cron case: call `scheduler.tick(fixedDate)` once or twice and assert pending rows, `cron_key`, `scheduled_at`, and dedupe for the same minute
+- transaction case: enqueue with `{ client: trx }`, roll back the outer transaction, and assert neither the business state nor the job was committed
 
 For focused queue tests, prefer public `JobWorker` and `JobScheduler` with a small in-memory registry. Call `poll()` or `tick(fixedDate)` directly instead of starting timer loops. Use `startJobWorker({ root })` or `startJobScheduler({ root })` only when the behavior under test is file discovery or startup wiring, and stop them in `finally`.
 
@@ -234,6 +263,7 @@ describe('features/reports/jobs/daily-report', () => {
 - handlers use `getClient()` when they need database access and use the injected `logger`
 - plugins that are API-only check `data.context.runtime !== 'api'` and call `await next()` so inherited HTTP concerns do not rewrite job params
 - idempotency and retry behavior are explicit
+- transaction-coupled jobs pass `{ client: trx }` instead of copying queue-table SQL
 - cron rules enqueue jobs instead of doing work directly
 - worker and scheduler startup are separate from HTTP server lifecycle
 - app migrations do not recreate the internal jobs tables

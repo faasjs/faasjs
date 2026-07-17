@@ -29,6 +29,13 @@
  * })
  *
  * await enqueueJob('features/users/jobs/sync', { userId: 'u_123' })
+ *
+ * await client.transaction(async (trx) => {
+ *   await updateBusinessState(trx)
+ *   await enqueueJob('features/users/jobs/sync', { userId: 'u_123' }, {
+ *     client: trx,
+ *   })
+ * })
  * ```
  *
  * @packageDocumentation

@@ -2,7 +2,7 @@
 
 # @faasjs/types
 
-Shared action type helpers for FaasJS backends, generated route declarations,
+Shared action and job type helpers for FaasJS backends, generated declarations,
 React callers, and TypeScript config presets.
 
 [![License: MIT](https://img.shields.io/npm/l/@faasjs/types.svg)](https://github.com/faasjs/faasjs/blob/main/packages/types/LICENSE)
@@ -34,5 +34,8 @@ In your tsconfig.json:
 
 - [FaasActionPaths](type-aliases/FaasActionPaths.md)
 - [FaasData](type-aliases/FaasData.md)
+- [FaasJobParams](type-aliases/FaasJobParams.md)
+- [FaasJobPaths](type-aliases/FaasJobPaths.md)
 - [FaasParams](type-aliases/FaasParams.md)
 - [InferFaasAction](type-aliases/InferFaasAction.md)
+- [InferFaasJob](type-aliases/InferFaasJob.md)

@@ -34,5 +34,5 @@ description: 'Use when working in any FaasJS repo and no narrower FaasJS skill i
 
 - Use `vp check --fix` for formatting and linting.
 - Use `vp test` or `vp test <pattern>` for tests.
-- Run `npx faas types` after changing `.api.ts` files.
+- Run `npx faas types` after adding, moving, or removing `.api.ts` or `.job.ts` files.
 - Run `npx faasjs-pg migrate` or targeted PG checks only when database changes require them and `DATABASE_URL` is available.

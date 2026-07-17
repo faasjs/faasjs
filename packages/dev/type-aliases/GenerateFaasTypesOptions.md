@@ -4,7 +4,7 @@
 
 > **GenerateFaasTypesOptions** = `object`
 
-Options for generating `@faasjs/types` route declarations.
+Options for generating `@faasjs/types` API and job declarations.
 
 ## Properties
 
@@ -13,6 +13,8 @@ Options for generating `@faasjs/types` route declarations.
 > `optional` **logger?**: `Logger`
 
 Logger used to report generation progress.
+
+***
 
 ### root?
 

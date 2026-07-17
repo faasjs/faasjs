@@ -5,7 +5,7 @@ Use this guide when running CLI commands, troubleshooting command errors, or cho
 ## Default Workflow
 
 1. Install dependencies with `npm install` before running any FaasJS commands.
-2. After creating, renaming, or moving a `.api.ts` file, run `faas types` to regenerate type declarations.
+2. After creating, renaming, moving, or removing a `.api.ts` or `.job.ts` file, run `faas types` to regenerate type declarations.
 3. Use `vp check --fix` for code formatting and linting before committing.
 4. Use `vp test` as the default test runner; narrow to `vp test <pattern>` for focused runs.
 5. Run database migrations through `faasjs-pg migrate` when a migration is pending.
@@ -19,7 +19,7 @@ Provided by `@faasjs/dev` as the `faas` binary (`faas.mjs`). It has two subcomma
 | ------------------------------- | ------------------------------------------------------------------- |
 | `faas run <file>`               | Run a TypeScript file with FaasJS Node module hooks preloaded       |
 | `faas run <file> --root <path>` | Specify project root to resolve `<file>` (default: `process.cwd()`) |
-| `faas types`                    | Generate API type declarations to `src/.faasjs/types.d.ts`          |
+| `faas types`                    | Generate API and job declarations to `src/.faasjs/types.d.ts`       |
 | `faas types --root <path>`      | Specify project root for type generation                            |
 
 Global options:
@@ -29,7 +29,7 @@ Global options:
 
 > **Run details**: `faas run` resolves `@faasjs/node-utils/register-hooks` and spawns a child Node process with `--import` so the target script gets a normal `process.argv`.
 
-> **Type generation details**: `faas types` scans `src/` for `.api.ts` files, converts filenames into routes, and writes `src/.faasjs/types.d.ts`. It skips `.faasjs` and `node_modules` directories. Only `.api.ts` files and `faas.yaml` changes trigger type regeneration (see `isTypegenInputFile` in `@faasjs/dev`).
+> **Type generation details**: `faas types` scans `src/` for `.api.ts` and `.job.ts` files, converts filenames into API routes and job paths, and writes `src/.faasjs/types.d.ts`. It skips `.faasjs`, `dist`, and `node_modules` directories. API files, job files, and `faas.yaml` changes trigger type regeneration (see `isTypegenInputFile` in `@faasjs/dev`).
 
 ## Vite Plus / vp
 
@@ -126,9 +126,9 @@ DATABASE_URL=postgres://localhost:5432/myapp npx faasjs-pg new add-users-table
 
 ## Type Generation Workflow
 
-Keep type declarations in sync with your API routes:
+Keep type declarations in sync with your API routes and jobs:
 
-1. After **creating**, **renaming**, or **moving** a `.api.ts` file, run:
+1. After **creating**, **renaming**, **moving**, or **removing** a `.api.ts` or `.job.ts` file, run:
 
    ```bash
    npx faas types
@@ -136,7 +136,7 @@ Keep type declarations in sync with your API routes:
 
 2. The generated file is written to `src/.faasjs/types.d.ts`.
 
-3. The output declares a `FaasActions` interface via module augmentation on `@faasjs/types`, using `InferFaasAction` for every route.
+3. The output declares `FaasActions` and `FaasJobs` through module augmentation on `@faasjs/types`, using `InferFaasAction` for routes and `InferFaasJob` for job params.
 
 4. `faas types` is idempotent: it compares the generated content against the existing file and only writes when something changed.
 
@@ -238,7 +238,7 @@ npx faas types --root /path/to/project
 
 ## Rules
 
-1. **Run `faas types` after every `.api.ts` change.** Creating, renaming, or moving API files without regenerating types will cause type errors in callers.
+1. **Run `faas types` after API or job file changes.** Creating, renaming, moving, or removing `.api.ts` or `.job.ts` files without regenerating types will leave caller paths stale.
 2. **Prefer `vp check --fix` over manual formatting.** It uses oxlint and oxfmt through vite-plus shared configs.
 3. **Prefer `vp test` over direct `vitest` calls.** It uses the project's `vite.config.ts` which includes all necessary plugins and aliases.
 4. **Use `npx` when the binary is not globally installed.** Both `faas` and `vp` are local to the project's `node_modules`.
@@ -249,7 +249,7 @@ npx faas types --root /path/to/project
 
 ## Review Checklist
 
-- `.api.ts` changes are followed by `faas types` (or a recorded reason)
+- `.api.ts` and `.job.ts` path changes are followed by `faas types` (or a recorded reason)
 - `faas.yaml` is valid YAML and follows the faas.yaml specification
 - `vp check --fix` passes before commit
 - `vp test` passes (or a recorded blocker + narrower validation that did run)

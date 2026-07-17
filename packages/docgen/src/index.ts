@@ -523,7 +523,9 @@ export function buildApiDocs(options: DocgenOptions & { packagePath?: string } =
     }
 
     const intentionallyNotExportedArgs =
-      packagePath === 'packages/types' ? ' --intentionallyNotExported FaasActions' : ''
+      packagePath === 'packages/types'
+        ? ' --intentionallyNotExported FaasActions --intentionallyNotExported FaasJobs'
+        : ''
 
     run(
       `vp exec typedoc ${packagePath}/src/index.ts --tsconfig ${packagePath}/tsconfig.json --out ${packagePath}/${intentionallyNotExportedArgs}`,

@@ -164,10 +164,11 @@ export function viteFaasJsServer(): Plugin {
           })
 
           logger.debug(
-            '[faas types] %s %s (%i routes)',
+            '[faas types] %s %s (%i routes, %i jobs)',
             result.changed ? 'generated' : 'up-to-date',
             result.output,
             result.routeCount,
+            result.jobCount,
           )
         } catch (error: any) {
           logger.error('[faas types] %s', error.message)

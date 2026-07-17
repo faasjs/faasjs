@@ -12,7 +12,7 @@ Executable job definition returned by [defineJob](../functions/defineJob.md).
 
 ### TSchema
 
-`TSchema` _extends_ `ZodType` \| `undefined` = `undefined`
+`TSchema` *extends* `ZodType` \| `undefined` = `undefined`
 
 ### TContext
 
@@ -71,6 +71,8 @@ Object containing the exported handler.
 
 `Func.export`
 
+***
+
 ### invoke()
 
 > **invoke**(`data`): `Promise`\<`void`\>
@@ -94,6 +96,8 @@ Promise that resolves after invoke hooks complete.
 #### Inherited from
 
 `Func.invoke`
+
+***
 
 ### mount()
 
@@ -151,6 +155,18 @@ Promise that resolves after mount hooks complete.
 
 Marker used by the job loader to recognize job definitions.
 
+***
+
+### \_\_faasjsJobParams
+
+> `readonly` **\_\_faasjsJobParams**: `SchemaOutput`\<`TSchema`\>
+
+**`Internal`**
+
+Type-only marker used by `InferFaasJob` to infer enqueue params.
+
+***
+
 ### config
 
 > **config**: `Config`
@@ -161,11 +177,15 @@ Mutable runtime configuration used by the function.
 
 `Func.config`
 
+***
+
 ### cron
 
 > `readonly` **cron**: [`JobCron`](../type-aliases/JobCron.md)\<`SchemaOutput`\<`TSchema`, `Record`\<`string`, `never`\>\>\>[]
 
 Cron rules used by [JobScheduler](JobScheduler.md) to enqueue scheduled jobs.
+
+***
 
 ### filename?
 
@@ -177,6 +197,8 @@ Resolved source filename inferred from the constructor call stack.
 
 `Func.filename`
 
+***
+
 ### handler?
 
 > `optional` **handler?**: `Handler`\<[`JobEvent`](../type-aliases/JobEvent.md)\<`TSchema`\>, `TContext`, `TResult`\>
@@ -187,11 +209,15 @@ Final business handler invoked after plugins finish.
 
 `Func.handler`
 
+***
+
 ### maxAttempts
 
 > `readonly` **maxAttempts**: `number`
 
 Normalized maximum attempts before a job is marked failed.
+
+***
 
 ### mounted
 
@@ -203,6 +229,8 @@ Indicates whether mount hooks have already run.
 
 `Func.mounted`
 
+***
+
 ### plugins
 
 > **plugins**: `Plugin`[]
@@ -213,17 +241,23 @@ Ordered plugin instances attached to this function.
 
 `Func.plugins`
 
+***
+
 ### queue
 
 > `readonly` **queue**: `string`
 
 Normalized queue name used by default enqueues and workers.
 
+***
+
 ### retry
 
 > `readonly` **retry**: [`JobRetry`](../type-aliases/JobRetry.md) \| `undefined`
 
 Retry strategy used after failed attempts.
+
+***
 
 ### runtime
 
@@ -235,6 +269,8 @@ provide one.
 #### Inherited from
 
 `Func.runtime`
+
+***
 
 ### schema
 

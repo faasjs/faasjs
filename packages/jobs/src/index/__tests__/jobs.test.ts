@@ -11,6 +11,20 @@ import { getJobPathFromFile, loadJobRegistry } from '../../discovery'
 import { enqueueJob, JobScheduler, JobWorker, type JobRecord } from '../../index'
 import { ensureJobsSchema } from '../../queue'
 
+declare module '@faasjs/types' {
+  interface FaasJobs {
+    'jobs/missing': {
+      Params: Record<string, never>
+    }
+    'jobs/retry': {
+      Params: { message: string }
+    }
+    'jobs/success': {
+      Params: { message: string }
+    }
+  }
+}
+
 const root = resolve(__dirname, 'fixtures/src')
 const tempDirs: string[] = []
 
@@ -88,6 +102,70 @@ describe('jobs', () => {
     })
   })
 
+  it('rolls back a job enqueued with a transaction client', async () => {
+    await expect(
+      client.transaction(async (trx) => {
+        await trx.raw`
+          INSERT INTO job_events (job_id, message, attempt)
+          VALUES ('00000000-0000-0000-0000-000000000001'::uuid, 'transactional', 1)
+        `
+        await enqueueJob(
+          'jobs/success',
+          {
+            message: 'transactional',
+          },
+          {
+            client: trx,
+            idempotencyKey: 'jobs/success:transactional',
+          },
+        )
+
+        throw Error('rollback transaction')
+      }),
+    ).rejects.toThrow('rollback transaction')
+
+    const jobs = await client.raw<JobRecord>`
+      SELECT * FROM faasjs_jobs
+      WHERE idempotency_key = 'jobs/success:transactional'
+    `
+    const events = await client.raw`
+      SELECT * FROM job_events
+      WHERE message = 'transactional'
+    `
+
+    expect(jobs).toHaveLength(0)
+    expect(events).toHaveLength(0)
+  })
+
+  it('deduplicates concurrent transaction-client enqueues', async () => {
+    const records = await Promise.all(
+      Array.from({ length: 4 }, () =>
+        client.transaction(async (trx) =>
+          enqueueJob(
+            'jobs/success',
+            {
+              message: 'concurrent',
+            },
+            {
+              client: trx,
+              idempotencyKey: 'jobs/success:concurrent',
+            },
+          ),
+        ),
+      ),
+    )
+
+    expect(new Set(records.map((record) => record.id)).size).toBe(1)
+
+    const jobs = await client.raw<JobRecord>`
+      SELECT * FROM faasjs_jobs
+      WHERE idempotency_key = 'jobs/success:concurrent'
+    `
+
+    expect(jobs).toHaveLength(1)
+    expect(jobs[0].id).toEqual(records[0].id)
+  })
+
   it('records the internal jobs schema migration version', async () => {
     const migrations = await client.raw<{
       version: number
@@ -103,12 +181,12 @@ describe('jobs', () => {
   })
 
   it('rejects explicit invalid queue and max attempts values', async () => {
-    await expect(enqueueJob('jobs/success', {}, { queue: '' })).rejects.toThrow(
-      'queue must not be empty',
-    )
-    await expect(enqueueJob('jobs/success', {}, { maxAttempts: 0 })).rejects.toThrow(
-      'maxAttempts must be a positive integer',
-    )
+    await expect(
+      enqueueJob('jobs/success', { message: 'invalid queue' }, { queue: '' }),
+    ).rejects.toThrow('queue must not be empty')
+    await expect(
+      enqueueJob('jobs/success', { message: 'invalid attempts' }, { maxAttempts: 0 }),
+    ).rejects.toThrow('maxAttempts must be a positive integer')
     expect(() => new JobWorker(new Map(), { queue: '' })).toThrow('queue must not be empty')
 
     const registry = await loadJobRegistry({ root })

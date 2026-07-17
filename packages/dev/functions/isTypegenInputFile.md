@@ -6,9 +6,9 @@
 
 Determine whether a file change should trigger Faas type generation.
 
-API files affect route declarations directly. `faas.yaml` and `faas.yml` files
-can affect the resolved server root, so watchers should treat them as typegen
-inputs as well.
+API and job files affect generated declarations directly. `faas.yaml` and
+`faas.yml` files can affect the resolved server root, so watchers should treat
+them as typegen inputs as well.
 
 ## Parameters
 
@@ -30,5 +30,6 @@ Absolute or relative path reported by a file watcher.
 import { isTypegenInputFile } from '@faasjs/dev'
 
 isTypegenInputFile('src/orders/create.api.ts') // true
+isTypegenInputFile('src/orders/process.job.ts') // true
 isTypegenInputFile('src/orders/service.ts') // false
 ```

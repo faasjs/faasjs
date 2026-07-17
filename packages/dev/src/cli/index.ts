@@ -9,7 +9,7 @@ Usage:
 
 Commands:
   run [options] <file>            Run a TypeScript file with FaasJS loader hooks
-  types [options]                 Generate FaasJS API type declarations
+  types [options]                 Generate FaasJS API and job type declarations
 
 Options:
   -h, --help                      Show help

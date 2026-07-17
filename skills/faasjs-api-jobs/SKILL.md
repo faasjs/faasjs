@@ -23,12 +23,12 @@ description: 'Use when building or reviewing FaasJS backend APIs and jobs: .api.
 ## Gotchas
 
 - Destructure only the top-level handler context, such as `handler({ params })`; do not destructure business fields from `params`.
-- Run `npx faas types` after changing `.api.ts` contracts.
+- Run `npx faas types` after adding, moving, or removing `.api.ts` or `.job.ts` files.
 - Check user, tenant, organization, project, role, or permission scope before reading or mutating data.
 - Do not log secrets, tokens, passwords, cookies, full sensitive payloads, or unredacted third-party responses.
 
 ## Validation
 
 - Run focused API or job tests with `vp test <pattern>`.
-- Run `npx faas types` after API contract changes.
+- Run `npx faas types` after API or job file changes.
 - Run `vp check --fix` before handoff when backend files changed.

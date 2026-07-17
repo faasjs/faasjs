@@ -1,7 +1,7 @@
 import { generateFaasTypes } from '../../../typegen/index.ts'
 import { createMain, parseCommonCliArgs, printVersion } from '../../utils/index.ts'
 
-const HelpText = `Generate FaasJS API type declarations.
+const HelpText = `Generate FaasJS API and job type declarations.
 
 Usage:
   faas types [options]
@@ -39,7 +39,7 @@ export async function run(args: string[]): Promise<number> {
   const result = await generateFaasTypes(options)
 
   console.log(
-    `[faas types] ${result.changed ? 'Generated' : 'Up to date'} ${result.output} (${result.routeCount} routes from ${result.fileCount} files)`,
+    `[faas types] ${result.changed ? 'Generated' : 'Up to date'} ${result.output} (${result.routeCount} routes from ${result.fileCount} API files, ${result.jobCount} jobs)`,
   )
 
   return 0

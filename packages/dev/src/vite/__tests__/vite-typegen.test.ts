@@ -12,10 +12,14 @@ const mocks = vi.hoisted(() => {
     output: '/tmp/types.d.ts',
     changed: true,
     fileCount: 1,
+    jobCount: 1,
     routeCount: 1,
   }))
   const isTypegenInputFile = vi.fn<(filePath: string) => boolean>(
-    (filePath: string) => filePath.endsWith('.api.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath),
+    (filePath: string) =>
+      filePath.endsWith('.api.ts') ||
+      filePath.endsWith('.job.ts') ||
+      /(^|[\\/])faas\.ya?ml$/.test(filePath),
   )
 
   class ServerMock {
@@ -118,6 +122,7 @@ describe('viteFaasJsServer typegen', () => {
 
     server.watcher.emit('all', 'change', join(root, 'src', 'a.api.ts'))
     server.watcher.emit('all', 'change', join(root, 'src', 'b.api.ts'))
+    server.watcher.emit('all', 'change', join(root, 'src', 'process.job.ts'))
     server.watcher.emit('all', 'change', join(root, 'src', 'faas.yaml'))
     server.watcher.emit('all', 'change', join(root, 'src', 'ignore.ts'))
 

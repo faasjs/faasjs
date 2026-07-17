@@ -8,6 +8,15 @@ Options for [enqueueJob](../functions/enqueueJob.md).
 
 ## Properties
 
+### client?
+
+> `optional` **client?**: `Client`
+
+Database client used for this enqueue. Pass a transaction client to make
+the job insert atomic with surrounding business writes.
+
+***
+
 ### idempotencyKey?
 
 > `optional` **idempotencyKey?**: `string`
@@ -15,11 +24,15 @@ Options for [enqueueJob](../functions/enqueueJob.md).
 Idempotency key. Jobs with the same key are only inserted once.
 Used to prevent duplicate enqueues for the same logical operation.
 
+***
+
 ### maxAttempts?
 
 > `optional` **maxAttempts?**: `number`
 
 Maximum execution attempts. Defaults to `3`.
+
+***
 
 ### priority?
 
@@ -27,11 +40,15 @@ Maximum execution attempts. Defaults to `3`.
 
 Execution priority. Higher values run first. Defaults to `0`.
 
+***
+
 ### queue?
 
 > `optional` **queue?**: `string`
 
 Queue name. Defaults to `'default'`.
+
+***
 
 ### runAt?
 

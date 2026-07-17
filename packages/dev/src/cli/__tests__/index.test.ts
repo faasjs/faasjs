@@ -51,7 +51,7 @@ describe('faas cli', () => {
     [
       'types help text',
       ['node', 'faas', 'types', '--help'],
-      ['Generate FaasJS API type declarations.'],
+      ['Generate FaasJS API and job type declarations.'],
       [],
     ],
     [

@@ -1,7 +1,7 @@
 /**
  * # @faasjs/types
  *
- * Shared action type helpers for FaasJS backends, generated route declarations,
+ * Shared action and job type helpers for FaasJS backends, generated declarations,
  * React callers, and TypeScript config presets.
  *
  * [![License: MIT](https://img.shields.io/npm/l/@faasjs/types.svg)](https://github.com/faasjs/faasjs/blob/main/packages/types/LICENSE)
@@ -67,6 +67,29 @@
 export interface FaasActions {}
 
 /**
+ * Augmentation interface for registering typed FaasJS jobs.
+ *
+ * Extend this interface via declaration merging to register `.job.ts`
+ * paths and their parameter types. Generated declarations map each job path
+ * to `InferFaasJob<typeof import('../path.job')>`.
+ *
+ * @example
+ * ```ts
+ * declare module '@faasjs/types' {
+ *   interface FaasJobs {
+ *     'features/users/jobs/sync': {
+ *       Params: { userId: string }
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * @see {@link FaasJobPaths}
+ * @see {@link FaasJobParams}
+ */
+export interface FaasJobs {}
+
+/**
  * Union of all declared action path string literals.
  *
  * Used internally by {@link FaasParams} and {@link FaasData} to
@@ -78,6 +101,25 @@ export interface FaasActions {}
  * @see {@link FaasData}
  */
 export type FaasActionPaths = Extract<keyof FaasActions, string>
+
+/**
+ * Union of all declared `.job.ts` path string literals.
+ *
+ * Resolves to `never` until `FaasJobs` is augmented, usually by the
+ * generated `src/.faasjs/types.d.ts` file.
+ */
+export type FaasJobPaths = Extract<keyof FaasJobs, string>
+
+/**
+ * Infer the params type for a registered job path.
+ *
+ * @template Path - A path registered in `FaasJobs`.
+ */
+export type FaasJobParams<Path extends FaasJobPaths> = FaasJobs[Path] extends {
+  Params: infer TParams
+}
+  ? TParams
+  : never
 
 type FaasActionValue<T, TField extends 'Params' | 'Data'> = T extends FaasActionPaths
   ? FaasActions[T][TField]
@@ -210,3 +252,31 @@ export type InferFaasAction<TApi> =
       ? InferFaasActionFromApi<TDefault>
       : never
     : InferFaasActionFromApi<TApi>
+
+/**
+ * Infer `{ Params }` from a FaasJS job definition or a module whose default
+ * export is a FaasJS job definition.
+ *
+ * @template TJob - A `Job` object or module with a default `Job` export.
+ * @returns An object containing the job params type, or `never` when inference fails.
+ *
+ * @example
+ * ```ts
+ * import type { InferFaasJob } from '@faasjs/types'
+ * import type * as syncJob from './features/users/jobs/sync.job'
+ *
+ * type SyncJob = InferFaasJob<typeof syncJob>
+ * // → { Params: { userId: string } }
+ * ```
+ *
+ * @see {@link FaasJobParams}
+ * @see {@link FaasJobPaths}
+ */
+export type InferFaasJob<TJob> =
+  TJob extends { readonly __faasjsJobParams: infer TParams }
+    ? { Params: TParams }
+    : TJob extends { default: infer TDefault }
+      ? TDefault extends { readonly __faasjsJobParams: infer TParams }
+        ? { Params: TParams }
+        : never
+      : never

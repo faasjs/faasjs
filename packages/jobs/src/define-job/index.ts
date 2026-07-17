@@ -57,6 +57,12 @@ export class Job<
    * @internal
    */
   public readonly __faasjsJob = true
+  /**
+   * Type-only marker used by `InferFaasJob` to infer enqueue params.
+   *
+   * @internal
+   */
+  declare readonly __faasjsJobParams: DefineJobParams<TSchema>
   /** Zod schema used to validate job params before the handler runs. */
   public readonly schema: TSchema | undefined
   /** Normalized queue name used by default enqueues and workers. */
