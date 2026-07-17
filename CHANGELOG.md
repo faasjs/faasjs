@@ -19,8 +19,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/dev`
   - [Feature] Generate typed `.job.ts` paths and params alongside API routes in `faas types`.
 
+- `@faasjs/docgen`
+  - [Fix] Run TypeDoc from the docgen workspace with the repository's shared options so API documentation generation resolves its bundled dependencies consistently.
+
 - `@faasjs/jobs`
-  - [Break] Require generated job paths and explicit schema-typed params when calling `enqueueJob`.
+  - [Break] Require generated job paths and explicit schema-typed params when calling `enqueueJob`, and declare `@faasjs/types` as a peer dependency.
   - [Feature] Allow `enqueueJob` to reuse an explicit PostgreSQL client or transaction through its `client` option.
   - [Fix] Correct single-value cron steps and day-of-month/day-of-week matching, and fail expired jobs that have exhausted their attempts.
 
@@ -34,10 +37,12 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `@faasjs/react`
   - [Break] Rename `createWindowStates` to `createProxyStates` and rename the related `WindowState*` types to `ProxyState*` while replacing window events with Proxy-backed external stores.
+  - [Fix] Declare React 19 as a peer dependency.
   - [Fix] Merge request headers case-insensitively, propagate configured base URLs, and reject non-successful streaming responses consistently.
   - [Fix] Keep state and splitting-context hooks stable when keys or context membership change.
 
 - `@faasjs/types`
+  - [Break] Enable `erasableSyntaxOnly` in the shared base TypeScript config and make the React and build configs inherit from it.
   - [Feature] Add generated job declaration merging with `FaasJobs`, `FaasJobPaths`, `FaasJobParams`, and `InferFaasJob`.
 
 [`v8.0.0-beta.43 (2026-07-05)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.42...v8.0.0-beta.43)
