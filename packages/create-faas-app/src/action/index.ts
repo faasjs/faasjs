@@ -9,7 +9,29 @@ import enquirer from 'enquirer'
 
 const prompt = enquirer.prompt
 const validateName = (input: string) => Validator.name(input)
-const templateRoot = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'template')
+
+function resolveTemplateRoot(): string {
+  let currentPath = dirname(fileURLToPath(import.meta.url))
+
+  while (true) {
+    if (existsSync(join(currentPath, 'package.json'))) {
+      const templatePath = join(currentPath, 'template')
+
+      if (existsSync(templatePath)) return templatePath
+
+      throw new Error(`Template directory is missing from create-faas-app at ${templatePath}`)
+    }
+
+    const parentPath = dirname(currentPath)
+
+    if (parentPath === currentPath)
+      throw new Error('Unable to locate the create-faas-app package directory')
+
+    currentPath = parentPath
+  }
+}
+
+const templateRoot = resolveTemplateRoot()
 const ignoredTemplateEntries = new Set(['node_modules'])
 
 const Validator = {
