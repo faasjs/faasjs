@@ -43,6 +43,14 @@ export type StatesWithSetters<T> = T & StateSetters<T>
  */
 export type StatesWithSettersAndRefs<T> = T & StateSetters<T> & StateRefs<T>
 
+function setterName(key: string): string {
+  return `set${key.charAt(0).toUpperCase()}${key.slice(1)}`
+}
+
+function hasOwn(object: Record<string, unknown>, key: string): boolean {
+  return Object.prototype.hasOwnProperty.call(object, key)
+}
+
 /**
  * Create local state entries and matching setters for each key in an object.
  *
@@ -62,14 +70,43 @@ export type StatesWithSettersAndRefs<T> = T & StateSetters<T> & StateRefs<T>
 export function useStates<T extends Record<string, unknown>>(
   initialStates: T,
 ): StatesWithSetters<T> {
-  const states = {} as StatesWithSetters<T>
+  const [values, setValues] = useState<Record<string, unknown>>(() => ({ ...initialStates }))
+  const initialValues = useRef<Record<string, unknown>>({ ...initialStates })
+  const setters = useRef(new Map<string, Dispatch<SetStateAction<unknown>>>())
+  const states = Object.create(null) as StatesWithSetters<T>
 
-  for (const key of Object.keys(initialStates) as (keyof T)[]) {
-    const state = useState(initialStates[key])
+  for (const key of Object.keys(initialStates)) {
+    if (!hasOwn(initialValues.current, key)) initialValues.current[key] = initialStates[key]
+
+    let setter = setters.current.get(key)
+
+    if (!setter) {
+      setter = (action) => {
+        setValues((previousValues) => {
+          const previousValue = hasOwn(previousValues, key)
+            ? previousValues[key]
+            : initialValues.current[key]
+          const nextValue =
+            typeof action === 'function'
+              ? (action as (previousState: unknown) => unknown)(previousValue)
+              : action
+
+          if (hasOwn(previousValues, key) && Object.is(previousValue, nextValue))
+            return previousValues
+
+          return {
+            ...previousValues,
+            [key]: nextValue,
+          }
+        })
+      }
+
+      setters.current.set(key, setter)
+    }
 
     Object.assign(states, {
-      [key]: state[0],
-      [`set${String(key).charAt(0).toUpperCase()}${String(key).slice(1)}`]: state[1],
+      [key]: hasOwn(values, key) ? values[key] : initialValues.current[key],
+      [setterName(key)]: setter,
     })
   }
 
@@ -95,22 +132,27 @@ export function useStates<T extends Record<string, unknown>>(
 export function useStatesRef<T extends Record<string, unknown>>(
   initialStates: T,
 ): StatesWithSettersAndRefs<T> {
-  const states = {} as StatesWithSettersAndRefs<T>
+  const states = useStates(initialStates)
+  const refs = useRef(new Map<string, RefObject<unknown>>())
+  const result = { ...states } as StatesWithSettersAndRefs<T>
 
-  for (const key of Object.keys(initialStates) as (keyof T)[]) {
-    const [state, setState] = useState(initialStates[key])
-    const ref = useRef(state)
+  for (const key of Object.keys(initialStates)) {
+    let ref = refs.current.get(key)
 
-    useEffect(() => {
-      ref.current = state
-    }, [state])
+    if (!ref) {
+      ref = { current: states[key] }
+      refs.current.set(key, ref)
+    }
 
-    Object.assign(states, {
-      [key]: state,
-      [`set${String(key).charAt(0).toUpperCase()}${String(key).slice(1)}`]: setState,
-      [`${String(key)}Ref`]: ref,
-    })
+    Object.assign(result, { [`${key}Ref`]: ref })
   }
 
-  return states
+  useEffect(() => {
+    for (const key of Object.keys(initialStates)) {
+      const ref = refs.current.get(key)
+      if (ref) ref.current = states[key]
+    }
+  }, [initialStates, states])
+
+  return result
 }

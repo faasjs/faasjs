@@ -257,6 +257,50 @@ describe('createSplittingContext', () => {
     expect(screen.getByText('count:0 name:Bob')).not.toBeNull()
   })
 
+  it('keeps a stable hook order when provider options change', () => {
+    const { Provider, use } = createSplittingContext<{
+      count: number
+      setCount: React.Dispatch<React.SetStateAction<number>>
+    }>(['count', 'setCount'])
+
+    function Component() {
+      const { count } = use()
+
+      return <div>count:{count}</div>
+    }
+
+    const { rerender } = render(
+      <Provider initializeStates={{ count: 0 }}>
+        <Component />
+      </Provider>,
+    )
+
+    expect(() =>
+      rerender(
+        <Provider initializeStates={{ count: 0 }} memo>
+          <Component />
+        </Provider>,
+      ),
+    ).not.toThrow()
+    expect(screen.getByText('count:0')).not.toBeNull()
+
+    expect(() =>
+      rerender(
+        <Provider initializeStates={{ count: 0 }} memo={[]}>
+          <Component />
+        </Provider>,
+      ),
+    ).not.toThrow()
+
+    expect(() =>
+      rerender(
+        <Provider>
+          <Component />
+        </Provider>,
+      ),
+    ).not.toThrow()
+  })
+
   it('should accept new type of provider', () => {
     const { Provider, use } = createSplittingContext<{
       value: Record<string, any>
@@ -264,10 +308,14 @@ describe('createSplittingContext', () => {
     }>(['value', 'setValue'])
 
     assertType<React.ReactNode>(
-      Provider<{
+      <Provider<{
         value: { a: number }
         setValue: React.Dispatch<React.SetStateAction<{ a: number }>>
-      }>({ value: { value: { a: 1 }, setValue: () => 1 }, children: null }),
+      }>
+        value={{ value: { a: 1 }, setValue: () => 1 }}
+      >
+        {null}
+      </Provider>,
     )
     assertType<
       () => {
