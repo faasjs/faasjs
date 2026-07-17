@@ -25,6 +25,12 @@ describe('staticHandler', () => {
     const useMiddlewareBody = readFileSync(join(apisRoot, 'use-middleware.api.ts'), 'utf-8')
     const defaultBody = readFileSync(join(apisRoot, 'default.api.ts'), 'utf-8')
 
+    const responseWithQuery = await fetch(
+      `http://127.0.0.1:${port}/use-middleware.api.ts?version=1`,
+    )
+    expect(responseWithQuery.status).toBe(200)
+    expect(await responseWithQuery.text()).toBe(useMiddlewareBody)
+
     const response1 = await fetch(`http://127.0.0.1:${port}/use-middleware.api.ts`)
     expect(response1.status).toBe(200)
     expect(await response1.text()).toBe(useMiddlewareBody)
@@ -119,7 +125,7 @@ describe('staticHandler', () => {
     })(
       {
         method: 'GET',
-        url: '/public/../../../request-url.ts',
+        url: '/public/../../../request-url.ts?version=1',
       } as any,
       response as any,
       {

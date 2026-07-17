@@ -234,7 +234,47 @@ describe('server', () => {
   it('Response', async () => {
     const response = await fetch(`http://127.0.0.1:${port}/response`)
     expect(response.status).toBe(200)
+    expect(response.headers.get('content-type')).toBe('text/custom; charset=utf-8')
+    expect(response.headers.get('x-custom-header')).toBe('custom-value')
+    expect(response.headers.getSetCookie()).toEqual(['first=value; Path=/', 'second=value; Path=/'])
     expect(await response.text()).toBe('hello')
+  })
+
+  it('should release active requests exactly once when the client disconnects', async () => {
+    const abortPort = port + 800
+    const abortServer = new Server(apisRoot, { port: abortPort })
+    abortServer.listen()
+
+    const abortedRequest = request({
+      host: '127.0.0.1',
+      method: 'GET',
+      path: '/timeout',
+      port: abortPort,
+    })
+    abortedRequest.on('error', () => {})
+    abortedRequest.end()
+
+    await expect.poll(() => (abortServer as any).activeRequests).toBe(1)
+
+    abortedRequest.destroy()
+
+    await expect.poll(() => (abortServer as any).activeRequests).toBe(0)
+
+    const closePromise = abortServer.close()
+    const closedInTime = await Promise.race([
+      closePromise.then(() => true),
+      new Promise<false>((resolve) => setTimeout(() => resolve(false), 500)),
+    ])
+
+    if (!closedInTime) {
+      ;(abortServer as any).activeRequests = 0
+      await closePromise
+    }
+
+    expect(closedInTime).toBe(true)
+
+    await new Promise((resolve) => setTimeout(resolve, 100))
+    expect((abortServer as any).activeRequests).toBe(0)
   })
 
   it('stream', async () => {

@@ -1,6 +1,7 @@
 import { createReadStream, existsSync } from 'node:fs'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { resolve } from 'node:path'
+import { parse } from 'node:url'
 
 import { isPathInsideRoot } from '@faasjs/node-utils'
 import { lookup } from 'mime-types'
@@ -141,10 +142,11 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
     const requestUrl = ensureRequestUrl(request, response)
     if (!requestUrl) return
 
-    if (request.method !== 'GET' || requestUrl.slice(0, 2) === '/.') return
+    const pathname = parse(requestUrl).pathname || '/'
 
-    const cacheKey =
-      options.cache !== false ? `${options.cache || options.root}${requestUrl}` : null
+    if (request.method !== 'GET' || pathname.slice(0, 2) === '/.') return
+
+    const cacheKey = options.cache !== false ? `${options.cache || options.root}${pathname}` : null
 
     if (cacheKey) {
       const cached = cachedStaticFiles.get(cacheKey)
@@ -158,18 +160,18 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
       }
     }
 
-    let url = options.stripPrefix ? requestUrl.replace(options.stripPrefix, '') : requestUrl
+    let url = options.stripPrefix ? pathname.replace(options.stripPrefix, '') : pathname
 
     if (url === '/') url = '/index.html'
 
     if (url.startsWith('/')) url = url.slice(1)
 
-    logger.debug('finding:', requestUrl)
+    logger.debug('finding:', pathname)
 
     const path = resolve(root, url)
 
     if (!isPathInsideRoot(path, root)) {
-      logger.debug('blocked traversal:', requestUrl)
+      logger.debug('blocked traversal:', pathname)
 
       if (cacheKey) cachedStaticFiles.set(cacheKey, false)
 
