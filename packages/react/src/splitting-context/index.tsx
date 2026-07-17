@@ -153,11 +153,15 @@ export function createSplittingContext<T extends Record<string, unknown>>(
       initializeStates?: Partial<NewT>
     },
   ) {
-    const states = props.initializeStates ? useStates(props.initializeStates) : ({} as NewT)
+    const states = useStates(
+      (props.initializeStates ?? Object.create(null)) as Record<string, unknown>,
+    ) as NewT
+    const memoizedChildren = useEqualMemo(
+      () => props.children,
+      props.memo === true ? [] : (props.memo ?? [props.children]),
+    )
 
-    let children = props.memo
-      ? useEqualMemo(() => props.children, props.memo === true ? [] : props.memo)
-      : props.children
+    let children = props.memo ? memoizedChildren : props.children
 
     for (const key of keys) {
       const Context = contexts[key]
