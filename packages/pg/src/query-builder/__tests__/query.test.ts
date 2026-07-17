@@ -134,9 +134,7 @@ describe('QueryBuilder/query', () => {
       })
 
       it('IN with an empty array matches no rows', async () => {
-        const result = await new QueryBuilder(client, 'query')
-          .where('id', 'IN', [])
-          .pluck('id')
+        const result = await new QueryBuilder(client, 'query').where('id', 'IN', []).pluck('id')
 
         expect(result).toEqual([])
       })
@@ -150,9 +148,7 @@ describe('QueryBuilder/query', () => {
       })
 
       it('NOT IN with an empty array matches all rows', async () => {
-        const result = await new QueryBuilder(client, 'query')
-          .where('id', 'NOT IN', [])
-          .pluck('id')
+        const result = await new QueryBuilder(client, 'query').where('id', 'NOT IN', []).pluck('id')
 
         expect(result).toEqual([1, 2])
       })
