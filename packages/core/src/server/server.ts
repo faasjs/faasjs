@@ -305,7 +305,16 @@ export class Server {
     this.server = createServer(async (req, res) => {
       this.activeRequests++
 
-      res.on('finish', () => this.activeRequests--)
+      let requestCompleted = false
+      const completeRequest = () => {
+        if (requestCompleted) return
+
+        requestCompleted = true
+        this.activeRequests--
+      }
+
+      res.once('finish', completeRequest)
+      res.once('close', completeRequest)
 
       // Let CORS preflight requests bypass the per-route mount queue.
       if (req.method === 'OPTIONS') return handleOptionRequest(req, res)

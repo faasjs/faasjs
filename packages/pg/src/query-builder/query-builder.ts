@@ -490,7 +490,7 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
     }
 
     // Add limit and offset
-    if (this.limitValue) {
+    if (this.limitValue !== undefined) {
       sql.push('LIMIT ?')
       params.push(this.limitValue)
     }
@@ -538,7 +538,7 @@ export class QueryBuilder<T extends string = string, TResult = InferTResult<T>[]
 
     const { sql, params } = this.toSql()
 
-    return this.client.raw(sql, ...params).then((rows) => rows[0])
+    return this.client.raw(sql, ...params).then((rows) => rows[0] ?? null)
   }
 
   /**

@@ -54,6 +54,89 @@ describe('lifecycle', () => {
       })
       expect(times).toEqual(1)
     })
+
+    it('shares mount across concurrent first invokes', async () => {
+      let resolveMount!: () => void
+      const mountGate = new Promise<void>((resolve) => {
+        resolveMount = resolve
+      })
+      let mountTimes = 0
+      let invokeTimes = 0
+
+      class P implements Plugin {
+        public readonly type = 'mount'
+        public readonly name = 'concurrent-mount'
+
+        public async onMount(_: MountData, next: Next) {
+          mountTimes++
+          await mountGate
+          await next()
+        }
+      }
+
+      const func = new Func({
+        plugins: [new P()],
+        handler: async () => ++invokeTimes,
+      })
+      const handler = func.export().handler
+
+      const first = handler(null)
+      const second = handler(null)
+
+      expect(mountTimes).toBe(1)
+      expect(invokeTimes).toBe(0)
+
+      resolveMount()
+
+      await expect(Promise.all([first, second])).resolves.toEqual([1, 2])
+      expect(mountTimes).toBe(1)
+      expect(invokeTimes).toBe(2)
+    })
+
+    it('shares mount failures and allows a later retry', async () => {
+      let rejectMount!: () => void
+      const mountGate = new Promise<void>((_, reject) => {
+        rejectMount = () => reject(mountError)
+      })
+      const mountError = Error('mount failed')
+      let mountTimes = 0
+
+      class P implements Plugin {
+        public readonly type = 'mount'
+        public readonly name = 'retry-mount'
+
+        public async onMount(_: MountData, next: Next) {
+          mountTimes++
+
+          if (mountTimes === 1) await mountGate
+
+          await next()
+        }
+      }
+
+      const func = new Func({
+        plugins: [new P()],
+        handler: async () => 1,
+      })
+      const handler = func.export().handler
+
+      const first = handler(null)
+      const second = handler(null)
+
+      expect(mountTimes).toBe(1)
+
+      rejectMount()
+      expect(await Promise.allSettled([first, second])).toEqual([
+        { status: 'rejected', reason: mountError },
+        { status: 'rejected', reason: mountError },
+      ])
+
+      expect(func.mounted).toBe(false)
+      expect(mountTimes).toBe(1)
+      await expect(handler(null)).resolves.toBe(1)
+      expect(func.mounted).toBe(true)
+      expect(mountTimes).toBe(2)
+    })
   })
 
   describe('invoke', () => {

@@ -2,7 +2,46 @@ import type { FaasActionPaths, FaasData, FaasParams } from '@faasjs/types'
 import { useState } from 'react'
 
 import type { BaseUrl } from '../browser'
+import { parseFailedResponse, toResponseHeaders } from '../browser/helpers'
 import { useFaasRequest } from '../useFaasRequest'
+
+async function readResponseBodyText(response: any): Promise<string> {
+  if (typeof response.text === 'function') return response.text()
+  if (typeof response.body === 'string') return response.body
+  if (!(response.body instanceof ReadableStream)) {
+    if (response.body == null) return ''
+
+    return JSON.stringify(response.body)
+  }
+
+  const reader = response.body.getReader()
+  const decoder = new TextDecoder()
+  let text = ''
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      if (value) text += decoder.decode(value, { stream: true })
+    }
+
+    return text + decoder.decode()
+  } finally {
+    reader.releaseLock()
+  }
+}
+
+function normalizeResponseHeaders(headers: unknown) {
+  if (
+    headers &&
+    typeof headers === 'object' &&
+    Symbol.iterator in headers &&
+    typeof headers[Symbol.iterator] === 'function'
+  )
+    return toResponseHeaders(headers as Iterable<[string, string]>)
+
+  return (headers || {}) as Record<string, string>
+}
 
 /**
  * Options that customize the {@link useFaasStream} request lifecycle.
@@ -124,9 +163,17 @@ export function useFaasStream<Path extends FaasActionPaths>(
     },
     send: async ({ action, params, signal, client }) => {
       const response = await client.browserClient.action(action, params, {
+        ...(options.baseUrl ? { baseUrl: options.baseUrl } : {}),
         signal,
         stream: true,
       })
+
+      if (response.status < 200 || response.status >= 300)
+        parseFailedResponse(
+          response.status,
+          normalizeResponseHeaders(response.headers),
+          await readResponseBodyText(response),
+        )
 
       if (!response.body) throw new Error('Response body is null')
 

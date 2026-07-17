@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { FaasReactClient, Response, setMock } from '../../index'
 import { useFaas } from '../../useFaas'
@@ -628,5 +628,30 @@ describe('useFaas', () => {
 
     expect(await screen.findByText('data:2')).toBeDefined()
     expect(screen.getByText('error:')).toBeDefined()
+  })
+
+  it('should preserve an unregistered baseUrl in the browser request', async () => {
+    setMock(null)
+
+    const fetchMock = vi.fn<typeof window.fetch>(() =>
+      Promise.resolve(
+        new globalThis.Response('{"data":{"source":"unregistered"}}', {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        }),
+      ),
+    )
+    window.fetch = fetchMock as any
+
+    function Test() {
+      const { data } = useFaas<any>('hello', {}, { baseUrl: '/unregistered-use-faas/' })
+
+      return <div>source:{data?.source || ''}</div>
+    }
+
+    render(<Test />)
+
+    expect(await screen.findByText('source:unregistered')).toBeDefined()
+    expect(fetchMock.mock.calls[0]![0]).toMatch(/^\/unregistered-use-faas\/hello\?_=/)
   })
 })

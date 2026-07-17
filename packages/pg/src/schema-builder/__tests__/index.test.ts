@@ -157,6 +157,96 @@ describe('SchemaBuilder', () => {
     })
   })
 
+  it('executes foreign key and unique constraint alterations', async () => {
+    const builder = new SchemaBuilder(client)
+
+    builder.createTable('creators', (table) => {
+      table.string('id').primary()
+    })
+    builder.createTable('alters', (table) => {
+      table.string('id').primary()
+      table.string('creator_id')
+      table.string('email')
+    })
+
+    await builder.run()
+
+    builder.alterTable('alters', (table) => {
+      table.alterColumn('creator_id', {
+        references: {
+          table: 'creators',
+          column: 'id',
+        },
+      })
+      table.alterColumn('email', { unique: true })
+    })
+
+    await builder.run()
+
+    const constraints = await client.raw<{
+      constraint_name: string
+      constraint_type: string
+    }>(
+      `SELECT constraint_name, constraint_type
+       FROM information_schema.table_constraints
+       WHERE table_name = ?
+       ORDER BY constraint_name`,
+      'alters',
+    )
+
+    expect(constraints).toEqual(
+      expect.arrayContaining([
+        {
+          constraint_name: 'alters_creator_id_fkey',
+          constraint_type: 'FOREIGN KEY',
+        },
+        {
+          constraint_name: 'alters_email_key',
+          constraint_type: 'UNIQUE',
+        },
+      ]),
+    )
+
+    await client.raw('INSERT INTO creators (id) VALUES (?)', 'creator-1')
+    await client.raw(
+      'INSERT INTO alters (id, creator_id, email) VALUES (?, ?, ?)',
+      'alter-1',
+      'creator-1',
+      'one@example.com',
+    )
+    await expect(
+      client.raw(
+        'INSERT INTO alters (id, creator_id, email) VALUES (?, ?, ?)',
+        'alter-2',
+        'missing',
+        'two@example.com',
+      ),
+    ).rejects.toThrow(/foreign key constraint/i)
+    await expect(
+      client.raw(
+        'INSERT INTO alters (id, creator_id, email) VALUES (?, ?, ?)',
+        'alter-3',
+        'creator-1',
+        'one@example.com',
+      ),
+    ).rejects.toThrow(/unique constraint/i)
+
+    builder.alterTable('alters', (table) => {
+      table.alterColumn('email', { unique: false })
+    })
+
+    await builder.run()
+
+    const uniqueConstraints = await client.raw(
+      `SELECT constraint_name
+       FROM information_schema.table_constraints
+       WHERE table_name = ? AND constraint_type = 'UNIQUE'`,
+      'alters',
+    )
+
+    expect(uniqueConstraints).toEqual([])
+  })
+
   it('renameTable', async () => {
     const builder = new SchemaBuilder(client)
 

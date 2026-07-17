@@ -7,9 +7,29 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/ant-design`
   - [Break] Remove the `Loading` component's built-in vertical margin and center alignment when `size` is `"large"` or unspecified. Use the new `full` prop to fill the surrounding flex container instead.
   - [Feature] Add `Loading` component with `full` prop to fill surrounding flex container.
+  - [Fix] Keep `FormItem` visibility synchronized when its `hidden` prop changes.
+
+- `@faasjs/core`
+  - [Fix] Share concurrent function mount attempts, propagate mount failures consistently, and allow later invocations to retry.
+  - [Fix] Keep dev-server request accounting correct for aborted connections, preserve native `Response` headers and cookies, and resolve static files without including URL query strings.
+
+- `@faasjs/create-faas-app`
+  - [Fix] Resolve bundled templates from installed packages, reject unknown CLI options, and return a non-zero exit status when project creation fails.
+
+- `@faasjs/jobs`
+  - [Fix] Correct single-value cron steps and day-of-month/day-of-week matching, and fail expired jobs that have exhausted their attempts.
+
+- `@faasjs/node-utils`
+  - [Fix] Make transport start and stop lifecycle cleanup idempotent, restore runtime configuration correctly, and resolve chained or package-based `tsconfig` extensions.
+
+- `@faasjs/pg`
+  - [Fix] Handle zero limits, nullable first rows, empty `IN` and `NOT IN` filters, and conflict-only upserts correctly in the query builder.
+  - [Fix] Generate executable foreign-key and unique-constraint alterations with escaped identifiers and preserved referential actions.
 
 - `@faasjs/react`
   - [Break] Rename `createWindowStates` to `createProxyStates` and rename the related `WindowState*` types to `ProxyState*` while replacing window events with Proxy-backed external stores.
+  - [Fix] Merge request headers case-insensitively, propagate configured base URLs, and reject non-successful streaming responses consistently.
+  - [Fix] Keep state and splitting-context hooks stable when keys or context membership change.
 
 [`v8.0.0-beta.43 (2026-07-05)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.42...v8.0.0-beta.43)
 

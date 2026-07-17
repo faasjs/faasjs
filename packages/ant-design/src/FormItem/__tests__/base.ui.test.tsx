@@ -71,4 +71,21 @@ describe('FormItem', () => {
 
     expect(container.querySelectorAll('input[type="hidden"]')).toHaveLength(1)
   })
+
+  it('responds to hidden prop changes', () => {
+    const { container, rerender } = render(<FormItem id="test" hidden={false} />)
+
+    expect(container.querySelector('input[type="hidden"]')).toBeNull()
+    expect(screen.getByRole('textbox')).toBeDefined()
+
+    rerender(<FormItem id="test" hidden />)
+
+    expect(container.querySelectorAll('input[type="hidden"]')).toHaveLength(1)
+    expect(screen.queryByRole('textbox')).toBeNull()
+
+    rerender(<FormItem id="test" hidden={false} />)
+
+    expect(container.querySelector('input[type="hidden"]')).toBeNull()
+    expect(screen.getByRole('textbox')).toBeDefined()
+  })
 })

@@ -80,6 +80,33 @@ describe('client', () => {
     expect(response.data).toEqual({})
   })
 
+  it('merges default and per-request headers for native fetch', async () => {
+    const client = new FaasBrowserClient('/', {
+      headers: {
+        'X-Client': 'client',
+        'X-Shared': 'client',
+      },
+    })
+
+    await client.action(
+      'path',
+      {},
+      {
+        headers: {
+          'X-Request': 'request',
+          'X-Shared': 'request',
+        },
+      },
+    )
+
+    expect(request.headers).toMatchObject({
+      'Content-Type': 'application/json; charset=UTF-8',
+      'X-Client': 'client',
+      'X-Request': 'request',
+      'X-Shared': 'request',
+    })
+  })
+
   it('work with beforeRequest', async () => {
     const client = new FaasBrowserClient('/', {
       beforeRequest: async ({ options }) => {
@@ -117,6 +144,31 @@ describe('client', () => {
 
     expect(response.data).toEqual(response.data)
     await expect(client.action('error', { success: false })).rejects.toEqual('error')
+  })
+
+  it('merges headers before invoking a custom request', async () => {
+    const customRequest = vi.fn<(url: string, options: any) => Promise<FaasResponse>>(async () =>
+      Promise.resolve(
+        new FaasResponse({
+          data: {},
+        }),
+      ),
+    )
+    const client = new FaasBrowserClient('/', {
+      headers: {
+        'X-Client': 'client',
+      },
+      request: customRequest,
+    })
+
+    await client.action('path', {}, { headers: { 'X-Request': 'request' } })
+
+    expect(customRequest).toHaveBeenCalledOnce()
+    expect(customRequest.mock.calls[0]![1].headers).toMatchObject({
+      'Content-Type': 'application/json; charset=UTF-8',
+      'X-Client': 'client',
+      'X-Request': 'request',
+    })
   })
 
   it('when error', async () => {

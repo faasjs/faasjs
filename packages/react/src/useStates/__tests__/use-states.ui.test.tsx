@@ -52,6 +52,28 @@ describe('useStates', () => {
     expect(result.current.name).toBe('Jane')
     expect(result.current.age).toBe(30)
   })
+
+  it('keeps a stable hook order when state keys change', () => {
+    const { result, rerender } = renderHook(
+      ({ initialStates }: { initialStates: Record<string, any> }) => useStates(initialStates),
+      { initialProps: { initialStates: { count: 0 } as Record<string, any> } },
+    )
+
+    expect(() =>
+      rerender({
+        initialStates: { count: 0, name: 'John' },
+      }),
+    ).not.toThrow()
+
+    act(() => {
+      result.current.setName('Doe')
+    })
+
+    expect(result.current.name).toBe('Doe')
+
+    expect(() => rerender({ initialStates: { name: 'John' } })).not.toThrow()
+    expect(result.current.name).toBe('Doe')
+  })
 })
 
 describe('useStatesRef', () => {
@@ -112,5 +134,25 @@ describe('useStatesRef', () => {
 
     assertType<Dispatch<SetStateAction<number>>>(result.current.setCount)
     assertType<RefObject<number>>(result.current.countRef)
+  })
+
+  it('keeps a stable hook order when ref keys change', () => {
+    const { result, rerender } = renderHook(
+      ({ initialStates }: { initialStates: Record<string, any> }) => useStatesRef(initialStates),
+      { initialProps: { initialStates: { count: 0 } as Record<string, any> } },
+    )
+
+    expect(() =>
+      rerender({
+        initialStates: { count: 0, name: 'John' },
+      }),
+    ).not.toThrow()
+
+    act(() => {
+      result.current.setName('Doe')
+    })
+
+    expect(result.current.name).toBe('Doe')
+    expect(result.current.nameRef.current).toBe('Doe')
   })
 })

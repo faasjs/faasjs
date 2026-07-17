@@ -324,6 +324,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
    * Indicates whether mount hooks have already run.
    */
   public mounted = false
+  private mounting: Promise<void> | undefined
   /**
    * Resolved source filename inferred from the constructor call stack.
    */
@@ -457,9 +458,21 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       return
     }
 
-    mountData.logger.debug(`plugins: ${this.plugins.map((p) => `${p.type}#${p.name}`).join(',')}`)
-    await this.compose('onMount')(mountData)
-    this.mounted = true
+    if (this.mounting) return this.mounting
+
+    const mounting = (async () => {
+      mountData.logger.debug(`plugins: ${this.plugins.map((p) => `${p.type}#${p.name}`).join(',')}`)
+      await this.compose('onMount')(mountData)
+      this.mounted = true
+    })()
+
+    this.mounting = mounting
+
+    try {
+      await mounting
+    } finally {
+      if (this.mounting === mounting) this.mounting = undefined
+    }
   }
 
   /**

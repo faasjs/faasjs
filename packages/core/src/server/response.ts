@@ -107,12 +107,21 @@ export function buildResponseHeaders(
 ) {
   const finishedAt = Date.now()
 
-  let headers = buildCORSHeaders(req.headers, {
+  const headers = buildCORSHeaders(req.headers, {
     'x-faasjs-request-id': requestId,
     'x-faasjs-timing-pending': (startedAt - requestedAt).toString(),
   })
 
-  if (data.headers) headers = Object.assign(headers, data.headers)
+  if (data.headers instanceof Headers) {
+    for (const [key, value] of data.headers) {
+      if (key === 'set-cookie') continue
+
+      headers[key] = value
+    }
+
+    const cookies = data.headers.getSetCookie()
+    if (cookies.length) headers['set-cookie'] = cookies
+  } else if (data.headers) Object.assign(headers, data.headers)
 
   if (!headers['x-faasjs-timing-processing'])
     headers['x-faasjs-timing-processing'] = (finishedAt - startedAt).toString()
@@ -292,7 +301,7 @@ export async function respond(
     options.startedAt,
     data,
   )
-  for (const key in headers) res.setHeader(key, headers[key] as string)
+  for (const key in headers) res.setHeader(key, headers[key] as string | string[])
 
   if (await respondWithStreamData(data, res, options.logger, options.onError)) return
 

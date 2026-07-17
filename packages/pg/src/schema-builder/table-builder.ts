@@ -427,7 +427,7 @@ export class TableBuilder {
         : null,
       def.primary ? 'PRIMARY KEY' : null,
       def.unique ? 'UNIQUE' : null,
-      def.references ? `REFERENCES ${def.references.table}(${def.references.column})` : null,
+      def.references ? this.referenceToSQL(def.references) : null,
     ].filter(Boolean)
 
     return parts.join(' ')
@@ -448,6 +448,22 @@ export class TableBuilder {
     return parts.join(' ')
   }
 
+  private constraintName(columnName: string, suffix: 'fkey' | 'key') {
+    const tableName = this.tableName.split('.').at(-1)!
+
+    return `${tableName}_${columnName}_${suffix}`
+  }
+
+  private referenceToSQL(reference: NonNullable<ColumnDefinition['references']>) {
+    return [
+      `REFERENCES ${escapeIdentifier(reference.table)} (${escapeIdentifier(reference.column)})`,
+      reference.onDelete ? `ON DELETE ${reference.onDelete}` : null,
+      reference.onUpdate ? `ON UPDATE ${reference.onUpdate}` : null,
+    ]
+      .filter(Boolean)
+      .join(' ')
+  }
+
   private alterToSql(columnName: string, type: keyof ColumnDefinition, value: any) {
     switch (type) {
       case 'type':
@@ -460,14 +476,20 @@ export class TableBuilder {
         return value
           ? `ADD PRIMARY KEY (${escapeIdentifier(columnName)})`
           : `DROP CONSTRAINT IF EXISTS ${escapeIdentifier(`${this.tableName}_pkey`)};`
-      case 'unique':
+      case 'unique': {
+        const uniqueConstraint = escapeIdentifier(this.constraintName(columnName, 'key'))
+
         return value
-          ? `ADD UNIQUE (${escapeIdentifier(columnName)})`
-          : `DROP CONSTRAINT IF EXISTS ${escapeIdentifier(`${this.tableName}_${columnName}_unique`)};`
+          ? `ADD CONSTRAINT ${uniqueConstraint} UNIQUE (${escapeIdentifier(columnName)})`
+          : `DROP CONSTRAINT IF EXISTS ${uniqueConstraint}`
+      }
       case 'check':
         return `ADD CHECK (${value});`
-      case 'references':
-        return `ALTER COLUMN ${escapeIdentifier(columnName)} ADD REFERENCES ${value.table}(${value.column});`
+      case 'references': {
+        const foreignKeyConstraint = escapeIdentifier(this.constraintName(columnName, 'fkey'))
+
+        return `ADD CONSTRAINT ${foreignKeyConstraint} FOREIGN KEY (${escapeIdentifier(columnName)}) ${this.referenceToSQL(value)}`
+      }
       case 'collate':
         return `ALTER COLUMN ${escapeIdentifier(columnName)} SET COLLATE ${value};`
     }
