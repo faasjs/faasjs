@@ -2,11 +2,20 @@
 
 When implementing or reviewing a FaasJS HTTP endpoint, default to `defineApi`.
 
+## Contents
+
+- [Applicable Scenarios](#applicable-scenarios)
+- [Default Workflow](#default-workflow)
+- [Minimal Example](#minimal-example)
+- [Rules](#rules)
+- [See Also](#see-also)
+- [Testing Checklist](#testing-checklist)
+
 ## Applicable Scenarios
 
 - Creating a new `.api.ts` module
 - Reviewing request validation, error handling, or injected helpers
-- Updating routes and regenerating types after file changes
+- Updating routes and regenerating types after API path topology changes
 
 ## Default Workflow
 
@@ -14,7 +23,7 @@ When implementing or reviewing a FaasJS HTTP endpoint, default to `defineApi`.
 2. When the endpoint accepts business input, write the `schema` inline in `defineApi` unless it is reused elsewhere.
 3. Keep business logic direct inside `handler({ params })` unless a shared boundary already exists.
 4. Return business data directly unless protocol-level response control is required.
-5. After creating, renaming, or moving an API file, run `faas types` to update `src/.faasjs/types.d.ts`.
+5. After creating, renaming, moving, or removing an API file, run `faas types` to update `src/.faasjs/types.d.ts`.
 6. Add a focused test with `testApi(api)(data, options?)`.
 
 ## Minimal Example
@@ -166,9 +175,9 @@ declare module '@faasjs/core' {
 }
 ```
 
-### 7. Run type generation after changing APIs
+### 7. Run type generation after changing API paths
 
-After creating, renaming, or moving a `.api.ts` file, run:
+After creating, renaming, moving, or removing a `.api.ts` file, run:
 
 ```bash
 faas types

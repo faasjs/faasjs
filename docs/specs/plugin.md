@@ -11,6 +11,14 @@ The runtime behavior is already stable across `@faasjs/core` and `@faasjs/node-u
 
 This specification defines the baseline for plugin identity, lifecycle execution, config layering, and config-driven loading.
 
+## Contents
+
+- [Background](#background)
+- [Goals](#goals)
+- [Non-goals](#non-goals)
+- [Normative Rules](#normative-rules)
+- [Examples](#examples)
+
 Related references:
 
 - `packages/core/src/func/index.ts`
@@ -46,15 +54,21 @@ Related references:
 ### 2. Lifecycle Execution Model
 
 1. User plugins MUST execute before the built-in run-handler plugin.
-2. `onMount` hooks MUST run in plugin order and MUST run at most once per `Func` instance.
-3. `onInvoke` hooks MUST run in plugin order for every invocation.
-4. Plugins MUST use `await next()` to continue the lifecycle chain.
-5. Calling `next()` multiple times from the same lifecycle hook MUST reject with `next() called multiple times`.
-6. Plugins MAY mutate mount or invoke data to inject fields, prepare context, or control the final response.
-7. Errors thrown by a plugin or downstream handler MUST stop the current chain and propagate to the caller.
-8. Runtime adapters SHOULD set `data.context.runtime` to `api` or `job`; `defineApi()` uses `api`, and `defineJob()`/job workers use `job`.
-9. Plugins MAY inspect `data.context.runtime` to decide whether their behavior applies to the current runtime.
-10. A plugin that skips work because of `data.context.runtime` MUST still call `await next()` unless it intentionally stops the lifecycle chain.
+2. `onMount` hooks MUST run in plugin order within each mount attempt.
+3. At most one mount attempt MUST be in progress for a `Func` instance at a time.
+4. Concurrent invocations that arrive before mounting completes MUST share the in-progress mount attempt and receive the same success or failure outcome.
+5. A `Func` instance MUST become mounted only after the complete `onMount` chain succeeds.
+6. A failed mount attempt MUST leave the function unmounted, MUST propagate its error to every waiting invocation, and MAY be retried by a later invocation.
+7. After a mount attempt succeeds, the `onMount` chain MUST NOT run again for that `Func` instance.
+8. Plugin authors SHOULD make `onMount` retry-safe: failed attempts SHOULD clean up partial resources and MUST NOT publish partially initialized state as ready.
+9. `onInvoke` hooks MUST run in plugin order for every invocation.
+10. Plugins MUST use `await next()` to continue the lifecycle chain.
+11. Calling `next()` multiple times from the same lifecycle hook MUST reject with `next() called multiple times`.
+12. Plugins MAY mutate mount or invoke data to inject fields, prepare context, or control the final response.
+13. Errors thrown by a plugin or downstream handler MUST stop the current chain and propagate to the caller.
+14. Runtime adapters SHOULD set `data.context.runtime` to `api` or `job`; `defineApi()` uses `api`, and `defineJob()`/job workers use `job`.
+15. Plugins MAY inspect `data.context.runtime` to decide whether their behavior applies to the current runtime.
+16. A plugin that skips work because of `data.context.runtime` MUST still call `await next()` unless it intentionally stops the lifecycle chain.
 
 ### 3. Configuration Layering And Precedence
 

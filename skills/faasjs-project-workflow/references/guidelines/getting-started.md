@@ -4,6 +4,16 @@ Use this guide when starting a new FaasJS project or onboarding a new developer 
 
 FaasJS is a Rails-inspired, curated full-stack TypeScript framework for database-driven React business applications. It gives projects a chef-selected main path instead of asking every team to assemble its own framework from independent tools.
 
+## Contents
+
+- [Prerequisites](#prerequisites)
+- [Creating a New Project](#creating-a-new-project)
+- [Project Structure Tour](#project-structure-tour)
+- [Your First Feature](#your-first-feature)
+- [Key Concepts](#key-concepts)
+- [Development Workflow](#development-workflow)
+- [Where to Go Next](#where-to-go-next)
+
 ## Prerequisites
 
 Before starting, make sure your environment meets these requirements:
@@ -35,7 +45,8 @@ This command:
 
 1. Creates a `my-app/` directory
 2. Installs all dependencies (`npm install`)
-3. Runs the initial test suite to verify the setup
+3. Generates initial API and job declarations
+4. Runs the initial test suite to verify the setup
 
 ### Step 2: Choose a template
 
@@ -75,7 +86,7 @@ my-app/
   src/
     faas.yaml              # Runtime configuration (server root, plugins, staging overrides)
     .faasjs/
-      types.d.ts           # Auto-generated API type declarations
+      types.d.ts           # Auto-generated API and job type declarations
     features/              # Feature-owned UI, APIs, hooks, and tests
       users/               # Example feature: users CRUD
         index.tsx          # Feature UI entry
@@ -141,7 +152,7 @@ FaasJS features follow a complete vertical slice pattern: database migration →
 
 **Step 5: Tests** — Place API tests under `api/__tests__/` using `testApi` from `@faasjs/dev`. See [Testing Guide](./testing.md) and CRUD Patterns Guide.
 
-**Step 6: Type generation** — After adding, moving, or removing `.api.ts` or `.job.ts` files, run `npx faas types` to update `src/.faasjs/types.d.ts`. Then run `vp test` to verify.
+**Step 6: Type generation** — After adding, renaming, moving, or removing `.api.ts` or `.job.ts` files, run `npx faas types` to update `src/.faasjs/types.d.ts`. Then run `vp test` to verify.
 
 The `admin` template also includes a users slice with the same pattern — copy it as a reference. See the [Application Slices Guide](./application-slices.md) for the recommended slice layout.
 
@@ -278,6 +289,8 @@ Now that you have a working project, explore the detailed guides:
 | [Project Config Guide](./project-config.md)         | TypeScript, Vite, and tooling configuration                  |
 | [File Conventions](./file-conventions.md)           | File placement and naming conventions                        |
 | Jobs Guide                                          | Background jobs with `@faasjs/jobs`                          |
+| Job Types and Paths Guide                           | Generated job paths, params types, and discovery roots       |
+| Job Scheduling and Retries Guide                    | Cron, retries, attempts, leases, workers, and schedulers     |
 | Logger Guide                                        | Logging patterns and log levels                              |
 | [Code Comments Guide](./code-comments.md)           | JSDoc and comment conventions                                |
 | faas.yaml Specification                             | Full faas.yaml configuration reference                       |

@@ -19,6 +19,7 @@ description: 'Use when working in any FaasJS repo and no narrower FaasJS skill i
 - React UI, `@faasjs/ant-design`, `useFaas`, forms, tables, drawers, CRUD screens, or React tests: use `faasjs-react-ant-design`.
 - `.api.ts`, `defineApi`, HTTP plugin helpers, middleware, `.job.ts`, or `defineJob`: use `faasjs-api-jobs`.
 - `@faasjs/pg`, `QueryBuilder`, table declarations, migrations, or PostgreSQL tests: use `faasjs-pg`.
+- Business writes that enqueue a job in the same transaction: load both `faasjs-pg` and `faasjs-api-jobs`.
 - Plugin lifecycle, injected fields, logger usage, Node bootstrapping, or runtime config loading: use `faasjs-plugins-runtime`.
 - `@faasjs/utils`, JSON, YAML, stream helpers, or validation helpers: use `faasjs-utils-data`.
 - Normative runtime behavior for `faas.yaml`, routing, HTTP protocol, or plugin contracts: use `faasjs-specs`.
@@ -29,10 +30,11 @@ description: 'Use when working in any FaasJS repo and no narrower FaasJS skill i
 - Keep local TypeScript imports extensionless and prefer configured aliases over deep relative imports.
 - Destructure React hook returns and only the top-level `defineApi`/`defineJob` handler context; keep business values visible as `params.key`.
 - Return values directly unless an intermediate variable documents a non-trivial condition, is reused, or improves readability.
+- Keep generated job paths aligned with runtime discovery, and do not let transaction-scoped clients escape their callbacks.
 
 ## Validation
 
 - Use `vp check --fix` for formatting and linting.
 - Use `vp test` or `vp test <pattern>` for tests.
-- Run `npx faas types` after adding, moving, or removing `.api.ts` or `.job.ts` files.
+- Run `npx faas types` after adding, renaming, moving, or removing `.api.ts` or `.job.ts` files.
 - Run `npx faasjs-pg migrate` or targeted PG checks only when database changes require them and `DATABASE_URL` is available.

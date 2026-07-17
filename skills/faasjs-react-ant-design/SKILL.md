@@ -1,6 +1,6 @@
 ---
 name: faasjs-react-ant-design
-description: 'Use when building or reviewing FaasJS React UI, especially @faasjs/ant-design pages, useFaas, useFaasStream, faas event requests, CRUD screens, Table faasData, Description faasData, Form faas, drawers/modals, React hooks, createProxyStates shared state, and React tests.'
+description: 'Use when building or reviewing FaasJS React UI, especially @faasjs/ant-design pages, useFaas, useFaasStream, faas requests, CRUD screens, Table faasData, Description faasData, Form faas, conditional FormItem hidden/if behavior, drawers/modals, React hooks, shared state, and React tests.'
 ---
 
 # FaasJS React And Ant Design
@@ -29,6 +29,7 @@ description: 'Use when building or reviewing FaasJS React UI, especially @faasjs
 - Destructure hook returns at the call site; do not keep broad `result` or `states` objects.
 - Keep React event handlers inline by default; extract only for reuse or real boundaries.
 - For object or array dependencies, use equal memo/effect helpers instead of native dependency arrays.
+- Use `hidden` for controlled field visibility and `if(values)` for value-dependent visibility; test visibility again when props or relevant values change.
 - Prefer `useStates` or `useStatesRef` for component-local state, and `createSplittingContext` for provider-scoped shared state; reach for `createProxyStates` when data-change notifications must cross components, regardless of where the setter is called.
 
 ## Validation

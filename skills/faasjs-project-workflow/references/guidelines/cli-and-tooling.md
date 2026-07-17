@@ -2,6 +2,20 @@
 
 Use this guide when running CLI commands, troubleshooting command errors, or choosing the right tool for the task. It is a quick-reference for the FaasJS toolchain to reduce command-execution mistakes.
 
+## Contents
+
+- [Default Workflow](#default-workflow)
+- [faas CLI](#faas-cli)
+- [Vite Plus / vp](#vite-plus--vp)
+- [Project Creation](#project-creation)
+- [Migration Commands](#migration-commands)
+- [Type Generation Workflow](#type-generation-workflow)
+- [Testing Commands](#testing-commands)
+- [Common Command Errors and Recovery](#common-command-errors-and-recovery)
+- [Environment Variables and Configuration](#environment-variables-and-configuration)
+- [Rules](#rules)
+- [Review Checklist](#review-checklist)
+
 ## Default Workflow
 
 1. Install dependencies with `npm install` before running any FaasJS commands.
@@ -83,7 +97,7 @@ Available templates:
 After scaffolding, the script automatically runs:
 
 1. `npm install` — Installs dependencies.
-2. `npm run types` — Generates FaasJS action route declarations.
+2. `npm run types` — Generates FaasJS API and job declarations.
 3. `npm run test` — Runs the initial test suite to verify the setup.
 
 To run these steps manually after creation:
@@ -146,7 +160,7 @@ Keep type declarations in sync with your API routes and jobs:
    import { generateFaasTypes } from '@faasjs/dev'
 
    const result = await generateFaasTypes({ root: process.cwd() })
-   console.log(result.output, result.routeCount)
+   console.log(result.output, result.routeCount, result.jobCount)
    ```
 
 ## Testing Commands
@@ -176,10 +190,11 @@ See [Testing Guide](./testing.md) for testing principles and [Project Config Gui
 
 ### `faas types` fails
 
-- **Check**: Does `src/faas.yaml` exist? Is the YAML valid?
-- **Check**: Does `src/` contain at least one `.api.ts` file?
+- **Check**: Does the resolved project root contain `src/`? API and job files are both optional.
+- **Check**: If `src/faas.yaml` exists, is it valid and does `defaults.server.root` resolve to the intended project?
+- **Check**: Do any `.job.ts` files normalize to the same path, such as `reports.job.ts` and `reports/index.job.ts`?
 - **Recovery**: Run `npx faas types --root .` if outside the project root.
-- **See**: faas.yaml Specification
+- **See**: faas.yaml Specification and Job Types and Paths Guide
 
 ### `faasjs-pg` commands fail
 
@@ -238,7 +253,7 @@ npx faas types --root /path/to/project
 
 ## Rules
 
-1. **Run `faas types` after API or job file changes.** Creating, renaming, moving, or removing `.api.ts` or `.job.ts` files without regenerating types will leave caller paths stale.
+1. **Run `faas types` after API or job path topology changes.** Creating, renaming, moving, or removing `.api.ts` or `.job.ts` files without regenerating types will leave caller paths stale. Ordinary handler edits do not rewrite generated paths.
 2. **Prefer `vp check --fix` over manual formatting.** It uses oxlint and oxfmt through vite-plus shared configs.
 3. **Prefer `vp test` over direct `vitest` calls.** It uses the project's `vite.config.ts` which includes all necessary plugins and aliases.
 4. **Use `npx` when the binary is not globally installed.** Both `faas` and `vp` are local to the project's `node_modules`.

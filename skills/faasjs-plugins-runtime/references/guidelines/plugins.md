@@ -2,6 +2,16 @@
 
 Use this guide when adding cross-cutting behavior that should run before or after every request — such as auth, tenant resolution, request logging, rate limiting, or feature flags. Plugins hook into the FaasJS request lifecycle and can inject typed fields into `defineApi` and `defineJob` handlers.
 
+## Contents
+
+- [Applicable Scenarios](#applicable-scenarios)
+- [How Plugins Work](#how-plugins-work)
+- [Default Workflow](#default-workflow)
+- [Rules](#rules)
+- [Plugin vs Alternative Mechanisms](#plugin-vs-alternative-mechanisms)
+- [See Also](#see-also)
+- [Review Checklist](#review-checklist)
+
 ## Applicable Scenarios
 
 - Injecting `current_user`, tenant context, or request metadata into every handler
@@ -14,7 +24,7 @@ Use this guide when adding cross-cutting behavior that should run before or afte
 
 FaasJS plugins follow a Koa-style middleware model. Each plugin has a `type` (source identifier) and a `name` (runtime instance id). Plugins execute in registration order:
 
-1. `onMount` runs once per `Func` instance, before the first request. Use it to initialize connections, merge configuration, or validate prerequisites.
+1. `onMount` runs before the first `onInvoke`. Concurrent first requests share one mount attempt; a failed attempt may be retried by a later request, while a successful mount does not run again for that instance. Use it to initialize connections, merge configuration, or validate prerequisites.
 2. `onInvoke` runs on every request. Plugins receive a mutable `InvokeData` object shared across the chain. Use `await next()` to continue to the next plugin or the business handler.
 
 The built-in `RunHandler` plugin always runs last and calls the business handler. User plugins always execute before it.
@@ -44,7 +54,7 @@ class AuthPlugin implements Plugin {
   public readonly name = 'auth'
 
   public async onMount(data: MountData, next: Next) {
-    // Run once: load keys, verify config
+    // Complete once after success: load keys, verify config
     await next()
   }
 
@@ -120,9 +130,9 @@ export default defineApi({
 })
 ```
 
-### 4. Use `onMount` for one-time initialization
+### 4. Use `onMount` for retry-safe initialization
 
-`onMount` runs once per `Func` instance, before the first `onInvoke`. Use it for:
+`onMount` must complete before the first `onInvoke`. Concurrent first invocations share the same mount attempt. If that attempt fails, every waiter receives the same error and a later invocation may retry. Use it for:
 
 - Loading keys, certificates, or remote configuration
 - Validating that plugin prerequisites are met
@@ -141,13 +151,22 @@ class DatabasePlugin implements Plugin {
     if (data.config.plugins?.[this.name]?.config) {
       this.config = { ...data.config.plugins[this.name].config }
     }
-    this.pool = await createPool(this.config?.connectionString)
-    await next()
+    const pool = await createPool(this.config?.connectionString)
+
+    try {
+      await next()
+      this.pool = pool
+    } catch (error) {
+      await pool.end()
+      throw error
+    }
   }
 }
 ```
 
-- `onMount` runs in plugin order and runs at most once.
+- At most one mount attempt runs at a time, and successful mounting completes only once.
+- Keep newly created resources local until the whole downstream mount chain succeeds.
+- Clean up resources created by a failed attempt so a later retry starts from a valid state.
 - Configuration from `faas.yaml` is available on `data.config.plugins[name]` during `onMount`.
 
 ### 5. Register plugins via `faas.yaml` for config-driven loading
@@ -379,6 +398,12 @@ describe('create with auth plugin', () => {
 })
 ```
 
+For plugins with `onMount`, also test the concurrency contract:
+
+- start two invocations before the first mount attempt resolves and assert the hook runs once
+- reject that shared attempt and assert both invocations receive the same error
+- invoke again and assert a new mount attempt succeeds without leaking resources from the failed attempt
+
 ## Plugin vs Alternative Mechanisms
 
 | Need                                    | Use              | Reason                                                                 |
@@ -403,5 +428,6 @@ describe('create with auth plugin', () => {
 - Plugin is configured in `faas.yaml` (reusable) or in code (one-off)
 - Plugin calls `next()` exactly once per lifecycle hook
 - Tests exercise the full lifecycle through `Func.invoke()` or `testApi()`
+- `onMount` initialization is retry-safe, and concurrency tests cover shared success, shared failure, and later retry when relevant
 - Config merging order respects YAML layering then code precedence
 - Plugin names are stable and not duplicated within the same `Func` instance

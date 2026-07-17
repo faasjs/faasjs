@@ -2,6 +2,16 @@
 
 Use when building or reviewing `@faasjs/ant-design` feature UI, CRUD surfaces, app feedback, modals, and drawers.
 
+## Contents
+
+- [Applicable Scenarios](#applicable-scenarios)
+- [Default Workflow](#default-workflow)
+- [Recommended Layout](#recommended-layout)
+- [Core Patterns](#core-patterns)
+- [Preferred Components](#preferred-components)
+- [Rules](#rules)
+- [Review Checklist](#review-checklist)
+
 ## Applicable Scenarios
 
 - Creating feature UI under `features/`
@@ -257,6 +267,33 @@ export function UserForm(props: { id?: number; initialValues?: Record<string, an
   )
 }
 ```
+
+### Conditional form fields
+
+Use `hidden` when a parent controls visibility directly. `FormItem` synchronizes when the prop changes, including `false → true → false` transitions.
+
+Use `if(values)` when visibility depends on form values:
+
+```tsx
+<Form
+  initialValues={{ accountType: 'personal' }}
+  items={[
+    {
+      id: 'accountType',
+      type: 'string',
+    },
+    {
+      id: 'companyName',
+      type: 'string',
+      if: (values) => values.accountType === 'business',
+    },
+  ]}
+/>
+```
+
+The `if` predicate is evaluated from initial values and again when form values update. Treat it as the visibility source of truth; do not combine it with independently changing `hidden` state for the same item.
+
+A hidden item renders as a hidden form input instead of being treated as deleted. If hiding a field must also clear or exclude its value, implement that business rule explicitly.
 
 ### Delete and dangerous actions
 
@@ -518,6 +555,8 @@ export function LocalPreview() {
 
 10. Use `formRender`, `descriptionRender`, or `tableRender` only when a field truly differs by surface; do not fork fake field ids. `children` and `render` are general overrides, while `formRender`, `descriptionRender`, and `tableRender` are surface-specific. Maintain shared metadata until presentation genuinely diverges.
 
+11. Use `hidden` for parent-controlled visibility and `if(values)` for form-value-dependent visibility. Keep one source of truth per item, and test initial visibility plus later prop or value changes. Do not assume hiding clears the field value.
+
 ## Review Checklist
 
 - feature layout and action paths follow the `features/`, `components/`, `hooks/`, `api/` structure
@@ -535,3 +574,5 @@ export function LocalPreview() {
 - destructive confirmations use `setModalProps`
 - repeated custom field behavior is promoted to `extendTypes`
 - surface-specific overrides are used only when rendering truly differs
+- conditional fields use either controlled `hidden` or declarative `if(values)` and remain synchronized after updates
+- tests cover `hidden` prop transitions or `if(values)` changes when conditional visibility matters

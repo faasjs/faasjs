@@ -2,6 +2,17 @@
 
 Use this guide when building SQL queries with `@faasjs/pg` in FaasJS apps.
 
+## Contents
+
+- [Applicable Scenarios](#applicable-scenarios)
+- [Default Workflow](#default-workflow)
+- [Builder-First Example](#builder-first-example)
+- [Raw SQL Fallback Example](#raw-sql-fallback-example)
+- [Parameterized Update-expression Example](#parameterized-update-expression-example)
+- [Rules](#rules)
+- [See Also](#see-also)
+- [Review Checklist](#review-checklist)
+
 ## Applicable Scenarios
 
 - Creating or modifying SELECT, INSERT, UPDATE, DELETE, or UPSERT queries
@@ -12,11 +23,10 @@ Use this guide when building SQL queries with `@faasjs/pg` in FaasJS apps.
 ## Default Workflow
 
 1. Prefer `await getClient()` for the default client path. The built-in bootstrap reads `DATABASE_URL`, and tests can override that bootstrap lazily.
-2. Start from `client.query('<table>')` and keep `select`, `where`, `join`, `orderBy`, `limit`, `offset`, row locking, and `returning` in builder methods when available.
+2. Start from `client.query('<table>')` and keep `select`, `where`, `join`, `orderBy`, `limit`, `offset`, and `returning` in builder methods when available.
 3. Narrow results with `select(...)`, `first()`, `pluck(...)`, or explicit `returning` columns when the caller does not need full rows.
 4. Use `whereRaw`, `orWhereRaw`, `orderByRaw`, or `client.raw(...)` only for expressions or statements the builder cannot represent directly.
 5. Keep runtime values parameterized, and use `rawSql(...)` or `escapeIdentifier(...)` only for trusted SQL fragments or identifiers.
-6. Wrap multi-step read-write flows in `client.transaction(...)` when atomicity matters, and declare isolation or read-only mode when the workflow depends on it.
 
 ## Builder-First Example
 
@@ -43,21 +53,6 @@ await client.transaction(async (trx) => {
   await trx.raw('UPDATE users SET name = ? WHERE id = ?', 'Alice', 1)
   await trx.raw`INSERT INTO audit_logs (action, user_id) VALUES (${'rename_user'}, ${1})`
 })
-```
-
-## Transaction and Row-lock Example
-
-```ts
-const job = await client.transaction(
-  { isolation: 'repeatable read', readOnly: false },
-  async (trx) =>
-    trx
-      .query('jobs')
-      .where('status', 'pending')
-      .orderBy('id')
-      .forUpdate({ skipLocked: true })
-      .first(),
-)
 ```
 
 ## Parameterized Update-expression Example
@@ -103,34 +98,46 @@ await client
 - Treat `await getClient()` throwing as a signal that the shared bootstrap path was not configured.
 - In tests, let `PgVitestPlugin()` register the lazy test bootstrap instead of building a separate testing-only connection path. If a suite also reads `process.env.DATABASE_URL` directly, call `await getClient()` first.
 
-### 5. Keep write queries and transactions guarded
+### 5. Preserve edge-case semantics
+
+Do not replace these builder behaviors with truthiness checks or hand-built SQL that changes their meaning:
+
+| Builder input                     | Required behavior                     |
+| --------------------------------- | ------------------------------------- |
+| `where(column, 'IN', [])`         | match no rows (`FALSE`)               |
+| `where(column, 'NOT IN', [])`     | match all rows (`TRUE`)               |
+| `limit(0)`                        | keep `LIMIT 0`, do not omit the limit |
+| `first()` with no matching row    | return typed `null`                   |
+| upsert with only conflict columns | emit `DO NOTHING`                     |
+
+Add runtime and type coverage together when changing these cases.
+
+### 6. Keep write queries guarded
 
 - `update()` and `delete()` should keep explicit `where` conditions.
 - Treat an unbounded mutation as a bug unless it is a deliberate migration or maintenance action.
 - Do not remove or bypass the package's missing-where protection.
-- Use `client.transaction(...)` for multi-step DML or mixed read-write flows that must succeed or fail together.
-- Use transaction `isolation` and `readOnly` options only when the workflow requires explicit PostgreSQL semantics; omit them to keep the database defaults.
-- Run `forUpdate()` inside an explicit transaction. Use `skipLocked` for competing workers or `noWait` for fail-fast behavior, but never combine them.
 
-### 6. Keep update expressions parameterized
+### 7. Keep update expressions parameterized
 
 - Use the exported `sql` tag for atomic updates such as counters or database functions.
 - Insert identifiers with `sql.ref(...)`; other interpolations are always bound values.
 - Treat the static template text as trusted application SQL and never concatenate runtime input into it.
+- Treat `sql` as a result-type escape hatch: TypeScript does not prove that the expression result matches the destination column. Review the SQL and execute it against PostgreSQL in tests.
 
-### 7. Use `returning` only when the caller needs changed rows
+### 8. Use `returning` only when the caller needs changed rows
 
 - `insert`, `update`, and `upsert` return an empty result shape unless `returning` is requested.
 - Keep `returning` columns explicit so the result type stays narrow and predictable.
 - Prefer the minimum set of returned columns instead of `['*']` unless the caller truly needs the whole row.
 
-### 8. Move repeated raw SQL back toward shared helpers or the builder
+### 9. Move repeated raw SQL back toward shared helpers or the builder
 
 - If a raw query becomes common or reusable, consider whether it belongs in a shared helper or in the fluent query surface instead.
 - Prefer one reviewed abstraction over many near-duplicate raw SQL snippets.
 - When `@faasjs/pg` grows a clause helper that covers the same case, update app code to leave raw SQL behind.
 
-### 9. Use query logging selectively
+### 10. Use query logging selectively
 
 - The client logger is optional.
 - Debug logging is appropriate for query timing, troubleshooting, or temporary diagnostics.
@@ -139,6 +146,8 @@ await client
 ## See Also
 
 - [PG Table Types Guide](./pg-table-types.md) — declaration merging on `Tables` for type-safe query results
+- [PG Transactions and Locking Guide](./pg-transactions-and-locking.md) — transaction modes, row locks, retries, and concurrency tests
+- [PG Numeric Boundaries Guide](./pg-numeric-boundaries.md) — exact PostgreSQL numeric values and TypeScript boundaries
 - [PG Schema and Migrations Guide](./pg-schema-and-migrations.md) — creating and running migrations
 - [PG Testing Guide](./pg-testing.md) — testing with `PgVitestPlugin()`
 
@@ -149,6 +158,7 @@ await client
 - values stay parameterized and trusted SQL boundaries are explicit
 - the default client bootstrap goes through `await getClient()` and the registered async bootstrap (`process.env.DATABASE_URL` by default)
 - `select`, `first`, `pluck`, or explicit `returning` narrow rows when appropriate
-- `update` and `delete` stay guarded by `where`, and multi-step writes use `transaction(...)` when atomicity matters
-- row locks stay inside transactions, and update-expression values remain parameterized
+- `update` and `delete` stay guarded by `where`
+- empty arrays, zero limits, nullable `first()`, and conflict-only upserts keep their documented semantics
+- update-expression values remain parameterized and their result types are verified at runtime
 - shared query helpers or package changes keep runtime and type coverage aligned

@@ -1,6 +1,6 @@
 ---
 name: faasjs-specs
-description: 'Use when implementing, reviewing, or verifying normative FaasJS runtime behavior and compatibility for faas.yaml, staged config discovery and merge order, zero-mapping route resolution, HTTP request/response protocol envelopes, status behavior, plugin identity, lifecycle execution, config layering, and config-driven plugin loading.'
+description: 'Use when implementing, reviewing, or verifying normative FaasJS runtime behavior and compatibility for faas.yaml, staged config discovery and merge order, zero-mapping route resolution, HTTP request/response protocol envelopes, status behavior, plugin identity, concurrent mount and failed-mount retry behavior, lifecycle execution, config layering, and config-driven plugin loading.'
 ---
 
 # FaasJS Specifications
