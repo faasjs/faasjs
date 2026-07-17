@@ -1,8 +1,10 @@
+[**@faasjs/pg**](../README.md)
+
 [@faasjs/pg](../README.md) / getClient
 
 # Function: getClient()
 
-> **getClient**(`url?`): `Promise`\<[`Client`](../classes/Client.md)>>>>\>
+> **getClient**(`url?`): `Promise`\<[`Client`](../classes/Client.md)>>>>>>\>
 
 Returns a cached client created by [createClient](createClient.md).
 

@@ -1,8 +1,10 @@
+[**@faasjs/dev**](../README.md)
+
 [@faasjs/dev](../README.md) / JsonHandlerResult
 
 # Type Alias: JsonHandlerResult\<TData\>
 
-> **JsonHandlerResult**\<`TData`> > > > \> = `object`
+> **JsonHandlerResult**\<`TData`> > > > > > \> = `object`
 
 Normalized HTTP-style response returned by JSON API test helpers.
 
@@ -22,7 +24,7 @@ Raw parsed response body.
 
 ### cookie?
 
-> `optional` **cookie?**: `Record`\<`string`, `any`>>>>\>
+> `optional` **cookie?**: `Record`\<`string`, `any`>>>>>>\>
 
 Decoded response cookies.
 
@@ -54,7 +56,7 @@ Response headers returned by the HTTP plugin.
 
 ### session?
 
-> `optional` **session?**: `Record`\<`string`, `any`>>>>\>
+> `optional` **session?**: `Record`\<`string`, `any`>>>>>>\>
 
 Decoded response session values.
 

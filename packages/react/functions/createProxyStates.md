@@ -1,8 +1,10 @@
+[**@faasjs/react**](../README.md)
+
 [@faasjs/react](../README.md) / createProxyStates
 
 # Function: createProxyStates()
 
-> **createProxyStates**\<`T`>>>>\>(`defaultStates`): [`ProxyStates`](../type-aliases/ProxyStates.md)\<`T`>>>>\>
+> **createProxyStates**\<`T`>>>>>>\>(`defaultStates`): [`ProxyStates`](../type-aliases/ProxyStates.md)\<`T`>>>>>>\>
 
 Create Proxy-backed shared states with generated hooks, setters, and latest-value refs.
 

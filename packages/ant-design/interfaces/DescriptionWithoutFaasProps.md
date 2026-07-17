@@ -1,3 +1,5 @@
+[**@faasjs/ant-design**](../README.md)
+
 [@faasjs/ant-design](../README.md) / DescriptionWithoutFaasProps
 
 # Interface: DescriptionWithoutFaasProps\<T, ExtendItemProps\>
@@ -78,7 +80,7 @@ Must not be set when using a local `dataSource`.
 
 ### items
 
-> **items**: ([`DescriptionItemProps`](DescriptionItemProps.md)\<`any`> > > > \> \| `ExtendItemProps`)[]
+> **items**: ([`DescriptionItemProps`](DescriptionItemProps.md)\<`any`> > > > > > \> \| `ExtendItemProps`)[]
 
 Item metadata definitions rendered as description entries.
 

@@ -1,3 +1,5 @@
+[**@faasjs/ant-design**](../README.md)
+
 [@faasjs/ant-design](../README.md) / DescriptionCommonProps
 
 # Interface: DescriptionCommonProps\<T, ExtendItemProps\>
@@ -63,6 +65,6 @@ Custom type renderers keyed by item type.
 
 ### items
 
-> **items**: (`ExtendItemProps` \| [`DescriptionItemProps`](DescriptionItemProps.md)\<`any`>>>>\>)[]
+> **items**: (`ExtendItemProps` \| [`DescriptionItemProps`](DescriptionItemProps.md)\<`any`>>>>>>\>)[]
 
 Item metadata definitions rendered as description entries.

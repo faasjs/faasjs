@@ -1,8 +1,10 @@
+[**@faasjs/jobs**](../README.md)
+
 [@faasjs/jobs](../README.md) / JobCron
 
 # Type Alias: JobCron\<TParams\>
 
-> **JobCron**\<`TParams`> > > > \> = `object`
+> **JobCron**\<`TParams`> > > > > > \> = `object`
 
 Cron rule that enqueues a job with optional schema-typed params.
 

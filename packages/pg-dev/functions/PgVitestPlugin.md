@@ -1,3 +1,5 @@
+[**@faasjs/pg-dev**](../README.md)
+
 [@faasjs/pg-dev](../README.md) / PgVitestPlugin
 
 # Function: PgVitestPlugin()

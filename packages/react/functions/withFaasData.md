@@ -1,8 +1,10 @@
+[**@faasjs/react**](../README.md)
+
 [@faasjs/react](../README.md) / withFaasData
 
 # Function: withFaasData()
 
-> **withFaasData**\<`Path`, `TComponentProps`>>>>\>(`Component`, `faasProps`): `FC`\<`Omit`\<`TComponentProps`, keyof [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`Path`>> >> >> >> \>\> & `Record`\<`string`, `any`>>>>>>>>\>\>
+> **withFaasData**\<`Path`, `TComponentProps`>>>>>>\>(`Component`, `faasProps`): `FC`\<`Omit`\<`TComponentProps`, keyof [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`Path`>> >> >> >> >> >> \>\> & `Record`\<`string`, `any`>>>>>>>>>>>>\>\>
 
 Wrap a component with [FaasDataWrapper](../variables/FaasDataWrapper.md) and inject Faas request state as props.
 

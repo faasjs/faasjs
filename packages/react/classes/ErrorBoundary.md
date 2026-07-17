@@ -1,3 +1,5 @@
+[**@faasjs/react**](../README.md)
+
 [@faasjs/react](../README.md) / ErrorBoundary
 
 # Class: ErrorBoundary
@@ -82,7 +84,7 @@ React component stack metadata.
 
 ### render()
 
-> **render**(): `string` \| `number` \| `bigint` \| `boolean` \| `Element` \| `Iterable`\<`ReactNode`, `any`, `any`> > > > \> \| `Promise`\<`AwaitedReactNode`> > > > \> \| `null`
+> **render**(): `string` \| `number` \| `bigint` \| `boolean` \| `Element` \| `Iterable`\<`ReactNode`, `any`, `any`> > > > > > \> \| `Promise`\<`AwaitedReactNode`> > > > > > \> \| `null`
 
 Render children or the configured fallback for the captured error.
 

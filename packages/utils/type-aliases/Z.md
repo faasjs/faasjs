@@ -1,3 +1,5 @@
+[**@faasjs/utils**](../README.md)
+
 [@faasjs/utils](../README.md) / Z
 
 # Type Alias: Z

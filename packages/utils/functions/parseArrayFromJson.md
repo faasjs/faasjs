@@ -1,8 +1,10 @@
+[**@faasjs/utils**](../README.md)
+
 [@faasjs/utils](../README.md) / parseArrayFromJson
 
 # Function: parseArrayFromJson()
 
-> **parseArrayFromJson**\<`T`>>>>\>(`value`): `T`
+> **parseArrayFromJson**\<`T`>>>>>>\>(`value`): `T`
 
 Normalizes JSON-like input into an array.
 

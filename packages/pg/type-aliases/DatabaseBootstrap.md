@@ -1,8 +1,10 @@
+[**@faasjs/pg**](../README.md)
+
 [@faasjs/pg](../README.md) / DatabaseBootstrap
 
 # Type Alias: DatabaseBootstrap
 
-> **DatabaseBootstrap** = () => `void` \| `Promise`\<`void`>>>>\>
+> **DatabaseBootstrap** = () => `void` \| `Promise`\<`void`>>>>>>\>
 
 Async bootstrap used by [getClient](../functions/getClient.md) when no default client has been cached yet.
 

@@ -1,3 +1,5 @@
+[**@faasjs/pg**](../README.md)
+
 [@faasjs/pg](../README.md) / Migrator
 
 # Class: Migrator
@@ -54,7 +56,7 @@ The table uses the migration filename without `.ts` as its primary key.
 
 ### down()
 
-> **down**(): `Promise`\<`undefined`>>>>\>
+> **down**(): `Promise`\<`undefined`>>>>>>\>
 
 Rolls back the last applied migration by calling its `down` function.
 
@@ -69,7 +71,7 @@ A rejected promise if the rollback fails.
 
 ### migrate()
 
-> **migrate**(): `Promise`\<`undefined`>>>>\>
+> **migrate**(): `Promise`\<`undefined`>>>>>>\>
 
 Runs all pending migration files in lexical order.
 
@@ -96,7 +98,7 @@ Creates `faasjs_pg_migrations` first if needed.
 
 ### up()
 
-> **up**(): `Promise`\<`undefined`>>>>\>
+> **up**(): `Promise`\<`undefined`>>>>>>\>
 
 Runs the next pending migration, if one exists.
 

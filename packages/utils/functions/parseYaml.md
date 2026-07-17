@@ -1,10 +1,12 @@
+[**@faasjs/utils**](../README.md)
+
 [@faasjs/utils](../README.md) / parseYaml
 
 # Function: parseYaml()
 
 ## Call Signature
 
-> **parseYaml**\<`T`>>>>\>(`content`): `T`
+> **parseYaml**\<`T`>>>>>>\>(`content`): `T`
 
 Parse the FaasJS-supported YAML subset into JavaScript values.
 
@@ -58,7 +60,7 @@ const value = parseYaml(`defaults:
 
 ## Call Signature
 
-> **parseYaml**\<`Schema`>>>>\>(`content`, `schema`): `output`\<`Schema`>>>>\>
+> **parseYaml**\<`Schema`>>>>>>\>(`content`, `schema`): `output`\<`Schema`>>>>>>\>
 
 Parses the FaasJS-supported YAML subset and validates it with a Zod schema.
 

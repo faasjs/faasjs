@@ -1,8 +1,10 @@
+[**@faasjs/core**](../README.md)
+
 [@faasjs/core](../README.md) / nameFunc
 
 # Function: nameFunc()
 
-> **nameFunc**\<`T`>>>>\>(`name`, `handler`): `T`
+> **nameFunc**\<`T`>>>>>>\>(`name`, `handler`): `T`
 
 Assign a stable name to a function for logs and stack traces.
 

@@ -1,8 +1,10 @@
+[**@faasjs/core**](../README.md)
+
 [@faasjs/core](../README.md) / InvokeData
 
 # Type Alias: InvokeData\<TEvent, TContext, TResult\>
 
-> **InvokeData**\<`TEvent`, `TContext`, `TResult`> > > > \> = `object`
+> **InvokeData**\<`TEvent`, `TContext`, `TResult`> > > > > > \> = `object`
 
 Mutable invocation state shared by plugins and the final handler.
 
@@ -52,7 +54,7 @@ Runtime event payload.
 
 ### handler?
 
-> `optional` **handler?**: [`Handler`](Handler.md)\<`TEvent`, `TContext`, `TResult`>>>>\>
+> `optional` **handler?**: [`Handler`](Handler.md)\<`TEvent`, `TContext`, `TResult`>>>>>>\>
 
 Final business handler when one exists.
 

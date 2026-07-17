@@ -1,8 +1,10 @@
+[**@faasjs/utils**](../README.md)
+
 [@faasjs/utils](../README.md) / stringToStream
 
 # Function: stringToStream()
 
-> **stringToStream**(`text`): `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`>>>>>>>>\>\>
+> **stringToStream**(`text`): `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`>>>>>>>>>>>>\>\>
 
 Encode a string into a UTF-8 byte stream.
 

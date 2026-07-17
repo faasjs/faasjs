@@ -1,8 +1,10 @@
+[**@faasjs/types**](../README.md)
+
 [@faasjs/types](../README.md) / FaasJobPaths
 
 # Type Alias: FaasJobPaths
 
-> **FaasJobPaths** = `Extract`\<keyof `FaasJobs`, `string`>>>>\>
+> **FaasJobPaths** = `Extract`\<keyof `FaasJobs`, `string`>>>>>>\>
 
 Union of all declared `.job.ts` path string literals.
 

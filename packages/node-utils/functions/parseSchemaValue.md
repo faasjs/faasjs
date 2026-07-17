@@ -1,8 +1,10 @@
+[**@faasjs/node-utils**](../README.md)
+
 [@faasjs/node-utils](../README.md) / parseSchemaValue
 
 # Function: parseSchemaValue()
 
-> **parseSchemaValue**\<`TSchema`, `TFallback`>>>>\>(`options`): `Promise`\<[`SchemaOutput`](../type-aliases/SchemaOutput.md)\<`TSchema`, `TFallback`>>>>>>>>\>\>
+> **parseSchemaValue**\<`TSchema`, `TFallback`>>>>>>\>(`options`): `Promise`\<[`SchemaOutput`](../type-aliases/SchemaOutput.md)\<`TSchema`, `TFallback`>>>>>>>>>>>>\>\>
 
 Parse a value with an optional Zod schema.
 

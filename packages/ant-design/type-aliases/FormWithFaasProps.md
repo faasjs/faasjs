@@ -1,8 +1,10 @@
+[**@faasjs/ant-design**](../README.md)
+
 [@faasjs/ant-design](../README.md) / FormWithFaasProps
 
 # Type Alias: FormWithFaasProps\<Path, Values, ExtendItemProps\>
 
-> **FormWithFaasProps**\<`Path`, `Values`, `ExtendItemProps`> > > > \> = [`FormCommonProps`](FormCommonProps.md)\<`Values`, `ExtendItemProps`> > > > \> & `object`
+> **FormWithFaasProps**\<`Path`, `Values`, `ExtendItemProps`> > > > > > \> = [`FormCommonProps`](FormCommonProps.md)\<`Values`, `ExtendItemProps`> > > > > > \> & `object`
 
 Props for the [Form](../functions/Form.md) component when FaasJS write-action integration is used.
 
@@ -10,7 +12,7 @@ Props for the [Form](../functions/Form.md) component when FaasJS write-action in
 
 ### faas?
 
-> `optional` **faas?**: [`FormFaasProps`](FormFaasProps.md)\<`Values`, `Path`>>>>\>
+> `optional` **faas?**: [`FormFaasProps`](FormFaasProps.md)\<`Values`, `Path`>>>>>>\>
 
 FaasJS integration configuration.
 

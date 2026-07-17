@@ -1,3 +1,5 @@
+[**@faasjs/pg**](../README.md)
+
 [@faasjs/pg](../README.md) / ArrayOperators
 
 # Type Alias: ArrayOperators

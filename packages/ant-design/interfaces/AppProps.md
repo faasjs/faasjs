@@ -1,3 +1,5 @@
+[**@faasjs/ant-design**](../README.md)
+
 [@faasjs/ant-design](../README.md) / AppProps
 
 # Interface: AppProps
@@ -33,7 +35,7 @@ component config overrides from this root shell.
 
 ### errorBoundaryProps?
 
-> `optional` **errorBoundaryProps?**: `Omit`\<[`ErrorBoundaryProps`](ErrorBoundaryProps.md), `"children"`>>>>\>
+> `optional` **errorBoundaryProps?**: `Omit`\<[`ErrorBoundaryProps`](ErrorBoundaryProps.md), `"children"`>>>>>>\>
 
 Props forwarded to [ErrorBoundary](../functions/ErrorBoundary.md).
 
@@ -43,7 +45,7 @@ Props forwarded to [ErrorBoundary](../functions/ErrorBoundary.md).
 
 ### faasConfigProviderProps?
 
-> `optional` **faasConfigProviderProps?**: `false` \| `Omit`\<[`ConfigProviderProps`](ConfigProviderProps.md), `"children"`>>>>\>
+> `optional` **faasConfigProviderProps?**: `false` \| `Omit`\<[`ConfigProviderProps`](ConfigProviderProps.md), `"children"`>>>>>>\>
 
 Props forwarded to the FaasJS Ant Design [ConfigProvider](../functions/ConfigProvider.md).
 

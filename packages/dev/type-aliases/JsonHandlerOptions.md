@@ -1,3 +1,5 @@
+[**@faasjs/dev**](../README.md)
+
 [@faasjs/dev](../README.md) / JsonHandlerOptions
 
 # Type Alias: JsonHandlerOptions

@@ -1,8 +1,10 @@
+[**@faasjs/node-utils**](../README.md)
+
 [@faasjs/node-utils](../README.md) / loadPlugins
 
 # Function: loadPlugins()
 
-> **loadPlugins**\<`T`>>>>\>(`func`, `options`): `Promise`\<`T`>>>>\>
+> **loadPlugins**\<`T`>>>>>>\>(`func`, `options`): `Promise`\<`T`>>>>>>\>
 
 Load staged `faas.yaml`, attach the merged config to a function, and
 instantiate any plugins declared in YAML that are not already injected in code.

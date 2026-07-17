@@ -1,8 +1,10 @@
+[**@faasjs/react**](../README.md)
+
 [@faasjs/react](../README.md) / UseFaasStreamResult
 
 # Type Alias: UseFaasStreamResult\<Path\>
 
-> **UseFaasStreamResult**\<`Path`> > > > \> = `object`
+> **UseFaasStreamResult**\<`Path`> > > > > > \> = `object`
 
 Result returned by [useFaasStream](../functions/useFaasStream.md).
 
@@ -42,7 +44,7 @@ Whether the hook is currently waiting for stream data and should block the main 
 
 ### params
 
-> **params**: `FaasParams`\<`Path`>>>>\>
+> **params**: `FaasParams`\<`Path`>>>>>>\>
 
 Params used for the most recent request attempt.
 
@@ -54,7 +56,7 @@ Whether a background stream refresh is currently in flight.
 
 ### reload
 
-> **reload**: (`params?`, `options?`) => `Promise`\<`string`>>>>\>
+> **reload**: (`params?`, `options?`) => `Promise`\<`string`>>>>>>\>
 
 Trigger a new streaming request with optional params.
 
@@ -82,18 +84,18 @@ Number of times `reload()` or polling has triggered a new request.
 
 ### setData
 
-> **setData**: `React.Dispatch`\<`React.SetStateAction`\<`string`>>>>>>>>\>\>
+> **setData**: `React.Dispatch`\<`React.SetStateAction`\<`string`>>>>>>>>>>>>\>\>
 
 Controlled or internal setter for the accumulated text.
 
 ### setError
 
-> **setError**: `React.Dispatch`\<`React.SetStateAction`\<`any`>>>>>>>>\>\>
+> **setError**: `React.Dispatch`\<`React.SetStateAction`\<`any`>>>>>>>>>>>>\>\>
 
 Setter for the last stream error.
 
 ### setLoading
 
-> **setLoading**: `React.Dispatch`\<`React.SetStateAction`\<`boolean`>>>>>>>>\>\>
+> **setLoading**: `React.Dispatch`\<`React.SetStateAction`\<`boolean`>>>>>>>>>>>>\>\>
 
 Setter for the loading flag.

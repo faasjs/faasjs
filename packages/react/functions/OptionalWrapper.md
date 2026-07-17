@@ -1,8 +1,10 @@
+[**@faasjs/react**](../README.md)
+
 [@faasjs/react](../README.md) / OptionalWrapper
 
 # Function: OptionalWrapper()
 
-> **OptionalWrapper**(`props`): `string` \| `number` \| `bigint` \| `boolean` \| `Element` \| `Iterable`\<`ReactNode`, `any`, `any`> > > > \> \| `Promise`\<`AwaitedReactNode`> > > > \> \| `null` \| `undefined`
+> **OptionalWrapper**(`props`): `string` \| `number` \| `bigint` \| `boolean` \| `Element` \| `Iterable`\<`ReactNode`, `any`, `any`> > > > > > \> \| `Promise`\<`AwaitedReactNode`> > > > > > \> \| `null` \| `undefined`
 
 Conditionally wrap children with another component.
 

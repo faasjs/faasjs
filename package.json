@@ -1,6 +1,6 @@
 {
   "name": "faasjs-mono",
-  "version": "8.0.0-beta.43",
+  "version": "8.0.0-beta.44",
   "private": true,
   "description": "A Rails-inspired, curated full-stack TypeScript framework for database-driven React business applications.",
   "workspaces": [
@@ -17,8 +17,9 @@
     "pack": "vp pack",
     "pub": "npm run clean && vp pack && npm run doc && node publish.ts",
     "doc": "node packages/docgen/src/cli.ts all",
-    "clean": "rimraf packages/*/node_modules packages/*/dist coverage packages/*/*.log tmp *.log",
-    "prepare": "vp config"
+    "clean": "rm -rf packages/*/dist coverage packages/*/*.log tmp *.log",
+    "prepare": "vp config",
+    "upgrade": "rm -rf packages/*/node_modules node_modules package-lock.json && npm install"
   },
   "devDependencies": {
     "@vitest/coverage-v8": ">=4.1.10",
@@ -32,5 +33,8 @@
     "node": ">=26.0.0",
     "npm": ">=11.0.0"
   },
-  "packageManager": "npm@12.0.1"
+  "packageManager": "npm@12.0.1",
+  "allowScripts": {
+    "fsevents@2.3.3": true
+  }
 }

@@ -1,8 +1,10 @@
+[**@faasjs/ant-design**](../README.md)
+
 [@faasjs/ant-design](../README.md) / FaasDataWrapperRef
 
 # Type Alias: FaasDataWrapperRef\<Path\>
 
-> **FaasDataWrapperRef**\<`Path`> > > > \> = [`FaasDataInjection`](FaasDataInjection.md)\<`Path`>>>>\>
+> **FaasDataWrapperRef**\<`Path`> > > > > > \> = [`FaasDataInjection`](FaasDataInjection.md)\<`Path`>>>>>>\>
 
 Imperative ref shape exposed by [FaasDataWrapper](../functions/FaasDataWrapper.md).
 

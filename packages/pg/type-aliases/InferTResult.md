@@ -1,8 +1,10 @@
+[**@faasjs/pg**](../README.md)
+
 [@faasjs/pg](../README.md) / InferTResult
 
 # Type Alias: InferTResult\<TName, ColumnNames\>
 
-> **InferTResult**\<`TName`, `ColumnNames`> > > > \> = `ColumnNames` _extends_ \[`"*"`\] ? [`TableType`](TableType.md)\<`TName`> > > > \> : `MergeTypes`\<`{ [K in keyof ColumnNames]: InferColumnType<TName, ColumnNames[K]> }`>>>>\>
+> **InferTResult**\<`TName`, `ColumnNames`> > > > > > \> = `ColumnNames` _extends_ \[`"*"`\] ? [`TableType`](TableType.md)\<`TName`> > > > > > \> : `MergeTypes`\<`{ [K in keyof ColumnNames]: InferColumnType<TName, ColumnNames[K]> }`>>>>>>\>
 
 Infers the result row type for a SELECT query based on the table name and selected columns.
 

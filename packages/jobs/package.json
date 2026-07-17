@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/jobs",
-  "version": "8.0.0-beta.43",
+  "version": "8.0.0-beta.44",
   "description": "PostgreSQL-backed background jobs for FaasJS.",
   "keywords": [
     "background-jobs",
@@ -35,16 +35,16 @@
     }
   },
   "devDependencies": {
-    "@faasjs/core": ">=8.0.0-beta.43",
-    "@faasjs/node-utils": ">=8.0.0-beta.43",
-    "@faasjs/pg": ">=8.0.0-beta.43",
-    "@faasjs/types": ">=8.0.0-beta.43"
+    "@faasjs/core": ">=8.0.0-beta.44",
+    "@faasjs/node-utils": ">=8.0.0-beta.44",
+    "@faasjs/pg": ">=8.0.0-beta.44",
+    "@faasjs/types": ">=8.0.0-beta.44"
   },
   "peerDependencies": {
-    "@faasjs/core": ">=8.0.0-beta.43",
-    "@faasjs/node-utils": ">=8.0.0-beta.43",
-    "@faasjs/pg": ">=8.0.0-beta.43",
-    "@faasjs/types": ">=8.0.0-beta.43"
+    "@faasjs/core": ">=8.0.0-beta.44",
+    "@faasjs/node-utils": ">=8.0.0-beta.44",
+    "@faasjs/pg": ">=8.0.0-beta.44",
+    "@faasjs/types": ">=8.0.0-beta.44"
   },
   "engines": {
     "node": ">=26.0.0",

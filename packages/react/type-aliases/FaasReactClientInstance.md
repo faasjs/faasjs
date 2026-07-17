@@ -1,3 +1,5 @@
+[**@faasjs/react**](../README.md)
+
 [@faasjs/react](../README.md) / FaasReactClientInstance
 
 # Type Alias: FaasReactClientInstance

@@ -1,3 +1,5 @@
+[**@faasjs/core**](../README.md)
+
 [@faasjs/core](../README.md) / Http
 
 # Class: Http\<TParams, TCookie, TSession\>
@@ -54,7 +56,7 @@ Session map exposed by the session helper.
 
 ### Constructor
 
-> **new Http**\<`TParams`, `TCookie`, `TSession`>>>>\>(`config?`): `Http`\<`TParams`, `TCookie`, `TSession`>>>>\>
+> **new Http**\<`TParams`, `TCookie`, `TSession`>>>>>>\>(`config?`): `Http`\<`TParams`, `TCookie`, `TSession`>>>>>>\>
 
 Create an HTTP plugin instance.
 
@@ -74,7 +76,7 @@ Optional plugin name and HTTP configuration overrides.
 
 ### onInvoke()
 
-> **onInvoke**(`data`, `next`): `Promise`\<`void`>>>>\>
+> **onInvoke**(`data`, `next`): `Promise`\<`void`>>>>>>\>
 
 Attach HTTP helpers, cookies, sessions, and response handling to invoke data.
 
@@ -109,7 +111,7 @@ Promise that resolves after response helpers are applied.
 
 ### onMount()
 
-> **onMount**(`data`, `next`): `Promise`\<`void`>>>>\>
+> **onMount**(`data`, `next`): `Promise`\<`void`>>>>>>\>
 
 Merge environment and function config into the plugin before first invoke.
 

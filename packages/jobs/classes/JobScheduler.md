@@ -1,3 +1,5 @@
+[**@faasjs/jobs**](../README.md)
+
 [@faasjs/jobs](../README.md) / JobScheduler
 
 # Class: JobScheduler
@@ -54,7 +56,7 @@ The scheduler instance (for chaining).
 
 ### stop()
 
-> **stop**(): `Promise`\<`void`>>>>\>
+> **stop**(): `Promise`\<`void`>>>>>>\>
 
 Stop the scheduler loop. Waits for the current tick to complete
 before resolving.
@@ -65,7 +67,7 @@ before resolving.
 
 ### tick()
 
-> **tick**(`now?`): `Promise`\<`number`>>>>\>
+> **tick**(`now?`): `Promise`\<`number`>>>>>>\>
 
 Execute one scheduling tick: evaluate all cron rules against the
 current minute and enqueue matching jobs. No-op if a tick is

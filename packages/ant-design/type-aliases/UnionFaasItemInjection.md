@@ -1,8 +1,10 @@
+[**@faasjs/ant-design**](../README.md)
+
 [@faasjs/ant-design](../README.md) / UnionFaasItemInjection
 
 # Type Alias: UnionFaasItemInjection\<Value, Values\>
 
-> **UnionFaasItemInjection**\<`Value`, `Values`> > > > \> = `object`
+> **UnionFaasItemInjection**\<`Value`, `Values`> > > > > > \> = `object`
 
 Props injected into a [UnionFaasItemElement](UnionFaasItemElement.md) by the rendering host.
 

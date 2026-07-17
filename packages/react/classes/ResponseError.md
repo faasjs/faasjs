@@ -1,3 +1,5 @@
+[**@faasjs/react**](../README.md)
+
 [@faasjs/react](../README.md) / ResponseError
 
 # Class: ResponseError

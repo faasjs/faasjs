@@ -1,8 +1,10 @@
+[**@faasjs/jobs**](../README.md)
+
 [@faasjs/jobs](../README.md) / defineJob
 
 # Function: defineJob()
 
-> **defineJob**\<`TSchema`, `TContext`, `THandler`>>>>\>(`options`): [`Job`](../classes/Job.md)\<`TSchema`, `TContext`, `Awaited`\<`ReturnType`\<`THandler`>>>>>>>>>>>>\>\>\>
+> **defineJob**\<`TSchema`, `TContext`, `THandler`>>>>>>\>(`options`): [`Job`](../classes/Job.md)\<`TSchema`, `TContext`, `Awaited`\<`ReturnType`\<`THandler`>>>>>>>>>>>>>>>>>>\>\>\>
 
 Define a PostgreSQL-backed background job.
 

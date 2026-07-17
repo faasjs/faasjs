@@ -1,8 +1,10 @@
+[**@faasjs/core**](../README.md)
+
 [@faasjs/core](../README.md) / FuncConfig
 
 # Type Alias: FuncConfig\<TEvent, TContext, TResult\>
 
-> **FuncConfig**\<`TEvent`, `TContext`, `TResult`> > > > \> = `object`
+> **FuncConfig**\<`TEvent`, `TContext`, `TResult`> > > > > > \> = `object`
 
 Constructor options for [Func](../classes/Func.md).
 
@@ -30,7 +32,7 @@ Async result type produced by the handler.
 
 ### handler?
 
-> `optional` **handler?**: [`Handler`](Handler.md)\<`TEvent`, `TContext`, `TResult`>>>>\>
+> `optional` **handler?**: [`Handler`](Handler.md)\<`TEvent`, `TContext`, `TResult`>>>>>>\>
 
 Final business handler invoked after plugins complete.
 

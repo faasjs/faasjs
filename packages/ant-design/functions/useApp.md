@@ -1,8 +1,10 @@
+[**@faasjs/ant-design**](../README.md)
+
 [@faasjs/ant-design](../README.md) / useApp
 
 # Function: useApp()
 
-> **useApp**\<`NewT`>>>>\>(`this`): `Readonly`\<`NewT`>>>>\>
+> **useApp**\<`NewT`>>>>>>\>(`this`): `Readonly`\<`NewT`>>>>>>\>
 
 Read app-level services exposed by the root `App` component.
 

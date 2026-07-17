@@ -1,8 +1,10 @@
+[**@faasjs/ant-design**](../README.md)
+
 [@faasjs/ant-design](../README.md) / TableProps
 
 # Type Alias: TableProps\<T, ExtendTypes\>
 
-> **TableProps**\<`T`, `ExtendTypes`> > > > \> = `object` & `AntdTableProps`\<`T`>>>>\>
+> **TableProps**\<`T`, `ExtendTypes`> > > > > > \> = `object` & `AntdTableProps`\<`T`>>>>>>\>
 
 Props for the FaasJS Ant Design [Table](../functions/Table.md) component.
 
@@ -20,7 +22,7 @@ Custom type renderers keyed by item type.
 
 ### faasData?
 
-> `optional` **faasData?**: [`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`any`>>>>\>
+> `optional` **faasData?**: [`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`any`>>>>>>\>
 
 Request config used to fetch table data before rendering.
 
@@ -67,11 +69,11 @@ to `reload()`. Without this handler, the raw Ant Design table state is sent.
 
 ##### extra
 
-> **extra**: `TableCurrentDataSource`\<`T`>>>>\>
+> **extra**: `TableCurrentDataSource`\<`T`>>>>>>\>
 
 ##### filters
 
-> **filters**: `Record`\<`string`, `FilterValue` \| `null`>>>>\>
+> **filters**: `Record`\<`string`, `FilterValue` \| `null`>>>>>>\>
 
 ##### pagination
 
@@ -79,7 +81,7 @@ to `reload()`. Without this handler, the raw Ant Design table state is sent.
 
 ##### sorter
 
-> **sorter**: `SorterResult`\<`T`> > > > \> \| `SorterResult`\<`T`>>>>\>[]
+> **sorter**: `SorterResult`\<`T`> > > > > > \> \| `SorterResult`\<`T`>>>>>>\>[]
 
 ## Type Parameters
 

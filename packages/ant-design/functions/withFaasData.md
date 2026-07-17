@@ -1,8 +1,10 @@
+[**@faasjs/ant-design**](../README.md)
+
 [@faasjs/ant-design](../README.md) / withFaasData
 
 # Function: withFaasData()
 
-> **withFaasData**\<`Path`, `TComponentProps`>>>>\>(`Component`, `faasProps`): `FC`\<`Omit`\<`TComponentProps`, keyof [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`Path`>>>>>>>>>>>>\>\>\>
+> **withFaasData**\<`Path`, `TComponentProps`>>>>>>\>(`Component`, `faasProps`): `FC`\<`Omit`\<`TComponentProps`, keyof [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`Path`>>>>>>>>>>>>>>>>>>\>\>\>
 
 Wrap a component with [FaasDataWrapper](FaasDataWrapper.md) and its Ant Design loading fallback.
 

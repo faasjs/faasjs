@@ -1,8 +1,10 @@
+[**@faasjs/react**](../README.md)
+
 [@faasjs/react](../README.md) / useStates
 
 # Function: useStates()
 
-> **useStates**\<`T`>>>>\>(`initialStates`): [`StatesWithSetters`](../type-aliases/StatesWithSetters.md)\<`T`>>>>\>
+> **useStates**\<`T`>>>>>>\>(`initialStates`): [`StatesWithSetters`](../type-aliases/StatesWithSetters.md)\<`T`>>>>>>\>
 
 Create local state entries and matching setters for each key in an object.
 

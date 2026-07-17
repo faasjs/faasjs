@@ -1,8 +1,10 @@
+[**@faasjs/utils**](../README.md)
+
 [@faasjs/utils](../README.md) / streamToObject
 
 # Function: streamToObject()
 
-> **streamToObject**\<`T`>>>>\>(`stream`): `Promise`\<`T`>>>>\>
+> **streamToObject**\<`T`>>>>>>\>(`stream`): `Promise`\<`T`>>>>>>\>
 
 Parse a JSON value from a byte stream.
 

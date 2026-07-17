@@ -1,8 +1,10 @@
+[**@faasjs/ant-design**](../README.md)
+
 [@faasjs/ant-design](../README.md) / Table
 
 # Function: Table()
 
-> **Table**\<`T`, `ExtendTypes`>>>>\>(`props`): `Element`
+> **Table**\<`T`, `ExtendTypes`>>>>>>\>(`props`): `Element`
 
 Render an Ant Design table from FaasJS item metadata.
 

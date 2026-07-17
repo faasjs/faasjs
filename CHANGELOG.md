@@ -2,7 +2,7 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+[`v8.0.0-beta.44 (2026-07-17)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.43...v8.0.0-beta.44)
 
 - `@faasjs/ant-design`
   - [Break] Remove the `Loading` component's built-in vertical margin and center alignment when `size` is `"large"` or unspecified. Use the new `full` prop to fill the surrounding flex container instead.

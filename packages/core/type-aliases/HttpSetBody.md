@@ -1,3 +1,5 @@
+[**@faasjs/core**](../README.md)
+
 [@faasjs/core](../README.md) / HttpSetBody
 
 # Type Alias: HttpSetBody

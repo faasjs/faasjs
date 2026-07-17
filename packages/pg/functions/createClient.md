@@ -1,8 +1,10 @@
+[**@faasjs/pg**](../README.md)
+
 [@faasjs/pg](../README.md) / createClient
 
 # Function: createClient()
 
-> **createClient**\<`T`>>>>\>(`url`, `options?`): [`Client`](../classes/Client.md)
+> **createClient**\<`T`>>>>>>\>(`url`, `options?`): [`Client`](../classes/Client.md)
 
 Creates a new instance of the `Client` class from a PostgreSQL connection string.
 

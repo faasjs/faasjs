@@ -11,6 +11,5 @@
     "skipLibCheck": true
   },
   "readme": "none",
-  "hidePageHeader": true,
-  "mergeReadme": true
+  "hideGenerator": true
 }

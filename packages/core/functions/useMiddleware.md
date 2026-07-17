@@ -1,8 +1,10 @@
+[**@faasjs/core**](../README.md)
+
 [@faasjs/core](../README.md) / useMiddleware
 
 # Function: useMiddleware()
 
-> **useMiddleware**(`handler`): `Promise`\<[`Func`](../classes/Func.md)\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `Pick`\<[`MiddlewareContext`](../type-aliases/MiddlewareContext.md), `"root"`>>>>\>, `any`>>>>>>>>\>\>
+> **useMiddleware**(`handler`): `Promise`\<[`Func`](../classes/Func.md)\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `Pick`\<[`MiddlewareContext`](../type-aliases/MiddlewareContext.md), `"root"`>>>>>>\>, `any`>>>>>>>>>>>>\>\>
 
 Create a function that runs one middleware and falls back to `404 Not Found`.
 

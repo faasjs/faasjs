@@ -1,3 +1,5 @@
+[**@faasjs/node-utils**](../README.md)
+
 [@faasjs/node-utils](../README.md) / LoggerMessage
 
 # Type Alias: LoggerMessage

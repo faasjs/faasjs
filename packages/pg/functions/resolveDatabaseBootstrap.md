@@ -1,8 +1,10 @@
+[**@faasjs/pg**](../README.md)
+
 [@faasjs/pg](../README.md) / resolveDatabaseBootstrap
 
 # Function: resolveDatabaseBootstrap()
 
-> **resolveDatabaseBootstrap**(): `Promise`\<`void`>>>>\>
+> **resolveDatabaseBootstrap**(): `Promise`\<`void`>>>>>>\>
 
 Resolves the registered async database bootstrap.
 

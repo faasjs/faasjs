@@ -1,8 +1,10 @@
+[**@faasjs/ant-design**](../README.md)
+
 [@faasjs/ant-design](../README.md) / faas
 
 # Function: faas()
 
-> **faas**\<`Path`>>>>\>(`action`, `params`, `options?`): `Promise`\<`Response`\<`FaasData`\<`Path`>>>>>>>>>>>>\>\>\>
+> **faas**\<`Path`>>>>>>\>(`action`, `params`, `options?`): `Promise`\<`Response`\<`FaasData`\<`Path`>>>>>>>>>>>>>>>>>>\>\>\>
 
 Call the currently configured FaasReactClient.
 

@@ -1,3 +1,5 @@
+[**@faasjs/jobs**](../README.md)
+
 [@faasjs/jobs](../README.md) / JobRecord
 
 # Type Alias: JobRecord

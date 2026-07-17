@@ -1,8 +1,10 @@
+[**@faasjs/react**](../README.md)
+
 [@faasjs/react](../README.md) / MockHandler
 
 # Type Alias: MockHandler
 
-> **MockHandler** = (`action`, `params`, `options`) => `Promise`\<[`ResponseProps`](ResponseProps.md)> > > > \> \| `Promise`\<`void`> > > > \> \| `Promise`\<`Error`>>>>\>
+> **MockHandler** = (`action`, `params`, `options`) => `Promise`\<[`ResponseProps`](ResponseProps.md)> > > > > > \> \| `Promise`\<`void`> > > > > > \> \| `Promise`\<`Error`>>>>>>\>
 
 Mock handler function type for testing FaasJS requests.
 

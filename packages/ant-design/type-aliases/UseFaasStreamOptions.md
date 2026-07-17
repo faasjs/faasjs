@@ -1,3 +1,5 @@
+[**@faasjs/ant-design**](../README.md)
+
 [@faasjs/ant-design](../README.md) / UseFaasStreamOptions
 
 # Type Alias: UseFaasStreamOptions
@@ -31,7 +33,7 @@ Milliseconds to wait before opening the latest stream request.
 
 ### params?
 
-> `optional` **params?**: `Record`\<`string`, `any`>>>>\>
+> `optional` **params?**: `Record`\<`string`, `any`>>>>>>\>
 
 Controlled params override sent with the request without mutating local params state.
 
@@ -43,7 +45,7 @@ Milliseconds to wait after each completed stream before refreshing in the backgr
 
 ### setData?
 
-> `optional` **setData?**: `React.Dispatch`\<`React.SetStateAction`\<`string`>>>>>>>>\>\>
+> `optional` **setData?**: `React.Dispatch`\<`React.SetStateAction`\<`string`>>>>>>>>>>>>\>\>
 
 Controlled setter paired with `data`.
 

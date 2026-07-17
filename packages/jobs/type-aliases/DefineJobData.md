@@ -1,8 +1,10 @@
+[**@faasjs/jobs**](../README.md)
+
 [@faasjs/jobs](../README.md) / DefineJobData
 
 # Type Alias: DefineJobData\<TSchema, TContext, TResult\>
 
-> **DefineJobData**\<`TSchema`, `TContext`, `TResult`> > > > \> = `InvokeData`\<[`JobEvent`](JobEvent.md)\<`TSchema`>>>>\>, `TContext`, `TResult`> > > > \> & `object` & [`DefineJobInject`](../interfaces/DefineJobInject.md)
+> **DefineJobData**\<`TSchema`, `TContext`, `TResult`> > > > > > \> = `InvokeData`\<[`JobEvent`](JobEvent.md)\<`TSchema`>>>>>>\>, `TContext`, `TResult`> > > > > > \> & `object` & [`DefineJobInject`](../interfaces/DefineJobInject.md)
 
 Handler data passed to [defineJob](../functions/defineJob.md).
 
@@ -22,7 +24,7 @@ Persisted job row. Direct tests receive deterministic defaults when omitted.
 
 ### params
 
-> **params**: [`DefineJobParams`](DefineJobParams.md)\<`TSchema`>>>>\>
+> **params**: [`DefineJobParams`](DefineJobParams.md)\<`TSchema`>>>>>>\>
 
 Params validated by the optional Zod schema.
 

@@ -1,3 +1,5 @@
+[**@faasjs/ant-design**](../README.md)
+
 [@faasjs/ant-design](../README.md) / DescriptionWithFaasProps
 
 # Interface: DescriptionWithFaasProps\<Path, T, ExtendItemProps\>
@@ -78,13 +80,13 @@ Custom type renderers keyed by item type.
 
 ### faasData?
 
-> `optional` **faasData?**: [`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`Path`>>>>\>
+> `optional` **faasData?**: [`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`Path`>>>>>>\>
 
 FaasJS data wrapper configuration that fetches the data source.
 
 ### items
 
-> **items**: ([`DescriptionItemProps`](DescriptionItemProps.md)\<`any`> > > > \> \| `ExtendItemProps`)[]
+> **items**: ([`DescriptionItemProps`](DescriptionItemProps.md)\<`any`> > > > > > \> \| `ExtendItemProps`)[]
 
 Item metadata definitions rendered as description entries.
 

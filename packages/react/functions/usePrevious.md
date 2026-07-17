@@ -1,8 +1,10 @@
+[**@faasjs/react**](../README.md)
+
 [@faasjs/react](../README.md) / usePrevious
 
 # Function: usePrevious()
 
-> **usePrevious**\<`T`>>>>\>(`value`): `T` \| `undefined`
+> **usePrevious**\<`T`>>>>>>\>(`value`): `T` \| `undefined`
 
 Hook to store the previous value of a state or prop.
 

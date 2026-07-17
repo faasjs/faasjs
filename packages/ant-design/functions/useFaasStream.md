@@ -1,8 +1,10 @@
+[**@faasjs/ant-design**](../README.md)
+
 [@faasjs/ant-design](../README.md) / useFaasStream
 
 # Function: useFaasStream()
 
-> **useFaasStream**\<`Path`>>>>\>(`action`, `defaultParams`, `options?`): [`UseFaasStreamResult`](../type-aliases/UseFaasStreamResult.md)\<`Path`>>>>\>
+> **useFaasStream**\<`Path`>>>>>>\>(`action`, `defaultParams`, `options?`): [`UseFaasStreamResult`](../type-aliases/UseFaasStreamResult.md)\<`Path`>>>>>>\>
 
 Stream a FaasJS response into React state.
 

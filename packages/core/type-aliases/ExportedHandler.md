@@ -1,8 +1,10 @@
+[**@faasjs/core**](../README.md)
+
 [@faasjs/core](../README.md) / ExportedHandler
 
 # Type Alias: ExportedHandler\<TEvent, TContext, TResult\>
 
-> **ExportedHandler**\<`TEvent`, `TContext`, `TResult`> > > > \> = (`event?`, `context?`) => `Promise`\<`TResult`>>>>\>
+> **ExportedHandler**\<`TEvent`, `TContext`, `TResult`> > > > > > \> = (`event?`, `context?`) => `Promise`\<`TResult`>>>>>>\>
 
 Handler returned by [Func.export](../classes/Func.md#export).
 

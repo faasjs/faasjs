@@ -1,3 +1,5 @@
+[**@faasjs/node-utils**](../README.md)
+
 [@faasjs/node-utils](../README.md) / Transport
 
 # Class: Transport
@@ -83,7 +85,7 @@ Transport configuration such as label, flush interval, and debug mode.
 
 ### flush()
 
-> **flush**(): `Promise`\<`void`>>>>\>
+> **flush**(): `Promise`\<`void`>>>>>>\>
 
 Flush the current message buffer through every registered handler.
 
@@ -158,7 +160,7 @@ transport from a clean state.
 
 ### stop()
 
-> **stop**(): `Promise`\<`void`>>>>\>
+> **stop**(): `Promise`\<`void`>>>>>>\>
 
 Stop periodic flushing and drain any buffered messages.
 
@@ -195,7 +197,7 @@ Transport handler name to remove.
 
 ### handlers
 
-> **handlers**: `Map`\<`string`, [`TransportHandler`](../type-aliases/TransportHandler.md)>>>>\>
+> **handlers**: `Map`\<`string`, [`TransportHandler`](../type-aliases/TransportHandler.md)>>>>>>\>
 
 Registered flush handlers keyed by name.
 

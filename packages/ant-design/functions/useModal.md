@@ -1,3 +1,5 @@
+[**@faasjs/ant-design**](../README.md)
+
 [@faasjs/ant-design](../README.md) / useModal
 
 # Function: useModal()
@@ -34,7 +36,7 @@ Hook-managed modal element, current props, and a state-merging setter.
 
 ### setModalProps
 
-> **setModalProps**: `Dispatch`\<`SetStateAction`\<[`ModalProps`](../interfaces/ModalProps.md)>>>>>>>>\>\>
+> **setModalProps**: `Dispatch`\<`SetStateAction`\<[`ModalProps`](../interfaces/ModalProps.md)>>>>>>>>>>>>\>\>
 
 ## Example
 

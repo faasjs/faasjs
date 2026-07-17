@@ -1,3 +1,5 @@
+[**@faasjs/jobs**](../README.md)
+
 [@faasjs/jobs](../README.md) / Job
 
 # Class: Job\<TSchema, TContext, TResult\>
@@ -30,7 +32,7 @@ Executable job definition returned by [defineJob](../functions/defineJob.md).
 
 ### Constructor
 
-> **new Job**\<`TSchema`, `TContext`, `TResult`>>>>\>(`options`): `Job`\<`TSchema`, `TContext`, `TResult`>>>>\>
+> **new Job**\<`TSchema`, `TContext`, `TResult`>>>>>>\>(`options`): `Job`\<`TSchema`, `TContext`, `TResult`>>>>>>\>
 
 #### Parameters
 
@@ -65,7 +67,7 @@ Object containing the exported handler.
 
 ##### handler
 
-> **handler**: `ExportedHandler`\<[`JobEvent`](../type-aliases/JobEvent.md)\<`TSchema`>>>>\>, `TContext`, `TResult`>>>>\>
+> **handler**: `ExportedHandler`\<[`JobEvent`](../type-aliases/JobEvent.md)\<`TSchema`>>>>>>\>, `TContext`, `TResult`>>>>>>\>
 
 #### Inherited from
 
@@ -73,7 +75,7 @@ Object containing the exported handler.
 
 ### invoke()
 
-> **invoke**(`data`): `Promise`\<`void`>>>>\>
+> **invoke**(`data`): `Promise`\<`void`>>>>>>\>
 
 Invoke the function.
 
@@ -97,7 +99,7 @@ Promise that resolves after invoke hooks complete.
 
 ### mount()
 
-> **mount**(`data?`): `Promise`\<`void`>>>>\>
+> **mount**(`data?`): `Promise`\<`void`>>>>>>\>
 
 First time mount the function.
 
@@ -153,7 +155,7 @@ Marker used by the job loader to recognize job definitions.
 
 ### \_\_faasjsJobParams
 
-> `readonly` **\_\_faasjsJobParams**: `SchemaOutput`\<`TSchema`>>>>\>
+> `readonly` **\_\_faasjsJobParams**: `SchemaOutput`\<`TSchema`>>>>>>\>
 
 **`Internal`**
 
@@ -171,7 +173,7 @@ Mutable runtime configuration used by the function.
 
 ### cron
 
-> `readonly` **cron**: [`JobCron`](../type-aliases/JobCron.md)\<`SchemaOutput`\<`TSchema`, `Record`\<`string`, `never`>>>>>>>>>>>>\>\>\>[]
+> `readonly` **cron**: [`JobCron`](../type-aliases/JobCron.md)\<`SchemaOutput`\<`TSchema`, `Record`\<`string`, `never`>>>>>>>>>>>>>>>>>>\>\>\>[]
 
 Cron rules used by [JobScheduler](JobScheduler.md) to enqueue scheduled jobs.
 
@@ -187,7 +189,7 @@ Resolved source filename inferred from the constructor call stack.
 
 ### handler?
 
-> `optional` **handler?**: `Handler`\<[`JobEvent`](../type-aliases/JobEvent.md)\<`TSchema`>>>>\>, `TContext`, `TResult`>>>>\>
+> `optional` **handler?**: `Handler`\<[`JobEvent`](../type-aliases/JobEvent.md)\<`TSchema`>>>>>>\>, `TContext`, `TResult`>>>>>>\>
 
 Final business handler invoked after plugins finish.
 

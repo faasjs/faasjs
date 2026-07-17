@@ -1,3 +1,5 @@
+[**@faasjs/core**](../README.md)
+
 [@faasjs/core](../README.md) / Cookie
 
 # Class: Cookie\<C, S\>
@@ -36,7 +38,7 @@ Session value map exposed by the nested session helper.
 
 ### Constructor
 
-> **new Cookie**\<`C`, `S`>>>>\>(`config`, `logger?`, `options?`): `Cookie`\<`C`, `S`>>>>\>
+> **new Cookie**\<`C`, `S`>>>>>>\>(`config`, `logger?`, `options?`): `Cookie`\<`C`, `S`>>>>>>\>
 
 Create a cookie manager.
 
@@ -72,7 +74,7 @@ Existing cookie template reused by `fork()`.
 
 ### fork()
 
-> **fork**(`logger?`): `Cookie`\<`C`, `S`>>>>\>
+> **fork**(`logger?`): `Cookie`\<`C`, `S`>>>>>>\>
 
 Clone the cookie manager while reusing normalized config and secrets.
 
@@ -108,7 +110,7 @@ Header bag suitable for merging into an HTTP response.
 
 ### invoke()
 
-> **invoke**(`cookie`, `logger`): `Cookie`\<`C`, `S`>>>>\>
+> **invoke**(`cookie`, `logger`): `Cookie`\<`C`, `S`>>>>>>\>
 
 Load request cookies and bootstrap the related session state.
 
@@ -154,7 +156,7 @@ Decoded cookie value for the current request.
 
 ### write()
 
-> **write**(`key`, `value`, `opts?`): `Cookie`\<`C`, `S`>>>>\>
+> **write**(`key`, `value`, `opts?`): `Cookie`\<`C`, `S`>>>>>>\>
 
 Queue a cookie write or removal for the outgoing response.
 
@@ -228,7 +230,7 @@ Normalized cookie configuration with defaults applied.
 
 ### content
 
-> **content**: `Record`\<`string`, `string`>>>>\>
+> **content**: `Record`\<`string`, `string`>>>>>>\>
 
 Parsed cookie key-value pairs for the current request.
 
@@ -240,6 +242,6 @@ Optional logger used for warnings and debug output.
 
 ### session
 
-> **session**: [`Session`](Session.md)\<`S`, `C`>>>>\>
+> **session**: [`Session`](Session.md)\<`S`, `C`>>>>>>\>
 
 Session helper bound to this cookie store.

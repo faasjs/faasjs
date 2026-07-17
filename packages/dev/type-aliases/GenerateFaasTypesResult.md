@@ -1,3 +1,5 @@
+[**@faasjs/dev**](../README.md)
+
 [@faasjs/dev](../README.md) / GenerateFaasTypesResult
 
 # Type Alias: GenerateFaasTypesResult

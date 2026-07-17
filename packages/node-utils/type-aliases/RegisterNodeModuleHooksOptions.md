@@ -1,3 +1,5 @@
+[**@faasjs/node-utils**](../README.md)
+
 [@faasjs/node-utils](../README.md) / RegisterNodeModuleHooksOptions
 
 # Type Alias: RegisterNodeModuleHooksOptions

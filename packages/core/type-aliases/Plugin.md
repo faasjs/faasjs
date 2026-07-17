@@ -1,3 +1,5 @@
+[**@faasjs/core**](../README.md)
+
 [@faasjs/core](../README.md) / Plugin
 
 # Type Alias: Plugin
@@ -14,7 +16,7 @@ Lifecycle plugin attached to a [Func](../classes/Func.md).
 
 ### applyConfig?
 
-> `optional` **applyConfig?**: (`config`) => `void` \| `Promise`\<`void`>>>>\>
+> `optional` **applyConfig?**: (`config`) => `void` \| `Promise`\<`void`>>>>>>\>
 
 Optional hook that receives resolved config for an already-registered plugin instance before mount.
 
@@ -46,7 +48,7 @@ Instance name used for ordering and logs.
 
 ### onInvoke?
 
-> `optional` **onInvoke?**: (`data`, `next`) => `Promise`\<`void`>>>>\>
+> `optional` **onInvoke?**: (`data`, `next`) => `Promise`\<`void`>>>>>>\>
 
 Optional hook that runs for every invocation.
 
@@ -66,7 +68,7 @@ Optional hook that runs for every invocation.
 
 ### onMount?
 
-> `optional` **onMount?**: (`data`, `next`) => `Promise`\<`void`>>>>\>
+> `optional` **onMount?**: (`data`, `next`) => `Promise`\<`void`>>>>>>\>
 
 Optional hook that runs once before the first invoke.
 

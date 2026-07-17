@@ -1,8 +1,10 @@
+[**@faasjs/react**](../README.md)
+
 [@faasjs/react](../README.md) / useConstant
 
 # Function: useConstant()
 
-> **useConstant**\<`T`>>>>\>(`fn`): `T`
+> **useConstant**\<`T`>>>>>>\>(`fn`): `T`
 
 Returns a constant value that is created by the given function.
 

@@ -1,8 +1,10 @@
+[**@faasjs/core**](../README.md)
+
 [@faasjs/core](../README.md) / closeAll
 
 # Function: closeAll()
 
-> **closeAll**(): `Promise`\<`void`>>>>\>
+> **closeAll**(): `Promise`\<`void`>>>>>>\>
 
 Close every tracked server instance.
 

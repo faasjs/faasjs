@@ -1,3 +1,5 @@
+**@faasjs/react**
+
 # @faasjs/react
 
 # React plugin for FaasJS.

@@ -1,3 +1,5 @@
+[**@faasjs/react**](../README.md)
+
 [@faasjs/react](../README.md) / FaasBrowserClient
 
 # Class: FaasBrowserClient
@@ -68,7 +70,7 @@ When `baseUrl` does not end with a forward slash.
 
 ### action()
 
-> **action**\<`Path`>>>>\>(`action`, `params?`, `options?`): `Promise`\<[`Response`](Response.md)\<`FaasData`\<`Path`>>>>>>>>>>>>\>\>\>
+> **action**\<`Path`>>>>>>\>(`action`, `params?`, `options?`): `Promise`\<[`Response`](Response.md)\<`FaasData`\<`Path`>>>>>>>>>>>>>>>>>>\>\>\>
 
 Makes a request to a FaasJS function.
 
