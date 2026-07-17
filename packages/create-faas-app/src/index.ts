@@ -29,7 +29,7 @@ const commander = new Command()
 
 commander
   .storeOptionsAsProperties(false)
-  .allowUnknownOption(true)
+  .configureOutput({ writeErr: () => undefined })
   .version(PackageJSON.version)
   .name('create-faas-app')
   .exitOverride()
@@ -42,11 +42,13 @@ action(commander as Command)
  * The array should use the same shape as `process.argv`, including executable
  * and script slots. Parsing may prompt for a project name, create files, install
  * dependencies, generate FaasJS action types, and run template tests. Commander
- * help exits are swallowed and return the shared program; unexpected errors are
- * printed with `console.error` and also return the program.
+ * help exits are swallowed and return the shared program. Parsing and action
+ * failures are rethrown so library callers and the executable entry point can
+ * handle them without duplicate error output.
  *
  * @param {string[]} argv - CLI arguments forwarded to Commander.
  * @returns {Promise<Command>} Commander program instance after parsing.
+ * @throws The original Commander or action error when parsing or scaffolding fails.
  *
  * @example
  * ```ts
@@ -67,7 +69,7 @@ export async function main(argv: string[]) {
     )
       return commander
 
-    console.error(error)
+    throw error
   }
 
   return commander
