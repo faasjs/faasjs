@@ -14,7 +14,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Fix] Keep dev-server request accounting correct for aborted connections, preserve native `Response` headers and cookies, and resolve static files without including URL query strings.
 
 - `@faasjs/create-faas-app`
-  - [Fix] Reject unknown CLI options and return a non-zero exit status when project creation fails.
+  - [Fix] Resolve bundled templates from installed packages, reject unknown CLI options, and return a non-zero exit status when project creation fails.
 
 - `@faasjs/jobs`
   - [Fix] Correct single-value cron steps and day-of-month/day-of-week matching, and fail expired jobs that have exhausted their attempts.
