@@ -201,7 +201,9 @@ describe('mock', () => {
 
       setMock(handler)
 
-      const client = new FaasBrowserClient('/')
+      const client = new FaasBrowserClient('/', {
+        headers: { 'X-Client': 'client' },
+      })
       await client.action('test', {} as any, {
         headers: { 'X-Custom': 'test' },
       })
@@ -210,7 +212,8 @@ describe('mock', () => {
       const optionsArg = handler.mock.calls[0][2]
 
       expect(optionsArg.method).toBe('POST')
-      expect(optionsArg.headers['Content-Type']).toBeUndefined()
+      expect(optionsArg.headers['Content-Type']).toBe('application/json; charset=UTF-8')
+      expect(optionsArg.headers['X-Client']).toBe('client')
       expect(optionsArg.headers['X-Custom']).toBe('test')
       expect(optionsArg.body).toBe(JSON.stringify({}))
     })

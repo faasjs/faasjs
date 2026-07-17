@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { type Response, setMock } from '../../index'
+import { type Response, ResponseError, setMock } from '../../index'
 import { useFaasStream } from '../../useFaasStream'
 
 declare module '@faasjs/types' {
@@ -120,6 +120,108 @@ describe('useFaasStream', () => {
 
     expect(await screen.findByText('loading:false')).toBeDefined()
     expect(screen.getByText('error:Response body is null')).toBeDefined()
+  })
+
+  it('should preserve an unregistered baseUrl in the stream request', async () => {
+    setMock(null)
+
+    const fetchMock = vi.fn<typeof window.fetch>(() =>
+      Promise.resolve(
+        new globalThis.Response(createAsyncMockStream(['unregistered stream']), {
+          status: 200,
+          headers: { 'Content-Type': 'text/plain' },
+        }),
+      ),
+    )
+    window.fetch = fetchMock as any
+
+    function Test() {
+      const { data } = useFaasStream(
+        'useFaasStream/test',
+        {},
+        { baseUrl: '/unregistered-use-faas-stream/' },
+      )
+
+      return <div>{data}</div>
+    }
+
+    render(<Test />)
+
+    expect(await screen.findByText('unregistered stream')).toBeDefined()
+    expect(fetchMock.mock.calls[0]![0]).toMatch(
+      /^\/unregistered-use-faas-stream\/useFaasStream\/test\?_=/,
+    )
+  })
+
+  it('should convert a failed HTTP stream response to ResponseError before reading data', async () => {
+    setMock(null)
+
+    window.fetch = vi.fn<typeof window.fetch>(() =>
+      Promise.resolve(
+        new globalThis.Response(
+          createAsyncMockStream(['{"error":{"message":"service unavailable"}}']),
+          {
+            status: 503,
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Error': 'stream-failed',
+            },
+          },
+        ),
+      ),
+    )
+
+    function Test() {
+      const { data, error } = useFaasStream('useFaasStream/test', {})
+
+      return (
+        <div>
+          <div>data:{data}</div>
+          <div>error:{error?.message || ''}</div>
+          <div>status:{error?.status || ''}</div>
+          <div>type:{String(error instanceof ResponseError)}</div>
+          <div>header:{error?.headers?.['x-error'] || ''}</div>
+        </div>
+      )
+    }
+
+    render(<Test />)
+
+    expect(await screen.findByText('error:service unavailable')).toBeDefined()
+    expect(screen.getByText('data:')).toBeDefined()
+    expect(screen.getByText('status:503')).toBeDefined()
+    expect(screen.getByText('type:true')).toBeDefined()
+    expect(screen.getByText('header:stream-failed')).toBeDefined()
+  })
+
+  it('should convert a failed mocked stream response to ResponseError', async () => {
+    setMock({
+      status: 429,
+      headers: { 'X-Error': 'mock-failed' },
+      body: createAsyncMockStream(['{"error":{"message":"too many requests"}}']),
+    })
+
+    function Test() {
+      const { data, error } = useFaasStream('useFaasStream/test', {})
+
+      return (
+        <div>
+          <div>data:{data}</div>
+          <div>error:{error?.message || ''}</div>
+          <div>status:{error?.status || ''}</div>
+          <div>type:{String(error instanceof ResponseError)}</div>
+          <div>header:{error?.headers?.['X-Error'] || ''}</div>
+        </div>
+      )
+    }
+
+    render(<Test />)
+
+    expect(await screen.findByText('error:too many requests')).toBeDefined()
+    expect(screen.getByText('data:')).toBeDefined()
+    expect(screen.getByText('status:429')).toBeDefined()
+    expect(screen.getByText('type:true')).toBeDefined()
+    expect(screen.getByText('header:mock-failed')).toBeDefined()
   })
 
   it('should handle error during streaming', async () => {

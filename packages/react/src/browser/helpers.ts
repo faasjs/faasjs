@@ -9,6 +9,29 @@ import type {
   ParsedFetchResponse,
 } from './types'
 
+function mergeRequestHeaders(
+  ...sources: Array<Record<string, string> | undefined>
+): Record<string, string> {
+  const headers: Record<string, string> = {}
+  const headerNames = new Map<string, string>()
+
+  for (const source of sources) {
+    if (!source) continue
+
+    for (const [key, value] of Object.entries(source)) {
+      const normalizedKey = key.toLowerCase()
+      const previousKey = headerNames.get(normalizedKey)
+
+      if (previousKey && previousKey !== key) delete headers[previousKey]
+
+      headers[key] = value
+      headerNames.set(normalizedKey, key)
+    }
+  }
+
+  return headers
+}
+
 /**
  * Build the full request URL for an action, with optional request-id query parameter.
  *
@@ -48,17 +71,20 @@ export function buildActionOptions<Path extends FaasActionPaths>(
 ): ResolvedActionOptions {
   const resolvedOptions = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=UTF-8' },
     mode: 'cors' as RequestMode,
     credentials: 'include' as RequestCredentials,
     body: JSON.stringify(params),
     ...defaultOptions,
     ...(options || Object.create(null)),
+    headers: mergeRequestHeaders(
+      { 'Content-Type': 'application/json; charset=UTF-8' },
+      defaultOptions.headers,
+      options?.headers,
+    ),
   } as ResolvedActionOptions
 
   if (
-    !resolvedOptions.headers['X-FaasJS-Request-Id'] &&
-    !resolvedOptions.headers['x-faasjs-request-id']
+    !Object.keys(resolvedOptions.headers).some((key) => key.toLowerCase() === 'x-faasjs-request-id')
   )
     resolvedOptions.headers['X-FaasJS-Request-Id'] = requestId
 
