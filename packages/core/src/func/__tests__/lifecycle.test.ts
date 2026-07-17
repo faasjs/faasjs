@@ -122,15 +122,14 @@ describe('lifecycle', () => {
 
       const first = handler(null)
       const second = handler(null)
-      const failures = Promise.all([
-        expect(first).rejects.toBe(mountError),
-        expect(second).rejects.toBe(mountError),
-      ])
 
       expect(mountTimes).toBe(1)
 
       rejectMount()
-      await failures
+      expect(await Promise.allSettled([first, second])).toEqual([
+        { status: 'rejected', reason: mountError },
+        { status: 'rejected', reason: mountError },
+      ])
 
       expect(func.mounted).toBe(false)
       expect(mountTimes).toBe(1)
