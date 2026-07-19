@@ -41,7 +41,7 @@ Cookie value map exposed by the parent cookie store.
 
 ### Constructor
 
-> **new Session**\<`S`, `C`>>>>>>\>(`cookie`, `config`, `secrets?`): `Session`\<`S`, `C`>>>>>>\>
+> **new Session**\<`S`, `C`>>>>\>(`cookie`, `config`, `secrets?`): `Session`\<`S`, `C`>>>>\>
 
 Create a session helper bound to a cookie store.
 
@@ -77,7 +77,7 @@ Internal precomputed secrets reused by forked sessions.
 
 ### decode()
 
-> **decode**\<`TData`>>>>>>\>(`text`): [`SessionContent`](../type-aliases/SessionContent.md) \| `TData`
+> **decode**\<`TData`>>>>\>(`text`): [`SessionContent`](../type-aliases/SessionContent.md) \| `TData`
 
 Decode and verify a session cookie value.
 
@@ -133,7 +133,7 @@ Encoded cookie value.
 
 ### fork()
 
-> **fork**(`cookie`): `Session`\<`S`, `C`>>>>>>\>
+> **fork**(`cookie`): `Session`\<`S`, `C`>>>>\>
 
 Clone the session helper for a forked cookie store.
 
@@ -199,7 +199,7 @@ Stored session value, or `undefined` when absent.
 
 ### update()
 
-> **update**(): `Session`\<`S`, `C`>>>>>>\>
+> **update**(): `Session`\<`S`, `C`>>>>\>
 
 Persist pending in-memory changes back to the session cookie.
 
@@ -211,7 +211,7 @@ Current session helper for chaining.
 
 ### write()
 
-> **write**(`key`, `value?`): `Session`\<`S`, `C`>>>>>>\>
+> **write**(`key`, `value?`): `Session`\<`S`, `C`>>>>\>
 
 Set or remove a session value in memory.
 
@@ -245,6 +245,6 @@ Normalized session config with derived defaults.
 
 ### content
 
-> **content**: `Record`\<`string`, `string` \| `number`>>>>>>\>
+> **content**: `Record`\<`string`, `string` \| `number`>>>>\>
 
 Decoded session values for the current request.

@@ -4,7 +4,7 @@
 
 # Type Alias: FaasParams\<T\>
 
-> **FaasParams**\<`T`> > > > > > \> = `FaasActionValue`\<`T`, `"Params"`>>>>>>\>
+> **FaasParams**\<`T`> > > > \> = `FaasActionValue`\<`T`, `"Params"`>>>>\>
 
 Infer the params type for a given action path.
 

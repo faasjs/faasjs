@@ -4,7 +4,7 @@
 
 # Function: enqueueJob()
 
-> **enqueueJob**\<`Path`>>>>>>\>(`jobPath`, `params`, `options?`): `Promise`\<[`JobRecord`](../type-aliases/JobRecord.md)>>>>>>\>
+> **enqueueJob**\<`Path`>>>>\>(`jobPath`, `params`, `options?`): `Promise`\<[`JobRecord`](../type-aliases/JobRecord.md)>>>>\>
 
 Enqueue a pending job by its `.job.ts` path-derived identifier.
 

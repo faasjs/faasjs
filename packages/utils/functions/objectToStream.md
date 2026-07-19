@@ -4,7 +4,7 @@
 
 # Function: objectToStream()
 
-> **objectToStream**\<`T`>>>>>>\>(`object`): `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`>>>>>>>>>>>>\>\>
+> **objectToStream**\<`T`>>>>\>(`object`): `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`>>>>>>>>\>\>
 
 Encode a JSON-serializable value into a UTF-8 byte stream.
 

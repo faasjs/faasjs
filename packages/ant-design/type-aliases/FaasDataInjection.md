@@ -4,7 +4,7 @@
 
 # Type Alias: FaasDataInjection\<Path\>
 
-> **FaasDataInjection**\<`Path`> > > > > > \> = `object`
+> **FaasDataInjection**\<`Path`> > > > \> = `object`
 
 Request state injected by [useFaas](../functions/useFaas.md), [FaasDataWrapper](../functions/FaasDataWrapper.md), and [withFaasData](../functions/withFaasData.md).
 
@@ -20,7 +20,7 @@ Registered action path used to infer params and response data.
 
 ### reload()
 
-> **reload**(`this`, `params?`, `options?`): `Promise`\<`FaasData`\<`Path`>>>>>>>>>>>>\>\>
+> **reload**(`this`, `params?`, `options?`): `Promise`\<`FaasData`\<`Path`>>>>>>>>\>\>
 
 Reloads data with new or existing parameters.
 
@@ -57,7 +57,7 @@ Action path associated with the current request state.
 
 ### data
 
-> **data**: `FaasData`\<`Path`>>>>>>\>
+> **data**: `FaasData`\<`Path`>>>>\>
 
 Current resolved data value.
 
@@ -75,13 +75,13 @@ Whether the request is currently in flight and should block the main UI.
 
 ### params
 
-> **params**: `FaasParams`\<`Path`>>>>>>\>
+> **params**: `FaasParams`\<`Path`>>>>\>
 
 Params used for the most recent request attempt.
 
 ### promise
 
-> **promise**: `Promise`\<`Response`\<`FaasData`\<`Path`>>>>>>>>>>>>>>>>>>\>\>\>
+> **promise**: `Promise`\<`Response`\<`FaasData`\<`Path`>>>>>>>>>>>>\>\>\>
 
 Promise representing the latest request.
 
@@ -99,24 +99,24 @@ Number of times `reload()` or polling has triggered a new request.
 
 ### setData
 
-> **setData**: `React.Dispatch`\<`React.SetStateAction`\<`FaasData`\<`Path`>>>>>>>>>>>>>>>>>>\>\>\>
+> **setData**: `React.Dispatch`\<`React.SetStateAction`\<`FaasData`\<`Path`>>>>>>>>>>>>\>\>\>
 
 Controlled or internal setter for the resolved data value.
 
 ### setError
 
-> **setError**: `React.Dispatch`\<`React.SetStateAction`\<`any`>>>>>>>>>>>>\>\>
+> **setError**: `React.Dispatch`\<`React.SetStateAction`\<`any`>>>>>>>>\>\>
 
 Setter for the last request error.
 
 ### setLoading
 
-> **setLoading**: `React.Dispatch`\<`React.SetStateAction`\<`boolean`>>>>>>>>>>>>\>\>
+> **setLoading**: `React.Dispatch`\<`React.SetStateAction`\<`boolean`>>>>>>>>\>\>
 
 Setter for the loading flag.
 
 ### setPromise
 
-> **setPromise**: `React.Dispatch`\<`React.SetStateAction`\<`Promise`\<`Response`\<`FaasData`\<`Path`>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\>\>\>\>\>
+> **setPromise**: `React.Dispatch`\<`React.SetStateAction`\<`Promise`\<`Response`\<`FaasData`\<`Path`>>>>>>>>>>>>>>>>>>>>\>\>\>\>\>
 
 Setter for the latest request promise.

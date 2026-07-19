@@ -4,7 +4,7 @@
 
 # Type Alias: InferFaasJob\<TJob\>
 
-> **InferFaasJob**\<`TJob`> > > > > > \> = `TJob` _extends_ `object` ? `object` : `TJob` _extends_ `object` ? `TDefault` _extends_ `object` ? `object` : `never` : `never`
+> **InferFaasJob**\<`TJob`> > > > \> = `TJob` _extends_ `object` ? `object` : `TJob` _extends_ `object` ? `TDefault` _extends_ `object` ? `object` : `never` : `never`
 
 Infer `{ Params }` from a FaasJS job definition or a module whose default
 export is a FaasJS job definition.

@@ -4,7 +4,7 @@
 
 # Type Alias: FaasData\<T\>
 
-> **FaasData**\<`T`> > > > > > \> = `FaasActionValue`\<`T`, `"Data"`>>>>>>\>
+> **FaasData**\<`T`> > > > \> = `FaasActionValue`\<`T`, `"Data"`>>>>\>
 
 Infer the response data type for a given action path.
 

@@ -26,7 +26,7 @@ Row record type rendered by the table.
 
 ### children?
 
-> `optional` **children?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`> > > > > > \> \| `null`
+> `optional` **children?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`> > > > \> \| `null`
 
 Generic custom element rendered when no table-specific child overrides it.
 
@@ -40,7 +40,7 @@ Generic custom element rendered when no table-specific child overrides it.
 
 ### object?
 
-> `optional` **object?**: `TableItemProps`\<`T`>>>>>>\>[]
+> `optional` **object?**: `TableItemProps`\<`T`>>>>\>[]
 
 Nested item definitions used by `object` and `object[]` item types.
 
@@ -60,19 +60,19 @@ Use built-in option inference for filters when supported.
 
 ### render?
 
-> `optional` **render?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`> > > > > > \> \| `null`
+> `optional` **render?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`> > > > \> \| `null`
 
 Generic custom render callback.
 
 ### tableChildren?
 
-> `optional` **tableChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`> > > > > > \> \| `null`
+> `optional` **tableChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`> > > > \> \| `null`
 
 Table-specific custom element.
 
 ### tableRender?
 
-> `optional` **tableRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`> > > > > > \> \| `null`
+> `optional` **tableRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`> > > > \> \| `null`
 
 Table-specific custom render callback.
 

@@ -4,7 +4,7 @@
 
 # Type Alias: OnError
 
-> **OnError** = (`action`, `params`) => (`res`) => `Promise`\<`void`>>>>>>\>
+> **OnError** = (`action`, `params`) => (`res`) => `Promise`\<`void`>>>>\>
 
 Factory for per-request error handlers used by [FaasReactClient](../functions/FaasReactClient.md).
 

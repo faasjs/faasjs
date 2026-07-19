@@ -4,7 +4,7 @@
 
 # Function: generateFaasTypes()
 
-> **generateFaasTypes**(`options?`): `Promise`\<[`GenerateFaasTypesResult`](../type-aliases/GenerateFaasTypesResult.md)>>>>>>\>
+> **generateFaasTypes**(`options?`): `Promise`\<[`GenerateFaasTypesResult`](../type-aliases/GenerateFaasTypesResult.md)>>>>\>
 
 Generate `src/.faasjs/types.d.ts` for a FaasJS project.
 

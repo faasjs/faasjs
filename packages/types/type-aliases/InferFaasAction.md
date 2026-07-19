@@ -4,7 +4,7 @@
 
 # Type Alias: InferFaasAction\<TApi\>
 
-> **InferFaasAction**\<`TApi`> > > > > > \> = `InferFaasActionFromApi`\<`TApi`> > > > > > \> _extends_ `never` ? `TApi` _extends_ `object` ? `InferFaasActionFromApi`\<`TDefault`> > > > > > \> : `never` : `InferFaasActionFromApi`\<`TApi`>>>>>>\>
+> **InferFaasAction**\<`TApi`> > > > \> = `InferFaasActionFromApi`\<`TApi`> > > > \> _extends_ `never` ? `TApi` _extends_ `object` ? `InferFaasActionFromApi`\<`TDefault`> > > > \> : `never` : `InferFaasActionFromApi`\<`TApi`>>>>\>
 
 Infer `{ Params, Data }` from a FaasJS API object or a module whose default
 export is a FaasJS API object.

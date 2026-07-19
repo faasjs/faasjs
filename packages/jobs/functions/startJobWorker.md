@@ -4,7 +4,7 @@
 
 # Function: startJobWorker()
 
-> **startJobWorker**(`options?`): `Promise`\<[`JobWorker`](../classes/JobWorker.md)>>>>>>\>
+> **startJobWorker**(`options?`): `Promise`\<[`JobWorker`](../classes/JobWorker.md)>>>>\>
 
 Discover job definitions and start a worker immediately.
 

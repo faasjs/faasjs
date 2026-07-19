@@ -4,7 +4,7 @@
 
 # Function: createSplittingContext()
 
-> **createSplittingContext**\<`T`>>>>>>\>(`defaultValue`): `object`
+> **createSplittingContext**\<`T`>>>>\>(`defaultValue`): `object`
 
 Create a context whose keys can be consumed independently.
 
@@ -34,7 +34,7 @@ Provider and hook helpers for the split context.
 
 ### use
 
-> **use**: \<`NewT`>>>>>>\>(`this`) => `Readonly`\<`NewT`>>>>>>\>
+> **use**: \<`NewT`>>>>\>(`this`) => `Readonly`\<`NewT`>>>>\>
 
 Hook used to read values from the splitting context.
 
@@ -75,7 +75,7 @@ function ChildComponent() {
 
 ### Provider()
 
-> **Provider**\<`NewT`>>>>>>\>(`this`, `props`): `ReactNode`
+> **Provider**\<`NewT`>>>>\>(`this`, `props`): `ReactNode`
 
 The provider component of the splitting context.
 

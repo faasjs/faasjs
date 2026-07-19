@@ -4,7 +4,7 @@
 
 # Type Alias: FaasJobParams\<Path\>
 
-> **FaasJobParams**\<`Path`> > > > > > \> = `FaasJobs`\[`Path`\] _extends_ `object` ? `TParams` : `never`
+> **FaasJobParams**\<`Path`> > > > \> = `FaasJobs`\[`Path`\] _extends_ `object` ? `TParams` : `never`
 
 Infer the params type for a registered job path.
 

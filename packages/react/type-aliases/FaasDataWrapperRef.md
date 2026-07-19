@@ -4,7 +4,7 @@
 
 # Type Alias: FaasDataWrapperRef\<Path\>
 
-> **FaasDataWrapperRef**\<`Path`> > > > > > \> = [`FaasDataInjection`](FaasDataInjection.md)\<`Path`>>>>>>\>
+> **FaasDataWrapperRef**\<`Path`> > > > \> = [`FaasDataInjection`](FaasDataInjection.md)\<`Path`>>>>\>
 
 Imperative ref shape exposed by [FaasDataWrapper](../variables/FaasDataWrapper.md).
 

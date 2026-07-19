@@ -4,7 +4,7 @@
 
 # Type Alias: ParseSchemaValueOptions\<TSchema, TFallback\>
 
-> **ParseSchemaValueOptions**\<`TSchema`, `TFallback`> > > > > > \> = `object`
+> **ParseSchemaValueOptions**\<`TSchema`, `TFallback`> > > > \> = `object`
 
 Options for parsing an unknown value with an optional Zod schema.
 

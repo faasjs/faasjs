@@ -6,7 +6,7 @@
 
 ## Call Signature
 
-> **parseJson**\<`T`>>>>>>\>(`value`): `T`
+> **parseJson**\<`T`>>>>\>(`value`): `T`
 
 Parses a JSON string into a JavaScript value.
 
@@ -42,7 +42,7 @@ If the string is not valid JSON.
 
 ## Call Signature
 
-> **parseJson**\<`Schema`>>>>>>\>(`value`, `schema`): `output`\<`Schema`>>>>>>\>
+> **parseJson**\<`Schema`>>>>\>(`value`, `schema`): `output`\<`Schema`>>>>\>
 
 Parses a JSON string and validates the parsed value with a Zod schema.
 

@@ -4,7 +4,7 @@
 
 # Type Alias: ResponseProps\<T\>
 
-> **ResponseProps**\<`T`> > > > > > \> = `object`
+> **ResponseProps**\<`T`> > > > \> = `object`
 
 Properties for creating a Response object.
 

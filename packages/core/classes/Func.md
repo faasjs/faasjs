@@ -52,7 +52,7 @@ Async result type produced by the handler.
 
 ### Constructor
 
-> **new Func**\<`TEvent`, `TContext`, `TResult`>>>>>>\>(`config`): `Func`\<`TEvent`, `TContext`, `TResult`>>>>>>\>
+> **new Func**\<`TEvent`, `TContext`, `TResult`>>>>\>(`config`): `Func`\<`TEvent`, `TContext`, `TResult`>>>>\>
 
 Create a FaasJS function.
 
@@ -87,11 +87,11 @@ Object containing the exported handler.
 
 ##### handler
 
-> **handler**: [`ExportedHandler`](../type-aliases/ExportedHandler.md)\<`TEvent`, `TContext`, `TResult`>>>>>>\>
+> **handler**: [`ExportedHandler`](../type-aliases/ExportedHandler.md)\<`TEvent`, `TContext`, `TResult`>>>>\>
 
 ### invoke()
 
-> **invoke**(`data`): `Promise`\<`void`>>>>>>\>
+> **invoke**(`data`): `Promise`\<`void`>>>>\>
 
 Invoke the function.
 
@@ -111,7 +111,7 @@ Promise that resolves after invoke hooks complete.
 
 ### mount()
 
-> **mount**(`data?`): `Promise`\<`void`>>>>>>\>
+> **mount**(`data?`): `Promise`\<`void`>>>>\>
 
 First time mount the function.
 
@@ -167,7 +167,7 @@ Resolved source filename inferred from the constructor call stack.
 
 ### handler?
 
-> `optional` **handler?**: [`Handler`](../type-aliases/Handler.md)\<`TEvent`, `TContext`, `TResult`>>>>>>\>
+> `optional` **handler?**: [`Handler`](../type-aliases/Handler.md)\<`TEvent`, `TContext`, `TResult`>>>>\>
 
 Final business handler invoked after plugins finish.
 

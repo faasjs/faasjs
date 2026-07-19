@@ -4,7 +4,7 @@
 
 # Type Alias: FuncReturnType\<T\>
 
-> **FuncReturnType**\<`T`> > > > > > \> = `T` _extends_ [`Func`](../classes/Func.md)\<`any`, `any`, infer R\> ? `R` : `unknown`
+> **FuncReturnType**\<`T`> > > > \> = `T` _extends_ [`Func`](../classes/Func.md)\<`any`, `any`, infer R\> ? `R` : `unknown`
 
 Get the return type of a func.
 

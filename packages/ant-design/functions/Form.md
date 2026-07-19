@@ -6,7 +6,7 @@
 
 ## Call Signature
 
-> **Form**\<`Values`>>>>>>\>(`props`): `Element`
+> **Form**\<`Values`>>>>\>(`props`): `Element`
 
 Render a data-aware Ant Design form without the built-in FaasJS submit handler.
 
@@ -55,7 +55,7 @@ export function ProfileForm() {
 
 ## Call Signature
 
-> **Form**\<`Path`, `Values`>>>>>>\>(`props`): `Element`
+> **Form**\<`Path`, `Values`>>>>\>(`props`): `Element`
 
 Render a data-aware Ant Design form with the built-in FaasJS write-action submit handler.
 
@@ -128,7 +128,7 @@ export function CreateUserForm() {
 
 ## Call Signature
 
-> **Form**\<`Values`, `Path`>>>>>>\>(`props`): `Element`
+> **Form**\<`Values`, `Path`>>>>\>(`props`): `Element`
 
 Render a data-aware Ant Design form (catch-all overload for backward compatibility).
 

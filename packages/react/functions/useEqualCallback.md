@@ -4,7 +4,7 @@
 
 # Function: useEqualCallback()
 
-> **useEqualCallback**\<`T`>>>>>>\>(`callback`, `dependencies`): `T`
+> **useEqualCallback**\<`T`>>>>\>(`callback`, `dependencies`): `T`
 
 Custom hook that works like `useCallback` but uses deep comparison on dependencies.
 

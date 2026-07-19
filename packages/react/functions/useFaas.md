@@ -4,7 +4,7 @@
 
 # Function: useFaas()
 
-> **useFaas**\<`Path`>>>>>>\>(`action`, `defaultParams`, `options?`): [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`Path`>>>>>>\>
+> **useFaas**\<`Path`>>>>\>(`action`, `defaultParams`, `options?`): [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`Path`>>>>\>
 
 Request FaasJS data and keep request state in React state.
 

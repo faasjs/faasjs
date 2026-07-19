@@ -21,7 +21,7 @@ The type of the data property for type-safe response handling
 
 ### Constructor
 
-> **new Response**\<`T`>>>>>>\>(`props?`): `Response`\<`T`>>>>>>\>
+> **new Response**\<`T`>>>>\>(`props?`): `Response`\<`T`>>>>\>
 
 Create a wrapped response object.
 

@@ -4,7 +4,7 @@
 
 # Function: startJobScheduler()
 
-> **startJobScheduler**(`options?`): `Promise`\<[`JobScheduler`](../classes/JobScheduler.md)>>>>>>\>
+> **startJobScheduler**(`options?`): `Promise`\<[`JobScheduler`](../classes/JobScheduler.md)>>>>\>
 
 Discover job definitions and start a scheduler immediately.
 

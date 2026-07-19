@@ -4,7 +4,7 @@
 
 # Type Alias: DescriptionProps\<T, ExtendItemProps\>
 
-> **DescriptionProps**\<`T`, `ExtendItemProps`> > > > > > \> = [`DescriptionWithoutFaasProps`](../interfaces/DescriptionWithoutFaasProps.md)\<`T`, `ExtendItemProps`> > > > > > \> \| [`DescriptionWithFaasProps`](../interfaces/DescriptionWithFaasProps.md)\<`any`, `T`, `ExtendItemProps`>>>>>>\>
+> **DescriptionProps**\<`T`, `ExtendItemProps`> > > > \> = [`DescriptionWithoutFaasProps`](../interfaces/DescriptionWithoutFaasProps.md)\<`T`, `ExtendItemProps`> > > > \> \| [`DescriptionWithFaasProps`](../interfaces/DescriptionWithFaasProps.md)\<`any`, `T`, `ExtendItemProps`>>>>\>
 
 Full props union accepted by the [Description](../functions/Description.md) component.
 

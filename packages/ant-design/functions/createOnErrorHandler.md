@@ -4,7 +4,7 @@
 
 # Function: createOnErrorHandler()
 
-> **createOnErrorHandler**(`messageApi`): (`action`) => (`res`) => `Promise`\<`void`>>>>>>\>
+> **createOnErrorHandler**(`messageApi`): (`action`) => (`res`) => `Promise`\<`void`>>>>\>
 
 Create the default FaasJS request error handler used by [App](App.md).
 

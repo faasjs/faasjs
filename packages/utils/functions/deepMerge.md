@@ -6,7 +6,7 @@
 
 ## Call Signature
 
-> **deepMerge**\<`A`>>>>>>\>(`a`): `A`
+> **deepMerge**\<`A`>>>>\>(`a`): `A`
 
 Deeply clone and merge plain objects or arrays.
 
@@ -46,7 +46,7 @@ deepMerge({ a: [0] }, { a: [1] }) // { a: [1, 0] }
 
 ## Call Signature
 
-> **deepMerge**\<`A`, `B`>>>>>>\>(`a`, `b`): `A` & `B`
+> **deepMerge**\<`A`, `B`>>>>\>(`a`, `b`): `A` & `B`
 
 Deeply clone and merge plain objects or arrays.
 
@@ -94,7 +94,7 @@ deepMerge({ a: [0] }, { a: [1] }) // { a: [1, 0] }
 
 ## Call Signature
 
-> **deepMerge**\<`A`, `B`, `C`>>>>>>\>(`a`, `b`, `c`): `A` & `B` & `C`
+> **deepMerge**\<`A`, `B`, `C`>>>>\>(`a`, `b`, `c`): `A` & `B` & `C`
 
 Deeply clone and merge plain objects or arrays.
 
@@ -150,7 +150,7 @@ deepMerge({ a: [0] }, { a: [1] }) // { a: [1, 0] }
 
 ## Call Signature
 
-> **deepMerge**\<`A`, `B`, `C`, `D`>>>>>>\>(`a`, `b`, `c`, `d`): `A` & `B` & `C` & `D`
+> **deepMerge**\<`A`, `B`, `C`, `D`>>>>\>(`a`, `b`, `c`, `d`): `A` & `B` & `C` & `D`
 
 Deeply clone and merge plain objects or arrays.
 

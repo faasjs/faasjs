@@ -4,7 +4,7 @@
 
 # Type Alias: TableFaasDataResponse\<T\>
 
-> **TableFaasDataResponse**\<`T`> > > > > > \> = `object`
+> **TableFaasDataResponse**\<`T`> > > > \> = `object`
 
 Paginated list response shape expected by [Table](../functions/Table.md) when using `faasData`.
 

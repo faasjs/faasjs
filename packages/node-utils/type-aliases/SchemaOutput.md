@@ -4,7 +4,7 @@
 
 # Type Alias: SchemaOutput\<TSchema, TFallback\>
 
-> **SchemaOutput**\<`TSchema`, `TFallback`> > > > > > \> = `TSchema` _extends_ `ZodType` ? `ZodOutput`\<`NonNullable`\<`TSchema`>> >> >> >> >> >> \>\> : `TFallback`
+> **SchemaOutput**\<`TSchema`, `TFallback`> > > > \> = `TSchema` _extends_ `ZodType` ? `ZodOutput`\<`NonNullable`\<`TSchema`>> >> >> >> \>\> : `TFallback`
 
 Parsed value type for an optional Zod schema.
 

@@ -4,7 +4,7 @@
 
 # Type Alias: ProxyStateRef\<T\>
 
-> **ProxyStateRef**\<`T`> > > > > > \> = `Readonly`\<\{ `current`: `T`; \}\>
+> **ProxyStateRef**\<`T`> > > > \> = `Readonly`\<\{ `current`: `T`; \}\>
 
 Ref object exposed by [createProxyStates](../functions/createProxyStates.md) for reading the latest shared state value.
 

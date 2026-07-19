@@ -4,7 +4,7 @@
 
 # Type Alias: SelectField\<T\>
 
-> **SelectField**\<`T`> > > > > > \> = [`ColumnName`](ColumnName.md)\<`T`> > > > > > \> \| [`AliasedSelectField`](AliasedSelectField.md)\<`T`> > > > > > \> \| [`JsonSelectField`](JsonSelectField.md)\<`T`>>>>>>\>
+> **SelectField**\<`T`> > > > \> = [`ColumnName`](ColumnName.md)\<`T`> > > > \> \| [`AliasedSelectField`](AliasedSelectField.md)\<`T`> > > > \> \| [`JsonSelectField`](JsonSelectField.md)\<`T`>>>>\>
 
 ## Type Parameters
 

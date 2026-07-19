@@ -4,7 +4,7 @@
 
 # Function: cloneUnionFaasItemElement()
 
-> **cloneUnionFaasItemElement**(`element`, `props`): `ReactElement`\<[`UnionFaasItemInjection`](../type-aliases/UnionFaasItemInjection.md)\<`any`, `any`>>>>>>\>, `string` \| `JSXElementConstructor`\<`any`>>>>>>>>>>>>\>\>
+> **cloneUnionFaasItemElement**(`element`, `props`): `ReactElement`\<[`UnionFaasItemInjection`](../type-aliases/UnionFaasItemInjection.md)\<`any`, `any`>>>>\>, `string` \| `JSXElementConstructor`\<`any`>>>>>>>>\>\>
 
 Clone a [UnionFaasItemElement](../type-aliases/UnionFaasItemElement.md) while injecting additional React props.
 

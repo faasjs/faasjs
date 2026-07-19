@@ -4,7 +4,7 @@
 
 # Type Alias: ExtendTableTypeProps\<T\>
 
-> **ExtendTableTypeProps**\<`T`> > > > > > \> = [`BaseExtendTypeProps`](BaseExtendTypeProps.md)\<`T`>>>>>>\>
+> **ExtendTableTypeProps**\<`T`> > > > \> = [`BaseExtendTypeProps`](BaseExtendTypeProps.md)\<`T`>>>>\>
 
 Type-level extension payload for custom table column types.
 

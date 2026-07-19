@@ -4,7 +4,7 @@
 
 # Function: streamToObject()
 
-> **streamToObject**\<`T`>>>>>>\>(`stream`): `Promise`\<`T`>>>>>>\>
+> **streamToObject**\<`T`>>>>\>(`stream`): `Promise`\<`T`>>>>\>
 
 Parse a JSON value from a byte stream.
 

@@ -24,7 +24,7 @@ Combined item props that spans form, description, and table definitions.
 
 ### children?
 
-> `optional` **children?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`Value`, `Values`> > > > > > \> \| `null`
+> `optional` **children?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`Value`, `Values`> > > > \> \| `null`
 
 Generic custom element rendered when no form-specific child overrides it.
 
@@ -44,7 +44,7 @@ Number of columns taken by this field in the Ant Design grid.
 
 ### descriptionChildren?
 
-> `optional` **descriptionChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`> > > > > > \> \| `null`
+> `optional` **descriptionChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`> > > > \> \| `null`
 
 Description-specific custom element.
 
@@ -54,7 +54,7 @@ Description-specific custom element.
 
 ### descriptionRender?
 
-> `optional` **descriptionRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`> > > > > > \> \| `null`
+> `optional` **descriptionRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`> > > > \> \| `null`
 
 Description-specific custom render callback.
 
@@ -84,7 +84,7 @@ Custom type renderers keyed by item type.
 
 ### formChildren?
 
-> `optional` **formChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`> > > > > > \> \| `null`
+> `optional` **formChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`> > > > \> \| `null`
 
 Form-specific custom element.
 
@@ -94,7 +94,7 @@ Form-specific custom element.
 
 ### formRender?
 
-> `optional` **formRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`> > > > > > \> \| `null`
+> `optional` **formRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`> > > > \> \| `null`
 
 Form-specific custom render callback.
 
@@ -132,7 +132,7 @@ Conditional visibility predicate. When `false`, the field is hidden and rendered
 
 ### input?
 
-> `optional` **input?**: `InputProps` \| `RadioProps` \| `InputNumberProps`\<`ValueType`> > > > > > \> \| `SwitchProps` \| `DatePickerProps` \| `SelectProps`\<`any`, `DefaultOptionType`>>>>>>\>
+> `optional` **input?**: `InputProps` \| `RadioProps` \| `InputNumberProps`\<`ValueType`> > > > \> \| `SwitchProps` \| `DatePickerProps` \| `SelectProps`\<`any`, `DefaultOptionType`>>>>\>
 
 Props forwarded to the Ant Design input component used for this field.
 
@@ -162,7 +162,7 @@ Maximum number of entries allowed in a list item.
 
 ### object?
 
-> `optional` **object?**: `UnionFaasItemProps`\<`Value`, `Values`>>>>>>\>[]
+> `optional` **object?**: `UnionFaasItemProps`\<`Value`, `Values`>>>>\>[]
 
 Nested item definitions used by `object` and `object[]` item types.
 
@@ -218,7 +218,7 @@ Use built-in option inference for filters when supported.
 
 ### render?
 
-> `optional` **render?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`Value`, `Values`> > > > > > \> \| `null`
+> `optional` **render?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`Value`, `Values`> > > > \> \| `null`
 
 Generic custom render callback.
 
@@ -248,7 +248,7 @@ Validation rules appended to the field.
 
 ### tableChildren?
 
-> `optional` **tableChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`> > > > > > \> \| `null`
+> `optional` **tableChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`> > > > \> \| `null`
 
 Table-specific custom element.
 
@@ -258,7 +258,7 @@ Table-specific custom element.
 
 ### tableRender?
 
-> `optional` **tableRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`> > > > > > \> \| `null`
+> `optional` **tableRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`> > > > \> \| `null`
 
 Table-specific custom render callback.
 

@@ -4,7 +4,7 @@
 
 # Type Alias: ExportedHandler\<TEvent, TContext, TResult\>
 
-> **ExportedHandler**\<`TEvent`, `TContext`, `TResult`> > > > > > \> = (`event?`, `context?`) => `Promise`\<`TResult`>>>>>>\>
+> **ExportedHandler**\<`TEvent`, `TContext`, `TResult`> > > > \> = (`event?`, `context?`) => `Promise`\<`TResult`>>>>\>
 
 Promise-based handler signature exported by packaged FaasJS API modules.
 

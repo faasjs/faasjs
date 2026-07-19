@@ -4,7 +4,7 @@
 
 # Function: stringToStream()
 
-> **stringToStream**(`text`): `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`>>>>>>>>>>>>\>\>
+> **stringToStream**(`text`): `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`>>>>>>>>\>\>
 
 Encode a string into a UTF-8 byte stream.
 

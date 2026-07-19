@@ -4,7 +4,7 @@
 
 # Function: useMiddlewares()
 
-> **useMiddlewares**(`handlers`): `Promise`\<[`Func`](../classes/Func.md)\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `Pick`\<[`MiddlewareContext`](../type-aliases/MiddlewareContext.md), `"root"`>>>>>>\>, `any`>>>>>>>>>>>>\>\>
+> **useMiddlewares**(`handlers`): `Promise`\<[`Func`](../classes/Func.md)\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `Pick`\<[`MiddlewareContext`](../type-aliases/MiddlewareContext.md), `"root"`>>>>\>, `any`>>>>>>>>\>\>
 
 Create a function that runs middleware handlers in sequence until one ends the response.
 

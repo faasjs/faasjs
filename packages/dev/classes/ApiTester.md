@@ -38,7 +38,7 @@ Wrapped FaasJS API type.
 
 ### Constructor
 
-> **new ApiTester**\<`TApi`>>>>>>\>(`api`): `ApiTester`\<`TApi`>>>>>>\>
+> **new ApiTester**\<`TApi`>>>>\>(`api`): `ApiTester`\<`TApi`>>>>\>
 
 Create a tester around a FaasJS API instance for repeated test calls.
 
@@ -67,7 +67,7 @@ const wrapped = new ApiTester(api)
 
 ### handler()
 
-> **handler**\<`TResult`>>>>>>\>(`event?`, `context?`): `Promise`\<`TResult`>>>>>>\>
+> **handler**\<`TResult`>>>>\>(`event?`, `context?`): `Promise`\<`TResult`>>>>\>
 
 Invoke the wrapped API with raw event and context payloads.
 
@@ -101,7 +101,7 @@ Handler result.
 
 ### JSONhandler()
 
-> **JSONhandler**\<`TData`>>>>>>\>(`body?`, `options?`): `Promise`\<[`JsonHandlerResult`](../type-aliases/JsonHandlerResult.md)\<`TData`>>>>>>>>>>>>\>\>
+> **JSONhandler**\<`TData`>>>>\>(`body?`, `options?`): `Promise`\<[`JsonHandlerResult`](../type-aliases/JsonHandlerResult.md)\<`TData`>>>>>>>>\>\>
 
 Invoke an HTTP-enabled API with JSON body helpers and decoded cookies.
 
@@ -161,7 +161,7 @@ expect(response.data).toEqual({ message: 'Hello, FaasJS' })
 
 ### mount()
 
-> **mount**(`handler?`): `Promise`\<`void`>>>>>>\>
+> **mount**(`handler?`): `Promise`\<`void`>>>>\>
 
 Mount the wrapped API once before running assertions.
 

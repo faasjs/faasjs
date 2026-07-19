@@ -4,7 +4,7 @@
 
 # Function: useStatesRef()
 
-> **useStatesRef**\<`T`>>>>>>\>(`initialStates`): [`StatesWithSettersAndRefs`](../type-aliases/StatesWithSettersAndRefs.md)\<`T`>>>>>>\>
+> **useStatesRef**\<`T`>>>>\>(`initialStates`): [`StatesWithSettersAndRefs`](../type-aliases/StatesWithSettersAndRefs.md)\<`T`>>>>\>
 
 Create local state entries, matching setters, and refs for each key in an object.
 

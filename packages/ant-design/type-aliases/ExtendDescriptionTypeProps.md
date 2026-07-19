@@ -4,7 +4,7 @@
 
 # Type Alias: ExtendDescriptionTypeProps\<T\>
 
-> **ExtendDescriptionTypeProps**\<`T`> > > > > > \> = [`BaseExtendTypeProps`](BaseExtendTypeProps.md)\<`T`>>>>>>\>
+> **ExtendDescriptionTypeProps**\<`T`> > > > \> = [`BaseExtendTypeProps`](BaseExtendTypeProps.md)\<`T`>>>>\>
 
 Type-level extension payload for custom description item types.
 
