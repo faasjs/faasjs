@@ -49,3 +49,9 @@ Lifecycle hook called before each test in the file.
 > `optional` **projectRoot?**: `string`
 
 Optional project root directory. Defaults to `process.cwd()`.
+
+### snapshotDir?
+
+> `optional` **snapshotDir?**: `string`
+
+Internal run-scoped migration snapshot directory supplied by `PgVitestPlugin`.

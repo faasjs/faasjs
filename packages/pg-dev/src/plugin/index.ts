@@ -3,6 +3,8 @@ import { fileURLToPath } from 'node:url'
 
 import type { Plugin } from 'vitest/config'
 
+import { PG_VITEST_SNAPSHOT_DIR_CONTEXT_KEY } from '../plugin-context'
+
 const moduleFilename = fileURLToPath(import.meta.url)
 const moduleDirname = dirname(moduleFilename)
 const moduleExtension = extname(moduleFilename) === '.ts' ? '.ts' : extname(moduleFilename)
@@ -10,6 +12,11 @@ const indexPath = join(
   moduleDirname,
   basename(moduleDirname) === 'plugin' ? '..' : '.',
   `index${moduleExtension}`,
+)
+const globalSetupPath = join(
+  moduleDirname,
+  basename(moduleDirname) === 'plugin' ? '..' : '.',
+  `testing-global-setup${moduleExtension}`,
 )
 
 const DEFAULT_SKIPPED_ENVIRONMENTS = new Set(['happy-dom', 'jsdom'])
@@ -23,11 +30,16 @@ function prependUniqueValue(value: string | string[] | undefined, nextValue: str
 
 function createSetupModuleSource(projectRoot: string) {
   return [
-    "import { afterAll, beforeEach } from 'vitest'",
+    "import { afterAll, beforeEach, inject } from 'vitest'",
     `import { setupPgVitest } from ${JSON.stringify(indexPath)}`,
     '',
     'setupPgVitest(',
-    `  { afterAll, beforeEach, projectRoot: ${JSON.stringify(projectRoot)} },`,
+    '  {',
+    '    afterAll,',
+    '    beforeEach,',
+    `    projectRoot: ${JSON.stringify(projectRoot)},`,
+    `    snapshotDir: inject(${JSON.stringify(PG_VITEST_SNAPSHOT_DIR_CONTEXT_KEY)}),`,
+    '  },',
     ')',
     '',
   ].join('\n')
@@ -59,14 +71,15 @@ function shouldEnableForProject(project: {
  *
  * The plugin prepends a generated setup module for each enabled Vitest project. That setup
  * module registers a lazy database bootstrap instead of starting PGlite during config load:
- * the first default `await getClient()` in a test file starts PGlite, runs migrations from
- * `./src/db/migrations`, backfills `process.env.DATABASE_URL`, and creates the cached
- * `@faasjs/pg` client. Later `beforeEach` hooks close cached clients and clear table contents
- * before each test while preserving the migrations tracking table.
+ * the first default `await getClient()` in the run builds one migrated PGlite snapshot, then
+ * every database-using test file starts an isolated clone from that snapshot. The helper
+ * backfills `process.env.DATABASE_URL` and creates the cached `@faasjs/pg` client. Later
+ * `beforeEach` hooks close cached clients and clear table contents before each test while
+ * preserving the migrations tracking table.
  *
  * By default the plugin skips browser-like projects such as `jsdom` and `happy-dom`. Existing
- * `setupFiles` are preserved and the generated setup module is deduplicated if Vitest config
- * hooks run more than once.
+ * `globalSetup` and `setupFiles` entries are preserved and generated entries are deduplicated if
+ * Vitest config hooks run more than once.
  *
  * @returns {Plugin} Vitest/Vite plugin instance.
  */
@@ -88,6 +101,7 @@ export function PgVitestPlugin(): Plugin {
 
       const setupModuleId = createSetupModuleId(resolve(project.config.root ?? process.cwd()))
 
+      project.config.globalSetup = prependUniqueValue(project.config.globalSetup, globalSetupPath)
       project.config.setupFiles = prependUniqueValue(project.config.setupFiles, setupModuleId)
     },
   }

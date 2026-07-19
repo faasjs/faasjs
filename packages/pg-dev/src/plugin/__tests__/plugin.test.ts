@@ -26,6 +26,7 @@ describe('PgVitestPlugin', () => {
       config: {
         environment: 'node',
         fileParallelism: true,
+        globalSetup: ['custom-global-setup.ts'],
         setupFiles: ['custom-setup.ts'],
       },
     }
@@ -38,6 +39,8 @@ describe('PgVitestPlugin', () => {
     })
 
     expect(project.config.fileParallelism).toBe(true)
+    expect(project.config.globalSetup[0]).toMatch(/testing-global-setup\.ts$/)
+    expect(project.config.globalSetup[1]).toBe('custom-global-setup.ts')
     expect(project.config.setupFiles[0]).toMatch(/^virtual:faasjs-pg-dev\/vitest-setup:/)
     expect(project.config.setupFiles[1]).toBe('custom-setup.ts')
   })
@@ -47,6 +50,7 @@ describe('PgVitestPlugin', () => {
     const project = {
       config: {
         environment: 'node',
+        globalSetup: 'custom-global-setup.ts',
         setupFiles: 'custom-setup.ts',
       },
     }
@@ -64,6 +68,9 @@ describe('PgVitestPlugin', () => {
       vitest: {} as never,
     })
 
+    expect(project.config.globalSetup).toHaveLength(2)
+    expect(project.config.globalSetup[0]).toMatch(/testing-global-setup\.ts$/)
+    expect(project.config.globalSetup[1]).toBe('custom-global-setup.ts')
     expect(project.config.setupFiles).toHaveLength(2)
     expect(project.config.setupFiles[0]).toMatch(/^virtual:faasjs-pg-dev\/vitest-setup:/)
     expect(project.config.setupFiles[1]).toBe('custom-setup.ts')
@@ -74,6 +81,7 @@ describe('PgVitestPlugin', () => {
     const project = {
       config: {
         environment: 'jsdom',
+        globalSetup: ['custom-global-setup.ts'],
         setupFiles: ['custom-setup.ts'],
       },
     }
@@ -85,6 +93,7 @@ describe('PgVitestPlugin', () => {
       vitest: {} as never,
     })
 
+    expect(project.config.globalSetup).toEqual(['custom-global-setup.ts'])
     expect(project.config.setupFiles).toEqual(['custom-setup.ts'])
   })
 
@@ -93,6 +102,7 @@ describe('PgVitestPlugin', () => {
     const project = {
       config: {
         environment: 'node',
+        globalSetup: [],
         root: '/repo/project',
         setupFiles: [],
       },
@@ -110,9 +120,10 @@ describe('PgVitestPlugin', () => {
     const generatedSource = loadPluginModule(plugin, `\0${generatedSetupId}`)
 
     expect(resolvedSetupId).toBe(`\0${generatedSetupId}`)
-    expect(generatedSource).toContain("import { afterAll, beforeEach } from 'vitest'")
+    expect(generatedSource).toContain("import { afterAll, beforeEach, inject } from 'vitest'")
     expect(generatedSource).toContain('import { setupPgVitest } from')
-    expect(generatedSource).toContain('  { afterAll, beforeEach, projectRoot: "/repo/project" },')
+    expect(generatedSource).toContain('    projectRoot: "/repo/project",')
+    expect(generatedSource).toContain('    snapshotDir: inject("__faasjsPgVitestSnapshotDir"),')
   })
 
   it('uses the Vitest pool id when resolving a worker id', () => {

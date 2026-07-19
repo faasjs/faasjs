@@ -3,6 +3,7 @@ import { join, resolve } from 'node:path'
 
 import { Migrator, createClient } from '@faasjs/pg'
 
+import { getOrCreateMigrationSnapshot } from './migration-snapshot'
 import { startPGliteServer, type StartedPGliteServer } from './pglite'
 
 function resolveMigrationsFolder(projectRoot: string) {
@@ -37,17 +38,34 @@ export async function runTestingMigrations(projectRoot: string, databaseUrl: str
 }
 
 /**
- * Starts a PGlite socket server and runs migrations for the project.
+ * Starts an isolated PGlite socket server for the project.
  *
- * After the server starts and migrations pass, `process.env.DATABASE_URL` is
- * backfilled by the setup helper so subsequent `getClient()` calls connect to
- * this database.
+ * With a snapshot directory, migrations are run once per Vitest project and each test file gets
+ * a clone of the published snapshot. Without one, the server runs migrations directly for
+ * backwards-compatible manual setup. `process.env.DATABASE_URL` is backfilled by the setup
+ * helper after startup.
  *
  * @param {string} projectRoot - Absolute path to the project root containing the `migrations/` directory.
+ * @param {string} [snapshotDir] - Shared run-scoped snapshot directory supplied by global setup.
  * @returns {Promise<StartedPGliteServer>} A running PGlite server handle.
  * @throws When migration execution fails (the server is stopped before re-throwing).
  */
-export async function startTestingServer(projectRoot: string) {
+export async function startTestingServer(projectRoot: string, snapshotDir?: string) {
+  if (snapshotDir) {
+    const snapshot = await getOrCreateMigrationSnapshot(snapshotDir, async () => {
+      const snapshotServer = await startPGliteServer()
+
+      try {
+        await runTestingMigrations(projectRoot, snapshotServer.databaseUrl)
+        return snapshotServer.dumpDataDir('none')
+      } finally {
+        await snapshotServer.stop()
+      }
+    })
+
+    return startPGliteServer({ loadDataDir: snapshot })
+  }
+
   const testingServer = await startPGliteServer()
 
   try {

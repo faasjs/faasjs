@@ -4,10 +4,12 @@
 export const PG_VITEST_RESET_EXCLUDE_TABLES = ['faasjs_pg_migrations']
 
 /**
- * Resolves the current Vitest worker identifier.
- *
- * The plugin uses `VITEST_POOL_ID` so global setup can pre-provision one temporary database per
- * pool slot.
+ * Vitest context key used to share the run-scoped migration snapshot directory with test files.
+ */
+export const PG_VITEST_SNAPSHOT_DIR_CONTEXT_KEY = '__faasjsPgVitestSnapshotDir'
+
+/**
+ * Resolves the current Vitest worker identifier for diagnostics and isolation assertions.
  *
  * @param {NodeJS.ProcessEnv} [env] - Environment object to inspect.
  * @returns Current worker identifier.

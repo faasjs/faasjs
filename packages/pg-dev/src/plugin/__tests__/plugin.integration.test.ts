@@ -11,6 +11,7 @@ const fixturesDir = join(dirname(fileURLToPath(import.meta.url)), 'fixtures')
 const basicFixtureDir = join(fixturesDir, 'faasjs-pg-vitest-plugin')
 const parallelFixtureDir = join(fixturesDir, 'faasjs-pg-vitest-plugin-parallel')
 const rawSqlFixtureDir = join(fixturesDir, 'faasjs-pg-vitest-plugin-raw-sql')
+const serialFixtureDir = join(fixturesDir, 'faasjs-pg-vitest-plugin-serial')
 const moduleRequire = createRequire(import.meta.url)
 const vitestBin = join(dirname(moduleRequire.resolve('vitest/package.json')), 'vitest.mjs')
 
@@ -18,6 +19,11 @@ interface ParallelFixtureResult {
   caseName: string
   databaseUrl: string
   workerId: string
+}
+
+interface SerialFixtureResult {
+  caseName: string
+  databaseUrl: string
 }
 
 function runFixture(cwd: string, config: string, env: Record<string, string> = {}) {
@@ -50,19 +56,45 @@ describe('PgVitestPlugin integration', () => {
 
   it('creates separate temporary databases per Vitest worker', () => {
     const parallelStateDir = mkdtempSync(join(tmpdir(), 'faasjs-pg-vitest-plugin-parallel-'))
+    const migrationStateFile = join(parallelStateDir, 'migrations.log')
 
     try {
       const output = runFixture(parallelFixtureDir, 'vitest.config.ts', {
         PG_VITEST_PARALLEL_STATE_DIR: parallelStateDir,
+        PG_VITEST_MIGRATION_STATE_FILE: migrationStateFile,
       })
       const results = readParallelFixtureResults(parallelStateDir)
+      const migrationRuns = readFileSync(migrationStateFile, 'utf8').trim().split('\n')
 
       expect(output).toContain('2 passed')
       expect(results).toHaveLength(2)
       expect(new Set(results.map((result) => result.workerId)).size).toBe(2)
       expect(new Set(results.map((result) => result.databaseUrl)).size).toBe(2)
+      expect(migrationRuns).toEqual(['migrated'])
     } finally {
       rmSync(parallelStateDir, { force: true, recursive: true })
+    }
+  }, 20_000)
+
+  it('creates separate temporary databases for files on the same thread', () => {
+    const serialStateDir = mkdtempSync(join(tmpdir(), 'faasjs-pg-vitest-plugin-serial-'))
+
+    try {
+      const output = runFixture(serialFixtureDir, 'vitest.config.ts', {
+        PG_VITEST_SERIAL_STATE_DIR: serialStateDir,
+      })
+      const results = readdirSync(serialStateDir)
+        .filter((file) => file.endsWith('.json'))
+        .map(
+          (file) =>
+            JSON.parse(readFileSync(join(serialStateDir, file), 'utf8')) as SerialFixtureResult,
+        )
+
+      expect(output).toContain('2 passed')
+      expect(results).toHaveLength(2)
+      expect(new Set(results.map((result) => result.databaseUrl)).size).toBe(2)
+    } finally {
+      rmSync(serialStateDir, { force: true, recursive: true })
     }
   }, 20_000)
 

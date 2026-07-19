@@ -22,6 +22,8 @@ export interface PgVitestSetupRuntime {
   beforeEach: (callback: () => void | Promise<void>) => void
   /** Optional project root directory. Defaults to `process.cwd()`. */
   projectRoot?: string
+  /** Internal run-scoped migration snapshot directory supplied by `PgVitestPlugin`. */
+  snapshotDir?: string
 }
 
 async function closeCachedPgClients() {
@@ -43,9 +45,11 @@ async function resetCurrentTestingDatabase(databaseUrl: string) {
  * setup files directly from `node_modules`.
  *
  * The helper registers a lazy async bootstrap for `await getClient()`. The first default-client
- * lookup starts PGlite, runs `./src/db/migrations`, backfills `process.env.DATABASE_URL`,
- * and creates the cached `@faasjs/pg` client. If startup or migrations fail, the lazy promise is
- * cleared so the next lookup can retry.
+ * lookup starts an isolated PGlite database, backfills `process.env.DATABASE_URL`, and creates
+ * the cached `@faasjs/pg` client. When called by `PgVitestPlugin`, the first database-using file
+ * in the run creates one migrated snapshot and later files clone it. Manual calls without a
+ * snapshot directory retain the direct migrate-on-start behavior. If startup or migrations fail,
+ * the lazy promise is cleared so the next lookup can retry.
  *
  * The registered `beforeEach` hook is intentionally cheap before the database is booted. After
  * boot, it closes cached `@faasjs/pg` clients, truncates public tables with identity restart and
@@ -60,7 +64,7 @@ export function setupPgVitest(runtime: PgVitestSetupRuntime) {
 
   const ensureTestingServer = async () => {
     if (!testingServerPromise) {
-      testingServerPromise = startTestingServer(projectRoot).catch((error) => {
+      testingServerPromise = startTestingServer(projectRoot, runtime.snapshotDir).catch((error) => {
         testingServerPromise = undefined
         throw error
       })

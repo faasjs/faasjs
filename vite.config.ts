@@ -58,6 +58,7 @@ const packEntries: Record<string, Record<string, string>> = {
   },
   'pg-dev': {
     index: './src/index.ts',
+    'testing-global-setup': './src/testing-global-setup.ts',
   },
   react: {
     index: './src/index.ts',

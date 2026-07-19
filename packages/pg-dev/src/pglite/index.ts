@@ -9,8 +9,15 @@ import { PGLiteSocketServer } from '@electric-sql/pglite-socket'
 export interface StartedPGliteServer {
   /** PostgreSQL connection URL for the running in-process server. */
   databaseUrl: string
+  /** Dumps the current PGlite data directory for creating isolated database clones. */
+  dumpDataDir(compression?: 'auto' | 'gzip' | 'none'): Promise<Blob | File>
   /** Stops the socket server and closes the underlying PGlite database. Safe to call more than once. */
   stop(): Promise<void>
+}
+
+interface StartPGliteServerOptions {
+  /** Optional PGlite data directory dump used to initialize this database. */
+  loadDataDir?: Blob | File
 }
 
 const DEFAULT_DATABASE_NAME = 'template1'
@@ -62,11 +69,17 @@ function createPGliteDatabaseUrl(serverConn: string) {
 /**
  * Starts a temporary PGlite socket server and returns its lifecycle handle.
  *
+ * @param {StartPGliteServerOptions} [options] - Optional PGlite data directory to clone.
  * @returns Started server handle with a `stop()` method.
  */
-export async function startPGliteServer(): Promise<StartedPGliteServer> {
+export async function startPGliteServer(
+  options: StartPGliteServerOptions = {},
+): Promise<StartedPGliteServer> {
   const maxConnections = resolveMaxConnections()
-  const db = await PGlite.create(`memory://${randomUUID()}`)
+  const dataDir = `memory://${randomUUID()}`
+  const db = options.loadDataDir
+    ? await PGlite.create(dataDir, { loadDataDir: options.loadDataDir })
+    : await PGlite.create(dataDir)
   const server = new PGLiteSocketServer({
     db,
     host: DEFAULT_HOST,
@@ -88,6 +101,9 @@ export async function startPGliteServer(): Promise<StartedPGliteServer> {
 
   return {
     databaseUrl,
+    dumpDataDir(compression = 'none') {
+      return db.dumpDataDir(compression)
+    },
     async stop() {
       if (stopped) return
 

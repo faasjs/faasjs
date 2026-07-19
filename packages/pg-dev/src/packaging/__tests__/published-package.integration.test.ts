@@ -198,6 +198,11 @@ describe('faasjs-pg-dev published package', () => {
       expect(
         existsSync(join(consumerDir, 'node_modules', '@faasjs/pg-dev', 'dist', 'index.mjs')),
       ).toBe(true)
+      expect(
+        existsSync(
+          join(consumerDir, 'node_modules', '@faasjs/pg-dev', 'dist', 'testing-global-setup.mjs'),
+        ),
+      ).toBe(true)
     } finally {
       rmSync(pgTarball, { force: true })
       rmSync(pgDevTarball, { force: true })
