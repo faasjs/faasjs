@@ -2,6 +2,11 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[`v8.0.0-beta.45 (2026-07-19)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.44...v8.0.0-beta.45)
+
+- `@faasjs/pg-dev`
+  - [Fix] Isolate each database-using Vitest file in its own PGlite clone while reusing one migrated snapshot across the test project.
+
 [`v8.0.0-beta.44 (2026-07-17)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.43...v8.0.0-beta.44)
 
 - `@faasjs/ant-design`

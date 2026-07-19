@@ -11,7 +11,7 @@ Use this guide when writing or reviewing tests that use `@faasjs/pg` or `@faasjs
 
 ## Default Workflow
 
-1. Prefer `PgVitestPlugin()` so Vitest registers a lazy temporary database bootstrap, starts PGlite on the first `await getClient()`, runs migrations, backfills `DATABASE_URL`, and clears table contents before later tests in the same file. In mixed workspaces, keep PG-backed tests in a Node project because the plugin skips `jsdom` and `happy-dom` projects.
+1. Prefer `PgVitestPlugin()` so Vitest registers a lazy temporary database bootstrap. The first database-using file builds one migrated PGlite snapshot for the test project, every database-using file starts an isolated clone, and later tests in the same file receive cleared tables. The helper also backfills `DATABASE_URL`. In mixed workspaces, keep PG-backed tests in a Node project because the plugin skips `jsdom` and `happy-dom` projects.
 2. Use `await getClient()` to seed data and run assertions so app code and tests share the same async bootstrap path.
 3. Add only the suite-specific setup or fixtures that the plugin does not already provide.
 4. Pair runtime assertions with `expectTypeOf(...)` when query inference, declaration merging, or shared wrappers affect types.
@@ -109,15 +109,18 @@ describe('users query', () => {
 
 ### 4. Keep tests isolated even when the plugin resets data
 
-- Prefer `PgVitestPlugin()` to reset rows automatically before each test.
+- Prefer `PgVitestPlugin()` to give each database-using test file an isolated PGlite clone and reset rows automatically before each later test in that file.
+- Treat migration-defined schema and seed data as the only shared starting state. Do not depend on rows, sequences, or schema changes created by another test file or test case.
 - Create extra tables, seed data, or temp folders explicitly when a suite goes beyond the default migrations.
 - Do not rely on hidden state from another test file or case.
 
 ### 5. Use `@faasjs/pg-dev` through the Vitest plugin
 
 - Prefer `PgVitestPlugin()` for workspace test runs.
+- Let the plugin prepend its run-scoped global setup and generated setup module; existing `globalSetup` and `setupFiles` entries are preserved.
 - PG-backed runtime tests are still Node runtime tests. Prefer the regular `node` project, but if only that subset needs project-level setup, use a node-scoped project name such as `node-pg` instead of a standalone runtime bucket like `pg`.
 - In tests, let the plugin lazy-bootstrap the default client through `await getClient()`. If a suite also reads `process.env.DATABASE_URL` directly, trigger the bootstrap with `await getClient()` first.
+- Expect migrations to run once when the first database is requested, not during Vitest configuration. Watch reruns invalidate the snapshot so changed migrations are applied on the next bootstrap.
 - Reach for `createClient(process.env.DATABASE_URL, options)` only when a suite genuinely needs custom `postgres.js` options or an extra connection after the bootstrap URL exists.
 - Keep lower-level database bootstrapping internal to the test support layer; public examples should only show the plugin.
 
@@ -135,5 +138,6 @@ describe('users query', () => {
 - tests live close to the feature area that changed
 - mixed workspaces keep PG-backed tests in a Node project because browser-like projects are skipped
 - pg-backed runtime tests stay in a node-scoped project (`node` or `node-pg`) in mixed workspaces
-- suites either rely on the plugin reset or clean up their own extra setup
+- suites rely on per-file database clones and per-test row resets without sharing test-created state
+- suites clean up extra tables, seed data, or temp folders beyond the plugin defaults
 - validation commands match the change surface
