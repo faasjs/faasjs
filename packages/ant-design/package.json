@@ -36,7 +36,7 @@
     "antd": "^6.0.0",
     "lodash-es": "*",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.2.8"
   },
   "peerDependencies": {
     "@ant-design/icons": "*",
@@ -46,7 +46,7 @@
     "antd": "^6.0.0",
     "lodash-es": "*",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.2.8"
   },
   "engines": {
     "node": ">=26.0.0",
