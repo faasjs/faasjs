@@ -35,7 +35,7 @@
     "@types/react-dom": "^19.0.0",
     "antd": "^6.0.0",
     "lodash-es": "*",
-    "react": "^19.0.0",
+    "react": "^19.2.8",
     "react-dom": "^19.0.0"
   },
   "peerDependencies": {
@@ -45,7 +45,7 @@
     "@faasjs/utils": ">=8.0.0-beta.45",
     "antd": "^6.0.0",
     "lodash-es": "*",
-    "react": "^19.0.0",
+    "react": "^19.2.8",
     "react-dom": "^19.0.0"
   },
   "engines": {
