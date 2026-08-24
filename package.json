@@ -21,7 +21,7 @@
     "upgrade": "rm -rf packages/*/node_modules node_modules package-lock.json && npm install"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": ">=4.1.10",
+    "@vitest/coverage-v8": ">=4.1.11",
     "typescript": ">=7.0.2",
     "vite-plus": ">=0.2.9"
   },
